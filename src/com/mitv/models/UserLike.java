@@ -166,8 +166,11 @@ public class UserLike
 				break;
 			}
 		
+			case SPORT_TYPE: {
+				likeTypeRequest = LikeTypeRequestEnum.SPORT_TYPE;
+				break;
+			}
 			case PROGRAM:
-			case SPORT_TYPE:
 			{
 				likeTypeRequest = LikeTypeRequestEnum.PROGRAM;
 				break;

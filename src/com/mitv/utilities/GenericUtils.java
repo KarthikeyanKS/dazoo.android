@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.Random;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -77,7 +78,9 @@ public abstract class GenericUtils
 		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 		intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 		
-		activity.startActivity(Intent.createChooser(intent, title));		
+		Intent chooserIntent = Intent.createChooser(intent, title);
+		
+		activity.startActivity(chooserIntent);		
 	}
 	
 
@@ -137,6 +140,61 @@ public abstract class GenericUtils
     public static String getCurrentAppVersion()
     {
 		return getPackageInfo().versionName;
+    }
+    
+    
+    
+    
+    /**
+     * Returns the uppercased SHA-512 hash of a given string.
+     * In the case of errors, an empty hash is returned.
+     * @param password
+     * @return 
+     */
+    public static String getSHA512PasswordHash(String password)
+    {       
+        if(password == null || password.length() <= 0)
+        {
+            Log.w(TAG, "Password hash function is returning an empty hash value.");
+            return new String();
+        }
+        // No need for else
+        
+        MessageDigest md = null;
+
+        try 
+        {
+            md = MessageDigest.getInstance("SHA-512");
+        } 
+        catch (NoSuchAlgorithmException nsae) 
+        {
+            Log.e(TAG, nsae.getMessage(), nsae);
+
+            Log.w(TAG, "Password hash function is returning an empty hash value.");
+            
+            return new String();
+        }
+        
+        if(md == null)
+        {
+            Log.w(TAG, "Password hash function is returning an empty hash value.");
+            
+            return new String();
+        }
+        // No need for else
+		
+        md.update(password.getBytes());
+ 
+        byte byteData[] = md.digest();
+ 
+        StringBuilder sb = new StringBuilder();
+        
+        for (int i = 0; i < byteData.length; i++)
+        {
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+ 
+        return sb.toString().toUpperCase();
     }
     
     

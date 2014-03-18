@@ -801,7 +801,7 @@ public class ContentManager
 				handleLogoutResponse(activityCallbackListener);
 				break;
 			}
-			case USER_FB_TOKEN: 
+			case USER_LOGIN_WITH_FACEBOOK_TOKEN: 
 			{
 				handleUserTokenWithFacebookFBTokenResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
@@ -1119,10 +1119,8 @@ public class ContentManager
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} 
-		else 
-		{
-			activityCallbackListener.onResult(result, requestIdentifier);
-		}
+
+		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_SIGN_UP, result);
 	}
 	
 	
@@ -1190,10 +1188,8 @@ public class ContentManager
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} 
-		else 
-		{
-			activityCallbackListener.onResult(result, requestIdentifier);
-		}
+
+		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN, result);
 	}
 	
 	/**
@@ -1254,15 +1250,14 @@ public class ContentManager
 			
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} 
-		else 
-		{
-			activityCallbackListener.onResult(result, requestIdentifier);
-		}
+		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN, result);
 	}
 
 	
 	public void handleLogoutResponse(ViewCallbackListener activityCallbackListener) {
 		fetchFromServiceTVGuideForSelectedDay(activityCallbackListener);
+
+		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGOUT, FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT);
 	}
 	
 	
@@ -1325,9 +1320,14 @@ public class ContentManager
 		apiClient.performUserSignUp(activityCallbackListener, email, password, firstname, lastname);
 	}
 
-	public void performLogin(ViewCallbackListener activityCallbackListener, String username, String password) {
+	public void performLogin(ViewCallbackListener activityCallbackListener, String username, String password) 
+	{
 		Log.d(TAG, "PROFILING: performLogin:");
-		apiClient.performUserLogin(activityCallbackListener, username, password);
+		
+		// TODO NewArc - Use password hahsing mechanism
+		String passwordHash = GenericUtils.getSHA512PasswordHash(password);
+		
+		apiClient.performUserLogin(activityCallbackListener, username, password, false);
 	}
 
 	public void performLogout(ViewCallbackListener activityCallbackListener) {
@@ -1405,7 +1405,13 @@ public class ContentManager
 		}
 	}
 	
+	public boolean getFromCacheHasUserTVChannelIds() {
+		return cache.containsTVChannelIdsUser();
+	}
 	
+	public boolean getFromCacheHasTVChannelsAll() {
+		return cache.containsTVChannels();
+	}
 	
 	public boolean getFromCacheHasTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeInMillis)
 	{
@@ -1776,29 +1782,30 @@ public class ContentManager
 		cache.setReturnActivity(returnActivity);
 	}
 	
-	public Class<?> getReturnActivity() {
-		Class<?> returnActivity = cache.getReturnActivity();
-		return returnActivity;
-	}
-	
 	/**
 	 * This method tries to start the return activity stored in the cache, if null it does nothing and returns false
 	 * else it starts the activity and sets it to null and returns true
 	 * @param caller
 	 * @return
 	 */
-//	public boolean tryStartReturnActivity(Activity caller) {
-//		boolean returnActivityWasSet = getReturnActivity() != null;
-//		
-//		if(returnActivityWasSet) {
-//			Intent intent = new Intent(caller, getReturnActivity());
-//			cache.clearReturnActivity();
-//			caller.startActivity(intent);
-//		}
-//		
-//		return returnActivityWasSet;
-//	}
+	public boolean tryStartReturnActivity(Activity caller) {
+		boolean returnActivityWasSet = getReturnActivity() != null;
+		
+		if(returnActivityWasSet) {
+			Intent intent = new Intent(caller, getReturnActivity());
+			cache.clearReturnActivity();
+			caller.startActivity(intent);
+		}
+		
+		return returnActivityWasSet;
+	}
+
 	
+	public Class<?> getReturnActivity() {
+		Class<?> returnActivity = cache.getReturnActivity();
+		return returnActivity;
+	}
+		
 	public void setLikeToAddAfterLogin(UserLike userLikeToAdd) {
 		cache.setLikeToAddAfterLogin(userLikeToAdd);
 	}

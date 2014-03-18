@@ -69,6 +69,8 @@ public class MyChannelsActivity
 		setContentView(R.layout.layout_mychannels_activity);
 		
 		initLayout();
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 	}
 	
 	
@@ -178,8 +180,9 @@ public class MyChannelsActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasUserTVChannelIds()
+				 && ContentManager.sharedInstance().getFromCacheHasTVChannelsAll();
+		return hasEnoughDataToShowContent;
 	}
 	
 	

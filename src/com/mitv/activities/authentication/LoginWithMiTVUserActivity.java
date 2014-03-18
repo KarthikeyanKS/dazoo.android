@@ -155,12 +155,12 @@ public class LoginWithMiTVUserActivity
 				enableFields();
 				hideLoginSpinner();
 				
-//				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
-//					Activity mostRecentTabActivity = getMostRecentTabActivity();
-//					Intent intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
-//					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
-//					startActivity(intent);
-//				}				
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
+					Activity mostRecentTabActivity = getMostRecentTabActivity();
+					Intent intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
+					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+					startActivity(intent);
+				}				
 				finish();
 				
 				break;

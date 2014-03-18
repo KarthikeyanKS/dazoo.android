@@ -343,9 +343,9 @@ public class APIClient
 	
 	
 	/* Email is used as username  */
-	public void performUserLogin(ViewCallbackListener activityCallbackListener, String username, String password) 
+	public void performUserLogin(ViewCallbackListener activityCallbackListener, String username, String password, boolean usingHashedPassword) 
 	{
-		PerformUserLoginWithCredentials performUserLogin = new PerformUserLoginWithCredentials(contentCallbackListener, activityCallbackListener, username, password);
+		PerformUserLoginWithCredentials performUserLogin = new PerformUserLoginWithCredentials(contentCallbackListener, activityCallbackListener, username, password, usingHashedPassword);
 		performUserLogin.execute();
 	}
 	

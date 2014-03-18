@@ -186,12 +186,12 @@ public class SignUpWithEmailActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				enableFields();
-//				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
-//					Activity mostRecentTabActivity = getMostRecentTabActivity();
-//					Intent intent = new Intent(SignUpWithEmailActivity.this, mostRecentTabActivity.getClass());
-//					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
-//					startActivity(intent);
-//				}
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
+					Activity mostRecentTabActivity = getMostRecentTabActivity();
+					Intent intent = new Intent(SignUpWithEmailActivity.this, mostRecentTabActivity.getClass());
+					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+					startActivity(intent);
+				}
 
 				finish();
 				

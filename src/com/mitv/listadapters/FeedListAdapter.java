@@ -461,7 +461,7 @@ public class FeedListAdapter
 				
 				case SPORT:
 				{
-					title = program.getSportType().getName();
+					title = program.getTitle();
 					likeType = LikeTypeResponseEnum.SPORT_TYPE;
 					contentId = program.getSportType().getSportTypeId();
 					
@@ -470,6 +470,7 @@ public class FeedListAdapter
 					detailsSB.append(" ");
 					detailsSB.append(program.getTournament());
 					
+					holderBC.titleTv.setText(title);
 					holderBC.detailsTv.setText(detailsSB.toString());
 					break;
 				}
@@ -562,11 +563,16 @@ public class FeedListAdapter
 				@Override
 				public void onClick(View v)
 				{
+					StringBuilder sb = new StringBuilder();
+					sb.append(activity.getString(R.string.share_comment));
+					sb.append(" ");
+					sb.append(broadcast.getShareUrl());
+					
 					GenericUtils.startShareActivity(
 							activity, 
-							activity.getResources().getString(R.string.app_name), 
-							broadcast.getShareUrl(),
-							activity.getResources().getString(R.string.share_action_title));
+							activity.getString(R.string.app_name),
+							sb.toString(),
+							activity.getString(R.string.share_action_title));
 				}
 			});
 		}

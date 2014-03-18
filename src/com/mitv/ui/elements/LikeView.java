@@ -143,11 +143,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 				 * After login is complete the ContentManager will perform the adding of the like to backend */
 				ContentManager.sharedInstance().setLikeToAddAfterLogin(likeFromBroadcast);
 				
-				Intent intent = new Intent(activity, SignUpSelectionActivity.class);
-				
-				/* After login is complete we want to return to this activity */
-				ContentManager.sharedInstance().setReturnActivity(activity.getClass());
-				
+				Intent intent = new Intent(activity, SignUpSelectionActivity.class);			
 				activity.startActivity(intent);
 			}
 		};
