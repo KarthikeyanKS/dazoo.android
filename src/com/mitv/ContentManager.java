@@ -37,6 +37,8 @@ import com.mitv.models.TVTag;
 import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
+import com.mitv.models.gson.serialization.UserLoginDataPost;
+import com.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -1316,18 +1318,29 @@ public class ContentManager
 
 	/* USER METHODS REGARDING SIGNUP, LOGIN AND LOGOUT */
 	
-	public void performSignUp(ViewCallbackListener activityCallbackListener, String email, String password, String firstname, String lastname) {
-		apiClient.performUserSignUp(activityCallbackListener, email, password, firstname, lastname);
+	public void performSignUp(ViewCallbackListener activityCallbackListener, String email, String password, String firstname, String lastname)
+	{
+		String hashedPassword = GenericUtils.getSHA512PasswordHash(password);
+		
+		UserRegistrationData data = new UserRegistrationData();
+		data.setEmail(email);
+		data.setPassword(hashedPassword);
+		data.setFirstName(firstname);
+		data.setLastName(lastname);
+		
+		apiClient.performUserSignUp(activityCallbackListener, data, true);
 	}
 
+	
 	public void performLogin(ViewCallbackListener activityCallbackListener, String username, String password) 
-	{
-		Log.d(TAG, "PROFILING: performLogin:");
+	{		
+		String hashedPassword = GenericUtils.getSHA512PasswordHash(password);
 		
-		// TODO NewArc - Use password hahsing mechanism
-		String passwordHash = GenericUtils.getSHA512PasswordHash(password);
-		
-		apiClient.performUserLogin(activityCallbackListener, username, password, false);
+		UserLoginDataPost data = new UserLoginDataPost();
+		data.setEmail(username);
+		data.setPassword(hashedPassword);
+						
+		apiClient.performUserLogin(activityCallbackListener, data, true);
 	}
 
 	public void performLogout(ViewCallbackListener activityCallbackListener) {

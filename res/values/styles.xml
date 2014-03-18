@@ -39,7 +39,7 @@
     </style>
 
     <style name="TabsText" parent="@style/Tabs">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="HomePage" parent="@style/Theme.AppCompat.Light">

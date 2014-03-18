@@ -26,7 +26,7 @@
         />
     <item
         android:id="@+id/searchfield"
-        android:title="NO TITLE"
+        android:title=""
         app:actionLayout="@layout/element_actionbar_searchfield"
         app:showAsAction="ifRoom"/>
 

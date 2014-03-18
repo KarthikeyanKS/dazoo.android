@@ -45,9 +45,7 @@ public class HTTPCore
 	private static final String TAG = HTTPCore.class.getName();
 	
 	
-	private static final String DEAFULT_ENCODING = "UTF-8";
-	private static final int DEFAULT_HTTP_STATUS_RESULT = 1000;
-	
+
 	private static HTTPCore sharedInstance;
 	
 	
@@ -96,7 +94,7 @@ public class HTTPCore
 				0,
 				new String(),
 				new String(),
-				false);
+				Constants.IGNORE_INVALID_SSL_CERTIFICATES);
 
 		return response;
 	}
@@ -183,7 +181,7 @@ public class HTTPCore
 		}
 		else
 		{
-			httpCoreResponse = new HTTPCoreResponse(serviceUrl.toString(), DEFAULT_HTTP_STATUS_RESULT);
+			httpCoreResponse = new HTTPCoreResponse(serviceUrl.toString(), Constants.HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT);
 		}
 		
 		return httpCoreResponse;
@@ -216,7 +214,7 @@ public class HTTPCore
 		        {
 					if(httpBodyData != null)
 					{
-						tmp = new StringEntity(httpBodyData, DEAFULT_ENCODING);
+						tmp = new StringEntity(httpBodyData, Constants.HTTP_CORE_DEAFULT_ENCODING);
 		            
 		            	((HttpPost) request).setEntity(tmp);
 					}
@@ -247,7 +245,7 @@ public class HTTPCore
 		        {
 					if(httpBodyData != null)
 					{
-						tmp = new StringEntity(httpBodyData, DEAFULT_ENCODING);
+						tmp = new StringEntity(httpBodyData, Constants.HTTP_CORE_DEAFULT_ENCODING);
 		            
 		            	((HttpPut) request).setEntity(tmp);
 					}
@@ -309,7 +307,7 @@ public class HTTPCore
 			final String requestURL,
 			final HttpResponse response)
 	{
-		int httpStatusResult = DEFAULT_HTTP_STATUS_RESULT;
+		int httpStatusResult = Constants.HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT;
 		
 		String httpBodyContentResult = new String();
 		
@@ -348,7 +346,7 @@ public class HTTPCore
 						
 						try 
 						{
-							br = new BufferedReader(new InputStreamReader((content), DEAFULT_ENCODING));
+							br = new BufferedReader(new InputStreamReader((content), Constants.HTTP_CORE_DEAFULT_ENCODING));
 						} 
 						catch (UnsupportedEncodingException unencex) 
 						{

@@ -11,24 +11,26 @@ import com.mitv.activities.FeedActivity;
  */
 public abstract class Constants 
 {
+	/* HockeyApp Settings */
 	public static final String	TESTFLIGHT_TOKEN					= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String	HOCKEY_APP_TOKEN					= "c90b5331b5a7086d88d98021508f2c16";
-	public static final String 	SUPPORTED_API_VERSION				= "1.0.0";
-	
-	public static final String APP_WAS_PREINSTALLED_FILE_NAME		= "59b039d2c0c0a7fbe163";
 
+	/* Request configurations */
+	public static final String JSON_MIME_TYPE = "application/json";
+	public static final String HTTP_CORE_DEAFULT_ENCODING = "UTF-8";
+	public static final int HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT = 1000;
+	
 	/* HTTP and HTTPS schemas */
-	public static final String HTTP_SCHEME							= "http://";
-	public static final String HTTPS_SCHEME							= "https://";
+	public static final String HTTP_SCHEME = "http://";
+	public static final String HTTPS_SCHEME	= "https://";
 	
-	/* API URLs */
-	public static final String JSON_MIME_TYPE 						= "application/json";
-	public static final String BACKEND_ENVIRONMENT_MITV 			= "mi.tv/";
-	public static final String BACKEND_ENVIRONMENT_GITRGITR 		= "gitrgitr.com/";
-
-	/* SETTINGS FOR BACKEND ENVIVORONEMT AND HTTPS SCHEME */
+	/* BACKEND API BASE URLs */
+	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com/";
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv/";
+	
+	/* CURRENTLY USED BACKEND ENVIVONNEMT AND HTTP SCHEME */
 	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_ENVIRONMENT_MITV;
+	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_PRODUCTION_ENVIRONMENT;
 	
 	/* "Static", don't need to change those */
 	public static final String URL_BACKEND_BASE_API					= "api.";
@@ -46,8 +48,9 @@ public abstract class Constants
 	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "epg/channels/default";
 	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER_SECURE + "auth/login/facebook";
 	public static final String URL_LOGIN_WITH_PLAINTEXT_PASSWORD 	= URL_SERVER_SECURE + "auth/login/dazoo";
-	public static final String URL_LOGIN_WITH_HASH 					= URL_SERVER_SECURE + "auth/login/dazoo2";
-	public static final String URL_REGISTER 						= URL_SERVER_SECURE + "auth/login/dazoo/register";
+	public static final String URL_LOGIN_WITH_HASHED_PASSWORD 		= URL_SERVER_SECURE + "auth/login/dazoo/hash";
+	public static final String URL_REGISTER_WITH_PLAINTEXT_PASSWORD = URL_SERVER_SECURE + "auth/login/dazoo/register";
+	public static final String URL_REGISTER_WITH_HASHED_PASSWORD 	= URL_SERVER_SECURE + "auth/login/dazoo/register/hash";
 	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER_SECURE + "auth/login/dazoo/sendResetPasswordEmail";
 	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER_SECURE + "auth/login/dazoo/resetPassword";
 	public static final String URL_TAGS_PAGE 						= URL_SERVER + "epg/tags/visible";
@@ -142,9 +145,6 @@ public abstract class Constants
 
 	/* TVGuide */
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
-	
-	/* Notifications */
-	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= 15;
 	
 	public static final int		FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT				= 10;
 	public static final int		FEED_ACTIVITY_FEED_ITEM_MORE_COUNT					= 5;
@@ -434,11 +434,6 @@ public abstract class Constants
 	public static final String JSON_VERSIONS_KEY_ANDROID = "android";
 	
 	
-	/* REFRESH INTERVALS FOR LOCAL DATA */
-	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;
-	public static final int CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES 	= 1;
-	
-	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
 	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
 	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 10000;
@@ -465,16 +460,13 @@ public abstract class Constants
 	public static final int APP_FACEBOOK_SSO = 1000;
 	public static final String APP_URL_FACEBOOK_GRAPH = "https://graph.facebook.com";
 	public static final String APP_URL_FACEBOOK_ME = "/me";
-	public static final String APP_URL_FACEBOOK_PICTURE_TYPE = "/picture?type=";
-	public static final String APP_URL_FACEBOOK_PICTURE_TYPE_NORMAL = "normal";
-	public static final String APP_URL_FACEBOOK_DO_NOT_REDIRECT = "&redirect=false";
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	
 	/* CONFIGURATIONS FOR SEARCH */
 	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
 	
-	/* CONFIGURATIONS FOR REMINDERS */
-    public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
+    /* CONFIGURATIONS FOR NOTIFICATIONS */
+	public static final int	NOTIFY_MINUTES_BEFORE_THE_BROADCAST	= 15;
     
     /* Shared preferences for data storage */
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
@@ -484,14 +476,17 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	
 	/* CONFIGURATIONS FOR RELEASE */
+	public static final String SUPPORTED_API_VERSION = "1.0.0";
+	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
 	public static final int CACHE_DATABASE_VERSION = 1;
-	public static final boolean FORCE_DATABASE_FLUSH = false;
+	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = true;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = true;
+	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 }

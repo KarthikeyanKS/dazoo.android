@@ -178,7 +178,7 @@ public class SecondScreenApplication
 			StrictMode.setVmPolicy(vmPolicy);
 		}
 		
-		if(Constants.FORCE_DATABASE_FLUSH || isCurrentVersionAnUpgradeFromInstalledVersion())
+		if(Constants.FORCE_CACHE_DATABASE_FLUSH || isCurrentVersionAnUpgradeFromInstalledVersion())
 		{
 			ContentManager.clearAllPersistentCacheData();
 			
