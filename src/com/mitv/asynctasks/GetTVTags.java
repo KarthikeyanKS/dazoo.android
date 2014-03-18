@@ -45,10 +45,8 @@ public class GetTVTags
 			TVTag[] contentAsArray = (TVTag[]) requestResultObjectContent;
 			
 			ArrayList<TVTag> contentAsArrayList = new ArrayList<TVTag>(Arrays.asList(contentAsArray));
-			
-			String allCategoriesTag = Constants.ALL_CATEGORIES_TAG;
-			
-			TVTag allCategoriesTVTag = new TVTag(allCategoriesTag, allCategoriesTag);
+						
+			TVTag allCategoriesTVTag = TVTag.getAllCategoriesTVTag();
 			
 			/* Add the "All Categories" tag to the first slot in the list of TVTags */
 			contentAsArrayList.add(0, allCategoriesTVTag);

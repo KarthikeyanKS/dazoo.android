@@ -19,7 +19,7 @@ import com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 
 
-public class RepetitionsOrUpcomingPage 
+public abstract class RepetitionsOrUpcomingPage 
 	extends BaseActivity
 {
 	@SuppressWarnings("unused")

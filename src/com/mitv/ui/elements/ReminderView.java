@@ -84,7 +84,7 @@ public class ReminderView
 		
 		if (tvBroadcastWithChannelInfo != null && 
 			tvBroadcastWithChannelInfo.isAiring() == false &&
-			tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW) == false)
+			tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
 		{
 			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 

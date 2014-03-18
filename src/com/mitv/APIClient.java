@@ -43,6 +43,8 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVChannelId;
 import com.mitv.models.TVDate;
 import com.mitv.models.UserLike;
+import com.mitv.models.gson.serialization.UserLoginDataPost;
+import com.mitv.models.gson.serialization.UserRegistrationData;
 
 
 
@@ -343,16 +345,16 @@ public class APIClient
 	
 	
 	/* Email is used as username  */
-	public void performUserLogin(ViewCallbackListener activityCallbackListener, String username, String password, boolean usingHashedPassword) 
+	public void performUserLogin(ViewCallbackListener activityCallbackListener, UserLoginDataPost userLoginDataPost, boolean usingHashedPassword) 
 	{
-		PerformUserLoginWithCredentials performUserLogin = new PerformUserLoginWithCredentials(contentCallbackListener, activityCallbackListener, username, password, usingHashedPassword);
+		PerformUserLoginWithCredentials performUserLogin = new PerformUserLoginWithCredentials(contentCallbackListener, activityCallbackListener, userLoginDataPost, usingHashedPassword);
 		performUserLogin.execute();
 	}
 	
 	
-	public void performUserSignUp(ViewCallbackListener activityCallbackListener, String email, String password, String firstname, String lastname) 
+	public void performUserSignUp(ViewCallbackListener activityCallbackListener, UserRegistrationData userRegistrationData, boolean usingHashedPassword)
 	{
-		PerformUserSignUp PerformUserSignUp = new PerformUserSignUp(contentCallbackListener, activityCallbackListener, email, password, firstname, lastname);
+		PerformUserSignUp PerformUserSignUp = new PerformUserSignUp(contentCallbackListener, activityCallbackListener, userRegistrationData, usingHashedPassword);
 		PerformUserSignUp.execute();
 	}
 	

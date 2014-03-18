@@ -57,7 +57,6 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:text="Step 1/6 fetching app configuration data"
             android:singleLine="true"
             android:textColor="@color/grey3"
             android:textSize="12sp"

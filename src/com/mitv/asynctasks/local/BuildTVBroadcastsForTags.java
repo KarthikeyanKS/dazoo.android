@@ -146,8 +146,6 @@ public class BuildTVBroadcastsForTags
 					/* Add the broadcast for this tag to the list of tagged broadcasts for this tag */
 					broadcastsForTag.add(broadCastWithChannelInfo);
 					
-//					Collections.sort(broadcastsForTag, new TVBroadcastComparatorByTime());
-
 					/* Put back the list of tagged broadcasts for this tag */
 					mapTagToTaggedBroadcastForDate.put(tagName, broadcastsForTag);
 				}

@@ -26,7 +26,7 @@ public class PerformUserLoginWithCredentials
 	{
 		if(usingHashedPassword)
 		{
-			return Constants.URL_LOGIN_WITH_HASH;
+			return Constants.URL_LOGIN_WITH_HASHED_PASSWORD;
 		}
 		else
 		{
@@ -40,17 +40,12 @@ public class PerformUserLoginWithCredentials
 	public PerformUserLoginWithCredentials(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			String username,
-			String password,
+			UserLoginDataPost userLoginDataPost,
 			boolean usingHashedPassword) 
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword));
 		
-		UserLoginDataPost postData = new UserLoginDataPost();
-		postData.setEmail(username);
-		postData.setPassword(password);
-		
-		this.bodyContentData = gson.toJson(postData);
+		this.bodyContentData = gson.toJson(userLoginDataPost);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
 	}

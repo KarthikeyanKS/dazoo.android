@@ -3,6 +3,9 @@ package com.mitv.models.gson.serialization;
 
 
 
+
+
+
 public class UserRegistrationData
 {
 	/*
@@ -13,7 +16,7 @@ public class UserRegistrationData
 	private String firstName;
 	private String lastName;
 	
-	
+
 	
 	/*
 	 * The empty constructor is needed by gson. Do not remove.

@@ -69,6 +69,7 @@
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
+    <string name="all_categories_tv_tag">All</string>
     <string name="unknown_tab">Unknown</string>
 
     <!-- CONTENT DESCRIPTION -->
