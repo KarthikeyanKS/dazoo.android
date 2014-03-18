@@ -37,5 +37,17 @@ public class AddUserLike
 		this.bodyContentData = gson.toJson(postData);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
-	}	
+	}
+
+
+	@Override
+	protected Void doInBackground(String... params) {
+		super.doInBackground(params);
+		
+		Log.d(TAG, "addUserLike do in background");
+		
+		return null;
+	}
+	
+	
 }
