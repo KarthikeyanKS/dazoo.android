@@ -461,7 +461,7 @@ public class FeedListAdapter
 				
 				case SPORT:
 				{
-					title = program.getSportType().getName();
+					title = program.getTitle();
 					likeType = LikeTypeResponseEnum.SPORT_TYPE;
 					contentId = program.getSportType().getSportTypeId();
 					
@@ -470,6 +470,7 @@ public class FeedListAdapter
 					detailsSB.append(" ");
 					detailsSB.append(program.getTournament());
 					
+					holderBC.titleTv.setText(title);
 					holderBC.detailsTv.setText(detailsSB.toString());
 					break;
 				}

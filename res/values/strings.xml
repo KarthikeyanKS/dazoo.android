@@ -69,6 +69,7 @@
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
+    <string name="all_categories_tv_tag">All</string>
     <string name="unknown_tab">Unknown</string>
 
     <!-- CONTENT DESCRIPTION -->
@@ -104,7 +105,7 @@
     <string name="reminders">My Reminders</string>
     <string name="likes">Likes</string>
     <string name="myprofile_my_channels">Set your channels</string>
-    <string name="myprofile_about_us">About and Contact us</string>
+    <string name="myprofile_about_us">About us</string>
     <string name="myprofile_have_account">Have an account?</string>
     <string name="myprofile_logged_in_as">Logged in as:</string>
     <string name="myprofile_info">Add your favorite shows and channels to get better recommendations</string>

@@ -54,36 +54,21 @@ public class FeedActivity
 	private View listFooterView;
 	private TextView greetingTv;
 	private boolean reachedEnd;
-	
-	private boolean currentlyShowingLoggedInLayout;
 
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-			
-		if(ContentManager.sharedInstance().isLoggedIn())
-		{
-			setContentView(R.layout.layout_activity_activity);
+					
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM_MORE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGIN);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_SIGN_UP);
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 
-			initLogedInViews();
-			
-			initStandardViews();
-			
-			currentlyShowingLoggedInLayout = true;
-		}
-		else
-		{
-			setContentView(R.layout.layout_activity_not_logged_in_activity);
-			
-			initNotLoggedInViews();
-			
-			initStandardViews();
-			
-			currentlyShowingLoggedInLayout = false;
-		}
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 	}
 	
 	
@@ -91,41 +76,27 @@ public class FeedActivity
 	@Override
 	protected void onResume()
 	{
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if (isLoggedIn != currentlyShowingLoggedInLayout) 
-		{
-			if(isLoggedIn)
-			{
-				setContentView(R.layout.layout_activity_activity);
-
-				initLogedInViews();
-				
-				initStandardViews();
-				
-				setTabViews();
-				
-				currentlyShowingLoggedInLayout = true;
-			}
-			else
-			{
-				setContentView(R.layout.layout_activity_not_logged_in_activity);
-				
-				initNotLoggedInViews();
-				
-				initStandardViews();
-				
-				setTabViews();
-				
-				currentlyShowingLoggedInLayout = false;
-			}
-		}
+		setupViews();
 		
 		/* Since the FeedActivity view alternates between two views, the super.onResumne() must be called only after setting the correct content view */
 		super.onResume();
 	}
 	
-	
+	private void setupViews() {
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn) {
+			setContentView(R.layout.layout_activity_activity);
+			initLoggedInViews();
+		} else {
+			setContentView(R.layout.layout_activity_not_logged_in_activity);
+			initNotLoggedInViews();
+		}
+		
+		initStandardViews();
+
+		setTabViews();
+	}
 	
 	private void initStandardViews() 
 	{	
@@ -138,7 +109,7 @@ public class FeedActivity
 
 	
 	
-	private void initLogedInViews() 
+	private void initLoggedInViews() 
 	{
 		listView = (ListView) findViewById(R.id.activity_listview);
 		
@@ -243,10 +214,8 @@ public class FeedActivity
 	
 	@Override
 	protected void loadData() 
-	{
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if(isLoggedIn)
+	{		
+		if(ContentManager.sharedInstance().isLoggedIn())
 		{
 			updateUI(UIStatusEnum.LOADING);
 		
@@ -285,6 +254,20 @@ public class FeedActivity
 	{
 		switch (requestIdentifier) 
 		{		
+			case USER_LOGOUT: {
+				setupViews();
+				break;
+			}
+			case TV_GUIDE_STANDALONE:
+			case USER_LOGIN_WITH_FACEBOOK_TOKEN:
+			case USER_LOGIN:
+			case USER_SIGN_UP: {
+				setupViews();
+				if(fetchRequestResult.wasSuccessful()) {
+					loadData();
+				}
+				break;
+			}
 			case USER_ACTIVITY_FEED_INITIAL_DATA:
 			case USER_ACTIVITY_FEED_ITEM:
 			case USER_ACTIVITY_FEED_ITEM_MORE:
@@ -361,6 +344,7 @@ public class FeedActivity
 				{
 					reachedEndOfFeedItems();
 				}
+				break;
 			}
 			
 			default: {/* Do nothing */break;}

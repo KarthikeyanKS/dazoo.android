@@ -96,24 +96,15 @@
     <!-- ViewPager Tabs -->
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:background">@drawable/custom_tab_indicator</item>
-        <!-- <item name="android:background">@color/black</item> -->
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
         <item name="android:textSize">@dimen/header_3</item>
-        <item name="android:minWidth">10dp</item>
     </style>
 
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@drawable/custom_tab_indicator_text_color</item>
-    </style>
-
-
-    <!-- Homepage Tabs -->
-    <style name="homepage_tab_selector" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:background">@color/transparent</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:paddingTop">10dp</item>
     </style>
 
     <!-- Notification Dialog -->

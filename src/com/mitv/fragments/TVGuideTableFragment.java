@@ -52,7 +52,6 @@ public class TVGuideTableFragment
 	
 	private String tvTagDisplayName;
 	private String tvTagIdAsString;
-	private boolean isAllCategoriesTag;
 	private int hour;
 	private boolean isToday;
 	
@@ -110,9 +109,7 @@ public class TVGuideTableFragment
 		
 		tvTagIdAsString = bundle.getString(Constants.FRAGMENT_EXTRA_TAG_ID);
 
-		isAllCategoriesTag = tvTagDisplayName.equals(Constants.ALL_CATEGORIES_TAG);
-		
-		if(isAllCategoriesTag)
+		if(isAllCategoriesTag())
 		{
 			rootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			tvGuideListView = (ListView) rootView.findViewById(R.id.tvguide_table_listview);
@@ -167,7 +164,7 @@ public class TVGuideTableFragment
 		tvChannelGuides = null;
 		taggedBroadcasts = null;
 
-		if (isAllCategoriesTag)
+		if (isAllCategoriesTag())
 		{
 			ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 		} 
@@ -194,7 +191,7 @@ public class TVGuideTableFragment
 		{
 			case SUCCESS:
 			{
-				if (isAllCategoriesTag)
+				if (isAllCategoriesTag())
 				{
 					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
 					
@@ -219,6 +216,10 @@ public class TVGuideTableFragment
 		}
 	}
 
+	private boolean isAllCategoriesTag() {
+		boolean isAllCategoriesTag = tvTagIdAsString.equals(Constants.ALL_CATEGORIES_TAG_ID);
+		return isAllCategoriesTag;
+	}
 	
 	
 	@Override
@@ -229,10 +230,8 @@ public class TVGuideTableFragment
 		switch (status) 
 		{	
 			case SUCCESS_WITH_CONTENT:
-			{
-				boolean isAllCategoriesTag = tvTagDisplayName.equals(Constants.ALL_CATEGORIES_TAG);
-				
-				if(isAllCategoriesTag) 
+			{	
+				if(isAllCategoriesTag()) 
 				{
 					TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
 					tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);

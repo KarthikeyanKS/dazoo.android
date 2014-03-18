@@ -11,9 +11,10 @@ public enum LikeTypeRequestEnum
 	SERIES(0),
 	
 	@SerializedName("PROGRAM")
-	PROGRAM(1);
+	PROGRAM(1),
 	
-	
+	@SerializedName("SPORT_TYPE")
+	SPORT_TYPE(2);
 	
 	private final int id;
 	

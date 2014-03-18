@@ -488,5 +488,5 @@ public abstract class Constants
 	public static final boolean ENABLE_STRICT_MODE = true;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	
-	public static final String ALL_CATEGORIES_TAG = "All programs";
+	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 }
