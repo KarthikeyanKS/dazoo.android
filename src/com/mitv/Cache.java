@@ -210,7 +210,9 @@ public class Cache
 	
 	public synchronized void purgeTaggedBroadcastForDay(TVDate tvDate) 
 	{
-		nonPersistentTaggedBroadcastsForAllDays.remove(tvDate.getId());
+		if(nonPersistentTaggedBroadcastsForAllDays != null && nonPersistentTaggedBroadcastsForAllDays.containsKey(tvDate.getId())) {
+			nonPersistentTaggedBroadcastsForAllDays.remove(tvDate.getId());
+		}
 	}
 	
 		
