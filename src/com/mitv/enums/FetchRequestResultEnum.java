@@ -13,6 +13,8 @@ public enum FetchRequestResultEnum
  
    SUCCESS_WITH_NO_CONTENT(204, "The service was successfully executed."),
    
+   SEARCH_CANCELED_BY_USER(300, "The search was canceled by user"),
+   
    BAD_REQUEST(400, "The parking request is not valid."),
    
    UNAUTHORIZED(401, "The service is temporarily unavailable."),

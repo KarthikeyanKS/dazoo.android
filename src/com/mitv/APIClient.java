@@ -56,7 +56,7 @@ public class APIClient
 	
 	
 	
-	
+	private GetTVSearchResults lastSearch;
 	private ContentCallbackListener contentCallbackListener;
 	private CustomThreadedPoolExecutor poolExecutor;
 	
@@ -323,8 +323,13 @@ public class APIClient
 	}
 	
 	public void getTVSearchResults(ViewCallbackListener activityCallbackListener, AjaxCallback<String> ajaxCallback, String searchQuery) {
+		if(lastSearch != null) {
+			lastSearch.cancel(true);
+		}
 		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(contentCallbackListener, activityCallbackListener, ajaxCallback, searchQuery);
 		getTVSearchResults.execute();
+		lastSearch = getTVSearchResults;
+		
 	}
 	
 	public void performUserHasSeenAd(ViewCallbackListener activityCallbackListener)

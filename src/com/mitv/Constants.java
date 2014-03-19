@@ -464,6 +464,7 @@ public abstract class Constants
 	
 	/* CONFIGURATIONS FOR SEARCH */
 	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
+	public static final int DELAY_IN_MILLIS_UNTIL_SEARCH = 400;
 	
     /* CONFIGURATIONS FOR NOTIFICATIONS */
 	public static final int	NOTIFY_MINUTES_BEFORE_THE_BROADCAST	= 15;

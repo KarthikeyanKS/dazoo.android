@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,6 +57,29 @@ public class SearchPageActivity
 	extends BaseActivity 
 	implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher 
 {
+	private class SearchRunnable implements Runnable {
+
+		private boolean cancelled = false;
+		
+		@Override
+		public void run() {
+			if(!cancelled) {
+				String searchQuery = editTextSearch.getText().toString();
+				setLoading(); // TODO NewArc set this sets loading in actionbar field, do it in view as well?
+				AjaxCallback<String> cb = new AjaxCallback<String>();
+				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
+				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, cb, searchQuery);
+			} else {
+				Log.d(TAG, "Search runnable was cancelled");
+			}
+		}
+
+		public void cancel() {
+			cancelled = true;
+		}
+	}
+	
+	
 	@SuppressWarnings("unused")
 	private static final String TAG = SearchPageActivity.class.getName();
 
@@ -67,8 +91,10 @@ public class SearchPageActivity
 	private ImageView editTextClearBtn;
 	private ProgressBar progressBar;
 	private String searchQuery;
-
-	private Handler handler = new Handler();
+	
+	private SearchRunnable lastSearchRunnable;
+	private Handler delayedSearchHandler;
+	private Handler keyboardHandler;
 
 	
 	@Override
@@ -81,12 +107,16 @@ public class SearchPageActivity
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 		initSupportActionbar();
+		
+		keyboardHandler = new Handler();
+		delayedSearchHandler = new Handler();
 	}
 
 	
 	@Override
 	public void onResume() {
 		super.onResume();
+		
 		showKeyboard();
 		triggerAutoComplete();
 	}
@@ -148,14 +178,13 @@ public class SearchPageActivity
 
 		editTextSearch = (InstantAutoCompleteView) searchFieldView.findViewById(R.id.searchbar_edittext);
 
-		editTextSearch.addTextChangedListener(this);
-
 		editTextSearch.requestFocus();
 	}
 
 	private void initAutoCompleteListeners() {
 		editTextClearBtn.setOnClickListener(this);
 		editTextSearch.setOnItemClickListener(this);
+		editTextSearch.addTextChangedListener(this);
 		editTextSearch.setOnEditorActionListener(this);
 
 		editTextSearch.setOnTouchListener(new OnTouchListener() {
@@ -191,7 +220,7 @@ public class SearchPageActivity
 	}
 
 	private void showKeyboard() {
-		handler.post(new Runnable() {
+		keyboardHandler.post(new Runnable() {
 			public void run() {
 				InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
@@ -274,9 +303,9 @@ public class SearchPageActivity
 
 	private void performSearchAndTriggerAutocomplete() {
 		if (editTextSearch != null) {
-			String searchQuery = editTextSearch.getText().toString();
-			performSearch(searchQuery);
-
+			Log.d(TAG, "Creating new searchRunnable and starting count down");
+			lastSearchRunnable = new SearchRunnable();
+			delayedSearchHandler.postDelayed(lastSearchRunnable, Constants.DELAY_IN_MILLIS_UNTIL_SEARCH);
 		}
 	}
 
@@ -288,13 +317,7 @@ public class SearchPageActivity
 			editTextSearch.showDropDown();
 		}
 	}
-
-	public void performSearch(String searchQuery) {
-		setLoading(); // TODO NewArc set this sets loading in actionbar field, do it in view as well?
-		AjaxCallback<String> cb = new AjaxCallback<String>();
-		ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(this, false, cb, searchQuery);
-	}
-
+	
 	private void setLoading() {
 		changeLoadingStatus(true);
 	}
@@ -348,7 +371,12 @@ public class SearchPageActivity
 				
 				triggerAutoComplete();
 			}
-		} 
+		}
+		else if(fetchRequestResult == FetchRequestResultEnum.SEARCH_CANCELED_BY_USER) 
+		{
+			Log.d(TAG, "Search canceled by user");
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		}
 		else 
 		{
 			updateUI(UIStatusEnum.FAILED);
@@ -389,6 +417,11 @@ public class SearchPageActivity
 	public void afterTextChanged(Editable editable) 
 	{
 		String searchQuery = editable.toString();
+		
+		if(lastSearchRunnable != null) {
+			Log.d(TAG, "Text change, cancelling last searchRunnable");
+			lastSearchRunnable.cancel();
+		}
 		
 		if(!TextUtils.isEmpty(searchQuery) && searchQuery.length() >= Constants.SEARCH_QUERY_LENGTH_THRESHOLD) 
 		{

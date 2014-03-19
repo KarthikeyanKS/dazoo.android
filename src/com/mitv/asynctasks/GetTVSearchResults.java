@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.androidquery.callback.AjaxCallback;
 import com.mitv.Constants;
+import com.mitv.activities.SearchPageActivity;
+import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
@@ -21,7 +23,7 @@ import com.mitv.utilities.RegularExpressionUtils;
 public class GetTVSearchResults 
 	extends AsyncTaskWithRelativeURL<TVSearchResults> 
 {	
-	private static final String TAG = GetTVSearchResults.class.getName();
+	private static final String TAG = SearchPageActivity.class.getName();//GetTVSearchResults.class.getName();
 	
 	private static final String URL_SUFFIX = Constants.URL_SEARCH;
 	
@@ -37,6 +39,8 @@ public class GetTVSearchResults
 			String searchQuery)
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, TVSearchResultsJSON.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		
+		
 		
 		this.ajaxCallback = ajaxCallback;
 		
@@ -74,5 +78,21 @@ public class GetTVSearchResults
 
 		return null;
 	}
+
+
+	@Override
+	protected void onPostExecute(Void result) {
+		super.onPostExecute(result);
+		
+		if(isCancelled()) {
+			requestResultObjectContent = null;
+			this.requestResultStatus = FetchRequestResultEnum.SEARCH_CANCELED_BY_USER;
+			Log.d(TAG, "SearchTask was canceled");
+		} else {
+			Log.d(TAG, "Search complete (success not garantueed), notifiying ContentManager");
+		}
+	}
+	
+	
 		
 }

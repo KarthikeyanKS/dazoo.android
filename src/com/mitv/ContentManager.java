@@ -1033,6 +1033,10 @@ public class ContentManager
 			
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
 		}
+		else if(result == FetchRequestResultEnum.SEARCH_CANCELED_BY_USER)
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SEARCH_CANCELED_BY_USER, requestIdentifier);
+		}
 		else 
 		{
 			activityCallbackListener.onResult(result, requestIdentifier);
