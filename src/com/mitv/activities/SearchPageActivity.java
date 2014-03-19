@@ -18,10 +18,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -66,7 +64,6 @@ public class SearchPageActivity
 				String searchQuery = editTextSearch.getText().toString();
 				setLoading(); // TODO NewArc set this sets loading in actionbar field, do it in view as well?
 				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
-				editTextSearch.setSearchComplete(false);
 				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, searchQuery);
 			} else {
 				Log.d(TAG, "Search runnable was cancelled");
@@ -413,9 +410,14 @@ public class SearchPageActivity
 			lastSearchRunnable.cancel();
 		}
 		
+		editTextSearch.setSearchComplete(false);
+		
 		if(!TextUtils.isEmpty(searchQuery) && searchQuery.length() >= Constants.SEARCH_QUERY_LENGTH_THRESHOLD) 
 		{
 			performSearchAndTriggerAutocomplete();
+		} else {
+			autoCompleteAdapter.setSearchResultItemsForQueryString(null, null);
+			autoCompleteAdapter.clear();
 		}
 	}
 }

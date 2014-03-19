@@ -607,6 +607,8 @@ public class ContentManager
 		} 
 		else 
 		{
+			/* Clear old search result */
+			cache.setNonPersistentSearchResultsForQuery(null);
 			fetchFromServiceSearchResults(activityCallbackListener, searchQuery);
 		}
 	}
