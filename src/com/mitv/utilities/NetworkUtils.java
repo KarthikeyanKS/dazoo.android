@@ -5,15 +5,18 @@ package com.mitv.utilities;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
+import com.mitv.SNTPClient;
 
 
 
@@ -131,5 +134,46 @@ public abstract class NetworkUtils
 	    }
 		
 	    return isHostReachable;
+	}
+	
+	
+	
+	/**
+	 * This method WILL block the UI. Call only inside an async block. NEVER on main UI thread.
+	 * @return An up-to-date calendar if success, or the local calendar if failure.
+	 */
+	public static Calendar getCalendarFromSNTP()
+	{
+		Calendar calendarInstance;
+        
+        SNTPClient client = new SNTPClient();
+        
+        boolean success = client.requestTime(Constants.HOST_FOR_NTP_CHECK, Constants.HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK);
+        
+        if(success) 
+        {
+        	long nowAsLong = client.getNtpTime() + SystemClock.elapsedRealtime() - client.getNtpTimeReference();
+        	
+        	calendarInstance = Calendar.getInstance();
+        	calendarInstance.setTimeInMillis(nowAsLong);
+        	
+        	StringBuilder sb = new StringBuilder();
+        	sb.append("An updated date/time was obtained from SNPT server ");
+        	sb.append(Constants.HOST_FOR_NTP_CHECK);
+        	
+        	Log.d(TAG, sb.toString());
+        }
+        else
+        {
+        	calendarInstance = null;
+        	
+        	StringBuilder sb = new StringBuilder();
+        	sb.append("Failed to fetch updated date/time SNPT server ");
+        	sb.append(Constants.HOST_FOR_NTP_CHECK);
+        	
+        	Log.w(TAG, sb.toString());
+        }
+        
+        return calendarInstance;
 	}
 }

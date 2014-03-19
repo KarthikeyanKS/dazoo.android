@@ -220,6 +220,7 @@
     <string name="take_the_tour">Take a tour</string>
     <string name="skip">Skip</string>
     <string name="or">OR</string>
+    <string name="signup_with_email_failed">Registration was unsuccessful</string>
     <string name="signup_with_email_error_firstname">We\'d love to know your name</string>
     <string name="signup_with_email_error_lastname">We\'d love to know your last name</string>
     <string name="signup_with_email_login_wrong_format_email">Check if e-mail was input right!</string>
@@ -293,8 +294,12 @@
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
 
-    <!-- NO CONNECTION CUSTOM DIALOG -->
+    <!-- NO INTERNET CONNECTION -->
     <string name="dialog_prompt_check_internet_connection">No connection</string> 
-    <string name="dialog_prompt_check_internet_connection_button">Retry</string> 
+    <string name="dialog_prompt_check_internet_connection_button">Retry</string>
+    <string name="toast_internet_connection">No internet connection</string> 
+    
+    <!-- INVALID DATE OR TIME SETTINGS TOAST -->
+    <string name="review_date_time_settings">>Please review your date/time settings</string>
        
 </resources>

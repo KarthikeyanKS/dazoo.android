@@ -3,6 +3,7 @@ package com.mitv.activities.base;
 
 
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Stack;
 
@@ -31,6 +32,7 @@ import com.mitv.ContentManager;
 import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.SearchPageActivity;
@@ -61,6 +63,8 @@ public abstract class BaseActivity
 	private static final int TV_DATE_NOT_FOUND = -1;
 
 	private static final int SELECTED_TAB_FONT_SIZE = 12;
+	
+	private static final int TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON = 5;
 	
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
@@ -221,13 +225,35 @@ public abstract class BaseActivity
 		/*
 		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
 		 */
-		if (indexOfTodayFromTVDates != TV_DATE_NOT_FOUND) {
-			if (indexOfTodayFromTVDates != 0) {
-				restartTheApp();
+		if (indexOfTodayFromTVDates != TV_DATE_NOT_FOUND) 
+		{
+			if (indexOfTodayFromTVDates != 0) 
+			{
+				Calendar now = DateUtils.getNow();
+				
+				Calendar nowFromSNTP = NetworkUtils.getCalendarFromSNTP();
+				
+				if(nowFromSNTP != null)
+				{
+					Integer difference = DateUtils.calculateDifferenceBetween(now, nowFromSNTP, Calendar.MINUTE, true, 0);
+					
+					if(difference.intValue() <= TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON)
+					{
+						restartTheApp();
+					}
+					else
+					{
+						String message = getString(R.string.review_date_time_settings);
+						
+						ToastHelper.createAndShowToast(this, message, true);
+					}
+				}
 			}
-		} else {
-			updateUI(UIStatusEnum.FAILED);
-		}
+		} 
+//		else 
+//		{
+//			updateUI(UIStatusEnum.FAILED);
+//		}
 	}
 	
 	private void restartTheApp() {		
@@ -403,9 +429,11 @@ public abstract class BaseActivity
 		}
 	}
 
-	protected void setSelectedTabAsTVGuide() {
-		if (tabTvGuide != null) {
-			// tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+	
+	protected void setSelectedTabAsTVGuide() 
+	{
+		if (tabTvGuide != null) 
+		{
 			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.white));
 			tabTvGuideText.setTextColor(getResources().getColor(R.color.white));
 			tabTvGuideIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
@@ -413,37 +441,51 @@ public abstract class BaseActivity
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabTvGuideText.setTypeface(bold);
+			
 			tabTvGuideText.setTextSize(SELECTED_TAB_FONT_SIZE);
 		}
 
 		if (tabActivity != null) {
-			// tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			
+			Typeface regular = FontManager.getFontRegular(getApplicationContext());
+			tabActivityText.setTypeface(regular);
+			
 			tabActivityIcon.setShadowLayer(0, 0, 0, 0);
 			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
 
-		if (tabProfile != null) {
-			// tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if (tabProfile != null)
+		{
 			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			
+			Typeface regular = FontManager.getFontRegular(getApplicationContext());
+			tabProfileText.setTypeface(regular);
+			
 			tabProfileIcon.setShadowLayer(0, 0, 0, 0);
 			tabProfileText.setShadowLayer(0, 0, 0, 0);
 		}
 	}
 
-	protected void setSelectedTabAsActivityFeed() {
-		if (tabTvGuide != null) {
-			// tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+	
+	protected void setSelectedTabAsActivityFeed() 
+	{
+		if (tabTvGuide != null) 
+		{
 			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			
+			Typeface regular = FontManager.getFontRegular(getApplicationContext());
+			tabTvGuideText.setTypeface(regular);
+			
 			tabTvGuideIcon.setShadowLayer(0, 0, 0, 0);
 			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
 
-		if (tabActivity != null) {
-			// tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		if (tabActivity != null) 
+		{
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.white));
 			tabActivityText.setTextColor(getResources().getColor(R.color.white));
 			tabActivityIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
@@ -451,23 +493,34 @@ public abstract class BaseActivity
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabActivityText.setTypeface(bold);
+			
 			tabActivityText.setTextSize(SELECTED_TAB_FONT_SIZE);
 		}
 
-		if (tabProfile != null) {
-			// tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if (tabProfile != null) 
+		{
 			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			
+			Typeface regular = FontManager.getFontRegular(getApplicationContext());
+			tabProfileText.setTypeface(regular);
+			
 			tabProfileIcon.setShadowLayer(0, 0, 0, 0);
 			tabProfileText.setShadowLayer(0, 0, 0, 0);
 		}
 	}
 
-	protected void setSelectedTabAsUserProfile() {
-		if (tabTvGuide != null) {
-			// tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+	
+	protected void setSelectedTabAsUserProfile()
+	{
+		if (tabTvGuide != null) 
+		{
 			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			
+			Typeface regular = FontManager.getFontRegular(getApplicationContext());
+			tabTvGuideText.setTypeface(regular);
+			
 			tabTvGuideIcon.setShadowLayer(0, 0, 0, 0);
 			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
@@ -476,6 +529,10 @@ public abstract class BaseActivity
 			// tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
+
+			Typeface regular = FontManager.getFontRegular(getApplicationContext());
+			tabActivityText.setTypeface(regular);
+			
 			tabActivityIcon.setShadowLayer(0, 0, 0, 0);
 			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
@@ -489,6 +546,7 @@ public abstract class BaseActivity
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabProfileText.setTypeface(bold);
+			
 			tabProfileText.setTextSize(SELECTED_TAB_FONT_SIZE);
 		}
 	}
@@ -613,7 +671,7 @@ public abstract class BaseActivity
 	@Override
 	public void onBackPressed() 
 	{
-		if(isTabActivity())
+		if(activityStack.size() <= 2 && isTabActivity())
 		{
 		    Intent intent = new Intent(Intent.ACTION_MAIN);
 		    intent.addCategory(Intent.CATEGORY_HOME);
