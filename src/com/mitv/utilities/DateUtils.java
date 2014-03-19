@@ -308,7 +308,24 @@ public abstract class DateUtils
 		return buildDayOfTheWeekAsString(inputCalendar, context);
 	}
 	
-	private static boolean isSameDay(Calendar inputCalendar, Calendar referencedTime) {
+	/**
+	 * This method is used for showing the right airing day for a show in Broadcast page.
+	 * 
+	 * For example:
+	 * According to our TVGuide a day is between 06:00AM to 05:59AM.
+	 * For a show with airing time at 05:30 (is after 12 O'clock, so its a new day) but should
+	 * show Today as airing time.
+	 * 
+	 * @param inputCalendar:
+	 * This calendar is the actual airing time for a show.
+	 * 
+	 * @param referencedTime:
+	 * This calendar is the time we compare the input with to establish if the show is airing today,
+	 * tomorror or another day after tomorror.
+	 * 
+	 * @return
+	 */
+	private static boolean isSameAiringDayTitle(Calendar inputCalendar, Calendar referencedTime) {
 		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 
 		boolean correctDay = inputCalendar.get(Calendar.DAY_OF_MONTH) == referencedTime.get(Calendar.DAY_OF_MONTH);
@@ -366,7 +383,7 @@ public abstract class DateUtils
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) <= 1;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) <= 1;
-    	boolean isSameDay = isSameDay(inputCalendar, now);
+    	boolean isSameDay = isSameAiringDayTitle(inputCalendar, now);
     	
 		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;
 		
@@ -376,7 +393,7 @@ public abstract class DateUtils
 			Calendar tomorrow = (Calendar) now.clone();
 	 		tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-	 		isSameDay = isSameDay(inputCalendar, tomorrow);
+	 		isSameDay = isSameAiringDayTitle(inputCalendar, tomorrow);
 	 		boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
 			
 	 		if(isTomorrow) {
