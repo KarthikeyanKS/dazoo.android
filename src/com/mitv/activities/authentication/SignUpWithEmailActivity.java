@@ -341,7 +341,7 @@ public class SignUpWithEmailActivity
 	private void hideLoadingSpinner()
 	{
 		signUpButtonProgressBar.setVisibility(View.GONE);
-		signUpButtonTextView.setText(getResources().getString(R.string.login_with_mitv));
+		signUpButtonTextView.setText(getResources().getString(R.string.sign_up));
 	}
 	
 	
