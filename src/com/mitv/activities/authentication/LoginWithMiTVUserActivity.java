@@ -239,7 +239,7 @@ public class LoginWithMiTVUserActivity
 	private void hideLoginSpinner()
 	{
 		loginButtonProgressBar.setVisibility(View.GONE);
-		loginButtonTextView.setText(getResources().getString(R.string.join));
+		loginButtonTextView.setText(getResources().getString(R.string.login_with_mitv));
 	}
 
 	
