@@ -10,8 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
@@ -21,7 +22,9 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.RegularExpressionUtils;
 
 
@@ -37,7 +40,9 @@ public class SignUpWithEmailActivity
 	private EditText emailEditText;
 	private EditText passwordEditText;
 	
-	private Button signUpButton;
+	private RelativeLayout signUpButton;
+	private ProgressBar signUpButtonProgressBar;
+	private FontTextView signUpButtonTextView;
 	
 	private TextView firstnameErrorTextView;
 	private TextView lastnameErrorTextView;
@@ -51,6 +56,7 @@ public class SignUpWithEmailActivity
 	
 	private FetchRequestResultEnum fetchRequestResult;
 
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -67,6 +73,8 @@ public class SignUpWithEmailActivity
 		initViews();
 		
 		clearErrorFields();
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_SIGN_UP);
 	}
 	
 
@@ -135,11 +143,14 @@ public class SignUpWithEmailActivity
 			case LOADING:
 			{
 				disableFields();
+				showLoadingSpinner();
 				break;
 			}
 			
 			case FAILED_VALIDATION:
 			{
+				hideLoadingSpinner();
+				
 				if(isInvalidFirstname)
 				{
 					firstnameErrorTextView.setVisibility(View.VISIBLE);
@@ -186,7 +197,9 @@ public class SignUpWithEmailActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				enableFields();
-				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
+				hideLoadingSpinner();
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) 
+				{
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
 					Intent intent = new Intent(SignUpWithEmailActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
@@ -200,6 +213,8 @@ public class SignUpWithEmailActivity
 			
 			case FAILED:
 			{
+				hideLoadingSpinner();
+				
 				switch (fetchRequestResult) 
 				{
 					case USER_SIGN_UP_EMAIL_ALREADY_TAKEN:
@@ -253,7 +268,7 @@ public class SignUpWithEmailActivity
 					default:
 					{
 						Log.w(TAG, "Unhandled fetch request result status.");
-						ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
+						ToastHelper.createAndShowToast(this, "Login was unsuccessful.", false);
 						break;
 					}
 				}
@@ -265,6 +280,7 @@ public class SignUpWithEmailActivity
 			default:
 			{
 				enableFields();
+				hideLoadingSpinner();
 				Log.w(TAG, "Unhandled UI status.");
 				break;
 			}
@@ -295,6 +311,8 @@ public class SignUpWithEmailActivity
 		emailEditText.setEnabled(true);
 		passwordEditText.setEnabled(true);
 		signUpButton.setEnabled(true);
+		
+		actionBar.setHomeButtonEnabled(true);
 	}
 	
 	
@@ -306,6 +324,24 @@ public class SignUpWithEmailActivity
 		emailEditText.setEnabled(false);
 		passwordEditText.setEnabled(false);
 		signUpButton.setEnabled(false);
+		
+		actionBar.setHomeButtonEnabled(false);
+	}
+	
+	
+	
+	private void showLoadingSpinner() 
+	{
+		signUpButtonProgressBar.setVisibility(View.VISIBLE);
+		signUpButtonTextView.setText(getResources().getString(R.string.sign_up_loading));
+	}
+	
+	
+	
+	private void hideLoadingSpinner()
+	{
+		signUpButtonProgressBar.setVisibility(View.GONE);
+		signUpButtonTextView.setText(getResources().getString(R.string.login_with_mitv));
 	}
 	
 	
@@ -335,8 +371,10 @@ public class SignUpWithEmailActivity
 		emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
 		passwordErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength));
 		
-		signUpButton = (Button) findViewById(R.id.signup_register_button);
+		signUpButton = (RelativeLayout) findViewById(R.id.signup_register_button);
 		signUpButton.setOnClickListener(this);
+		signUpButtonProgressBar = (ProgressBar) findViewById(R.id.mitv_sign_up_progressbar);
+		signUpButtonTextView = (FontTextView) findViewById(R.id.mitv_sign_up_button_tv);
 
 		// Show software keyboard
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -384,19 +422,24 @@ public class SignUpWithEmailActivity
 		
 		return isValid;
 	}
+	
 		
 	@Override
 	public void onClick(View v)
 	{
 		/* If we ever want to add tabs to this view, tabs wont work if not calling super. Does not break anything if we dont have tabs though. */
 		super.onClick(v);
+		
 		int id = v.getId();
 		
 		switch (id) 
 		{
 			case R.id.signup_register_button:
 			{
+				GenericUtils.hideKeyboard(this);
+				
 				loadData();
+				
 				break;
 			}
 			

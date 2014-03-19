@@ -6,10 +6,12 @@ package com.mitv.activities.authentication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.ContentManager;
@@ -18,6 +20,8 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.ui.elements.FontTextView;
+import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.RegularExpressionUtils;
 
 
@@ -26,11 +30,13 @@ public class ResetPasswordSendEmailActivity
 	extends BaseActivity 
 	implements OnClickListener 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = ResetPasswordSendEmailActivity.class.getName();
 
 	
-	private Button miTVResetPassword;
+	private RelativeLayout resetPasswordButton;
+	private ProgressBar resetPasswordButtonProgressBar;
+	private FontTextView resetPasswordButtonTextView;
+	
 	private EditText emailResetPasswordEditText;
 	private TextView errorTextView;
 
@@ -44,6 +50,8 @@ public class ResetPasswordSendEmailActivity
 		setContentView(R.layout.layout_resetpassword_activity);
 
 		initViews();
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL);
 	}
 
 	
@@ -56,6 +64,8 @@ public class ResetPasswordSendEmailActivity
 		if(!TextUtils.isEmpty(email) && RegularExpressionUtils.checkEmail(email)) 
 		{
 			emailResetPasswordEditText.setEnabled(false); //TODO NewArc do we need to disable the edit text field???
+		
+			updateUI(UIStatusEnum.LOADING);
 			
 			ContentManager.sharedInstance().performResetPassword(this, email);
 		}
@@ -83,9 +93,7 @@ public class ResetPasswordSendEmailActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			Intent intent = new Intent(ResetPasswordSendEmailActivity.this, ResetPasswordConfirmationActivity.class);
-			
-			startActivity(intent);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else 
 		{
@@ -102,14 +110,26 @@ public class ResetPasswordSendEmailActivity
 
 		switch (status) 
 		{
+			case LOADING:
+			{
+				disableFields();
+				showLoadingSpinner();
+				break;
+			}
+		
 			case SUCCESS_WITH_CONTENT: 
 			{
-				// TODO NewArc - Do something here?
+				enableFields();
+				hideLoadingSpinner();
+				Intent intent = new Intent(ResetPasswordSendEmailActivity.this, ResetPasswordConfirmationActivity.class);
+				startActivity(intent);
 				break;
 			}
 			
 			case FAILED:
 			{
+				enableFields();
+				hideLoadingSpinner();
 				emailResetPasswordEditText.setEnabled(true);
 				errorTextView.setText(getResources().getString(R.string.reset_password__email_does_not_exists));
 				break;
@@ -117,10 +137,45 @@ public class ResetPasswordSendEmailActivity
 	
 			default: 
 			{
-				// TODO NewArc - Do something here?
+				enableFields();
+				hideLoadingSpinner();
 				break;
 			}
 		}
+	}
+	
+	
+	private void enableFields()
+	{
+		emailResetPasswordEditText.setEnabled(true);
+		resetPasswordButton.setEnabled(true);
+		
+		actionBar.setHomeButtonEnabled(true);
+	}
+	
+	
+	
+	private void disableFields()
+	{
+		emailResetPasswordEditText.setEnabled(false);
+		resetPasswordButton.setEnabled(false);
+
+		actionBar.setHomeButtonEnabled(false);
+	}
+	
+	
+	private void showLoadingSpinner() 
+	{
+		resetPasswordButtonProgressBar.setVisibility(View.VISIBLE);
+		resetPasswordButtonTextView.setText(getResources().getString(R.string.reset_password_loading));
+	}
+	
+	
+	
+	private void hideLoadingSpinner()
+	{
+		resetPasswordButtonProgressBar.setVisibility(View.GONE);
+		resetPasswordButtonTextView.setText(getResources().getString(R.string.submit));
 	}
 
 	
@@ -134,8 +189,11 @@ public class ResetPasswordSendEmailActivity
 
 		actionBar.setTitle(getResources().getString(R.string.reset_password));
 
-		miTVResetPassword = (Button) findViewById(R.id.resetpassword_button);
-		miTVResetPassword.setOnClickListener(this);
+		resetPasswordButton = (RelativeLayout) findViewById(R.id.mitv_reset_password_button);
+		resetPasswordButton.setOnClickListener(this);
+		resetPasswordButtonProgressBar = (ProgressBar) findViewById(R.id.mitv_reset_password_progressbar);
+		resetPasswordButtonTextView = (FontTextView) findViewById(R.id.mitv_reset_password_button_tv);
+		
 		emailResetPasswordEditText = (EditText) findViewById(R.id.resetpassword_email_edittext);
 
 		errorTextView = (TextView) findViewById(R.id.resetpassword_error_tv);
@@ -156,9 +214,20 @@ public class ResetPasswordSendEmailActivity
 
 		switch (id) 
 		{
-			case R.id.resetpassword_button:
+			case R.id.mitv_reset_password_button:
+			{
+				GenericUtils.hideKeyboard(this);
+				
 				loadData();
+				
 				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick.");
+				break;
+			}
 		}
 	}
 }

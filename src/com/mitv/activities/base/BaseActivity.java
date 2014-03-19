@@ -194,14 +194,14 @@ public abstract class BaseActivity
 			sb.append(" ");
 			sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
 
-			ToastHelper.createAndShowToast(this, sb.toString());
+			ToastHelper.createAndShowToast(this, sb.toString(), false);
 		} else {
 			if (userHasJustLoggedOut) 
 			{
 				StringBuilder sb = new StringBuilder();
 				sb.append(getString(R.string.logout_succeeded));
 
-				ToastHelper.createAndShowToast(this, sb.toString());
+				ToastHelper.createAndShowToast(this, sb.toString(), false);
 			}
 		}
 	}

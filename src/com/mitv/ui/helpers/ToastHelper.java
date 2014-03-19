@@ -27,9 +27,21 @@ public class ToastHelper
 	
 	public static void createAndShowToast(
 			final Context context,
-			final String message)
+			final String message,
+			final boolean useLongDuration)
 	{
-		Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+		int duration;
+		
+		if(useLongDuration)
+		{
+			duration = Toast.LENGTH_LONG;
+		}
+		else
+		{
+			duration = Toast.LENGTH_SHORT;
+		}
+		
+		Toast toast = Toast.makeText(context, message, duration);
 
 		LinearLayout linearLayout = (LinearLayout) toast.getView();
 		

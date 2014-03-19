@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -24,6 +23,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.RegularExpressionUtils;
 
 
@@ -65,6 +65,8 @@ public class LoginWithMiTVUserActivity
 		initViews();
 		
 		clearErrorFields();
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGIN);
 	}
 	
 	
@@ -155,7 +157,8 @@ public class LoginWithMiTVUserActivity
 				enableFields();
 				hideLoginSpinner();
 				
-				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) 
+				{
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
 					Intent intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
@@ -173,7 +176,7 @@ public class LoginWithMiTVUserActivity
 				
 				String message = getString(R.string.login_with_email_failed);
 				
-				ToastHelper.createAndShowToast(this, message);
+				ToastHelper.createAndShowToast(this, message, false);
 				break;
 			}
 	
@@ -202,6 +205,11 @@ public class LoginWithMiTVUserActivity
 		emailEditText.setEnabled(true);
 		passwordEditText.setEnabled(true);
 		loginButton.setEnabled(true);
+		
+		forgetPasswordButton.setEnabled(true);
+		facebookContainer.setEnabled(true);
+		
+		actionBar.setHomeButtonEnabled(true);
 	}
 	
 	
@@ -211,16 +219,27 @@ public class LoginWithMiTVUserActivity
 		emailEditText.setEnabled(false);
 		passwordEditText.setEnabled(false);
 		loginButton.setEnabled(false);
+		
+		forgetPasswordButton.setEnabled(false);
+		facebookContainer.setEnabled(false);
+		
+		actionBar.setHomeButtonEnabled(false);
 	}
 	
-	private void showLoginSpinner() {
+	
+	
+	private void showLoginSpinner() 
+	{
 		loginButtonProgressBar.setVisibility(View.VISIBLE);
 		loginButtonTextView.setText(getResources().getString(R.string.loading_text_login_button));
 	}
 	
-	private void hideLoginSpinner() {
+	
+	
+	private void hideLoginSpinner()
+	{
 		loginButtonProgressBar.setVisibility(View.GONE);
-		loginButtonTextView.setText(getResources().getString(R.string.login_with_mitv));
+		loginButtonTextView.setText(getResources().getString(R.string.join));
 	}
 
 	
@@ -289,22 +308,31 @@ public class LoginWithMiTVUserActivity
 		{
 			case R.id.mitvlogin_facebook_container:
 			{
+				GenericUtils.hideKeyboard(this);
+				
 				Intent intent = new Intent(LoginWithMiTVUserActivity.this, LoginWithFacebookActivity.class);
 				startActivity(intent);
 				finish();
+				
 				break;
 			}
 			
 			case R.id.mitvlogin_forgot_password_button:
 			{
+				GenericUtils.hideKeyboard(this);
+				
 				Intent intent = new Intent(LoginWithMiTVUserActivity.this, ResetPasswordSendEmailActivity.class);
 				startActivity(intent);
+				
 				break;
 			}
 			
 			case R.id.mitvlogin_login_button:
 			{
+				GenericUtils.hideKeyboard(this);
+				
 				loadData();
+				
 				break;
 			}
 			
