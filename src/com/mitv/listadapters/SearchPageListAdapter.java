@@ -205,13 +205,14 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 			programTypeString = context.getString(R.string.search_result_sport);
 			break;
 		}
+		default:{/* Do nothing */break;}
 		}
 
 		viewHolder.type.setText(programTypeString);
 
 		String title = program.getTitle();
 		if (title.length() == 0) {
-			title = "No title";
+			title = context.getString(R.string.search_no_title);
 		}
 
 		setTitleString(viewHolder, title);

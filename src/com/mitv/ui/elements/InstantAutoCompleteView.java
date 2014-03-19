@@ -3,18 +3,23 @@ package com.mitv.ui.elements;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 
 import com.mitv.FontManager;
+import com.mitv.utilities.GenericUtils;
 
-public class InstantAutoCompleteView extends AutoCompleteTextView {
+public class InstantAutoCompleteView extends AutoCompleteTextView implements OnTouchListener {
 	
-	private Handler mHandler= new Handler();
+	private static final String TAG = InstantAutoCompleteView.class.getName();
+	private Activity activity;
+	private boolean searchComplete = false;
 	
 	public InstantAutoCompleteView(Context context) {
         super(context);
@@ -24,13 +29,19 @@ public class InstantAutoCompleteView extends AutoCompleteTextView {
     public InstantAutoCompleteView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup(context);
-        final Context contextFinal = context;
     }
     
-    @Override
+    public void setSearchComplete(boolean searchComplete) {
+		this.searchComplete = searchComplete;
+	}
+
+	@Override
     public void onFilterComplete(int count) {
-//    	super.onFilterComplete(count);
-    	showDropDown(); //To always show dropdown, even if result is empty.
+    	showDropDown();
+    }
+    
+    public void setActivity(Activity activity) {
+    	this.activity = activity;
     }
 
     public InstantAutoCompleteView(Context context, AttributeSet attrs, int defStyle) {
@@ -46,21 +57,29 @@ public class InstantAutoCompleteView extends AutoCompleteTextView {
     public boolean enoughToFilter() {
     	return getText().length() > getThreshold();	
     }
-    
+	
 	@Override
-	protected void replaceText (CharSequence text) {
-		return;
+	protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+		if (focused) {
+			showDropDown();
+		} else {
+			dismissDropDown();
+		}
 	}
 	
-    @Override
-    protected void onFocusChanged(boolean focused, int direction,
-            Rect previouslyFocusedRect) {
-        super.onFocusChanged(focused, direction, previouslyFocusedRect);
-//        if (focused) {
-//        	performFiltering(getText(), 0);
-//        }
-    }
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		showDropDown();
+		return false;
+	}
     
+	@Override
+	public void showDropDown() {
+		if(GenericUtils.isActivityNotNullOrFinishing(activity) && enoughToFilter() && searchComplete) {
+			super.showDropDown();
+		}
+	}
+
 	@Override
 	public boolean dispatchKeyEventPreIme(KeyEvent event) {
 	    if(KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
