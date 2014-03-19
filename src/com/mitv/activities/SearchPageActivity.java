@@ -25,6 +25,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -251,7 +252,8 @@ public class SearchPageActivity
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
 				startActivity(intent);
 			} else {
-				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
+				String message = getString(R.string.search_no_upcoming_broadcasts);
+				Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -266,9 +268,6 @@ public class SearchPageActivity
 		case R.id.searchbar_clear: {
 			editTextSearch.setText("");
 			editTextSearch.dismissDropDown();
-			
-			//TODO NewArc is this needed? Feels unnessary
-			editTextSearch.setAdapter(new SearchPageListAdapter(this));
 			break;
 		}
 		case R.id.searchbar_edittext: {
@@ -299,7 +298,8 @@ public class SearchPageActivity
 		if (editTextSearch != null && searchQuery != null) {
 			int pos = editTextSearch.getText().toString().length();
 			editTextSearch.setSelection(pos);
-			autoCompleteAdapter.getFilter().filter(searchQuery);
+			Filter filter = autoCompleteAdapter.getFilter();
+			filter.filter(searchQuery);
 			editTextSearch.showDropDown();
 		}
 	}

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 
-import com.mitv.FontManager;
 import com.mitv.R;
 import com.mitv.enums.ContentTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -26,9 +24,8 @@ import com.mitv.models.TVProgram;
 import com.mitv.models.TVSearchResult;
 import com.mitv.models.TVSearchResultEntity;
 import com.mitv.models.TVSeries;
-import com.mitv.ui.elements.CustomTypefaceSpan;
 import com.mitv.ui.elements.FontTextView;
-import com.mitv.utilities.LanguageUtils;
+import com.mitv.utilities.SpannableUtils;
 
 
 
@@ -71,10 +68,8 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 	public TVSearchResult getItem(int position) {
 		TVSearchResult item = null;
 
-		if (searchResultItems != null) {
-			if (searchResultItems.size() > 0) {
-				item = searchResultItems.get(position);
-			}
+		if (searchResultItems != null && !searchResultItems.isEmpty()) {
+			item = searchResultItems.get(position);
 		}
 
 		return item;
@@ -85,60 +80,9 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		return -1;
 	}
 
-	public ArrayList<TVSearchResult> getSearchResultItems() {
-		return searchResultItems;
-	}
-
 	public void setSearchResultItemsForQueryString(ArrayList<TVSearchResult> searchResultItems, String queryString) {
 		this.searchResultItems = searchResultItems;
 		this.queryString = queryString;
-	}
-
-	private Spannable getCustomFontSpannableUsingThreeStrings(String beforeBold, String toBold, String afterBold) {
-		int partOneStart = 0;
-		int partOneEnd = beforeBold.length();
-		int partTwoStart = partOneEnd;
-		int partTwoEnd = partTwoStart + toBold.length();
-		int partThreeStart = partTwoEnd;
-		int partThreeEnd = partThreeStart + afterBold.length();
-
-		// Create a new spannable with the two strings
-		Spannable spannable = new SpannableString(beforeBold + toBold + afterBold);
-
-		// Set the custom typeface to span over a section of the spannable object
-		spannable.setSpan(new CustomTypefaceSpan(FontManager.getFontLight(context)), partOneStart, partOneEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spannable.setSpan(new CustomTypefaceSpan(FontManager.getFontBold(context)), partTwoStart, partTwoEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spannable.setSpan(new CustomTypefaceSpan(FontManager.getFontLight(context)), partThreeStart, partThreeEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-		return spannable;
-	}
-
-	private Spannable getCustomFontSpannable(String title, String matchedString) {
-		Spannable spannable = null;
-
-		if (title != null && matchedString != null && title.length() > 0 && matchedString.length() > 0) 
-		{
-			String titleLowercaseOnly = title.toLowerCase(LanguageUtils.getCurrentLocale());
-
-			String matchedStringLowercaseOnly = matchedString.toLowerCase(LanguageUtils.getCurrentLocale());
-
-			int matchedStringStartIndex = titleLowercaseOnly.indexOf(matchedStringLowercaseOnly);
-
-			if (matchedStringStartIndex >= 0) {
-				/* Title contains matchedString */
-				String beforeBold = title.substring(0, matchedStringStartIndex);
-
-				int toBoldStartIndex = beforeBold.length();
-				int toBoldEndIndex = toBoldStartIndex + matchedString.length();
-				String toBold = title.substring(toBoldStartIndex, toBoldEndIndex);
-
-				int afterBoldStartIndex = beforeBold.length() + toBold.length();
-				String afterBold = title.substring(afterBoldStartIndex, title.length());
-				spannable = getCustomFontSpannableUsingThreeStrings(beforeBold, toBold, afterBold);
-			}
-		}
-
-		return spannable;
 	}
 
 	private void setTimeString(ViewHolder viewHolder, TVSearchResult resultItem) {
@@ -165,7 +109,7 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 	}
 
 	private boolean setTitleString(ViewHolder viewHolder, String title, String matchedString) {
-		Spannable spannable = getCustomFontSpannable(title, matchedString);
+		Spannable spannable = SpannableUtils.getCustomFontSpannable(title, matchedString);
 
 		boolean titleMatched = false;
 
@@ -247,7 +191,7 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		if (titleMatched) {
 			viewHolder.type.setText(seriesString);
 		} else {
-			Spannable episodeTitleAsSpannable = getCustomFontSpannable(seriesString, queryString);
+			Spannable episodeTitleAsSpannable = SpannableUtils.getCustomFontSpannable(seriesString, queryString);
 			if (episodeTitleAsSpannable != null) {
 				viewHolder.type.setText(episodeTitleAsSpannable);
 			} else {

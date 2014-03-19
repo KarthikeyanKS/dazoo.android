@@ -7,12 +7,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.androidquery.callback.AjaxCallback;
+
 import com.mitv.asynctasks.GetTVSearchResults;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.SearchResultsForQuery;
 import com.mitv.models.TVSearchResults;
 
@@ -20,6 +20,7 @@ import com.mitv.models.TVSearchResults;
 
 public class TVSearchAsyncTaskTest implements ContentCallbackListener
 {
+	@SuppressWarnings("unused")
 	private static final String	TAG	= TVSearchAsyncTaskTest.class.getName();
 
 	private TVSearchResults receivedData;
@@ -28,7 +29,7 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 	private void executeTVSearch(String wordToSearchFor)
 	{
 		searchString = wordToSearchFor;
-		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(this, null, new AjaxCallback<String>(), wordToSearchFor);
+		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(this, null, wordToSearchFor);
 		getTVSearchResults.execute();
 	}
 	
@@ -48,21 +49,21 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 		checkResult();
 	}
 	
-//	@Test
-//	public void testSearchForProgram() 
-//	{
-//		String programName = "treehouse of horror";
-//		executeTVSearch(programName);
-//		checkResult();
-//	}
-//	
-//	@Test
-//	public void testSearchForChannel() 
-//	{
-//		String channelName = "caracol";
-//		executeTVSearch(channelName);
-//		checkResult();
-//	}
+	@Test
+	public void testSearchForProgram() 
+	{
+		String programName = "treehouse of horror";
+		executeTVSearch(programName);
+		checkResult();
+	}
+	
+	@Test
+	public void testSearchForChannel() 
+	{
+		String channelName = "caracol";
+		executeTVSearch(channelName);
+		checkResult();
+	}
 
 
 	@Override
