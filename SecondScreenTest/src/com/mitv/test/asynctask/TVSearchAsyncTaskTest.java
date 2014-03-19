@@ -37,7 +37,7 @@ public class TVSearchAsyncTaskTest extends InstrumentationTestCase implements Co
 	
 
 	@Test
-	public void testSearchForSeries() 
+	public void test1SearchForSeries() 
 	{
 		String seriesName = "los simpson";
 		executeTVSearch(seriesName);
@@ -49,7 +49,7 @@ public class TVSearchAsyncTaskTest extends InstrumentationTestCase implements Co
 	}
 	
 	@Test
-	public void testSearchForProgram() 
+	public void test2SearchForProgram() 
 	{
 		String programName = "treehouse of horror";
 		executeTVSearch(programName);
@@ -61,7 +61,7 @@ public class TVSearchAsyncTaskTest extends InstrumentationTestCase implements Co
 	}
 	
 	@Test
-	public void testSearchForChannel() 
+	public void test3SearchForChannel() 
 	{
 		String channelName = "caracol";
 		executeTVSearch(channelName);
