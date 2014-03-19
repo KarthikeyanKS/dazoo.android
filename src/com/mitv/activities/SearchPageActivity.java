@@ -18,22 +18,20 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-import com.androidquery.callback.AjaxCallback;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
@@ -66,9 +64,8 @@ public class SearchPageActivity
 			if(!cancelled) {
 				String searchQuery = editTextSearch.getText().toString();
 				setLoading(); // TODO NewArc set this sets loading in actionbar field, do it in view as well?
-				AjaxCallback<String> cb = new AjaxCallback<String>();
 				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
-				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, cb, searchQuery);
+				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, searchQuery);
 			} else {
 				Log.d(TAG, "Search runnable was cancelled");
 			}
@@ -79,8 +76,7 @@ public class SearchPageActivity
 		}
 	}
 	
-	
-	@SuppressWarnings("unused")
+
 	private static final String TAG = SearchPageActivity.class.getName();
 
 	
@@ -177,7 +173,7 @@ public class SearchPageActivity
 		editTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
 
 		editTextSearch = (InstantAutoCompleteView) searchFieldView.findViewById(R.id.searchbar_edittext);
-
+		editTextSearch.setActivity(this);
 		editTextSearch.requestFocus();
 	}
 
@@ -186,20 +182,11 @@ public class SearchPageActivity
 		editTextSearch.setOnItemClickListener(this);
 		editTextSearch.addTextChangedListener(this);
 		editTextSearch.setOnEditorActionListener(this);
-
-		editTextSearch.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				editTextSearch.showDropDown();
-				return false;
-			}
-		});
-
 	}
 
 	private void loadAutoCompleteView() {
 		autoCompleteAdapter = new SearchPageListAdapter(this);
-		editTextSearch.setThreshold(1);
+		editTextSearch.setThreshold(Constants.SEARCH_QUERY_LENGTH_THRESHOLD - 1);
 
 		int width = GenericUtils.getScreenWidth(this);
 
@@ -265,7 +252,8 @@ public class SearchPageActivity
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
 				startActivity(intent);
 			} else {
-				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
+				String message = getString(R.string.search_no_upcoming_broadcasts);
+				Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -280,9 +268,6 @@ public class SearchPageActivity
 		case R.id.searchbar_clear: {
 			editTextSearch.setText("");
 			editTextSearch.dismissDropDown();
-			
-			//TODO NewArc is this needed? Feels unnessary
-			editTextSearch.setAdapter(new SearchPageListAdapter(this));
 			break;
 		}
 		case R.id.searchbar_edittext: {
@@ -313,7 +298,8 @@ public class SearchPageActivity
 		if (editTextSearch != null && searchQuery != null) {
 			int pos = editTextSearch.getText().toString().length();
 			editTextSearch.setSelection(pos);
-			autoCompleteAdapter.getFilter().filter(searchQuery);
+			Filter filter = autoCompleteAdapter.getFilter();
+			filter.filter(searchQuery);
 			editTextSearch.showDropDown();
 		}
 	}
@@ -366,6 +352,7 @@ public class SearchPageActivity
 				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
 				
 				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
+				editTextSearch.setSearchComplete(true);
 				
 				this.searchQuery = searchQuery;
 				
@@ -423,9 +410,14 @@ public class SearchPageActivity
 			lastSearchRunnable.cancel();
 		}
 		
+		editTextSearch.setSearchComplete(false);
+		
 		if(!TextUtils.isEmpty(searchQuery) && searchQuery.length() >= Constants.SEARCH_QUERY_LENGTH_THRESHOLD) 
 		{
 			performSearchAndTriggerAutocomplete();
+		} else {
+			autoCompleteAdapter.setSearchResultItemsForQueryString(null, null);
+			autoCompleteAdapter.clear();
 		}
 	}
 }

@@ -49,10 +49,10 @@
             android:id="@+id/signin_facebook_container"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_below="@id/signin_container_divider"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="15dp"
-            android:layout_below="@id/signin_container_divider"
             android:background="@drawable/background_color_selector_login_facebook"
             android:orientation="horizontal" >
 
@@ -155,9 +155,10 @@
 
         <RelativeLayout
             android:id="@+id/signin_already_registered_container"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/signin_container_email_divider"
+            android:layout_centerHorizontal="true"
             android:orientation="vertical" >
 
             <com.mitv.ui.elements.FontTextView
@@ -165,16 +166,15 @@
                 style="@style/meta2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_vertical|center_horizontal"
+                android:layout_centerVertical="true"
                 android:text="@string/already_registered" />
 
             <RelativeLayout
                 android:id="@+id/signin_login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/signin_already_registered_text_tv"
-                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/signin_already_registered_text_tv"
                 android:background="@drawable/background_color_selector_login_link"
                 android:orientation="horizontal" >
 

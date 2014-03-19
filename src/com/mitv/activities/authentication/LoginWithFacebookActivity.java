@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Menu;
 
 import com.androidquery.AQuery;
 import com.androidquery.auth.FacebookHandle;
@@ -66,6 +67,14 @@ public class LoginWithFacebookActivity
 	}
 	
 	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
+		return true;
+	}
+	
+	
 
 	@Override
 	protected void loadData() 
@@ -85,7 +94,7 @@ public class LoginWithFacebookActivity
 			Log.e(TAG, "Facebook token was null.");
 		}
 	}
-	
+
 	
 	
 	@Override

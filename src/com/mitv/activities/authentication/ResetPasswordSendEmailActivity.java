@@ -21,7 +21,9 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.ui.elements.FontTextView;
+import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.NetworkUtils;
 import com.mitv.utilities.RegularExpressionUtils;
 
 
@@ -67,7 +69,16 @@ public class ResetPasswordSendEmailActivity
 		
 			updateUI(UIStatusEnum.LOADING);
 			
-			ContentManager.sharedInstance().performResetPassword(this, email);
+			boolean isConnected = NetworkUtils.isConnected();
+
+			if (isConnected) 
+			{
+				ContentManager.sharedInstance().performResetPassword(this, email);
+			}
+			else
+			{
+				updateUI(UIStatusEnum.FAILED);
+			}
 		}
 		else
 		{
@@ -131,7 +142,22 @@ public class ResetPasswordSendEmailActivity
 				enableFields();
 				hideLoadingSpinner();
 				emailResetPasswordEditText.setEnabled(true);
-				errorTextView.setText(getResources().getString(R.string.reset_password__email_does_not_exists));
+				
+				String message;
+				
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (isConnected) 
+				{
+					message = getString(R.string.reset_password__email_does_not_exists);
+				}
+				else
+				{
+					message = getString(R.string.toast_internet_connection);
+				}
+				
+				ToastHelper.createAndShowToast(this, message, false);
+				
 				break;
 			}
 	

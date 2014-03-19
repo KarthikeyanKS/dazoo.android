@@ -3,66 +3,74 @@ package com.mitv.test.asynctask;
 
 
 
+import java.util.concurrent.CountDownLatch;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.androidquery.callback.AjaxCallback;
+import android.test.InstrumentationTestCase;
+
 import com.mitv.asynctasks.GetTVSearchResults;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.SearchResultsForQuery;
 import com.mitv.models.TVSearchResults;
 
 
 
-public class TVSearchAsyncTaskTest implements ContentCallbackListener
+public class TVSearchAsyncTaskTest extends InstrumentationTestCase implements ContentCallbackListener
 {
+	@SuppressWarnings("unused")
 	private static final String	TAG	= TVSearchAsyncTaskTest.class.getName();
-
-	private TVSearchResults receivedData;
+	private final CountDownLatch signal = new CountDownLatch(1);
 	private String searchString;
 	
 	private void executeTVSearch(String wordToSearchFor)
 	{
 		searchString = wordToSearchFor;
-		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(this, null, new AjaxCallback<String>(), wordToSearchFor);
+		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(this, null, wordToSearchFor);
 		getTVSearchResults.execute();
 	}
 	
-	
-	private void checkResult() {
-		Assert.assertNotNull(receivedData);
-		boolean areDataFieldsValid = receivedData.areDataFieldsValid();
-		Assert.assertFalse(!areDataFieldsValid);
-	}
-	
-	
+
 	@Test
 	public void testSearchForSeries() 
 	{
 		String seriesName = "los simpson";
 		executeTVSearch(seriesName);
-		checkResult();
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 	}
 	
-//	@Test
-//	public void testSearchForProgram() 
-//	{
-//		String programName = "treehouse of horror";
-//		executeTVSearch(programName);
-//		checkResult();
-//	}
-//	
-//	@Test
-//	public void testSearchForChannel() 
-//	{
-//		String channelName = "caracol";
-//		executeTVSearch(channelName);
-//		checkResult();
-//	}
+	@Test
+	public void testSearchForProgram() 
+	{
+		String programName = "treehouse of horror";
+		executeTVSearch(programName);
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testSearchForChannel() 
+	{
+		String channelName = "caracol";
+		executeTVSearch(channelName);
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
+	}
 
 
 	@Override
@@ -74,5 +82,7 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 		Assert.assertEquals(searchString, searchedQuery);
 		TVSearchResults searchResults = searchResultForQuery.getSearchResults();
 		Assert.assertNotNull(searchResults);
+		Assert.assertTrue(searchResults.areDataFieldsValid());
+		signal.countDown();
 	}
 }
