@@ -23,11 +23,10 @@ import com.mitv.utilities.RegularExpressionUtils;
 public class GetTVSearchResults 
 	extends AsyncTaskWithRelativeURL<TVSearchResults> 
 {	
-	private static final String TAG = SearchPageActivity.class.getName();//GetTVSearchResults.class.getName();
+	private static final String TAG = GetTVSearchResults.class.getName();
 	
 	private static final String URL_SUFFIX = Constants.URL_SEARCH;
-	
-	private AjaxCallback<String> ajaxCallback;
+
 	private String searchQuery;
 	
 	
@@ -35,14 +34,9 @@ public class GetTVSearchResults
 	public GetTVSearchResults(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			AjaxCallback<String> ajaxCallback,
 			String searchQuery)
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, TVSearchResultsJSON.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
-		
-		
-		
-		this.ajaxCallback = ajaxCallback;
 		
 		searchQuery = RegularExpressionUtils.escapeSpaceChars(searchQuery);
 		searchQuery = searchQuery.trim();
@@ -62,10 +56,10 @@ public class GetTVSearchResults
 		
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-	//		ajaxCallback.block();
-	
 			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 			TVSearchResults tvSearchResults = (TVSearchResults) requestResultObjectContent;
+			
+			searchQuery = RegularExpressionUtils.decodeEncodedSpaceChars(searchQuery);
 			
 			SearchResultsForQuery searchResultsForQuery = new SearchResultsForQuery(searchQuery, tvSearchResults);
 			
