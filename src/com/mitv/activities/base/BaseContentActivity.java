@@ -12,7 +12,7 @@ public abstract class BaseContentActivity
 	
 	
 	@Override
-	protected void onResume() 
+	protected void onResume()
 	{
 		super.onResume();
 				
