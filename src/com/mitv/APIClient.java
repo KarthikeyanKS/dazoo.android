@@ -322,11 +322,11 @@ public class APIClient
 		getTvChannelGuides.execute();
 	}
 	
-	public void getTVSearchResults(ViewCallbackListener activityCallbackListener, AjaxCallback<String> ajaxCallback, String searchQuery) {
+	public void getTVSearchResults(ViewCallbackListener activityCallbackListener, String searchQuery) {
 		if(lastSearch != null) {
 			lastSearch.cancel(true);
 		}
-		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(contentCallbackListener, activityCallbackListener, ajaxCallback, searchQuery);
+		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(contentCallbackListener, activityCallbackListener, searchQuery);
 		getTVSearchResults.execute();
 		lastSearch = getTVSearchResults;
 		

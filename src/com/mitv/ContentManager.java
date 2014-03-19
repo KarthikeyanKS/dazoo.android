@@ -509,10 +509,10 @@ public class ContentManager
 	}
 	
 	
-	private void fetchFromServiceSearchResults(ViewCallbackListener activityCallbackListener, AjaxCallback<String> ajaxCallback, String searchQuery) 
+	private void fetchFromServiceSearchResults(ViewCallbackListener activityCallbackListener, String searchQuery) 
 	{
 		registerListenerForRequest(RequestIdentifierEnum.SEARCH, activityCallbackListener);
-		apiClient.getTVSearchResults(activityCallbackListener, ajaxCallback, searchQuery);
+		apiClient.getTVSearchResults(activityCallbackListener, searchQuery);
 	}
 	
 	
@@ -599,7 +599,7 @@ public class ContentManager
 	}
 	
 	
-	public void getElseFetchFromServiceSearchResultForSearchQuery(ViewCallbackListener activityCallbackListener, boolean forceDownload, AjaxCallback<String> ajaxCallback, String searchQuery) 
+	public void getElseFetchFromServiceSearchResultForSearchQuery(ViewCallbackListener activityCallbackListener, boolean forceDownload, String searchQuery) 
 	{
 		if(!forceDownload && cache.containsSearchResultForQuery(searchQuery)) 
 		{
@@ -607,7 +607,9 @@ public class ContentManager
 		} 
 		else 
 		{
-			fetchFromServiceSearchResults(activityCallbackListener, ajaxCallback, searchQuery);
+			/* Clear old search result */
+			cache.setNonPersistentSearchResultsForQuery(null);
+			fetchFromServiceSearchResults(activityCallbackListener, searchQuery);
 		}
 	}
 	

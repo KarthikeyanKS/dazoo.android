@@ -205,6 +205,12 @@
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
 
+    <style name="edittext">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/grey5</item>
+        <item name="fontedittext">roboto_mitv_regular.ttf</item>
+    </style>
+
     <!-- UNDO BAR STYLES -->
     <style name="UndoBar">
         <item name="android:layout_width">match_parent</item>

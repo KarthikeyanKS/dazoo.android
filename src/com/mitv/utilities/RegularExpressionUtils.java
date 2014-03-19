@@ -67,4 +67,11 @@ public abstract class RegularExpressionUtils
 		
 		return stringWithEscapedSpaceChars;
 	}
+	
+	public static String decodeEncodedSpaceChars(String stringWithEncodedSpaceChars) 
+	{
+		String stringWithoutEncodedSpaceChars = stringWithEncodedSpaceChars.replaceAll("%20", " ");
+		
+		return stringWithoutEncodedSpaceChars;
+	}
 }
