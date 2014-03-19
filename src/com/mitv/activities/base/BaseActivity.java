@@ -250,11 +250,8 @@ public abstract class BaseActivity
 				}
 			}
 		} 
-//		else 
-//		{
-//			updateUI(UIStatusEnum.FAILED);
-//		}
 	}
+	
 	
 	private void restartTheApp() {		
 		killAllActivitiesExceptThis();
