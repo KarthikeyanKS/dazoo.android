@@ -24,6 +24,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.NetworkUtils;
 import com.mitv.utilities.RegularExpressionUtils;
 
 
@@ -88,7 +89,16 @@ public class LoginWithMiTVUserActivity
 		String username = emailEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 		
-		ContentManager.sharedInstance().performLogin(this, username, password);
+		boolean isConnected = NetworkUtils.isConnected();
+
+		if (isConnected) 
+		{
+			ContentManager.sharedInstance().performLogin(this, username, password);
+		}
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
 	}
 	
 	
@@ -174,7 +184,18 @@ public class LoginWithMiTVUserActivity
 				enableFields();
 				hideLoginSpinner();
 				
-				String message = getString(R.string.login_with_email_failed);
+				String message;
+				
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (isConnected) 
+				{
+					message = getString(R.string.login_with_email_failed);
+				}
+				else
+				{
+					message = getString(R.string.toast_internet_connection);
+				}
 				
 				ToastHelper.createAndShowToast(this, message, false);
 				break;

@@ -308,6 +308,45 @@ public abstract class DateUtils
 		return buildDayOfTheWeekAsString(inputCalendar, context);
 	}
 	
+	private static boolean isSameDay(Calendar inputCalendar, Calendar referencedTime) {
+		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+
+		boolean correctDay = inputCalendar.get(Calendar.DAY_OF_MONTH) == referencedTime.get(Calendar.DAY_OF_MONTH);
+		boolean correctHourLowerBound = inputCalendar.get(Calendar.HOUR_OF_DAY) <= 23;
+		boolean correctHourUpperBound = inputCalendar.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
+		boolean correctHour = correctHourLowerBound && correctHourUpperBound;
+
+		boolean isCorrectDayIfBeforeTwelveAtNight = correctDay && correctHour;
+
+		correctDay = inputCalendar.get(Calendar.DAY_OF_MONTH) == (referencedTime.get(Calendar.DAY_OF_MONTH) + 1);
+		correctHourLowerBound = inputCalendar.get(Calendar.HOUR_OF_DAY) >= 0;
+		correctHourUpperBound = inputCalendar.get(Calendar.HOUR_OF_DAY) < firstHourOfTVDay;
+		correctHour = correctHourLowerBound && correctHourUpperBound;
+
+		boolean isCorrectDayIfAfterTwelveAtNight = correctDay && correctHour;
+
+		boolean isSameDayAsNow = isCorrectDayIfBeforeTwelveAtNight || isCorrectDayIfAfterTwelveAtNight;
+
+		return isSameDayAsNow;
+	}
+	
+	private static String getDayOfWeekStringUsingFirstHourOfTVDay(Calendar inputCalendar) {
+		String dayOfTheWeekAsString = null;
+		
+		Locale locale = LanguageUtils.getCurrentLocale();
+		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		
+		int startHour = inputCalendar.get(Calendar.HOUR_OF_DAY);
+		if(startHour >= 0 && startHour < firstHourOfTVDay) {
+			inputCalendar.add(Calendar.DAY_OF_MONTH, -1);
+			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
+		} else {
+			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
+		}
+		
+		return dayOfTheWeekAsString;
+	}
+	
 	/**
 	 * Builds a string representation for the day of the week of the input calendar.
 	 * The representation is localized using the current Locale from the context.
@@ -315,48 +354,40 @@ public abstract class DateUtils
 	 * 
 	 */
 	private static String buildDayOfTheWeekAsString(
-			final Calendar inputCalendar,
+			final Calendar inputCalendarOriginal,
 			final Context context)
 	{
+		Calendar inputCalendar = (Calendar) inputCalendarOriginal.clone();
 		String dayOfTheWeekAsString;
 		
 		Locale locale = LanguageUtils.getCurrentLocale();
 		
 		Calendar now = getNow();
 		
-    	boolean isToday = false;
-    	boolean isTomorrow = false;
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) <= 1;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) <= 1;
+    	boolean isSameDay = isSameDay(inputCalendar, now);
     	
-		isToday = (inputCalendar.get(Calendar.YEAR) == now.get(Calendar.YEAR) &&
-				   inputCalendar.get(Calendar.MONTH) == now.get(Calendar.MONTH) &&
-				   inputCalendar.get(Calendar.DAY_OF_MONTH) == now.get(Calendar.DAY_OF_MONTH));
- 	
-	 	if(isToday == false)
-	 	{
-	 		Calendar tomorrow = (Calendar) now.clone();
-
+		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;
+		
+		if (isToday) {
+			dayOfTheWeekAsString = context.getResources().getString(R.string.today);
+		} else {
+			Calendar tomorrow = (Calendar) now.clone();
 	 		tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-	 		isTomorrow = (inputCalendar.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) &&
-	 				inputCalendar.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH) &&
-	 				inputCalendar.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH));
-	 	}
-	 			
-		if (isToday)
-		{
-			dayOfTheWeekAsString = context.getResources().getString(R.string.today);
-		}
-		else if(isTomorrow)
-		{
-			dayOfTheWeekAsString = context.getResources().getString(R.string.tomorrow);
-		}
-		else
-		{
-			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
+	 		isSameDay = isSameDay(inputCalendar, tomorrow);
+	 		boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
 			
-			/* The first character is always capitalized, per UX team request */
-			dayOfTheWeekAsString = LanguageUtils.capitalize(dayOfTheWeekAsString, locale);
+	 		if(isTomorrow) {
+	 			dayOfTheWeekAsString = context.getResources().getString(R.string.tomorrow);
+	 		} else {
+	 			dayOfTheWeekAsString = getDayOfWeekStringUsingFirstHourOfTVDay(inputCalendar);
+	 		}
 		}
+		
+		/* The first character is always capitalized, per UX team request */
+		dayOfTheWeekAsString = LanguageUtils.capitalize(dayOfTheWeekAsString, locale);
 		
 		return dayOfTheWeekAsString;
 	}

@@ -25,6 +25,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.NetworkUtils;
 import com.mitv.utilities.RegularExpressionUtils;
 
 
@@ -101,7 +102,16 @@ public class SignUpWithEmailActivity
 		String email = emailEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 		
-		ContentManager.sharedInstance().performSignUp(this, email, password, firstname, lastname);
+		boolean isConnected = NetworkUtils.isConnected();
+
+		if (isConnected) 
+		{
+			ContentManager.sharedInstance().performSignUp(this, email, password, firstname, lastname);
+		}
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
 	}
 	
 	
@@ -215,62 +225,76 @@ public class SignUpWithEmailActivity
 			{
 				hideLoadingSpinner();
 				
-				switch (fetchRequestResult) 
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (isConnected) 
 				{
-					case USER_SIGN_UP_EMAIL_ALREADY_TAKEN:
+					switch (fetchRequestResult) 
 					{
-						emailErrorTextView.setVisibility(View.VISIBLE);
-						emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+						case USER_SIGN_UP_EMAIL_ALREADY_TAKEN:
+						{
+							emailErrorTextView.setVisibility(View.VISIBLE);
+							emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+							
+							emailEditText.setBackgroundResource(R.drawable.edittext_activated);
+							emailEditText.requestFocus();
+							break;
+						}
 						
-						emailEditText.setBackgroundResource(R.drawable.edittext_activated);
-						emailEditText.requestFocus();
-						break;
+						case USER_SIGN_UP_EMAIL_IS_INVALID:
+						{
+							emailErrorTextView.setVisibility(View.VISIBLE);
+							emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+							
+							emailEditText.setBackgroundResource(R.drawable.edittext_activated);
+							emailEditText.requestFocus();
+							break;
+						}
+						
+						case USER_SIGN_UP_PASSWORD_TOO_SHORT:
+						{
+							passwordErrorTextView.setVisibility(View.VISIBLE);
+							
+							StringBuilder sb = new StringBuilder();
+							sb.append(getResources().getString(R.string.signup_with_email_error_passwordlength));
+							sb.append(" ");
+							sb.append(Constants.PASSWORD_LENGTH_MIN);
+							sb.append(" ");
+							sb.append(getResources().getString(R.string.signup_with_email_characters));
+							
+							passwordErrorTextView.setText(sb.toString());
+							
+							passwordEditText.setBackgroundResource(R.drawable.edittext_activated);	
+							passwordEditText.requestFocus();
+							break;
+						}
+						
+						case USER_SIGN_UP_FIRST_NAME_NOT_SUPLIED:
+						{
+							firstnameErrorTextView.setVisibility(View.VISIBLE);
+							
+							firstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+							firstNameEditText.requestFocus();
+							
+							break;
+						}
+						
+						default:
+						{
+							Log.w(TAG, "Unhandled fetch request result status.");
+							
+							String message = getString(R.string.signup_with_email_failed);
+							
+							ToastHelper.createAndShowToast(this, message, false);
+							break;
+						}
 					}
+				}
+				else
+				{
+					String message = getString(R.string.toast_internet_connection);
 					
-					case USER_SIGN_UP_EMAIL_IS_INVALID:
-					{
-						emailErrorTextView.setVisibility(View.VISIBLE);
-						emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
-						
-						emailEditText.setBackgroundResource(R.drawable.edittext_activated);
-						emailEditText.requestFocus();
-						break;
-					}
-					
-					case USER_SIGN_UP_PASSWORD_TOO_SHORT:
-					{
-						passwordErrorTextView.setVisibility(View.VISIBLE);
-						
-						StringBuilder sb = new StringBuilder();
-						sb.append(getResources().getString(R.string.signup_with_email_error_passwordlength));
-						sb.append(" ");
-						sb.append(Constants.PASSWORD_LENGTH_MIN);
-						sb.append(" ");
-						sb.append(getResources().getString(R.string.signup_with_email_characters));
-						
-						passwordErrorTextView.setText(sb.toString());
-						
-						passwordEditText.setBackgroundResource(R.drawable.edittext_activated);	
-						passwordEditText.requestFocus();
-						break;
-					}
-					
-					case USER_SIGN_UP_FIRST_NAME_NOT_SUPLIED:
-					{
-						firstnameErrorTextView.setVisibility(View.VISIBLE);
-						
-						firstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
-						firstNameEditText.requestFocus();
-						
-						break;
-					}
-					
-					default:
-					{
-						Log.w(TAG, "Unhandled fetch request result status.");
-						ToastHelper.createAndShowToast(this, "Signup was unsuccessful.", false);
-						break;
-					}
+					ToastHelper.createAndShowToast(this, message, false);
 				}
 				
 				enableFields();
