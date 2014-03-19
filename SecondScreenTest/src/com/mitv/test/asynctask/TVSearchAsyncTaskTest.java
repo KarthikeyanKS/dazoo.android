@@ -3,10 +3,13 @@ package com.mitv.test.asynctask;
 
 
 
+import java.util.concurrent.CountDownLatch;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
+import android.test.InstrumentationTestCase;
 
 import com.mitv.asynctasks.GetTVSearchResults;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -18,12 +21,11 @@ import com.mitv.models.TVSearchResults;
 
 
 
-public class TVSearchAsyncTaskTest implements ContentCallbackListener
+public class TVSearchAsyncTaskTest extends InstrumentationTestCase implements ContentCallbackListener
 {
 	@SuppressWarnings("unused")
 	private static final String	TAG	= TVSearchAsyncTaskTest.class.getName();
-
-	private TVSearchResults receivedData;
+	private final CountDownLatch signal = new CountDownLatch(1);
 	private String searchString;
 	
 	private void executeTVSearch(String wordToSearchFor)
@@ -33,20 +35,17 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 		getTVSearchResults.execute();
 	}
 	
-	
-	private void checkResult() {
-		Assert.assertNotNull(receivedData);
-		boolean areDataFieldsValid = receivedData.areDataFieldsValid();
-		Assert.assertFalse(!areDataFieldsValid);
-	}
-	
-	
+
 	@Test
 	public void testSearchForSeries() 
 	{
 		String seriesName = "los simpson";
 		executeTVSearch(seriesName);
-		checkResult();
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 	}
 	
 	@Test
@@ -54,7 +53,11 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 	{
 		String programName = "treehouse of horror";
 		executeTVSearch(programName);
-		checkResult();
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 	}
 	
 	@Test
@@ -62,7 +65,11 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 	{
 		String channelName = "caracol";
 		executeTVSearch(channelName);
-		checkResult();
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 	}
 
 
@@ -75,5 +82,7 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 		Assert.assertEquals(searchString, searchedQuery);
 		TVSearchResults searchResults = searchResultForQuery.getSearchResults();
 		Assert.assertNotNull(searchResults);
+		Assert.assertTrue(searchResults.areDataFieldsValid());
+		signal.countDown();
 	}
 }

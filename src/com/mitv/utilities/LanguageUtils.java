@@ -37,19 +37,19 @@ public abstract class LanguageUtils
 	
 	
 	
-	public static Locale getCurrentLocale()
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-		Locale locale = context.getResources().getConfiguration().locale;
-		
-		if(locale == null)
-		{
+	public static Locale getCurrentLocale() {
+		Locale locale = null;
+		if (SecondScreenApplication.sharedInstance() != null && SecondScreenApplication.sharedInstance().getApplicationContext() != null) {
+			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+
+			locale = context.getResources().getConfiguration().locale;
+		}
+		if (locale == null) {
 			locale = Locale.getDefault();
-			
+
 			Log.w(TAG, "Using default locale.");
 		}
-		
+
 		return locale;
 	}
 	
