@@ -179,6 +179,8 @@ public class TVGuideListAdapter
 		int textIndexToMarkAsOngoing = 0;
 
 		int textStartIndexToMarkAsOngoing = 0;
+		
+		int textIndexToMarkAsPassed = 0;
 
 		if (guide.hasBroadcasts()) {
 			ArrayList<TVBroadcast> nextBroadcasts = guide.getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(currentHour, tvDate);
@@ -264,6 +266,9 @@ public class TVGuideListAdapter
 
 						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + toShow.length();
 					}
+					else if (broadcast.hasEnded()) {
+						textIndexToMarkAsPassed = textForThreeBroadcasts.length() + toShow.length();
+					}
 
 					textForThreeBroadcasts += toShow + "\n";
 				}
@@ -276,8 +281,12 @@ public class TVGuideListAdapter
 				if (textIndexToMarkAsOngoing > 0) {
 					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), textStartIndexToMarkAsOngoing, textIndexToMarkAsOngoing, 0);
 				}
-
-				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey4)), textIndexToMarkAsOngoing + 1, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				
+				if (textIndexToMarkAsPassed > 0) {
+					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey2)), 0, textIndexToMarkAsPassed, 0);
+				}
+				
+				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey4)), Math.max(textIndexToMarkAsOngoing + 1, textIndexToMarkAsPassed + 1), wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 				holder.textView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 
