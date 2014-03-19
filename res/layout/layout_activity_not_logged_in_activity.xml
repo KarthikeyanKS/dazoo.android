@@ -212,11 +212,10 @@
 
             <RelativeLayout
                 android:id="@+id/activity_not_logged_in_terms_container"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_not_logged_in_already_registered_container"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
                 android:orientation="vertical" >
 
                 <com.mitv.ui.elements.FontTextView
@@ -232,8 +231,6 @@
                     style="@style/meta2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="3dp"
                     android:layout_below="@id/activity_not_logged_in_terms_info"
                     android:linksClickable="true"
                     android:layout_centerHorizontal="true"
