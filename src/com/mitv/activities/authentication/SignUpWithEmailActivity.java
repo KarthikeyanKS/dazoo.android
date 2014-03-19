@@ -268,7 +268,7 @@ public class SignUpWithEmailActivity
 					default:
 					{
 						Log.w(TAG, "Unhandled fetch request result status.");
-						ToastHelper.createAndShowToast(this, "Login was unsuccessful.", false);
+						ToastHelper.createAndShowToast(this, "Signup was unsuccessful.", false);
 						break;
 					}
 				}
