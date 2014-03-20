@@ -4,8 +4,11 @@ package com.mitv;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+
 import android.content.Context;
+
 import com.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.mitv.models.SearchResultsForQuery;
 import com.mitv.models.TVBroadcastWithChannelInfo;
@@ -52,6 +55,7 @@ public class Cache
 	private TVChannelId nonPersistentSelectedTVChannelId;
 	private Class<?> nonPersistentReturnActivity;
 	private UserLike nonPersistentLikeToAddAfterLogin;
+	private Calendar initialCallSNTPCalendar;
 		
 	
 	
@@ -61,6 +65,8 @@ public class Cache
 		super();
 		
 		this.nonPersistentFlagUpdatingGuide = false;
+		
+		this.initialCallSNTPCalendar = null;
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
@@ -161,7 +167,7 @@ public class Cache
 		{
 			TVChannelGuide guide = getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, selectedTVDate);
 			
-			containsTVChannelGuideUsingTVChannelIdForSelectedDay = (guide == null);
+			containsTVChannelGuideUsingTVChannelIdForSelectedDay = (guide != null);
 		}
 		
 		return containsTVChannelGuideUsingTVChannelIdForSelectedDay;
@@ -379,5 +385,18 @@ public class Cache
 	
 	public synchronized TVChannelId getNonPersistentTVChannelId() {
 		return nonPersistentSelectedTVChannelId;
+	}
+
+
+
+	public Calendar getInitialCallSNTPCalendar() 
+	{
+		return initialCallSNTPCalendar;
+	}
+
+
+	public void setInitialCallSNTPCalendar(Calendar initialCallSNTPCalendar) 
+	{
+		this.initialCallSNTPCalendar = initialCallSNTPCalendar;
 	}
 }

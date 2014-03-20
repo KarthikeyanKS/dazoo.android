@@ -45,6 +45,7 @@ public class TVGuideTableFragment
 	private Activity activity;
 	private View rootView;
 	private ListView tvGuideListView;
+	
 	private ArrayList<TVChannelGuide> tvChannelGuides;
 	private SwipeClockBar swipeClockBar;
 	private TVGuideListAdapter tvGuideListAdapter;
@@ -58,7 +59,9 @@ public class TVGuideTableFragment
 	
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
 	private TVGuideTagListAdapter tvTagListAdapter;
-		
+	
+	
+	
 	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date)
 	{
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
@@ -151,6 +154,8 @@ public class TVGuideTableFragment
 	{	
 		super.onResume();
 
+		Log.d(TAG, "Fragment view " + tvTagDisplayName + " was resumed");
+		
 		updateSwipeClockBarWithDayAndTime();
 	}
 	

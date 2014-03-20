@@ -4,6 +4,7 @@ package com.mitv;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.androidquery.callback.AjaxCallback;
 import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -39,6 +39,7 @@ import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -53,6 +54,8 @@ public class ContentManager
 	private APIClient apiClient;
 	
 	private FetchDataProgressCallbackListener fetchDataProgressCallbackListener;
+	
+	private static final int TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON = 5;
 	
 	/*
 	 * The total completed data fetch count needed in order to proceed with
@@ -93,6 +96,7 @@ public class ContentManager
 	private boolean isUpdatingGuide;
 	private boolean isBuildingTaggedBroadcasts;
 	private boolean isFetchingFeedItems;
+	private Boolean isLocalDeviceCalendarOffSync;
 			
 	private HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
 	
@@ -101,6 +105,7 @@ public class ContentManager
 		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
 		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>>();
+		this.isLocalDeviceCalendarOffSync = null;
 		
 		/* 1 for guide and parsing of tagged broadcasts */
 		completedCountTVDataForProgressMessage = 1;
@@ -199,8 +204,11 @@ public class ContentManager
 	public void fetchFromServiceInitialCall(ViewCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener)
 	{	
 		registerListenerForRequest(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, activityCallbackListener);
-		if(!isUpdatingGuide) {
+		
+		if(!isUpdatingGuide) 
+		{
 			isUpdatingGuide = true;
+			
 			Log.d(TAG, "PROFILING: fetchFromServiceInitialCall");
 			
 			this.completedTVDatesRequest = false;
@@ -402,6 +410,13 @@ public class ContentManager
 				break;
 			}
 			
+			case SNTP_CALL:
+			{
+				Calendar calendar = (Calendar) content;
+				cache.setInitialCallSNTPCalendar(calendar);
+				break;
+			}
+			
 			default: 
 			{
 				Log.w(TAG, "Unhandled request identifier.");
@@ -474,6 +489,8 @@ public class ContentManager
 		
 		if(!isUpdatingGuide) 
 		{
+			Log.i(TAG, "The guide is still updating.");
+			
 			isUpdatingGuide = true;
 			
 			apiClient.getTVChannelGuides(activityCallbackListener, tvDate, tvChannelIds);
@@ -696,12 +713,20 @@ public class ContentManager
 	 * @param channelId
 	 * @param beginTimeInMillis
 	 */
-	public void getElseFetchFromServiceBroadcastPageData(ViewCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastWithChannelInfo, TVChannelId channelId, long beginTimeInMillis) {
+	public void getElseFetchFromServiceBroadcastPageData(
+			ViewCallbackListener activityCallbackListener, 
+			final boolean forceDownload, 
+			TVBroadcastWithChannelInfo broadcastWithChannelInfo, 
+			final TVChannelId channelId, 
+			final long beginTimeInMillis) 
+	{
 		if (!forceDownload && (broadcastWithChannelInfo != null || cache.containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis))) 
 		{
-			if(broadcastWithChannelInfo == null) {
+			if(broadcastWithChannelInfo == null) 
+			{
 				broadcastWithChannelInfo = cache.getNonPersistentSelectedBroadcastWithChannelInfo();
 			}
+			
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfo);
 		} 
 		else 
@@ -765,7 +790,8 @@ public class ContentManager
 			case TV_CHANNEL:
 			case TV_CHANNEL_IDS_DEFAULT:
 			case TV_CHANNEL_IDS_USER_INITIAL_CALL:
-			case TV_GUIDE_INITIAL_CALL: 
+			case TV_GUIDE_INITIAL_CALL:
+			case SNTP_CALL:
 			{
 				handleInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
@@ -995,8 +1021,10 @@ public class ContentManager
 	 * @param result
 	 * @param content
 	 */
-	private void handleTVChannelGuidesForSelectedDayResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
-		if (result.wasSuccessful() && content != null) {
+	private void handleTVChannelGuidesForSelectedDayResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
 			TVGuide tvGuide = (TVGuide) content;
 			Log.d(TAG, "PROFILING: handleTVChannelGuidesForSelectedDayResponse: addNewTVChannelGuidesForSelectedDayUsingTvGuide");
 			cache.addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
@@ -1004,8 +1032,9 @@ public class ContentManager
 			cache.purgeTaggedBroadcastForDay(tvGuide.getTvDate());
 			
 			notifyListenersOfRequestResult(requestIdentifier, result);
-			isUpdatingGuide = false;
 		}
+		
+		isUpdatingGuide = false;
 		
 		activityCallbackListener.onResult(result, requestIdentifier);
 	}
@@ -1403,6 +1432,13 @@ public class ContentManager
 	
 	
 	
+	public boolean getFromCacheHasTVDates()
+	{
+		return cache.containsTVDates();
+	}
+	
+	
+	
 	public boolean getFromCacheHasUserLikes()
 	{
 		return cache.containsUserLikes();
@@ -1440,6 +1476,25 @@ public class ContentManager
 	public boolean getFromCacheHasTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeInMillis)
 	{
 		return cache.containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis);
+	}
+	
+	
+	public boolean getFromCacheHasBroadcastPageData( ) 
+	{
+		boolean hasBroadcastPageData = false;
+		
+		TVBroadcastWithChannelInfo broadcastWithChannelInfo = cache.getNonPersistentSelectedBroadcastWithChannelInfo();
+
+		if(broadcastWithChannelInfo != null)
+		{
+			boolean containsUpcomingBroadcasts = cache.containsUpcomingBroadcastsForBroadcast(broadcastWithChannelInfo.getProgram().getProgramId());
+		
+			boolean containsRepeatingBroadcasts = cache.containsRepeatingBroadcastsForBroadcast(broadcastWithChannelInfo.getProgram().getProgramId());
+		
+			hasBroadcastPageData = containsUpcomingBroadcasts && containsRepeatingBroadcasts;
+		}
+		
+		return hasBroadcastPageData;
 	}
 	
 	
@@ -1832,5 +1887,35 @@ public class ContentManager
 		
 	public void setLikeToAddAfterLogin(UserLike userLikeToAdd) {
 		cache.setLikeToAddAfterLogin(userLikeToAdd);
+	}
+	
+	
+	/* This method compares the initial stored SNTP calendar with the local calendar */
+	public boolean isLocalDeviceCalendarOffSync()
+	{
+		if(isLocalDeviceCalendarOffSync == null)
+		{
+			isLocalDeviceCalendarOffSync = false;
+			
+			Calendar now = DateUtils.getNow();
+	
+			Calendar nowFromSNTP = cache.getInitialCallSNTPCalendar();
+	
+			if(nowFromSNTP != null)
+			{
+				Integer difference = DateUtils.calculateDifferenceBetween(now, nowFromSNTP, Calendar.MINUTE, true, 0);
+		
+				if(difference > TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON)
+				{
+					isLocalDeviceCalendarOffSync = true;
+				}
+			}
+			else
+			{
+				Log.w(TAG, "Calendar from SNTP is null. Assuming local device time as accurate.");
+			}
+		}
+		
+		return isLocalDeviceCalendarOffSync;
 	}
 }

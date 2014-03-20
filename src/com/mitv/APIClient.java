@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import com.androidquery.callback.AjaxCallback;
 import com.mitv.asynctasks.CheckNetworkConnectivity;
 import com.mitv.asynctasks.GetAdsAdzerk;
 import com.mitv.asynctasks.GetAppConfigurationData;
@@ -30,6 +29,7 @@ import com.mitv.asynctasks.PerformUserLoginWithFacebookToken;
 import com.mitv.asynctasks.PerformUserPasswordResetConfirmation;
 import com.mitv.asynctasks.PerformUserPasswordResetSendEmail;
 import com.mitv.asynctasks.PerformUserSignUp;
+import com.mitv.asynctasks.SNTPAsyncTask;
 import com.mitv.asynctasks.usertoken.AddUserLike;
 import com.mitv.asynctasks.usertoken.GetUserLikes;
 import com.mitv.asynctasks.usertoken.GetUserTVChannelIds;
@@ -81,7 +81,9 @@ public class APIClient
 		GetTVDates getTVDates = new GetTVDates(contentCallbackListener, activityCallbackListener);
 		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
 		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
+		SNTPAsyncTask sntpAsyncTask = new SNTPAsyncTask(contentCallbackListener, activityCallbackListener);
 		
+		poolExecutor.addAndExecuteTask(sntpAsyncTask);
 		poolExecutor.addAndExecuteTask(getAppConfigurationData);
 		poolExecutor.addAndExecuteTask(getAppVersionData);
 		poolExecutor.addAndExecuteTask(getTVTags);

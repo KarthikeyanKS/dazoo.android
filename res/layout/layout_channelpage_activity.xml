@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <!-- BOTTOM NAVIGATION TABS -->
-
-    <include
-        android:id="@+id/tab_selector_container"
-        android:layout_alignParentBottom="true"
-        layout="@layout/block_bottom_tabs" />
-
     <!-- LIST OF FOLLOWING UP BROADCASTS (AND CURRENT!) -->
-
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
@@ -25,9 +18,18 @@
         android:dividerHeight="0dp" />
 
     <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+    
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_request_callbacks_holder_main_layout" />
+        layout="@layout/layout_request_callbacks_holder_main_layout"/>
 
+    <!-- UNDO BAR -->
+    <include layout="@layout/layout_undo_bar"/>
+    
 </RelativeLayout>

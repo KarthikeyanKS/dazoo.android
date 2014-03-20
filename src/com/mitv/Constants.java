@@ -443,8 +443,8 @@ public abstract class Constants
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
     
     /* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
-    public static final String HOST_FOR_NTP_CHECK = "south-america.pool.ntp.org";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 2000;
+    public static final String HOST_FOR_NTP_CHECK = "se.pool.ntp.org";
+    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 4000;
     
     
     /* USER AUTHORIZATION TOKEN FOR HTTP REQUESTS */

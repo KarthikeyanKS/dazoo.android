@@ -3,7 +3,6 @@ package com.mitv.activities.base;
 
 
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Stack;
 
@@ -32,7 +31,6 @@ import com.mitv.ContentManager;
 import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.SearchPageActivity;
@@ -64,8 +62,6 @@ public abstract class BaseActivity
 
 	private static final int SELECTED_TAB_FONT_SIZE = 12;
 	
-	private static final int TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON = 5;
-	
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
 	
@@ -92,7 +88,7 @@ public abstract class BaseActivity
 	private Button requestFailedRetryButton;
 
 	protected ActionBar actionBar;
-	private UndoBarController undoBarController;
+	protected UndoBarController undoBarController;
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
@@ -133,7 +129,10 @@ public abstract class BaseActivity
 		GATrackingManager.sendView(className);
 	}
 	
-	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier) {
+	
+	
+	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
+	{
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
 	}
 
@@ -165,6 +164,8 @@ public abstract class BaseActivity
 
 		setTabViews();
 
+		// We need the accurate time!!!!
+		
 		handleTimeAndDayOnResume();
 
 		Intent intent = getIntent();
@@ -218,36 +219,19 @@ public abstract class BaseActivity
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
 
-		
 		/* Handle day */
 		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
 		
 		/*
 		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
 		 */
-		if (indexOfTodayFromTVDates != TV_DATE_NOT_FOUND) 
+		if (indexOfTodayFromTVDates > 0)
 		{
-			if (indexOfTodayFromTVDates != 0) 
+			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
+
+			if(isTimeOffSync == false)
 			{
-				Calendar now = DateUtils.getNow();
-				
-				Calendar nowFromSNTP = NetworkUtils.getCalendarFromSNTP();
-				
-				if(nowFromSNTP != null)
-				{
-					Integer difference = DateUtils.calculateDifferenceBetween(now, nowFromSNTP, Calendar.MINUTE, true, 0);
-					
-					if(difference.intValue() <= TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON)
-					{
-						restartTheApp();
-					}
-					else
-					{
-						String message = getString(R.string.review_date_time_settings);
-						
-						ToastHelper.createAndShowToast(this, message, true);
-					}
-				}
+				restartTheApp();
 			}
 		} 
 	}
@@ -738,44 +722,67 @@ public abstract class BaseActivity
 		
 		this.latestRequest = requestIdentifier;
 		switch (fetchRequestResult) {
-		case INTERNET_CONNECTION_AVAILABLE: {
-			loadData();
-			break;
-		}
-
-		case INTERNET_CONNECTION_NOT_AVAILABLE: {
-			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
-			break;
-		}
-
-		case API_VERSION_TOO_OLD: {
-			break;
-		}
-
-		case SUCCESS:
-		default: {
-			if (requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL) {
+			case INTERNET_CONNECTION_AVAILABLE: {
 				loadData();
-			} else {
-				if (requestIdentifier == RequestIdentifierEnum.USER_LOGOUT) {
-					/* When logged out go through stack and delete any activity that requires us to be logged in */
-					removeActivitiesThatRequiresLoginFromStack(this);
+				break;
+			}
+	
+			case INTERNET_CONNECTION_NOT_AVAILABLE: {
+				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+				break;
+			}
+	
+			case API_VERSION_TOO_OLD: {
+				break;
+			}
+	
+			case SUCCESS:
+			{
+				if (requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL) 
+				{
+					loadData();
+				} 
+				else 
+				{
+					if (requestIdentifier == RequestIdentifierEnum.USER_LOGOUT) 
+					{
+						/* When logged out go through stack and delete any activity that requires us to be logged in */
+						removeActivitiesThatRequiresLoginFromStack(this);
+					}
+	
+					boolean isConnected = NetworkUtils.isConnected();
+	
+					if (hasEnoughDataToShowContent() && isConnected == false) 
+					{
+						if (undoBarController != null) 
+						{
+							undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
+						} 
+						else 
+						{
+							Log.w(TAG, "Undo bar component is null.");
+						}
+					}
+	
+					onDataAvailable(fetchRequestResult, requestIdentifier);
 				}
-
+				break;
+			}
+			
+			default: 
+			{
 				boolean isConnected = NetworkUtils.isConnected();
 
-				if (hasEnoughDataToShowContent() && isConnected == false) {
-					if (undoBarController != null) {
-						undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-					} else {
-						Log.w(TAG, "Undo bar component is null.");
-					}
+				if (isConnected == false) 
+				{
+					updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 				}
-
-				onDataAvailable(fetchRequestResult, requestIdentifier);
+				else
+				{
+					onDataAvailable(fetchRequestResult, requestIdentifier);
+				}
+				break;
 			}
-			break;
-		}
 		}
 	}
 

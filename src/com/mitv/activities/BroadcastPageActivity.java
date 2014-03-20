@@ -58,12 +58,12 @@ public class BroadcastPageActivity
 	private TVChannelId channelId;
 	private long beginTimeInMillis;
 	private boolean hasPopulatedViews = false;
+	boolean isLiked = false;
 	private TVBroadcastWithChannelInfo broadcastWithChannelInfo;
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
+	
 	private ScrollView scrollView;
-	public static Toast toast;
-	boolean isLiked = false;
 	private LayoutInflater inflater;
 	private LinearLayout containerView;
 	private View topContentView;
@@ -82,6 +82,8 @@ public class BroadcastPageActivity
 	private ImageView channelIv;
 	private TextView synopsisTv;
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -91,10 +93,12 @@ public class BroadcastPageActivity
 
 		initViews();
 	}
-		
+	
+	
+	
 	@Override
-	protected void onResume() {
-		
+	protected void onResume() 
+	{	
 		Intent intent = getIntent();
 
 		boolean needToDownloadBroadcastWithChannelInfo = intent.getBooleanExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
@@ -107,7 +111,9 @@ public class BroadcastPageActivity
 			String channelIdAsString = intent.getStringExtra(Constants.INTENT_EXTRA_CHANNEL_ID);
 			
 			channelId = new TVChannelId(channelIdAsString);
-		} else {
+		} 
+		else 
+		{
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
@@ -116,11 +122,16 @@ public class BroadcastPageActivity
 		super.onResume();
 	}
 	
-	private void updateStatusOfLikeView() {
-		if(likeView != null) {
+	
+	
+	private void updateStatusOfLikeView() 
+	{
+		if(likeView != null) 
+		{
 			likeView.updateImage();
 		}
 	}
+	
 	
 	
 	@Override
@@ -136,10 +147,8 @@ public class BroadcastPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasEnoughDataToShowContent = false;
-		if(broadcastWithChannelInfo != null) {
-			hasEnoughDataToShowContent = true;
-		}
+		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasBroadcastPageData();
+		
 		return hasEnoughDataToShowContent;
 	}
 	
@@ -150,49 +159,55 @@ public class BroadcastPageActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			switch (requestIdentifier) {
-			case BROADCAST_PAGE_DATA: {
-				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
-				
-				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
-				if (repeatingBroadcasts != null) {
-					repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(repeatingBroadcasts);
-				}
-				
-				if(repeatingBroadcasts != null) {
-					for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
-					{
-						broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
+			switch (requestIdentifier) 
+			{
+				case BROADCAST_PAGE_DATA: 
+				{
+					broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
+					
+					repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+					if (repeatingBroadcasts != null) {
+						repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(repeatingBroadcasts);
 					}
+					
+					if(repeatingBroadcasts != null) {
+						for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
+						{
+							broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
+						}
+					}
+					
+					upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+					if (upcomingBroadcasts != null) {
+						upcomingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(upcomingBroadcasts);
+					}
+	
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					break;
+	
+				}
+				case USER_ADD_LIKE: 
+				{
+					updateStatusOfLikeView();
+					break;
+	
 				}
 				
-				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
-				if (upcomingBroadcasts != null) {
-					upcomingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(upcomingBroadcasts);
+				default: 
+				{
+					Log.d(TAG, "other request");
+					/* do nothing */break;
 				}
-
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-				break;
-
 			}
-			case USER_ADD_LIKE: {
-				updateStatusOfLikeView();
-				break;
-
-			}
-			default: {
-				Log.d(TAG, "other request");
-				/* do nothing */break;
-			}
-			}
-			
-		} 
-		else 
+		}
+		else
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 		
+	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
@@ -211,14 +226,16 @@ public class BroadcastPageActivity
 	
 			default:
 			{
-				Log.d(TAG, "updateUI - case not handled");
+				Log.w(TAG, "updateUI - case not handled");
 				break;
 			}
 		}
 	}
 
 	
-	private void initViews() {
+	
+	private void initViews() 
+	{
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		actionBar.setTitle(getResources().getString(R.string.broadcast_info));
@@ -247,13 +264,17 @@ public class BroadcastPageActivity
 		progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
 		progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 	}
+	
+	
 
-	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) {
+	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) 
+	{
 		boolean isProgramIrrelevantAndShouldBeDeleted = (program.getSeason().getNumber() == 0 && program.getEpisodeNumber() == 0);
 		
 		return isProgramIrrelevantAndShouldBeDeleted;
 	}
 
+	
 	
 	private void populateBlocks()
 	{
@@ -304,19 +325,28 @@ public class BroadcastPageActivity
 		 }
 	}
 	
-	private String getYearString(TVProgram program) {
+	
+	private String getYearString(TVProgram program) 
+	{
 		String yearString = "";
-		if(program != null && program.getYear() != null) {
+		
+		if(program != null && program.getYear() != null) 
+		{
 			yearString = (program.getYear() == 0) ? "" : String.valueOf(program.getYear());
 		}
+		
 		return yearString;
 	}
 
-	private String getGenreString(TVProgram program) {
+	
+	private String getGenreString(TVProgram program) 
+	{
 		String genreString = (program.getGenre() == null) ? "" : program.getGenre();
+		
 		return genreString;
 	}
 
+	
 	private void populateMainView() 
 	{
 		TVProgram program = broadcastWithChannelInfo.getProgram();
@@ -511,6 +541,12 @@ public class BroadcastPageActivity
 						getString(R.string.share_action_title));
 				break;
 	
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick action");
+				break;
 			}
 		}
 	}

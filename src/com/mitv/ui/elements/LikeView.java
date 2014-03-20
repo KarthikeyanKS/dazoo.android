@@ -101,10 +101,8 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 				addLike();
 			}
 			
-		} else {
-			if (BroadcastPageActivity.toast != null) {
-				BroadcastPageActivity.toast.cancel();
-			}
+		} else 
+		{
 			DialogHelper.showPromptSignInDialog(activity, yesLikeProc(), noLikeProc());
 		}
 	}

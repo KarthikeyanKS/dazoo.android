@@ -4,6 +4,7 @@ package com.mitv.fragments;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.ui.elements.UndoBarController;
+import com.mitv.ui.elements.UndoBarController.UndoListener;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -26,14 +29,17 @@ import com.mitv.utilities.NetworkUtils;
 
 public abstract class BaseFragment 
 	extends Fragment
-	implements ViewCallbackListener, OnClickListener
+	implements ViewCallbackListener, OnClickListener, UndoListener
 {
 	private static final String TAG = BaseFragment.class.getName();
 
 	
+	protected View undoBarlayoutView;
+	private UndoBarController undoBarController;
 	
 	private RelativeLayout requestEmptyLayout;
 	private RelativeLayout requestLoadingLayout;
+	private RelativeLayout requestFailedLayout;
 	private RelativeLayout requestNoInternetConnectionLayout;
 	private Button requestrequestNoInternetConnectionRetryButton;
 
@@ -71,7 +77,25 @@ public abstract class BaseFragment
 	{	
 		super.onResume();
 		
-		loadData();
+		loadDataWithConnectivityCheck();
+	}
+	
+	
+	
+	@Override
+	public void onUndo(Parcelable token) 
+	{
+		if (undoBarController != null) 
+		{
+			undoBarController.hideUndoBar(true);
+			undoBarController = new UndoBarController(undoBarlayoutView, this);
+		} 
+		else 
+		{
+			Log.w(TAG, "Undo bar component is null.");
+		}
+		
+		loadDataWithConnectivityCheck();
 	}
 	
 	
@@ -131,8 +155,8 @@ public abstract class BaseFragment
 			
 			default:
 			{
-				// The remaining cases should be handled by the subclasses
 				onDataAvailable(fetchRequestResult, requestIdentifier);
+				
 				break;
 			}
 		}
@@ -161,8 +185,15 @@ public abstract class BaseFragment
 					break;
 				}
 			
-				case NO_CONNECTION_AVAILABLE:
 				case FAILED:
+				{
+					if (requestFailedLayout != null) {
+						requestFailedLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+				
+				case NO_CONNECTION_AVAILABLE:
 				{
 					if (requestNoInternetConnectionLayout != null) 
 					{
@@ -216,6 +247,11 @@ public abstract class BaseFragment
 		{
 			requestEmptyLayout.setVisibility(View.GONE);
 		}
+		
+		if(requestFailedLayout != null) 
+		{
+			requestFailedLayout.setVisibility(View.GONE);
+		}
 	}
 	
 	
@@ -226,6 +262,8 @@ public abstract class BaseFragment
 
 		requestEmptyLayout = (RelativeLayout) view.findViewById(R.id.request_empty_main_layout);
 
+		requestFailedLayout = (RelativeLayout) view.findViewById(R.id.request_failed_main_layout);
+		
 		requestNoInternetConnectionLayout = (RelativeLayout) view.findViewById(R.id.no_connection_layout);
 		
 		requestrequestNoInternetConnectionRetryButton = (Button) view.findViewById(R.id.no_connection_reload_button);
@@ -233,6 +271,17 @@ public abstract class BaseFragment
 		if (requestrequestNoInternetConnectionRetryButton != null) 
 		{
 			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
+		}
+		
+		undoBarlayoutView = getActivity().findViewById(R.id.undobar);
+
+		if (undoBarlayoutView != null) 
+		{
+			undoBarController = new UndoBarController(undoBarlayoutView, this);
+		} 
+		else 
+		{
+			Log.w(TAG, "Undo bar element not present.");
 		}
 	}
 	

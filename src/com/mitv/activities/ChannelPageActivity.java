@@ -39,8 +39,11 @@ public class ChannelPageActivity
 	private ListView listView;
 	private ImageView channelIconIv;
 	private ChannelPageListAdapter listAdapter;
-	private TVChannelGuide channelGuide;
+	
 	private TVChannel channel;
+	private ArrayList<TVBroadcast> currentAndUpcomingbroadcasts;
+
+
 	
 	@Override
 	protected void setActivityCallbackListener()
@@ -49,6 +52,7 @@ public class ChannelPageActivity
 	}
 	
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -62,13 +66,18 @@ public class ChannelPageActivity
 	
 	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
+		/* It is necessary to set the correct channel, in order for the hasEnoughDataToShowContent and loadData to work properly */
 		TVChannelId channelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+		
 		channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+		
 		super.onResume();
 	}
 
 
+	
 	private void initViews() 
 	{
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -94,15 +103,14 @@ public class ChannelPageActivity
 		{
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
 			{
-				// open the detail view for the individual broadcast
+				// Open the detail view for the individual broadcast
 				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 
-				// we take one position less as we have a header view
+				// We take one position less as we have a header view
 				int adjustedPosition = position - 1;
 				
 				if (adjustedPosition < 0)
 				{
-					/* Don't allow negative values */
 					adjustedPosition = 0;
 				}
 
@@ -117,7 +125,6 @@ public class ChannelPageActivity
 				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
 
 				startActivity(intent);
-
 			}
 		});
 	}
@@ -137,24 +144,8 @@ public class ChannelPageActivity
 	@Override
 	protected void loadData() 
 	{		
-		channelGuide = ContentManager.sharedInstance().getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
-		
-		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
-		
-		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
-
-		ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
-		
-		if(currentAndUpcomingbroadcasts != null && !currentAndUpcomingbroadcasts.isEmpty()) 
-		{
-			setFollowingBroadcasts(currentAndUpcomingbroadcasts);
-			
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		} 
-		else 
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		/* The data is fetched from the cache. Since there is no callback to the onDataAvailable function, we will invoke it manually */
+		onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.TV_CHANNEL);
 	}
 	
 	
@@ -170,10 +161,25 @@ public class ChannelPageActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
-		if (fetchRequestResult.wasSuccessful()) 
+		TVChannelGuide channelGuide = ContentManager.sharedInstance().getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		
+		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
+		
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
+
+		currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
+		
+		if(currentAndUpcomingbroadcasts != null) 
 		{
-			loadData();
-		} 
+			if(!currentAndUpcomingbroadcasts.isEmpty())
+			{	
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			}
+			else
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+			}
+		}
 		else 
 		{
 			updateUI(UIStatusEnum.FAILED);
@@ -186,11 +192,28 @@ public class ChannelPageActivity
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUI(status);
-		super.updateUIBaseElements(status);
+		
+		switch (status) 
+		{	
+			case SUCCESS_WITH_CONTENT:
+			{
+				setFollowingBroadcasts(currentAndUpcomingbroadcasts);
+				break;
+			}
+			
+			default:
+			{
+				break;
+			}
+		}
 	}
 	
+	
+	
 	@Override
-	protected void attachFragment(){/*Do nothing*/}
+	protected void attachFragment(){}
+	
+	
 	@Override
 	protected void removeActiveFragment(){}
 }

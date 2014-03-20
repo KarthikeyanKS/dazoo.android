@@ -7,6 +7,7 @@ import net.hockeyapp.android.UpdateManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
@@ -18,13 +19,13 @@ import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.NetworkUtils;
 
 
 
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
@@ -61,7 +62,6 @@ public class HomeActivity
 	@Override
 	protected void onResume()
 	{
-		
 		super.onResume();
 		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
@@ -125,19 +125,41 @@ public class HomeActivity
 	
 	
 	@Override
-	protected void attachFragment() {
-		if (GenericUtils.isActivityNotNullOrFinishing(this)) {
+	protected void attachFragment() 
+	{
+		if (GenericUtils.isActivityNotNullOrFinishing(this)) 
+		{
 			FragmentManager fm = getSupportFragmentManager();
-			if (activeFragment == null) {
-				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() {
+			
+			if (activeFragment == null) 
+			{
+				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
+				{
 					@Override
-					public void onIndexSelected(int position) {
+					public void onIndexSelected(int position) 
+					{
 						selectedTagIndex = position;
+						
+						boolean isConnected = NetworkUtils.isConnected();
+
+						if (hasEnoughDataToShowContent() && isConnected == false) 
+						{
+							if (undoBarController != null)
+							{
+								undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
+							} 
+							else
+							{
+								Log.w(TAG, "Undo bar component is null.");
+							}
+						}
 					}
 				});
 
 				fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
-			} else {
+			} 
+			else 
+			{
 				fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
 			}
 		}
@@ -205,7 +227,6 @@ public class HomeActivity
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUI(status);
-		super.updateUIBaseElements(status);
 			
 		switch (status) 
 		{	

@@ -44,6 +44,10 @@
             android:layout_alignParentTop="true" />
     </RelativeLayout>
 
-    <include layout="@layout/layout_request_callbacks_holder_main_layout" />
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+     <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/layout_request_callbacks_holder_main_layout"/>
 
 </RelativeLayout>

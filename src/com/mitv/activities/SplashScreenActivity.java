@@ -14,10 +14,11 @@ import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
+import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.NetworkUtils;
 
 
@@ -141,6 +142,15 @@ public class SplashScreenActivity
 			case NO_CONNECTION_AVAILABLE:
 			default:
 			{
+				boolean isLocalDeviceCalendarOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
+				
+				if(isLocalDeviceCalendarOffSync)
+				{
+					String message = getString(R.string.review_date_time_settings);
+
+					ToastHelper.createAndShowToast(this, message, true);
+				}
+				
 				startPrimaryActivity();
 				break;
 			}
