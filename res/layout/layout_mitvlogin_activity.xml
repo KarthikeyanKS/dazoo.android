@@ -166,7 +166,7 @@
                 android:layout_below="@id/mitvlogin_login_email_error_tv"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="-5dp"
                 android:background="@drawable/edittext_standard"
                 android:hint="@string/hint_password"
                 android:inputType="textPassword"

@@ -153,7 +153,8 @@ public class FeedActivity
 	{
 		ArrayList<TVFeedItem> activityFeed = getFromCacheFeedItems();
 		
-		if(!activityFeed.isEmpty())
+		/* View saying  */
+		if(activityFeed != null && !activityFeed.isEmpty())
 		{
 			FeedItemTypeEnum itemType = activityFeed.get(0).getItemType();
 			
@@ -161,25 +162,25 @@ public class FeedActivity
 			{
 				case POPULAR_BROADCASTS:
 				{
-					View header = getLayoutInflater().inflate(R.layout.block_feed_no_likes, null);
-					
-					listView.addHeaderView(header);
-	
-					greetingTv = (TextView) findViewById(R.id.block_feed_no_likes_greeting_tv);
-					
-					checkPopularButton = (Button) findViewById(R.id.block_feed_no_likes_btn);
-					
-					checkPopularButton.setOnClickListener(this);
-	
-					StringBuilder sb = new StringBuilder();
-					sb.append(getResources().getString(R.string.hello));
-					sb.append(" ");
-					sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
-					sb.append(" ");
-					sb.append(ContentManager.sharedInstance().getFromCacheUserLastname());
-					sb.append(",");
-					
-					greetingTv.setText(sb.toString());
+//					View header = getLayoutInflater().inflate(R.layout.block_feed_no_likes, null);
+//					
+//					listView.addHeaderView(header);
+//	
+//					greetingTv = (TextView) findViewById(R.id.block_feed_no_likes_greeting_tv);
+//					
+//					checkPopularButton = (Button) findViewById(R.id.block_feed_no_likes_btn);
+//					
+//					checkPopularButton.setOnClickListener(this);
+//	
+//					StringBuilder sb = new StringBuilder();
+//					sb.append(getResources().getString(R.string.hello));
+//					sb.append(" ");
+//					sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
+//					sb.append(" ");
+//					sb.append(ContentManager.sharedInstance().getFromCacheUserLastname());
+//					sb.append(",");
+//					
+//					greetingTv.setText(sb.toString());
 					break;
 				}
 
@@ -302,6 +303,7 @@ public class FeedActivity
 		if(listFooterView != null) {
 			listFooterView.setVisibility(View.GONE);
 		}
+		setEmptyLayoutDetailsMessage("");
 	}
 	
 	@Override

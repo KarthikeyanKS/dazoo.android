@@ -178,10 +178,13 @@ public class ContentManager
 		if(!isBuildingTaggedBroadcasts) {
 			isBuildingTaggedBroadcasts = true;
 			Log.d(TAG, String.format("PROFILING: buildTVBroadcastsForTags: build tagged, tag: %s", tagName));
-			ArrayList<TVChannelGuide> tvChannelGuides = getFromCacheTVGuideForSelectedDay().getTvChannelGuides();
-	
-			BuildTVBroadcastsForTags buildTVBroadcastsForTags = new BuildTVBroadcastsForTags(tvChannelGuides, this, activityCallbackListener);
-			buildTVBroadcastsForTags.execute();
+			TVGuide tvGuide = getFromCacheTVGuideForSelectedDay();
+			if(tvGuide != null) {
+				ArrayList<TVChannelGuide> tvChannelGuides = tvGuide.getTvChannelGuides();
+			
+				BuildTVBroadcastsForTags buildTVBroadcastsForTags = new BuildTVBroadcastsForTags(tvChannelGuides, this, activityCallbackListener);
+				buildTVBroadcastsForTags.execute();
+			}
 		}
 	}
 	
@@ -1041,13 +1044,15 @@ public class ContentManager
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
-		if (result.wasSuccessful() && content != null) 
-		{
+		if (result.wasSuccessful() && content != null) {
 			@SuppressWarnings("unchecked")
 			ArrayList<TVBroadcastWithChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithChannelInfo>) content;
 			cache.setPopularBroadcasts(broadcastsPopular);
-			
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			if (!broadcastsPopular.isEmpty()) {
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			} else {
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
+			}
 		}
 		else 
 		{

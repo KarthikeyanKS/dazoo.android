@@ -45,6 +45,7 @@ public class PopularPageActivity extends BaseContentActivity implements
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
+		
 		actionBar.setTitle(getResources().getString(R.string.popular));
 		listView = (ListView) findViewById(R.id.popular_list_listview);
 	}
@@ -76,15 +77,16 @@ public class PopularPageActivity extends BaseContentActivity implements
 	
 
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult,
-			RequestIdentifierEnum requestIdentifier) {
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		switch (fetchRequestResult) {
 		case SUCCESS: {
-			popularBroadcasts = ContentManager.sharedInstance()
-					.getFromCachePopularBroadcasts();
+			popularBroadcasts = ContentManager.sharedInstance().getFromCachePopularBroadcasts();
 
 			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-
+			break;
+		}
+		case SUCCESS_WITH_NO_CONTENT: {
+			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 			break;
 		}
 
@@ -105,6 +107,10 @@ public class PopularPageActivity extends BaseContentActivity implements
 			adapter = new PopularListAdapter(this, popularBroadcasts);
 			listView.setAdapter(adapter);
 			listView.setVisibility(View.VISIBLE);
+			break;
+		}
+		case SUCCESS_WITH_NO_CONTENT: {
+			listView.setVisibility(View.GONE);
 			break;
 		}
 
