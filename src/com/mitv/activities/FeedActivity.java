@@ -303,6 +303,7 @@ public class FeedActivity
 		if(listFooterView != null) {
 			listFooterView.setVisibility(View.GONE);
 		}
+		setEmptyLayoutDetailsMessage("");
 	}
 	
 	@Override
