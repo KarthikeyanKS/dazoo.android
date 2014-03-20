@@ -1012,13 +1012,15 @@ public class ContentManager
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
-		if (result.wasSuccessful() && content != null) 
-		{
+		if (result.wasSuccessful() && content != null) {
 			@SuppressWarnings("unchecked")
 			ArrayList<TVBroadcastWithChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithChannelInfo>) content;
 			cache.setPopularBroadcasts(broadcastsPopular);
-			
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			if (!broadcastsPopular.isEmpty()) {
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			} else {
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
+			}
 		}
 		else 
 		{

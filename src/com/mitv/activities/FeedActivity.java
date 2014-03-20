@@ -153,6 +153,7 @@ public class FeedActivity
 	{
 		ArrayList<TVFeedItem> activityFeed = getFromCacheFeedItems();
 		
+		/* View saying  */
 		if(!activityFeed.isEmpty())
 		{
 			FeedItemTypeEnum itemType = activityFeed.get(0).getItemType();

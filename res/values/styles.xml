@@ -177,6 +177,12 @@
         <item name="android:textColor">@color/grey5</item>
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
+    
+    <style name="text2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/grey4</item>
+        <item name="fonttextview">roboto_mitv_medium.ttf</item>
+    </style>
 
     <style name="meta1">
         <item name="android:textSize">14sp</item>
