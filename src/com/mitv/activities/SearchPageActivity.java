@@ -63,7 +63,7 @@ public class SearchPageActivity
 		public void run() {
 			if(!cancelled) {
 				String searchQuery = editTextSearch.getText().toString();
-				setLoading(); // TODO NewArc set this sets loading in actionbar field, do it in view as well?
+				setLoading();
 				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
 				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, searchQuery);
 			} else {
@@ -86,7 +86,7 @@ public class SearchPageActivity
 	private InstantAutoCompleteView editTextSearch;
 	private ImageView editTextClearBtn;
 	private ProgressBar progressBar;
-	private String searchQuery;
+	private String lastSearchQuery;
 	
 	private SearchRunnable lastSearchRunnable;
 	private Handler delayedSearchHandler;
@@ -122,18 +122,15 @@ public class SearchPageActivity
 		super.onPause();
 		GenericUtils.hideKeyboard(this);
 	}
+	
+	
 
 	@Override
-	public void onDestroy() {
+	public void onBackPressed() {
 		GenericUtils.hideKeyboard(this);
-		super.onDestroy();
+		super.onBackPressed();
 	}
 
-	@Override
-	public void finish() {
-		GenericUtils.hideKeyboard(this);
-		super.finish();
-	}
 
 	private void initSupportActionbar() {
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -218,14 +215,11 @@ public class SearchPageActivity
 		});
 	}
 
-	// Click listener for both recent list and search auto complete view
-	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
+	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 		TVSearchResult result = (TVSearchResult) adapterView.getItemAtPosition(position);
 
-
 		ContentTypeEnum resultResultType = result.getEntityType();
-
 
 		switch (resultResultType) {
 		case CHANNEL: {
@@ -258,6 +252,9 @@ public class SearchPageActivity
 			break;
 		}
 		}
+
+		setTextToLastSearchQuery();
+		GenericUtils.hideKeyboard(this);
 	}
 
 	@Override
@@ -295,12 +292,22 @@ public class SearchPageActivity
 	}
 
 	private void triggerAutoComplete() {
-		if (editTextSearch != null && searchQuery != null) {
-			int pos = editTextSearch.getText().toString().length();
-			editTextSearch.setSelection(pos);
+		if (editTextSearch != null && lastSearchQuery != null) {
+			setTextToLastSearchQuery();
+			
 			Filter filter = autoCompleteAdapter.getFilter();
-			filter.filter(searchQuery);
+			filter.filter(lastSearchQuery);
 			editTextSearch.showDropDown();
+		}
+	}
+	
+	private void setTextToLastSearchQuery() {
+		if (editTextSearch != null && lastSearchQuery != null) {
+			editTextSearch.removeTextChangedListener(this);
+			editTextSearch.setText(lastSearchQuery);
+			editTextSearch.addTextChangedListener(this);
+			
+			editTextSearch.setSelection(lastSearchQuery.length());
 		}
 	}
 	
@@ -354,7 +361,7 @@ public class SearchPageActivity
 				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
 				editTextSearch.setSearchComplete(true);
 				
-				this.searchQuery = searchQuery;
+				this.lastSearchQuery = searchQuery;
 				
 				triggerAutoComplete();
 			}
@@ -375,20 +382,6 @@ public class SearchPageActivity
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
-
-		switch (status)
-		{
-			case SUCCESS_WITH_CONTENT: 
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-	
-			default: {
-				// TODO NewArc - Do something here?
-				break;
-			}
-		}
 	}
 
 	
