@@ -18,7 +18,6 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.PopularListAdapter;
 import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.ui.elements.FontTextView;
 
 
 
