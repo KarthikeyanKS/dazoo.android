@@ -721,7 +721,8 @@ public abstract class BaseActivity
 		Log.d(TAG, String.format("onDataAvailable FetchRequestResult: %s requestId: %s", fetchRequestResult.getDescription(), requestIdentifier.getDescription()));
 		
 		this.latestRequest = requestIdentifier;
-		switch (fetchRequestResult) {
+		switch (fetchRequestResult) 
+		{
 			case INTERNET_CONNECTION_AVAILABLE: {
 				loadData();
 				break;
@@ -735,8 +736,9 @@ public abstract class BaseActivity
 			case API_VERSION_TOO_OLD: {
 				break;
 			}
-	
+			
 			case SUCCESS:
+			case SUCCESS_WITH_NO_CONTENT:
 			{
 				if (requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL) 
 				{
@@ -770,17 +772,22 @@ public abstract class BaseActivity
 			}
 			
 			default: 
-			{
+			{				
 				boolean isConnected = NetworkUtils.isConnected();
+				
+				if (hasEnoughDataToShowContent() && isConnected == false) 
+				{
+					if (undoBarController != null) 
+					{
+						undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
+					} 
+					else 
+					{
+						Log.w(TAG, "Undo bar component is null.");
+					}
+				}
 
-				if (isConnected == false) 
-				{
-					updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
-				}
-				else
-				{
-					onDataAvailable(fetchRequestResult, requestIdentifier);
-				}
+				onDataAvailable(fetchRequestResult, requestIdentifier);
 				break;
 			}
 		}

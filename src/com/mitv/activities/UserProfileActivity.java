@@ -74,6 +74,7 @@ public class UserProfileActivity
 		initLayout();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 	}
 	
 
@@ -133,34 +134,48 @@ public class UserProfileActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
+		switch(requestIdentifier)
 		{
-			switch(requestIdentifier)
+			case USER_LOGOUT:
 			{
-				case USER_LIKES:
+				// Do nothing
+				break;
+			}
+	
+			case USER_LIKES:
+			{
+				if (fetchRequestResult.wasSuccessful()) 
 				{
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-					break;
 				}
-				
-				case TV_GUIDE_INITIAL_CALL:
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+				break;
+			}
+	
+			case TV_GUIDE_INITIAL_CALL:
+			{
+				if (fetchRequestResult.wasSuccessful()) 
 				{
 					Intent intent = new Intent(UserProfileActivity.this, HomeActivity.class);
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, true);
 					startActivity(intent);
-					break;
 				}
-				
-				default:
+				else
 				{
-					Log.w(TAG, "Unknown request identifier");
-					break;
+					updateUI(UIStatusEnum.FAILED);
 				}
-			}	
-		}
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
+	
+				break;
+			}
+	
+			default:
+			{
+				Log.w(TAG, "Unknown request identifier");
+				break;
+			}
 		}
 	}
 

@@ -67,7 +67,6 @@ public class FeedActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGIN);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_SIGN_UP);
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
-
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 	}
 	
@@ -82,13 +81,18 @@ public class FeedActivity
 		super.onResume();
 	}
 	
-	private void setupViews() {
+	
+	private void setupViews() 
+	{
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
-		if (isLoggedIn) {
+		if (isLoggedIn) 
+		{
 			setContentView(R.layout.layout_activity_activity);
 			initLoggedInViews();
-		} else {
+		} 
+		else 
+		{
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
 			initNotLoggedInViews();
 		}
@@ -98,6 +102,7 @@ public class FeedActivity
 		setTabViews();
 	}
 	
+	
 	private void initStandardViews() 
 	{	
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -106,7 +111,6 @@ public class FeedActivity
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setTitle(getResources().getString(R.string.activity_title));
 	}
-
 	
 	
 	private void initLoggedInViews() 
@@ -254,24 +258,30 @@ public class FeedActivity
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch (requestIdentifier) 
-		{		
-			case USER_LOGOUT: {
+		{
+			case USER_LOGOUT: 
+			{
 				setupViews();
 				break;
 			}
+			
 			case TV_GUIDE_STANDALONE:
 			case USER_LOGIN_WITH_FACEBOOK_TOKEN:
 			case USER_LOGIN:
-			case USER_SIGN_UP: {
+			case USER_SIGN_UP: 
+			{
 				setupViews();
-				if(fetchRequestResult.wasSuccessful()) {
+				
+				if(fetchRequestResult.wasSuccessful()) 
+				{
 					loadData();
 				}
+				
 				break;
 			}
+			
 			case USER_ACTIVITY_FEED_INITIAL_DATA:
 			case USER_ACTIVITY_FEED_ITEM:
-			case USER_ACTIVITY_FEED_ITEM_MORE:
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
@@ -290,6 +300,22 @@ public class FeedActivity
 				}
 				break;
 			}
+			
+			case USER_ACTIVITY_FEED_ITEM_MORE:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					if(fetchRequestResult == FetchRequestResultEnum.SUCCESS) 
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					} 
+					else 
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+					}
+				}
+				break;
+			}
 						
 			default:
 			{
@@ -298,13 +324,19 @@ public class FeedActivity
 		}
 	}
 	
-	private void reachedEndOfFeedItems() {
+	
+	private void reachedEndOfFeedItems()
+	{
 		reachedEnd = true;
-		if(listFooterView != null) {
+		
+		if(listFooterView != null) 
+		{
 			listFooterView.setVisibility(View.GONE);
 		}
+		
 		setEmptyLayoutDetailsMessage("");
 	}
+	
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
