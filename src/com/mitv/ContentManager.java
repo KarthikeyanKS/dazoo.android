@@ -173,10 +173,13 @@ public class ContentManager
 		if(!isBuildingTaggedBroadcasts) {
 			isBuildingTaggedBroadcasts = true;
 			Log.d(TAG, String.format("PROFILING: buildTVBroadcastsForTags: build tagged, tag: %s", tagName));
-			ArrayList<TVChannelGuide> tvChannelGuides = getFromCacheTVGuideForSelectedDay().getTvChannelGuides();
-	
-			BuildTVBroadcastsForTags buildTVBroadcastsForTags = new BuildTVBroadcastsForTags(tvChannelGuides, this, activityCallbackListener);
-			buildTVBroadcastsForTags.execute();
+			TVGuide tvGuide = getFromCacheTVGuideForSelectedDay();
+			if(tvGuide != null) {
+				ArrayList<TVChannelGuide> tvChannelGuides = tvGuide.getTvChannelGuides();
+			
+				BuildTVBroadcastsForTags buildTVBroadcastsForTags = new BuildTVBroadcastsForTags(tvChannelGuides, this, activityCallbackListener);
+				buildTVBroadcastsForTags.execute();
+			}
 		}
 	}
 	
