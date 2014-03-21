@@ -252,7 +252,7 @@ public class LoginWithMiTVUserActivity
 	private void showLoginSpinner() 
 	{
 		loginButtonProgressBar.setVisibility(View.VISIBLE);
-		loginButtonTextView.setText(getResources().getString(R.string.loading_text_login_button));
+		loginButtonTextView.setText(getResources().getString(R.string.loading_message_login_button));
 	}
 	
 	

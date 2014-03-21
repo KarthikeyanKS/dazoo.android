@@ -78,14 +78,16 @@
     <string name="no_content_layout_title">No content</string>
     <string name="no_content_layout_message">There are no shows in this category.</string>
 
-    <!-- LOADING STRINGS -->
+    <!-- LOADING TEXTS -->
+    <string name="loading_message_login_button">Logging in</string>
     <string name="loading_message_guide_new_day">Loading programs for new date</string>
+    <string name="loading_message_tag">Loading</string>
     <string name="loading_message_broadcastpage_program_info">Loading program info</string>
     <string name="loading_message_popular">Loading popular programs</string>
     <string name="loading_message_user_profile_data">Loading your info</string>
     <string name="loading_message_feed_initial">Loading recommended and popular</string>
     <string name="loading_message_feed_more">Loading more</string>
-    <string name="loading_facebook_login">Connecting</string>
+    <string name="loading_message_facebook_login">Connecting</string>
 
     <!-- GENERAL ERRORS -->
     <string name="connection_failed_title">Could not connect to the network</string>
@@ -239,9 +241,6 @@
     <string name="success_account_created_title">Hello, </string>
     <string name="success_account_created_text">Your account was created!</string>
     <string name="reset_password__email_does_not_exists">This e-mail is not registered in our service</string>
-
-    <!-- LOADING TEXTS -->
-    <string name="loading_text_login_button">Logging in</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>

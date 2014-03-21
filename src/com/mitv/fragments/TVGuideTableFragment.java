@@ -32,6 +32,7 @@ import com.mitv.models.TVGuide;
 import com.mitv.models.TVTag;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.SwipeClockBar;
+import com.mitv.utilities.GenericUtils;
 
 
 
@@ -175,6 +176,8 @@ public class TVGuideTableFragment
 		} 
 		else 
 		{
+			String loadingMessage = String.format(GenericUtils.getCurrentLocale(activity), "%s %s", getString(R.string.loading_message_tag), tvTagDisplayName);
+			setLoadingLayoutDetailsMessage(loadingMessage);
 			ContentManager.sharedInstance().getElseBuildTaggedBroadcastsForSelectedTVDate(this, tvTagDisplayName);
 		}
 	}
