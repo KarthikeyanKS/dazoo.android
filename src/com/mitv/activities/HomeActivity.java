@@ -194,7 +194,8 @@ public class HomeActivity
 	protected void loadData() 
 	{
 		updateUI(UIStatusEnum.LOADING);
-		
+		String loadingMessage = getString(R.string.loading_message_guide_new_day);
+		setLoadingLayoutDetailsMessage(loadingMessage);
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 	}
 	
