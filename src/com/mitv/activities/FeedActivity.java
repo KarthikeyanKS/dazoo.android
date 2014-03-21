@@ -94,12 +94,12 @@ public class FeedActivity
 		
 		if (isLoggedIn) 
 		{
-			setContentView(R.layout.layout_activity_activity);
+			setContentView(R.layout.layout_feed_activity_logged_in);
 			initLoggedInViews();
 		} 
 		else 
 		{
-			setContentView(R.layout.layout_activity_not_logged_in_activity);
+			setContentView(R.layout.layout_feed_activity_not_logged_in);
 			initNotLoggedInViews();
 		}
 		
