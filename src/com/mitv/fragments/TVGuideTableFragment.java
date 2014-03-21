@@ -196,20 +196,32 @@ public class TVGuideTableFragment
 		{
 			case SUCCESS:
 			{
+				boolean noContent = true;
 				if (isAllCategoriesTag())
 				{
 					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
 					
 					tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
+					if(tvChannelGuides != null && !tvChannelGuides.isEmpty()) {
+						noContent = false;
+					}
 				} 
 				else
 				{
 					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
 					
 					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
+					
+					if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) {
+						noContent = false;
+					}
 				}
 				
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				if(noContent) {
+					updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+				} else {
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				}
 				break;
 			}
 			
@@ -259,7 +271,6 @@ public class TVGuideTableFragment
 				}
 				break;
 			}
-	
 			default:
 			{
 				// Do nothing
