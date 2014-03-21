@@ -287,29 +287,24 @@ public class BroadcastPageActivity
 		
 		ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
 		switch (programType) {
-			case TV_EPISODE:{
-				TVProgram program = broadcastWithChannelInfo.getProgram();
-				
-				if (isProgramIrrelevantAndShouldBeDeleted(program)) 
-				{
-					for (TVBroadcast upcomingBroadcast : upcomingBroadcasts) {
-						TVProgram programFromUpcomingBroadcast = upcomingBroadcast.getProgram();
-						
-						if (isProgramIrrelevantAndShouldBeDeleted(programFromUpcomingBroadcast))
-						{
-							upcomingBroadcastsToRemove.add(upcomingBroadcast);
-						}
-					}
+		case TV_EPISODE: {
+
+			for (TVBroadcast upcomingBroadcast : upcomingBroadcasts) {
+				TVProgram programFromUpcomingBroadcast = upcomingBroadcast.getProgram();
+
+				if (isProgramIrrelevantAndShouldBeDeleted(programFromUpcomingBroadcast)) {
+					upcomingBroadcastsToRemove.add(upcomingBroadcast);
 				}
-				break;
 			}
-			default: {/* Do nothing if it is not a TV Episode */break;}
+
+			break;
+		}
+		default: {/* Do nothing if it is not a TV Episode */
+			break;
+		}
 		}
 		
-		for (TVBroadcast upcomingBroadcastToRemove : upcomingBroadcastsToRemove) 
-		{
-			upcomingBroadcasts.remove(upcomingBroadcastToRemove);
-		}
+		upcomingBroadcasts.removeAll(upcomingBroadcastsToRemove);
 
 		
 		 /* Repetitions */
