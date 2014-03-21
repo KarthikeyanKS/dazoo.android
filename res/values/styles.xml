@@ -195,6 +195,12 @@
         <item name="android:textColor">@color/grey2</item>
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
+    
+    <style name="loading">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/grey3</item>
+        <item name="fonttextview">roboto_mitv_regular.ttf</item>
+    </style>
 
     <style name="remaining">
         <item name="android:textSize">13sp</item>

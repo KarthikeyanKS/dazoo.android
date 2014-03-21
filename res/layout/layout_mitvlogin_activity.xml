@@ -24,7 +24,7 @@
                 android:id="@+id/loading_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/layout_request_loading"
+                layout="@layout/layout_request_loading_not_transparent"
                 android:orientation="vertical" />
 
             <com.mitv.ui.elements.FontTextView
@@ -277,6 +277,6 @@
 
     <!-- LOADING VIEW -->
 
-    <include layout="@layout/layout_request_loading_transparent" />
+    <include layout="@layout/layout_request_loading_transparent_overlay" />
 
 </RelativeLayout>

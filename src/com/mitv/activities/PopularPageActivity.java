@@ -62,7 +62,8 @@ public class PopularPageActivity extends BaseContentActivity implements
 	protected void loadData() 
 	{
 		updateUI(UIStatusEnum.LOADING);
-
+		String loadingMessage = getString(R.string.loading_message_popular);
+		setLoadingLayoutDetailsMessage(loadingMessage);
 		ContentManager.sharedInstance().getElseFetchFromServicePopularBroadcasts(this, false);
 	}
 	

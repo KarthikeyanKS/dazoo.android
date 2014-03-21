@@ -258,7 +258,7 @@ public abstract class BaseFragment
 	
 	public void initRequestCallbackLayouts(View view) 
 	{
-		requestLoadingLayout = (RelativeLayout) view.findViewById(R.id.request_loading_main_layout);
+		requestLoadingLayout = (RelativeLayout) view.findViewById(R.id.request_loading_transparent);
 
 		requestEmptyLayout = (RelativeLayout) view.findViewById(R.id.request_empty_main_layout);
 

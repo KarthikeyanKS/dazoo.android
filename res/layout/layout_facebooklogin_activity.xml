@@ -1,36 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/facebooklogin_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" >
-
-        <ProgressBar
-            android:id="@+id/facebooklogin_progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/facebooklogin_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/facebooklogin_progressbar"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:text="@string/facebook_login_loading"
-            android:textColor="@color/grey5"
-            android:textSize="12sp"
-            font:fonttextview="roboto_mitv_regular.ttf" />
-    </RelativeLayout>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout"
+        android:background="@color/white" />
 
 </RelativeLayout>

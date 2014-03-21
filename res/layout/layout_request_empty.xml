@@ -17,7 +17,7 @@
         android:textSize="16sp"
         android:visibility="gone" />
 
-    <TextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/request_empty_details_tv"
         style="@style/meta1"
         android:layout_width="match_parent"
