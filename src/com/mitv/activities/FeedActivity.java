@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -33,7 +34,9 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.FeedListAdapter;
 import com.mitv.models.TVFeedItem;
 import com.mitv.ui.elements.FontTextView;
+import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.HyperLinkUtils;
+import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -54,6 +57,7 @@ public class FeedActivity
 	private View listFooterView;
 	private TextView greetingTv;
 	private boolean reachedEnd;
+	private boolean isEndReachedNoConnectionToastShowing;
 
 	
 	@Override
@@ -67,6 +71,8 @@ public class FeedActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGIN);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_SIGN_UP);
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 	}
 	
@@ -205,13 +211,16 @@ public class FeedActivity
 		listView.setVisibility(View.VISIBLE);
 	}
 	
-	private void updateListAdapter() {
+	private void updateListAdapter() 
+	{
 		ArrayList<TVFeedItem> activityFeed = getFromCacheFeedItems();
 		listAdapter.setFeedItems(activityFeed);
 		listAdapter.notifyDataSetChanged();
 	}
 	
-	private ArrayList<TVFeedItem> getFromCacheFeedItems() {		
+	
+	private ArrayList<TVFeedItem> getFromCacheFeedItems() 
+	{		
 		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
 		return activityFeed;
 	}
@@ -316,6 +325,16 @@ public class FeedActivity
 				}
 				break;
 			}
+			
+			case USER_ADD_LIKE:
+			case USER_REMOVE_LIKE:
+			{
+				if(fetchRequestResult.wasSuccessful() == false)
+				{
+					// TODO
+				}
+				break;
+			}
 						
 			default:
 			{
@@ -350,7 +369,7 @@ public class FeedActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				switch (latestRequest) 
-				{		
+				{
 					case USER_ACTIVITY_FEED_INITIAL_DATA:
 					case USER_ACTIVITY_FEED_ITEM:
 					{
@@ -463,23 +482,56 @@ public class FeedActivity
 	}
 	
 
+	
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {/* Do nothing */}
 
+
+	
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) 
 	{
 		showScrollSpinner(false);
+		
 		if (totalItemCount > 0) 
 		{
 			// If scrolling past bottom and there is a next page of products to fetch
 			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
-			
-			if (pastTotalCount && !reachedEnd) 
+
+			if (pastTotalCount && !reachedEnd)
 			{
-				showScrollSpinner(true);
-				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this, totalItemCount);
-			} 
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if(isConnected)
+				{
+					showScrollSpinner(true);
+
+					ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this, totalItemCount);
+				}
+				else
+				{
+					if(isEndReachedNoConnectionToastShowing == false)
+					{
+						isEndReachedNoConnectionToastShowing = true;
+						
+						String message = getString(R.string.toast_internet_connection);
+
+						ToastHelper.createAndShowToast(this, message, false);
+						
+						final Handler handler = new Handler();
+						
+						Runnable runnable = new Runnable()
+						{
+						    public void run() 
+						    {
+						    	isEndReachedNoConnectionToastShowing = false;
+						    }
+						};
+						
+						handler.postDelayed(runnable, 1000);
+					}
+				}
+			}
 		}
 	}
 }

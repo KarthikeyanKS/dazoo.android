@@ -47,6 +47,7 @@ import com.mitv.models.TVChannelId;
 import com.mitv.models.TVSearchResult;
 import com.mitv.models.TVSearchResults;
 import com.mitv.ui.elements.InstantAutoCompleteView;
+import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -245,9 +246,11 @@ public class SearchPageActivity
 				Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
 				startActivity(intent);
-			} else {
+			} else 
+			{
 				String message = getString(R.string.search_no_upcoming_broadcasts);
-				Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+				
+				ToastHelper.createAndShowToast(this, message, false);
 			}
 			break;
 		}

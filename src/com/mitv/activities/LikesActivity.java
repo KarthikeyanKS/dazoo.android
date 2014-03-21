@@ -20,6 +20,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.LikesListAdapter;
 import com.mitv.models.UserLike;
 import com.mitv.models.comparators.UserLikeComparatorByTitle;
+import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -71,7 +72,16 @@ public class LikesActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasUserLikes();
+		boolean isConnected = NetworkUtils.isConnected();
+
+		if (isConnected) 
+		{
+			return ContentManager.sharedInstance().getFromCacheHasUserLikes();
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	

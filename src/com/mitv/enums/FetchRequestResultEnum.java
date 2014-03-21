@@ -15,7 +15,7 @@ public enum FetchRequestResultEnum
    
    SEARCH_CANCELED_BY_USER(300, "The search was canceled by user"),
    
-   BAD_REQUEST(400, "The parking request is not valid."),
+   BAD_REQUEST(400, "The request is not valid."),
    
    UNAUTHORIZED(401, "The service is temporarily unavailable."),
    
@@ -23,7 +23,7 @@ public enum FetchRequestResultEnum
    
    NOT_FOUND(404, "The service is temporarily unavailable."),
    
-   UNPROCESSABLE_ENTITY(422, "An error occured while processing your parking request. Please try again later."),
+   UNPROCESSABLE_ENTITY(422, "An error occured while processing your request. Please try again later."),
    
    UNKNOWN_ERROR(1000, "The service is temporarily unavailable."),
    

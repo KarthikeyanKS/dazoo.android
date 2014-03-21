@@ -1029,12 +1029,23 @@ public class ContentManager
 		if (result.wasSuccessful() && content != null) 
 		{
 			TVGuide tvGuide = (TVGuide) content;
+			
 			Log.d(TAG, "PROFILING: handleTVChannelGuidesForSelectedDayResponse: addNewTVChannelGuidesForSelectedDayUsingTvGuide");
+			
 			cache.addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
 
 			cache.purgeTaggedBroadcastForDay(tvGuide.getTvDate());
 			
-			notifyListenersOfRequestResult(requestIdentifier, result);
+			ArrayList<TVChannelGuide> guides = tvGuide.getTvChannelGuides();
+			
+			if(guides.isEmpty())
+			{
+				notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT);
+			}
+			else
+			{
+				notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.SUCCESS);
+			}
 		}
 		
 		isUpdatingGuide = false;

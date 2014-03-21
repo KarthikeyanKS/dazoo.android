@@ -4,8 +4,6 @@
     android:background="@color/grey1"
     android:padding="20dp" >
 
-    
-<!--         style="@android:style/Widget.Holo.Light.ProgressBar.Inverse" -->
     <ProgressBar
         android:id="@+id/spinner"
         android:layout_width="wrap_content"

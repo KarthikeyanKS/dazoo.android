@@ -32,6 +32,7 @@ import com.mitv.models.comparators.TVChannelComparatorByName;
 import com.mitv.models.comparators.TVChannelIdComparatorById;
 import com.mitv.utilities.LanguageUtils;
 import com.mitv.utilities.ListUtils;
+import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -180,9 +181,18 @@ public class MyChannelsActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasUserTVChannelIds()
-				 && ContentManager.sharedInstance().getFromCacheHasTVChannelsAll();
-		return hasEnoughDataToShowContent;
+		boolean isConnected = NetworkUtils.isConnected();
+
+		if (isConnected) 
+		{
+			boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasUserTVChannelIds()
+					 && ContentManager.sharedInstance().getFromCacheHasTVChannelsAll();
+			return hasEnoughDataToShowContent;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	

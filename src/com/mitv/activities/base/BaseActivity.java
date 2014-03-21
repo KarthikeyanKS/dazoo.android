@@ -864,7 +864,8 @@ public abstract class BaseActivity
 		}
 	}
 
-	private void initCallbackLayouts() {
+	private void initCallbackLayouts() 
+	{
 		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
 
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);

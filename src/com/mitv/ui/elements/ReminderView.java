@@ -111,15 +111,15 @@ public class ReminderView
 			
 			containerView.setBackgroundResource(R.drawable.background_color_selector);
 			
-			this.setClickable(true);
-			this.setOnClickListener(this);
+			containerView.setClickable(true);
+			containerView.setOnClickListener(this);
 		} 
 		else 
 		{
 			iconView.setTextColor(getResources().getColor(R.color.grey1));
 			containerView.setBackgroundColor(getResources().getColor(R.color.transparent));
 			
-			this.setClickable(false);
+			containerView.setClickable(true);
 		}
 	}
 	

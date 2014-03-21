@@ -75,6 +75,9 @@ public class UserProfileActivity
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LIKES);
 	}
 	
 
@@ -87,10 +90,6 @@ public class UserProfileActivity
 		isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
 		populateViews();
-		
-		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
-		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
-		registerAsListenerForRequest(RequestIdentifierEnum.USER_LIKES);
 	}
 
 

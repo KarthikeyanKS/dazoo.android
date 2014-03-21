@@ -1,4 +1,7 @@
+
 package com.mitv.ui.elements;
+
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +14,6 @@ import android.widget.RelativeLayout;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -22,6 +24,9 @@ import com.mitv.models.UserLike;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
+import com.mitv.utilities.NetworkUtils;
+
+
 
 public class LikeView extends RelativeLayout implements ViewCallbackListener, OnClickListener {
 	private static final String TAG = LikeView.class.toString();
@@ -60,7 +65,9 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		this.setOnClickListener(this);
 	}
 
-	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) {
+	
+	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
+	{
 		this.likeFromBroadcast = UserLike.userLikeFromBroadcast(broadcast);
 
 		updateImage();
@@ -68,40 +75,70 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		containerView.setBackgroundResource(R.drawable.background_color_selector);
 	}
 	
-	public void updateImage() {
-		if (ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast)) {
+	
+	public void updateImage() 
+	{
+		if (ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast)) 
+		{
 			setImageToLiked();
-		} else {
+		} 
+		else 
+		{
 			setImageToNotLiked();
 		}
 	}
 	
-	private void removeLike() {
+	
+	private void removeLike() 
+	{
 		ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
-		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), NoRemoveLike());
+		
+		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), null);
+		
 		setImageToNotLiked();
 	}
 	
-	private void addLike() {
+	
+	private void addLike() 
+	{
 		AnimationUtils.animationSet(this);
+		
 		setImageToLiked();
+		
 		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
 	}
 
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);
 
-		if (isLoggedIn) {
-			if (isLiked) {
-				removeLike();
-			} else {
-				addLike();
-			}
+		if (isLoggedIn) 
+		{
+			boolean isConnected = NetworkUtils.isConnected();
 			
-		} else 
+			if(isConnected == false)
+			{
+				String message = activity.getString(R.string.toast_internet_connection);
+				
+				ToastHelper.createAndShowLikeToast(activity, message);
+			}
+			else
+			{
+				if (isLiked) 
+				{
+					removeLike();
+				} 
+				else 
+				{
+					addLike();
+				}
+			}
+		} 
+		else 
 		{
 			DialogHelper.showPromptSignInDialog(activity, yesLikeProc(), noLikeProc());
 		}
@@ -125,13 +162,6 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		};
 	}
 	
-	/* Remove like dialog */
-	private Runnable NoRemoveLike() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
 
 	/* Sign in dialog */
 	private Runnable yesLikeProc() {
