@@ -173,7 +173,7 @@ public abstract class AsyncTaskBase<T>
 		 * In the future, appropriate error response codes should be returned.
 		 * Avoid parsing the object in order not to cause an exception
 		 */
-		//TODO NewArc when support from Backend return appropriate error response
+		//TODO NewArc when support from backend return appropriate error response
 		if(requestResultStatus == FetchRequestResultEnum.BAD_REQUEST)
 		{
 			return null;

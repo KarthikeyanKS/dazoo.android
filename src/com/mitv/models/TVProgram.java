@@ -172,6 +172,12 @@ public class TVProgram
 				typeDependantFieldsOk = !TextUtils.isEmpty(getCategory());
 				break;
 			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled program type");
+				break;
+			}
 		}
 		
 		boolean areDataFieldsValid = (sharedFieldsAreOK && typeDependantFieldsOk);

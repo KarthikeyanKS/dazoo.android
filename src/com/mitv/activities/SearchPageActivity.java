@@ -327,7 +327,8 @@ public class SearchPageActivity
 	}
 
 	@Override
-	protected void loadData() {
+	protected void loadData() 
+	{
 		// TODO NewArc - do we need anything here?
 	}
 	
@@ -336,7 +337,6 @@ public class SearchPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
 		return true;
 	}
 	

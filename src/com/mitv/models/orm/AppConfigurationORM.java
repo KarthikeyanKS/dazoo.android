@@ -92,10 +92,9 @@ public class AppConfigurationORM
 		 {
 			 this.adzerkFormats = getDao().getEmptyForeignCollection("adzerkFormats");
 		 } 
-		 catch (SQLException e) 
+		 catch (SQLException sqlex) 
 		 {
-			 // TODO Auto-generated catch block
-			 e.printStackTrace();
+			 Log.e(TAG, sqlex.getMessage(), sqlex);
 		 }
 
 		 for(Integer element : appConfiguration.getAdzerkFormats())
@@ -109,10 +108,9 @@ public class AppConfigurationORM
 		 {
 			 this.adzerkFormatsForActivity = getDao().getEmptyForeignCollection("adzerkFormatsForActivity");
 		 } 
-		 catch (SQLException e) 
+		 catch (SQLException sqlex) 
 		 {
-			 // TODO Auto-generated catch block
-			 e.printStackTrace();
+			 Log.e(TAG, sqlex.getMessage(), sqlex);
 		 }
 
 		 for(Integer element : appConfiguration.getAdzerkFormatsForActivity())
@@ -126,10 +124,9 @@ public class AppConfigurationORM
 		 {
 			 this.adzerkFormatsForAndroidGuide = getDao().getEmptyForeignCollection("adzerkFormatsForAndroidGuide");
 		 } 
-		 catch (SQLException e) 
+		 catch (SQLException sqlex) 
 		 {
-			 // TODO Auto-generated catch block
-			 e.printStackTrace();
+			 Log.e(TAG, sqlex.getMessage(), sqlex);
 		 }
 		 
 		 for(Integer element : appConfiguration.getAdzerkFormatsForAndroidGuide())

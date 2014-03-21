@@ -800,7 +800,8 @@ public class ContentManager
 				break;
 			}
 			
-			case TV_CHANNEL_IDS_USER_STANDALONE: {
+			case TV_CHANNEL_IDS_USER_STANDALONE: 
+			{
 				handleTVChannelIdsUserResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
@@ -813,10 +814,12 @@ public class ContentManager
 			
 			case ADS_ADZERK_GET: 
 			{
+				// Not implemented yet
 				break;
 			}
 			case ADS_ADZERK_SEEN:
 			{
+				// Not implemented yet
 				break;
 			}
 			case USER_LOGIN: 
@@ -866,19 +869,22 @@ public class ContentManager
 			}
 			case USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD: 
 			{
-				// TODO
+				// Not implemented yet
 				break;
 			}
-			case USER_ACTIVITY_FEED_ITEM_MORE: {
+			case USER_ACTIVITY_FEED_ITEM_MORE:
+			{
 				handleActivityFeedMoreItemsResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
+			
 			case USER_ACTIVITY_FEED_ITEM:
 			case USER_ACTIVITY_FEED_LIKES:
 			{
 				handleActivityFeedInitalFetchResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
+			
 			case POPULAR_ITEMS: 
 			{
 				handleTVBroadcastsPopularBroadcastsResponse(activityCallbackListener, requestIdentifier, result, content);
@@ -899,7 +905,7 @@ public class ContentManager
 			}
 			case INTERNAL_TRACKING:
 			{
-				// TODO
+				// Not implemented yet
 				break;
 			}
 			case TV_BROADCASTS_FOR_TAGS:
@@ -956,19 +962,25 @@ public class ContentManager
 			@SuppressWarnings("unchecked")
 			ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 			
-			if(feedItems.isEmpty()) {
+			if(feedItems.isEmpty()) 
+			{
 				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
-			} else {
+			} 
+			else 
+			{
 				cache.addMoreActivityFeedItems(feedItems);
+				
 				isFetchingFeedItems = false;
 			
 				notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.SUCCESS);
 			}
-		} else {
-			//TODO handle this better?
+		} 
+		else 
+		{
 			notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
 	}
+	
 	
 	private void handleActivityFeedInitalFetchResponse(
 			ViewCallbackListener activityCallbackListener,
@@ -1011,7 +1023,6 @@ public class ContentManager
 		} 
 		else 
 		{
-			//TODO handle this better?
 			notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
 	}
@@ -1665,7 +1676,9 @@ public class ContentManager
 	{
 		//TODO NewArc check if null
 		String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
+		
 		UpcomingBroadcastsForBroadcast upcomingBroadcastsObject = new UpcomingBroadcastsForBroadcast(tvSeriesId, upcomingBroadcasts);
+		
 		cache.setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
 	}
 	
@@ -1674,9 +1687,12 @@ public class ContentManager
 	{
 		//TODO NewArc check if null
 		String programId = broadcast.getProgram().getProgramId();
+		
 		RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(programId, repeatingBroadcasts);
+		
 		cache.setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
 	}
+	
 	
 	/**
 	 * This method only returns the repeating broadcasts if the ones in the storage have a tvSeriesId

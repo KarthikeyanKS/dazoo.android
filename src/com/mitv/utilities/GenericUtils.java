@@ -349,8 +349,6 @@ public abstract class GenericUtils
 	
 	
 	
-	
-	// TODO NewArc Deprecated - Should we keep this?
 	@Deprecated
 	public static String replaceDashWithEnDash(String googleAnalyticsTrackingId) 
 	{

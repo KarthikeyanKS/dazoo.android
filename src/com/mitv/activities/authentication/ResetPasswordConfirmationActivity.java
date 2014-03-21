@@ -28,6 +28,7 @@ public class ResetPasswordConfirmationActivity
 	private RelativeLayout loginBtn;
 
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -43,7 +44,7 @@ public class ResetPasswordConfirmationActivity
 	@Override
 	protected void loadData() 
 	{
-		// TODO NewArc - Do something here?
+		// Do nothing
 	}
 	
 	
@@ -51,8 +52,7 @@ public class ResetPasswordConfirmationActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return true;
 	}
 	
 	
@@ -76,21 +76,6 @@ public class ResetPasswordConfirmationActivity
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
-
-		switch (status) 
-		{	
-			case SUCCESS_WITH_CONTENT:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-	
-			default:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-		}
 	}
 
 	

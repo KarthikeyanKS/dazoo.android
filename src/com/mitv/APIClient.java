@@ -335,11 +335,8 @@ public class APIClient
 	}
 	
 	public void performUserHasSeenAd(ViewCallbackListener activityCallbackListener)
-	{
-		// TODO NewArc - Set correct suffix
-		String url = "";
-				
-		PerformUserHasSeenAdAdzerk performUserHasSeenAd = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, url);
+	{		
+		PerformUserHasSeenAdAdzerk performUserHasSeenAd = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, "");
 		performUserHasSeenAd.execute();
 	}
 	
