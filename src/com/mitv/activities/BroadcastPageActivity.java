@@ -305,20 +305,22 @@ public class BroadcastPageActivity
 		}
 		}
 		
-		upcomingBroadcasts.removeAll(upcomingBroadcastsToRemove);
 
-		
 		 /* Repetitions */
 		 if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) {
 			 BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(this, scrollView, broadcastWithChannelInfo);
 			 repeatitionsBlock.createBlock(repeatingBroadcasts);
 		 }
 		
-		 /* upcoming episodes */
-		 if (upcomingBroadcasts != null && !upcomingBroadcasts.isEmpty()) {
-			 BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(this, scrollView, true, broadcastWithChannelInfo);
-			 upcomingBlock.createBlock(upcomingBroadcasts);
-		 }
+		/* upcoming episodes */
+		if (upcomingBroadcasts != null && !upcomingBroadcasts.isEmpty()) {
+			if (upcomingBroadcastsToRemove != null && !upcomingBroadcastsToRemove.isEmpty()) {
+				upcomingBroadcasts.removeAll(upcomingBroadcastsToRemove);
+			}
+
+			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(this, scrollView, true, broadcastWithChannelInfo);
+			upcomingBlock.createBlock(upcomingBroadcasts);
+		}
 	}
 	
 	
