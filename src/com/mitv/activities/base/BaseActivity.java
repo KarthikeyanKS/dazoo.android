@@ -80,7 +80,8 @@ public abstract class BaseActivity
 	protected View undoBarlayoutView;
 
 	private RelativeLayout requestEmptyLayout;
-	private TextView requestEmptyLayoutDetails;
+	private FontTextView requestEmptyLayoutDetails;
+	private FontTextView requestLoadingLayoutDetails;
 	private RelativeLayout requestLoadingLayout;
 	private RelativeLayout requestNoInternetConnectionLayout;
 	private RelativeLayout requestFailedLayout;
@@ -794,7 +795,7 @@ public abstract class BaseActivity
 	}
 
 	protected void updateUIBaseElements(UIStatusEnum status) {
-		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
+		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
 
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
 
@@ -864,13 +865,14 @@ public abstract class BaseActivity
 		}
 	}
 
-	private void initCallbackLayouts() 
-	{
-		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
+	private void initCallbackLayouts() {
+		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_not_transparent);
 
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 
-		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
+		requestEmptyLayoutDetails = (FontTextView) findViewById(R.id.request_empty_details_tv);
+		
+		requestLoadingLayoutDetails = (FontTextView) findViewById(R.id.request_loading_details_tv);
 
 		requestNoInternetConnectionLayout = (RelativeLayout) findViewById(R.id.no_connection_layout);
 		
@@ -900,6 +902,12 @@ public abstract class BaseActivity
 	protected void setEmptyLayoutDetailsMessage(String message) {
 		if (requestEmptyLayoutDetails != null) {
 			requestEmptyLayoutDetails.setText(message);
+		}
+	}
+	
+	protected void setLoadingLayoutDetailsMessage(String message) {
+		if (requestLoadingLayoutDetails != null) {
+			requestLoadingLayoutDetails.setText(message);
 		}
 	}
 }

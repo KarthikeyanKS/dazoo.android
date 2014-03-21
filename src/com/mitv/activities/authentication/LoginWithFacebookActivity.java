@@ -84,7 +84,8 @@ public class LoginWithFacebookActivity
 		if(facebookToken != null)
 		{
 			updateUI(UIStatusEnum.LOADING);
-			
+			String loadingMessage = getString(R.string.loading_message_facebook_login);
+			setLoadingLayoutDetailsMessage(loadingMessage);
 			ContentManager.sharedInstance().getUserTokenWithFacebookFBToken(this, facebookToken);
 		}
 		else

@@ -3,6 +3,6 @@
     android:layout_height="match_parent"
     android:background="@color/transparent_loading_overlay"
     android:orientation="vertical"
-    android:id="@+id/request_loading_main_layout" 
+    android:id="@+id/request_loading_transparent" 
     android:visibility="gone">
 </RelativeLayout>
