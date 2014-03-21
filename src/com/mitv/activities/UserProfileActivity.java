@@ -103,7 +103,8 @@ public class UserProfileActivity
 		if (isLoggedIn) 
 		{
 			updateUI(UIStatusEnum.LOADING);
-
+			String loadingMessage = getString(R.string.loading_message_user_profile_data);
+			setLoadingLayoutDetailsMessage(loadingMessage);
 			ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
 		} 
 		else

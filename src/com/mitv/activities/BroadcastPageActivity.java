@@ -138,7 +138,8 @@ public class BroadcastPageActivity
 	protected void loadData() 
 	{
 		updateUI(UIStatusEnum.LOADING);
-		
+		String loadingMessage = getString(R.string.loading_message_broadcastpage_program_info);
+		setLoadingLayoutDetailsMessage(loadingMessage);
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, false, broadcastWithChannelInfo, channelId, beginTimeInMillis);
 	}
 	

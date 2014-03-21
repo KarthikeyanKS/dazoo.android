@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/activity_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -20,13 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="10dp" >
-
-            <include
-                android:id="@+id/loading_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                layout="@layout/layout_request_loading"
-                android:orientation="vertical" />
 
             <com.mitv.ui.elements.FontEditText
                 android:id="@+id/signup_firstname_edittext"
@@ -179,6 +171,6 @@
 
     <!-- LOADING VIEW -->
 
-    <include layout="@layout/layout_request_loading_transparent" />
+    <include layout="@layout/layout_request_loading_transparent_overlay" />
 
 </RelativeLayout>

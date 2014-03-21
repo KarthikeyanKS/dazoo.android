@@ -20,6 +20,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.UndoBarController;
 import com.mitv.ui.elements.UndoBarController.UndoListener;
 import com.mitv.utilities.GenericUtils;
@@ -39,6 +40,8 @@ public abstract class BaseFragment
 	
 	private RelativeLayout requestEmptyLayout;
 	private RelativeLayout requestLoadingLayout;
+	private FontTextView requestEmptyLayoutDetails;
+	private FontTextView requestLoadingLayoutDetails;
 	private RelativeLayout requestFailedLayout;
 	private RelativeLayout requestNoInternetConnectionLayout;
 	private Button requestrequestNoInternetConnectionRetryButton;
@@ -258,10 +261,14 @@ public abstract class BaseFragment
 	
 	public void initRequestCallbackLayouts(View view) 
 	{
-		requestLoadingLayout = (RelativeLayout) view.findViewById(R.id.request_loading_main_layout);
+		requestLoadingLayout = (RelativeLayout) view.findViewById(R.id.request_loading_not_transparent);
+		
+		requestLoadingLayoutDetails = (FontTextView) view.findViewById(R.id.request_loading_details_tv);
 
 		requestEmptyLayout = (RelativeLayout) view.findViewById(R.id.request_empty_main_layout);
 
+		requestEmptyLayoutDetails = (FontTextView) view.findViewById(R.id.request_empty_details_tv);
+		
 		requestFailedLayout = (RelativeLayout) view.findViewById(R.id.request_failed_main_layout);
 		
 		requestNoInternetConnectionLayout = (RelativeLayout) view.findViewById(R.id.no_connection_layout);
@@ -285,7 +292,17 @@ public abstract class BaseFragment
 		}
 	}
 	
+	protected void setEmptyLayoutDetailsMessage(String message) {
+		if (requestEmptyLayoutDetails != null) {
+			requestEmptyLayoutDetails.setText(message);
+		}
+	}
 	
+	protected void setLoadingLayoutDetailsMessage(String message) {
+		if (requestLoadingLayoutDetails != null) {
+			requestLoadingLayoutDetails.setText(message);
+		}
+	}
 	
 	@Override
 	public void onClick(View v) 

@@ -5,12 +5,10 @@
     <string name="app_name" translatable="false">mi.tv</string>
     <string name="app_id" translatable="false">265897563561764</string>
     <string name="noImageContentDescription" translatable="false"></string>
-    
-     <!-- GOOGLE PLAY MARKET URLS -->
-    <string name="market_url_for_google_play_market_details" translatable="false">market://details?id=</string> 
-    <string name="http_url_for_google_play_market_details" translatable="false">http://play.google.com/store/apps/details?id=</string> 
-    
- 
+
+    <!-- GOOGLE PLAY MARKET URLS -->
+    <string name="market_url_for_google_play_market_details" translatable="false">market://details?id=</string>
+    <string name="http_url_for_google_play_market_details" translatable="false">http://play.google.com/store/apps/details?id=</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -23,7 +21,7 @@
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
-    
+
     <!-- HOMEPAGE : ADDING CHANNEL INFO -->
     <string name="tv_guide_add_channel">Add channels to the guide</string>
 
@@ -45,7 +43,6 @@
     <string name="icon_my_profile" translatable="false"> 	&#x03A1;</string>
     <string name="icon_movie" translatable="false"> 		&#x03A2;</string>
     <string name="icon_add_channels" translatable="false">	&#x03A3;</string>
-
     <string name="icon_trending" translatable="false"> 	&#x0397;</string>
     <string name="icon_magnet" translatable="false"> 	&#x039B;</string>
     <string name="icon_bookmark" translatable="false"> 	&#xE804;</string>
@@ -54,7 +51,7 @@
 
     <!-- SPLASH SCREEN ACTIVITY -->
     <string name="splash_screen_activity_text">We guide, inspire and socialize your TV experience so you never miss a thing</string>
-    
+
     <!-- CONTENTMANAGER RESPONSE MESSAGES -->
     <string name="response_activityfeed">Loading recommendation feed</string>
     <string name="response_activityfeed_more">Loading user activity feed</string>
@@ -81,17 +78,24 @@
     <string name="no_content_layout_title">No content</string>
     <string name="no_content_layout_message">There are no shows in this category.</string>
 
+    <!-- LOADING TEXTS -->
+    <string name="loading_message_login_button">Logging in</string>
+    <string name="loading_message_guide_new_day">Loading programs for new date</string>
+    <string name="loading_message_tag">Loading</string>
+    <string name="loading_message_broadcastpage_program_info">Loading program info</string>
+    <string name="loading_message_popular">Loading popular programs</string>
+    <string name="loading_message_user_profile_data">Loading your info</string>
+    <string name="loading_message_feed_initial">Loading recommended and popular</string>
+    <string name="loading_message_feed_more">Loading more</string>
+    <string name="loading_message_facebook_login">Connecting</string>
+
     <!-- GENERAL ERRORS -->
     <string name="connection_failed_title">Could not connect to the network</string>
     <string name="connection_failed_message">Check your internet connection or try again later</string>
-    <string name="general_error_message_title">Something went wrong</string>
     <string name="general_error_message_message">We cannot load the content right now.\nPlease try again later.</string>
     <string name="general_error_message_button">Try again</string>
     <string name="general_no_content_available">No content is available</string>
     <string name="error_connection_lost">Connection Lost</string>
-
-    <!-- CONTENT ERRORS -->
-    <string name="product_view_content_expired">This content is no longer available</string>
 
     <!-- ACTIVITY PAGE -->
     <string name="activity_title">Activity</string>
@@ -213,7 +217,6 @@
     <string name="reset_password_mail_spam_text">Can\'t find our e-mail? Check your spam folder</string>
     <string name="submit">Continue</string>
     <string name="reset_password_loading">Sending</string>
-    <string name="facebook_login_loading">Connecting</string>
     <string name="facebook_login_failed">Facebook login was unsuccessful.</string>
     <string name="set_your_channels">Set your channels</string>
     <string name="connect_with_friends">Connect with friends</string>
@@ -238,9 +241,6 @@
     <string name="success_account_created_title">Hello, </string>
     <string name="success_account_created_text">Your account was created!</string>
     <string name="reset_password__email_does_not_exists">This e-mail is not registered in our service</string>
-    
-    <!-- LOADING TEXTS -->
-    <string name="loading_text_login_button">Logging in</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>
@@ -296,11 +296,11 @@
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
 
     <!-- NO INTERNET CONNECTION -->
-    <string name="dialog_prompt_check_internet_connection">No connection</string> 
+    <string name="dialog_prompt_check_internet_connection">No connection</string>
     <string name="dialog_prompt_check_internet_connection_button">Retry</string>
-    <string name="toast_internet_connection">No internet connection</string> 
-    
+    <string name="toast_internet_connection">No internet connection</string>
+
     <!-- INVALID DATE OR TIME SETTINGS TOAST -->
     <string name="review_date_time_settings">>Please review your date/time settings</string>
-       
+
 </resources>
