@@ -362,6 +362,9 @@ public abstract class Constants
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG			= "APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG";
 	public static final String GA_KEY_APP_CURRENT_USER_NETWORK_FLAG					= "APP_CURRENT_USER_NETWORK_FLAG";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED		= "SIGN_UP_COMPLETED";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_SHARE					= "SHARE";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_LIKE					= "LIKE";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_REMINDER				= "REMINDER";
 	public static final String GA_EVENT_KEY_ACTION_FIRST_BOOT						= "OnBoot";
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";

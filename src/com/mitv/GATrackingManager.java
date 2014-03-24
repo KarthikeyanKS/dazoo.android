@@ -12,6 +12,8 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.UserLike;
 import com.mitv.utilities.FileUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -188,6 +190,42 @@ public class GATrackingManager
 		
 		tracker.send(MapBuilder
 				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED, userEmail, null)
+				.build());
+	}
+	
+	public void sendUserSharedEvent(TVBroadcast broadcast)
+	{	
+		String broadcastTitle = broadcast.getTitle();
+		
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle, null)
+				.build());
+	}
+	
+	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) {
+		String broadcastTitle = userLike.getTitle();
+		
+		Long addedLike = 1L;
+		if(didJustUnlike) {
+			addedLike = 0L;
+		}
+		
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike)
+				.build());
+	}
+	
+	public void sendUserReminderEvent(TVBroadcast broadcast, boolean didJustRemoveReminder)
+	{	
+		String broadcastTitle = broadcast.getTitle();
+		
+		Long addedReminder = 1L;
+		if(didJustRemoveReminder) {
+			addedReminder = 0L;
+		}
+		
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder)
 				.build());
 	}
 	

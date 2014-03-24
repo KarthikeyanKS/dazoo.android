@@ -524,16 +524,7 @@ public class BroadcastPageActivity
 		{
 			case R.id.element_social_buttons_share_button_container: 
 			{
-				StringBuilder sb = new StringBuilder();
-				sb.append(getString(R.string.share_comment));
-				sb.append(" ");
-				sb.append(broadcastWithChannelInfo.getShareUrl());
-				
-				GenericUtils.startShareActivity(
-						this, 
-						getString(R.string.app_name), 
-						sb.toString(),
-						getString(R.string.share_action_title));
+				GenericUtils.startShareActivity(this, broadcastWithChannelInfo);
 				break;
 	
 			}
