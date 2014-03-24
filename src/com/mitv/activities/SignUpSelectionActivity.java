@@ -14,7 +14,7 @@ import com.mitv.R;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
 import com.mitv.activities.authentication.SignUpWithEmailActivity;
-import com.mitv.activities.base.BaseActivity;
+import com.mitv.activities.base.BaseActivityWithoutSearchOption;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -24,7 +24,7 @@ import com.mitv.utilities.HyperLinkUtils;
 
 
 public class SignUpSelectionActivity 
-	extends BaseActivity
+	extends BaseActivityWithoutSearchOption
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SignUpSelectionActivity.class.getName();
