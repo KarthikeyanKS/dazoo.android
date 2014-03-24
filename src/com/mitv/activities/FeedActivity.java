@@ -54,7 +54,7 @@ public class FeedActivity
 	private FontTextView termsOfService;
 	private ListView listView;
 	private FeedListAdapter listAdapter;
-	private View listFooterView;
+	private RelativeLayout listFooterView;
 	private TextView greetingTv;
 	private boolean reachedEnd;
 	private boolean isEndReachedNoConnectionToastShowing;
@@ -122,14 +122,10 @@ public class FeedActivity
 	private void initLoggedInViews() 
 	{
 		listView = (ListView) findViewById(R.id.activity_listview);
-		
+
 		LayoutInflater inflater = getLayoutInflater();
-		
-		listFooterView = (View) inflater.inflate(R.layout.row_loading_footerview, null);
-		
+		listFooterView = (RelativeLayout) inflater.inflate(R.layout.loading_footer_feed_activity, null);
 		listView.addFooterView(listFooterView);
-		
-		listFooterView.setVisibility(View.GONE);
 	}
 
 	
@@ -407,6 +403,7 @@ public class FeedActivity
 	
 	private void showScrollSpinner(boolean show) 
 	{
+		show = true;
 		if (listFooterView != null) 
 		{
 			if(show)

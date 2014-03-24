@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/feed_activity_footer_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:visibility="gone" >
+
+    <ProgressBar
+        android:id="@+id/request_loading_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/progressbar_circle_custom_style" />
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/feed_activity_footer_view_text"
+        style="@style/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/request_loading_progressbar"
+        android:gravity="center_horizontal"
+        android:text="@string/loading_message_feed_more" />
+
+</RelativeLayout>
