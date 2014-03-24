@@ -340,7 +340,7 @@ public class UserProfileActivity
 	{
 		List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 		
-		if (userLikes != null && !userLikes.isEmpty()) 
+		if (userLikes != null) 
 		{
 			StringBuilder userLikesSB = new StringBuilder();
 			userLikesSB.append("(");

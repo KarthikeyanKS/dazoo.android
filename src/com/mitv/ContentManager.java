@@ -1416,6 +1416,7 @@ public class ContentManager
 		cache.clearUserData();
 		cache.clearTVChannelIdsUser();
 		cache.useDefaultChannelIds();
+		cache.clearUserLikes();
 		
 		apiClient.performUserLogout(activityCallbackListener);
 	}

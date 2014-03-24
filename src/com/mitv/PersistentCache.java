@@ -248,6 +248,10 @@ public abstract class PersistentCache
 		this.userLikes = userLikes;
 	}
 	
+	public synchronized void clearUserLikes() {
+		setUserLikes(null);
+	}
+	
 	
 	public synchronized void addUserLike(final UserLike userLike) 
 	{
