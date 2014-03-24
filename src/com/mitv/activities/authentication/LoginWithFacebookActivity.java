@@ -15,7 +15,6 @@ import android.view.Menu;
 
 import com.androidquery.AQuery;
 import com.androidquery.auth.FacebookHandle;
-import com.androidquery.callback.AbstractAjaxCallback;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.mitv.Constants;
@@ -174,7 +173,6 @@ public class LoginWithFacebookActivity
 			{
 				String message = getString(R.string.facebook_login_failed);
 				
-				// TODO - Confirm change
 				ToastHelper.createAndShowToast(this, message, false);
 				
 				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
@@ -222,24 +220,19 @@ public class LoginWithFacebookActivity
 	
 	
 	
+	public static FacebookHandle getDefaultFacebookHandle(Activity activity)
+	{
+		FacebookHandle facebookHandle = new FacebookHandle(activity, Constants.APP_FACEBOOK_ID, Constants.APP_FACEBOOK_PERMISSIONS);
+		
+		return facebookHandle;
+	}
+	
+	
+	
 	private FacebookHandle getFacebookHandle()
 	{
 		FacebookHandle facebookHandle = new FacebookHandle(this, Constants.APP_FACEBOOK_ID, Constants.APP_FACEBOOK_PERMISSIONS) 
 		{
-			@Override
-			public boolean expired(AbstractAjaxCallback<?, ?> cb, AjaxStatus status) 
-			{
-				return super.expired(cb, status);
-			}
-
-
-			@Override
-			public boolean reauth(final AbstractAjaxCallback<?, ?> cb) 
-			{
-				return super.reauth(cb);
-			}
-			
-			
 			@Override
 			protected synchronized void failure(Context context, int code, String message)
 			{

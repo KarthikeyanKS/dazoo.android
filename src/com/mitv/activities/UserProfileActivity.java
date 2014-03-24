@@ -15,10 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.androidquery.auth.FacebookHandle;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -355,9 +357,15 @@ public class UserProfileActivity
 		}
 	}
 
-	private void performLogout() {
+	private void performLogout() 
+	{
 		/* Important that the user gets the direct feedback when logging out, assume that the logout to the BE succeeds */
 		isLoggedIn = false;
+		
+		/* It is important to clear the internal cache of the facebook handle object */
+		FacebookHandle facebookHandle = LoginWithFacebookActivity.getDefaultFacebookHandle(this);
+		facebookHandle.unauth();
+		
 		ContentManager.sharedInstance().performLogout(this);
 		
 		populateViews();
@@ -406,7 +414,8 @@ public class UserProfileActivity
 			break;
 		}
 
-		case R.id.myprofile_logout_container: {
+		case R.id.myprofile_logout_container: 
+		{
 			performLogout();
 			break;
 		}

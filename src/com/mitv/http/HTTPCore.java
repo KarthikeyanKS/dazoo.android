@@ -156,17 +156,6 @@ public class HTTPCore
 			StringBuilder errorMessageSB = new StringBuilder();
 			errorMessageSB.append("Error invoking service: ");
 			errorMessageSB.append(ioex.getMessage());
-			errorMessageSB.append("\n");
-			errorMessageSB.append("Stack Trace: ");
-			if(ioex.getStackTrace() != null)
-			{
-				for(StackTraceElement element : ioex.getStackTrace())
-				{
-					errorMessageSB.append(element.toString());
-					errorMessageSB.append("\n");
-				}
-			}
-			// No need for else
 			
 			Log.e(TAG, errorMessageSB.toString());
 			

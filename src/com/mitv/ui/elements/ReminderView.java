@@ -145,7 +145,6 @@ public class ReminderView
 			
 			Spanned spanned = Html.fromHtml(sb.toString());
 			
-			// TODO - Confirm change
 			ToastHelper.createAndShowToast(activity, spanned.toString(), false);
 
 			iconView.setTextColor(getResources().getColor(R.color.blue1));
