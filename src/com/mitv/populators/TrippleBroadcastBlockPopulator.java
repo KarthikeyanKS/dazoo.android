@@ -178,7 +178,7 @@ public class TrippleBroadcastBlockPopulator
 	
 						StringBuilder seasonEpisodeSB = new StringBuilder();
 	
-						if (season != 0) 
+						if (season > 0) 
 						{
 							seasonEpisodeSB.append(activity.getResources().getString(R.string.season));
 							seasonEpisodeSB.append(" ");

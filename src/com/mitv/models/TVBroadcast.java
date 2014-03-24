@@ -13,6 +13,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
+import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.BroadcastJSON;
 import com.mitv.utilities.DateUtils;
@@ -36,17 +37,42 @@ public class TVBroadcast
 
 	private static final int NO_INT_VALUE_SET = -1;
 	
-	protected transient Calendar beginTimeCalendarLocal;
-	protected transient Calendar endTimeCalendarLocal;
-	private transient Integer durationInMinutes = NO_INT_VALUE_SET;
+	protected Calendar beginTimeCalendarLocal;
+	protected Calendar endTimeCalendarLocal;
+	private Integer durationInMinutes = NO_INT_VALUE_SET;
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
-	private transient String beginTimeDateRepresentation = null;
-	private transient String beginTimeDayAndMonthRepresentation = null;
-	private transient String beginTimeHourAndMinuteRepresentation = null;
-	private transient String endTimeHourAndMinuteRepresentation = null;
+	private String beginTimeDateRepresentation = null;
+	private String beginTimeDayAndMonthRepresentation = null;
+	private String beginTimeHourAndMinuteRepresentation = null;
+	private String endTimeHourAndMinuteRepresentation = null;
+	private String title = null;
 	
-	
+	public String getTitle() {
+		if (title == null) {
+			if (program != null) {
+				ProgramTypeEnum programType = program.getProgramType();
+
+				switch (programType) {
+				case TV_EPISODE: {
+					TVSeries series = program.getSeries();
+					if (series != null) {
+						title = series.getName();
+					}
+					break;
+				}
+				case MOVIE:
+				case SPORT:
+				case OTHER: /* Default */
+				default: {
+					title = program.getTitle();
+					break;
+				}
+				}
+			}
+		}
+		return title;
+	}
 	
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
