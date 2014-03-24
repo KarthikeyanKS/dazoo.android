@@ -36,7 +36,7 @@ public class TVBroadcast
 
 	private static final int NO_INT_VALUE_SET = -1;
 	
-	protected transient Calendar beginTimeCalendarLocal; // TODO: Evaluate cost of usage of calendars
+	protected transient Calendar beginTimeCalendarLocal;
 	protected transient Calendar endTimeCalendarLocal;
 	private transient Integer durationInMinutes = NO_INT_VALUE_SET;
 	
@@ -247,9 +247,8 @@ public class TVBroadcast
 	}
 	
 	
-		
-	//TODO NewArc finish me!
-	public String getBeginTimeHourAndMinuteLocalAsString() {
+	public String getBeginTimeHourAndMinuteLocalAsString() 
+	{
 		if(beginTimeHourAndMinuteRepresentation == null)
 		{
 			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarLocal());
@@ -259,7 +258,6 @@ public class TVBroadcast
 	}
 	
 
-	//TODO NewArc finish me!
 	public String getEndTimeHourAndMinuteLocalAsString() {
 		if(endTimeHourAndMinuteRepresentation == null)
 		{

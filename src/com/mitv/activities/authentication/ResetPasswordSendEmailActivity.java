@@ -82,8 +82,7 @@ public class ResetPasswordSendEmailActivity
 		}
 		else
 		{
-			/* Password is either null, empty or invalid */
-			emailResetPasswordEditText.setEnabled(true); //TODO NewArc do we need to disable/reenable the edit text field???
+			emailResetPasswordEditText.setEnabled(true);
 			
 			errorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
 		}

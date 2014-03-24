@@ -1,4 +1,7 @@
+
 package com.mitv.listadapters;
+
+
 
 import java.util.ArrayList;
 
@@ -23,8 +26,11 @@ import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ChannelPageListAdapter extends BaseAdapter {
 
+
+public class ChannelPageListAdapter 
+	extends BaseAdapter 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = ChannelPageListAdapter.class.getName();
 
@@ -160,11 +166,11 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				holder.description.setText(broadcast.getProgram().getCategory());
 				break;
 			}
-			default: {
-				//TODO NewArc do not set the string to "no value" set it to emppty!
-				holder.startTime.setText("no value");
-				holder.title.setText("no value");
-				holder.description.setText("no value");
+			default: 
+			{
+				holder.startTime.setText("");
+				holder.title.setText("");
+				holder.description.setText("");
 				break;
 			}
 			}
