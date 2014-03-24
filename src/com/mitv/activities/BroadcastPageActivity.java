@@ -154,6 +154,49 @@ public class BroadcastPageActivity
 	}
 	
 	
+	private ArrayList<TVBroadcastWithChannelInfo> filterOutEpisodesWithBadData() {
+		/* Remove upcoming broadcasts with season 0 and episode 0 */
+		LinkedList<TVBroadcast> upcomingBroadcastsToRemove = new LinkedList<TVBroadcast>();
+		ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
+		if (programType == ProgramTypeEnum.TV_EPISODE) {
+			for (TVBroadcast upcomingBroadcast : upcomingBroadcasts) {
+				TVProgram programFromUpcomingBroadcast = upcomingBroadcast.getProgram();
+
+				if (isProgramIrrelevantAndShouldBeDeleted(programFromUpcomingBroadcast)) {
+					upcomingBroadcastsToRemove.add(upcomingBroadcast);
+				}
+			}
+		}
+		
+		upcomingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(upcomingBroadcasts);
+		
+		if (upcomingBroadcastsToRemove != null && !upcomingBroadcastsToRemove.isEmpty()) {
+			upcomingBroadcasts.removeAll(upcomingBroadcastsToRemove);
+		}
+		
+		return upcomingBroadcasts;
+	}
+	
+	private void handleInitialDataAvailable() {
+		broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
+		
+		repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+		if (repeatingBroadcasts != null) {
+			repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(repeatingBroadcasts);
+			
+			for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
+			{
+				broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
+			}
+		}		
+		
+		
+		upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+		if (upcomingBroadcasts != null) {
+			upcomingBroadcasts = filterOutEpisodesWithBadData();
+		}
+
+	}
 
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
@@ -164,25 +207,7 @@ public class BroadcastPageActivity
 			{
 				case BROADCAST_PAGE_DATA: 
 				{
-					broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
-					
-					repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
-					if (repeatingBroadcasts != null) {
-						repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(repeatingBroadcasts);
-					}
-					
-					if(repeatingBroadcasts != null) {
-						for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
-						{
-							broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
-						}
-					}
-					
-					upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
-					if (upcomingBroadcasts != null) {
-						upcomingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(upcomingBroadcasts);
-					}
-	
+					handleInitialDataAvailable();
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 					break;
 	
@@ -280,31 +305,7 @@ public class BroadcastPageActivity
 	private void populateBlocks()
 	{
 		hasPopulatedViews = true;
-		populateMainView();
-
-		 //TODO NewArc should we remove those irrelevant broadcasts in the AsynkTask (GetTVBroadcastsFromSeries) instead?
-		/* Remove upcoming broadcasts with season 0 and episode 0 */
-		LinkedList<TVBroadcast> upcomingBroadcastsToRemove = new LinkedList<TVBroadcast>();
-		
-		ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
-		switch (programType) {
-		case TV_EPISODE: {
-
-			for (TVBroadcast upcomingBroadcast : upcomingBroadcasts) {
-				TVProgram programFromUpcomingBroadcast = upcomingBroadcast.getProgram();
-
-				if (isProgramIrrelevantAndShouldBeDeleted(programFromUpcomingBroadcast)) {
-					upcomingBroadcastsToRemove.add(upcomingBroadcast);
-				}
-			}
-
-			break;
-		}
-		default: {/* Do nothing if it is not a TV Episode */
-			break;
-		}
-		}
-		
+		populateMainView();		
 
 		 /* Repetitions */
 		 if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) {
@@ -314,10 +315,6 @@ public class BroadcastPageActivity
 		
 		/* upcoming episodes */
 		if (upcomingBroadcasts != null && !upcomingBroadcasts.isEmpty()) {
-			if (upcomingBroadcastsToRemove != null && !upcomingBroadcastsToRemove.isEmpty()) {
-				upcomingBroadcasts.removeAll(upcomingBroadcastsToRemove);
-			}
-
 			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(this, scrollView, true, broadcastWithChannelInfo);
 			upcomingBlock.createBlock(upcomingBroadcasts);
 		}
