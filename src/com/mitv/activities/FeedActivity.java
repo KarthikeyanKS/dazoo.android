@@ -228,7 +228,8 @@ public class FeedActivity
 		if(ContentManager.sharedInstance().isLoggedIn())
 		{
 			updateUI(UIStatusEnum.LOADING);
-		
+			String loadingString = getString(R.string.loading_message_feed_initial);
+			setLoadingLayoutDetailsMessage(loadingString);
 			ContentManager.sharedInstance().getElseFetchFromServiceActivityFeedData(this, false);
 		}
 		else
