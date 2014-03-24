@@ -5,9 +5,9 @@ package com.mitv.utilities;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +25,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
+import com.mitv.Constants;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -147,6 +147,48 @@ public abstract class GenericUtils
 	}
     
     
+    public static boolean isMinimumRequiredFacebookAppInstalled()
+    {
+    	boolean isMinimumRequiredFacebookAppInstalled = false;
+    	
+    	PackageInfo packageInfo = getPackageInfo(Constants.FACEBOOK_APP_PACKAGE_NAME);
+    	
+    	if(packageInfo != null)
+    	{
+    		int versionCode = packageInfo.versionCode;
+    		
+    		if(versionCode >= Constants.MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE)
+    		{
+    			isMinimumRequiredFacebookAppInstalled = true;
+    		}
+    	}
+    	
+    	return isMinimumRequiredFacebookAppInstalled;
+    }
+    
+    
+    private static PackageInfo getPackageInfo(String packageName) 
+    {
+        PackageInfo packageInfoToReturn = null;        
+        
+        Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+        
+        List<PackageInfo> packs = context.getPackageManager().getInstalledPackages(0);
+        
+        for(PackageInfo packageInfo : packs)
+        {
+        	if(packageInfo.packageName != null &&
+        	   packageInfo.packageName.equalsIgnoreCase(packageName))
+        	{
+        		packageInfoToReturn = packageInfo;
+        		break;
+        	}
+        }
+                
+        return packageInfoToReturn;
+    }
+    
+    
     
     public static String getCurrentAppVersion()
     {
@@ -198,16 +240,9 @@ public abstract class GenericUtils
  
         byte byteData[] = md.digest();
  
-        StringBuilder sb = new StringBuilder();
+        String base64encodedString = Base64.encodeToString(byteData, Base64.NO_WRAP);
         
-        for (int i = 0; i < byteData.length; i++)
-        {
-            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-        }
-        
-        Locale locale = LanguageUtils.getCurrentLocale();
- 
-        return sb.toString().toUpperCase(locale);
+        return base64encodedString;
     }
     
     

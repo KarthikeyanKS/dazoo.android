@@ -68,7 +68,7 @@ public class HomeActivity
 		
 		if(ContentManager.sharedInstance().isUpdatingGuide()) 
 		{
-			updateUI(UIStatusEnum.LOADING);
+			setGUIToLoading();
 		}
 	}
 	
@@ -167,12 +167,18 @@ public class HomeActivity
 	@Override
 	protected void loadData() 
 	{
-		updateUI(UIStatusEnum.LOADING);
-		String loadingMessage = getString(R.string.loading_message_guide_new_day);
-		setLoadingLayoutDetailsMessage(loadingMessage);
+		setGUIToLoading();
+		
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 	}
 	
+	
+	private void setGUIToLoading() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		String loadingMessage = getString(R.string.loading_message_guide_new_day);
+		setLoadingLayoutDetailsMessage(loadingMessage);
+	}
 	
 	
 	@Override

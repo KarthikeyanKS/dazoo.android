@@ -5,6 +5,8 @@ package com.mitv.ui.elements;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -134,7 +136,17 @@ public class ReminderView
 		{
 			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
 
-			ToastHelper.showNotificationWasSetToast(activity);
+			StringBuilder sb = new StringBuilder();
+			sb.append(activity.getResources().getString(R.string.reminder_text_set_top));
+			sb.append(" <b> ");
+			sb.append(activity.getResources().getString(R.string.reminder_text_set_middle));
+			sb.append(" </b> ");
+			sb.append(activity.getResources().getString(R.string.reminder_text_set_bottom));
+			
+			Spanned spanned = Html.fromHtml(sb.toString());
+			
+			// TODO - Confirm change
+			ToastHelper.createAndShowToast(activity, spanned.toString(), false);
 
 			iconView.setTextColor(getResources().getColor(R.color.blue1));
 

@@ -251,6 +251,11 @@ public class TVGuideListAdapter
 					 * This:
 					 * textWidth > maxTextWidth && limitIndex > 0
 					 * is false..
+					 * 
+					 * Bug noticed when textSize on the devices OS was set to "normal", 
+					 * which is strange since we have set the textSize to "SP" and not "DP"
+					 * which SHOULD take the textSize setting on the device into consideration!
+					 * Bug noticed on Galaxy S3 Mini
 					 */
 					
 					if (rowWidth > 0) 
