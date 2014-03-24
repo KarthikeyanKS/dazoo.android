@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -92,6 +93,7 @@ public class SearchPageActivity
 	private SearchRunnable lastSearchRunnable;
 	private Handler delayedSearchHandler;
 	private Handler keyboardHandler;
+	private LinearLayout searchInstructionsView;
 
 	
 	@Override
@@ -102,6 +104,8 @@ public class SearchPageActivity
 		setContentView(R.layout.layout_searchpage_activity);
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+		
+		this.searchInstructionsView = (LinearLayout) findViewById(R.id.search_page_instruction_container);
 
 		initSupportActionbar();
 		
@@ -301,6 +305,8 @@ public class SearchPageActivity
 			Filter filter = autoCompleteAdapter.getFilter();
 			filter.filter(lastSearchQuery);
 			editTextSearch.showDropDown();
+			
+			searchInstructionsView.setVisibility(View.GONE);
 		}
 	}
 	
@@ -414,6 +420,7 @@ public class SearchPageActivity
 		} else {
 			autoCompleteAdapter.setSearchResultItemsForQueryString(null, null);
 			autoCompleteAdapter.clear();
+			searchInstructionsView.setVisibility(View.VISIBLE);
 		}
 	}
 }
