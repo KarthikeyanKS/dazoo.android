@@ -63,17 +63,7 @@ public class HomeActivity
 	protected void onResume()
 	{
 		super.onResume();
-		
-		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
-		{
-			hockeyAppCheckForCrashes();
-		}
-		
-		if(Constants.USE_HOCKEY_APP_UPDATE_NOTIFICATIONS)
-		{
-			hockeyAppCheckForUpdates();
-		}
-		
+				
 		showWelcomeToast();
 		
 		if(ContentManager.sharedInstance().isUpdatingGuide()) 
@@ -89,23 +79,7 @@ public class HomeActivity
 		  super.onSaveInstanceState(bundle);
 	}
 	
-	
-	
-	/* Do not use this in Google Play builds */
-	private void hockeyAppCheckForCrashes() 
-	{
-		CrashManager.register(this, Constants.HOCKEY_APP_TOKEN);
-	}
-
-	
-	
-	/* Do not use this in Google Play builds */
-	private void hockeyAppCheckForUpdates() 
-	{
-		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
-	}
-	
-	
+		
 	
 	private void showWelcomeToast() 
 	{

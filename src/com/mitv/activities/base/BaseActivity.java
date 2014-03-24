@@ -6,6 +6,9 @@ package com.mitv.activities.base;
 import java.util.List;
 import java.util.Stack;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -154,11 +157,34 @@ public abstract class BaseActivity
 		loadDataWithConnectivityCheck();
 	}
 
+	/* Do not use this in Google Play builds */
+	private void hockeyAppCheckForCrashes() 
+	{
+		CrashManager.register(this, Constants.HOCKEY_APP_TOKEN);
+	}
+
+	
+	
+	/* Do not use this in Google Play builds */
+	private void hockeyAppCheckForUpdates() 
+	{
+		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
+	}
 	
 	@Override
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
+		{
+			hockeyAppCheckForCrashes();
+		}
+		
+		if(Constants.USE_HOCKEY_APP_UPDATE_NOTIFICATIONS)
+		{
+			hockeyAppCheckForUpdates();
+		}
 		
 		/* IMPORTANT add activity to activity stack */
 		pushActivityToStack(this);
