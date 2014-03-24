@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
@@ -130,6 +131,7 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
+		GATrackingManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, isSet);
 		if (isSet == false) 
 		{
 			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);

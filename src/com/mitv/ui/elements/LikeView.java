@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.base.BaseActivity;
@@ -96,6 +97,8 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), null);
 		
 		setImageToNotLiked();
+		
+		GATrackingManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, true);
 	}
 	
 	
@@ -106,6 +109,8 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		setImageToLiked();
 		
 		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
+
+		GATrackingManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, false);
 	}
 
 	

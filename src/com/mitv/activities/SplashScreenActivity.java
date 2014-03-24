@@ -64,7 +64,7 @@ public class SplashScreenActivity
 		
 		if(isConnected)
 		{
-			GATrackingManager.getInstance().sendUserNetworkTypeEvent();
+			GATrackingManager.sharedInstance().sendUserNetworkTypeEvent();
 			
 			loadData();
 		}

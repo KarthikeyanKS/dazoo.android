@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -26,9 +25,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
 import com.mitv.Constants;
+import com.mitv.GATrackingManager;
+import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.models.TVBroadcast;
 
 
 
@@ -70,19 +71,27 @@ public abstract class GenericUtils
 	
 	public static void startShareActivity(
 			final Activity activity, 
-			final String subject, 
-			final String shareBody, 
-			final String title) 
-	{	
-		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+			final TVBroadcast broadcast) 
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(activity.getString(R.string.share_comment));
+		sb.append(" ");
+		sb.append(broadcast.getShareUrl());
 		
+		String subject = activity.getString(R.string.app_name);
+		String shareBody = sb.toString();
+		String title =  activity.getString(R.string.share_action_title);
+		
+		/* Display user with sharing alternatives */
+		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 		intent.setType(TEXT_PLAIN);
 		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 		intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-		
 		Intent chooserIntent = Intent.createChooser(intent, title);
+		activity.startActivity(chooserIntent);
 		
-		activity.startActivity(chooserIntent);		
+		/* Send sharing event to Google Analytics */
+		GATrackingManager.sharedInstance().sendUserSharedEvent(broadcast);
 	}
 	
 

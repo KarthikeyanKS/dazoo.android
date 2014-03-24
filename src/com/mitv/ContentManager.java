@@ -1184,6 +1184,8 @@ public class ContentManager
 			cache.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+			
+			GATrackingManager.sharedInstance().sendUserSignUpSuccessfulEvent();
 		} 
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_SIGN_UP, result);
