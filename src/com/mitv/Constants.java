@@ -491,6 +491,8 @@ public abstract class Constants
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = true;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
+	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
+	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 }

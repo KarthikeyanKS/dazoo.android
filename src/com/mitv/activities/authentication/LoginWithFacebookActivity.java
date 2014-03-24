@@ -26,6 +26,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.GenericUtils;
 
 
 
@@ -63,7 +64,24 @@ public class LoginWithFacebookActivity
 		
 		loginResponseHandled = false;
 		
-		performFacebookAuthentication();
+		boolean isMinimumRequiredFacebookAppInstalled = GenericUtils.isMinimumRequiredFacebookAppInstalled();
+		
+		if(isMinimumRequiredFacebookAppInstalled)
+		{
+			performFacebookAuthentication();
+		}
+		else
+		{
+			String message = getString(R.string.update_facebook_app);
+			
+			ToastHelper.createAndShowToast(this, message, false);
+			
+			Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
+
+			startActivity(intent);
+			
+			finish();
+		}
 	}
 	
 	
@@ -156,7 +174,8 @@ public class LoginWithFacebookActivity
 			{
 				String message = getString(R.string.facebook_login_failed);
 				
-				ToastHelper.createAndShowLikeToast(this, message);
+				// TODO - Confirm change
+				ToastHelper.createAndShowToast(this, message, false);
 				
 				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
 

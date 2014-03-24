@@ -446,6 +446,8 @@ public class ContentManager
 		{
 			if(!result.wasSuccessful() || content == null)
 			{
+				isUpdatingGuide = false;
+				
 				apiClient.cancelAllPendingRequests();
 				
 				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
@@ -1037,6 +1039,8 @@ public class ContentManager
 	 */
 	private void handleTVChannelGuidesForSelectedDayResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
 	{
+		isUpdatingGuide = false;
+		
 		if (result.wasSuccessful() && content != null) 
 		{
 			TVGuide tvGuide = (TVGuide) content;
@@ -1058,9 +1062,7 @@ public class ContentManager
 				notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.SUCCESS);
 			}
 		}
-		
-		isUpdatingGuide = false;
-		
+
 		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 	
@@ -1293,14 +1295,14 @@ public class ContentManager
 		 * the TVChannelGuides for the selected channels. */
 		TVDate tvDate = getFromCacheTVDateSelected();
 		
+		/* Set the flag "updatingGuide" to true */
+		isUpdatingGuide = true;
+		
 		/* Perform setting of TVChannelIds against backend, and fetch only the TVGuide for the new channels */
 		apiClient.setNewTVChannelIdsAndFetchGuide(activityCallbackListener, tvDate, tvChannelIdsOnlyNewOnes, tvChannelIdsAll);
 		
 		/* Directly set the TVChannelIds in the Cache to directly update the UserProfileActivity GUI */
 		cache.setTvChannelIdsUser(tvChannelIdsAll);
-		
-		/* Set the flag "updatingGuide" to true */
-		isUpdatingGuide = true;
 	}
 	
 	
