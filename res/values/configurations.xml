@@ -17,6 +17,7 @@
     <string name="icon_facebook" translatable="false"> 		&#x0396;</string>
     <string name="icon_heart" translatable="false"> 		&#x0398;</string>
     <string name="icon_live"> 								&#x03A4;</string>
+    <!--<string name="icon_live">&#x0399;</string>-->
     <string name="icon_blocks" translatable="false"> 		&#x039A;</string>
     <string name="icon_search" translatable="false"> 		&#x039B;</string>
     <string name="icon_settings" translatable="false"> 		&#x039C;</string>
