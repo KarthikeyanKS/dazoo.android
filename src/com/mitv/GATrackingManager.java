@@ -38,7 +38,7 @@ public class GATrackingManager
 
 	
 	
-	public static GATrackingManager getInstance()
+	public static GATrackingManager sharedInstance()
 	{
 		if (instance == null) 
 		{
@@ -61,7 +61,7 @@ public class GATrackingManager
 	
 	public static Tracker getTracker()
 	{
-		return getInstance().getTrackerInstance();
+		return sharedInstance().getTrackerInstance();
 	}
 	
 	
@@ -137,19 +137,19 @@ public class GATrackingManager
 		
 		/* BACKUP/RDUNDANCY OF ANALYTICS PREINSTALL FLAGS */
 		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs, null)
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs, null)
 				.build());
 
 		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage, null)
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage, null)
 				.build());
 
 		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation, null)
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation, null)
 				.build());
 
 		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag, null)
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag, null)
 				.build());
 	}
 	
@@ -178,16 +178,24 @@ public class GATrackingManager
 		String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
 		
 		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG, activeNetworkTypeName, null)
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG, activeNetworkTypeName, null)
 				.build());
 	}
 	
+	public void sendUserSignUpSuccessfulEvent()
+	{
+		String userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
+		
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED, userEmail, null)
+				.build());
+	}
 	
 	
 	public static void sendView(String viewName)
 	{
 		// Set screen name on the tracker to be sent with all hits.
-		getInstance().sendViewInstance(viewName);
+		sharedInstance().sendViewInstance(viewName);
 	}
 	
 	
@@ -203,6 +211,6 @@ public class GATrackingManager
 	
 	public static void stopTrackingView(String viewName) 
 	{
-		getInstance().stopTrackingViewInstance(viewName);
+		sharedInstance().stopTrackingViewInstance(viewName);
 	}
 }

@@ -58,11 +58,9 @@ public class BootCompletedReceiver
 	        	Tracker tracker = googleAnalyticsInstance.getTracker(hardCodedTrackingId);
 	    		
 	    		String gaValue = Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
-	    		
-	    		gaValue = GenericUtils.replaceDashWithEnDash(gaValue);
-	    		
+
 	    		tracker.send(MapBuilder
-	    				  .createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, "OnBoot", gaValue, null) 	// Set any additional fields for this hit.
+	    				  .createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_EVENT_KEY_ACTION_FIRST_BOOT, gaValue, null) 	// Set any additional fields for this hit.
 	    				  .build()                                   			// Build and return the Map to the send method.
 	    				);
         	}
