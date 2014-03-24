@@ -404,7 +404,6 @@ public class FeedActivity
 	
 	private void showScrollSpinner(boolean show) 
 	{
-		show = true;
 		if (listFooterView != null) 
 		{
 			if(show)
