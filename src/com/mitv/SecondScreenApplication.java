@@ -4,13 +4,11 @@ package com.mitv;
 
 
 import android.app.Application;
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.StrictMode;
-import android.util.Log;
+
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.GenericUtils;
 
@@ -19,13 +17,16 @@ import com.mitv.utilities.GenericUtils;
 public class SecondScreenApplication 
 	extends Application 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = SecondScreenApplication.class.getName();
 
+	
 	
 	private static SecondScreenApplication instance;
 
 	
 	
+	/* Do not remove. A public constructor is required by the Application class */
 	public SecondScreenApplication() 
 	{}
 
@@ -42,63 +43,6 @@ public class SecondScreenApplication
 	}
 
 
-	public static boolean applicationIsSystemApp(Context context) 
-	{
-		String packageName = context.getPackageName();
-
-		try 
-		{
-			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
-
-			String appLocation = applicationInfo.publicSourceDir;
-
-			// OR String appLocation = applicationInfo.sourceDir;
-			// Both returns the same
-			// if package is pre-installed then output will be /system/app/application_name.apk
-			// if package is installed by user then output will be /data/app/application_name.apk
-
-			// Check if package is system app
-			if (appLocation != null && appLocation.startsWith("/system/app/")) 
-			{
-				return true;
-			}
-		} 
-		catch (NameNotFoundException e)
-		{
-			Log.e(TAG, e.getMessage(), e);
-		}
-		
-		return false;
-	}
-
-	
-	
-	public static boolean applicationIsSystemAppUsingFlag(Context context)
-	{
-		String packageName = context.getPackageName();
-
-		try 
-		{
-			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
-
-			// FLAG_SYSTEM is only set to system applications,
-			// This should work even if application is installed in external storage
-
-			// Check if package is system app
-			if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) 
-			{
-				return true;
-			}
-		}
-		catch (NameNotFoundException e) 
-		{
-			Log.e(TAG, e.getMessage(), e);
-		}
-
-		return false;
-	}
-
-	
 	
 	@Override
 	public void onCreate() 
@@ -119,7 +63,7 @@ public class SecondScreenApplication
 		{
 			StrictMode.ThreadPolicy threadPolicy;
 			
-			/* The following policies are not available prior to API Level 11:
+			/* The following policies are not available prior to API Level 11 (HONEYCOMB):
 			 * 
 			 *  detectCustomSlowCalls()
 			 *  penaltyDeathOnNetwork()
@@ -151,7 +95,7 @@ public class SecondScreenApplication
 
 			StrictMode.VmPolicy vmPolicy;
 			
-			/* The following policies are not available prior to API Level 11:
+			/* The following policies are not available prior to API Level 11 (HONEYCOMB):
 			 * 
 			 *  detectActivityLeaks()
 			 *  detectFileUriExposure()
@@ -194,6 +138,52 @@ public class SecondScreenApplication
 	public void onConfigurationChanged(Configuration newConfig) 
 	{
 		super.onConfigurationChanged(newConfig);
+	}
+	
+	
+	
+	public static boolean isApplicationSystemApp() 
+	{
+		ApplicationInfo applicationInfo = GenericUtils.getApplicationInfo();
+		
+		if(applicationInfo != null)
+		{
+			String appLocation = applicationInfo.publicSourceDir;
+			
+			// OR String appLocation = applicationInfo.sourceDir;
+			// Both returns the same
+			// if package is pre-installed then output will be /system/app/application_name.apk
+			// if package is installed by user then output will be /data/app/application_name.apk
+
+			// Check if package is system app
+			if (appLocation != null && appLocation.startsWith(Constants.SYSTEM_APP_PATH)) 
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	
+	
+	public static boolean isApplicationSystemAppUsingFlag()
+	{
+		ApplicationInfo applicationInfo = GenericUtils.getApplicationInfo();
+		
+		if(applicationInfo != null)
+		{
+			// FLAG_SYSTEM is only set to system applications,
+			// This should work even if application is installed in external storage
+
+			// Check if package is system app
+			if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) 
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 	

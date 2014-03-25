@@ -129,7 +129,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 			{
 				String message = activity.getString(R.string.toast_internet_connection);
 				
-				ToastHelper.createAndShowToast(activity, message, false);
+				ToastHelper.createAndShowShortToast(message);
 			}
 			else
 			{
@@ -200,11 +200,11 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 				Log.d(TAG, "Successfully added like");
 				
 				StringBuilder sb = new StringBuilder();
-				sb.append(activity.getResources().getString(R.string.like_set_text_row1));
+				sb.append(activity.getString(R.string.like_set_text_row1));
 				sb.append(" ");
-				sb.append(activity.getResources().getString(R.string.like_set_text_row2));
+				sb.append(activity.getString(R.string.like_set_text_row2));
 				
-				ToastHelper.createAndShowToast(activity, sb.toString(), false);
+				ToastHelper.createAndShowShortToast(sb.toString());
 				
 				break;
 			}

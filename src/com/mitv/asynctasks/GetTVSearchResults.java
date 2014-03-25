@@ -5,14 +5,12 @@ package com.mitv.asynctasks;
 
 import android.util.Log;
 
-import com.androidquery.callback.AjaxCallback;
 import com.mitv.Constants;
-import com.mitv.activities.SearchPageActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.SearchResultsForQuery;
 import com.mitv.models.TVSearchResults;
 import com.mitv.models.gson.TVSearchResultsJSON;

@@ -145,15 +145,15 @@ public class ReminderView
 			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
 
 			StringBuilder sb = new StringBuilder();
-			sb.append(activity.getResources().getString(R.string.reminder_text_set_top));
+			sb.append(activity.getString(R.string.reminder_text_set_top));
 			sb.append(" <b> ");
-			sb.append(activity.getResources().getString(R.string.reminder_text_set_middle));
+			sb.append(activity.getString(R.string.reminder_text_set_middle));
 			sb.append(" </b> ");
-			sb.append(activity.getResources().getString(R.string.reminder_text_set_bottom));
+			sb.append(activity.getString(R.string.reminder_text_set_bottom));
 			
 			Spanned spanned = Html.fromHtml(sb.toString());
 			
-			ToastHelper.createAndShowToast(activity, spanned.toString(), false);
+			ToastHelper.createAndShowShortToast(spanned.toString());
 
 			iconView.setTextColor(getResources().getColor(R.color.blue1));
 

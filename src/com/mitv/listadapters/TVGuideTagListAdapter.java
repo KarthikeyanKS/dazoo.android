@@ -122,7 +122,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 			switch (programType) {
 			case MOVIE: {
-				holder.mTitleTv.setText(activity.getResources().getString(R.string.icon_movie) + " " + broadcastWithChannelInfo.getProgram().getTitle());
+				holder.mTitleTv.setText(activity.getString(R.string.icon_movie) + " " + broadcastWithChannelInfo.getProgram().getTitle());
 				holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
 				break;
 			}
@@ -131,10 +131,10 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
 				String seasonEpisode = "";
 				if (!season.equals("0")) {
-					seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
+					seasonEpisode += activity.getString(R.string.season) + " " + season + " ";
 				}
 				if (episode > 0) {
-					seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
+					seasonEpisode += activity.getString(R.string.episode) + " " + episode;
 				}
 				holder.mDescTv.setText(seasonEpisode);
 				holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getSeries().getName());
@@ -142,7 +142,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 			}
 			case SPORT: {
 				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastWithChannelInfo.getBroadcastType())) {
-					holder.mTitleTv.setText(activity.getResources().getString(R.string.icon_live) + " " + broadcastWithChannelInfo.getProgram().getTitle());
+					holder.mTitleTv.setText(activity.getString(R.string.icon_live) + " " + broadcastWithChannelInfo.getProgram().getTitle());
 				} else {
 					holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getTitle());
 				}

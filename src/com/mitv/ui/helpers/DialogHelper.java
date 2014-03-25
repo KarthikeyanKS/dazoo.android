@@ -150,7 +150,7 @@ public class DialogHelper
 		Button yesButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_yes);
 
 		TextView textView = (TextView) dialog.findViewById(R.id.dialog_remove_notification_tv);
-		textView.setText(activity.getResources().getString(R.string.like_remove_text));
+		textView.setText(activity.getString(R.string.like_remove_text));
 
 		noButton.setOnClickListener(new View.OnClickListener() 
 		{

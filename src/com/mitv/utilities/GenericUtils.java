@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -147,6 +148,32 @@ public abstract class GenericUtils
 	}
     
     
+    
+    public static ApplicationInfo getApplicationInfo()
+	{
+    	Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+    
+    	String packageName = context.getPackageName();
+    	
+    	ApplicationInfo applicationInfo;
+    	
+		try 
+		{
+			applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
+		}
+		catch (NameNotFoundException nnfex) 
+		{
+			applicationInfo = null;
+			
+			Log.e(TAG, "Failed to get ApplicationInfo.", nnfex);
+		}
+		
+		return applicationInfo;
+	}
+    
+    
+    
+    
     public static boolean isMinimumRequiredFacebookAppInstalled()
     {
     	boolean isMinimumRequiredFacebookAppInstalled = false;
@@ -247,8 +274,10 @@ public abstract class GenericUtils
     
     
     
-    public static void hideKeyboard(final Activity activity)
+    public static boolean hideKeyboard(final Activity activity)
 	{
+    	boolean wasVisible = false;
+    	
 		if(activity != null)
 		{
 			InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -263,7 +292,7 @@ public abstract class GenericUtils
 					
 					if(ib != null)
 					{
-						imm.hideSoftInputFromWindow(ib, 0);
+						wasVisible = imm.hideSoftInputFromWindow(ib, 0);
 					}
 					// No need for else
 				}
@@ -278,6 +307,8 @@ public abstract class GenericUtils
 		{
 			Log.e(TAG, "Activity is null.");
 		}
+		
+		return wasVisible;
 	}
     
     
@@ -415,7 +446,6 @@ public abstract class GenericUtils
 	
 	
 	// TODO NewArc - Change this to a pseudo unique own generated ID instead: http://stackoverflow.com/a/17625641
-	@Deprecated
 	public static String getDeviceId()
 	{
 		String deviceId = null;

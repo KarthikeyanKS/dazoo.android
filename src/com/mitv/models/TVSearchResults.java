@@ -14,7 +14,10 @@ public class TVSearchResults
 {
 	public TVSearchResults() {}
 	
-	public TVSearchResults(List<TVSearchResult> results) {
+	
+	
+	public TVSearchResults(List<TVSearchResult> results) 
+	{
 		this.results = results;
 	}
 }

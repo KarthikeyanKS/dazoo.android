@@ -5,7 +5,8 @@
     android:id="@+id/undobar" 
     style="@style/UndoBar"
     android:layout_marginBottom="50dp"
-    android:layout_alignParentBottom="true">
+    android:layout_alignParentBottom="true"
+    android:visibility="gone">
     
 		<TextView android:id="@+id/undobar_message" style="@style/UndoBarMessageModified" />
 		

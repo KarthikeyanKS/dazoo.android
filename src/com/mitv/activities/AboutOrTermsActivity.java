@@ -4,14 +4,11 @@ package com.mitv.activities;
 
 
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.mitv.R;
@@ -20,14 +17,15 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.ui.elements.FontTextView;
+import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.HyperLinkUtils;
 
 
 
 public abstract class AboutOrTermsActivity 
-	extends BaseActivity 
-	implements OnClickListener
+	extends BaseActivity
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = AboutOrTermsActivity.class.getName();
 
 	
@@ -87,21 +85,18 @@ public abstract class AboutOrTermsActivity
 			
 			versionNumberContainer.setVisibility(View.VISIBLE);
 			
-			String appVersion;
+			StringBuilder appVersionSB = new StringBuilder();
 			
-			try 
+			PackageInfo packageInfo = GenericUtils.getPackageInfo();
+			
+			if(packageInfo != null)
 			{
-				PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-				appVersion = getString(R.string.settings_version) + " " + pinfo.versionName;
-			} 
-			catch (NameNotFoundException nnfex) 
-			{
-				appVersion = "";
-				
-				Log.e(TAG, nnfex.getMessage(), nnfex);
+				appVersionSB.append(getString(R.string.settings_version));
+				appVersionSB.append(" ");
+				appVersionSB.append(packageInfo.versionName);
 			}
 			
-			versionNumberTv.setText(appVersion);
+			versionNumberTv.setText(appVersionSB.toString());
 		} 
 		else 
 		{
@@ -122,25 +117,7 @@ public abstract class AboutOrTermsActivity
 		HyperLinkUtils.stripUnderlines(linkTv);
 	}
 
-	
-	
-	@Override
-	public void onClick(View v) 
-	{
-		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
-		super.onClick(v);
 		
-		int id = v.getId();
-		
-		switch (id) 
-		{
-			default:
-			{
-				break;
-			}
-		}
-	}
-	
 		
 	@Override
 	protected void loadData() {/* Do nothing (no data to load on this activity) */}

@@ -388,7 +388,7 @@ public abstract class DateUtils
 		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;
 		
 		if (isToday) {
-			dayOfTheWeekAsString = context.getResources().getString(R.string.today);
+			dayOfTheWeekAsString = context.getString(R.string.today);
 		} else {
 			Calendar tomorrow = (Calendar) now.clone();
 	 		tomorrow.add(Calendar.DAY_OF_MONTH, 1);
@@ -397,7 +397,7 @@ public abstract class DateUtils
 	 		boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
 			
 	 		if(isTomorrow) {
-	 			dayOfTheWeekAsString = context.getResources().getString(R.string.tomorrow);
+	 			dayOfTheWeekAsString = context.getString(R.string.tomorrow);
 	 		} else {
 	 			dayOfTheWeekAsString = getDayOfWeekStringUsingFirstHourOfTVDay(inputCalendar);
 	 		}

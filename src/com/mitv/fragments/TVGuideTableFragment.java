@@ -195,49 +195,50 @@ public class TVGuideTableFragment
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{	
-		switch(fetchRequestResult)
+		if(fetchRequestResult.wasSuccessful())
 		{
-			case SUCCESS:
+			boolean noContent = true;
+
+			if (isAllCategoriesTag())
 			{
-				boolean noContent = true;
-				if (isAllCategoriesTag())
-				{
-					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
-					
-					tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
-					if(tvChannelGuides != null && !tvChannelGuides.isEmpty()) {
-						noContent = false;
-					}
-				} 
-				else
-				{
-					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
-					
-					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
-					
-					if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) {
-						noContent = false;
-					}
+				TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
+
+				tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
+				if(tvChannelGuides != null && !tvChannelGuides.isEmpty()) {
+					noContent = false;
 				}
-				
-				if(noContent) {
-					updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-				} else {
-					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-				}
-				break;
-			}
-			
-			default:
+			} 
+			else
 			{
-				// TODO NewArc - Do something here?
-				break;
+				HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
+
+				taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
+
+				if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) {
+					noContent = false;
+				}
 			}
+
+			if(noContent) 
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+			} 
+			else 
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			}
+		}
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 
-	private boolean isAllCategoriesTag() {
+	
+	private boolean isAllCategoriesTag() 
+	{
 		boolean isAllCategoriesTag = tvTagIdAsString.equals(Constants.ALL_CATEGORIES_TAG_ID);
+		
 		return isAllCategoriesTag;
 	}
 	
@@ -274,6 +275,7 @@ public class TVGuideTableFragment
 				}
 				break;
 			}
+			
 			default:
 			{
 				// Do nothing

@@ -181,7 +181,7 @@ public class RemindersListAdapter
 						
 						if (season > 0) 
 						{
-							seasonEpisodeSB.append(activity.getResources().getString(R.string.season));
+							seasonEpisodeSB.append(activity.getString(R.string.season));
 							seasonEpisodeSB.append(" ");
 							seasonEpisodeSB.append(season);
 							seasonEpisodeSB.append(" ");
@@ -191,7 +191,7 @@ public class RemindersListAdapter
 						
 						if (episode > 0) 
 						{
-							seasonEpisodeSB.append(activity.getResources().getString(R.string.episode));
+							seasonEpisodeSB.append(activity.getString(R.string.episode));
 							seasonEpisodeSB.append(" ");
 							seasonEpisodeSB.append(episode);
 							seasonEpisodeSB.append(" ");

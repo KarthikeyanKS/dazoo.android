@@ -5,6 +5,7 @@ package com.mitv.activities.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -21,7 +22,6 @@ public class ResetPasswordConfirmationActivity
 	extends BaseActivity 
 	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = ResetPasswordConfirmationActivity.class.getName();
 
 	
@@ -88,7 +88,7 @@ public class ResetPasswordConfirmationActivity
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		actionBar.setTitle(getResources().getString(R.string.reset_password));
+		actionBar.setTitle(getString(R.string.reset_password));
 
 		loginBtn = (RelativeLayout) findViewById(R.id.resetpassword_already_login_btn);
 		loginBtn.setOnClickListener(this);
@@ -108,6 +108,12 @@ public class ResetPasswordConfirmationActivity
 			{
 				Intent intentSignIn = new Intent(ResetPasswordConfirmationActivity.this, LoginWithMiTVUserActivity.class);
 				startActivity(intentSignIn);
+				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick.");
 				break;
 			}
 		}

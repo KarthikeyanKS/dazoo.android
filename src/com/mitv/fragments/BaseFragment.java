@@ -23,6 +23,7 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.UndoBarController;
 import com.mitv.ui.elements.UndoBarController.UndoListener;
+import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -156,10 +157,17 @@ public abstract class BaseFragment
 				break;
 			}
 			
+			case API_VERSION_TOO_OLD:
+			{
+				updateUI(UIStatusEnum.API_VERSION_TOO_OLD);
+				break;
+			}
+			
+			case SUCCESS:
+			case SUCCESS_WITH_NO_CONTENT:
 			default:
 			{
 				onDataAvailable(fetchRequestResult, requestIdentifier);
-				
 				break;
 			}
 		}
@@ -185,6 +193,12 @@ public abstract class BaseFragment
 					{
 						requestLoadingLayout.setVisibility(View.VISIBLE);
 					}
+					break;
+				}
+				
+				case API_VERSION_TOO_OLD: 
+				{
+					DialogHelper.showMandatoryAppUpdateDialog(getActivity());
 					break;
 				}
 			

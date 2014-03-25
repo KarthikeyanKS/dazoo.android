@@ -48,6 +48,7 @@ public class FeedListAdapter
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
 
+	
 	@SuppressWarnings("unused")
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
@@ -62,6 +63,7 @@ public class FeedListAdapter
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
+	
 	public void setFeedItems(ArrayList<TVFeedItem> feedItems) {
 		super.setItems(feedItems);
 		this.feedItems = feedItems;
@@ -235,7 +237,7 @@ public class FeedListAdapter
 						
 						if(season.intValue() != 0)
 						{
-							seasonEpisode.append(activity.getResources().getString(R.string.season));
+							seasonEpisode.append(activity.getString(R.string.season));
 							seasonEpisode.append(" ");
 							seasonEpisode.append(season);
 							seasonEpisode.append(" ");
@@ -243,7 +245,7 @@ public class FeedListAdapter
 						
 						if(episode > 0)
 						{
-							seasonEpisode.append(activity.getResources().getString(R.string.episode));
+							seasonEpisode.append(activity.getString(R.string.episode));
 							seasonEpisode.append(" ");
 							seasonEpisode.append(episode);
 						}
@@ -416,7 +418,6 @@ public class FeedListAdapter
 
 			final ProgramTypeEnum programType = program.getProgramType();
 			
-			
 			String title;
 			LikeTypeResponseEnum likeType;
 			String contentId;
@@ -436,7 +437,7 @@ public class FeedListAdapter
 
 					if(season.intValue() != 0)
 					{
-						seasonEpisode.append(activity.getResources().getString(R.string.season));
+						seasonEpisode.append(activity.getString(R.string.season));
 						seasonEpisode.append(" ");
 						seasonEpisode.append(season);
 						seasonEpisode.append(" ");
@@ -444,7 +445,7 @@ public class FeedListAdapter
 					
 					if(episode > 0)
 					{
-						seasonEpisode.append(activity.getResources().getString(R.string.episode));
+						seasonEpisode.append(activity.getString(R.string.episode));
 						seasonEpisode.append(" ");
 						seasonEpisode.append(episode);
 					}
@@ -520,7 +521,7 @@ public class FeedListAdapter
 			{
 				case POPULAR_TWITTER:
 				{
-					holderBC.headerTv.setText(activity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
+					holderBC.headerTv.setText(activity.getString(R.string.icon_twitter) + " " + feedItem.getTitle());
 					break;
 				}
 				

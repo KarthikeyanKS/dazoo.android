@@ -12,6 +12,10 @@ import com.mitv.models.gson.TVSearchResultJSON;
 public class TVSearchResult 
 	extends TVSearchResultJSON 
 {
+	private static String searchQuery;
+	
+	
+	
 	public TVBroadcastWithChannelInfo getNextBroadcast() 
 	{
 		TVBroadcastWithChannelInfo broadcastWithChannelInfo = null;
@@ -27,5 +31,26 @@ public class TVSearchResult
 		}
 	
 		return broadcastWithChannelInfo;
+	}
+	
+	
+	/* The toString representation will always be the original search query */
+	@Override
+	public String toString()
+	{
+		if(searchQuery == null)
+		{
+			return "";
+		}
+		else
+		{
+			return searchQuery;
+		}
+	}
+
+
+	public static void setSearchQuery(String search) 
+	{
+		searchQuery = search;
 	}
 }

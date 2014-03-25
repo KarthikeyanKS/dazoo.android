@@ -129,12 +129,12 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 				
 				if (season != 0) 
 				{
-					seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
+					seasonEpisode += activity.getString(R.string.season) + " " + season + " ";
 				}
 				
 				if (episode > 0) 
 				{
-					seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
+					seasonEpisode += activity.getString(R.string.episode) + " " + episode;
 				}
 				
 				holder.seasonEpisodeTv.setText(seasonEpisode);

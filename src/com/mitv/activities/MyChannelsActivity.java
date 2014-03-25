@@ -84,7 +84,7 @@ public class MyChannelsActivity
 	
 	private void initLayout()
 	{
-		actionBar.setTitle(getResources().getString(R.string.myprofile_my_channels));
+		actionBar.setTitle(getString(R.string.myprofile_my_channels));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 
@@ -227,7 +227,7 @@ public class MyChannelsActivity
 		super.updateUIBaseElements(status);
 
 		switch (status) 
-		{	
+		{
 			case SUCCESS_WITH_CONTENT:
 			{
 				populateViews();
@@ -241,6 +241,7 @@ public class MyChannelsActivity
 			}
 		}
 	}
+	
 	
 	@Override
 	public void afterTextChanged(Editable editable)

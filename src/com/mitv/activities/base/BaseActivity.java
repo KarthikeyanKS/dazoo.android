@@ -8,13 +8,11 @@ import java.util.Stack;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -26,7 +24,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.Constants;
@@ -45,8 +42,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVDate;
 import com.mitv.ui.elements.FontTextView;
-import com.mitv.ui.elements.UndoBarController;
-import com.mitv.ui.elements.UndoBarController.UndoListener;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.DateUtils;
@@ -57,7 +52,7 @@ import com.mitv.utilities.NetworkUtils;
 
 public abstract class BaseActivity 
 	extends ActionBarActivity 
-	implements ViewCallbackListener, OnClickListener, UndoListener 
+	implements ViewCallbackListener, OnClickListener 
 {
 	private static final String TAG = BaseActivity.class.getName();
 	
@@ -80,7 +75,7 @@ public abstract class BaseActivity
 	protected FontTextView tabProfileText;
 	protected View tabDividerLeft;
 	protected View tabDividerRight;
-	protected View undoBarlayoutView;
+//	protected View undoBarlayoutView;
 
 	private RelativeLayout requestEmptyLayout;
 	private FontTextView requestEmptyLayoutDetails;
@@ -92,7 +87,7 @@ public abstract class BaseActivity
 	private Button requestFailedRetryButton;
 
 	protected ActionBar actionBar;
-	protected UndoBarController undoBarController;
+//	protected UndoBarController undoBarController;
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
@@ -141,22 +136,23 @@ public abstract class BaseActivity
 	}
 
 	
-	@Override
-	public void onUndo(Parcelable token) 
-	{
-		if (undoBarController != null) 
-		{
-			undoBarController.hideUndoBar(true);
-			undoBarController = new UndoBarController(undoBarlayoutView, this);
-		} 
-		else 
-		{
-			Log.w(TAG, "Undo bar component is null.");
-		}
-		
-		loadDataWithConnectivityCheck();
-	}
+//	@Override
+//	public void onUndo(Parcelable token) 
+//	{
+//		if (undoBarController != null) 
+//		{
+//			undoBarController.hideUndoBar(true);
+//			undoBarController = new UndoBarController(undoBarlayoutView, this);
+//		} 
+//		else 
+//		{
+//			Log.w(TAG, "Undo bar component is null.");
+//		}
+//		
+//		loadDataWithConnectivityCheck();
+//	}
 
+	
 	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{
@@ -220,20 +216,23 @@ public abstract class BaseActivity
 			}
 		}
 
-		if (isLoggedIn && userHasJustLoggedIn) {
+		if (isLoggedIn && userHasJustLoggedIn) 
+		{
 			StringBuilder sb = new StringBuilder();
-			sb.append(getResources().getString(R.string.hello));
+			sb.append(getString(R.string.hello));
 			sb.append(" ");
 			sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
 
-			ToastHelper.createAndShowToast(this, sb.toString(), false);
-		} else {
+			ToastHelper.createAndShowShortToast(sb.toString());
+		} 
+		else 
+		{
 			if (userHasJustLoggedOut) 
 			{
 				StringBuilder sb = new StringBuilder();
 				sb.append(getString(R.string.logout_succeeded));
 
-				ToastHelper.createAndShowToast(this, sb.toString(), false);
+				ToastHelper.createAndShowShortToast(sb.toString());
 			}
 		}
 	}
@@ -333,16 +332,17 @@ public abstract class BaseActivity
 	}
 
 	/* Remove activity from activitStack */
-	private static void removeFromStack(Activity activity) {
-
-		if (activityStack.contains(activity)) {
-			if (activityStack.peek() == activity) {
-
-				int positionToRemove = activityStack.size() - 1;
-				activityStack.removeElementAt(positionToRemove);
-			}
-		}
-	}
+//	private static void removeFromStack(Activity activity) 
+//	{
+//		if (activityStack.contains(activity)) 
+//		{
+//			if (activityStack.peek() == activity) 
+//			{
+//				int positionToRemove = activityStack.size() - 1;
+//				activityStack.removeElementAt(positionToRemove);
+//			}
+//		}
+//	}
 
 	/**
 	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurences in the activity stack
@@ -747,23 +747,29 @@ public abstract class BaseActivity
 	
 	
 	@Override
-	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
 		Log.d(TAG, String.format("onDataAvailable FetchRequestResult: %s requestId: %s", fetchRequestResult.getDescription(), requestIdentifier.getDescription()));
 		
 		this.latestRequest = requestIdentifier;
+		
 		switch (fetchRequestResult) 
 		{
-			case INTERNET_CONNECTION_AVAILABLE: {
+			case INTERNET_CONNECTION_AVAILABLE: 
+			{
 				loadData();
 				break;
 			}
 	
-			case INTERNET_CONNECTION_NOT_AVAILABLE: {
+			case INTERNET_CONNECTION_NOT_AVAILABLE: 
+			{
 				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 				break;
 			}
 	
-			case API_VERSION_TOO_OLD: {
+			case API_VERSION_TOO_OLD: 
+			{
+				updateUI(UIStatusEnum.API_VERSION_TOO_OLD);
 				break;
 			}
 			
@@ -786,14 +792,16 @@ public abstract class BaseActivity
 	
 					if (hasEnoughDataToShowContent() && isConnected == false) 
 					{
-						if (undoBarController != null) 
-						{
-							undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-						} 
-						else 
-						{
-							Log.w(TAG, "Undo bar component is null.");
-						}
+						ToastHelper.createAndShowNoInternetConnectionToast();
+						
+//						if (undoBarController != null) 
+//						{
+//							undoBarController.showUndoBar(false, , null);
+//						} 
+//						else 
+//						{
+//							Log.w(TAG, "Undo bar component is null.");
+//						}
 					}
 	
 					onDataAvailable(fetchRequestResult, requestIdentifier);
@@ -807,14 +815,16 @@ public abstract class BaseActivity
 				
 				if (hasEnoughDataToShowContent() && isConnected == false) 
 				{
-					if (undoBarController != null) 
-					{
-						undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-					} 
-					else 
-					{
-						Log.w(TAG, "Undo bar component is null.");
-					}
+					ToastHelper.createAndShowNoInternetConnectionToast();
+					
+//					if (undoBarController != null) 
+//					{
+//						undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
+//					} 
+//					else 
+//					{
+//						Log.w(TAG, "Undo bar component is null.");
+//					}
 				}
 
 				onDataAvailable(fetchRequestResult, requestIdentifier);
@@ -823,15 +833,18 @@ public abstract class BaseActivity
 		}
 	}
 
-	protected void updateUIBaseElements(UIStatusEnum status) {
+	protected void updateUIBaseElements(UIStatusEnum status) 
+	{
 		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
 
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
 
-		if (activityNotNullOrFinishing) {
+		if (activityNotNullOrFinishing) 
+		{
 			hideRequestStatusLayouts();
 
-			switch (status) {
+			switch (status) 
+			{
 			case LOADING: {
 				if (requestLoadingLayout != null) {
 					requestLoadingLayout.setVisibility(View.VISIBLE);
@@ -845,7 +858,8 @@ public abstract class BaseActivity
 			}
 
 			case FAILED:{
-				if (requestFailedLayout != null) {
+				if (requestFailedLayout != null) 
+				{
 					requestFailedLayout.setVisibility(View.VISIBLE);
 				}
 				break;
@@ -858,8 +872,10 @@ public abstract class BaseActivity
 				break;
 			}
 
-			case SUCCESS_WITH_NO_CONTENT: {
-				if (requestEmptyLayout != null) {
+			case SUCCESS_WITH_NO_CONTENT: 
+			{
+				if (requestEmptyLayout != null) 
+				{
 					requestEmptyLayout.setVisibility(View.VISIBLE);
 				}
 				break;
@@ -867,7 +883,7 @@ public abstract class BaseActivity
 
 			case SUCCESS_WITH_CONTENT:
 			default: {
-				// Success or other cases should be handled by the subclasses
+				// Success or other cases should be handled by subclasses
 				break;
 			}
 			}
@@ -889,7 +905,8 @@ public abstract class BaseActivity
 			requestEmptyLayout.setVisibility(View.GONE);
 		}
 		
-		if(requestFailedLayout != null) {
+		if(requestFailedLayout != null) 
+		{
 			requestFailedLayout.setVisibility(View.GONE);
 		}
 	}
@@ -919,13 +936,16 @@ public abstract class BaseActivity
 			requestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
 
-		undoBarlayoutView = findViewById(R.id.undobar);
-
-		if (undoBarlayoutView != null) {
-			undoBarController = new UndoBarController(undoBarlayoutView, this);
-		} else {
-			Log.w(TAG, "Undo bar element not present.");
-		}
+//		undoBarlayoutView = findViewById(R.id.undobar);
+//
+//		if (undoBarlayoutView != null) 
+//		{
+//			undoBarController = new UndoBarController(undoBarlayoutView, this);
+//		} 
+//		else 
+//		{
+//			Log.w(TAG, "Undo bar element not present.");
+//		}
 	}
 
 	protected void setEmptyLayoutDetailsMessage(String message) {

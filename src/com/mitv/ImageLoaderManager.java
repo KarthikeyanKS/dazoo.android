@@ -30,7 +30,7 @@ public class ImageLoaderManager
 	
 	
 	
-	public static ImageLoaderManager sharedInstance(Context context) 
+	public static ImageLoaderManager sharedInstance(final Context context) 
 	{
 		if (instance == null) 
 		{

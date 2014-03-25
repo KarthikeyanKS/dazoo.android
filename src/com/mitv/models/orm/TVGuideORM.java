@@ -4,7 +4,6 @@ package com.mitv.models.orm;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.mitv.models.TVChannelGuide;

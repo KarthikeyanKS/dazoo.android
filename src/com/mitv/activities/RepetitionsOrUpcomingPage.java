@@ -25,6 +25,7 @@ public abstract class RepetitionsOrUpcomingPage
 	@SuppressWarnings("unused")
 	private static final String TAG = RepetitionsOrUpcomingPage.class.getName();
 
+	
 	private ListView listView;
 	private UpcomingOrRepeatingBroadcastsListAdapter listAdapter;
 	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
@@ -60,9 +61,9 @@ public abstract class RepetitionsOrUpcomingPage
 		
 		String title;
 		if(usedForUpcomingEpisodes) {
-			title = getResources().getString(R.string.upcoming_episodes);
+			title = getString(R.string.upcoming_episodes);
 		} else {
-			title = getResources().getString(R.string.repetitions);
+			title = getString(R.string.repetitions);
 		}
 		actionBar.setTitle(title);
 		listView = (ListView) findViewById(R.id.repeating_list_listview);
@@ -99,12 +100,15 @@ public abstract class RepetitionsOrUpcomingPage
 	}
 	
 	
+	
 	@Override
 	public void onBackPressed() 
 	{
 		super.onBackPressed();
+		
 		finish();
 	}
+	
 	
 	
 	@Override

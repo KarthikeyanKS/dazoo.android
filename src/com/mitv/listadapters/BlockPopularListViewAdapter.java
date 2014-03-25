@@ -1,4 +1,7 @@
+
 package com.mitv.listadapters;
+
+
 
 import java.util.ArrayList;
 
@@ -24,14 +27,19 @@ import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class BlockPopularListViewAdapter extends BaseAdapter {
 
-	private static final String		TAG	= "BlockPopularListViewAdapter";
 
-	private LayoutInflater			mLayoutInflater;
-	private Activity				mActivity;
-	private ArrayList<TVBroadcastWithChannelInfo>	mPopularBroadcasts;
+public class BlockPopularListViewAdapter 
+	extends BaseAdapter 
+{
+	private static final String	TAG	= BlockPopularListViewAdapter.class.getName();
 
+	
+	private LayoutInflater mLayoutInflater;
+	private Activity mActivity;
+	private ArrayList<TVBroadcastWithChannelInfo> mPopularBroadcasts;
+
+	
 	public BlockPopularListViewAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
@@ -56,14 +64,17 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 		return -1;
 	}
 
+	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) 
+	{
 		View rowView = convertView;
 
 		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
 		Log.d(TAG,"BROADCAST NAME: " + broadcastWithChannelInfo.getProgram().getTitle());
 
-		if (rowView == null) {
+		if (rowView == null) 
+		{
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = mLayoutInflater.inflate(R.layout.block_feed_popular_listitem, null);
 			ViewHolder viewHolder = new ViewHolder();
@@ -82,13 +93,13 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (broadcastWithChannelInfo != null) {
+		if (broadcastWithChannelInfo != null) 
+		{
 			// different details about the broadcast program depending on the type
-
 			ImageAware imageAware = new ImageViewAware(holder.mPoster, false);
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 			
-			//TODO NewArc veryfy that getBeginTimeDayOfTheWeekWithHourAndMinuteAsString is what we want here
+			//TODO NewArc verify that getBeginTimeDayOfTheWeekWithHourAndMinuteAsString is what we want here
 			holder.mTime.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holder.mChannelName.setText(broadcastWithChannelInfo.getChannel().getName());
 			
@@ -101,24 +112,30 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			}
 			
 			
-			switch (programType) {
-			case MOVIE: {
-				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
-				break;
-			}
-			case TV_EPISODE: {
-				holder.mDetails.setText(mActivity.getResources().getString(R.string.season) + " " + broadcastWithChannelInfo.getProgram().getSeason().getNumber() + " "
-						+ mActivity.getResources().getString(R.string.episode) + " " + broadcastWithChannelInfo.getProgram().getEpisodeNumber());
-				break;
-			}
-			case SPORT: {
-				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getSportType().getName() + " " + broadcastWithChannelInfo.getProgram().getTournament());
-				break;
-			}
-			case OTHER: {
-				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getCategory());
-				break;
-			}
+			switch (programType) 
+			{
+				case MOVIE: {
+					holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
+					break;
+				}
+				case TV_EPISODE: {
+					holder.mDetails.setText(mActivity.getString(R.string.season) + " " + broadcastWithChannelInfo.getProgram().getSeason().getNumber() + " "
+							+ mActivity.getString(R.string.episode) + " " + broadcastWithChannelInfo.getProgram().getEpisodeNumber());
+					break;
+				}
+				case SPORT: {
+					holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getSportType().getName() + " " + broadcastWithChannelInfo.getProgram().getTournament());
+					break;
+				}
+				case OTHER: {
+					holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getCategory());
+					break;
+				}
+				default:
+				{
+					Log.w(TAG, "Unhandled program type.");
+					break;
+				}
 			}
 		}
 
@@ -135,7 +152,10 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 		return rowView;
 	}
 
-	private static class ViewHolder {
+	
+	
+	private static class ViewHolder 
+	{
 		LinearLayout	mContainer;
 		ImageView		mPoster;
 		ProgressBar		mImageProgressBar;

@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
@@ -57,23 +56,31 @@ public class SearchPageActivity
 	extends BaseActivity 
 	implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher 
 {
-	private class SearchRunnable implements Runnable {
-
+	private class SearchRunnable implements Runnable 
+	{
 		private boolean cancelled = false;
 		
 		@Override
-		public void run() {
-			if(!cancelled) {
+		public void run() 
+		{
+			if(!cancelled) 
+			{
 				String searchQuery = editTextSearch.getText().toString();
+				
 				setLoading();
+				
 				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
+				
 				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, searchQuery);
-			} else {
+			} 
+			else 
+			{
 				Log.d(TAG, "Search runnable was cancelled");
 			}
 		}
 
-		public void cancel() {
+		public void cancel() 
+		{
 			cancelled = true;
 		}
 	}
@@ -115,37 +122,44 @@ public class SearchPageActivity
 
 	
 	@Override
-	public void onResume() {
+	public void onResume()
+	{
 		super.onResume();
 		
 		showKeyboard();
+		
 		triggerAutoComplete();
 	}
 
+	
 	@Override
-	public void onPause() {
+	public void onPause()
+	{
 		super.onPause();
 		GenericUtils.hideKeyboard(this);
 	}
 	
-	
 
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		GenericUtils.hideKeyboard(this);
 		super.onBackPressed();
 	}
 
 
-	private void initSupportActionbar() {
+	private void initSupportActionbar()
+	{
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
+	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		MenuInflater inflater = getMenuInflater();
 
 		inflater.inflate(R.menu.actionbar_menu, menu);
@@ -165,7 +179,9 @@ public class SearchPageActivity
 		return true;
 	}
 
-	private void initAutoCompleteLayout() {
+	
+	private void initAutoCompleteLayout() 
+	{
 		MenuItem searchField = menu.findItem(R.id.searchfield);
 
 		View searchFieldView = MenuItemCompat.getActionView(searchField);
@@ -179,14 +195,18 @@ public class SearchPageActivity
 		editTextSearch.requestFocus();
 	}
 
-	private void initAutoCompleteListeners() {
+	
+	private void initAutoCompleteListeners() 
+	{
 		editTextClearBtn.setOnClickListener(this);
 		editTextSearch.setOnItemClickListener(this);
 		editTextSearch.addTextChangedListener(this);
 		editTextSearch.setOnEditorActionListener(this);
 	}
 
-	private void loadAutoCompleteView() {
+	
+	private void loadAutoCompleteView() 
+	{
 		autoCompleteAdapter = new SearchPageListAdapter(this);
 		editTextSearch.setThreshold(Constants.SEARCH_QUERY_LENGTH_THRESHOLD - 1);
 
@@ -198,112 +218,149 @@ public class SearchPageActivity
 	}
 
 
-	public void showProgressLoading(boolean isLoading) {
-		if (isLoading) {
+	public void showProgressLoading(boolean isLoading) 
+	{
+		if (isLoading) 
+		{
 			progressBar.setVisibility(View.VISIBLE);
 			editTextClearBtn.setVisibility(View.GONE);
-		} else {
+		} 
+		else
+		{
 			progressBar.setVisibility(View.GONE);
 			editTextClearBtn.setVisibility(View.VISIBLE);
 		}
 	}
 
-	private void showKeyboard() {
-		keyboardHandler.post(new Runnable() {
-			public void run() {
+	
+	private void showKeyboard() 
+	{
+		keyboardHandler.post(new Runnable() 
+		{
+			public void run() 
+			{
 				InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
 				inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
-				 performSearchAndTriggerAutocomplete();
+				performSearchAndTriggerAutocomplete();
 			}
 		});
 	}
 
 
-	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
+	{
 		TVSearchResult result = (TVSearchResult) adapterView.getItemAtPosition(position);
 
 		ContentTypeEnum resultResultType = result.getEntityType();
 
-		switch (resultResultType) {
-		case CHANNEL: {
-			TVChannelId channelId = result.getEntity().getChannel().getChannelId();
-			Intent intent;
-			if (ContentManager.sharedInstance().isContainedInUsedChannelIds(channelId)) {
-				ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
-				intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
-			} else {
-				if (ContentManager.sharedInstance().isLoggedIn()) {
-					ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
-					ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(true);
-					intent = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
-				} else {
-					intent = new Intent(SearchPageActivity.this, SignUpSelectionActivity.class);
-				}
-			}
-			startActivity(intent);
-			break;
-		}
-		default: {
-			/* Open the detail view for the individual broadcast */
-			TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
-			if (nextBroadcast != null) {
-				Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
-				startActivity(intent);
-			} else 
+		switch (resultResultType) 
+		{
+			case CHANNEL: 
 			{
-				String message = getString(R.string.search_no_upcoming_broadcasts);
+				TVChannelId channelId = result.getEntity().getChannel().getChannelId();
 				
-				ToastHelper.createAndShowToast(this, message, false);
+				Intent intent;
+				
+				if (ContentManager.sharedInstance().isContainedInUsedChannelIds(channelId)) 
+				{
+					ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+					intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
+				} 
+				else
+				{
+					if (ContentManager.sharedInstance().isLoggedIn())
+					{
+						ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+						ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(true);
+						intent = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
+					} 
+					else
+					{
+						intent = new Intent(SearchPageActivity.this, SignUpSelectionActivity.class);
+					}
+				}
+				startActivity(intent);
+				break;
 			}
-			break;
-		}
+			
+			default:
+			{
+				/* Open the detail view for the individual broadcast */
+				TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
+				
+				if (nextBroadcast != null) 
+				{
+					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
+					startActivity(intent);
+				} 
+				else 
+				{
+					String message = getString(R.string.search_no_upcoming_broadcasts);
+					
+					ToastHelper.createAndShowShortToast(message);
+				}
+				break;
+			}
 		}
 
-		setTextToLastSearchQuery();
 		GenericUtils.hideKeyboard(this);
 	}
 
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		super.onClick(v);
 
-		switch (v.getId()) {
-		case R.id.searchbar_clear: {
-			editTextSearch.setText("");
-			editTextSearch.dismissDropDown();
-			break;
-		}
-		case R.id.searchbar_edittext: {
-			editTextSearch.showDropDown();
-			break;
-		}
+		switch (v.getId()) 
+		{
+			case R.id.searchbar_clear: 
+			{
+				editTextSearch.setText("");
+				editTextSearch.dismissDropDown();
+				break;
+			}
+			
+			case R.id.searchbar_edittext: 
+			{
+				editTextSearch.showDropDown();
+				break;
+			}
 		}
 	}
 
+	
 	@Override
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+	public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+	{
+		if (actionId == EditorInfo.IME_ACTION_SEARCH) 
+		{
 			performSearchAndTriggerAutocomplete();
 			return true;
 		}
+		
 		return false;
 	}
 
-	private void performSearchAndTriggerAutocomplete() {
-		if (editTextSearch != null) {
+	
+	private void performSearchAndTriggerAutocomplete()
+	{
+		if (editTextSearch != null)
+		{
 			Log.d(TAG, "Creating new searchRunnable and starting count down");
 			lastSearchRunnable = new SearchRunnable();
 			delayedSearchHandler.postDelayed(lastSearchRunnable, Constants.DELAY_IN_MILLIS_UNTIL_SEARCH);
 		}
 	}
 
-	private void triggerAutoComplete() {
-		if (editTextSearch != null && lastSearchQuery != null) {
-			setTextToLastSearchQuery();
-			
+	
+	private void triggerAutoComplete() 
+	{
+		if (editTextSearch != null && lastSearchQuery != null) 
+		{
 			Filter filter = autoCompleteAdapter.getFilter();
 			filter.filter(lastSearchQuery);
 			editTextSearch.showDropDown();
@@ -312,32 +369,30 @@ public class SearchPageActivity
 		}
 	}
 	
-	private void setTextToLastSearchQuery() {
-		if (editTextSearch != null && lastSearchQuery != null) {
-			editTextSearch.removeTextChangedListener(this);
-			editTextSearch.setText(lastSearchQuery);
-			editTextSearch.addTextChangedListener(this);
-			
-			editTextSearch.setSelection(lastSearchQuery.length());
-		}
-	}
 	
-	private void setLoading() {
+	private void setLoading() 
+	{
 		changeLoadingStatus(true);
 	}
 
-	private void setNotLoading() {
+	
+	private void setNotLoading() 
+	{
 		changeLoadingStatus(false);
 	}
 
-	private void changeLoadingStatus(final boolean loading) {
+	
+	private void changeLoadingStatus(final boolean loading) 
+	{
 		showProgressLoading(loading);
 	}
 
+	
+	
 	@Override
 	protected void loadData() 
 	{
-		// TODO NewArc - do we need anything here?
+		// Do nothing
 	}
 	
 	
@@ -349,7 +404,6 @@ public class SearchPageActivity
 	}
 	
 	
-
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
@@ -409,7 +463,8 @@ public class SearchPageActivity
 	{
 		String searchQuery = editable.toString();
 		
-		if(lastSearchRunnable != null) {
+		if(lastSearchRunnable != null) 
+		{
 			Log.d(TAG, "Text change, cancelling last searchRunnable");
 			lastSearchRunnable.cancel();
 		}
@@ -419,7 +474,9 @@ public class SearchPageActivity
 		if(!TextUtils.isEmpty(searchQuery) && searchQuery.length() >= Constants.SEARCH_QUERY_LENGTH_THRESHOLD) 
 		{
 			performSearchAndTriggerAutocomplete();
-		} else {
+		} 
+		else 
+		{
 			autoCompleteAdapter.setSearchResultItemsForQueryString(null, null);
 			autoCompleteAdapter.clear();
 			searchInstructionsView.setVisibility(View.VISIBLE);

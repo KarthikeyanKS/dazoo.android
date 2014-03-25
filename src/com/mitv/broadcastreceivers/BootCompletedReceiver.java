@@ -16,7 +16,6 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.FileUtils;
-import com.mitv.utilities.GenericUtils;
 
 
 
@@ -42,8 +41,10 @@ public class BootCompletedReceiver
 	        boolean startedOnceBeforeExternalStorage = FileUtils.fileExists(file);
 	        
 	        /* Write file to external storage */
-	        if(Constants.IS_PREINSTALLED_VERSION) {
+	        if(Constants.IS_PREINSTALLED_VERSION) 
+	        {
 	        	SecondScreenApplication.sharedInstance().setAppAsPreinstalled();
+	        	
 	        	FileUtils.saveFile(file);
 	        }
         	

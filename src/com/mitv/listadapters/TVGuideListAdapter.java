@@ -5,7 +5,6 @@ package com.mitv.listadapters;
 
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -86,7 +85,6 @@ public class TVGuideListAdapter
 	}
 
 	
-	
 	private boolean isAddMoreChannelsCellPosition(int position) 
 	{
 		boolean isAddMoreChannelsCellPosition = (position == getCount() - 1);
@@ -99,12 +97,15 @@ public class TVGuideListAdapter
 	public int getItemViewType(int position) 
 	{
 		int itemViewType = super.getItemViewType(position);
-		if(itemViewType == VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) {
+		
+		if(itemViewType == VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) 
+		{
 			itemViewType = VIEW_TYPE_CUSTOM;
 		}
 		return itemViewType;
 	}
 
+	
 	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
@@ -176,9 +177,9 @@ public class TVGuideListAdapter
 			}
 		});
 
-		String stringIconMovie = activity.getResources().getString(R.string.icon_movie) + " ";
+		String stringIconMovie = activity.getString(R.string.icon_movie) + " ";
 
-		String stringIconLive = activity.getResources().getString(R.string.icon_live) + " ";
+		String stringIconLive = activity.getString(R.string.icon_live) + " ";
 
 		StringBuilder textForThreeBroadcastsSB = new StringBuilder();
 
@@ -324,11 +325,11 @@ public class TVGuideListAdapter
 			//If there is no data, show message "No content is available". TODO: What to do here?
 			else 
 			{
-				holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available) + "\n\n");
+				holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
 			}
 		}
 		else {
-			holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available) + "\n\n");
+			holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
 		}
 
 		return rowView;
@@ -461,7 +462,7 @@ public class TVGuideListAdapter
 	}
 
 	
-	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) 

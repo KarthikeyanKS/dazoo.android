@@ -4,16 +4,11 @@ package com.mitv.ui.helpers;
 
 
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,22 +20,55 @@ public class ToastHelper
 	private static final String TAG = ToastHelper.class.getName();
 	
 	
-	public static void createAndShowToast(
-			final Context context,
-			final String message,
-			final boolean useLongDuration)
+	
+	public static void createAndShowNoInternetConnectionToast()
 	{
-		int duration;
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+	
+		String message = context.getString(R.string.toast_internet_connection);
 		
-		if(useLongDuration)
+		createAndShowToast(context, message, Toast.LENGTH_SHORT);
+	}
+	
+	
+	
+	public static void createAndShowShortToast(final String message)
+	{
+		if(message != null)
 		{
-			duration = Toast.LENGTH_LONG;
+			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+			
+			createAndShowToast(context, message, Toast.LENGTH_SHORT);
 		}
 		else
 		{
-			duration = Toast.LENGTH_SHORT;
+			Log.w(TAG, "Attempting to show a null message in Toast");
 		}
-		
+	}
+	
+	
+	
+	public static void createAndShowLongToast(final String message)
+	{
+		if(message != null)
+		{
+			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+			
+			createAndShowToast(context, message, Toast.LENGTH_LONG);
+		}
+		else
+		{
+			Log.w(TAG, "Attempting to show a null message in Toast");
+		}
+	}
+	
+	
+	
+	private static void createAndShowToast(
+			final Context context,
+			final String message,
+			final int duration)
+	{		
 		Toast toast = Toast.makeText(context, message, duration);
 
 		LinearLayout linearLayout = (LinearLayout) toast.getView();
@@ -96,41 +124,5 @@ public class ToastHelper
 //		
 //		toast.show();
 //	}
-//	
-//	
-//	
-//	public static void showNotificationWasSetToast(final Activity activity) 
-//	{
-//		Toast toast = new Toast(activity.getApplicationContext());
-//		
-//		LayoutInflater inflater = activity.getLayoutInflater();
-//		
-//		View layout = inflater.inflate(R.layout.toast_notification_and_like_set, (ViewGroup) activity.findViewById(R.id.notification_and_like_set_toast_container));
-//
-//		TextView text = (TextView) layout.findViewById(R.id.notification_and_like_set_toast_tv);
-//		
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(activity.getResources().getString(R.string.reminder_text_set_top));
-//		sb.append(" <b> ");
-//		sb.append(activity.getResources().getString(R.string.reminder_text_set_middle));
-//		sb.append(" </b> ");
-//		sb.append(activity.getResources().getString(R.string.reminder_text_set_bottom));
-//		
-//		Spanned spanned = Html.fromHtml(sb.toString());
-//		
-//		text.setText(spanned);
-//
-//		if(android.os.Build.VERSION.SDK_INT >= 13) 
-//		{
-//			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //200
-//		} 
-//		else 
-//		{
-//			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //100
-//		}
-//		
-//		toast.setDuration(Toast.LENGTH_SHORT);
-//		toast.setView(layout);
-//		toast.show();
-//	}
+
 }
