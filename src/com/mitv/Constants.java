@@ -496,7 +496,7 @@ public abstract class Constants
 	public static final int CACHE_DATABASE_VERSION = 1;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
-	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = true;
+	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = true;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;

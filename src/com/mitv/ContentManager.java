@@ -96,6 +96,7 @@ public class ContentManager
 	private boolean isUpdatingGuide;
 	private boolean isBuildingTaggedBroadcasts;
 	private boolean isFetchingFeedItems;
+	private boolean isGoingToMyChannelsFromSearch;
 	private Boolean isLocalDeviceCalendarOffSync;
 			
 	private HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
@@ -119,6 +120,14 @@ public class ContentManager
 		{
 			completedCountTVDataForProgressMessage += COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD;
 		}
+	}
+	
+	public void setGoingToMyChannelsFromSearch(boolean isGoingToMyChannelsFromSearch) {
+		this.isGoingToMyChannelsFromSearch = isGoingToMyChannelsFromSearch;
+	}
+	
+	public boolean isGoingToMyChannelsFromSearch() {
+		return isGoingToMyChannelsFromSearch;
 	}
 
 	public void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) {
@@ -450,7 +459,7 @@ public class ContentManager
 				
 				apiClient.cancelAllPendingRequests();
 				
-				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
+				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
 			}
 			else
 			{
