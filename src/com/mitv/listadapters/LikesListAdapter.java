@@ -126,7 +126,7 @@ public class LikesListAdapter
 						case MOVIE:
 						{
 							StringBuilder sb = new StringBuilder();
-							sb.append(activity.getString(R.string.movie));
+							sb.append(userLike.getGenre());
 							
 							if(userLike.getYear() != 0) 
 							{
@@ -147,8 +147,6 @@ public class LikesListAdapter
 						
 						default:
 						{
-							holder.programTypeTv.setText(activity.getString(R.string.movie));
-							
 							Log.w(TAG, "Unhandled program type.");
 							break;
 						}
