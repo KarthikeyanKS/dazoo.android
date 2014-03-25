@@ -126,7 +126,15 @@ public class ReminderView
 		}
 	}
 	
-	
+	public void setSizeOfIcon(boolean small) {
+		if(small) {
+			int smallSize = 24; /* The size is in sp */
+			iconView.setTextSize(smallSize);
+		} else {
+			int smallSize = 30; /* The is the default size is in sp */
+			iconView.setTextSize(smallSize);
+		}
+	}
 
 	@Override
 	public void onClick(View v) 

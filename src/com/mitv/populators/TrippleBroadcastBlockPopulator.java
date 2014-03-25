@@ -94,8 +94,6 @@ public class TrippleBroadcastBlockPopulator
 		}
 	}
 
-
-
 	public void populatePartOfBlock(
 			final int position, 
 			final ArrayList<TVBroadcastWithChannelInfo> broadcastList, 
@@ -106,6 +104,7 @@ public class TrippleBroadcastBlockPopulator
 			final TVBroadcastWithChannelInfo broadcastWithChannelInfo = broadcastList.get(position);
 
 			LinearLayout container = null;
+			boolean setSmallIcon = true;
 
 			switch (position) 
 			{
@@ -115,6 +114,8 @@ public class TrippleBroadcastBlockPopulator
 	
 					reminderViewOne = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewOne.setBroadcast(broadcastWithChannelInfo);
+
+					reminderViewOne.setSizeOfIcon(setSmallIcon);
 	
 					break;
 				}
@@ -125,6 +126,8 @@ public class TrippleBroadcastBlockPopulator
 	
 					reminderViewTwo = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewTwo.setBroadcast(broadcastWithChannelInfo);
+
+					reminderViewTwo.setSizeOfIcon(setSmallIcon);
 	
 					dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
 					dividerView.setVisibility(View.VISIBLE);
@@ -138,6 +141,8 @@ public class TrippleBroadcastBlockPopulator
 	
 					reminderViewThree = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewThree.setBroadcast(broadcastWithChannelInfo);
+
+					reminderViewThree.setSizeOfIcon(setSmallIcon);
 	
 					dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
 					dividerView.setVisibility(View.VISIBLE);
