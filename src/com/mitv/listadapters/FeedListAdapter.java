@@ -26,7 +26,6 @@ import com.mitv.activities.PopularPageActivity;
 import com.mitv.enums.ActivityFeedAdapterTypeEnum;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
-import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
@@ -393,7 +392,6 @@ public class FeedListAdapter
 			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.block_feed_liked_main_container);
 			viewHolder.headerTv = (TextView) rowView.findViewById(R.id.block_feed_liked_header_tv);
 			viewHolder.landscapeIv = (ImageView) rowView.findViewById(R.id.block_feed_liked_content_iv);
-			viewHolder.landscapePb = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_content_iv_progressbar);
 			viewHolder.titleTv = (TextView) rowView.findViewById(R.id.block_feed_liked_title_tv);
 			viewHolder.timeTv = (TextView) rowView.findViewById(R.id.block_feed_liked_time_tv);
 			viewHolder.channelTv = (TextView) rowView.findViewById(R.id.block_feed_liked_channel_tv);
@@ -403,7 +401,6 @@ public class FeedListAdapter
 
 			viewHolder.likeView = (LikeView) rowView.findViewById(R.id.element_social_buttons_like_view);
 			viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
-			viewHolder.shareIv = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
 
 			viewHolder.container.setTag(Integer.valueOf(position));
@@ -419,16 +416,12 @@ public class FeedListAdapter
 			final ProgramTypeEnum programType = program.getProgramType();
 			
 			String title;
-			LikeTypeResponseEnum likeType;
-			String contentId;
 			
 			switch (programType) 
 			{
 				case TV_EPISODE:
 				{
 					title = program.getSeries().getName();
-					likeType = LikeTypeResponseEnum.SERIES;
-					contentId = program.getSeries().getSeriesId();
 					
 					Integer season = program.getSeason().getNumber();;
 					int episode = program.getEpisodeNumber();
@@ -463,8 +456,6 @@ public class FeedListAdapter
 				case SPORT:
 				{
 					title = program.getTitle();
-					likeType = LikeTypeResponseEnum.SPORT_TYPE;
-					contentId = program.getSportType().getSportTypeId();
 					
 					StringBuilder detailsSB = new StringBuilder();
 					detailsSB.append(program.getSportType().getName());
@@ -479,8 +470,6 @@ public class FeedListAdapter
 				case MOVIE:
 				{
 					title = program.getTitle();
-					likeType = LikeTypeResponseEnum.PROGRAM;
-					contentId = program.getProgramId();
 					
 					StringBuilder detailsSB = new StringBuilder();
 					detailsSB.append(program.getGenre());
@@ -495,8 +484,6 @@ public class FeedListAdapter
 				case OTHER:
 				{
 					title = program.getTitle();
-					likeType = LikeTypeResponseEnum.PROGRAM;
-					contentId = program.getProgramId();
 					
 					holderBC.titleTv.setText(program.getTitle());
 					holderBC.detailsTv.setText(program.getCategory());
@@ -507,8 +494,6 @@ public class FeedListAdapter
 				default:
 				{
 					title = program.getTitle();
-					likeType = LikeTypeResponseEnum.PROGRAM;
-					contentId = program.getProgramId();
 					
 					Log.w(TAG, "Unknown program type.");
 					break;
@@ -581,8 +566,6 @@ public class FeedListAdapter
 			PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
 			
 			rowView = layoutInflater.inflate(R.layout.block_feed_popular, null);
-
-			viewHolder.header = (TextView) rowView.findViewById(R.id.block_popular_header_tv);
 
 			// one
 			RelativeLayout elementOne = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_one);
@@ -660,16 +643,13 @@ public class FeedListAdapter
 		RelativeLayout	container;
 		TextView		headerTv;
 		ImageView		landscapeIv;
-		ProgressBar		landscapePb;
 		TextView		titleTv;
 		TextView		timeTv;
 		TextView		channelTv;
 		TextView		detailsTv;
 		TextView		progressbarTv;
 		ProgressBar		progressBar;
-		ImageView		likeLikeIv;
 		RelativeLayout	shareContainer;
-		RelativeLayout	shareIv;
 		ReminderView 	reminderView;
 		LikeView 		likeView;
 	}
@@ -678,7 +658,6 @@ public class FeedListAdapter
 	
 	private static class PopularBroadcastsViewHolder 
 	{
-		TextView		header;
 		RelativeLayout	mContainerOne;
 		ImageView		mPosterOne;
 		TextView		mTitleOne;

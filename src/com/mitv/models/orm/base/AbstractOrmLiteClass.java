@@ -60,6 +60,7 @@ public abstract class AbstractOrmLiteClass<T>
 
 	protected abstract void onAfterSave();
 
+	@SuppressWarnings("unchecked")
 	protected Dao<? extends AbstractOrmLiteClass<?>, ?> getDao()
 			throws SQLException 
 	{

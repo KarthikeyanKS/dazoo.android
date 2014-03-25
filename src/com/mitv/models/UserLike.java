@@ -14,7 +14,8 @@ import com.mitv.models.gson.UserLikeJSON;
 
 
 public class UserLike 
-	extends UserLikeJSON implements GSONDataFieldValidation
+	extends UserLikeJSON 
+	implements GSONDataFieldValidation
 {
 	private static final String	TAG	= UserLike.class.getName();
 	

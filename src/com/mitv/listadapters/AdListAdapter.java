@@ -30,20 +30,27 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class AdListAdapter<T> extends BaseAdapter {
-
+public class AdListAdapter<T> 
+	extends BaseAdapter 
+{
 	protected static final int VIEW_TYPE_AD = 0;
 	protected static final int VIEW_TYPE_STANDARD = 1;
 	protected static final int VIEW_TYPE_CUSTOM = 2;
 	
 	private Activity activity;
+	
+	@SuppressWarnings("unused")
 	private String fragmentName;
+	
+	@SuppressWarnings("unused")
+	private List<Integer> adFormats;
+	
 	private List<T> items;
 	private SparseArray<AdAdzerk> adItems = new SparseArray<AdAdzerk>();
-	private List<Integer> adFormats;
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
 
+	
 	public AdListAdapter(String fragmentName, Activity activity, List<T> items) 
 	{
 		super();
@@ -82,7 +89,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	
 	private void downloadAds() 
 	{
-		// TODO NewArc - Use ContentManager for ads
+		// TODO NewArc - Implement Ads
 //		final int adCount = getAdCount();
 //		
 //		for(int i = 0; i < adCount; ++i) 
