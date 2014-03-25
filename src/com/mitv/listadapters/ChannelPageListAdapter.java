@@ -126,7 +126,7 @@ public class ChannelPageListAdapter
 			
 			switch (programType) {
 			case MOVIE: {
-				holder.title.setText(activity.getResources().getString(R.string.icon_movie) + " " + title);
+				holder.title.setText(activity.getString(R.string.icon_movie) + " " + title);
 				holder.description.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 				break;
 			}
@@ -136,10 +136,10 @@ public class ChannelPageListAdapter
 				String seasonEpisode = "";
 				
 				if (season > 0) {
-					seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
+					seasonEpisode += activity.getString(R.string.season) + " " + season + " ";
 				}
 				if (episode > 0) {
-					seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
+					seasonEpisode += activity.getString(R.string.episode) + " " + episode;
 				}
 				
 				holder.description.setText(seasonEpisode);
@@ -148,7 +148,7 @@ public class ChannelPageListAdapter
 			}
 			case SPORT: {
 				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType.toString())) {
-					holder.title.setText(activity.getResources().getString(R.string.icon_live) + " " + title);
+					holder.title.setText(activity.getString(R.string.icon_live) + " " + title);
 				} else {
 					holder.title.setText(title);
 				}
@@ -158,7 +158,7 @@ public class ChannelPageListAdapter
 			}
 			case OTHER: {
 				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType.toString()))  {
-					holder.title.setText(activity.getResources().getString(R.string.icon_live) + " " + title);
+					holder.title.setText(activity.getString(R.string.icon_live) + " " + title);
 				} else {
 					holder.title.setText(title);
 				}

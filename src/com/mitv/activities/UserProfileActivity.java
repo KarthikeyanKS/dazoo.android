@@ -167,7 +167,16 @@ public class UserProfileActivity
 				}
 				else
 				{
-					updateUI(UIStatusEnum.FAILED);
+					boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+
+					if (isLoggedIn) 
+					{
+						updateUI(UIStatusEnum.FAILED);
+					}
+					else
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					}
 				}
 	
 				break;
@@ -190,6 +199,7 @@ public class UserProfileActivity
 
 		switch (status) 
 		{
+			case FAILED:
 			case LOADING: 
 			{
 				scrollView.setVisibility(View.GONE);
@@ -202,7 +212,6 @@ public class UserProfileActivity
 				break;
 			}
 	
-			case SUCCESS_WITH_NO_CONTENT:
 			case SUCCESS_WITH_CONTENT: 
 			{
 				scrollView.setVisibility(View.VISIBLE);
@@ -222,7 +231,7 @@ public class UserProfileActivity
 	
 	private void initLayout() 
 	{
-		actionBar.setTitle(getResources().getString(R.string.myprofile_title));
+		actionBar.setTitle(getString(R.string.myprofile_title));
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);

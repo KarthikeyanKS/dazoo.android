@@ -216,13 +216,12 @@ public class BroadcastPageActivity
 				{
 					updateStatusOfLikeView();
 					break;
-	
 				}
 				
 				default: 
 				{
 					Log.d(TAG, "other request");
-					/* do nothing */break;
+					break;
 				}
 			}
 		}
@@ -252,7 +251,7 @@ public class BroadcastPageActivity
 	
 			default:
 			{
-				Log.w(TAG, "updateUI - case not handled");
+				// Do nothing
 				break;
 			}
 		}
@@ -264,7 +263,7 @@ public class BroadcastPageActivity
 	{
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		actionBar.setTitle(getResources().getString(R.string.broadcast_info));
+		actionBar.setTitle(getString(R.string.broadcast_info));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 

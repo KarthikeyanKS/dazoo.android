@@ -49,12 +49,12 @@ public class LikesActivity
 	
 	private void initLayout() 
 	{
-		actionBar.setTitle(getResources().getString(R.string.likes));
+		actionBar.setTitle(getString(R.string.likes));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	
 		listView = (ListView) findViewById(R.id.listview);
 		
-		setEmptyLayoutDetailsMessage(getResources().getString(R.string.no_likes));
+		setEmptyLayoutDetailsMessage(getString(R.string.no_likes));
 	}
 	
 	
@@ -131,13 +131,7 @@ public class LikesActivity
 		super.updateUIBaseElements(status);
 
 		switch (status) 
-		{	
-			case SUCCESS_WITH_NO_CONTENT:
-			{
-				// Do nothing (handled by parent activity)
-				break;
-			}
-		
+		{
 			case SUCCESS_WITH_CONTENT:
 			{
 				List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
@@ -153,7 +147,7 @@ public class LikesActivity
 	
 			default:
 			{
-				Log.w(TAG, "Unhandled UIStatus");
+				// Do nothing
 				break;
 			}
 		}

@@ -180,7 +180,7 @@ public class TrippleBroadcastBlockPopulator
 	
 						if (season > 0) 
 						{
-							seasonEpisodeSB.append(activity.getResources().getString(R.string.season));
+							seasonEpisodeSB.append(activity.getString(R.string.season));
 							seasonEpisodeSB.append(" ");
 							seasonEpisodeSB.append(season);
 							seasonEpisodeSB.append(" ");
@@ -188,7 +188,7 @@ public class TrippleBroadcastBlockPopulator
 	
 						if (episode > 0) 
 						{
-							seasonEpisodeSB.append(activity.getResources().getString(R.string.episode));
+							seasonEpisodeSB.append(activity.getString(R.string.episode));
 							seasonEpisodeSB.append(" ");
 							seasonEpisodeSB.append(episode);
 						}
@@ -270,13 +270,13 @@ public class TrippleBroadcastBlockPopulator
 				}
 			}
 
-			showMoreString = activity.getResources().getString(R.string.repetitions_more);
+			showMoreString = activity.getString(R.string.repetitions_more);
 		}
 		else 
 		{
-			titleString = activity.getResources().getString(R.string.upcoming_episodes);
+			titleString = activity.getString(R.string.upcoming_episodes);
 
-			showMoreString = activity.getResources().getString(R.string.upcoming_episodes_more);
+			showMoreString = activity.getString(R.string.upcoming_episodes_more);
 		}
 
 		title.setText(titleString);

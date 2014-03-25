@@ -160,10 +160,10 @@ public class PopularListAdapter extends BaseAdapter {
 				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
 				String seasonEpisode = "";
 				if (!season.equals("0")) {
-					seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
+					seasonEpisode += activity.getString(R.string.season) + " " + season + " ";
 				}
 				if (episode > 0) {
-					seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
+					seasonEpisode += activity.getString(R.string.episode) + " " + episode;
 				}
 				holder.detailsTv.setText(seasonEpisode);
 				break;

@@ -176,18 +176,18 @@ public class SignUpWithEmailActivity
 				else if(isInvalidEmail)
 				{
 					emailErrorTextView.setVisibility(View.VISIBLE);
-					emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_login_wrong_format_email));
+					emailErrorTextView.setText(getString(R.string.signup_with_email_login_wrong_format_email));
 					emailEditText.setBackgroundResource(R.drawable.edittext_activated);
 					emailEditText.requestFocus();
 				}
 				else if(isInvalidPassword)
 				{
 					StringBuilder sb = new StringBuilder();
-					sb.append(getResources().getString(R.string.signup_with_email_error_passwordlength));
+					sb.append(getString(R.string.signup_with_email_error_passwordlength));
 					sb.append(" ");
 					sb.append(Constants.PASSWORD_LENGTH_MIN);
 					sb.append(" ");
-					sb.append(getResources().getString(R.string.signup_with_email_characters));
+					sb.append(getString(R.string.signup_with_email_characters));
 					
 					passwordErrorTextView.setText(sb.toString());
 					passwordErrorTextView.setVisibility(View.VISIBLE);
@@ -234,7 +234,7 @@ public class SignUpWithEmailActivity
 						case USER_SIGN_UP_EMAIL_ALREADY_TAKEN:
 						{
 							emailErrorTextView.setVisibility(View.VISIBLE);
-							emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+							emailErrorTextView.setText(getString(R.string.signup_with_email_error_email_already_registered));
 							
 							emailEditText.setBackgroundResource(R.drawable.edittext_activated);
 							emailEditText.requestFocus();
@@ -244,7 +244,7 @@ public class SignUpWithEmailActivity
 						case USER_SIGN_UP_EMAIL_IS_INVALID:
 						{
 							emailErrorTextView.setVisibility(View.VISIBLE);
-							emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+							emailErrorTextView.setText(getString(R.string.signup_with_email_error_email_incorrect));
 							
 							emailEditText.setBackgroundResource(R.drawable.edittext_activated);
 							emailEditText.requestFocus();
@@ -256,11 +256,11 @@ public class SignUpWithEmailActivity
 							passwordErrorTextView.setVisibility(View.VISIBLE);
 							
 							StringBuilder sb = new StringBuilder();
-							sb.append(getResources().getString(R.string.signup_with_email_error_passwordlength));
+							sb.append(getString(R.string.signup_with_email_error_passwordlength));
 							sb.append(" ");
 							sb.append(Constants.PASSWORD_LENGTH_MIN);
 							sb.append(" ");
-							sb.append(getResources().getString(R.string.signup_with_email_characters));
+							sb.append(getString(R.string.signup_with_email_characters));
 							
 							passwordErrorTextView.setText(sb.toString());
 							
@@ -285,16 +285,14 @@ public class SignUpWithEmailActivity
 							
 							String message = getString(R.string.signup_with_email_failed);
 							
-							ToastHelper.createAndShowToast(this, message, false);
+							ToastHelper.createAndShowShortToast(message);
 							break;
 						}
 					}
 				}
 				else
 				{
-					String message = getString(R.string.toast_internet_connection);
-					
-					ToastHelper.createAndShowToast(this, message, false);
+					ToastHelper.createAndShowNoInternetConnectionToast();
 				}
 				
 				enableFields();
@@ -305,7 +303,6 @@ public class SignUpWithEmailActivity
 			{
 				enableFields();
 				hideLoadingSpinner();
-				Log.w(TAG, "Unhandled UI status.");
 				break;
 			}
 		}
@@ -357,7 +354,7 @@ public class SignUpWithEmailActivity
 	private void showLoadingSpinner() 
 	{
 		signUpButtonProgressBar.setVisibility(View.VISIBLE);
-		signUpButtonTextView.setText(getResources().getString(R.string.sign_up_loading));
+		signUpButtonTextView.setText(getString(R.string.sign_up_loading));
 	}
 	
 	
@@ -365,7 +362,7 @@ public class SignUpWithEmailActivity
 	private void hideLoadingSpinner()
 	{
 		signUpButtonProgressBar.setVisibility(View.GONE);
-		signUpButtonTextView.setText(getResources().getString(R.string.sign_up));
+		signUpButtonTextView.setText(getString(R.string.sign_up));
 	}
 	
 	
@@ -378,7 +375,7 @@ public class SignUpWithEmailActivity
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		actionBar.setTitle(getResources().getString(R.string.sign_up));
+		actionBar.setTitle(getString(R.string.sign_up));
 
 		firstNameEditText = (EditText) findViewById(R.id.signup_firstname_edittext);
 		lastNameEditText = (EditText) findViewById(R.id.signup_lastname_edittext);
@@ -390,10 +387,10 @@ public class SignUpWithEmailActivity
 		emailErrorTextView = (TextView) findViewById(R.id.signup_error_email_textview);
 		passwordErrorTextView = (TextView) findViewById(R.id.signup_error_password_textview);
 		
-		firstnameErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
-		lastnameErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_lastname));
-		emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
-		passwordErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength));
+		firstnameErrorTextView.setText(getString(R.string.signup_with_email_error_firstname));
+		lastnameErrorTextView.setText(getString(R.string.signup_with_email_error_lastname));
+		emailErrorTextView.setText(getString(R.string.signup_with_email_error_email_already_registered));
+		passwordErrorTextView.setText(getString(R.string.signup_with_email_error_passwordlength));
 		
 		signUpButton = (RelativeLayout) findViewById(R.id.signup_register_button);
 		signUpButton.setOnClickListener(this);

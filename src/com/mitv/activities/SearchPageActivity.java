@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
@@ -254,7 +253,7 @@ public class SearchPageActivity
 			{
 				String message = getString(R.string.search_no_upcoming_broadcasts);
 				
-				ToastHelper.createAndShowToast(this, message, false);
+				ToastHelper.createAndShowShortToast(message);
 			}
 			break;
 		}

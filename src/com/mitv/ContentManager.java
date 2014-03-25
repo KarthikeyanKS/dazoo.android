@@ -5,6 +5,7 @@ package com.mitv;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -121,16 +122,36 @@ public class ContentManager
 		}
 	}
 
-	public void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) {
+	public void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) 
+	{
 		ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
-		if(listenerList == null) {
+		
+		if(listenerList == null) 
+		{
 			listenerList = new ArrayList<ViewCallbackListener>();
 			mapRequestToCallbackListeners.put(requestIdentifier, listenerList);
 		}
-		if(!listenerList.contains(listenerList)) {
+		
+		if(!listenerList.contains(listenerList)) 
+		{
 			listenerList.add(listener);
 		}
 	}
+	
+	
+	public void unregisterListenerFromAllRequests(ViewCallbackListener listener) 
+	{
+		Collection<ArrayList<ViewCallbackListener>> listenerListCollection = mapRequestToCallbackListeners.values();
+		
+		for(ArrayList<ViewCallbackListener> listenerList : listenerListCollection)
+		{			
+			if(listenerList.contains(listener)) 
+			{
+				listenerList.remove(listener);
+			}
+		}
+	}
+	
 		
 	private void notifyListenersOfRequestResult(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
 		ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
@@ -264,7 +285,7 @@ public class ContentManager
 					
 					cache.setAppConfigData(appConfigData);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_configuration_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_configuration_data));
 				}
 				break;
 			}
@@ -277,7 +298,7 @@ public class ContentManager
 					
 					cache.setAppVersionData(appVersionData);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_app_version_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_app_version_data));
 				
 					boolean isAPIVersionSupported = cache.isAPIVersionSupported();
 					
@@ -299,7 +320,7 @@ public class ContentManager
 					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
 					cache.setTvDates(tvDates);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_dates_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_tv_dates_data));
 					
 					if(!isFetchingTVGuide && 
 					   (completedTVChannelIdsDefaultRequest && !cache.isLoggedIn()) || 
@@ -328,7 +349,7 @@ public class ContentManager
 					
 					cache.setTvChannelIdsDefault(tvChannelIdsDefault);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_channel_id_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_tv_channel_id_data));
 					
 					if(!isFetchingTVGuide && completedTVDatesRequest && !cache.isLoggedIn())
 					{
@@ -355,7 +376,7 @@ public class ContentManager
 					
 					cache.setTvChannelIdsUser(tvChannelIdsUser);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_channel_id_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_tv_channel_id_data));
 					
 					if(!isFetchingTVGuide && completedTVDatesRequest && cache.isLoggedIn())
 					{
@@ -380,7 +401,7 @@ public class ContentManager
 					
 					cache.setTvTags(tvTags);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_genres_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_tv_genres_data));
 				}
 				break;
 			}
@@ -394,7 +415,7 @@ public class ContentManager
 					
 					cache.setTvChannels(tvChannels);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_channel_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_tv_channel_data));
 				}
 				break;
 			}
@@ -405,7 +426,7 @@ public class ContentManager
 				{
 					TVGuide tvGuide = (TVGuide) content;
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_guide_data));
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_tv_guide_data));
 					
 					Log.d(TAG, "PROFILING: handleInitialDataResponse: addNewTVChannelGuidesForSelectedDayUsingTvGuide");
 					cache.addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
@@ -450,7 +471,7 @@ public class ContentManager
 				
 				apiClient.cancelAllPendingRequests();
 				
-				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
+				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
 			}
 			else
 			{
@@ -1002,7 +1023,7 @@ public class ContentManager
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					cache.setActivityFeed(feedItems);
 					isFetchingFeedItems = false;
-					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_activityfeed));
+					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getString(R.string.response_activityfeed));
 					break;
 				}
 				case USER_ACTIVITY_FEED_LIKES:
@@ -1010,7 +1031,7 @@ public class ContentManager
 					@SuppressWarnings("unchecked")
 					ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 					cache.setUserLikes(userLikes);
-					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_user_likes));
+					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getString(R.string.response_user_likes));
 					break;
 				}
 				default:{/* do nothing */break;}

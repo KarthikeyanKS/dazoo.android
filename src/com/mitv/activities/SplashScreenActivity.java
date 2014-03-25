@@ -103,24 +103,19 @@ public class SplashScreenActivity
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
+		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
+		
 		switch (fetchRequestResult) 
 		{
-			case SUCCESS: 
-			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-				break;
-			}
-			
 			case API_VERSION_TOO_OLD: 
 			{
 				updateUI(UIStatusEnum.API_VERSION_TOO_OLD);
 				break;
 			}
 			
-			case INTERNET_CONNECTION_NOT_AVAILABLE:
 			default:
 			{
-				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
 		}
@@ -130,7 +125,7 @@ public class SplashScreenActivity
 	
 	protected void updateUI(UIStatusEnum status)
 	{
-		switch (status) 
+		switch (status)
 		{
 			case API_VERSION_TOO_OLD:
 			{
@@ -138,8 +133,6 @@ public class SplashScreenActivity
 				break;
 			}
 			
-			case SUCCESS_WITH_CONTENT: 
-			case NO_CONNECTION_AVAILABLE:
 			default:
 			{
 				boolean isLocalDeviceCalendarOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
@@ -148,7 +141,7 @@ public class SplashScreenActivity
 				{
 					String message = getString(R.string.review_date_time_settings);
 
-					ToastHelper.createAndShowToast(this, message, true);
+					ToastHelper.createAndShowLongToast(message);
 				}
 				
 				startPrimaryActivity();

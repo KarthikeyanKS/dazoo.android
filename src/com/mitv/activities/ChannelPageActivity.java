@@ -36,6 +36,7 @@ public class ChannelPageActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = ChannelPageActivity.class.getName();
 
+	
 	private ListView listView;
 	private ImageView channelIconIv;
 	private ChannelPageListAdapter listAdapter;
@@ -194,7 +195,7 @@ public class ChannelPageActivity
 		super.updateUI(status);
 		
 		switch (status) 
-		{	
+		{
 			case SUCCESS_WITH_CONTENT:
 			{
 				setFollowingBroadcasts(currentAndUpcomingbroadcasts);
@@ -203,6 +204,7 @@ public class ChannelPageActivity
 			
 			default:
 			{
+				// Do nothing
 				break;
 			}
 		}

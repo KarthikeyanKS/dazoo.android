@@ -115,7 +115,7 @@ public class FeedActivity
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setTitle(getResources().getString(R.string.activity_title));
+		actionBar.setTitle(getString(R.string.activity_title));
 	}
 	
 	
@@ -179,7 +179,7 @@ public class FeedActivity
 //					checkPopularButton.setOnClickListener(this);
 //	
 //					StringBuilder sb = new StringBuilder();
-//					sb.append(getResources().getString(R.string.hello));
+//					sb.append(getString(R.string.hello));
 //					sb.append(" ");
 //					sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
 //					sb.append(" ");
@@ -271,6 +271,7 @@ public class FeedActivity
 				break;
 			}
 			
+			case TV_GUIDE_INITIAL_CALL:
 			case TV_GUIDE_STANDALONE:
 			case USER_LOGIN_WITH_FACEBOOK_TOKEN:
 			case USER_LOGIN:
@@ -281,6 +282,15 @@ public class FeedActivity
 				if(fetchRequestResult.wasSuccessful()) 
 				{
 					loadData();
+				}
+				else
+				{
+					boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+					
+					if (isLoggedIn) 
+					{
+						updateUI(UIStatusEnum.FAILED);
+					}
 				}
 				
 				break;
@@ -302,7 +312,12 @@ public class FeedActivity
 				}
 				else
 				{
-					updateUI(UIStatusEnum.FAILED);
+					boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+					
+					if (isLoggedIn) 
+					{
+						updateUI(UIStatusEnum.FAILED);
+					}
 				}
 				break;
 			}
@@ -362,7 +377,7 @@ public class FeedActivity
 		showScrollSpinner(false);
 		
 		switch (status) 
-		{	
+		{
 			case SUCCESS_WITH_CONTENT:
 			{
 				switch (latestRequest) 
@@ -377,11 +392,13 @@ public class FeedActivity
 					case USER_ACTIVITY_FEED_ITEM_MORE:
 					{
 						updateListAdapter();
+						break;
 					}
 								
 					default:
 					{
 						Log.w(TAG, "Unknown request identifier");
+						break;
 					}
 				}
 				
@@ -397,7 +414,11 @@ public class FeedActivity
 				break;
 			}
 			
-			default: {/* Do nothing */break;}
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
 	}
 	
@@ -511,9 +532,7 @@ public class FeedActivity
 					{
 						isEndReachedNoConnectionToastShowing = true;
 						
-						String message = getString(R.string.toast_internet_connection);
-
-						ToastHelper.createAndShowToast(this, message, false);
+						ToastHelper.createAndShowNoInternetConnectionToast();
 						
 						final Handler handler = new Handler();
 						

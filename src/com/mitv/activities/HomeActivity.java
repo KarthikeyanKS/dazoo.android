@@ -2,14 +2,12 @@ package com.mitv.activities;
 
 
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.UpdateManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
-import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -26,12 +24,15 @@ import com.mitv.utilities.NetworkUtils;
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
+	private LinearLayout fragmentContainer;
+	
 	private TVHolderFragment activeFragment;
-	private int selectedTagIndex = 0;
-	private boolean hasShowWelcomeToast = false;
+	private int selectedTagIndex;
+	private boolean hasShowWelcomeToast;
 
 
 	
@@ -52,6 +53,9 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
+		selectedTagIndex = 0;
+		hasShowWelcomeToast = false;
+		
 		initLayout();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
@@ -70,7 +74,7 @@ public class HomeActivity
 		{
 			setGUIToLoading();
 		}
-	}
+	}	
 	
 	
 	
@@ -83,13 +87,13 @@ public class HomeActivity
 	
 	private void showWelcomeToast() 
 	{
-		if (!hasShowWelcomeToast) 
+		if (hasShowWelcomeToast == false) 
 		{
-			String welcomeMessage = ContentManager.sharedInstance().getFromCacheWelcomeMessage();
+			String message = ContentManager.sharedInstance().getFromCacheWelcomeMessage();
 
-			if (!TextUtils.isEmpty(welcomeMessage)) 
+			if (!TextUtils.isEmpty(message)) 
 			{
-				ToastHelper.createAndShowToast(this, welcomeMessage, false);
+				ToastHelper.createAndShowShortToast(message);
 			}
 
 			hasShowWelcomeToast = true;
@@ -118,14 +122,16 @@ public class HomeActivity
 
 						if (hasEnoughDataToShowContent() && isConnected == false) 
 						{
-							if (undoBarController != null)
-							{
-								undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-							} 
-							else
-							{
-								Log.w(TAG, "Undo bar component is null.");
-							}
+							ToastHelper.createAndShowNoInternetConnectionToast();
+							
+//							if (undoBarController != null)
+//							{
+//								undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
+//							} 
+//							else
+//							{
+//								Log.w(TAG, "Undo bar component is null.");
+//							}
 						}
 					}
 				});
@@ -160,6 +166,8 @@ public class HomeActivity
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
+		
+		fragmentContainer = (LinearLayout) findViewById(R.id.fragment_container);
 	}
 	
 	
@@ -210,12 +218,21 @@ public class HomeActivity
 		super.updateUI(status);
 			
 		switch (status) 
-		{	
+		{
+			case FAILED:
+			case LOADING:
+			{
+				fragmentContainer.setVisibility(View.GONE);
+				break;
+			}
+		
 			case SUCCESS_WITH_CONTENT:
-			{			
+			{
+				fragmentContainer.setVisibility(View.VISIBLE);
 				attachFragment();
 				break;
 			}
+			
 			default:{/*Do nothing*/break;}
 		}
 	}

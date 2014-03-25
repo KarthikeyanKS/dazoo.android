@@ -98,22 +98,6 @@ public class TVHolderFragment
 	
 	
 	@Override
-	public void onDestroy() 
-	{
-		super.onDestroy();
-	}
-
-	
-	
-	@Override
-	public void onDetach() 
-	{
-		super.onDetach();
-	}
-
-	
-	
-	@Override
 	public void onPageSelected(int pos) 
 	{
 		selectedTabIndex = pos;

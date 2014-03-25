@@ -73,7 +73,7 @@ public class LoginWithFacebookActivity
 		{
 			String message = getString(R.string.update_facebook_app);
 			
-			ToastHelper.createAndShowToast(this, message, false);
+			ToastHelper.createAndShowShortToast(message);
 			
 			Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
 
@@ -144,13 +144,7 @@ public class LoginWithFacebookActivity
 		super.updateUIBaseElements(status);
 
 		switch (status) 
-		{	
-			case LOADING:
-			{
-				// Do nothing
-				break;
-			}
-			
+		{
 			case SUCCESS_WITH_CONTENT:
 			{
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) 
@@ -173,7 +167,7 @@ public class LoginWithFacebookActivity
 			{
 				String message = getString(R.string.facebook_login_failed);
 				
-				ToastHelper.createAndShowToast(this, message, false);
+				ToastHelper.createAndShowShortToast(message);
 				
 				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
 

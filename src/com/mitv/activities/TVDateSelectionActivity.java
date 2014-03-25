@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.util.Log;
 
 import com.mitv.ContentManager;
 import com.mitv.activities.base.BaseContentActivity;
@@ -15,7 +14,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.ActionBarDropDownDateListAdapter;
 import com.mitv.models.TVDate;
-import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -23,6 +21,7 @@ public abstract class TVDateSelectionActivity
 	extends BaseContentActivity 
 	implements OnNavigationListener 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVDateSelectionActivity.class.getName();
 	
 	
@@ -151,7 +150,8 @@ public abstract class TVDateSelectionActivity
 			
 			default:
 			{
-				Log.w(TAG, "Unhandled UI status");
+				// Do nothing
+				break;
 			}
 		}
 	}

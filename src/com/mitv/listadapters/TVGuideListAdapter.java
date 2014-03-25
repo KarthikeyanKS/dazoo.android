@@ -176,9 +176,9 @@ public class TVGuideListAdapter
 			}
 		});
 
-		String stringIconMovie = activity.getResources().getString(R.string.icon_movie) + " ";
+		String stringIconMovie = activity.getString(R.string.icon_movie) + " ";
 
-		String stringIconLive = activity.getResources().getString(R.string.icon_live) + " ";
+		String stringIconLive = activity.getString(R.string.icon_live) + " ";
 
 		StringBuilder textForThreeBroadcastsSB = new StringBuilder();
 
@@ -324,11 +324,11 @@ public class TVGuideListAdapter
 			//If there is no data, show message "No content is available". TODO: What to do here?
 			else 
 			{
-				holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available) + "\n\n");
+				holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
 			}
 		}
 		else {
-			holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available) + "\n\n");
+			holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
 		}
 
 		return rowView;

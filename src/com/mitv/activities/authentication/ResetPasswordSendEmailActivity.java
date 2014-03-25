@@ -84,7 +84,7 @@ public class ResetPasswordSendEmailActivity
 		{
 			emailResetPasswordEditText.setEnabled(true);
 			
-			errorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+			errorTextView.setText(getString(R.string.signup_with_email_error_email_incorrect));
 		}
 	}
 	
@@ -155,7 +155,7 @@ public class ResetPasswordSendEmailActivity
 					message = getString(R.string.toast_internet_connection);
 				}
 				
-				ToastHelper.createAndShowToast(this, message, false);
+				ToastHelper.createAndShowShortToast(message);
 				
 				break;
 			}
@@ -192,7 +192,7 @@ public class ResetPasswordSendEmailActivity
 	private void showLoadingSpinner() 
 	{
 		resetPasswordButtonProgressBar.setVisibility(View.VISIBLE);
-		resetPasswordButtonTextView.setText(getResources().getString(R.string.reset_password_loading));
+		resetPasswordButtonTextView.setText(getString(R.string.reset_password_loading));
 	}
 	
 	
@@ -200,7 +200,7 @@ public class ResetPasswordSendEmailActivity
 	private void hideLoadingSpinner()
 	{
 		resetPasswordButtonProgressBar.setVisibility(View.GONE);
-		resetPasswordButtonTextView.setText(getResources().getString(R.string.submit));
+		resetPasswordButtonTextView.setText(getString(R.string.submit));
 	}
 
 	
@@ -212,7 +212,7 @@ public class ResetPasswordSendEmailActivity
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		actionBar.setTitle(getResources().getString(R.string.reset_password));
+		actionBar.setTitle(getString(R.string.reset_password));
 
 		resetPasswordButton = (RelativeLayout) findViewById(R.id.mitv_reset_password_button);
 		resetPasswordButton.setOnClickListener(this);

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.base.BaseActivity;
 import com.mitv.activities.base.BaseActivityWithoutSearchOption;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -198,7 +197,7 @@ public class LoginWithMiTVUserActivity
 					message = getString(R.string.toast_internet_connection);
 				}
 				
-				ToastHelper.createAndShowToast(this, message, false);
+				ToastHelper.createAndShowShortToast(message);
 				break;
 			}
 	
@@ -206,7 +205,6 @@ public class LoginWithMiTVUserActivity
 			{
 				enableFields();
 				hideLoginSpinner();
-				Log.w(TAG, "Unhandled UI status.");
 				break;
 			}
 		}
@@ -253,7 +251,7 @@ public class LoginWithMiTVUserActivity
 	private void showLoginSpinner() 
 	{
 		loginButtonProgressBar.setVisibility(View.VISIBLE);
-		loginButtonTextView.setText(getResources().getString(R.string.loading_message_login_button));
+		loginButtonTextView.setText(getString(R.string.loading_message_login_button));
 	}
 	
 	
@@ -261,7 +259,7 @@ public class LoginWithMiTVUserActivity
 	private void hideLoginSpinner()
 	{
 		loginButtonProgressBar.setVisibility(View.GONE);
-		loginButtonTextView.setText(getResources().getString(R.string.login_with_mitv));
+		loginButtonTextView.setText(getString(R.string.login_with_mitv));
 	}
 
 	
@@ -274,7 +272,7 @@ public class LoginWithMiTVUserActivity
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		actionBar.setTitle(getResources().getString(R.string.login));
+		actionBar.setTitle(getString(R.string.login));
 
 		emailEditText = (EditText) findViewById(R.id.mitvlogin_login_email_edittext);
 		passwordEditText = (EditText) findViewById(R.id.mitvlogin_login_password_edittext);
@@ -287,8 +285,8 @@ public class LoginWithMiTVUserActivity
 		emailErrorTextView = (TextView) findViewById(R.id.mitvlogin_login_email_error_tv);
 		passwordErrorTextView = (TextView) findViewById(R.id.mitvlogin_login_password_error_tv);		
 		
-		emailErrorTextView.setText(getResources().getString(R.string.login_with_wrong_format_email));
-		passwordErrorTextView.setText(getResources().getString(R.string.login_with_wrong_format_password));
+		emailErrorTextView.setText(getString(R.string.login_with_wrong_format_email));
+		passwordErrorTextView.setText(getString(R.string.login_with_wrong_format_password));
 		
 		forgetPasswordButton = (RelativeLayout) findViewById(R.id.mitvlogin_forgot_password_button);
 		forgetPasswordButton.setOnClickListener(this);

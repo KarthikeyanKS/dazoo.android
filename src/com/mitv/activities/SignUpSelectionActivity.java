@@ -29,11 +29,14 @@ public class SignUpSelectionActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = SignUpSelectionActivity.class.getName();
 	
+	
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
 	private RelativeLayout loginButton;
 	private FontTextView termsOfService;
 
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -79,7 +82,7 @@ public class SignUpSelectionActivity
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		actionBar.setTitle(getResources().getString(R.string.sign_up));
+		actionBar.setTitle(getString(R.string.sign_up));
 
 		facebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
 		

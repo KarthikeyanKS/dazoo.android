@@ -101,14 +101,15 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			}
 			
 			
-			switch (programType) {
+			switch (programType) 
+			{
 			case MOVIE: {
 				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
 				break;
 			}
 			case TV_EPISODE: {
-				holder.mDetails.setText(mActivity.getResources().getString(R.string.season) + " " + broadcastWithChannelInfo.getProgram().getSeason().getNumber() + " "
-						+ mActivity.getResources().getString(R.string.episode) + " " + broadcastWithChannelInfo.getProgram().getEpisodeNumber());
+				holder.mDetails.setText(mActivity.getString(R.string.season) + " " + broadcastWithChannelInfo.getProgram().getSeason().getNumber() + " "
+						+ mActivity.getString(R.string.episode) + " " + broadcastWithChannelInfo.getProgram().getEpisodeNumber());
 				break;
 			}
 			case SPORT: {
@@ -117,6 +118,11 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			}
 			case OTHER: {
 				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getCategory());
+				break;
+			}
+			default:
+			{
+				Log.w(TAG, "Unhandled program type.");
 				break;
 			}
 			}

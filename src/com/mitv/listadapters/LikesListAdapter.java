@@ -126,7 +126,7 @@ public class LikesListAdapter
 						case MOVIE:
 						{
 							StringBuilder sb = new StringBuilder();
-							sb.append(activity.getResources().getString(R.string.movie));
+							sb.append(activity.getString(R.string.movie));
 							
 							if(userLike.getYear() != 0) 
 							{
@@ -147,7 +147,7 @@ public class LikesListAdapter
 						
 						default:
 						{
-							holder.programTypeTv.setText(activity.getResources().getString(R.string.movie));
+							holder.programTypeTv.setText(activity.getString(R.string.movie));
 							
 							Log.w(TAG, "Unhandled program type.");
 							break;
@@ -158,13 +158,13 @@ public class LikesListAdapter
 				
 				case SERIES:
 				{
-					holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series));
+					holder.programTypeTv.setText(activity.getString(R.string.tv_series));
 					break;
 				}
 				
 				case SPORT_TYPE:
 				{
-					holder.programTypeTv.setText(activity.getResources().getString(R.string.sport));
+					holder.programTypeTv.setText(activity.getString(R.string.sport));
 					break;
 				}
 				
