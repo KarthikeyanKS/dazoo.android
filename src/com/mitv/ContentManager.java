@@ -459,7 +459,7 @@ public class ContentManager
 				
 				apiClient.cancelAllPendingRequests();
 				
-				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
+				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
 			}
 			else
 			{
