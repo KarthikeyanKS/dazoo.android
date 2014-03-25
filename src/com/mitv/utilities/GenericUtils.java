@@ -247,8 +247,10 @@ public abstract class GenericUtils
     
     
     
-    public static void hideKeyboard(final Activity activity)
+    public static boolean hideKeyboard(final Activity activity)
 	{
+    	boolean wasVisible = false;
+    	
 		if(activity != null)
 		{
 			InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -263,7 +265,7 @@ public abstract class GenericUtils
 					
 					if(ib != null)
 					{
-						imm.hideSoftInputFromWindow(ib, 0);
+						wasVisible = imm.hideSoftInputFromWindow(ib, 0);
 					}
 					// No need for else
 				}
@@ -278,6 +280,8 @@ public abstract class GenericUtils
 		{
 			Log.e(TAG, "Activity is null.");
 		}
+		
+		return wasVisible;
 	}
     
     

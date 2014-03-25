@@ -56,23 +56,28 @@ public class SearchPageActivity
 	extends BaseActivity 
 	implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher 
 {
-	private class SearchRunnable implements Runnable {
-
+	private class SearchRunnable implements Runnable 
+	{
 		private boolean cancelled = false;
 		
 		@Override
-		public void run() {
-			if(!cancelled) {
+		public void run() 
+		{
+			if(!cancelled) 
+			{
 				String searchQuery = editTextSearch.getText().toString();
 				setLoading();
 				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
 				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, searchQuery);
-			} else {
+			} 
+			else 
+			{
 				Log.d(TAG, "Search runnable was cancelled");
 			}
 		}
 
-		public void cancel() {
+		public void cancel() 
+		{
 			cancelled = true;
 		}
 	}
@@ -408,7 +413,8 @@ public class SearchPageActivity
 	{
 		String searchQuery = editable.toString();
 		
-		if(lastSearchRunnable != null) {
+		if(lastSearchRunnable != null) 
+		{
 			Log.d(TAG, "Text change, cancelling last searchRunnable");
 			lastSearchRunnable.cancel();
 		}
@@ -418,7 +424,9 @@ public class SearchPageActivity
 		if(!TextUtils.isEmpty(searchQuery) && searchQuery.length() >= Constants.SEARCH_QUERY_LENGTH_THRESHOLD) 
 		{
 			performSearchAndTriggerAutocomplete();
-		} else {
+		} 
+		else 
+		{
 			autoCompleteAdapter.setSearchResultItemsForQueryString(null, null);
 			autoCompleteAdapter.clear();
 			searchInstructionsView.setVisibility(View.VISIBLE);

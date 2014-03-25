@@ -1,4 +1,7 @@
+
 package com.mitv.ui.elements;
+
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,95 +12,140 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 
 import com.mitv.FontManager;
 import com.mitv.utilities.GenericUtils;
 
-public class InstantAutoCompleteView extends AutoCompleteTextView implements OnTouchListener {
+
+
+public class InstantAutoCompleteView 
+	extends AutoCompleteTextView 
+	implements OnTouchListener 
+{
 	
+	@SuppressWarnings("unused")
 	private static final String TAG = InstantAutoCompleteView.class.getName();
+	
+	
 	private Activity activity;
 	private boolean searchComplete = false;
 	
-	public InstantAutoCompleteView(Context context) {
+	
+	
+	public InstantAutoCompleteView(Context context) 
+	{
         super(context);
+       
         setup(context);
     }
 
-    public InstantAutoCompleteView(Context context, AttributeSet attrs) {
+	
+    public InstantAutoCompleteView(Context context, AttributeSet attrs) 
+    {
         super(context, attrs);
+        
         setup(context);
     }
     
-    public void setSearchComplete(boolean searchComplete) {
+    
+    public void setSearchComplete(boolean searchComplete) 
+    {
 		this.searchComplete = searchComplete;
 	}
 
+    
 	@Override
-    public void onFilterComplete(int count) {
+    public void onFilterComplete(int count) 
+	{
     	showDropDown();
     }
     
-    public void setActivity(Activity activity) {
+	
+    public void setActivity(Activity activity)
+    {
     	this.activity = activity;
     }
 
-    public InstantAutoCompleteView(Context context, AttributeSet attrs, int defStyle) {
+    
+    public InstantAutoCompleteView(Context context, AttributeSet attrs, int defStyle) 
+    {
         super(context, attrs, defStyle);
         setup(context);
     }
     
-    private void setup(Context context) {
+    
+    private void setup(Context context) 
+    {
     	setTypeface(FontManager.getFontLight(context));
     }
 
+    
     @Override
-    public boolean enoughToFilter() {
+    public boolean enoughToFilter() 
+    {
     	return getText().length() > getThreshold();	
     }
 	
+    
 	@Override
-	protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
-		if (focused) {
+	protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect)
+	{
+		if (focused) 
+		{
 			showDropDown();
-		} else {
+		} 
+		else 
+		{
 			dismissDropDown();
 		}
 	}
 	
+	
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
+	public boolean onTouch(View v, MotionEvent event) 
+	{
 		showDropDown();
+		
 		return false;
 	}
     
+	
 	@Override
-	public void showDropDown() {
-		if(GenericUtils.isActivityNotNullOrFinishing(activity) && enoughToFilter() && searchComplete) {
+	public void showDropDown() 
+	{
+		if(GenericUtils.isActivityNotNullOrFinishing(activity) && enoughToFilter() && searchComplete) 
+		{
 			super.showDropDown();
 		}
 	}
 
+	
 	@Override
-	public boolean dispatchKeyEventPreIme(KeyEvent event) {
-	    if(KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
-
+	public boolean dispatchKeyEventPreIme(KeyEvent event) 
+	{
+	    if(KeyEvent.KEYCODE_BACK == event.getKeyCode()) 
+	    {
 	    	boolean popup = isPopupShowing();
-	    	InputMethodManager inputMethodManager = (InputMethodManager)  getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-		    boolean wasVisible = inputMethodManager.hideSoftInputFromWindow(getApplicationWindowToken(), 0);
-		   
+	    	
+	    	boolean wasVisible = GenericUtils.hideKeyboard(activity);
+	    	
 			Log.i("wasVisible", Boolean.toString(wasVisible));
+			
 			Log.i("popup", Boolean.toString(popup));
 			
-		    if(wasVisible && popup){
+		    if(wasVisible && popup)
+		    {
 		    	showDropDown();
+		    	
 		    	return true;
-		    } else if (wasVisible) {
+		    } 
+		    else if (wasVisible) 
+		    {
 		    	return true;
 		    }
 	    }
+	    
 	    return super.dispatchKeyEventPreIme(event);
 	}
 }
