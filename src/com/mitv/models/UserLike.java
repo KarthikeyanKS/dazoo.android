@@ -68,6 +68,12 @@ public class UserLike
 				this.sportTypeId = contentId;
 				break;
 			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled like type.");
+				break;
+			}
 		}
 	}
 	

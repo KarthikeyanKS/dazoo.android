@@ -419,7 +419,6 @@ public abstract class GenericUtils
 	
 	
 	// TODO NewArc - Change this to a pseudo unique own generated ID instead: http://stackoverflow.com/a/17625641
-	@Deprecated
 	public static String getDeviceId()
 	{
 		String deviceId = null;

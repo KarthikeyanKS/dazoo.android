@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;

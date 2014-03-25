@@ -332,16 +332,17 @@ public abstract class BaseActivity
 	}
 
 	/* Remove activity from activitStack */
-	private static void removeFromStack(Activity activity) {
-
-		if (activityStack.contains(activity)) {
-			if (activityStack.peek() == activity) {
-
-				int positionToRemove = activityStack.size() - 1;
-				activityStack.removeElementAt(positionToRemove);
-			}
-		}
-	}
+//	private static void removeFromStack(Activity activity) 
+//	{
+//		if (activityStack.contains(activity)) 
+//		{
+//			if (activityStack.peek() == activity) 
+//			{
+//				int positionToRemove = activityStack.size() - 1;
+//				activityStack.removeElementAt(positionToRemove);
+//			}
+//		}
+//	}
 
 	/**
 	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurences in the activity stack

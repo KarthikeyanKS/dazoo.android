@@ -49,4 +49,11 @@ public class TVChannelId
 		}
 		return true;
 	}
+	
+	
+	@Override
+	public String toString()
+	{
+		return channelId;
+	}
 }

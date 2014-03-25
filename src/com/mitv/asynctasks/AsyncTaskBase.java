@@ -41,7 +41,6 @@ public abstract class AsyncTaskBase<T>
 	private Class<T> clazz;
 	
 	private HTTPRequestTypeEnum httpRequestType;
-	private boolean isRelativeURL;
 	private String url;
 	
 	protected URLParameters urlParameters;
@@ -88,7 +87,6 @@ public abstract class AsyncTaskBase<T>
 		this.requestIdentifier = requestIdentifier;
 		this.clazz = clazz;
 		this.httpRequestType = httpRequestType;
-		this.isRelativeURL = isRelativeURL;
 		this.url = url;
 		this.urlParameters = urlParameters;
 		this.headerParameters = headerParameters;

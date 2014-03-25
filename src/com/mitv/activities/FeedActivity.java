@@ -16,10 +16,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
@@ -49,13 +47,13 @@ public class FeedActivity
 	
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
-	private Button checkPopularButton;
+//	private Button checkPopularButton;
 	private RelativeLayout loginButton;
 	private FontTextView termsOfService;
 	private ListView listView;
 	private FeedListAdapter listAdapter;
 	private RelativeLayout listFooterView;
-	private TextView greetingTv;
+//	private TextView greetingTv;
 	private boolean reachedEnd;
 	private boolean isEndReachedNoConnectionToastShowing;
 

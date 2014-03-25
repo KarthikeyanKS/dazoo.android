@@ -48,6 +48,7 @@ public class FeedListAdapter
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
 
+	
 	@SuppressWarnings("unused")
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
@@ -62,6 +63,7 @@ public class FeedListAdapter
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
+	
 	public void setFeedItems(ArrayList<TVFeedItem> feedItems) {
 		super.setItems(feedItems);
 		this.feedItems = feedItems;
@@ -415,7 +417,6 @@ public class FeedListAdapter
 			holderBC.reminderView.setBroadcast(broadcast);
 
 			final ProgramTypeEnum programType = program.getProgramType();
-			
 			
 			String title;
 			LikeTypeResponseEnum likeType;

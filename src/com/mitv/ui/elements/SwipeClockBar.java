@@ -6,7 +6,6 @@ package com.mitv.ui.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -205,7 +204,7 @@ public class SwipeClockBar
 	}
 
 	
-	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{
 		if (Build.VERSION.SDK_INT < 16) 
@@ -242,8 +241,6 @@ public class SwipeClockBar
 		private static final int HOUR_COUNT_VISIBLE_IF_SMALL_SCREEN = 12;
 		
 		private List<Integer> hoursOfTheDay;
-		private int hoursPerDay = 24;
-		private int firstHourOfDay = 6;
 		private int listViewHeight;
 		private int index24OfSelectedHour;
 
@@ -261,8 +258,6 @@ public class SwipeClockBar
 
 		public TimeListAdapter(int hoursPerDay, int firstHourOfDay, List<Integer> hours, int listViewHeight) {
 			this.index24OfSelectedHour = -1; /* not set */
-			this.hoursPerDay = hoursPerDay;
-			this.firstHourOfDay = firstHourOfDay;
 			this.hoursOfTheDay = hours;
 			this.listViewHeight = listViewHeight;
 		}
