@@ -100,6 +100,10 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 
 		if (broadcastWithChannelInfo != null) {
 			holder.reminderView.setBroadcast(broadcastWithChannelInfo);
+			
+			/* Used to set a smaller size on the reminder icon */
+			boolean iconSizeSmall = true;
+			holder.reminderView.setSizeOfIcon(iconSizeSmall);
 
 			holder.headerContainer.setVisibility(View.GONE);
 			

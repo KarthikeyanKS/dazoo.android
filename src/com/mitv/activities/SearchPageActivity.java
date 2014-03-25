@@ -234,6 +234,8 @@ public class SearchPageActivity
 				intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
 			} else {
 				if (ContentManager.sharedInstance().isLoggedIn()) {
+					ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+					ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(true);
 					intent = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
 				} else {
 					intent = new Intent(SearchPageActivity.this, SignUpSelectionActivity.class);

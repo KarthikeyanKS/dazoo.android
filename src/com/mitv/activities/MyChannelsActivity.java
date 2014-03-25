@@ -49,7 +49,6 @@ public class MyChannelsActivity
 	private EditText searchChannelField;
 	
 	private MyChannelsListAdapter adapter;
-	
 
 	private List<TVChannel> allChannelObjects = new ArrayList<TVChannel>();
 	private ArrayList<TVChannelId> myChannelIds = new ArrayList<TVChannelId>();
@@ -59,7 +58,7 @@ public class MyChannelsActivity
 	
 	/* The list of channels that matches the search performed */
 	private ArrayList<TVChannel> channelsMatchingSearch = new ArrayList<TVChannel>();
-	
+	private TVChannel selectedTVChannelFromSearch;
 	
 	
 	@Override
@@ -72,6 +71,13 @@ public class MyChannelsActivity
 		initLayout();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		
+		boolean isGoingToMyChannelsFromSearch = ContentManager.sharedInstance().isGoingToMyChannelsFromSearch();
+		if(isGoingToMyChannelsFromSearch) {
+			ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(false);
+			TVChannelId selectedTVChannelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+			selectedTVChannelFromSearch = ContentManager.sharedInstance().getFromCacheTVChannelById(selectedTVChannelId);
+		}
 	}
 	
 	
@@ -98,6 +104,9 @@ public class MyChannelsActivity
 		if (allChannelObjects != null && !allChannelObjects.isEmpty())
 		{
 			searchChannelField.addTextChangedListener(this);
+			if(selectedTVChannelFromSearch != null) {
+				searchChannelField.setText(selectedTVChannelFromSearch.getName());
+			}
 		} 
 		else
 		{

@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/icon_reminder"
                 android:textColor="@color/grey3"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:lines="1"
                 android:layout_margin="10dp"
                 font:fonttextview="roboto_mitv_regular.ttf" />
