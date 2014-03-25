@@ -34,6 +34,7 @@ public class TVSearchResult
 	}
 	
 	
+	/* The toString representation will always be the original search query */
 	@Override
 	public String toString()
 	{

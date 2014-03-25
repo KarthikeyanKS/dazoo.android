@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -145,6 +146,32 @@ public abstract class GenericUtils
 		
 		return pInfo;
 	}
+    
+    
+    
+    public static ApplicationInfo getApplicationInfo()
+	{
+    	Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+    
+    	String packageName = context.getPackageName();
+    	
+    	ApplicationInfo applicationInfo;
+    	
+		try 
+		{
+			applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
+		}
+		catch (NameNotFoundException nnfex) 
+		{
+			applicationInfo = null;
+			
+			Log.e(TAG, "Failed to get ApplicationInfo.", nnfex);
+		}
+		
+		return applicationInfo;
+	}
+    
+    
     
     
     public static boolean isMinimumRequiredFacebookAppInstalled()

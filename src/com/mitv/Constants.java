@@ -12,8 +12,8 @@ import com.mitv.activities.FeedActivity;
 public abstract class Constants 
 {
 	/* HockeyApp Settings */
-	public static final String	TESTFLIGHT_TOKEN					= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
-	public static final String	HOCKEY_APP_TOKEN					= "c90b5331b5a7086d88d98021508f2c16";
+	public static final String TESTFLIGHT_TOKEN = "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
+	public static final String HOCKEY_APP_TOKEN = "c90b5331b5a7086d88d98021508f2c16";
 
 	/* Request configurations */
 	public static final String JSON_MIME_TYPE = "application/json";
@@ -441,6 +441,7 @@ public abstract class Constants
 	public static final String JSON_VERSIONS_KEY_PROMOTION = "promotion";
 	public static final String JSON_VERSIONS_KEY_ANDROID = "android";
 	
+	public static final String SYSTEM_APP_PATH = "/system/app/";
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
 	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
@@ -498,7 +499,7 @@ public abstract class Constants
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
-	public static final boolean ENABLE_STRICT_MODE = true;
+	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
