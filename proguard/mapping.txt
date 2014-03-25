@@ -24141,24 +24141,24 @@ com.mitv.activities.authentication.LoginWithFacebookActivity -> com.mitv.activit
     49:55:void onCreate(android.os.Bundle) -> onCreate
     62:84:void onResume() -> onResume
     91:91:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    99:114:void loadData() -> loadData
-    121:121:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    129:137:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    144:187:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    194:219:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    225:227:com.androidquery.auth.FacebookHandle getDefaultFacebookHandle(android.app.Activity) -> getDefaultFacebookHandle
-    234:245:com.androidquery.auth.FacebookHandle getFacebookHandle() -> d
-    253:269:void performFacebookAuthentication() -> g
-    275:310:com.androidquery.callback.AjaxCallback getFacebookAuthenticationCallback() -> h
+    99:116:void loadData() -> loadData
+    123:123:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    131:139:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    146:189:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    196:221:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    227:229:com.androidquery.auth.FacebookHandle getDefaultFacebookHandle(android.app.Activity) -> getDefaultFacebookHandle
+    236:247:com.androidquery.auth.FacebookHandle getFacebookHandle() -> d
+    255:271:void performFacebookAuthentication() -> g
+    277:312:com.androidquery.callback.AjaxCallback getFacebookAuthenticationCallback() -> h
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     35:35:java.lang.String access$1() -> c
 com.mitv.activities.authentication.LoginWithFacebookActivity$1 -> afx:
     com.mitv.activities.authentication.LoginWithFacebookActivity this$0 -> a
-    239:242:void failure(android.content.Context,int,java.lang.String) -> failure
+    241:244:void failure(android.content.Context,int,java.lang.String) -> failure
 com.mitv.activities.authentication.LoginWithFacebookActivity$2 -> afy:
     com.mitv.activities.authentication.LoginWithFacebookActivity this$0 -> a
-    280:298:void callback(java.lang.String,org.json.JSONObject,com.androidquery.callback.AjaxStatus) -> a
-    304:307:void failure(int,java.lang.String) -> failure
+    282:300:void callback(java.lang.String,org.json.JSONObject,com.androidquery.callback.AjaxStatus) -> a
+    306:309:void failure(int,java.lang.String) -> failure
     1:1:void callback(java.lang.String,java.lang.Object,com.androidquery.callback.AjaxStatus) -> callback
 com.mitv.activities.authentication.LoginWithMiTVUserActivity -> com.mitv.activities.authentication.LoginWithMiTVUserActivity:
     java.lang.String TAG -> o
@@ -25303,11 +25303,11 @@ com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> ahh
     android.view.View divider -> h
 com.mitv.models.AdAdzerk -> com.mitv.models.AdAdzerk:
 com.mitv.models.AppConfiguration -> com.mitv.models.AppConfiguration:
-    java.util.HashMap activityNameToCellCountBetweenAdCells -> a
-    24:31:void buildActivityToCellCountMap() -> a
+    java.util.HashMap activityNameToCellCountBetweenAdCells -> activityNameToCellCountBetweenAdCells
+    24:31:void buildActivityToCellCountMap() -> buildActivityToCellCountMap
     34:44:java.lang.Integer getCellCountBetweenAdCellsUsingActivityName(java.lang.String) -> getCellCountBetweenAdCellsUsingActivityName
 com.mitv.models.AppVersion -> com.mitv.models.AppVersion:
-    java.util.List appVersionDataParts -> a
+    java.util.List appVersionDataParts -> appVersionDataParts
     52:65:java.lang.String getApiVersion() -> getApiVersion
     72:85:java.lang.String getAndroidVersion() -> getAndroidVersion
     92:96:boolean isAPIVersionSupported() -> isAPIVersionSupported
@@ -25326,24 +25326,25 @@ com.mitv.models.ProfileImage -> com.mitv.models.ProfileImage:
     long serialVersionUID -> serialVersionUID
     35:37:boolean areDataFieldsValid() -> areDataFieldsValid
 com.mitv.models.RepeatingBroadcastsForBroadcast -> com.mitv.models.RepeatingBroadcastsForBroadcast:
-    java.lang.String programId -> a
+    java.lang.String programId -> programId
     15:15:java.lang.String getProgramId() -> getProgramId
 com.mitv.models.SearchResultsForQuery -> com.mitv.models.SearchResultsForQuery:
-    java.lang.String queryString -> a
-    com.mitv.models.TVSearchResults searchResults -> b
+    java.lang.String queryString -> queryString
+    com.mitv.models.TVSearchResults searchResults -> searchResults
     13:13:java.lang.String getQueryString() -> getQueryString
     17:17:com.mitv.models.TVSearchResults getSearchResults() -> getSearchResults
 com.mitv.models.TVBroadcast -> com.mitv.models.TVBroadcast:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
+    int NO_INT_VALUE_SET -> NO_INT_VALUE_SET
     java.util.Calendar beginTimeCalendarLocal -> beginTimeCalendarLocal
     java.util.Calendar endTimeCalendarLocal -> endTimeCalendarLocal
-    java.lang.Integer durationInMinutes -> b
-    java.lang.String beginTimeDateRepresentation -> c
-    java.lang.String beginTimeDayAndMonthRepresentation -> d
-    java.lang.String beginTimeHourAndMinuteRepresentation -> e
-    java.lang.String endTimeHourAndMinuteRepresentation -> f
-    java.lang.String title -> g
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> h
+    java.lang.Integer durationInMinutes -> durationInMinutes
+    java.lang.String beginTimeDateRepresentation -> beginTimeDateRepresentation
+    java.lang.String beginTimeDayAndMonthRepresentation -> beginTimeDayAndMonthRepresentation
+    java.lang.String beginTimeHourAndMinuteRepresentation -> beginTimeHourAndMinuteRepresentation
+    java.lang.String endTimeHourAndMinuteRepresentation -> endTimeHourAndMinuteRepresentation
+    java.lang.String title -> title
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
     52:74:java.lang.String getTitle() -> getTitle
     82:83:java.util.Calendar getBeginTimeCalendarGMT() -> getBeginTimeCalendarGMT
     93:94:java.util.Calendar getEndTimeCalendarGMT() -> getEndTimeCalendarGMT
@@ -25369,9 +25370,9 @@ com.mitv.models.TVBroadcast -> com.mitv.models.TVBroadcast:
     395:398:int hashCode() -> hashCode
     403:415:boolean equals(java.lang.Object) -> equals
     421:443:boolean areDataFieldsValid() -> areDataFieldsValid
-    31:31:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
+    31:31:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.models.TVBroadcastWithChannelInfo -> com.mitv.models.TVBroadcastWithChannelInfo:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     45:46:void setChannel(com.mitv.models.TVChannel) -> setChannel
     52:53:void setProgram(com.mitv.models.TVProgram) -> setProgram
     59:60:void setBeginTimeCalendar(java.util.Calendar) -> setBeginTimeCalendar
@@ -25406,7 +25407,7 @@ com.mitv.models.TVChannelId -> com.mitv.models.TVChannelId:
 com.mitv.models.TVCredit -> com.mitv.models.TVCredit:
     21:22:boolean areDataFieldsValid() -> areDataFieldsValid
 com.mitv.models.TVDate -> com.mitv.models.TVDate:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     java.util.Calendar startOfTVDayCalendar -> startOfTVDayCalendar
     java.util.Calendar endOfTVDayCalendar -> endOfTVDayCalendar
     49:56:java.lang.String getDisplayName() -> getDisplayName
@@ -25420,14 +25421,14 @@ com.mitv.models.TVFeedItem -> com.mitv.models.TVFeedItem:
     java.util.ArrayList broadcastsAsArrayList -> broadcastsAsArrayList
     18:21:java.util.ArrayList getBroadcasts() -> getBroadcasts
 com.mitv.models.TVGuide -> com.mitv.models.TVGuide:
-    com.mitv.models.TVDate tvDate -> a
-    java.util.ArrayList tvChannelGuides -> b
+    com.mitv.models.TVDate tvDate -> tvDate
+    java.util.ArrayList tvChannelGuides -> tvChannelGuides
     29:29:com.mitv.models.TVDate getTvDate() -> getTvDate
     33:33:java.util.ArrayList getTvChannelGuides() -> getTvChannelGuides
     41:42:void setTvChannelGuides(java.util.ArrayList) -> setTvChannelGuides
 com.mitv.models.TVProgram -> com.mitv.models.TVProgram:
-    java.lang.String TAG -> a
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> b
+    java.lang.String TAG -> TAG
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
     26:27:void setProgramId(java.lang.String) -> setProgramId
     33:34:void setTitle(java.lang.String) -> setTitle
     40:41:void setProgramType(com.mitv.enums.ProgramTypeEnum) -> setProgramType
@@ -25435,7 +25436,7 @@ com.mitv.models.TVProgram -> com.mitv.models.TVProgram:
     54:55:void setEpisodeNumber(java.lang.Integer) -> setEpisodeNumber
     61:62:void setYear(java.lang.Integer) -> setYear
     130:184:boolean areDataFieldsValid() -> areDataFieldsValid
-    18:18:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
+    18:18:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.models.TVSearchResult -> com.mitv.models.TVSearchResult:
     17:29:com.mitv.models.TVBroadcastWithChannelInfo getNextBroadcast() -> getNextBroadcast
 com.mitv.models.TVSearchResultEntity -> com.mitv.models.TVSearchResultEntity:
@@ -25443,7 +25444,7 @@ com.mitv.models.TVSearchResults -> com.mitv.models.TVSearchResults:
 com.mitv.models.TVSeries -> com.mitv.models.TVSeries:
     20:21:boolean areDataFieldsValid() -> areDataFieldsValid
 com.mitv.models.TVSeriesSeason -> com.mitv.models.TVSeriesSeason:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     46:47:void setNumber(java.lang.Integer) -> setNumber
     51:52:boolean areDataFieldsValid() -> areDataFieldsValid
 com.mitv.models.TVSportType -> com.mitv.models.TVSportType:
@@ -25451,26 +25452,26 @@ com.mitv.models.TVSportType -> com.mitv.models.TVSportType:
 com.mitv.models.TVTag -> com.mitv.models.TVTag:
     34:37:com.mitv.models.TVTag getAllCategoriesTVTag() -> getAllCategoriesTVTag
 com.mitv.models.UpcomingBroadcastsForBroadcast -> com.mitv.models.UpcomingBroadcastsForBroadcast:
-    java.lang.String tvSeriesId -> a
+    java.lang.String tvSeriesId -> tvSeriesId
     15:15:java.lang.String getTvSeriesId() -> getTvSeriesId
 com.mitv.models.UserFieldsData -> com.mitv.models.UserFieldsData:
 com.mitv.models.UserLike -> com.mitv.models.UserLike:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     java.lang.String contentId -> contentId
     boolean wasAddedManually -> wasAddedManually
-    int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum -> b
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> c
+    int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum -> $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
     26:34:com.mitv.models.UserLike userLikeFromTVProgram(com.mitv.models.TVProgram) -> userLikeFromTVProgram
     41:41:com.mitv.models.UserLike userLikeFromBroadcast(com.mitv.models.TVBroadcastWithChannelInfo) -> userLikeFromBroadcast
     75:75:boolean wasAddedManually() -> wasAddedManually
-    80:112:java.lang.String getContentIdFromTVProgram(com.mitv.models.TVProgram) -> a
+    80:112:java.lang.String getContentIdFromTVProgram(com.mitv.models.TVProgram) -> getContentIdFromTVProgram
     119:152:java.lang.String getContentId() -> getContentId
     161:187:com.mitv.enums.LikeTypeRequestEnum getLikeTypeForRequest() -> getLikeTypeForRequest
     193:198:int hashCode() -> hashCode
     205:222:boolean equals(java.lang.Object) -> equals
     230:285:boolean areDataFieldsValid() -> areDataFieldsValid
-    16:16:int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum() -> a
-    16:16:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> b
+    16:16:int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum() -> $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum
+    16:16:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.models.UserLikeNextBroadcast -> com.mitv.models.UserLikeNextBroadcast:
     com.mitv.models.TVChannelId tvChannelIdObject -> tvChannelIdObject
     13:17:com.mitv.models.TVChannelId getChannelId() -> getChannelId
@@ -25493,17 +25494,17 @@ com.mitv.models.comparators.UserLikeComparatorByTitle -> com.mitv.models.compara
     16:16:int compare(com.mitv.models.gson.UserLikeJSON,com.mitv.models.gson.UserLikeJSON) -> compare
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
 com.mitv.models.gson.AdAdzerkJSON -> com.mitv.models.gson.AdAdzerkJSON:
-    java.lang.String userKey -> a
-    java.lang.String divId -> b
-    java.lang.String adId -> c
-    java.lang.String creativeId -> d
-    java.lang.String flightId -> e
-    java.lang.String campaignId -> f
-    java.lang.String clickUrl -> g
-    java.lang.String impressionUrl -> h
-    java.lang.String imageUrl -> i
-    int width -> j
-    int height -> k
+    java.lang.String userKey -> userKey
+    java.lang.String divId -> divId
+    java.lang.String adId -> adId
+    java.lang.String creativeId -> creativeId
+    java.lang.String flightId -> flightId
+    java.lang.String campaignId -> campaignId
+    java.lang.String clickUrl -> clickUrl
+    java.lang.String impressionUrl -> impressionUrl
+    java.lang.String imageUrl -> imageUrl
+    int width -> width
+    int height -> height
     36:36:java.lang.String getUserKey() -> getUserKey
     42:42:java.lang.String getDivId() -> getDivId
     48:48:java.lang.String getAdId() -> getAdId
@@ -25587,14 +25588,14 @@ com.mitv.models.gson.FacebookLoginDataJSON -> com.mitv.models.gson.FacebookLogin
     54:54:java.lang.String getEmail() -> getEmail
     60:60:java.lang.String getLink() -> getLink
 com.mitv.models.gson.ImageSetOrientationJSON -> com.mitv.models.gson.ImageSetOrientationJSON:
-    com.mitv.models.ImageSetSize landscape -> a
-    com.mitv.models.ImageSetSize portrait -> b
+    com.mitv.models.ImageSetSize landscape -> landscape
+    com.mitv.models.ImageSetSize portrait -> portrait
     32:32:com.mitv.models.ImageSetSize getLandscape() -> getLandscape
     35:35:com.mitv.models.ImageSetSize getPortrait() -> getPortrait
     41:42:void setLandscape(com.mitv.models.ImageSetSize) -> setLandscape
     45:46:void setPortrait(com.mitv.models.ImageSetSize) -> setPortrait
 com.mitv.models.gson.ImageSetSizeJSON -> com.mitv.models.gson.ImageSetSizeJSON:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     java.lang.String small -> small
     java.lang.String medium -> medium
     java.lang.String large -> large
@@ -25625,8 +25626,8 @@ com.mitv.models.gson.TVChannelJSON -> com.mitv.models.gson.TVChannelJSON:
     26:26:com.mitv.models.ImageSetSize getLogo() -> getLogo
     33:33:java.lang.String getImageUrl() -> getImageUrl
 com.mitv.models.gson.TVCreditJSON -> com.mitv.models.gson.TVCreditJSON:
-    java.lang.String name -> a
-    java.lang.String type -> b
+    java.lang.String name -> name
+    java.lang.String type -> type
     15:15:java.lang.String getName() -> getName
     22:22:java.lang.String getType() -> getType
 com.mitv.models.gson.TVDateJSON -> com.mitv.models.gson.TVDateJSON:
@@ -25637,7 +25638,7 @@ com.mitv.models.gson.TVDateJSON -> com.mitv.models.gson.TVDateJSON:
     23:23:java.lang.String getDisplayName() -> getDisplayName
     29:29:java.lang.String getDate() -> getDate
 com.mitv.models.gson.TVFeedItemJSON -> com.mitv.models.gson.TVFeedItemJSON:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     java.lang.String itemType -> itemType
     java.lang.String title -> title
     com.mitv.models.TVBroadcastWithChannelInfo broadcast -> broadcast
@@ -25662,7 +25663,7 @@ com.mitv.models.gson.TVProgramJSON -> com.mitv.models.gson.TVProgramJSON:
     java.lang.String genre -> genre
     com.mitv.models.TVSportType sportType -> sportType
     java.lang.String tournament -> tournament
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> a
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
     87:163:com.mitv.models.gson.TVProgramJSON deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
     167:167:com.mitv.enums.ProgramTypeEnum getProgramType() -> getProgramType
     171:171:java.lang.String getProgramId() -> getProgramId
@@ -25681,7 +25682,7 @@ com.mitv.models.gson.TVProgramJSON -> com.mitv.models.gson.TVProgramJSON:
     223:223:com.mitv.models.TVSportType getSportType() -> getSportType
     227:227:java.lang.String getTournament() -> getTournament
     1:1:java.lang.Object deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
-    27:27:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> b
+    27:27:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.models.gson.TVSearchResultEntityJSON -> com.mitv.models.gson.TVSearchResultEntityJSON:
     java.util.ArrayList broadcasts -> broadcasts
     java.lang.String name -> name
@@ -25698,7 +25699,7 @@ com.mitv.models.gson.TVSearchResultJSON -> com.mitv.models.gson.TVSearchResultJS
     java.lang.Float searchScore -> searchScore
     java.lang.String entityType -> entityType
     com.mitv.models.TVSearchResultEntity entity -> entity
-    int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum -> a
+    int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum
     45:86:com.mitv.models.TVSearchResult deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
     90:90:com.mitv.enums.ContentTypeEnum getEntityType() -> getEntityType
     94:94:java.lang.String getDisplayText() -> getDisplayText
@@ -25706,7 +25707,7 @@ com.mitv.models.gson.TVSearchResultJSON -> com.mitv.models.gson.TVSearchResultJS
     102:102:com.mitv.models.TVSearchResultEntity getEntity() -> getEntity
     107:132:boolean areDataFieldsValid() -> areDataFieldsValid
     1:1:java.lang.Object deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
-    27:27:int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum() -> a
+    27:27:int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum
 com.mitv.models.gson.TVSearchResultsJSON -> com.mitv.models.gson.TVSearchResultsJSON:
     java.util.List results -> results
     39:39:java.util.List getResults() -> getResults
@@ -25756,8 +25757,8 @@ com.mitv.models.gson.UserLikeJSON -> com.mitv.models.gson.UserLikeJSON:
     java.lang.String genre -> genre
     java.lang.Integer year -> year
     java.lang.String category -> category
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> a
-    int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum -> b
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
+    int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum -> $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum
     86:161:com.mitv.models.gson.UserLikeJSON deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
     165:165:com.mitv.enums.LikeTypeResponseEnum getLikeType() -> getLikeType
     169:169:com.mitv.enums.ProgramTypeEnum getProgramType() -> getProgramType
@@ -25771,8 +25772,8 @@ com.mitv.models.gson.UserLikeJSON -> com.mitv.models.gson.UserLikeJSON:
     203:203:java.lang.Integer getBroadcastCount() -> getBroadcastCount
     209:209:com.mitv.models.UserLikeNextBroadcast getNextBroadcast() -> getNextBroadcast
     1:1:java.lang.Object deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
-    23:23:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> c
-    23:23:int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum() -> d
+    23:23:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
+    23:23:int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum() -> $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum
 com.mitv.models.gson.UserLikeNextBroadcastJSON -> com.mitv.models.gson.UserLikeNextBroadcastJSON:
     java.lang.String channelId -> channelId
     java.lang.Long beginTimeMillis -> beginTimeMillis
@@ -25795,27 +25796,27 @@ com.mitv.models.gson.deserializers.TVSearchResultEntitySeriesDeserializer -> com
     21:33:com.mitv.models.TVSearchResultEntity deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
     1:1:java.lang.Object deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext) -> deserialize
 com.mitv.models.gson.serialization.UserFacebookTokenData -> com.mitv.models.gson.serialization.UserFacebookTokenData:
-    java.lang.String facebookToken -> a
+    java.lang.String facebookToken -> facebookToken
     24:24:java.lang.String getFacebookToken() -> getFacebookToken
     30:31:void setFacebookToken(java.lang.String) -> setFacebookToken
 com.mitv.models.gson.serialization.UserLikeData -> com.mitv.models.gson.serialization.UserLikeData:
-    com.mitv.enums.LikeTypeRequestEnum likeType -> a
-    java.lang.String entityId -> b
+    com.mitv.enums.LikeTypeRequestEnum likeType -> likeType
+    java.lang.String entityId -> entityId
     25:25:com.mitv.enums.LikeTypeRequestEnum getLikeType() -> getLikeType
     31:32:void setLikeType(com.mitv.enums.LikeTypeRequestEnum) -> setLikeType
     37:37:java.lang.String getEntityId() -> getEntityId
     42:43:void setEntityId(java.lang.String) -> setEntityId
 com.mitv.models.gson.serialization.UserLoginDataPost -> com.mitv.models.gson.serialization.UserLoginDataPost:
-    java.lang.String email -> a
-    java.lang.String password -> b
+    java.lang.String email -> email
+    java.lang.String password -> password
     25:25:java.lang.String getEmail() -> getEmail
     31:32:void setEmail(java.lang.String) -> setEmail
     37:37:java.lang.String getPassword() -> getPassword
     43:44:void setPassword(java.lang.String) -> setPassword
 com.mitv.models.gson.serialization.UserPasswordResetConfirmationData -> com.mitv.models.gson.serialization.UserPasswordResetConfirmationData:
-    java.lang.String email -> a
-    java.lang.String resetPasswordToken -> b
-    java.lang.String newPassword -> c
+    java.lang.String email -> email
+    java.lang.String resetPasswordToken -> resetPasswordToken
+    java.lang.String newPassword -> newPassword
     25:25:java.lang.String getEmail() -> getEmail
     30:31:void setEmail(java.lang.String) -> setEmail
     35:35:java.lang.String getResetPasswordToken() -> getResetPasswordToken
@@ -25823,14 +25824,14 @@ com.mitv.models.gson.serialization.UserPasswordResetConfirmationData -> com.mitv
     45:45:java.lang.String getNewPassword() -> getNewPassword
     50:51:void setNewPassword(java.lang.String) -> setNewPassword
 com.mitv.models.gson.serialization.UserPasswordResetPasswordData -> com.mitv.models.gson.serialization.UserPasswordResetPasswordData:
-    java.lang.String email -> a
+    java.lang.String email -> email
     18:18:java.lang.String getEmail() -> getEmail
     24:25:void setEmail(java.lang.String) -> setEmail
 com.mitv.models.gson.serialization.UserRegistrationData -> com.mitv.models.gson.serialization.UserRegistrationData:
-    java.lang.String email -> a
-    java.lang.String password -> b
-    java.lang.String firstName -> c
-    java.lang.String lastName -> d
+    java.lang.String email -> email
+    java.lang.String password -> password
+    java.lang.String firstName -> firstName
+    java.lang.String lastName -> lastName
     30:30:java.lang.String getEmail() -> getEmail
     36:37:void setEmail(java.lang.String) -> setEmail
     42:42:java.lang.String getPassword() -> getPassword
@@ -25840,40 +25841,40 @@ com.mitv.models.gson.serialization.UserRegistrationData -> com.mitv.models.gson.
     66:66:java.lang.String getLastName() -> getLastName
     72:73:void setLastName(java.lang.String) -> setLastName
 com.mitv.models.orm.AdzerkFormatForActivityORM -> com.mitv.models.orm.AdzerkFormatForActivityORM:
-    int id -> a
-    java.lang.Integer value -> b
+    int id -> id
+    java.lang.Integer value -> value
     34:34:int getId() -> getId
     40:40:java.lang.Integer getValue() -> getValue
 com.mitv.models.orm.AdzerkFormatForAndroidGuideORM -> com.mitv.models.orm.AdzerkFormatForAndroidGuideORM:
-    int id -> a
-    java.lang.Integer value -> b
+    int id -> id
+    java.lang.Integer value -> value
     34:34:int getId() -> getId
     40:40:java.lang.Integer getValue() -> getValue
 com.mitv.models.orm.AdzerkFormatORM -> com.mitv.models.orm.AdzerkFormatORM:
-    int id -> a
-    java.lang.Integer value -> b
+    int id -> id
+    java.lang.Integer value -> value
     34:34:int getId() -> getId
     40:40:java.lang.Integer getValue() -> getValue
 com.mitv.models.orm.AppConfigurationORM -> com.mitv.models.orm.AppConfigurationORM:
-    java.lang.String TAG -> a
-    int firstHourOfDay -> b
-    java.lang.String welcomeToast -> c
-    boolean adsEnabled -> d
-    int adzerkNetworkId -> e
-    int adzerkSiteId -> f
-    int adzerkLevel -> g
-    com.j256.ormlite.dao.ForeignCollection adzerkFormats -> h
-    com.j256.ormlite.dao.ForeignCollection adzerkFormatsForActivity -> i
-    com.j256.ormlite.dao.ForeignCollection adzerkFormatsForAndroidGuide -> j
-    double googleAnalyticsSampleRate -> k
-    boolean googleAnalyticsEnabled -> l
-    java.lang.String googleAnalyticsTrackingId -> m
-    int feedActivityCellCountBetweenAdCells -> n
-    int guideFragmentCellCountBetweenAdCells -> o
-    java.lang.String facebookAppID -> p
-    java.lang.String trackingDomain -> q
+    java.lang.String TAG -> TAG
+    int firstHourOfDay -> firstHourOfDay
+    java.lang.String welcomeToast -> welcomeToast
+    boolean adsEnabled -> adsEnabled
+    int adzerkNetworkId -> adzerkNetworkId
+    int adzerkSiteId -> adzerkSiteId
+    int adzerkLevel -> adzerkLevel
+    com.j256.ormlite.dao.ForeignCollection adzerkFormats -> adzerkFormats
+    com.j256.ormlite.dao.ForeignCollection adzerkFormatsForActivity -> adzerkFormatsForActivity
+    com.j256.ormlite.dao.ForeignCollection adzerkFormatsForAndroidGuide -> adzerkFormatsForAndroidGuide
+    double googleAnalyticsSampleRate -> googleAnalyticsSampleRate
+    boolean googleAnalyticsEnabled -> googleAnalyticsEnabled
+    java.lang.String googleAnalyticsTrackingId -> googleAnalyticsTrackingId
+    int feedActivityCellCountBetweenAdCells -> feedActivityCellCountBetweenAdCells
+    int guideFragmentCellCountBetweenAdCells -> guideFragmentCellCountBetweenAdCells
+    java.lang.String facebookAppID -> facebookAppID
+    java.lang.String trackingDomain -> trackingDomain
     155:165:com.mitv.models.AppConfiguration getAppConfiguration() -> getAppConfiguration
-    178:195:com.mitv.models.orm.AppConfigurationORM getAppConfigurationORM() -> b
+    178:195:com.mitv.models.orm.AppConfigurationORM getAppConfigurationORM() -> getAppConfigurationORM
     202:202:int getFirstHourOfDay() -> getFirstHourOfDay
     208:208:java.lang.String getWelcomeToast() -> getWelcomeToast
     214:214:boolean isAdsEnabled() -> isAdsEnabled
@@ -25891,17 +25892,17 @@ com.mitv.models.orm.AppConfigurationORM -> com.mitv.models.orm.AppConfigurationO
     287:287:java.lang.String getFacebookAppID() -> getFacebookAppID
     293:293:java.lang.String getTrackingDomain() -> getTrackingDomain
 com.mitv.models.orm.AppVersionElementORM -> com.mitv.models.orm.AppVersionElementORM:
-    java.lang.String TAG -> a
-    java.lang.String name -> b
-    java.lang.String value -> c
-    java.util.Date expires -> d
+    java.lang.String TAG -> TAG
+    java.lang.String name -> name
+    java.lang.String value -> value
+    java.util.Date expires -> expires
     57:67:com.mitv.models.AppVersion getAppVersion() -> getAppVersion
-    80:91:java.util.List getAppVersionElementORMList() -> b
+    80:91:java.util.List getAppVersionElementORMList() -> getAppVersionElementORMList
     97:97:java.lang.String getName() -> getName
     103:103:java.lang.String getValue() -> getValue
     109:109:java.util.Date getExpires() -> getExpires
 com.mitv.models.orm.AppVersionORM -> com.mitv.models.orm.AppVersionORM:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     20:26:void createAndSaveInAsyncTask(com.mitv.models.AppVersion) -> createAndSaveInAsyncTask
     32:32:com.mitv.models.AppVersion getAppVersion() -> getAppVersion
 com.mitv.models.orm.TVBroadcastWithChannelInfoORM -> com.mitv.models.orm.TVBroadcastWithChannelInfoORM:
@@ -25939,13 +25940,13 @@ com.mitv.models.orm.TVBroadcastWithChannelInfoORM -> com.mitv.models.orm.TVBroad
     com.mitv.enums.BroadcastTypeEnum broadcastType -> broadcastType
     java.lang.String shareUrl -> shareUrl
 com.mitv.models.orm.TVDateORM -> com.mitv.models.orm.TVDateORM:
-    java.lang.String TAG -> a
-    java.lang.String id -> b
-    java.lang.String date -> c
-    java.lang.String displayName -> d
+    java.lang.String TAG -> TAG
+    java.lang.String id -> id
+    java.lang.String date -> date
+    java.lang.String displayName -> displayName
     50:60:void createAndSaveInAsyncTask(java.util.List) -> createAndSaveInAsyncTask
     68:85:java.util.List getTVDates() -> getTVDates
-    98:109:java.util.List getAllTVDatesORM() -> b
+    98:109:java.util.List getAllTVDatesORM() -> getAllTVDatesORM
     115:115:java.lang.String getId() -> getId
     121:121:java.lang.String getDate() -> getDate
     127:127:java.lang.String getDisplayName() -> getDisplayName
@@ -25953,40 +25954,40 @@ com.mitv.models.orm.TVGuideORM -> com.mitv.models.orm.TVGuideORM:
     java.lang.String id -> id
     java.lang.String date -> date
     java.lang.String displayName -> displayName
-    java.util.ArrayList tvChannelGuides -> a
+    java.util.ArrayList tvChannelGuides -> tvChannelGuides
 com.mitv.models.orm.TVTagORM -> com.mitv.models.orm.TVTagORM:
-    java.lang.String TAG -> a
-    java.lang.String id -> b
-    java.lang.String displayName -> c
+    java.lang.String TAG -> TAG
+    java.lang.String id -> id
+    java.lang.String displayName -> displayName
     50:60:void createAndSaveInAsyncTask(java.util.List) -> createAndSaveInAsyncTask
     68:85:java.util.List getTVTags() -> getTVTags
-    98:109:java.util.List getAllTVTagsORM() -> b
+    98:109:java.util.List getAllTVTagsORM() -> getAllTVTagsORM
     116:116:java.lang.String getId() -> getId
     121:121:java.lang.String getDisplayName() -> getDisplayName
 com.mitv.models.orm.UserLikeORM -> com.mitv.models.orm.UserLikeORM:
-    com.mitv.enums.LikeTypeResponseEnum likeType -> a
-    java.lang.String title -> b
-    java.lang.Integer broadcastCount -> c
-    com.mitv.models.UserLikeNextBroadcast nextBroadcast -> d
-    java.lang.String seriesId -> e
-    java.lang.String sportTypeId -> f
-    com.mitv.enums.ProgramTypeEnum programType -> g
-    java.lang.String programId -> h
-    java.lang.String genre -> i
-    java.lang.Integer year -> j
-    java.lang.String category -> k
+    com.mitv.enums.LikeTypeResponseEnum likeType -> likeType
+    java.lang.String title -> title
+    java.lang.Integer broadcastCount -> broadcastCount
+    com.mitv.models.UserLikeNextBroadcast nextBroadcast -> nextBroadcast
+    java.lang.String seriesId -> seriesId
+    java.lang.String sportTypeId -> sportTypeId
+    com.mitv.enums.ProgramTypeEnum programType -> programType
+    java.lang.String programId -> programId
+    java.lang.String genre -> genre
+    java.lang.Integer year -> year
+    java.lang.String category -> category
 com.mitv.models.orm.UserLoginDataORM -> com.mitv.models.orm.UserLoginDataORM:
-    java.lang.String TAG -> a
-    java.lang.String userId -> b
-    java.lang.String token -> c
-    java.lang.String email -> d
-    java.lang.String firstName -> e
-    java.lang.String lastName -> f
-    boolean created -> g
-    java.lang.String url -> h
-    boolean isDefault -> i
+    java.lang.String TAG -> TAG
+    java.lang.String userId -> userId
+    java.lang.String token -> token
+    java.lang.String email -> email
+    java.lang.String firstName -> firstName
+    java.lang.String lastName -> lastName
+    boolean created -> created
+    java.lang.String url -> url
+    boolean isDefault -> isDefault
     81:91:com.mitv.models.UserLoginData getUserLoginData() -> getUserLoginData
-    104:121:com.mitv.models.orm.UserLoginDataORM getUserLoginDataORM() -> b
+    104:121:com.mitv.models.orm.UserLoginDataORM getUserLoginDataORM() -> getUserLoginDataORM
     131:137:void delete() -> delete
     143:143:java.lang.String getToken() -> getToken
     150:150:java.lang.String getUserId() -> getUserId
@@ -25998,17 +25999,17 @@ com.mitv.models.orm.UserLoginDataORM -> com.mitv.models.orm.UserLoginDataORM:
     186:186:boolean isDefault() -> isDefault
     192:192:java.util.Date getModifydate() -> getModifydate
 com.mitv.models.orm.base.AbstractOrmLiteClass -> com.mitv.models.orm.base.AbstractOrmLiteClass:
-    java.lang.String TAG -> a
-    com.mitv.models.orm.base.OrmLiteDatabaseHelper ormLiteDbHelper -> b
-    java.util.HashMap hmClassDao -> c
-    java.util.HashMap hmRuntimeDao -> d
+    java.lang.String TAG -> TAG
+    com.mitv.models.orm.base.OrmLiteDatabaseHelper ormLiteDbHelper -> ormLiteDbHelper
+    java.util.HashMap hmClassDao -> hmClassDao
+    java.util.HashMap hmRuntimeDao -> hmRuntimeDao
     37:45:void initDB(android.content.Context) -> initDB
     49:57:void initDB(android.content.Context,java.lang.String,int,com.mitv.models.orm.base.OrmLiteDatabaseHelper$Upgrader) -> initDB
     void onBeforeSave() -> onBeforeSave
     void onAfterSave() -> onAfterSave
     66:78:com.j256.ormlite.dao.Dao getDao() -> getDao
     82:90:com.j256.ormlite.dao.RuntimeExceptionDao getRunExpDao() -> getRunExpDao
-    97:103:void createTableIfNeeded() -> a
+    97:103:void createTableIfNeeded() -> createTableIfNeeded
     107:111:void save() -> save
     115:115:java.util.List getAll() -> getAll
     121:124:java.util.List queryManyByEqual(java.lang.String,java.lang.Object) -> queryManyByEqual
@@ -26018,27 +26019,27 @@ com.mitv.models.orm.base.AbstractOrmLiteClass -> com.mitv.models.orm.base.Abstra
     156:164:int clearTable() -> clearTable
     172:177:void deleteById(java.lang.String,java.lang.String) -> deleteById
 com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave -> com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave:
-    java.lang.String TAG -> a
+    java.lang.String TAG -> TAG
     java.util.Date modifydate -> modifydate
     26:42:void saveInAsyncTask() -> saveInAsyncTask
     48:67:void saveListElementsInAsyncTask(java.util.List) -> saveListElementsInAsyncTask
     74:75:void onBeforeSave() -> onBeforeSave
     81:81:void onAfterSave() -> onAfterSave
-    16:16:java.lang.String access$0() -> a
-com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave$1 -> ahi:
-    com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave this$0 -> a
+    16:16:java.lang.String access$0() -> access$0
+com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave$1 -> com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave$1:
+    com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave this$0 -> this$0
     32:38:void run() -> run
-com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave$2 -> ahj:
-    com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave this$0 -> a
-    java.util.List val$elementList -> b
+com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave$2 -> com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave$2:
+    com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave this$0 -> this$0
+    java.util.List val$elementList -> val$elementList
     54:63:void run() -> run
 com.mitv.models.orm.base.OrmLiteDatabaseHelper -> com.mitv.models.orm.base.OrmLiteDatabaseHelper:
-    java.lang.String LOG -> a
-    com.mitv.models.orm.base.OrmLiteDatabaseHelper$Upgrader upgrader -> b
+    java.lang.String LOG -> LOG
+    com.mitv.models.orm.base.OrmLiteDatabaseHelper$Upgrader upgrader -> upgrader
     java.lang.String DATABASE_NAME -> DATABASE_NAME
     int DATABASE_VERSION -> DATABASE_VERSION
     com.j256.ormlite.support.ConnectionSource connectionSource -> connectionSource
-    com.mitv.models.orm.base.OrmLiteDatabaseHelper instance -> c
+    com.mitv.models.orm.base.OrmLiteDatabaseHelper instance -> instance
     68:68:com.mitv.models.orm.base.OrmLiteDatabaseHelper getInstance() -> getInstance
     78:86:void onCreate(android.database.sqlite.SQLiteDatabase,com.j256.ormlite.support.ConnectionSource) -> onCreate
     99:144:void onUpgrade(android.database.sqlite.SQLiteDatabase,com.j256.ormlite.support.ConnectionSource,int,int) -> onUpgrade
@@ -26046,47 +26047,48 @@ com.mitv.models.orm.base.OrmLiteDatabaseHelper -> com.mitv.models.orm.base.OrmLi
 com.mitv.models.orm.base.OrmLiteDatabaseHelper$Upgrader -> com.mitv.models.orm.base.OrmLiteDatabaseHelper$Upgrader:
     java.io.InputStream getUpgradeStream(int,int) -> getUpgradeStream
 com.mitv.models.sql.NotificationDataSource -> com.mitv.models.sql.NotificationDataSource:
-    java.lang.String TAG -> a
-    com.mitv.models.sql.NotificationSQLDatabaseHelper dbHelper -> b
+    java.lang.String TAG -> TAG
+    com.mitv.models.sql.NotificationSQLDatabaseHelper dbHelper -> dbHelper
     39:79:void addNotification(com.mitv.models.sql.NotificationSQLElement) -> addNotification
     85:112:boolean removeNotification(int) -> removeNotification
     121:159:com.mitv.models.sql.NotificationSQLElement getNotification(com.mitv.models.TVChannelId,java.lang.String) -> getNotification
     167:181:int getNotificationCount() -> getNotificationCount
     188:213:java.util.List getAllNotifications() -> getAllNotifications
 com.mitv.models.sql.NotificationSQLDatabaseHelper -> com.mitv.models.sql.NotificationSQLDatabaseHelper:
+    java.lang.String DATABASE_CREATE_QUERY -> DATABASE_CREATE_QUERY
     59:60:void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     67:76:void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
 com.mitv.models.sql.NotificationSQLElement -> com.mitv.models.sql.NotificationSQLElement:
     long serialVersionUID -> serialVersionUID
-    java.lang.String TAG -> a
-    int notificationId -> b
-    long broadcastBeginTimeInMilliseconds -> c
-    java.lang.String broadcastBeginTime -> d
-    java.lang.String broadcastEndTime -> e
-    java.lang.String broadcastType -> f
-    java.lang.String shareUrl -> g
-    java.lang.String channelId -> h
-    java.lang.String channelName -> i
-    java.lang.String channelLogoSmall -> j
-    java.lang.String channelLogoMedium -> k
-    java.lang.String channelLogoLarge -> l
-    java.lang.String programId -> m
-    java.lang.String programTitle -> n
-    java.lang.String programType -> o
-    java.lang.String synopsisShort -> p
-    java.lang.String synopsisLong -> q
-    java.lang.String programTags -> r
-    java.lang.String programCredits -> s
-    java.lang.String programSeason -> t
-    int programEpisodeNumber -> u
-    int programYear -> v
-    java.lang.String programGenre -> w
-    java.lang.String programCategory -> x
-    java.lang.String seriesId -> y
-    java.lang.String seriesName -> z
-    java.lang.String sportTypeId -> A
-    java.lang.String sportTypeName -> B
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> C
+    java.lang.String TAG -> TAG
+    int notificationId -> notificationId
+    long broadcastBeginTimeInMilliseconds -> broadcastBeginTimeInMilliseconds
+    java.lang.String broadcastBeginTime -> broadcastBeginTime
+    java.lang.String broadcastEndTime -> broadcastEndTime
+    java.lang.String broadcastType -> broadcastType
+    java.lang.String shareUrl -> shareUrl
+    java.lang.String channelId -> channelId
+    java.lang.String channelName -> channelName
+    java.lang.String channelLogoSmall -> channelLogoSmall
+    java.lang.String channelLogoMedium -> channelLogoMedium
+    java.lang.String channelLogoLarge -> channelLogoLarge
+    java.lang.String programId -> programId
+    java.lang.String programTitle -> programTitle
+    java.lang.String programType -> programType
+    java.lang.String synopsisShort -> synopsisShort
+    java.lang.String synopsisLong -> synopsisLong
+    java.lang.String programTags -> programTags
+    java.lang.String programCredits -> programCredits
+    java.lang.String programSeason -> programSeason
+    int programEpisodeNumber -> programEpisodeNumber
+    int programYear -> programYear
+    java.lang.String programGenre -> programGenre
+    java.lang.String programCategory -> programCategory
+    java.lang.String seriesId -> seriesId
+    java.lang.String seriesName -> seriesName
+    java.lang.String sportTypeId -> sportTypeId
+    java.lang.String sportTypeName -> sportTypeName
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
     230:230:int getNotificationId() -> getNotificationId
     235:235:java.lang.String getProgramId() -> getProgramId
     240:240:java.lang.String getProgramTitle() -> getProgramTitle
@@ -26143,7 +26145,7 @@ com.mitv.models.sql.NotificationSQLElement -> com.mitv.models.sql.NotificationSQ
     534:535:void setShareUrl(java.lang.String) -> setShareUrl
     539:539:long getBroadcastBeginTimeInMilliseconds() -> getBroadcastBeginTimeInMilliseconds
     545:546:void setBroadcastBeginTimeInMilliseconds(long) -> setBroadcastBeginTimeInMilliseconds
-    17:17:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
+    17:17:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.populators.BroadcastRepetitionsBlockPopulator -> com.mitv.populators.BroadcastRepetitionsBlockPopulator:
     java.lang.String TAG -> a
 com.mitv.populators.BroadcastUpcomingBlockPopulator -> com.mitv.populators.BroadcastUpcomingBlockPopulator:
@@ -26168,11 +26170,11 @@ com.mitv.populators.TrippleBroadcastBlockPopulator -> com.mitv.populators.Trippl
     39:39:com.mitv.models.TVBroadcastWithChannelInfo access$2(com.mitv.populators.TrippleBroadcastBlockPopulator) -> a
     48:48:boolean access$3(com.mitv.populators.TrippleBroadcastBlockPopulator) -> b
     38:38:android.app.Activity access$4(com.mitv.populators.TrippleBroadcastBlockPopulator) -> c
-com.mitv.populators.TrippleBroadcastBlockPopulator$1 -> ahk:
+com.mitv.populators.TrippleBroadcastBlockPopulator$1 -> ahi:
     com.mitv.populators.TrippleBroadcastBlockPopulator this$0 -> a
     java.util.ArrayList val$repeatingOrUpcomingBroadcasts -> b
     310:312:void onClick(android.view.View) -> onClick
-com.mitv.populators.TrippleBroadcastBlockPopulator$2 -> ahl:
+com.mitv.populators.TrippleBroadcastBlockPopulator$2 -> ahj:
     com.mitv.populators.TrippleBroadcastBlockPopulator this$0 -> a
     java.util.ArrayList val$repeatingOrUpcomingBroadcasts -> b
     332:350:void run() -> run
@@ -26234,13 +26236,13 @@ com.mitv.ui.elements.LikeView -> com.mitv.ui.elements.LikeView:
     39:39:com.mitv.models.UserLike access$1(com.mitv.ui.elements.LikeView) -> b
     156:156:void access$2(com.mitv.ui.elements.LikeView) -> c
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> a
-com.mitv.ui.elements.LikeView$1 -> ahm:
+com.mitv.ui.elements.LikeView$1 -> ahk:
     com.mitv.ui.elements.LikeView this$0 -> a
     164:166:void run() -> run
-com.mitv.ui.elements.LikeView$2 -> ahn:
+com.mitv.ui.elements.LikeView$2 -> ahl:
     com.mitv.ui.elements.LikeView this$0 -> a
     177:181:void run() -> run
-com.mitv.ui.elements.LikeView$3 -> aho:
+com.mitv.ui.elements.LikeView$3 -> ahm:
     com.mitv.ui.elements.LikeView this$0 -> a
     189:189:void run() -> run
 com.mitv.ui.elements.ReminderView -> com.mitv.ui.elements.ReminderView:
@@ -26260,7 +26262,7 @@ com.mitv.ui.elements.ReminderView -> com.mitv.ui.elements.ReminderView:
     185:185:java.lang.Runnable yesNotificationProcedure() -> yesNotificationProcedure
     38:38:com.mitv.ui.elements.FontTextView access$0(com.mitv.ui.elements.ReminderView) -> a
     43:43:void access$1(com.mitv.ui.elements.ReminderView,boolean) -> a
-com.mitv.ui.elements.ReminderView$1 -> ahp:
+com.mitv.ui.elements.ReminderView$1 -> ahn:
     com.mitv.ui.elements.ReminderView this$0 -> a
     189:192:void run() -> run
 com.mitv.ui.elements.SwipeClockBar -> com.mitv.ui.elements.SwipeClockBar:
@@ -26308,17 +26310,17 @@ com.mitv.ui.elements.SwipeClockBar -> com.mitv.ui.elements.SwipeClockBar:
     66:66:int access$7(com.mitv.ui.elements.SwipeClockBar) -> f
     61:61:float access$8(com.mitv.ui.elements.SwipeClockBar) -> g
     54:54:android.widget.ListView access$9(com.mitv.ui.elements.SwipeClockBar) -> h
-com.mitv.ui.elements.SwipeClockBar$1 -> ahq:
+com.mitv.ui.elements.SwipeClockBar$1 -> aho:
     com.mitv.ui.elements.SwipeClockBar this$0 -> a
     151:159:void onClick(android.view.View) -> onClick
     147:147:com.mitv.ui.elements.SwipeClockBar access$0(com.mitv.ui.elements.SwipeClockBar$1) -> a
-com.mitv.ui.elements.SwipeClockBar$1$1 -> ahr:
+com.mitv.ui.elements.SwipeClockBar$1$1 -> ahp:
     com.mitv.ui.elements.SwipeClockBar$1 this$1 -> a
     156:157:void run() -> run
-com.mitv.ui.elements.SwipeClockBar$2 -> ahs:
+com.mitv.ui.elements.SwipeClockBar$2 -> ahq:
     com.mitv.ui.elements.SwipeClockBar this$0 -> a
     194:201:void onGlobalLayout() -> onGlobalLayout
-com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> aht:
+com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> ahr:
     java.util.List hoursOfTheDay -> b
     int hoursPerDay -> c
     int firstHourOfDay -> d
@@ -26338,7 +26340,7 @@ com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> aht:
     346:346:boolean showOddHour() -> a
     351:432:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     250:250:void access$0(com.mitv.ui.elements.SwipeClockBar$TimeListAdapter,int) -> a
-com.mitv.ui.elements.SwipeClockBar$TimeListAdapter$ViewHolder -> ahu:
+com.mitv.ui.elements.SwipeClockBar$TimeListAdapter$ViewHolder -> ahs:
     com.mitv.ui.elements.FontTextView textView -> a
     com.mitv.ui.elements.SwipeClockBar$TimeListAdapter this$1 -> b
 com.mitv.ui.elements.TextDrawable -> com.mitv.ui.elements.TextDrawable:
@@ -26397,13 +26399,13 @@ com.mitv.ui.elements.UndoBarController -> com.mitv.ui.elements.UndoBarController
     22:22:android.view.View access$2(com.mitv.ui.elements.UndoBarController) -> c
     31:31:void access$3(com.mitv.ui.elements.UndoBarController,java.lang.CharSequence) -> a
     30:30:void access$4(com.mitv.ui.elements.UndoBarController,android.os.Parcelable) -> a
-com.mitv.ui.elements.UndoBarController$1 -> ahv:
+com.mitv.ui.elements.UndoBarController$1 -> aht:
     com.mitv.ui.elements.UndoBarController this$0 -> a
     172:173:void run() -> run
-com.mitv.ui.elements.UndoBarController$2 -> ahw:
+com.mitv.ui.elements.UndoBarController$2 -> ahu:
     com.mitv.ui.elements.UndoBarController this$0 -> a
     60:62:void onClick(android.view.View) -> onClick
-com.mitv.ui.elements.UndoBarController$3 -> ahx:
+com.mitv.ui.elements.UndoBarController$3 -> ahv:
     com.mitv.ui.elements.UndoBarController this$0 -> a
     135:138:void onAnimationEnd(android.animation.Animator) -> onAnimationEnd
 com.mitv.ui.elements.UndoBarController$UndoListener -> com.mitv.ui.elements.UndoBarController$UndoListener:
@@ -26423,7 +26425,7 @@ com.mitv.ui.elements.VerticalSeekBar -> com.mitv.ui.elements.VerticalSeekBar:
     117:118:void onSizeChanged(int,int,int,int) -> onSizeChanged
     121:122:void setParentClockbar(com.mitv.ui.elements.SwipeClockBar) -> setParentClockbar
     21:21:com.mitv.ui.elements.FontTextView access$0(com.mitv.ui.elements.VerticalSeekBar) -> a
-com.mitv.ui.elements.VerticalSeekBar$1 -> ahy:
+com.mitv.ui.elements.VerticalSeekBar$1 -> ahw:
     com.mitv.ui.elements.VerticalSeekBar this$0 -> a
     98:99:void run() -> run
 com.mitv.ui.helpers.DialogHelper -> com.mitv.ui.helpers.DialogHelper:
@@ -26434,33 +26436,33 @@ com.mitv.ui.helpers.DialogHelper -> com.mitv.ui.helpers.DialogHelper:
     196:236:void showPromptSignInDialog(android.app.Activity,java.lang.Runnable,java.lang.Runnable) -> showPromptSignInDialog
     242:279:void showMandatoryAppUpdateDialog(android.app.Activity) -> showMandatoryAppUpdateDialog
     19:19:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
-com.mitv.ui.helpers.DialogHelper$1 -> ahz:
+com.mitv.ui.helpers.DialogHelper$1 -> ahx:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     108:114:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$2 -> aia:
+com.mitv.ui.helpers.DialogHelper$2 -> ahy:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Activity val$activity -> b
     int val$notificationId -> c
     android.app.Dialog val$dialog -> d
     122:129:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$3 -> aib:
+com.mitv.ui.helpers.DialogHelper$3 -> ahz:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     160:166:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$4 -> aic:
+com.mitv.ui.helpers.DialogHelper$4 -> aia:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
     174:180:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$5 -> aid:
+com.mitv.ui.helpers.DialogHelper$5 -> aib:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     209:215:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$6 -> aie:
+com.mitv.ui.helpers.DialogHelper$6 -> aic:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
     223:229:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$7 -> aif:
+com.mitv.ui.helpers.DialogHelper$7 -> aid:
     android.app.Activity val$activity -> a
     254:272:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.NotificationHelper -> com.mitv.ui.helpers.NotificationHelper:
@@ -26478,12 +26480,12 @@ com.mitv.utilities.AnimationUtils -> com.mitv.utilities.AnimationUtils:
     19:30:void animationSet(android.view.View) -> animationSet
     36:63:void expand(android.view.View) -> expand
     69:98:void collapse(android.view.View) -> collapse
-com.mitv.utilities.AnimationUtils$1 -> aig:
+com.mitv.utilities.AnimationUtils$1 -> aie:
     android.view.View val$v -> a
     int val$targtetHeight -> b
     48:50:void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
     55:55:boolean willChangeBounds() -> willChangeBounds
-com.mitv.utilities.AnimationUtils$2 -> aih:
+com.mitv.utilities.AnimationUtils$2 -> aif:
     android.view.View val$v -> a
     int val$initialHeight -> b
     76:85:void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
@@ -26614,7 +26616,7 @@ com.nostra13.universalimageloader.cache.disc.LimitedDiscCache -> com.nostra13.un
     int getSize(java.io.File) -> getSize
     38:38:java.util.Map access$000(com.nostra13.universalimageloader.cache.disc.LimitedDiscCache) -> a
     38:38:java.util.concurrent.atomic.AtomicInteger access$100(com.nostra13.universalimageloader.cache.disc.LimitedDiscCache) -> b
-com.nostra13.universalimageloader.cache.disc.LimitedDiscCache$1 -> aii:
+com.nostra13.universalimageloader.cache.disc.LimitedDiscCache$1 -> aig:
     com.nostra13.universalimageloader.cache.disc.LimitedDiscCache this$0 -> a
     76:85:void run() -> run
 com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache -> com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache:
@@ -26760,14 +26762,14 @@ com.nostra13.universalimageloader.core.DefaultConfigurationFactory -> com.nostra
     108:108:com.nostra13.universalimageloader.core.decode.ImageDecoder createImageDecoder(boolean) -> createImageDecoder
     113:113:com.nostra13.universalimageloader.core.display.BitmapDisplayer createBitmapDisplayer() -> createBitmapDisplayer
     118:118:java.util.concurrent.ThreadFactory createThreadFactory(int) -> a
-com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> aij:
+com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> aih:
     java.util.concurrent.atomic.AtomicInteger poolNumber -> a
     java.lang.ThreadGroup group -> b
     java.util.concurrent.atomic.AtomicInteger threadNumber -> c
     java.lang.String namePrefix -> d
     int threadPriority -> e
     139:142:java.lang.Thread newThread(java.lang.Runnable) -> newThread
-com.nostra13.universalimageloader.core.DisplayBitmapTask -> aik:
+com.nostra13.universalimageloader.core.DisplayBitmapTask -> aii:
     android.graphics.Bitmap bitmap -> a
     java.lang.String imageUri -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -26842,7 +26844,7 @@ com.nostra13.universalimageloader.core.DisplayImageOptions -> com.nostra13.unive
     66:66:com.nostra13.universalimageloader.core.display.BitmapDisplayer access$3500(com.nostra13.universalimageloader.core.DisplayImageOptions) -> q
     66:66:android.os.Handler access$3600(com.nostra13.universalimageloader.core.DisplayImageOptions) -> r
     66:66:boolean access$3700(com.nostra13.universalimageloader.core.DisplayImageOptions) -> s
-com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> ail:
+com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> aij:
 com.nostra13.universalimageloader.core.DisplayImageOptions$Builder -> com.nostra13.universalimageloader.core.DisplayImageOptions$Builder:
     int imageResOnLoading -> a
     int imageResForEmptyUri -> b
@@ -26978,7 +26980,7 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration -> com.nostra13.
     com.nostra13.universalimageloader.core.download.ImageDownloader slowNetworkDownloader -> x
     139:139:com.nostra13.universalimageloader.core.ImageLoaderConfiguration createDefault(android.content.Context) -> createDefault
     143:153:com.nostra13.universalimageloader.core.assist.ImageSize getMaxImageSize() -> a
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> aim:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> aik:
 com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder:
     int DEFAULT_THREAD_POOL_SIZE -> DEFAULT_THREAD_POOL_SIZE
     int DEFAULT_THREAD_PRIORITY -> DEFAULT_THREAD_PRIORITY
@@ -27051,7 +27053,7 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.n
     161:161:com.nostra13.universalimageloader.core.decode.ImageDecoder access$1800(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> s
     161:161:boolean access$1900(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> t
     161:161:boolean access$2000(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> u
-com.nostra13.universalimageloader.core.ImageLoaderEngine -> ain:
+com.nostra13.universalimageloader.core.ImageLoaderEngine -> ail:
     com.nostra13.universalimageloader.core.ImageLoaderConfiguration configuration -> a
     java.util.concurrent.Executor taskExecutor -> b
     java.util.concurrent.Executor taskExecutorForCachedImages -> c
@@ -27082,11 +27084,11 @@ com.nostra13.universalimageloader.core.ImageLoaderEngine -> ain:
     40:40:void access$000(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> a
     40:40:java.util.concurrent.Executor access$100(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> b
     40:40:java.util.concurrent.Executor access$200(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> c
-com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> aio:
+com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> aim:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask val$task -> a
     com.nostra13.universalimageloader.core.ImageLoaderEngine this$0 -> b
     72:79:void run() -> run
-com.nostra13.universalimageloader.core.ImageLoadingInfo -> aip:
+com.nostra13.universalimageloader.core.ImageLoadingInfo -> ain:
     java.lang.String uri -> a
     java.lang.String memoryCacheKey -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -27095,7 +27097,7 @@ com.nostra13.universalimageloader.core.ImageLoadingInfo -> aip:
     com.nostra13.universalimageloader.core.assist.ImageLoadingListener listener -> f
     com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener progressListener -> g
     java.util.concurrent.locks.ReentrantLock loadFromUriLock -> h
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> aiq:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> aio:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> f
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> g
     android.os.Handler handler -> h
@@ -27139,22 +27141,22 @@ com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> aiq:
     491:492:void log(java.lang.String) -> b
     495:496:void log(java.lang.String,java.lang.Object[]) -> a
     55:55:com.nostra13.universalimageloader.core.ImageLoaderConfiguration access$000(com.nostra13.universalimageloader.core.LoadAndDisplayImageTask) -> a
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> air:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> aip:
     int val$current -> a
     int val$total -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     375:376:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> ais:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> aiq:
     com.nostra13.universalimageloader.core.assist.FailReason$FailType val$failType -> a
     java.lang.Throwable val$failCause -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     386:390:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> ait:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> air:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
     399:400:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> aiu:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> ais:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
-com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> aiv:
+com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> ait:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> a
     android.graphics.Bitmap bitmap -> b
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> c
@@ -27228,7 +27230,7 @@ com.nostra13.universalimageloader.core.assist.MemoryCacheUtil -> com.nostra13.un
     66:72:java.util.List findCachedBitmapsForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> findCachedBitmapsForImageUri
     82:88:java.util.List findCacheKeysForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> findCacheKeysForImageUri
     98:107:void removeFromCache(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> removeFromCache
-com.nostra13.universalimageloader.core.assist.MemoryCacheUtil$1 -> aiw:
+com.nostra13.universalimageloader.core.assist.MemoryCacheUtil$1 -> aiu:
     52:54:int compare(java.lang.String,java.lang.String) -> a
     49:49:int compare(java.lang.Object,java.lang.Object) -> compare
 com.nostra13.universalimageloader.core.assist.PauseOnScrollListener -> com.nostra13.universalimageloader.core.assist.PauseOnScrollListener:
@@ -27260,7 +27262,7 @@ com.nostra13.universalimageloader.core.assist.ViewScaleType -> com.nostra13.univ
     27:27:com.nostra13.universalimageloader.core.assist.ViewScaleType[] values() -> values
     27:27:com.nostra13.universalimageloader.core.assist.ViewScaleType valueOf(java.lang.String) -> valueOf
     59:70:com.nostra13.universalimageloader.core.assist.ViewScaleType fromImageView(android.widget.ImageView) -> fromImageView
-com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> aix:
+com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> aiv:
     int[] $SwitchMap$android$widget$ImageView$ScaleType -> a
 com.nostra13.universalimageloader.core.assist.deque.BlockingDeque -> com.nostra13.universalimageloader.core.assist.deque.BlockingDeque:
     void addFirst(java.lang.Object) -> addFirst
@@ -27386,8 +27388,8 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque -> com.n
     1007:1007:java.util.Iterator descendingIterator() -> descendingIterator
     1133:1146:void writeObject(java.io.ObjectOutputStream) -> writeObject
     1155:1167:void readObject(java.io.ObjectInputStream) -> readObject
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> aiy:
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> aiz:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> aiw:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> aix:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> a
     java.lang.Object nextItem -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node lastRet -> d
@@ -27399,15 +27401,15 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Abstract
     1084:1084:boolean hasNext() -> hasNext
     1088:1093:java.lang.Object next() -> next
     1097:1109:void remove() -> remove
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$DescendingItr -> aja:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$DescendingItr -> aiy:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque this$0 -> d
     1120:1120:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node firstNode() -> a
     1121:1121:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node nextNode(com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node) -> a
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> ajb:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> aiz:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque this$0 -> d
     1114:1114:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node firstNode() -> a
     1115:1115:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node nextNode(com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node) -> a
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> ajc:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> aja:
     java.lang.Object item -> a
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node prev -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> c
@@ -27503,7 +27505,7 @@ com.nostra13.universalimageloader.core.download.BaseImageDownloader -> com.nostr
     173:174:java.io.InputStream getStreamFromAssets(java.lang.String,java.lang.Object) -> getStreamFromAssets
     186:193:java.io.InputStream getStreamFromDrawable(java.lang.String,java.lang.Object) -> getStreamFromDrawable
     210:210:java.io.InputStream getStreamFromOtherSource(java.lang.String,java.lang.Object) -> getStreamFromOtherSource
-com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> ajd:
+com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> ajb:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.download.HttpClientImageDownloader -> com.nostra13.universalimageloader.core.download.HttpClientImageDownloader:
     org.apache.http.client.HttpClient httpClient -> a
@@ -27530,12 +27532,12 @@ com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme -> com.no
 com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader -> com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     38:43:java.io.InputStream getStream(java.lang.String,java.lang.Object) -> getStream
-com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader$1 -> aje:
+com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader$1 -> ajc:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader -> com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     40:46:java.io.InputStream getStream(java.lang.String,java.lang.Object) -> getStream
-com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader$1 -> ajf:
+com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader$1 -> ajd:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.imageaware.ImageAware -> com.nostra13.universalimageloader.core.imageaware.ImageAware:
     int getWidth() -> getWidth
@@ -27579,7 +27581,7 @@ com.nostra13.universalimageloader.utils.ImageSizeUtils -> com.nostra13.universal
     92:131:int computeImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> computeImageSampleSize
     144:152:int computeMinImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize) -> computeMinImageSampleSize
     179:202:float computeImageScale(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> computeImageScale
-com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> ajg:
+com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> aje:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$assist$ViewScaleType -> a
 com.nostra13.universalimageloader.utils.IoUtils -> com.nostra13.universalimageloader.utils.IoUtils:
     int DEFAULT_BUFFER_SIZE -> DEFAULT_BUFFER_SIZE
@@ -27661,7 +27663,7 @@ com.viewpagerindicator.CirclePageIndicator$SavedState -> com.viewpagerindicator.
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     538:540:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> ajh:
+com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> ajf:
     546:546:com.viewpagerindicator.CirclePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     551:551:com.viewpagerindicator.CirclePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -27684,14 +27686,14 @@ com.viewpagerindicator.IconPageIndicator -> com.viewpagerindicator.IconPageIndic
     155:170:void setCurrentItem(int) -> setCurrentItem
     174:175:void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener) -> setOnPageChangeListener
     41:41:void access$0(com.viewpagerindicator.IconPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.IconPageIndicator$1 -> aji:
+com.viewpagerindicator.IconPageIndicator$1 -> ajg:
     com.viewpagerindicator.IconPageIndicator this$0 -> a
     android.view.View val$iconView -> b
     66:69:void run() -> run
 com.viewpagerindicator.IconPagerAdapter -> com.viewpagerindicator.IconPagerAdapter:
     int getIconResId(int) -> getIconResId
     int getCount() -> getCount
-com.viewpagerindicator.IcsLinearLayout -> ajj:
+com.viewpagerindicator.IcsLinearLayout -> ajh:
     int[] LL -> a
     android.graphics.drawable.Drawable mDivider -> b
     int mDividerWidth -> c
@@ -27750,7 +27752,7 @@ com.viewpagerindicator.LinePageIndicator$SavedState -> com.viewpagerindicator.Li
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     431:433:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.LinePageIndicator$SavedState$1 -> ajk:
+com.viewpagerindicator.LinePageIndicator$SavedState$1 -> aji:
     439:439:com.viewpagerindicator.LinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     444:444:com.viewpagerindicator.LinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -27936,16 +27938,16 @@ com.viewpagerindicator.TabPageIndicator -> com.viewpagerindicator.TabPageIndicat
     75:75:com.viewpagerindicator.TabPageIndicator$OnTabReselectedListener access$1(com.viewpagerindicator.TabPageIndicator) -> b
     72:72:int access$2(com.viewpagerindicator.TabPageIndicator) -> c
     53:53:void access$3(com.viewpagerindicator.TabPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.TabPageIndicator$1 -> ajl:
+com.viewpagerindicator.TabPageIndicator$1 -> ajj:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     57:64:void onClick(android.view.View) -> onClick
-com.viewpagerindicator.TabPageIndicator$2 -> ajm:
+com.viewpagerindicator.TabPageIndicator$2 -> ajk:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     android.view.View val$tabView -> b
     127:130:void run() -> run
 com.viewpagerindicator.TabPageIndicator$OnTabReselectedListener -> com.viewpagerindicator.TabPageIndicator$OnTabReselectedListener:
     void onTabReselected(int) -> onTabReselected
-com.viewpagerindicator.TabPageIndicator$TabView -> ajn:
+com.viewpagerindicator.TabPageIndicator$TabView -> ajl:
     int mIndex -> b
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     270:277:void onMeasure(int,int) -> onMeasure
@@ -28051,7 +28053,7 @@ com.viewpagerindicator.TitlePageIndicator$SavedState -> com.viewpagerindicator.T
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     845:847:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> ajo:
+com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> ajm:
     853:853:com.viewpagerindicator.TitlePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     858:858:com.viewpagerindicator.TitlePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -28096,17 +28098,17 @@ com.viewpagerindicator.UnderlinePageIndicator -> com.viewpagerindicator.Underlin
     42:42:android.graphics.Paint access$1(com.viewpagerindicator.UnderlinePageIndicator) -> b
     47:47:int access$2(com.viewpagerindicator.UnderlinePageIndicator) -> c
     60:60:java.lang.Runnable access$3(com.viewpagerindicator.UnderlinePageIndicator) -> d
-com.viewpagerindicator.UnderlinePageIndicator$1 -> ajp:
+com.viewpagerindicator.UnderlinePageIndicator$1 -> ajn:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     62:70:void run() -> run
-com.viewpagerindicator.UnderlinePageIndicator$2 -> ajq:
+com.viewpagerindicator.UnderlinePageIndicator$2 -> ajo:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     281:284:void run() -> run
 com.viewpagerindicator.UnderlinePageIndicator$SavedState -> com.viewpagerindicator.UnderlinePageIndicator$SavedState:
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     385:387:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> ajr:
+com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> ajp:
     393:393:com.viewpagerindicator.UnderlinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     398:398:com.viewpagerindicator.UnderlinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -28151,22 +28153,22 @@ net.hockeyapp.android.CrashManager -> net.hockeyapp.android.CrashManager:
     535:555:java.lang.String[] searchForStackTraces() -> b
     71:71:void access$000(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> a
     71:71:void access$100(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> b
-net.hockeyapp.android.CrashManager$1 -> ajs:
+net.hockeyapp.android.CrashManager$1 -> ajq:
     net.hockeyapp.android.CrashManagerListener val$listener -> a
     java.lang.ref.WeakReference val$weakContext -> b
     boolean val$ignoreDefaultHandler -> c
     366:372:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$2 -> ajt:
+net.hockeyapp.android.CrashManager$2 -> ajr:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     377:378:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$3 -> aju:
+net.hockeyapp.android.CrashManager$3 -> ajs:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     394:396:void run() -> run
-net.hockeyapp.android.CrashManager$4 -> ajv:
+net.hockeyapp.android.CrashManager$4 -> ajt:
     548:548:boolean accept(java.io.File,java.lang.String) -> accept
 net.hockeyapp.android.CrashManagerListener -> net.hockeyapp.android.CrashManagerListener:
     43:43:boolean ignoreDefaultHandler() -> ignoreDefaultHandler
@@ -28250,26 +28252,26 @@ net.hockeyapp.android.FeedbackActivity -> net.hockeyapp.android.FeedbackActivity
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$800(net.hockeyapp.android.FeedbackActivity) -> f
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$802(net.hockeyapp.android.FeedbackActivity,net.hockeyapp.android.adapters.MessagesAdapter) -> a
     71:71:android.widget.ListView access$900(net.hockeyapp.android.FeedbackActivity) -> g
-net.hockeyapp.android.FeedbackActivity$1 -> ajw:
+net.hockeyapp.android.FeedbackActivity$1 -> aju:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     157:159:void run() -> run
-net.hockeyapp.android.FeedbackActivity$2 -> ajx:
+net.hockeyapp.android.FeedbackActivity$2 -> ajv:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     170:207:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$2$1 -> ajy:
+net.hockeyapp.android.FeedbackActivity$2$1 -> ajw:
     net.hockeyapp.android.FeedbackActivity$2 this$1 -> a
     202:204:void run() -> run
-net.hockeyapp.android.FeedbackActivity$3 -> ajz:
+net.hockeyapp.android.FeedbackActivity$3 -> ajx:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     218:256:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$3$1 -> aka:
+net.hockeyapp.android.FeedbackActivity$3$1 -> ajy:
     net.hockeyapp.android.FeedbackActivity$3 this$1 -> a
     250:251:void run() -> run
-net.hockeyapp.android.FeedbackActivity$4 -> akb:
+net.hockeyapp.android.FeedbackActivity$4 -> ajz:
     net.hockeyapp.android.objects.FeedbackResponse val$feedbackResponse -> a
     net.hockeyapp.android.FeedbackActivity this$0 -> b
     346:383:void run() -> run
-net.hockeyapp.android.FeedbackActivity$5 -> akc:
+net.hockeyapp.android.FeedbackActivity$5 -> aka:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     508:510:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.FeedbackActivityInterface -> net.hockeyapp.android.FeedbackActivityInterface:
@@ -28340,18 +28342,18 @@ net.hockeyapp.android.UpdateActivity -> net.hockeyapp.android.UpdateActivity:
     340:354:void onPrepareDialog(int,android.app.Dialog) -> onPrepareDialog
     62:62:android.view.View getLayoutView() -> getLayoutView
     62:62:net.hockeyapp.android.objects.ErrorObject access$002(net.hockeyapp.android.UpdateActivity,net.hockeyapp.android.objects.ErrorObject) -> a
-net.hockeyapp.android.UpdateActivity$1 -> akd:
+net.hockeyapp.android.UpdateActivity$1 -> akb:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     163:164:void downloadSuccessful(net.hockeyapp.android.tasks.DownloadFileTask) -> downloadSuccessful
     167:173:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
     176:181:java.lang.String getStringForResource(int) -> getStringForResource
-net.hockeyapp.android.UpdateActivity$2 -> ake:
+net.hockeyapp.android.UpdateActivity$2 -> akc:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     292:293:void run() -> run
-net.hockeyapp.android.UpdateActivity$3 -> akf:
+net.hockeyapp.android.UpdateActivity$3 -> akd:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     307:308:void run() -> run
-net.hockeyapp.android.UpdateActivity$4 -> akg:
+net.hockeyapp.android.UpdateActivity$4 -> ake:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     329:331:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.UpdateActivityInterface -> net.hockeyapp.android.UpdateActivityInterface:
@@ -28370,7 +28372,7 @@ net.hockeyapp.android.UpdateFragment -> net.hockeyapp.android.UpdateFragment:
     213:221:java.lang.String getAppName() -> getAppName
     231:231:android.view.View getLayoutView() -> getLayoutView
     60:60:void access$000(net.hockeyapp.android.UpdateFragment,android.app.Activity) -> a
-net.hockeyapp.android.UpdateFragment$1 -> akh:
+net.hockeyapp.android.UpdateFragment$1 -> akf:
     android.app.Activity val$activity -> a
     net.hockeyapp.android.UpdateFragment this$0 -> b
     166:169:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
@@ -28527,10 +28529,10 @@ net.hockeyapp.android.tasks.CheckUpdateTask -> net.hockeyapp.android.tasks.Check
     79:79:android.app.Activity access$100(net.hockeyapp.android.tasks.CheckUpdateTask) -> b
     79:79:void access$200(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray) -> a
     79:79:void access$300(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray,java.lang.Boolean) -> a
-net.hockeyapp.android.tasks.CheckUpdateTask$1 -> aki:
+net.hockeyapp.android.tasks.CheckUpdateTask$1 -> akg:
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> a
     299:300:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.CheckUpdateTask$2 -> akj:
+net.hockeyapp.android.tasks.CheckUpdateTask$2 -> akh:
     org.json.JSONArray val$updateInfo -> a
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> b
     305:316:void onClick(android.content.DialogInterface,int) -> onClick
@@ -28552,10 +28554,10 @@ net.hockeyapp.android.tasks.DownloadFileTask -> net.hockeyapp.android.tasks.Down
     62:62:void onPostExecute(java.lang.Object) -> onPostExecute
     62:62:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     62:62:net.hockeyapp.android.listeners.DownloadFileListener access$000(net.hockeyapp.android.tasks.DownloadFileTask) -> a
-net.hockeyapp.android.tasks.DownloadFileTask$1 -> akk:
+net.hockeyapp.android.tasks.DownloadFileTask$1 -> aki:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     182:183:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.DownloadFileTask$2 -> akl:
+net.hockeyapp.android.tasks.DownloadFileTask$2 -> akj:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     188:189:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.tasks.ParseFeedbackTask -> net.hockeyapp.android.tasks.ParseFeedbackTask:
@@ -28590,21 +28592,21 @@ net.hockeyapp.android.utils.ConnectionManager -> net.hockeyapp.android.utils.Con
     org.apache.http.client.HttpClient httpClient -> a
     53:53:net.hockeyapp.android.utils.ConnectionManager getInstance() -> getInstance
     57:57:org.apache.http.client.HttpClient getHttpClient() -> getHttpClient
-net.hockeyapp.android.utils.ConnectionManager$1 -> akm:
-net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> akn:
+net.hockeyapp.android.utils.ConnectionManager$1 -> akk:
+net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> akl:
     net.hockeyapp.android.utils.ConnectionManager INSTANCE -> a
 net.hockeyapp.android.utils.DeviceUtils -> net.hockeyapp.android.utils.DeviceUtils:
     28:28:net.hockeyapp.android.utils.DeviceUtils getInstance() -> getInstance
     37:37:int getCurrentVersionCode(android.content.Context) -> getCurrentVersionCode
     46:63:java.lang.String getAppName(android.content.Context) -> getAppName
-net.hockeyapp.android.utils.DeviceUtils$1 -> ako:
-net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> akp:
+net.hockeyapp.android.utils.DeviceUtils$1 -> akm:
+net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> akn:
     net.hockeyapp.android.utils.DeviceUtils INSTANCE -> a
 net.hockeyapp.android.utils.FeedbackParser -> net.hockeyapp.android.utils.FeedbackParser:
     32:32:net.hockeyapp.android.utils.FeedbackParser getInstance() -> getInstance
     41:137:net.hockeyapp.android.objects.FeedbackResponse parseFeedbackResponse(java.lang.String) -> parseFeedbackResponse
-net.hockeyapp.android.utils.FeedbackParser$1 -> akq:
-net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> akr:
+net.hockeyapp.android.utils.FeedbackParser$1 -> ako:
+net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> akp:
     net.hockeyapp.android.utils.FeedbackParser INSTANCE -> a
 net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     android.content.SharedPreferences feedbackTokenPrefs -> a
@@ -28618,31 +28620,31 @@ net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     92:101:java.lang.String getNameEmailFromPrefs(android.content.Context) -> getNameEmailFromPrefs
     109:115:void applyChanges(android.content.SharedPreferences$Editor) -> applyChanges
     122:125:java.lang.Boolean applySupported() -> applySupported
-net.hockeyapp.android.utils.PrefsUtil$1 -> aks:
-net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> akt:
+net.hockeyapp.android.utils.PrefsUtil$1 -> akq:
+net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> akr:
     net.hockeyapp.android.utils.PrefsUtil INSTANCE -> a
 net.hockeyapp.android.utils.UiThreadUtil -> net.hockeyapp.android.utils.UiThreadUtil:
     23:23:net.hockeyapp.android.utils.UiThreadUtil getInstance() -> getInstance
     29:46:void dismissLoadingDialogAndDisplayError(java.lang.ref.WeakReference,android.app.ProgressDialog,int) -> dismissLoadingDialogAndDisplayError
     49:63:void dismissLoading(java.lang.ref.WeakReference,android.app.ProgressDialog) -> dismissLoading
     68:80:void displayToastMessage(java.lang.ref.WeakReference,java.lang.String,int) -> displayToastMessage
-net.hockeyapp.android.utils.UiThreadUtil$1 -> aku:
+net.hockeyapp.android.utils.UiThreadUtil$1 -> aks:
     android.app.ProgressDialog val$progressDialog -> a
     android.app.Activity val$activity -> b
     int val$errorDialogId -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     37:42:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$2 -> akv:
+net.hockeyapp.android.utils.UiThreadUtil$2 -> akt:
     android.app.ProgressDialog val$progressDialog -> a
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> b
     56:59:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$3 -> akw:
+net.hockeyapp.android.utils.UiThreadUtil$3 -> aku:
     android.app.Activity val$activity -> a
     java.lang.String val$message -> b
     int val$flags -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     75:76:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> akx:
+net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> akv:
     net.hockeyapp.android.utils.UiThreadUtil INSTANCE -> a
 net.hockeyapp.android.utils.Util -> net.hockeyapp.android.utils.Util:
     java.lang.String PREFS_FEEDBACK_TOKEN -> PREFS_FEEDBACK_TOKEN
@@ -28673,7 +28675,7 @@ net.hockeyapp.android.utils.VersionHelper -> net.hockeyapp.android.utils.Version
     213:219:java.lang.String getVersionName(org.json.JSONObject) -> c
     223:235:java.lang.String getVersionNotes(int,org.json.JSONObject) -> c
     251:289:int compareVersionStrings(java.lang.String,java.lang.String) -> compareVersionStrings
-net.hockeyapp.android.utils.VersionHelper$1 -> aky:
+net.hockeyapp.android.utils.VersionHelper$1 -> akw:
     net.hockeyapp.android.utils.VersionHelper this$0 -> a
     90:99:int compare(org.json.JSONObject,org.json.JSONObject) -> a
     87:87:int compare(java.lang.Object,java.lang.Object) -> compare
