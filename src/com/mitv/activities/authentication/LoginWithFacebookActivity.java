@@ -145,6 +145,12 @@ public class LoginWithFacebookActivity
 
 		switch (status) 
 		{
+			case LOADING:
+			{
+				// Do nothing
+				break;
+			}
+		
 			case SUCCESS_WITH_CONTENT:
 			{
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) 
