@@ -92,7 +92,6 @@ public class DialogHelper
 		}
 		
 		dialog.setContentView(R.layout.dialog_remove_notification);
-		dialog.setCancelable(false);
 
 		Button noButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_no);
 		Button yesButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_yes);
@@ -144,7 +143,6 @@ public class DialogHelper
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_remove_notification);
-		dialog.setCancelable(false);
 
 		Button noButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_no);
 		Button yesButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_yes);
@@ -196,8 +194,7 @@ public class DialogHelper
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_signin);
-		dialog.setCancelable(false);
-		
+
 		Button cancelButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_cancel);
 		Button signInButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_signin);
 	
@@ -242,7 +239,6 @@ public class DialogHelper
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_update);
-		dialog.setCancelable(false);
 
 		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
 		
