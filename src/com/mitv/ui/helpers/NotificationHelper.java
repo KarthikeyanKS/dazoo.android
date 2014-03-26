@@ -150,7 +150,7 @@ public class NotificationHelper
 		.setLargeIcon(largeIcon)
 		.setContentTitle(broadcastName)
 		.setContentText(broadcastHourAndMinuteRepresentation + " " + channelName)
-		.setContentIntent(PendingIntent.getActivity(context, 1, broadcastPageIntent, PendingIntent.FLAG_UPDATE_CURRENT))
+		.setContentIntent(PendingIntent.getActivity(context, 1, broadcastPageIntent, PendingIntent.FLAG_ONE_SHOT))
 		.setAutoCancel(true)
 		.setWhen(System.currentTimeMillis())
 		.setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light

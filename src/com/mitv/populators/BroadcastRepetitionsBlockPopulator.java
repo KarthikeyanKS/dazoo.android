@@ -4,7 +4,7 @@ package com.mitv.populators;
 
 
 import android.app.Activity;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 
 import com.mitv.models.TVBroadcastWithChannelInfo;
 
@@ -16,7 +16,7 @@ public class BroadcastRepetitionsBlockPopulator
 	private static String TAG = BroadcastRepetitionsBlockPopulator.class.getName();
 
 	
-	public BroadcastRepetitionsBlockPopulator(Activity activity, ScrollView containerView, TVBroadcastWithChannelInfo runningBroadcast) 
+	public BroadcastRepetitionsBlockPopulator(Activity activity, RelativeLayout containerView, TVBroadcastWithChannelInfo runningBroadcast) 
 	{
 		super(TAG, true, activity, containerView, runningBroadcast);
 	}
