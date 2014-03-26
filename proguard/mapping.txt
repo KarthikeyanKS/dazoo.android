@@ -24831,8 +24831,8 @@ com.mitv.http.URLParameters -> com.mitv.http.URLParameters:
     java.lang.String TAG -> a
     long serialVersionUID -> serialVersionUID
     java.util.ArrayList urlParameters -> b
-    39:42:void add(java.lang.String,java.lang.String) -> add
-    49:64:java.lang.String toString() -> toString
+    47:59:void add(java.lang.String,java.lang.String) -> add
+    66:81:java.lang.String toString() -> toString
 com.mitv.http.ssl.CustomSSLSocketFactory -> com.mitv.http.ssl.CustomSSLSocketFactory:
     javax.net.ssl.SSLContext sslContext -> a
     39:39:java.net.Socket createSocket(java.net.Socket,java.lang.String,int,boolean) -> createSocket
