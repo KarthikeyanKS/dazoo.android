@@ -109,8 +109,6 @@ public class SignUpSelectionActivity
 				Intent intent = new Intent(SignUpSelectionActivity.this, SignUpWithEmailActivity.class);
 				
 				startActivity(intent);
-				
-				finish();
 			}
 		});
 
@@ -124,8 +122,6 @@ public class SignUpSelectionActivity
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithMiTVUserActivity.class);
 				
 				startActivity(intent);
-				
-				finish();
 			}
 		});
 		

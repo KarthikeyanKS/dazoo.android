@@ -134,26 +134,32 @@ public class NotificationHelper
 	{	
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		Intent broadcastPageIntent = new Intent(context, BroadcastPageActivity.class);
+		Intent intent = new Intent(context, BroadcastPageActivity.class);
 		
-		broadcastPageIntent.putExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastBeginTimeMillis);
-		broadcastPageIntent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, channelId);
-		broadcastPageIntent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
-		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastBeginTimeMillis);
+		intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, channelId);
+		intent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_ONE_SHOT);
+		
 		Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.mitv_notification_large_icon);
 
-		NotificationCompat.Builder notificationBuilder;
-
-		notificationBuilder = new NotificationCompat.Builder(context)
+		StringBuilder contentTextSB = new StringBuilder();
+		contentTextSB.append(broadcastHourAndMinuteRepresentation);
+		contentTextSB.append(" ");
+		contentTextSB.append(channelName);
+		
+		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
 		.setSmallIcon(R.drawable.mitv_notification_small_icon)
 		.setLargeIcon(largeIcon)
 		.setContentTitle(broadcastName)
-		.setContentText(broadcastHourAndMinuteRepresentation + " " + channelName)
-		.setContentIntent(PendingIntent.getActivity(context, 1, broadcastPageIntent, PendingIntent.FLAG_ONE_SHOT))
+		.setContentText(contentTextSB.toString())
+		.setContentIntent(pendingIntent)
 		.setAutoCancel(true)
 		.setWhen(System.currentTimeMillis())
 		.setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light
+		
 		notificationManager.notify(notificationId, notificationBuilder.build());
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
