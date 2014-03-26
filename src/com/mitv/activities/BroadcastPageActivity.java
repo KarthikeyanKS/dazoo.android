@@ -1,4 +1,7 @@
+
 package com.mitv.activities;
+
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,10 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mitv.Constants;
@@ -41,6 +42,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
+
+
 public class BroadcastPageActivity extends BaseContentActivity implements OnClickListener {
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
@@ -51,7 +54,6 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
 
-	private ScrollView scrollView;
 	private ImageView posterIv;
 	private TextView seasonTv;
 	private TextView episodeTv;
@@ -223,7 +225,6 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 
 		actionBar.setTitle(getResources().getString(R.string.broadcast_info));
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 
 		posterIv = (ImageView) findViewById(R.id.block_broadcastpage_poster_iv);
 		contentTitleTextView = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
