@@ -211,11 +211,13 @@ public class TVGuideTableFragment
 			else
 			{
 				HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
-
-				taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
-
-				if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) {
-					noContent = false;
+				
+				if(taggedBroadcastForDay != null) {
+					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
+	
+					if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) {
+						noContent = false;
+					}
 				}
 			}
 
