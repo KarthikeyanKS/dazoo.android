@@ -75,11 +75,13 @@
 ##---------------End: proguard configuration common for all Android apps ----------
 
 
+##---------------Begin: Additional proguard configuration for app  ----------
+-keep class com.mitv.* { *; }
+##---------------End: Additional proguard configuration for app  ----------
 
 ##---------------Begin: proguard configuration for Debugging  ----------
 -renamesourcefileattribute SourceFile    
 -keepattributes SourceFile,LineNumberTable
--printmapping mitv_proguard_print.txt
 ##---------------End: proguard configuration for Debugging  ----------
 
 
