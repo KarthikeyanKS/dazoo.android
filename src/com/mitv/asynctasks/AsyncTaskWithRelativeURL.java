@@ -7,8 +7,8 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 
 
 
@@ -30,14 +30,14 @@ public abstract class AsyncTaskWithRelativeURL<T>
 	
 	public AsyncTaskWithRelativeURL(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener, 
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url);
 	}
 	
 	
@@ -47,29 +47,11 @@ public abstract class AsyncTaskWithRelativeURL<T>
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
-			Class clazzSingle,
+			Class<?> clazzSingle,
 			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null);
-	}
-
-	
-	
-	public AsyncTaskWithRelativeURL(
-			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener,
-			RequestIdentifierEnum requestIdentifier,
-			Class<T> clazz,
-			Class clazzSingle,
-			boolean manualDeserialization,
-			HTTPRequestTypeEnum httpRequestType,
-			String url,
-			URLParameters urlParameters,
-			HeaderParameters headerParameters,
-			String bodyContentData)
-	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, true, url, urlParameters, headerParameters, bodyContentData);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, false, url, new URLParameters(), new HeaderParameters(), null);
 	}
 }

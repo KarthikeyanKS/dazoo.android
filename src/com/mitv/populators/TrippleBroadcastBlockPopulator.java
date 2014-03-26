@@ -4,16 +4,17 @@ package com.mitv.populators;
 
 
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
@@ -38,7 +39,7 @@ public class TrippleBroadcastBlockPopulator
 	private Activity activity;
 	private TVBroadcastWithChannelInfo runningBroadcast;
 	
-	private ScrollView containerView;
+	private RelativeLayout containerView;
 	private ReminderView reminderViewOne;
 	private ReminderView reminderViewTwo;
 	private ReminderView reminderViewThree;
@@ -53,7 +54,7 @@ public class TrippleBroadcastBlockPopulator
 			final String tag, 
 			final boolean usedForRepetitions, 
 			final Activity activity, 
-			final ScrollView containerView,
+			final RelativeLayout containerView,
 			final TVBroadcastWithChannelInfo runningBroadcast)
 	{
 		this.activity = activity;
@@ -96,8 +97,7 @@ public class TrippleBroadcastBlockPopulator
 
 	public void populatePartOfBlock(
 			final int position, 
-			final ArrayList<TVBroadcastWithChannelInfo> broadcastList, 
-			final View topContentView) 
+			final ArrayList<TVBroadcastWithChannelInfo> broadcastList) 
 	{
 		if (broadcastList.size() > position && broadcastList.get(position) != null)
 		{
@@ -110,7 +110,7 @@ public class TrippleBroadcastBlockPopulator
 			{
 				case POSITION_ONE: 
 				{
-					container = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
+					container = (LinearLayout) containerView.findViewById(R.id.block_broadcast_upcoming_one);
 	
 					reminderViewOne = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewOne.setBroadcast(broadcastWithChannelInfo);
@@ -122,14 +122,14 @@ public class TrippleBroadcastBlockPopulator
 	
 				case POSITION_TWO: 
 				{
-					container = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
+					container = (LinearLayout) containerView.findViewById(R.id.block_broadcast_upcoming_two);
 	
 					reminderViewTwo = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewTwo.setBroadcast(broadcastWithChannelInfo);
 
 					reminderViewTwo.setSizeOfIcon(setSmallIcon);
 	
-					dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
+					dividerView = containerView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
 					dividerView.setVisibility(View.VISIBLE);
 	
 					break;
@@ -137,14 +137,14 @@ public class TrippleBroadcastBlockPopulator
 	
 				case POSITION_THREE: 
 				{
-					container = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
+					container = (LinearLayout) containerView.findViewById(R.id.block_broadcast_upcoming_three);
 	
 					reminderViewThree = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewThree.setBroadcast(broadcastWithChannelInfo);
 
 					reminderViewThree.setSizeOfIcon(setSmallIcon);
 	
-					dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
+					dividerView = containerView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
 					dividerView.setVisibility(View.VISIBLE);
 					
 					break;
@@ -224,12 +224,7 @@ public class TrippleBroadcastBlockPopulator
 		/* Remove running broadcast */
 		repeatingOrUpcomingBroadcasts.remove(runningBroadcast);
 	
-		/* The same layout as for the Upcoming Episodes for series is used, as the elements are the same, except for the title */
-		LinearLayout layoutContainerView = (LinearLayout) containerView.findViewById(R.id.broacastpage_block_container_layout);
-
-		View topContentView = LayoutInflater.from(activity).inflate(R.layout.block_broadcastpage_upcoming_or_repetition_layout, null);
-
-		TextView title = (TextView) topContentView.findViewById(R.id.block_tripple_broadcast_title_textview);
+		TextView title = (TextView) containerView.findViewById(R.id.block_tripple_broadcast_title_textview);
 
 		Resources res = activity.getResources();
 
@@ -286,17 +281,17 @@ public class TrippleBroadcastBlockPopulator
 
 		title.setText(titleString);
 
-		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts, topContentView);
-		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts, topContentView);
-		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts, topContentView);
+		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts);
 
 		if(repeatingOrUpcomingBroadcasts.size() > 3) 
 		{
-			View divider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
+			View divider = (View) containerView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
 
 			divider.setVisibility(View.VISIBLE);
 
-			TextView showMoreTxt = (TextView) topContentView.findViewById(R.id.block_tripple_broadcast_more_textview);
+			TextView showMoreTxt = (TextView) containerView.findViewById(R.id.block_tripple_broadcast_more_textview);
 
 			showMoreTxt.setText(showMoreString);
 			
@@ -313,12 +308,7 @@ public class TrippleBroadcastBlockPopulator
 			});
 		}
 
-		topContentView.setVisibility(View.VISIBLE);
-
-		if (repeatingOrUpcomingBroadcasts.isEmpty() == false) 
-		{
-			layoutContainerView.addView(topContentView);
-		}
+		containerView.setVisibility(View.VISIBLE);
 	}
 		
 	

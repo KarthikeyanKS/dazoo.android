@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,29 +12,55 @@
         android:background="@color/white"
         android:fillViewport="true"
         android:orientation="vertical" >
-        <LinearLayout
-            android:id="@+id/broacastpage_block_container_layout"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/grey1"
             android:orientation="vertical"
-            android:background="@color/grey1">
-        </LinearLayout>
+            android:padding="10dp" >
+
+            <include
+                android:id="@+id/broacastpage_block_container_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/block_broadcastpage_main_content" />
+
+            <include
+                android:id="@+id/broacastpage_repetitions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/broacastpage_block_container_layout"
+                android:layout_marginTop="10dp"
+                layout="@layout/block_broadcastpage_upcoming_or_repetition_layout" />
+
+            <include
+                android:id="@+id/broacastpage_upcoming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/broacastpage_repetitions"
+                android:layout_marginTop="10dp"
+                layout="@layout/block_broadcastpage_upcoming_or_repetition_layout" />
+        </RelativeLayout>
     </ScrollView>
-    
+
     <!-- NAVIGATION TABS -->
+
     <include
-        layout="@layout/block_bottom_tabs"
         android:id="@+id/tab_selector_container"
-        android:layout_alignParentBottom="true"/>
-    
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+
     <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+
     <include
-        layout="@layout/layout_request_callbacks_holder_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tab_selector_container"/>
-    
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout" />
+
     <!-- UNDO BAR -->
+
     <include layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

@@ -28,11 +28,11 @@ public abstract class AsyncTaskWithUserToken<T>
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
-			String urlSuffix) 
+			String url) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, urlSuffix);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, httpRequestType, url);
 	}
-
+	
 	
 	
 	public AsyncTaskWithUserToken(
@@ -40,15 +40,14 @@ public abstract class AsyncTaskWithUserToken<T>
 			ViewCallbackListener activityCallbackListener, 
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
-			Class clazzSingle,
 			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
-			String urlSuffix) 
+			String url) 
 	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, urlSuffix);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url);
 	}
 	
-	
+
 	
 	@Override
 	protected Void doInBackground(String... params) 

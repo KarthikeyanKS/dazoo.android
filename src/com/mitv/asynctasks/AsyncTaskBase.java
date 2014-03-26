@@ -73,7 +73,7 @@ public abstract class AsyncTaskBase<T>
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
-			Class clazzSingle,
+			Class<?> clazzSingle,
 			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
 			boolean isRelativeURL,
