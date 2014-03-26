@@ -4,7 +4,11 @@ package com.mitv.http;
 
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import com.mitv.Constants;
 
 
 
@@ -36,7 +40,20 @@ public class URLParameters
 			final String header,
 			final String value)
 	{
-		URLParameter queryStringParameter = new URLParameter(header, value);
+		String encodedValue;
+		
+		try 
+		{
+			encodedValue = URLEncoder.encode(value, Constants.HTTP_CORE_DEAFULT_ENCODING);
+		} 
+		catch (UnsupportedEncodingException ueex) 
+		{
+			ueex.printStackTrace();
+			
+			encodedValue = value;
+		}
+		
+		URLParameter queryStringParameter = new URLParameter(header, encodedValue);
 		
 		urlParameters.add(queryStringParameter);
 	}
