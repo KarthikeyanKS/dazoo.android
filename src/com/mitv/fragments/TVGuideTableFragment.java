@@ -131,6 +131,8 @@ public class TVGuideTableFragment
 		}
 		
 		super.initRequestCallbackLayouts(rootView);
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();

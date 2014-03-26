@@ -85,6 +85,12 @@ public abstract class BaseFragment
 	}
 	
 	
+	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
+	{
+		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
+	}
+
+	
 	
 	@Override
 	public void onUndo(Parcelable token) 
@@ -177,6 +183,8 @@ public abstract class BaseFragment
 	
 	protected void updateUIBaseElements(UIStatusEnum status) 
 	{
+		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
+
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(getActivity());
 		
 		if (activityNotNullOrFinishing) 
