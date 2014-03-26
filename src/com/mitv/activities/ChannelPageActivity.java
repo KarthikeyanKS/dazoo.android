@@ -166,9 +166,11 @@ public class ChannelPageActivity
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		
-		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
-
-		currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
+		if(channelGuide != null) {
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
+			currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
+		}
+		
 		
 		if(currentAndUpcomingbroadcasts != null) 
 		{
