@@ -131,7 +131,7 @@ public class ContentManager
 		return isGoingToMyChannelsFromSearch;
 	}
 
-	public void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) 
+	public synchronized void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) 
 	{
 		ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 		
@@ -148,10 +148,10 @@ public class ContentManager
 	}
 	
 	
-	public void unregisterListenerFromAllRequests(ViewCallbackListener listener) 
+	public synchronized void unregisterListenerFromAllRequests(ViewCallbackListener listener) 
 	{
 		Collection<ArrayList<ViewCallbackListener>> listenerListCollection = mapRequestToCallbackListeners.values();
-		
+	
 		for(ArrayList<ViewCallbackListener> listenerList : listenerListCollection)
 		{			
 			if(listenerList.contains(listener)) 
@@ -162,7 +162,7 @@ public class ContentManager
 	}
 	
 		
-	private void notifyListenersOfRequestResult(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
+	private synchronized void notifyListenersOfRequestResult(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
 		ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 		
 		if(listenerList != null) {
