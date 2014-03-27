@@ -191,7 +191,7 @@ public class HTTPCore
 		HttpRequestBase request;
 		
 		StringEntity tmp;
-		
+				
 		switch(httpRequestType)
 		{
 			case HTTP_POST:
