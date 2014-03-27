@@ -49,7 +49,7 @@ public class BootCompletedReceiver
 	        }
         	
         	/* If this was the first time the app started, using Google Analytics send "Preinstalled user booted device" */
-        	if(!startedOnceBeforeSharedPrefs && !startedOnceBeforeExternalStorage) 
+        	if(!startedOnceBeforeSharedPrefs && !startedOnceBeforeExternalStorage && Constants.IS_PREINSTALLED_VERSION) 
         	{
         		/* Will only get here first time app boots */
 	        	String hardCodedTrackingId = context.getString(R.string.ga_trackingId_mitv_hardcoded);
