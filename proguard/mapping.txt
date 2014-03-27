@@ -26435,40 +26435,40 @@ com.mitv.ui.elements.VerticalSeekBar$1 -> ahw:
 com.mitv.ui.helpers.DialogHelper -> com.mitv.ui.helpers.DialogHelper:
     java.lang.String TAG -> a
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> b
-    33:135:void showRemoveNotificationDialog(android.app.Activity,com.mitv.models.TVBroadcast,int,java.lang.Runnable,java.lang.Runnable) -> showRemoveNotificationDialog
-    144:187:void showRemoveLikeDialog(android.app.Activity,java.lang.Runnable,java.lang.Runnable) -> showRemoveLikeDialog
-    196:236:void showPromptSignInDialog(android.app.Activity,java.lang.Runnable,java.lang.Runnable) -> showPromptSignInDialog
-    242:279:void showMandatoryAppUpdateDialog(android.app.Activity) -> showMandatoryAppUpdateDialog
+    33:134:void showRemoveNotificationDialog(android.app.Activity,com.mitv.models.TVBroadcast,int,java.lang.Runnable,java.lang.Runnable) -> showRemoveNotificationDialog
+    143:185:void showRemoveLikeDialog(android.app.Activity,java.lang.Runnable,java.lang.Runnable) -> showRemoveLikeDialog
+    194:233:void showPromptSignInDialog(android.app.Activity,java.lang.Runnable,java.lang.Runnable) -> showPromptSignInDialog
+    239:275:void showMandatoryAppUpdateDialog(android.app.Activity) -> showMandatoryAppUpdateDialog
     19:19:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
 com.mitv.ui.helpers.DialogHelper$1 -> ahx:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
-    108:114:void onClick(android.view.View) -> onClick
+    107:113:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.DialogHelper$2 -> ahy:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Activity val$activity -> b
     int val$notificationId -> c
     android.app.Dialog val$dialog -> d
-    122:129:void onClick(android.view.View) -> onClick
+    121:128:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.DialogHelper$3 -> ahz:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
-    160:166:void onClick(android.view.View) -> onClick
+    158:164:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.DialogHelper$4 -> aia:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
-    174:180:void onClick(android.view.View) -> onClick
+    172:178:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.DialogHelper$5 -> aib:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
-    209:215:void onClick(android.view.View) -> onClick
+    206:212:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.DialogHelper$6 -> aic:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
-    223:229:void onClick(android.view.View) -> onClick
+    220:226:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.DialogHelper$7 -> aid:
     android.app.Activity val$activity -> a
-    254:272:void onClick(android.view.View) -> onClick
+    250:268:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.NotificationHelper -> com.mitv.ui.helpers.NotificationHelper:
     java.lang.String TAG -> a
     38:48:void scheduleAlarms(android.content.Context) -> scheduleAlarms
