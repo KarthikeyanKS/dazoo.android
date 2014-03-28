@@ -1479,21 +1479,7 @@ public class ContentManager
 		apiClient.performUserLogin(activityCallbackListener, data, true);
 	}
 
-	
-	public void performLogout(ViewCallbackListener activityCallbackListener) 
-	{
-		Log.d(TAG, "PROFILING: performLogout:");
 		
-		/* Important, we need to clear the cache as well */
-		getCache().clearUserData();
-		getCache().clearTVChannelIdsUser();
-		getCache().useDefaultChannelIds();
-		getCache().clearUserLikes();
-		
-		apiClient.performUserLogout(activityCallbackListener);
-	}
-	
-	
 	public void performResetPassword(ViewCallbackListener activityCallbackListener, String email) 
 	{
 		apiClient.performUserPasswordResetSendEmail(activityCallbackListener, email);
