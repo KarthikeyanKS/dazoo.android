@@ -772,7 +772,11 @@ public class ContentManager
 		} 
 		else 
 		{
-			fetchFromServiceIndividualBroadcast(activityCallbackListener, channelId, beginTimeInMillis);
+			if(channelId != null) {
+				fetchFromServiceIndividualBroadcast(activityCallbackListener, channelId, beginTimeInMillis);
+			} else {
+				activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, RequestIdentifierEnum.BROADCAST_DETAILS);
+			}
 		}
 	}
 	
