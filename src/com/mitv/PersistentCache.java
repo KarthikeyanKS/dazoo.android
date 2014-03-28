@@ -130,7 +130,7 @@ public abstract class PersistentCache
 	}
 	
 	
-	public boolean containsTVDates() 
+	public synchronized boolean containsTVDates() 
 	{
 		boolean containsTVDates = (tvDates != null && !tvDates.isEmpty());
 		
@@ -225,7 +225,7 @@ public abstract class PersistentCache
 	}
 	
 	
-	public void clearUserData() 
+	public synchronized void clearUserData() 
 	{
 		UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
 		userLoginDataORM.delete();
@@ -585,7 +585,7 @@ public abstract class PersistentCache
 	
 	/* TV CHANNEL IDS USER */
 	
-	public void setTvChannelIdsUser(ArrayList<TVChannelId> tvChannelIdsUser) 
+	public synchronized void setTvChannelIdsUser(ArrayList<TVChannelId> tvChannelIdsUser) 
 	{
 		this.tvChannelIdsUser = tvChannelIdsUser;
 		
@@ -596,7 +596,7 @@ public abstract class PersistentCache
 	
 	/* TV GUIDES MY */
 	
-	protected void clearTVGuidesMy() 
+	protected synchronized void clearTVGuidesMy() 
 	{
 		tvGuidesMy = null;
 	}
@@ -648,7 +648,7 @@ public abstract class PersistentCache
 	
 	/* TV GUIDES ALL */
 	
-	protected TVGuide getTVGuideUsingTVDateNonFiltered(TVDate tvDate) 
+	protected synchronized TVGuide getTVGuideUsingTVDateNonFiltered(TVDate tvDate) 
 	{
 		String tvDateId = tvDate.getId();
 		
