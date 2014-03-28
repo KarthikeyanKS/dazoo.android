@@ -227,10 +227,13 @@ public abstract class PersistentCache
 	
 	public void clearUserData() 
 	{
-		UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
-		userLoginDataORM.delete();
+		if(userData != null)
+		{
+			UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
+			userLoginDataORM.delete();
 		
-		userData = null;
+			userData = null;
+		}
 	}
 	
 	

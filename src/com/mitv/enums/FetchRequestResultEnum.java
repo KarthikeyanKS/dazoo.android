@@ -133,4 +133,13 @@ public enum FetchRequestResultEnum
 	   
 	   return wasSuccessful;
    }
+   
+   
+   
+   public boolean hasUserTokenExpired() 
+   {
+	   boolean hasUserTokenExpired = (this == FORBIDDEN);
+	   
+	   return hasUserTokenExpired;
+   }
 }

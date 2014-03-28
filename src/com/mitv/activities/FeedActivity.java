@@ -376,6 +376,12 @@ public class FeedActivity
 		
 		switch (status) 
 		{
+			case USER_TOKEN_EXPIRED:
+			{
+				setupViews();
+				break;
+			}
+			
 			case SUCCESS_WITH_CONTENT:
 			{
 				switch (latestRequest) 
@@ -395,7 +401,7 @@ public class FeedActivity
 								
 					default:
 					{
-						Log.w(TAG, "Unknown request identifier");
+						Log.w(TAG, "Unknown request identifier: " + latestRequest);
 						break;
 					}
 				}

@@ -405,6 +405,23 @@ public class ContentManager
 						apiClient.getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
 					}
 				}
+				else if(result.hasUserTokenExpired())
+				{
+					totalStepsCount = COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN;
+					
+					clearUserCache();
+					
+					if(!isFetchingTVGuide && completedTVChannelIdsDefaultRequest)
+					{
+						isFetchingTVGuide = true;
+						
+						TVDate tvDate = cache.getTvDateSelected();
+						
+						List<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
+						
+						apiClient.getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+					}
+				}
 				break;
 			}
 			
@@ -1060,8 +1077,12 @@ public class ContentManager
 				notifyListenersOfRequestResult(RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA, FetchRequestResultEnum.SUCCESS);
 			}
 		} 
-		else 
+		else if(result.hasUserTokenExpired())
 		{
+			notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.FORBIDDEN);
+		}
+		else
+		{			
 			notifyListenersOfRequestResult(requestIdentifier, FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
 	}
@@ -1235,9 +1256,9 @@ public class ContentManager
 		{
 			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
-			cache.setUserLikes(userLikes);
-			
+			cache.setUserLikes(userLikes);	
 		}
+		
 		notifyListenersOfRequestResult(requestIdentifier, result);
 	}
 	
@@ -1264,7 +1285,7 @@ public class ContentManager
 			UserLike userLike = (UserLike) content;
 			
 			cache.removeUserLike(userLike);
-		} 
+		}
 		
 		activityCallbackListener.onResult(result, requestIdentifier);
 	}
@@ -1292,7 +1313,7 @@ public class ContentManager
 			cache.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
-		} 
+		}
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN, result);
 	}
@@ -1320,9 +1341,10 @@ public class ContentManager
 			
 			/* Now we have the TVChannelIds for the user => fetch guide */
 			fetchFromServiceTVGuideForSelectedDay(activityCallbackListener);
-		} 
-	
-		if(activityCallbackListener != null) {
+		}
+		
+		if(activityCallbackListener != null) 
+		{
 			activityCallbackListener.onResult(result, requestIdentifier);
 		}
 	}
@@ -1374,9 +1396,10 @@ public class ContentManager
 			Log.d(TAG, "No need to do anything");
 		} 
 		else 
-		{
+		{			
 			/* ActivityCallbackListener could be null if we came here from MyChannelsActiviy and performSetUserChannels was invoked just before that instance was destroyed (e.g. by "backPress") */
-			if(activityCallbackListener != null) {
+			if(activityCallbackListener != null) 
+			{
 				activityCallbackListener.onResult(result, requestIdentifier);
 			}
 		}
@@ -1446,20 +1469,6 @@ public class ContentManager
 		apiClient.performUserLogin(activityCallbackListener, data, true);
 	}
 
-	
-	public void performLogout(ViewCallbackListener activityCallbackListener) 
-	{
-		Log.d(TAG, "PROFILING: performLogout:");
-		
-		/* Important, we need to clear the cache as well */
-		cache.clearUserData();
-		cache.clearTVChannelIdsUser();
-		cache.useDefaultChannelIds();
-		cache.clearUserLikes();
-		
-		apiClient.performUserLogout(activityCallbackListener);
-	}
-	
 	
 	public void performResetPassword(ViewCallbackListener activityCallbackListener, String email) 
 	{
@@ -1991,5 +2000,31 @@ public class ContentManager
 		}
 		
 		return isLocalDeviceCalendarOffSync;
+	}
+	
+	
+	
+	private void clearUserCache() 
+	{
+		cache.clearUserData();
+		cache.clearTVChannelIdsUser();
+		cache.useDefaultChannelIds();
+		cache.clearUserLikes();
+	}
+	
+	
+	
+	public void performLogout(
+			ViewCallbackListener activityCallbackListener,
+			boolean isSessionExpiredLogout)
+	{	
+		Log.d(TAG, "PROFILING: performLogout:");
+		
+		clearUserCache();
+		
+		if(isSessionExpiredLogout == false)
+		{
+			apiClient.performUserLogout(activityCallbackListener);
+		}
 	}
 }

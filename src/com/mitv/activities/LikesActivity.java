@@ -107,7 +107,7 @@ public class LikesActivity
 					{
 						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 					}
-				} 
+				}
 				else
 				{
 					updateUI(UIStatusEnum.FAILED);
@@ -132,6 +132,13 @@ public class LikesActivity
 
 		switch (status) 
 		{
+			case USER_TOKEN_EXPIRED:
+			{
+				/* If the sessions has expired, finish this activity and resume the previous one */
+				finish();
+				break;
+			}
+		
 			case SUCCESS_WITH_CONTENT:
 			{
 				List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
