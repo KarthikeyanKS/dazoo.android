@@ -43,7 +43,12 @@ public class TagTypeFragmentStatePagerAdapter
 	@Override
 	public Fragment getItem(int position)
 	{
-		int realPosition = LoopViewPager.toRealPosition(position, getCount());
+		int realPosition = 0;
+	
+		/* This is a fix of the "divide by zero" bug in the dependency library LoopViewPager */
+		if(getCount() > 0) {
+			realPosition = LoopViewPager.toRealPosition(position, getCount());
+		}
 		
 		TVTag tvTag = tvTags.get(realPosition);
 		
