@@ -44,8 +44,6 @@ public class SecondScreenApplication
 
 		return sharedInstance;
 	}
-
-
 	
 	@Override
 	public void onCreate() 
@@ -60,7 +58,7 @@ public class SecondScreenApplication
 		/* Initial call to ImageLoaderManager, in order to configure the image loader objects */
 		ImageLoaderManager.sharedInstance(this);
 
-		contentManager = new ContentManager();
+		contentManager = getContentManager();
 
 		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
 
@@ -264,6 +262,9 @@ public class SecondScreenApplication
 
 	public ContentManager getContentManager() 
 	{
+		if(contentManager == null) {
+			contentManager = new ContentManager();
+		}
 		return contentManager;
 	}
 }
