@@ -107,6 +107,8 @@ public class ContentManager
 	
 	public ContentManager()
 	{
+		/* Setting sharedInstance to this, in order to resolve a cycling dependency,
+		 *  because the constructor of the Cache refers to the ContentManager */
 		sharedInstance = this;
 		
 		this.cache = new Cache();
