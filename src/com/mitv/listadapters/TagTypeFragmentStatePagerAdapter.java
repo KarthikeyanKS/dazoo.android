@@ -9,10 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.fragments.TVGuideTableFragment;
-import com.mitv.loopviewpager.LoopViewPager;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVTag;
 
