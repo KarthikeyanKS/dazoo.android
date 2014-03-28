@@ -1222,7 +1222,7 @@ public class ContentManager
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 			
-			GATrackingManager.sharedInstance().sendUserSignUpSuccessfulEvent();
+			GATrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingEmailEvent();
 		} 
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_SIGN_UP, result);
@@ -1288,8 +1288,14 @@ public class ContentManager
 		if (result.wasSuccessful() && content != null) 
 		{
 			UserLoginData userData = (UserLoginData) content;
-			
+					
 			cache.setUserData(userData);
+			
+			boolean wasJustCreated = userData.getUser().isCreated();
+			
+			if(wasJustCreated) {
+				GATrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingFacebookEvent();
+			}
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} 
