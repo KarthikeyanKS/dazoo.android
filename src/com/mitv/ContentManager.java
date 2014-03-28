@@ -45,12 +45,13 @@ import com.mitv.utilities.GenericUtils;
 
 
 
-public class ContentManager 
+public class ContentManager
 	implements ContentCallbackListener
 {
 	private static final String TAG = ContentManager.class.getName();
 	
 	private static ContentManager sharedInstance;
+
 	private Cache cache;
 	private APIClient apiClient;
 	
@@ -71,7 +72,7 @@ public class ContentManager
 	private static final int COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD = 4;
 	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD = 5;
 	private static final int COMPLETED_COUNT_FOR_TV_ACTIVITY_FEED_DATA_THRESHOLD = 2;
-	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 1; //+
+	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 1;
 
 	private int completedCountTVActivityFeed = 0;
 
@@ -102,8 +103,12 @@ public class ContentManager
 			
 	private HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
 	
-	private ContentManager()
+	
+	
+	public ContentManager()
 	{
+		sharedInstance = this;
+		
 		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
 		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>>();
@@ -120,8 +125,21 @@ public class ContentManager
 		else
 		{
 			completedCountTVDataForProgressMessage += COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD;
-		}
+		}	
 	}
+	
+	
+	
+	public static ContentManager sharedInstance() 
+	{
+		if (sharedInstance == null) 
+		{
+			sharedInstance = new ContentManager();
+		}
+		
+		return sharedInstance;
+	}
+	
 	
 	public void setGoingToMyChannelsFromSearch(boolean isGoingToMyChannelsFromSearch) {
 		this.isGoingToMyChannelsFromSearch = isGoingToMyChannelsFromSearch;
@@ -175,17 +193,6 @@ public class ContentManager
 				listener.onResult(result, requestIdentifier);
 			}
 		}
-	}
-	
-	
-	public synchronized static ContentManager sharedInstance() 
-	{
-		if (sharedInstance == null) 
-		{
-			sharedInstance = new ContentManager();
-		}
-		
-		return sharedInstance;
 	}
 	
 	
@@ -1154,11 +1161,11 @@ public class ContentManager
 					/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
 					if(broadcastWithChannelInfo.getProgram() != null && broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
 						completedCountBroadcastPageDataThresholdUsed = COMPLETED_COUNT_BROADCAST_PAGE_WAIT_FOR_UPCOMING_BROADCAST_THRESHOLD;
-						ContentManager.sharedInstance().getElseFetchFromServiceUpcomingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
+						getElseFetchFromServiceUpcomingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
 					}
 					
 					/* Always fetch repeating, even though response can be empty */
-					ContentManager.sharedInstance().getElseFetchFromServiceRepeatingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
+					getElseFetchFromServiceRepeatingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
 				} 
 				else 
 				{

@@ -170,7 +170,22 @@ public abstract class GenericUtils
 		
 		return applicationInfo;
 	}
+   
     
+    
+    public static boolean isFacebookAppInstalled()
+    {
+    	boolean isFacebookAppInstalled = false;
+    	
+    	PackageInfo packageInfo = getPackageInfo(Constants.FACEBOOK_APP_PACKAGE_NAME);
+    	
+    	if(packageInfo != null)
+    	{
+    		isFacebookAppInstalled = true;
+    	}
+    	
+    	return isFacebookAppInstalled;
+    }
     
     
     
@@ -192,6 +207,7 @@ public abstract class GenericUtils
     	
     	return isMinimumRequiredFacebookAppInstalled;
     }
+    
     
     
     private static PackageInfo getPackageInfo(String packageName) 
