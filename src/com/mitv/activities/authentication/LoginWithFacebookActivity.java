@@ -63,13 +63,11 @@ public class LoginWithFacebookActivity
 		
 		loginResponseHandled = false;
 		
+		boolean isFacebookAppInstalled = GenericUtils.isFacebookAppInstalled();
+		
 		boolean isMinimumRequiredFacebookAppInstalled = GenericUtils.isMinimumRequiredFacebookAppInstalled();
 		
-		if(isMinimumRequiredFacebookAppInstalled)
-		{
-			performFacebookAuthentication();
-		}
-		else
+		if(isFacebookAppInstalled && isMinimumRequiredFacebookAppInstalled == false)
 		{
 			String message = getString(R.string.update_facebook_app);
 			
@@ -80,6 +78,10 @@ public class LoginWithFacebookActivity
 			startActivity(intent);
 			
 			finish();
+		}
+		else
+		{
+			performFacebookAuthentication();
 		}
 	}
 	
