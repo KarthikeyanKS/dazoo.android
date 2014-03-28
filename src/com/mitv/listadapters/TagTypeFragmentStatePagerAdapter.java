@@ -9,10 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.fragments.TVGuideTableFragment;
+import com.mitv.loopviewpager.LoopViewPager;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVTag;
 
@@ -43,12 +43,7 @@ public class TagTypeFragmentStatePagerAdapter
 	@Override
 	public Fragment getItem(int position)
 	{
-		int realPosition = 0;
-	
-		/* This is a fix of the "divide by zero" bug in the dependency library LoopViewPager */
-		if(getCount() > 0) {
-			realPosition = LoopViewPager.toRealPosition(position, getCount());
-		}
+		int realPosition = LoopViewPager.toRealPosition(position, getCount());
 		
 		TVTag tvTag = tvTags.get(realPosition);
 		

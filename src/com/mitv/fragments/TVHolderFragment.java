@@ -12,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
+import com.mitv.loopviewpager.LoopViewPager;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVTag;
 import com.viewpagerindicator.TabPageIndicator;
