@@ -3,11 +3,17 @@ package com.mitv.activities;
 
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.ContentManager;
@@ -17,6 +23,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.fragments.UserTutorialFragment;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.ui.elements.FontTextView;
@@ -27,8 +34,8 @@ import com.mitv.utilities.NetworkUtils;
 
 
 public class SplashScreenActivity 
-	extends Activity 
-	implements ViewCallbackListener, FetchDataProgressCallbackListener
+	extends FragmentActivity 
+	implements ViewCallbackListener, FetchDataProgressCallbackListener, OnClickListener
 {	
 	@SuppressWarnings("unused")
 	private static final String TAG = SplashScreenActivity.class.getName();
@@ -38,8 +45,14 @@ public class SplashScreenActivity
 	private int fetchedDataCount = 0;
 	
 	boolean hasUserSeenTutorial;
-	boolean isViewingTutorial;
+	boolean isViewingTutorial = false;
 	boolean isDataFetched = false;
+	
+	private static final int NUM_PAGES = 5;
+
+	private ViewPager mPager;
+	private PagerAdapter mPagerAdapter;
+	
 	
 	
 	@Override
@@ -51,6 +64,7 @@ public class SplashScreenActivity
 		
 		if (hasUserSeenTutorial) {
 			showSplashScreen();
+			
 		} else {
 			showUserTutorial();
 		}
@@ -191,22 +205,73 @@ public class SplashScreenActivity
 		}
 	}
 	
-	
+	@Override
+	public void onBackPressed() {
+		if (mPager.getCurrentItem() == 0) {
+			super.onBackPressed();
+
+		} else {
+			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+		}
+	}
 	
 	private void showUserTutorial() {
 		isViewingTutorial = true;
-		setContentView(R.layout.layout_user_tutorial);
 		
-		final Button button = (Button) findViewById(R.id.button_view_tutorial);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	SecondScreenApplication.sharedInstance().setUserSeenTutorial();
-            	isViewingTutorial = false;
-            	if (isDataFetched) {
-        			startPrimaryActivity();
-        		}
-            }
-        });
+		setContentView(R.layout.user_tutorial_screen_slide);
+
+		initView();
+	}
+	
+	/**
+	 * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in sequence.
+	 */
+	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+		public ScreenSlidePagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			return new UserTutorialFragment(position);
+		}
+
+		@Override
+		public int getCount() {
+			return NUM_PAGES;
+		}
+
+	}	
+
+	private void initView() {
+		mPager = (ViewPager) findViewById(R.id.pager);
+		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+		mPager.setAdapter(mPagerAdapter);	
+	}
+	
+
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+
+		switch (id) {
+		
+			case R.id.button_splash_tutorial:
+			case R.id.button_tutorial_next: {
+				mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+				break;
+			}
+			
+			case R.id.button_tutorial_skip:
+			case R.id.button_tutorial_start_primary_activity: {
+				if (isDataFetched) {
+					isViewingTutorial = false;
+					SecondScreenApplication.sharedInstance().setUserSeenTutorial();
+					startPrimaryActivity();
+				}
+				break;
+			}
+		}
 	}
 	
 }

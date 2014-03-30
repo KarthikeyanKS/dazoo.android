@@ -70,6 +70,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- USER TUTORIAL -->
+        <activity
+            android:name="com.mitv.activities.TutorialScreenSliderActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
 
 
         <!-- HOME ACTIVITY -->
@@ -254,7 +262,7 @@
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
+        
         <!-- HOCKEY APP ACTIVITIES -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />

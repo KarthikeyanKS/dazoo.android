@@ -4,4 +4,7 @@
         <ignore path="src/com/millicom/secondscreen/content/tvguide/ChannelPageFragment.java" />
     </issue>
     <issue id="ResourceAsColor" severity="ignore" />
+    <issue id="ValidFragment">
+        <ignore path="src/com/mitv/fragments/UserTutorialFragment.java" />
+    </issue>
 </lint>
