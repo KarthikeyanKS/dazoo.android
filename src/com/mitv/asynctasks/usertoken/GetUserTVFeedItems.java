@@ -62,7 +62,6 @@ public class GetUserTVFeedItems
 	
 	
 	
-	
 	private GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,

@@ -11,7 +11,8 @@ public enum UIStatusEnum
 	NO_CONNECTION_AVAILABLE(3, "No connection available"),
 	FAILED_VALIDATION(4, "Failed validation"),
 	FAILED(5, "Failed"),
-	API_VERSION_TOO_OLD(6, "API Version too old");
+	API_VERSION_TOO_OLD(6, "API Version too old"),
+	USER_TOKEN_EXPIRED(7, "User token has expired");
 
 	
 	private final int id;

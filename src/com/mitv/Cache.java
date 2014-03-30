@@ -74,7 +74,7 @@ public class Cache
 	
 	
 	
-	public static void clearAllPersistentCacheData()
+	public static synchronized void clearAllPersistentCacheData()
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
@@ -83,45 +83,45 @@ public class Cache
 	
 	
 	
-	public boolean isUpdatingGuide() {
+	public synchronized boolean isUpdatingGuide() {
 		return nonPersistentFlagUpdatingGuide;
 	}
 
 
-	public void setUpdatingGuide(boolean nonPersistentFlagUpdatingGuide) {
+	public synchronized void setUpdatingGuide(boolean nonPersistentFlagUpdatingGuide) {
 		this.nonPersistentFlagUpdatingGuide = nonPersistentFlagUpdatingGuide;
 	}
 
 
-	public UserLike getLikeToAddAfterLogin() {
+	public synchronized UserLike getLikeToAddAfterLogin() {
 		return nonPersistentLikeToAddAfterLogin;
 	}
 
-	public void setLikeToAddAfterLogin(UserLike likeToAddAfterLogin) {
+	public synchronized void setLikeToAddAfterLogin(UserLike likeToAddAfterLogin) {
 		this.nonPersistentLikeToAddAfterLogin = likeToAddAfterLogin;
 	}
 
-	public Class<?> getReturnActivity() {
+	public synchronized Class<?> getReturnActivity() {
 		return nonPersistentReturnActivity;
 	}
 
-	public void setReturnActivity(Class<?> returnActivity) {
+	public synchronized void setReturnActivity(Class<?> returnActivity) {
 		this.nonPersistentReturnActivity = returnActivity;
 	}
 	
-	public void clearReturnActivity() {
+	public synchronized void clearReturnActivity() {
 		setReturnActivity(null);
 	}
 
-	public SearchResultsForQuery getNonPersistentSearchResultsForQuery() {
+	public synchronized SearchResultsForQuery getNonPersistentSearchResultsForQuery() {
 		return nonPersistentSearchResultsForQuery;
 	}
 
-	public void setNonPersistentSearchResultsForQuery(SearchResultsForQuery nonPersistentSearchResultsForQuery) {
+	public synchronized void setNonPersistentSearchResultsForQuery(SearchResultsForQuery nonPersistentSearchResultsForQuery) {
 		this.nonPersistentSearchResultsForQuery = nonPersistentSearchResultsForQuery;
 	}
 
-	public boolean containsSearchResultForQuery(String searchQuery) {
+	public synchronized boolean containsSearchResultForQuery(String searchQuery) {
 		boolean containsSearchResultForQuery = false;
 		if(nonPersistentSearchResultsForQuery != null) {
 			String queryUsedForResultsInStorage = nonPersistentSearchResultsForQuery.getQueryString();
@@ -151,13 +151,13 @@ public class Cache
 	
 	
 	
-	public TVChannelGuide getTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) {
+	public synchronized TVChannelGuide getTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) {
 		TVDate selectedTVDate = getTvDateSelected();
 		return getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, selectedTVDate);
 	}
 	
 	
-	public boolean containsTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 
+	public synchronized boolean containsTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 
 	{
 		boolean containsTVChannelGuideUsingTVChannelIdForSelectedDay = false;
 		
@@ -391,13 +391,13 @@ public class Cache
 
 
 
-	public Calendar getInitialCallSNTPCalendar() 
+	public synchronized Calendar getInitialCallSNTPCalendar() 
 	{
 		return initialCallSNTPCalendar;
 	}
 
 
-	public void setInitialCallSNTPCalendar(Calendar initialCallSNTPCalendar) 
+	public synchronized void setInitialCallSNTPCalendar(Calendar initialCallSNTPCalendar) 
 	{
 		this.initialCallSNTPCalendar = initialCallSNTPCalendar;
 	}

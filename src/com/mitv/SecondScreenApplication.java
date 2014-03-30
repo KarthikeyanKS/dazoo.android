@@ -8,6 +8,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.StrictMode;
+import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.GenericUtils;
@@ -17,13 +18,15 @@ import com.mitv.utilities.GenericUtils;
 public class SecondScreenApplication 
 	extends Application 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = SecondScreenApplication.class.getName();
 
 	
 	
-	private static SecondScreenApplication instance;
+	private static SecondScreenApplication sharedInstance;
 
+	
+	private ContentManager contentManager;
+	
 	
 	
 	/* Do not remove. A public constructor is required by the Application class */
@@ -34,28 +37,28 @@ public class SecondScreenApplication
 	
 	public static SecondScreenApplication sharedInstance() 
 	{
-		if (instance == null) 
+		if (sharedInstance == null) 
 		{
-			instance = new SecondScreenApplication();
+			sharedInstance = new SecondScreenApplication();
 		}
 
-		return instance;
+		return sharedInstance;
 	}
-
-
 	
 	@Override
 	public void onCreate() 
 	{
 		super.onCreate();
 
+		sharedInstance = this;
+		
 		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */
 		AppDataUtils.sharedInstance(this);
 		
 		/* Initial call to ImageLoaderManager, in order to configure the image loader objects */
 		ImageLoaderManager.sharedInstance(this);
-		
-		instance = this;
+
+		contentManager = getContentManager();
 
 		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
 
@@ -130,6 +133,16 @@ public class SecondScreenApplication
 		}
 
 		setInstalledAppVersionToCurrentVersion();
+	}
+	
+	
+	
+	@Override
+	public void onLowMemory()
+	{
+		super.onLowMemory();
+		
+		Log.w(TAG, "Running low on memory.");
 	}
 	
 
@@ -275,4 +288,13 @@ public class SecondScreenApplication
 		}
 	}
 
+
+
+	public ContentManager getContentManager() 
+	{
+		if(contentManager == null) {
+			contentManager = new ContentManager();
+		}
+		return contentManager;
+	}
 }

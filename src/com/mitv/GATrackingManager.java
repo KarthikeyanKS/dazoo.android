@@ -184,14 +184,30 @@ public class GATrackingManager
 				.build());
 	}
 	
-	public void sendUserSignUpSuccessfulEvent()
+	public void sendUserSignUpSuccessfulUsingEmailEvent()
 	{
-		String userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
+		sendUserSignUpSuccessfulEvent(false);
+	}
+	
+	public void sendUserSignUpSuccessfulUsingFacebookEvent()
+	{
+		sendUserSignUpSuccessfulEvent(true);
+	}
+	
+	public void sendUserSignUpSuccessfulEvent(boolean facebook)
+	{
+		String userId = ContentManager.sharedInstance().getFromCacheUserId();
+		
+		String actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL;
+		if(facebook) {
+			actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_FACEBOOK;
+		}
 		
 		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED, userEmail, null)
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, actionString, userId, null)
 				.build());
 	}
+	
 	
 	public void sendUserSharedEvent(TVBroadcast broadcast)
 	{	

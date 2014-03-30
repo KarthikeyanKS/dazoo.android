@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.mitv.R;
+import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
 
@@ -222,6 +223,45 @@ public class DialogHelper
 					yesProcedure.run();
 				}
 				
+				dialog.dismiss();
+			}
+		});
+		
+		if(!activity.isFinishing())
+		{
+			 dialog.show();
+		}
+	}
+	
+	
+	
+	public static void showPromptTokenExpiredDialog(final Activity activity) 
+	{
+		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
+		
+		dialog.setContentView(R.layout.dialog_prompt_token_expired);
+
+		Button cancelButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_cancel);
+		Button signInButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_signin);
+	
+		cancelButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				// Do nothing
+			}
+		});
+
+		signInButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent(activity, SignUpSelectionActivity.class);	
+				
+				activity.startActivity(intent);
+
 				dialog.dismiss();
 			}
 		});

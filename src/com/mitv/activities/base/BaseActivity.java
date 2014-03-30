@@ -773,6 +773,14 @@ public abstract class BaseActivity
 				break;
 			}
 			
+			case FORBIDDEN:
+			{
+				ContentManager.sharedInstance().performLogout(this, true);
+				
+				updateUI(UIStatusEnum.USER_TOKEN_EXPIRED);
+				break;
+			}
+			
 			case SUCCESS:
 			case SUCCESS_WITH_NO_CONTENT:
 			{
@@ -854,6 +862,12 @@ public abstract class BaseActivity
 
 			case API_VERSION_TOO_OLD: {
 				DialogHelper.showMandatoryAppUpdateDialog(this);
+				break;
+			}
+			
+			case USER_TOKEN_EXPIRED:
+			{
+				DialogHelper.showPromptTokenExpiredDialog(this);
 				break;
 			}
 

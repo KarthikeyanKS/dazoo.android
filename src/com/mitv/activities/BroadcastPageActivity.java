@@ -204,20 +204,32 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		}
 	}
 
+	
 	@Override
-	protected void updateUI(UIStatusEnum status) {
+	protected void updateUI(UIStatusEnum status) 
+	{
 		super.updateUIBaseElements(status);
 
-		switch (status) {
-		case SUCCESS_WITH_CONTENT: {
-			populateBlocks();
-			break;
-		}
-
-		default: {
-			Log.w(TAG, "updateUI - case not handled");
-			break;
-		}
+		switch (status) 
+		{
+			case USER_TOKEN_EXPIRED:
+			{
+				/* If the sessions has expired, finish this activity and resume the previous one */
+				finish();
+				break;
+			}
+		
+			case SUCCESS_WITH_CONTENT: 
+			{
+				populateBlocks();
+				break;
+			}
+	
+			default: 
+			{
+				Log.w(TAG, "updateUI - case not handled");
+				break;
+			}
 		}
 	}
 
