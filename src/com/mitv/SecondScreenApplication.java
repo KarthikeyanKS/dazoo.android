@@ -244,5 +244,35 @@ public class SecondScreenApplication
 		
 		return isCurrentVersionAnUpgradeFromInstalledVersion;
 	}
+	
+	public boolean hasUserSeenTutorial() {
+		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
+		
+		if (hasUserSeenTutorial) {
+			/* TODO NewArc:
+			 * 
+			 * We need to check here: if user has seen tutorial && if user has open app during the last two weeks
+			 * (We need to save date in shared prefs also)
+			 * 
+			 * TRUE: Open splashScreen as normal
+			 * FALSE: Show tutorial again
+			 * */
+		}
+		
+		return hasUserSeenTutorial;
+	}
+	
+	public void setUserSeenTutorial() {
+		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
+		
+		if (!hasUserSeenTutorial) {
+			AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true);
+			
+		} else {
+			/* TODO: NewArc:
+			 * What do we do here??
+			 */
+		}
+	}
 
 }

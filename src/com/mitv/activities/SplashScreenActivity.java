@@ -6,11 +6,14 @@ package com.mitv.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.ContentManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -33,7 +36,10 @@ public class SplashScreenActivity
 	
 	private FontTextView progressTextView;
 	private int fetchedDataCount = 0;
-
+	
+	boolean hasUserSeenTutorial;
+	boolean isViewingTutorial;
+	boolean isDataFetched = false;
 	
 	
 	@Override
@@ -41,9 +47,13 @@ public class SplashScreenActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.layout_splash_screen_activity);
+		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
 		
-		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
+		if (hasUserSeenTutorial) {
+			showSplashScreen();
+		} else {
+			showUserTutorial();
+		}
 		
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
@@ -79,16 +89,18 @@ public class SplashScreenActivity
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
 	{
-		fetchedDataCount++;
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(fetchedDataCount);
-		sb.append("/");
-		sb.append(totalSteps);
-		sb.append(" - ");
-		sb.append(message);
-		
-		progressTextView.setText(sb.toString());
+		if (!isViewingTutorial) {
+			fetchedDataCount++;
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(fetchedDataCount);
+			sb.append("/");
+			sb.append(totalSteps);
+			sb.append(" - ");
+			sb.append(message);
+			
+			progressTextView.setText(sb.toString());
+		}
 	}
 
 
@@ -144,7 +156,11 @@ public class SplashScreenActivity
 					ToastHelper.createAndShowLongToast(message);
 				}
 				
-				startPrimaryActivity();
+				isDataFetched = true;
+				
+				if (!isViewingTutorial) {
+					startPrimaryActivity();
+				}
 				break;
 			}
 		}
@@ -160,4 +176,37 @@ public class SplashScreenActivity
 		
 		finish();
 	}
+	
+	
+	
+	private void showSplashScreen() {
+		isViewingTutorial = false;
+		
+		setContentView(R.layout.layout_splash_screen_activity);
+		
+		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
+		
+		if (isDataFetched) {
+			startPrimaryActivity();
+		}
+	}
+	
+	
+	
+	private void showUserTutorial() {
+		isViewingTutorial = true;
+		setContentView(R.layout.layout_user_tutorial);
+		
+		final Button button = (Button) findViewById(R.id.button_view_tutorial);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	SecondScreenApplication.sharedInstance().setUserSeenTutorial();
+            	isViewingTutorial = false;
+            	if (isDataFetched) {
+        			startPrimaryActivity();
+        		}
+            }
+        });
+	}
+	
 }
