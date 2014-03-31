@@ -99,9 +99,9 @@ public class ContentManager
 	private boolean isGoingToMyChannelsFromSearch;
 	private Boolean isLocalDeviceCalendarOffSync;
 			
-	private HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
-	
-	
+	/* Variable is made volatile in order to make it thread safe, some thread may access the map, while another is modifying it,
+	 * using different (synchronized) methods. Thus it is not enough that those methods are synchronized */
+	private volatile HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
 	
 	public ContentManager()
 	{	
