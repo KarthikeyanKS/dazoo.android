@@ -129,10 +129,13 @@ public abstract class BaseActivity
 	}
 	
 	
-	
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
+	}
+	
+	protected void unregisterListenerFromAllRequests() {
+		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 	}
 
 	

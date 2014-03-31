@@ -22,6 +22,7 @@ import com.mitv.models.TVChannelGuide;
 import com.mitv.models.TVProgram;
 import com.mitv.models.UserLike;
 import com.mitv.models.gson.serialization.UserLikeData;
+import com.mitv.utilities.RandomNumberUtils;
 
 
 
@@ -46,14 +47,14 @@ public class UserLikeTestBase
 		int broadcastIndex = 0;
 		
 		if(useRandomIndexes) {
-			guideIndex = randInt(0, tvChannelGuides.size());
+			guideIndex = RandomNumberUtils.randomIntegerInRange(0, tvChannelGuides.size());
 		}
 		
 		TVChannelGuide someGuide = tvChannelGuides.get(guideIndex);	
 		ArrayList<TVBroadcast> broadcasts = someGuide.getBroadcasts();
 		
 		if(useRandomIndexes) {
-			broadcastIndex = randInt(0, broadcasts.size());
+			broadcastIndex = RandomNumberUtils.randomIntegerInRange(0, broadcasts.size());
 		}
 		
 		TVBroadcast broadcast = broadcasts.get(broadcastIndex);
@@ -72,28 +73,10 @@ public class UserLikeTestBase
 	
 	public static int randomIndexForList(List<Object> list) {
 		int size = list.size() - 1; //zero indexed;
-		int randomIndex = randInt(0, size);
+		int randomIndex = RandomNumberUtils.randomIntegerInRange(0, size);
 		return randomIndex;
 	}
-		
-	/**
-	 * Returns a pseudo-random number between min and max, exclusive.
-	 *
-	 * @param min Minimum value
-	 * @param max Maximum value.  Must be greater than min.
-	 * @return Integer between min and max, exclusive.
-	 * @see java.util.Random#nextInt(int)
-	 */
-	public static int randInt(int min, int max) {
-
-	    // Usually this can be a field rather than a method variable
-	    Random rand = new Random();
-
-	    int randomNum = rand.nextInt(max - min) + min;
-
-	    return randomNum;
-	}
-	
+			
 	private UserLike addUserLike(
 			String token,
 			LikeTypeRequestEnum likeType,
