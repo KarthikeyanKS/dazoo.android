@@ -9,6 +9,9 @@ import java.util.Stack;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -31,6 +34,7 @@ import com.mitv.ContentManager;
 import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.SearchPageActivity;
@@ -60,7 +64,7 @@ public abstract class BaseActivity
 
 	private static final int SELECTED_TAB_FONT_SIZE = 12;
 	
-	private static Stack<Activity> activityStack = new Stack<Activity>();
+	private static Stack<BaseActivity> activityStack = new Stack<BaseActivity>();
 
 	
 	
@@ -266,12 +270,36 @@ public abstract class BaseActivity
 	}
 	
 	
-	private void restartTheApp() {		
+	public void restartTheApp() {
+		Log.w(TAG, "Restarting the app");
 		killAllActivitiesExceptThis();
 		Intent intent = new Intent(this, SplashScreenActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 		finish();
+	}
+	
+	public static void restartTheAppStatic() {
+		BaseActivity someAliveActivity = null;
+		for(Activity activity : activityStack) {
+			if(GenericUtils.isActivityNotNullAndNotFinishing(activity)) {
+				someAliveActivity = (BaseActivity) activity;
+				break;
+			}
+		}
+		
+		if(someAliveActivity != null) {
+			Log.d(TAG, "Found alive activity, restarting app using instance version of restartTheApp");
+			someAliveActivity.restartTheApp();
+		} else {
+			Log.w(TAG, "No alive activity found, restarting app statically");
+			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+			Intent intent = new Intent(context, SplashScreenActivity.class);
+			
+			AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(context, 0, intent, 0));
+			System.exit(-1);
+		}
 	}
 	
 	private void killAllActivitiesExceptThis() {
@@ -306,7 +334,7 @@ public abstract class BaseActivity
 		return indexOfTodayFromTVDates;
 	}
 
-	private static void pushActivityToStack(Activity activity) {
+	private static void pushActivityToStack(BaseActivity activity) {
 
 		/*
 		 * If we got to this activity using the backpress button, then the Android OS will resume the latest activity,
@@ -848,9 +876,9 @@ public abstract class BaseActivity
 	{
 		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
 
-		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(this);
 
-		if (activityNotNullOrFinishing) 
+		if (activityNotNullAndNotFinishing) 
 		{
 			hideRequestStatusLayouts();
 

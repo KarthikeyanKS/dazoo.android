@@ -1572,13 +1572,14 @@ public class ContentManager
 	}
 	
 	
-	public boolean getFromCacheHasTVGuideForSelectedTVDate()
+	public boolean getFromCacheHasTVTagsAndGuideForSelectedTVDate()
 	{
 		TVDate tvDate = getCache().getTvDateSelected();
 		
 		if(tvDate != null)
 		{
-			return getCache().containsTVGuideForTVDate(tvDate);
+			boolean hasContent = getCache().containsTVTags() && getCache().containsTVGuideForTVDate(tvDate);
+			return hasContent;
 		}
 		else
 		{
@@ -1676,10 +1677,11 @@ public class ContentManager
 	
 	public boolean selectedTVDateIsToday() 
 	{
+		boolean isToday = false;
 		TVDate tvDateSelected = getFromCacheTVDateSelected();
-		
-		boolean isToday = tvDateSelected.isToday();
-		
+		if(tvDateSelected != null) {
+			isToday = tvDateSelected.isToday();
+		}
 		return isToday;
 	
 	}

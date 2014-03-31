@@ -117,12 +117,12 @@ public abstract class GenericUtils
 	
 	
 	
-	public static boolean isActivityNotNullOrFinishing(Activity activity)
+	public static boolean isActivityNotNullAndNotFinishing(Activity activity)
 	{
-		boolean activityNotNullOrFinishing = (activity != null && 
+		boolean activityNotNullAndNotFinishing = (activity != null && 
 											  activity.isFinishing() == false);
 		
-		return activityNotNullOrFinishing;
+		return activityNotNullAndNotFinishing;
 	}
 	
 	

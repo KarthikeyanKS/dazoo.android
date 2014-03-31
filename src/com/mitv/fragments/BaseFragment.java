@@ -191,9 +191,9 @@ public abstract class BaseFragment
 	{
 		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
 
-		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(getActivity());
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(getActivity());
 		
-		if (activityNotNullOrFinishing) 
+		if (activityNotNullAndNotFinishing) 
 		{
 			hideRequestStatusLayouts();
 
