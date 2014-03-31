@@ -3,6 +3,9 @@ package com.mitv.activities;
 
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,9 +14,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.ContentManager;
@@ -29,6 +32,7 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.NetworkUtils;
 
 
@@ -184,6 +188,10 @@ public class SplashScreenActivity
 	
 	private void startPrimaryActivity() 
 	{
+		String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+		
+		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(date);
+		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 		
 		startActivity(intent);
