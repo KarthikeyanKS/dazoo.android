@@ -60,20 +60,14 @@ public class TVDate
 	
 	public Calendar getStartOfTVDayCalendar() 
 	{
-		if(startOfTVDayCalendar == null) 
-		{	
-			startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
-		}
+		startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
 		
 		return startOfTVDayCalendar;
 	}
 	
 	public Calendar getEndOfTVDayCalendar() 
 	{
-		if(endOfTVDayCalendar == null) 
-		{	
-			endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendar());
-		}
+		endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendar());
 		
 		return endOfTVDayCalendar;
 	}

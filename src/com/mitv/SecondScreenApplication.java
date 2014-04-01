@@ -279,30 +279,32 @@ public class SecondScreenApplication
 			
 			if (!neverShowTutorialAgain) {
 				
-				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
-					
-					Calendar cal = Calendar.getInstance();
-				    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
-					
-					try {
-						cal.setTime(sdf.parse(lastOpenApp));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					
-					/* 
-					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
-					 * FALSE: if app has not been open in last two weeks, tutorial will show.
-					 */
-					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
-					
-					/* Sets app to never show tutorial again if desplayed two times */
-					if (!openLastTwoWeeks) {
-						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true);
-					}
-					
-					return openLastTwoWeeks;
-				}
+//				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
+//					
+//					Calendar cal = Calendar.getInstance();
+////				    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+//				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//					
+//					try {
+//						cal.setTime(sdf.parse(lastOpenApp));
+//					} catch (ParseException e) {
+//						Log.e(TAG, "Failed to set time for last open app.");
+//						e.printStackTrace();
+//					}
+//					
+//					/* 
+//					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
+//					 * FALSE: if app has not been open in last two weeks, tutorial will show.
+//					 */
+//					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
+//					
+//					/* Sets app to never show tutorial again if desplayed two times */
+//					if (!openLastTwoWeeks) {
+//						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true);
+//					}
+//					
+//					return openLastTwoWeeks;
+//				}
 			}
 			
 		}
@@ -334,8 +336,6 @@ public class SecondScreenApplication
 	public void setDateUserLastOpenedApp(String date) {
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date);
 	}
-
-
 
 	public ContentManager getContentManager() 
 	{

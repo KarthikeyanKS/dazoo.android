@@ -288,10 +288,21 @@ public abstract class DateUtils
 		Calendar now = getNow();
 		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendar();
 		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendar();
+		boolean a = startOfTVDay.before(now);
+		boolean b = endOfTVDay.after(now);
 		
+//		Log.d(TAG, "mmm.. now: " + now);
+//		Log.d(TAG, "mmm... startOfTVDay: " + startOfTVDay);
 		
-		boolean isTVDateNow = startOfTVDay.before(now) && endOfTVDay.after(now);
-
+//		Log.d(TAG, "mmm... endOfTVDay: " + endOfTVDay);
+		Log.d(TAG, "mmm.... startOfTVDay.before(now): " + a);
+		Log.d(TAG, "mmm.... now.after(startOfTVDay)   : " + now.after(startOfTVDay));
+		Log.d(TAG, "mmm..... endOfTVDay.after(now)   : " + b);	
+		Log.d(TAG, "mmm..... now.before(endOfTVDay)   : " + now.before(endOfTVDay));
+		Log.d(TAG, "mmm now.equals(startOfTVDay)   : " + now.equals(startOfTVDay));
+		
+		boolean isTVDateNow = (now.after(startOfTVDay) || now.equals(startOfTVDay)) && now.before(endOfTVDay);
+		Log.d(TAG, "mmm.. isTVDateNow:  " + isTVDateNow);
 		return isTVDateNow;
 
 	}
