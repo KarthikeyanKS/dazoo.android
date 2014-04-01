@@ -1571,6 +1571,9 @@ public class ContentManager
 		return getCache().containsActivityFeedData();
 	}
 	
+	public boolean getFromCacheHasTVTags() {
+		return getCache().containsTVTags();
+	}
 	
 	public boolean getFromCacheHasTVTagsAndGuideForSelectedTVDate()
 	{

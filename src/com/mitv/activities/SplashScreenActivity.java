@@ -11,9 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.ContentManager;
@@ -184,6 +184,12 @@ public class SplashScreenActivity
 	
 	private void startPrimaryActivity() 
 	{
+		if(SecondScreenApplication.isAppRestarting()) {
+			Log.d(TAG, "isAppRestarting is true => setting to false");
+			SecondScreenApplication.setAppIsRestarting(false);
+		}
+		
+		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 		
 		startActivity(intent);

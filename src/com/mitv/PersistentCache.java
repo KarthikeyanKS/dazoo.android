@@ -116,7 +116,7 @@ public abstract class PersistentCache
 	
 	public synchronized boolean containsAppVersionData() 
 	{
-		boolean containsAppVersionData = (appVersionData != null);
+		boolean containsAppVersionData = ((appVersionData != null) && appVersionData.areDataFieldsValid());
 		
 		return containsAppVersionData;
 	}

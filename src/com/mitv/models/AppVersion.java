@@ -7,13 +7,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.text.TextUtils;
+
 import com.mitv.Constants;
+import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.AppVersionJSON;
 import com.mitv.models.orm.AppVersionElementORM;
 
 
 
-public class AppVersion 
+public class AppVersion implements GSONDataFieldValidation
 {
 	private List<AppVersionElement> appVersionDataParts;
 
@@ -101,5 +104,16 @@ public class AppVersion
 	public List<AppVersionElement> getAppVersionDataParts() 
 	{
 		return appVersionDataParts;
+	}
+
+
+
+	@Override
+	public boolean areDataFieldsValid() {
+		boolean androidVersionDataOk = !TextUtils.isEmpty(getAndroidVersion());
+		boolean apiVersionDataOk = !TextUtils.isEmpty(getApiVersion());
+		boolean areDataFieldsValid = androidVersionDataOk && apiVersionDataOk;
+		
+		return areDataFieldsValid;
 	}
 }

@@ -123,6 +123,19 @@ public abstract class BaseActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		/* If ContentManager is not null, and cache is not null and we have no initial data, then this activity got recreated due to
+		 * low memory and then we need to restart the app */
+		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { //!SecondScreenApplication.isContentManagerNull() && !ContentManager.isCacheNull() && 
+			Log.e(TAG, "ContentManager or cache or initialdata was null");
+			
+			if(!SecondScreenApplication.isAppRestarting()) {
+				SecondScreenApplication.setAppIsRestarting(true);
+				restartTheApp();
+			} else {
+				Log.w(TAG, "App is already being restarted");
+			}
+		}
 
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
@@ -132,7 +145,22 @@ public abstract class BaseActivity
 		GATrackingManager.sendView(className);
 	}
 	
+	public void restartTheApp() {
+		Log.e(TAG, "Restarting the app");
+		
+		Intent intent = new Intent(this, SplashScreenActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);		
+		
+		SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+		Context context = app.getApplicationContext();
+		context.startActivity(intent);
+		
+		
+		killAllActivitiesIncludingThis();
+		finish();
+	}
 	
+
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
@@ -270,44 +298,11 @@ public abstract class BaseActivity
 	}
 	
 	
-	public void restartTheApp() {
-		Log.w(TAG, "Restarting the app");
-		killAllActivitiesExceptThis();
-		Intent intent = new Intent(this, SplashScreenActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
-		finish();
-	}
+
 	
-	public static void restartTheAppStatic() {
-		BaseActivity someAliveActivity = null;
+	private void killAllActivitiesIncludingThis() {
 		for(Activity activity : activityStack) {
-			if(GenericUtils.isActivityNotNullAndNotFinishing(activity)) {
-				someAliveActivity = (BaseActivity) activity;
-				break;
-			}
-		}
-		
-		if(someAliveActivity != null) {
-			Log.d(TAG, "Found alive activity, restarting app using instance version of restartTheApp");
-			someAliveActivity.restartTheApp();
-		} else {
-			Log.w(TAG, "No alive activity found, restarting app statically");
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			Intent intent = new Intent(context, SplashScreenActivity.class);
-			
-			AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-			mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(context, 0, intent, 0));
-			System.exit(-1);
-		}
-	}
-	
-	private void killAllActivitiesExceptThis() {
-		//TODO NewArc Clear cache??
-		for(Activity activity : activityStack) {
-			if(!activity.equals(this)) {
-				activity.finish();
-			}
+			activity.finish();
 		}
 	}
 

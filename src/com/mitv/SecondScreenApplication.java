@@ -45,12 +45,28 @@ public class SecondScreenApplication
 		return sharedInstance;
 	}
 	
+	
+	
+	public static boolean isContentManagerNull() {
+		SecondScreenApplication app = sharedInstance;
+		if(app != null) {
+			return (app.contentManager == null);
+		} else {
+			return true;
+		}
+	}
+	
 	@Override
 	public void onCreate() 
 	{
 		super.onCreate();
 
 		sharedInstance = this;
+		
+		if(isAppRestarting()) {
+			Log.d(TAG, "AppIsRestarging was true, setting it false");
+			setAppIsRestarting(false);
+		}
 		
 		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */
 		AppDataUtils.sharedInstance(this);
@@ -217,6 +233,17 @@ public class SecondScreenApplication
 		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
 	}
 	
+	
+	public static void setAppIsRestarting(boolean value) 
+	{
+		AppDataUtils.sharedInstance(sharedInstance).setPreference("app_is_restarting", value);
+	}
+
+	
+	public static boolean isAppRestarting() 
+	{
+		return AppDataUtils.sharedInstance(sharedInstance).getPreference("app_is_restarting", false);
+	}
 	
 	private String getCurrentAppVersion()
 	{
