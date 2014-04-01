@@ -3,14 +3,21 @@ package com.mitv;
 
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.StrictMode;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -285,37 +292,77 @@ public class SecondScreenApplication
 		return isCurrentVersionAnUpgradeFromInstalledVersion;
 	}
 	
+	
+	
 	public boolean hasUserSeenTutorial() {
+		
 		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
+		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
+		
+		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
+		Calendar now = DateUtils.getNow();
 		
 		if (hasUserSeenTutorial) {
-			/* TODO NewArc:
-			 * 
-			 * We need to check here: if user has seen tutorial && if user has open app during the last two weeks
-			 * (We need to save date in shared prefs also)
-			 * 
-			 * TRUE: Open splashScreen as normal
-			 * FALSE: Show tutorial again
-			 * */
+			
+			if (!neverShowTutorialAgain) {
+				
+//				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
+//					
+//					Calendar cal = Calendar.getInstance();
+////				    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+//				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//					
+//					try {
+//						cal.setTime(sdf.parse(lastOpenApp));
+//					} catch (ParseException e) {
+//						Log.e(TAG, "Failed to set time for last open app.");
+//						e.printStackTrace();
+//					}
+//					
+//					/* 
+//					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
+//					 * FALSE: if app has not been open in last two weeks, tutorial will show.
+//					 */
+//					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
+//					
+//					/* Sets app to never show tutorial again if desplayed two times */
+//					if (!openLastTwoWeeks) {
+//						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true);
+//					}
+//					
+//					return openLastTwoWeeks;
+//				}
+			}
+			
 		}
 		
 		return hasUserSeenTutorial;
 	}
 	
-	public void setUserSeenTutorial() {
-		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
+	/* No handling when new year, just returns true, which means that the tutorial will not show. */
+	private boolean checkIfUserOpenedAppLastTwoWeeks(Calendar now, Calendar lastTime) {
 		
-		if (!hasUserSeenTutorial) {
-			AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true);
+		if (lastTime.before(now)) {
+			int a = now.get(Calendar.DAY_OF_YEAR);
+			int b = lastTime.get(Calendar.DAY_OF_YEAR);
 			
-		} else {
-			/* TODO: NewArc:
-			 * What do we do here??
-			 */
+			int difference = a-b;
+			
+			if (difference > 13) {
+				return false;
+			}
 		}
+		
+		return true;
 	}
-
-
+	
+	public void setUserSeenTutorial() {
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true);
+	}
+	
+	public void setDateUserLastOpenedApp(String date) {
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date);
+	}
 
 	public ContentManager getContentManager() 
 	{

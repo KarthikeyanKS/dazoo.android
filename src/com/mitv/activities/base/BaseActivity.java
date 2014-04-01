@@ -279,19 +279,16 @@ public abstract class BaseActivity
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
-
 		/* Handle day */
 		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
 		
 		/*
 		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
 		 */
-		if (indexOfTodayFromTVDates > 0)
-		{
+		if (indexOfTodayFromTVDates > 0) {
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
-			if(isTimeOffSync == false)
-			{
+			if(isTimeOffSync == false) {
 				restartTheApp();
 			}
 		} 

@@ -3,6 +3,8 @@ package com.mitv.activities;
 
 
 
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,7 +39,7 @@ public class SplashScreenActivity
 	extends FragmentActivity 
 	implements ViewCallbackListener, FetchDataProgressCallbackListener, OnClickListener
 {	
-	@SuppressWarnings("unused")
+	
 	private static final String TAG = SplashScreenActivity.class.getName();
 	
 	
@@ -189,6 +191,9 @@ public class SplashScreenActivity
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
 		
+		String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+		
+		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(date);
 		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 		
@@ -272,7 +277,7 @@ public class SplashScreenActivity
 			case R.id.button_tutorial_start_primary_activity: {
 				if (isDataFetched) {
 					isViewingTutorial = false;
-					SecondScreenApplication.sharedInstance().setUserSeenTutorial();
+					SecondScreenApplication.sharedInstance().setUserSeenTutorial();			
 					startPrimaryActivity();
 				}
 				break;

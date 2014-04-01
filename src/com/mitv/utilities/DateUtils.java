@@ -289,9 +289,7 @@ public abstract class DateUtils
 		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendar();
 		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendar();
 		
-		
-		boolean isTVDateNow = startOfTVDay.before(now) && endOfTVDay.after(now);
-
+		boolean isTVDateNow = (now.after(startOfTVDay) || now.equals(startOfTVDay)) && now.before(endOfTVDay);
 		return isTVDateNow;
 
 	}
