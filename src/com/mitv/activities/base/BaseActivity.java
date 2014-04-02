@@ -129,12 +129,12 @@ public abstract class BaseActivity
 		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
 			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
 			
-//			if(!SecondScreenApplication.isAppRestarting()) {
-//				SecondScreenApplication.setAppIsRestarting(true);
-//				restartTheApp();
-//			} else {
-//				Log.e(TAG, "App is already being restarted");
-//			}
+			if(!SecondScreenApplication.isAppRestarting()) {
+				SecondScreenApplication.setAppIsRestarting(true);
+				restartTheApp();
+			} else {
+				Log.e(TAG, "App is already being restarted");
+			}
 		}
 
 		/* Google Analytics Tracking */
