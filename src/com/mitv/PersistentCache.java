@@ -423,93 +423,30 @@ public abstract class PersistentCache
 	}
 	
 	/* TV CHANNELS */
-
-	/**
-	 * This enum is only used by the method "useTVChannels"
-	 * @author Alexander Cyon
-	 *
-	 */
-	private enum TVChannelsAccessIdentifier {
-		SET,
-		CONTAINS,
-		GET_ALL,
-		GET_BY_ID;
-	}
 	
-	/**
-	 * This method works as a synchronization wrapper for the tvChannels variable, so that two 
-	 * different thread never access or modify that variable simultaneously.
-	 * @param accessIdentifier
-	 * @param tvChannels
-	 * @param tvChannelId
-	 * @return
-	 */
-	private synchronized Object useTVChannels(TVChannelsAccessIdentifier accessIdentifier, final List<TVChannel> tvChannels, TVChannelId tvChannelId) {
-		switch (accessIdentifier) {
-
-		case SET: {
-			setTvChannelsHelper(tvChannels);
-			break;
-		}
-		case GET_ALL: {
-			return getTvChannelsHelper();
-		}
-		case GET_BY_ID: {
-			return getTVChannelByIdHelper(tvChannelId);
-		}
-		case CONTAINS: {
-			return containsTVChannelsHelper();
-		}
-
-		}
-		return null;
-	}
-	
-	public boolean containsTVChannels() {
-		return (Boolean) useTVChannels(TVChannelsAccessIdentifier.CONTAINS, null, null);
-	}
-	
-	private boolean containsTVChannelsHelper() 
+	public boolean containsTVChannels() 
 	{
-		boolean containsTVChannels = (tvChannels != null && !tvChannels.isEmpty());
+		boolean containsTVChannels = (getTvChannels() != null && !getTvChannels().isEmpty());
 		
 		return containsTVChannels;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<TVChannel> getTvChannels() {
-		Object listObject = useTVChannels(TVChannelsAccessIdentifier.GET_ALL, null, null);
-		if(listObject != null) {
-			List<TVChannel> channelList = (List<TVChannel>) listObject;
-			return channelList;
-		} else {
-			return null;
-		}
-		 
-	}
-	
-	private List<TVChannel> getTvChannelsHelper() 
+
+	public synchronized List<TVChannel> getTvChannels() 
 	{
 		return tvChannels;
 	}
 
-	public void setTvChannels(final List<TVChannel> tvChannels) {
-		useTVChannels(TVChannelsAccessIdentifier.SET, tvChannels, null);
-	}
 	
-	private void setTvChannelsHelper(final List<TVChannel> tvChannels) 
+	public synchronized void setTvChannels(final List<TVChannel> tvChannels) 
 	{
 		this.tvChannels = tvChannels;
 	}
 	
-	public TVChannel getTVChannelById(TVChannelId tvChannelId) {
-		return (TVChannel) useTVChannels(TVChannelsAccessIdentifier.GET_BY_ID, null, tvChannelId);
-	}
 	
 	//TODO dont iterate through a list, change tvChannels to a Map instead?
-	private  TVChannel getTVChannelByIdHelper(TVChannelId tvChannelId) 
+	public TVChannel getTVChannelById(TVChannelId tvChannelId) 
 	{
-		for(TVChannel tvChannel : tvChannels) 
+		for(TVChannel tvChannel : getTvChannels()) 
 		{
 			if(tvChannel.getChannelId().equals(tvChannelId))
 			{
