@@ -30,7 +30,7 @@ public abstract class Constants
 	
 	/* CURRENTLY USED BACKEND ENVIVONNEMT AND HTTP SCHEME */
 	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_PRODUCTION_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_TEST_ENVIRONMENT;
 	
 	/* "Static", don't need to change those */
 	public static final String URL_BACKEND_BASE_API					= "api.";

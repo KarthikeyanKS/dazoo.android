@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -122,11 +124,56 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
-		String contentID = broadcastWithChannelInfo.getShareUrl();
+		String contentID;
+		try {
+			contentID = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
+			
+			contentID = contentID.replace("+", "%20");
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			contentID = "";
+		}
 		
-		String htmlWithContentID = webViewHTML.replace("default_disqus_identifier", contentID);
+		String title;
+		try {
+			title = URLEncoder.encode(broadcastWithChannelInfo.getTitle(), "UTF-8");
+			
+			title = title.replace("+", "%20");
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			title = "";
+		}
 		
-		webDisqus.loadUrl(htmlWithContentID);
+		String url;
+		try {
+			url = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
+			
+			url = url.replace("+", "%20");
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			url = "";
+		}
+		
+		StringBuilder urlSB = new StringBuilder();
+		
+		urlSB.append("http://gitrgitr.com/test/index.htm");
+		urlSB.append("?title=");
+		urlSB.append(title);
+		urlSB.append("&identifier=");
+		urlSB.append(contentID);
+		urlSB.append("&url=");
+		urlSB.append(url);
+		
+		webDisqus.loadUrl(urlSB.toString());
 		
 		updateStatusOfLikeView();
 
