@@ -6,14 +6,12 @@ package com.mitv;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.StrictMode;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
@@ -296,26 +294,28 @@ public class SecondScreenApplication
 	
 	public boolean hasUserSeenTutorial() {
 		
-		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
-		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
-		
-		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
-		Calendar now = DateUtils.getNow();
-		
-		if (hasUserSeenTutorial) {
-			
-			if (!neverShowTutorialAgain) {
-				
+//		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
+//		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
+//		
+//		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
+//		Calendar now = DateUtils.getNow();
+//		
+//		if (hasUserSeenTutorial) {
+//			Log.d(TAG, "MMM Date: hasUserSeenTutorial: " + hasUserSeenTutorial);
+//			
+//			if (!neverShowTutorialAgain) {
+//				Log.d(TAG, "MMM Date: neverShowTutorialAgain: " + neverShowTutorialAgain);
+//				
 //				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
+//					Log.d(TAG, "MMM Date: lastOpenApp: " + lastOpenApp);
 //					
 //					Calendar cal = Calendar.getInstance();
-////				    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
-//				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//				    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
 //					
 //					try {
 //						cal.setTime(sdf.parse(lastOpenApp));
 //					} catch (ParseException e) {
-//						Log.e(TAG, "Failed to set time for last open app.");
+//						Log.e(TAG, "MMM Date: Failed to set time for when user last open app.");
 //						e.printStackTrace();
 //					}
 //					
@@ -327,16 +327,17 @@ public class SecondScreenApplication
 //					
 //					/* Sets app to never show tutorial again if desplayed two times */
 //					if (!openLastTwoWeeks) {
-//						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true);
+//						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, false);
 //					}
 //					
 //					return openLastTwoWeeks;
 //				}
-			}
-			
-		}
-		
-		return hasUserSeenTutorial;
+//			}
+//			
+//		}
+//		
+//		return hasUserSeenTutorial;
+		return true;
 	}
 	
 	/* No handling when new year, just returns true, which means that the tutorial will not show. */
