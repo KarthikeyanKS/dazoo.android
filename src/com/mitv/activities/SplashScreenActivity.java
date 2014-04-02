@@ -113,7 +113,9 @@ public class SplashScreenActivity
 			sb.append(" - ");
 			sb.append(message);
 			
-			progressTextView.setText(sb.toString());
+			if (progressTextView != null) {
+				progressTextView.setText(sb.toString());
+			}
 		}
 	}
 
