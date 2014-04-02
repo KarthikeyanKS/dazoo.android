@@ -3,10 +3,16 @@ package com.mitv.activities;
 
 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -73,12 +79,16 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	private ImageView channelIv;
 	private TextView synopsisTv;
 	private WebView webDisqus;
+	private String webViewHTML;
 
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
 	
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_broadcastpage_activity);
@@ -86,8 +96,11 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		initViews();
 	}
 
+	
+	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{	
 		Intent intent = getIntent();
 
 		boolean needToDownloadBroadcastWithChannelInfo = intent.getBooleanExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
@@ -109,6 +122,12 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
+		String contentID = broadcastWithChannelInfo.getShareUrl();
+		
+		String htmlWithContentID = webViewHTML.replace("default_disqus_identifier", contentID);
+		
+		webDisqus.loadUrl(htmlWithContentID);
+		
 		updateStatusOfLikeView();
 
 		super.onResume();
@@ -267,18 +286,52 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		
 		webDisqus = (WebView) findViewById(R.id.disqus);
 		
-		WebSettings webSettings2 = webDisqus.getSettings();
+		WebSettings webSettings = webDisqus.getSettings();
 		
-		webSettings2.setJavaScriptEnabled(true);
-		webSettings2.setBuiltInZoomControls(false);
+		webSettings.setJavaScriptEnabled(true);
+		webSettings.setBuiltInZoomControls(false);
 		webDisqus.requestFocusFromTouch();
 		
+		StringBuilder htmlSB = new StringBuilder();
+		
+		try 
+		{
+			String line;
+			
+			AssetManager assetManager = getAssets();
+			
+		    InputStream ims = assetManager.open("disqus_comments.html");
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(ims));
+			
+			while((line = reader.readLine()) != null) 
+			{
+				htmlSB.append(line);
+			}
+			
+			reader.close();
+		}
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
 		webDisqus.setWebViewClient(new WebViewClient());
-		webDisqus.setWebChromeClient(new WebChromeClient());
+		webDisqus.setWebChromeClient(new WebChromeClient() 
+		{
+			  public void onConsoleMessage(String message, int lineNumber, String sourceID) 
+			  {
+			    Log.d("MyApplication", message + " -- From line "
+			                         + lineNumber + " of "
+			                         + sourceID);
+			  }
+			});
 		
-		StringBuilder urlSB = new StringBuilder();
-		
-		webDisqus.loadUrl(urlSB.toString());
+		webViewHTML = htmlSB.toString();
 	}
 
 	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) {
