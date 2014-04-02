@@ -128,6 +128,7 @@ public abstract class BaseActivity
 		 * low memory and then we need to restart the app */
 		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
 			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
+//			if(ContentManager.sharedInstance().isUpdatingGuide())
 			restartTheApp();
 		}
 

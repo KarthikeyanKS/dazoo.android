@@ -146,49 +146,85 @@ public class ContentManager
 		return isGoingToMyChannelsFromSearch;
 	}
 
-	private synchronized HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> getMapRequestToCallbackListeners() {
-		return mapRequestToCallbackListeners;
-	}
-	
-	
-	public void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) {
-		ArrayList<ViewCallbackListener> listenerList = getMapRequestToCallbackListeners().get(requestIdentifier);
+	/**
+     * This enum is only used by the method "useRequestToCallBackListenerMap"
+     * @author Alexander Cyon
+     *
+     */
+    private enum RequestToCallBackMapAccessIdentifier {
+        REGISTER_LISTENER,
+        NOTIFY_LISTENER,
+        UNREGISTER_LISTENER;
+    }
 
-		if (listenerList == null) {
-			listenerList = new ArrayList<ViewCallbackListener>();
-			mapRequestToCallbackListeners.put(requestIdentifier, listenerList);
-		}
+    public synchronized void useRequestToCallBackListenerMap(RequestToCallBackMapAccessIdentifier variableAccessIdentifier, RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener, FetchRequestResultEnum result) {
+        switch (variableAccessIdentifier) {
 
-		if (!listenerList.contains(listenerList)) {
-			listenerList.add(listener);
-		}
-	}
+        case REGISTER_LISTENER: {
+            registerListenerForRequestHelper(requestIdentifier, listener);
+            break;
+        }
+        case NOTIFY_LISTENER: {
+            notifyListenersOfRequestResultHelper(requestIdentifier, result);
+            break;
+        }
+        case UNREGISTER_LISTENER: {
+            unregisterListenerFromAllRequestsHelper(listener);
+            break;
+        }
+        }
+    }
 
-	public void unregisterListenerFromAllRequests(ViewCallbackListener listener) {
-		Collection<ArrayList<ViewCallbackListener>> listenerListCollection = getMapRequestToCallbackListeners().values();
+    public void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) {
+        useRequestToCallBackListenerMap(RequestToCallBackMapAccessIdentifier.REGISTER_LISTENER, requestIdentifier, listener, null);
+    }
 
-		for (ArrayList<ViewCallbackListener> listenerList : listenerListCollection) {
-			if (listenerList.contains(listener)) {
-				listenerList.remove(listener);
-			}
-		}
-	}
-	
-	private void notifyListenersOfRequestResult(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
-		ArrayList<ViewCallbackListener> listenerList = getMapRequestToCallbackListeners().get(requestIdentifier);
+    private void registerListenerForRequestHelper(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) {
+        ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 
-		if (listenerList != null) {
+        if (listenerList == null) {
+            listenerList = new ArrayList<ViewCallbackListener>();
+            mapRequestToCallbackListeners.put(requestIdentifier, listenerList);
+        }
 
-			/* Remove any null listener */
-			listenerList.removeAll(Collections.singleton(null));
+        if (!listenerList.contains(listenerList)) {
+            listenerList.add(listener);
+        }
+    }
 
-			for (ViewCallbackListener listener : listenerList) {
-				Log.d(TAG, String.format("PROFILING: notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass().getSimpleName(), requestIdentifier.getDescription(),
-						result.getDescription()));
-				listener.onResult(result, requestIdentifier);
-			}
-		}
-	}
+    public void unregisterListenerFromAllRequests(ViewCallbackListener listener) {
+        useRequestToCallBackListenerMap(RequestToCallBackMapAccessIdentifier.UNREGISTER_LISTENER, null, listener, null);
+    }
+
+    private void unregisterListenerFromAllRequestsHelper(ViewCallbackListener listener) {
+        Collection<ArrayList<ViewCallbackListener>> listenerListCollection = mapRequestToCallbackListeners.values();
+
+        for (ArrayList<ViewCallbackListener> listenerList : listenerListCollection) {
+            if (listenerList.contains(listener)) {
+                listenerList.remove(listener);
+            }
+        }
+    }
+
+    public void notifyListenersOfRequestResult(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
+        useRequestToCallBackListenerMap(RequestToCallBackMapAccessIdentifier.NOTIFY_LISTENER, requestIdentifier, null, result);
+    }
+
+    private void notifyListenersOfRequestResultHelper(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
+        ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
+
+        if (listenerList != null) {
+
+            /* Remove any null listener */
+            listenerList.removeAll(Collections.singleton(null));
+
+            for (ViewCallbackListener listener : listenerList) {
+                Log.d(TAG, String.format("PROFILING: notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass().getSimpleName(), requestIdentifier.getDescription(),
+                        result.getDescription()));
+                listener.onResult(result, requestIdentifier);
+            }
+        }
+    }
 	
 	
 	public boolean isUpdatingGuide() {
