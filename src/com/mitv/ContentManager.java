@@ -1888,8 +1888,14 @@ public class ContentManager
 	}
 	
 	public int getFromCacheSelectedHour() {
-		int selectedHour = getCache().getNonPersistentSelectedHour();
-		return selectedHour;
+		int selectedHourAsInt;
+		Integer selectedHour = getCache().getNonPersistentSelectedHour();
+		if(selectedHour != null) {
+			selectedHourAsInt = selectedHour.intValue();
+		} else {
+			selectedHourAsInt = DateUtils.getCurrentHourOn24HourFormat();
+		}
+		return selectedHourAsInt;
 	}
 	
 	public void setSelectedHour(Integer selectedHour) {

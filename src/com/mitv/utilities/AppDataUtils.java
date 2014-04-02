@@ -7,6 +7,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 
 import com.mitv.Constants;
 
@@ -113,14 +114,16 @@ public class AppDataUtils
 
 	
 	
-	public void setPreference(
-			final String key, 
-			final Boolean value)
-	{
-		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-		
+	public void setPreference(final String key, final Boolean value, final Boolean immediate) {
+		final SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+
 		prefEditor.putBoolean(key, value);
-		
-		prefEditor.apply();
+
+		if (immediate) {
+			prefEditor.commit();
+		} else {
+			prefEditor.apply();
+		}
+
 	}
 }

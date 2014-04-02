@@ -71,7 +71,7 @@ public class SecondScreenApplication
 		sharedInstance = this;
 		
 		if(isAppRestarting()) {
-			Log.d(TAG, "AppIsRestarging was true, setting it false");
+			Log.e(TAG, "AppIsRestarging was true, setting it false");
 			setAppIsRestarting(false);
 		}
 		
@@ -165,7 +165,7 @@ public class SecondScreenApplication
 	{
 		super.onLowMemory();
 		
-		Log.w(TAG, "Running low on memory.");
+		Log.e(TAG, "Running low on memory.");
 	}
 	
 
@@ -231,7 +231,7 @@ public class SecondScreenApplication
 	
 	public void setAppAsPreinstalled() 
 	{
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true, false);
 	}
 
 	
@@ -243,13 +243,13 @@ public class SecondScreenApplication
 	
 	public static void setAppIsRestarting(boolean value) 
 	{
-		AppDataUtils.sharedInstance(sharedInstance).setPreference("app_is_restarting", value);
+		AppDataUtils.sharedInstance(sharedInstance).setPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, value, true);
 	}
 
 	
 	public static boolean isAppRestarting() 
 	{
-		return AppDataUtils.sharedInstance(sharedInstance).getPreference("app_is_restarting", false);
+		return AppDataUtils.sharedInstance(sharedInstance).getPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, false);
 	}
 	
 	private String getCurrentAppVersion()
@@ -357,7 +357,7 @@ public class SecondScreenApplication
 	}
 	
 	public void setUserSeenTutorial() {
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true, false);
 	}
 	
 	public void setDateUserLastOpenedApp(String date) {

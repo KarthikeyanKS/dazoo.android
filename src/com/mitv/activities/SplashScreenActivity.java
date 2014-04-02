@@ -89,9 +89,7 @@ public class SplashScreenActivity
 		boolean isConnected = NetworkUtils.isConnected();
 		
 		if(isConnected)
-		{
-			GATrackingManager.sharedInstance().sendUserNetworkTypeEvent();
-			
+		{	
 			loadData();
 		}
 		else 

@@ -126,14 +126,14 @@ public abstract class BaseActivity
 		
 		/* If ContentManager is not null, and cache is not null and we have no initial data, then this activity got recreated due to
 		 * low memory and then we need to restart the app */
-		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { //!SecondScreenApplication.isContentManagerNull() && !ContentManager.isCacheNull() && 
-			Log.e(TAG, "ContentManager or cache or initialdata was null");
+		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
+			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
 			
 			if(!SecondScreenApplication.isAppRestarting()) {
 				SecondScreenApplication.setAppIsRestarting(true);
-//				restartTheApp();
+				restartTheApp();
 			} else {
-//				Log.w(TAG, "App is already being restarted");
+				Log.e(TAG, "App is already being restarted");
 			}
 		}
 
