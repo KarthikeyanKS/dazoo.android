@@ -131,9 +131,9 @@ public abstract class BaseActivity
 			
 			if(!SecondScreenApplication.isAppRestarting()) {
 				SecondScreenApplication.setAppIsRestarting(true);
-				restartTheApp();
+//				restartTheApp();
 			} else {
-				Log.w(TAG, "App is already being restarted");
+//				Log.w(TAG, "App is already being restarted");
 			}
 		}
 
