@@ -116,7 +116,7 @@ public abstract class PersistentCache
 	
 	public synchronized boolean containsAppVersionData() 
 	{
-		boolean containsAppVersionData = (appVersionData != null);
+		boolean containsAppVersionData = ((appVersionData != null) && appVersionData.areDataFieldsValid());
 		
 		return containsAppVersionData;
 	}
@@ -130,7 +130,7 @@ public abstract class PersistentCache
 	}
 	
 	
-	public boolean containsTVDates() 
+	public synchronized boolean containsTVDates() 
 	{
 		boolean containsTVDates = (tvDates != null && !tvDates.isEmpty());
 		
@@ -144,16 +144,7 @@ public abstract class PersistentCache
 		
 		return containsTVTags;
 	}
-	
-	
-	public synchronized boolean containsTVChannels() 
-	{
-		boolean containsTVChannels = (tvChannels != null && !tvChannels.isEmpty());
 		
-		return containsTVChannels;
-	}
-	
-	
 	public synchronized boolean containsTVChannelIdsUser()
 	{
 		boolean containsTVChannelIdsUser = (tvChannelIdsUser != null && !tvChannelIdsUser.isEmpty());
@@ -225,12 +216,15 @@ public abstract class PersistentCache
 	}
 	
 	
-	public void clearUserData() 
+	public synchronized void clearUserData() 
 	{
-		UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
-		userLoginDataORM.delete();
+		if(userData != null)
+		{
+			UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
+			userLoginDataORM.delete();
 		
-		userData = null;
+			userData = null;
+		}
 	}
 	
 	
@@ -428,10 +422,15 @@ public abstract class PersistentCache
 		}
 	}
 	
-	
-	
 	/* TV CHANNELS */
 	
+	public boolean containsTVChannels() 
+	{
+		boolean containsTVChannels = (getTvChannels() != null && !getTvChannels().isEmpty());
+		
+		return containsTVChannels;
+	}
+
 	public synchronized List<TVChannel> getTvChannels() 
 	{
 		return tvChannels;
@@ -445,9 +444,9 @@ public abstract class PersistentCache
 	
 	
 	//TODO dont iterate through a list, change tvChannels to a Map instead?
-	public synchronized TVChannel getTVChannelById(TVChannelId tvChannelId) 
+	public TVChannel getTVChannelById(TVChannelId tvChannelId) 
 	{
-		for(TVChannel tvChannel : tvChannels) 
+		for(TVChannel tvChannel : getTvChannels()) 
 		{
 			if(tvChannel.getChannelId().equals(tvChannelId))
 			{
@@ -458,6 +457,7 @@ public abstract class PersistentCache
 		return null;
 	}
 
+	
 	
 	
 	/* TV FEED ITEMS */
@@ -585,7 +585,7 @@ public abstract class PersistentCache
 	
 	/* TV CHANNEL IDS USER */
 	
-	public void setTvChannelIdsUser(ArrayList<TVChannelId> tvChannelIdsUser) 
+	public synchronized void setTvChannelIdsUser(ArrayList<TVChannelId> tvChannelIdsUser) 
 	{
 		this.tvChannelIdsUser = tvChannelIdsUser;
 		
@@ -596,7 +596,7 @@ public abstract class PersistentCache
 	
 	/* TV GUIDES MY */
 	
-	protected void clearTVGuidesMy() 
+	protected synchronized void clearTVGuidesMy() 
 	{
 		tvGuidesMy = null;
 	}
@@ -648,7 +648,7 @@ public abstract class PersistentCache
 	
 	/* TV GUIDES ALL */
 	
-	protected TVGuide getTVGuideUsingTVDateNonFiltered(TVDate tvDate) 
+	protected synchronized TVGuide getTVGuideUsingTVDateNonFiltered(TVDate tvDate) 
 	{
 		String tvDateId = tvDate.getId();
 		

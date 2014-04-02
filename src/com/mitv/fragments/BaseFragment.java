@@ -169,6 +169,12 @@ public abstract class BaseFragment
 				break;
 			}
 			
+			case FORBIDDEN:
+			{
+				updateUI(UIStatusEnum.USER_TOKEN_EXPIRED);
+				break;
+			}
+			
 			case SUCCESS:
 			case SUCCESS_WITH_NO_CONTENT:
 			default:
@@ -185,9 +191,9 @@ public abstract class BaseFragment
 	{
 		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
 
-		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(getActivity());
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(getActivity());
 		
-		if (activityNotNullOrFinishing) 
+		if (activityNotNullAndNotFinishing) 
 		{
 			hideRequestStatusLayouts();
 
@@ -207,6 +213,12 @@ public abstract class BaseFragment
 				case API_VERSION_TOO_OLD: 
 				{
 					DialogHelper.showMandatoryAppUpdateDialog(getActivity());
+					break;
+				}
+				
+				case USER_TOKEN_EXPIRED:
+				{
+					DialogHelper.showPromptTokenExpiredDialog(getActivity());
 					break;
 				}
 			

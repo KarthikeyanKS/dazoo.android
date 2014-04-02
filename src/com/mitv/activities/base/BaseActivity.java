@@ -9,6 +9,9 @@ import java.util.Stack;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -31,6 +34,7 @@ import com.mitv.ContentManager;
 import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.SearchPageActivity;
@@ -60,7 +64,7 @@ public abstract class BaseActivity
 
 	private static final int SELECTED_TAB_FONT_SIZE = 12;
 	
-	private static Stack<Activity> activityStack = new Stack<Activity>();
+	private static Stack<BaseActivity> activityStack = new Stack<BaseActivity>();
 
 	
 	
@@ -119,6 +123,19 @@ public abstract class BaseActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		/* If ContentManager is not null, and cache is not null and we have no initial data, then this activity got recreated due to
+		 * low memory and then we need to restart the app */
+		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
+			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
+			
+			if(!SecondScreenApplication.isAppRestarting()) {
+				SecondScreenApplication.setAppIsRestarting(true);
+				restartTheApp();
+			} else {
+				Log.e(TAG, "App is already being restarted");
+			}
+		}
 
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
@@ -128,11 +145,29 @@ public abstract class BaseActivity
 		GATrackingManager.sendView(className);
 	}
 	
+	public void restartTheApp() {
+		Log.e(TAG, "Restarting the app");
+		
+		Intent intent = new Intent(this, SplashScreenActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);		
+		
+		SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+		Context context = app.getApplicationContext();
+		context.startActivity(intent);
+		
+		
+		killAllActivitiesIncludingThis();
+		finish();
+	}
 	
-	
+
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
+	}
+	
+	protected void unregisterListenerFromAllRequests() {
+		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 	}
 
 	
@@ -244,39 +279,27 @@ public abstract class BaseActivity
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
-
 		/* Handle day */
 		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
 		
 		/*
 		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
 		 */
-		if (indexOfTodayFromTVDates > 0)
-		{
+		if (indexOfTodayFromTVDates > 0) {
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
-			if(isTimeOffSync == false)
-			{
+			if(isTimeOffSync == false) {
 				restartTheApp();
 			}
 		} 
 	}
 	
 	
-	private void restartTheApp() {		
-		killAllActivitiesExceptThis();
-		Intent intent = new Intent(this, SplashScreenActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
-		finish();
-	}
+
 	
-	private void killAllActivitiesExceptThis() {
-		//TODO NewArc Clear cache??
+	private void killAllActivitiesIncludingThis() {
 		for(Activity activity : activityStack) {
-			if(!activity.equals(this)) {
-				activity.finish();
-			}
+			activity.finish();
 		}
 	}
 
@@ -303,7 +326,7 @@ public abstract class BaseActivity
 		return indexOfTodayFromTVDates;
 	}
 
-	private static void pushActivityToStack(Activity activity) {
+	private static void pushActivityToStack(BaseActivity activity) {
 
 		/*
 		 * If we got to this activity using the backpress button, then the Android OS will resume the latest activity,
@@ -773,6 +796,14 @@ public abstract class BaseActivity
 				break;
 			}
 			
+			case FORBIDDEN:
+			{
+				ContentManager.sharedInstance().performLogout(this, true);
+				
+				updateUI(UIStatusEnum.USER_TOKEN_EXPIRED);
+				break;
+			}
+			
 			case SUCCESS:
 			case SUCCESS_WITH_NO_CONTENT:
 			{
@@ -837,9 +868,9 @@ public abstract class BaseActivity
 	{
 		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
 
-		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(this);
 
-		if (activityNotNullOrFinishing) 
+		if (activityNotNullAndNotFinishing) 
 		{
 			hideRequestStatusLayouts();
 
@@ -854,6 +885,12 @@ public abstract class BaseActivity
 
 			case API_VERSION_TOO_OLD: {
 				DialogHelper.showMandatoryAppUpdateDialog(this);
+				break;
+			}
+			
+			case USER_TOKEN_EXPIRED:
+			{
+				DialogHelper.showPromptTokenExpiredDialog(this);
 				break;
 			}
 

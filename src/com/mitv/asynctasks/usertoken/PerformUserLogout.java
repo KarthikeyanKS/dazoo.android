@@ -16,6 +16,7 @@ import com.mitv.models.UserLoginData;
 public class PerformUserLogout
 	extends AsyncTaskWithUserToken<UserLoginData> 
 {
+	/* Being called on UI thread, as it should */
 	private static String buildURL()
 	{
 		String userToken = ContentManager.sharedInstance().getFromCacheUserToken();

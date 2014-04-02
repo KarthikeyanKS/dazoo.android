@@ -173,25 +173,31 @@ public class GATrackingManager
 	}
 	
 	
-	
-	
-	public void sendUserNetworkTypeEvent()
+
+	public void sendUserSignUpSuccessfulUsingEmailEvent()
 	{
-		String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
+		sendUserSignUpSuccessfulEvent(false);
+	}
+	
+	public void sendUserSignUpSuccessfulUsingFacebookEvent()
+	{
+		sendUserSignUpSuccessfulEvent(true);
+	}
+	
+	public void sendUserSignUpSuccessfulEvent(boolean facebook)
+	{
+		String userId = ContentManager.sharedInstance().getFromCacheUserId();
+		
+		String actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL;
+		if(facebook) {
+			actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_FACEBOOK;
+		}
 		
 		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG, activeNetworkTypeName, null)
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, actionString, userId, null)
 				.build());
 	}
 	
-	public void sendUserSignUpSuccessfulEvent()
-	{
-		String userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
-		
-		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED, userEmail, null)
-				.build());
-	}
 	
 	public void sendUserSharedEvent(TVBroadcast broadcast)
 	{	

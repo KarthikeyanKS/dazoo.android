@@ -113,7 +113,7 @@ public class InstantAutoCompleteView
 	@Override
 	public void showDropDown() 
 	{
-		if(GenericUtils.isActivityNotNullOrFinishing(activity) && enoughToFilter() && searchComplete) 
+		if(GenericUtils.isActivityNotNullAndNotFinishing(activity) && enoughToFilter() && searchComplete) 
 		{
 			super.showDropDown();
 		}

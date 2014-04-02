@@ -189,7 +189,7 @@ public class TVGuideTableFragment
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVGuideForSelectedTVDate();
+		return ContentManager.sharedInstance().getFromCacheHasTVTagsAndGuideForSelectedTVDate();
 	}
 	
 	

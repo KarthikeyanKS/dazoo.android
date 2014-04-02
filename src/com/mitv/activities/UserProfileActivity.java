@@ -61,8 +61,6 @@ public class UserProfileActivity
 	private FontTextView likesCountTv;
 	private FontTextView channelCountTv;
 	private FontTextView reminderCountTv;
-	
-	private boolean isLoggedIn;
 
 	
 	
@@ -89,8 +87,6 @@ public class UserProfileActivity
 	protected void onResume() 
 	{
 		super.onResume();
-		
-		isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
 		populateViews();
 	}
@@ -205,13 +201,19 @@ public class UserProfileActivity
 				scrollView.setVisibility(View.GONE);
 				break;
 			}
-			
+
 			case NO_CONNECTION_AVAILABLE:
 			{
 				scrollView.setVisibility(View.GONE);
 				break;
 			}
 	
+			case USER_TOKEN_EXPIRED:
+			{
+				populateViews();
+				break;
+			}
+			
 			case SUCCESS_WITH_CONTENT: 
 			{
 				scrollView.setVisibility(View.VISIBLE);
@@ -221,7 +223,7 @@ public class UserProfileActivity
 	
 			default: 
 			{
-				Log.w(TAG, "Unhandled UI status.");
+				Log.w(TAG, "Unhandled UI status: " + status);
 				break;
 			}
 		}
@@ -281,6 +283,8 @@ public class UserProfileActivity
 	
 	private void populateViews() 
 	{
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
 		if (isLoggedIn) 
 		{
 			signInOrSignUpView.setVisibility(View.GONE);
@@ -306,8 +310,6 @@ public class UserProfileActivity
 		numberOfNotificationsSB.append(")");
 
 		reminderCountTv.setText(numberOfNotificationsSB.toString());
-
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		if (isLoggedIn) 
 		{
@@ -365,23 +367,12 @@ public class UserProfileActivity
 			likesCountTv.setVisibility(View.GONE);
 		}
 	}
-
-	private void performLogout() 
-	{
-		/* Important that the user gets the direct feedback when logging out, assume that the logout to the BE succeeds */
-		isLoggedIn = false;
-		
-		/* It is important to clear the internal cache of the facebook handle object */
-		FacebookHandle facebookHandle = LoginWithFacebookActivity.getDefaultFacebookHandle(this);
-		facebookHandle.unauth();
-		
-		ContentManager.sharedInstance().performLogout(this);
-		
-		populateViews();
-	}
+	
+	
 	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
 		super.onClick(v);
 
@@ -389,48 +380,66 @@ public class UserProfileActivity
 
 		Intent intent = null;
 
-		switch (id) {
-		case R.id.myprofile_likes_container: {
-			intent = new Intent(UserProfileActivity.this, LikesActivity.class);
-			break;
-		}
-		case R.id.myprofile_channels_container: {
-			intent = new Intent(UserProfileActivity.this, MyChannelsActivity.class);
-			break;
-		}
-		case R.id.myprofile_reminders_container: {
-			intent = new Intent(UserProfileActivity.this, RemindersActivity.class);
-			break;
-		}
-
-		case R.id.myprofile_login_container: {
-			intent = new Intent(UserProfileActivity.this, LoginWithMiTVUserActivity.class);
-			break;
-		}
-
-		case R.id.myprofile_terms_of_use_container: {
-			intent = new Intent(UserProfileActivity.this, TermsActivity.class);
-			break;
-		}
-
-		case R.id.myprofile_about_us_container: {
-			intent = new Intent(UserProfileActivity.this, AboutUsActivity.class);
-			break;
-		}
-
-		case R.id.myprofile_signup_container: {
-			intent = new Intent(UserProfileActivity.this, SignUpSelectionActivity.class);
-			break;
-		}
-
-		case R.id.myprofile_logout_container: 
+		switch (id)
 		{
-			performLogout();
-			break;
-		}
+			case R.id.myprofile_likes_container: 
+			{
+				intent = new Intent(UserProfileActivity.this, LikesActivity.class);
+				break;
+			}
+			
+			case R.id.myprofile_channels_container: 
+			{
+				intent = new Intent(UserProfileActivity.this, MyChannelsActivity.class);
+				break;
+			}
+			
+			case R.id.myprofile_reminders_container:
+			{
+				intent = new Intent(UserProfileActivity.this, RemindersActivity.class);
+				break;
+			}
+	
+			case R.id.myprofile_login_container: 
+			{
+				intent = new Intent(UserProfileActivity.this, LoginWithMiTVUserActivity.class);
+				break;
+			}
+	
+			case R.id.myprofile_terms_of_use_container: 
+			{
+				intent = new Intent(UserProfileActivity.this, TermsActivity.class);
+				break;
+			}
+	
+			case R.id.myprofile_about_us_container: 
+			{
+				intent = new Intent(UserProfileActivity.this, AboutUsActivity.class);
+				break;
+			}
+	
+			case R.id.myprofile_signup_container: 
+			{
+				intent = new Intent(UserProfileActivity.this, SignUpSelectionActivity.class);
+				break;
+			}
+	
+			case R.id.myprofile_logout_container: 
+			{
+				/* It is important to clear the internal cache of the facebook handle object */
+				FacebookHandle facebookHandle = LoginWithFacebookActivity.getDefaultFacebookHandle(this);
+				facebookHandle.unauth();
+				
+				/* Important that the user gets the direct feedback when logging out, assume that the logout to the BE succeeds */
+				ContentManager.sharedInstance().performLogout(this, false);
+				
+				populateViews();
+				break;
+			}
 		}
 
-		if (intent != null) {
+		if (intent != null) 
+		{
 			startActivity(intent);
 		}
 	}

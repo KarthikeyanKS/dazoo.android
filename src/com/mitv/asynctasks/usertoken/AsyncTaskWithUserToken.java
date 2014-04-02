@@ -3,6 +3,7 @@ package com.mitv.asynctasks.usertoken;
 
 
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.Constants;
@@ -19,7 +20,7 @@ public abstract class AsyncTaskWithUserToken<T>
 	extends AsyncTaskWithRelativeURL<T> 
 {	
 	private static final String TAG = AsyncTaskWithUserToken.class.getName();
-	
+	private String userToken; /* Should not be set in doInBackground since that is not run on main thread */
 
 	
 	public AsyncTaskWithUserToken(
@@ -47,18 +48,25 @@ public abstract class AsyncTaskWithUserToken<T>
 		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url);
 	}
 	
+	
 
 	
 	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		userToken = ContentManager.sharedInstance().getFromCacheUserToken();
+	}
+
+
+
+	@Override
 	protected Void doInBackground(String... params) 
 	{
-		String userToken = ContentManager.sharedInstance().getFromCacheUserToken();
-		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.USER_AUTHORIZATION_HEADER_VALUE_PREFIX);
 		sb.append(" ");
 		
-		if(ContentManager.sharedInstance().isLoggedIn())
+		if(!TextUtils.isEmpty(userToken))
 		{
 			sb.append(userToken);
 		}

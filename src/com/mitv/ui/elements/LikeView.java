@@ -127,9 +127,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 			
 			if(isConnected == false)
 			{
-				String message = activity.getString(R.string.toast_internet_connection);
-				
-				ToastHelper.createAndShowShortToast(message);
+				ToastHelper.createAndShowNoInternetConnectionToast();
 			}
 			else
 			{
@@ -145,7 +143,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		} 
 		else 
 		{
-			DialogHelper.showPromptSignInDialog(activity, yesLikeProc(), noLikeProc());
+			DialogHelper.showPromptSignInDialog(activity, yesLikeProc(), null);
 		}
 	}
 	
@@ -182,13 +180,6 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		};
 	}
 
-	/* Sign in dialog */
-	private Runnable noLikeProc() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
 
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {

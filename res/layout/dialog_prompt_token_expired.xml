@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_prompt_signin_container"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/dialog_prompt_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/sign_in_token_expired_to_title"
+        android:textColor="@color/black"
+        android:textSize="@dimen/header_2" />
+
+    <View
+        android:id="@+id/dialog_prompt_signin_title_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialog_prompt_title_tv"
+        android:background="@color/grey1" />
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/dialog_prompt_signin_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_prompt_signin_title_divider"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:padding="5dp"
+        android:text="@string/sign_in_token_expired_to_text"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+    <View
+        android:id="@+id/dialog_prompt_signin_buttons_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialog_prompt_signin_tv"
+        android:background="@color/grey1" />
+
+    <LinearLayout
+        android:id="@+id/dialog_prompt_signin_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_prompt_signin_buttons_divider"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <com.mitv.ui.elements.FontButton
+            android:id="@+id/dialog_prompt_signin_button_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        	android:background="@drawable/background_color_selector"
+            android:text="@string/cancel"
+            android:textColor="@color/black"
+            android:textSize="@dimen/header_3"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_separator" />
+
+        <com.mitv.ui.elements.FontButton
+            android:id="@+id/dialog_prompt_signin_button_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        	android:background="@drawable/background_color_selector"
+            android:text="@string/sign_in_token_expired_relogin_button"
+            android:textColor="@color/blue1"
+            android:textSize="@dimen/header_3"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

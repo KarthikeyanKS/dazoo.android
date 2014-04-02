@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="109"
-    android:versionName="1.0.109" >
+    android:versionCode="110"
+    android:versionName="1.0.110" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -54,7 +54,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@android:style/Theme.Light.NoTitleBar" android:logo="@drawable/ic_nav_bar">
+        android:theme="@android:style/Theme.Light.NoTitleBar" 
+        android:logo="@drawable/ic_nav_bar">
         
         
         <!-- SPLASH SCREEN ACTIVITY -->
@@ -69,6 +70,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <!-- USER TUTORIAL -->
+        <activity
+            android:name="com.mitv.activities.TutorialScreenSliderActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
 
 
@@ -254,7 +263,7 @@
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
+        
         <!-- HOCKEY APP ACTIVITIES -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />

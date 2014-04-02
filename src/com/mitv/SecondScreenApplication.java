@@ -3,13 +3,21 @@ package com.mitv;
 
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.StrictMode;
+import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -17,13 +25,15 @@ import com.mitv.utilities.GenericUtils;
 public class SecondScreenApplication 
 	extends Application 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = SecondScreenApplication.class.getName();
 
 	
 	
-	private static SecondScreenApplication instance;
+	private static SecondScreenApplication sharedInstance;
 
+	
+	private ContentManager contentManager;
+	
 	
 	
 	/* Do not remove. A public constructor is required by the Application class */
@@ -34,28 +44,44 @@ public class SecondScreenApplication
 	
 	public static SecondScreenApplication sharedInstance() 
 	{
-		if (instance == null) 
+		if (sharedInstance == null) 
 		{
-			instance = new SecondScreenApplication();
+			sharedInstance = new SecondScreenApplication();
 		}
 
-		return instance;
+		return sharedInstance;
 	}
-
-
+	
+	
+	
+	public static boolean isContentManagerNull() {
+		SecondScreenApplication app = sharedInstance;
+		if(app != null) {
+			return (app.contentManager == null);
+		} else {
+			return true;
+		}
+	}
 	
 	@Override
 	public void onCreate() 
 	{
 		super.onCreate();
 
+		sharedInstance = this;
+		
+		if(isAppRestarting()) {
+			Log.e(TAG, "AppIsRestarging was true, setting it false");
+			setAppIsRestarting(false);
+		}
+		
 		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */
 		AppDataUtils.sharedInstance(this);
 		
 		/* Initial call to ImageLoaderManager, in order to configure the image loader objects */
 		ImageLoaderManager.sharedInstance(this);
-		
-		instance = this;
+
+		contentManager = getContentManager();
 
 		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
 
@@ -132,6 +158,16 @@ public class SecondScreenApplication
 		setInstalledAppVersionToCurrentVersion();
 	}
 	
+	
+	
+	@Override
+	public void onLowMemory()
+	{
+		super.onLowMemory();
+		
+		Log.e(TAG, "Running low on memory.");
+	}
+	
 
 	
 	@Override
@@ -195,7 +231,7 @@ public class SecondScreenApplication
 	
 	public void setAppAsPreinstalled() 
 	{
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true, false);
 	}
 
 	
@@ -204,6 +240,17 @@ public class SecondScreenApplication
 		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
 	}
 	
+	
+	public static void setAppIsRestarting(boolean value) 
+	{
+		AppDataUtils.sharedInstance(sharedInstance).setPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, value, true);
+	}
+
+	
+	public static boolean isAppRestarting() 
+	{
+		return AppDataUtils.sharedInstance(sharedInstance).getPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, false);
+	}
 	
 	private String getCurrentAppVersion()
 	{
@@ -244,5 +291,84 @@ public class SecondScreenApplication
 		
 		return isCurrentVersionAnUpgradeFromInstalledVersion;
 	}
+	
+	
+	
+	public boolean hasUserSeenTutorial() {
+		
+		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
+		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
+		
+		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
+		Calendar now = DateUtils.getNow();
+		
+		if (hasUserSeenTutorial) {
+			
+			if (!neverShowTutorialAgain) {
+				
+//				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
+//					
+//					Calendar cal = Calendar.getInstance();
+////				    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+//				    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//					
+//					try {
+//						cal.setTime(sdf.parse(lastOpenApp));
+//					} catch (ParseException e) {
+//						Log.e(TAG, "Failed to set time for last open app.");
+//						e.printStackTrace();
+//					}
+//					
+//					/* 
+//					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
+//					 * FALSE: if app has not been open in last two weeks, tutorial will show.
+//					 */
+//					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
+//					
+//					/* Sets app to never show tutorial again if desplayed two times */
+//					if (!openLastTwoWeeks) {
+//						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true);
+//					}
+//					
+//					return openLastTwoWeeks;
+//				}
+			}
+			
+		}
+		
+		return hasUserSeenTutorial;
+	}
+	
+	/* No handling when new year, just returns true, which means that the tutorial will not show. */
+	private boolean checkIfUserOpenedAppLastTwoWeeks(Calendar now, Calendar lastTime) {
+		
+		if (lastTime.before(now)) {
+			int a = now.get(Calendar.DAY_OF_YEAR);
+			int b = lastTime.get(Calendar.DAY_OF_YEAR);
+			
+			int difference = a-b;
+			
+			if (difference > 13) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void setUserSeenTutorial() {
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true, false);
+	}
+	
+	public void setDateUserLastOpenedApp(String date) {
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date);
+	}
 
+	public ContentManager getContentManager() 
+	{
+		if(contentManager == null) {
+			contentManager = new ContentManager();
+		}
+		return contentManager;
+	}
 }

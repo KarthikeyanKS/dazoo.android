@@ -117,12 +117,12 @@ public abstract class GenericUtils
 	
 	
 	
-	public static boolean isActivityNotNullOrFinishing(Activity activity)
+	public static boolean isActivityNotNullAndNotFinishing(Activity activity)
 	{
-		boolean activityNotNullOrFinishing = (activity != null && 
+		boolean activityNotNullAndNotFinishing = (activity != null && 
 											  activity.isFinishing() == false);
 		
-		return activityNotNullOrFinishing;
+		return activityNotNullAndNotFinishing;
 	}
 	
 	
@@ -170,7 +170,22 @@ public abstract class GenericUtils
 		
 		return applicationInfo;
 	}
+   
     
+    
+    public static boolean isFacebookAppInstalled()
+    {
+    	boolean isFacebookAppInstalled = false;
+    	
+    	PackageInfo packageInfo = getPackageInfo(Constants.FACEBOOK_APP_PACKAGE_NAME);
+    	
+    	if(packageInfo != null)
+    	{
+    		isFacebookAppInstalled = true;
+    	}
+    	
+    	return isFacebookAppInstalled;
+    }
     
     
     
@@ -192,6 +207,7 @@ public abstract class GenericUtils
     	
     	return isMinimumRequiredFacebookAppInstalled;
     }
+    
     
     
     private static PackageInfo getPackageInfo(String packageName) 

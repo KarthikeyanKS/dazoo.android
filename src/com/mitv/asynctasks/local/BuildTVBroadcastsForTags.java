@@ -102,9 +102,7 @@ public class BuildTVBroadcastsForTags
 	{
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 
-		/* TVTag id is used as key. STRANGEST JAVA BUG EVER: For some reason we MUST set the size of the map to 3 times as big as the expected
-		 * size of that map. We MUST set a size, else the values will be overwritten even though keys are not the same! */
-		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>(tvTagsAsStrings.size() * 3);
+		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>();
 		double startTime = System.currentTimeMillis();
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) 
 		{

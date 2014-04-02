@@ -5,6 +5,7 @@ package com.mitv.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -105,7 +106,7 @@ public class HomeActivity
 	@Override
 	protected void attachFragment() 
 	{
-		if (GenericUtils.isActivityNotNullOrFinishing(this)) 
+		if (GenericUtils.isActivityNotNullAndNotFinishing(this)) 
 		{
 			FragmentManager fm = getSupportFragmentManager();
 			
@@ -192,7 +193,11 @@ public class HomeActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVGuideForSelectedTVDate();
+		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasTVTagsAndGuideForSelectedTVDate();
+		if(!hasEnoughDataToShowContent) {
+			Log.w(TAG, "Not enough data to show content");
+		}
+		return hasEnoughDataToShowContent;
 	}
 	
 	
