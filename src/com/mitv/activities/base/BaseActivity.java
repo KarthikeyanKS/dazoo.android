@@ -128,8 +128,11 @@ public abstract class BaseActivity
 		 * low memory and then we need to restart the app */
 		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
 			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
-//			if(ContentManager.sharedInstance().isUpdatingGuide())
-			restartTheApp();
+			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
+				restartTheApp();
+			} else {
+				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
+			}
 		}
 
 		/* Google Analytics Tracking */

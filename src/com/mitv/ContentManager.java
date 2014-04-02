@@ -930,7 +930,7 @@ public class ContentManager
 			}
 			case USER_LOGIN_WITH_FACEBOOK_TOKEN: 
 			{
-				handleUserTokenWithFacebookFBTokenResponse(activityCallbackListener, requestIdentifier, result, content);
+				handleUserTokenWithFacebookTokenResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			case USER_SET_CHANNELS: 
@@ -1340,7 +1340,7 @@ public class ContentManager
 	}
 	
 	
-	public void handleUserTokenWithFacebookFBTokenResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	public void handleUserTokenWithFacebookTokenResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
 		if (result.wasSuccessful() && content != null) 
 		{
