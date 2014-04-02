@@ -14,6 +14,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -68,6 +72,7 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	private TextView episodeNameTv;
 	private ImageView channelIv;
 	private TextView synopsisTv;
+	private WebView webDisqus;
 
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
@@ -259,6 +264,21 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		
 		upcomingContainer = (RelativeLayout) findViewById(R.id.broacastpage_upcoming);
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
+		
+		webDisqus = (WebView) findViewById(R.id.disqus);
+		
+		WebSettings webSettings2 = webDisqus.getSettings();
+		
+		webSettings2.setJavaScriptEnabled(true);
+		webSettings2.setBuiltInZoomControls(false);
+		webDisqus.requestFocusFromTouch();
+		
+		webDisqus.setWebViewClient(new WebViewClient());
+		webDisqus.setWebChromeClient(new WebChromeClient());
+		
+		StringBuilder urlSB = new StringBuilder();
+		
+		webDisqus.loadUrl(urlSB.toString());
 	}
 
 	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) {
