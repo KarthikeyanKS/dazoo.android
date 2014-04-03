@@ -128,12 +128,10 @@ public abstract class BaseActivity
 		 * low memory and then we need to restart the app */
 		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
 			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
-			
-			if(!SecondScreenApplication.isAppRestarting()) {
-				SecondScreenApplication.setAppIsRestarting(true);
+			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
 				restartTheApp();
 			} else {
-				Log.e(TAG, "App is already being restarted");
+				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
 			}
 		}
 
@@ -146,18 +144,22 @@ public abstract class BaseActivity
 	}
 	
 	public void restartTheApp() {
-		Log.e(TAG, "Restarting the app");
-		
-		Intent intent = new Intent(this, SplashScreenActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);		
-		
-		SecondScreenApplication app = SecondScreenApplication.sharedInstance();
-		Context context = app.getApplicationContext();
-		context.startActivity(intent);
-		
-		
-		killAllActivitiesIncludingThis();
-		finish();
+		if (!SecondScreenApplication.isAppRestarting()) {
+			Log.e(TAG, "Restarting the app");
+			SecondScreenApplication.setAppIsRestarting(true);
+
+			Intent intent = new Intent(this, SplashScreenActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+			Context context = app.getApplicationContext();
+			context.startActivity(intent);
+
+			killAllActivitiesIncludingThis();
+			finish();
+		} else {
+			Log.e(TAG, "App is already being restarted");
+		}
 	}
 	
 

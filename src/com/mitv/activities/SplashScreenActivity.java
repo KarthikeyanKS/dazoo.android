@@ -3,14 +3,12 @@ package com.mitv.activities;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -25,12 +23,13 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.fragments.UserTutorialFragment;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.listadapters.TutorialScreenSlidePagerAdapter;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.NetworkUtils;
 
 
@@ -49,11 +48,11 @@ public class SplashScreenActivity
 	boolean hasUserSeenTutorial;
 	boolean isViewingTutorial = false;
 	boolean isDataFetched = false;
-	
-	private static final int NUM_PAGES = 5;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
+	
+	public static final String DATE_FORMAT_NOW = "MMM dd, yyyy HH:mm:ss";
 	
 	
 	
@@ -64,12 +63,14 @@ public class SplashScreenActivity
 		
 		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
 		
-		if (hasUserSeenTutorial) {
-			showSplashScreen();
-			
-		} else {
-			showUserTutorial();
-		}
+//		if (hasUserSeenTutorial) {
+//			showSplashScreen();
+//			
+//		} else {
+//			showUserTutorial();
+//		}
+		
+		showSplashScreen();
 		
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
@@ -113,7 +114,9 @@ public class SplashScreenActivity
 			sb.append(" - ");
 			sb.append(message);
 			
-			progressTextView.setText(sb.toString());
+			if (progressTextView != null) {
+				progressTextView.setText(sb.toString());
+			}
 		}
 	}
 
@@ -180,8 +183,7 @@ public class SplashScreenActivity
 		}
 	}
 	
-	
-	
+
 	private void startPrimaryActivity() 
 	{
 		if(SecondScreenApplication.isAppRestarting()) {
@@ -200,6 +202,13 @@ public class SplashScreenActivity
 		finish();
 	}
 	
+	private String getTodaysDate() {
+		Calendar cal = DateUtils.getNow();
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+		String date = sdf.format(cal.getTime());
+		
+		return date;
+	}
 	
 	
 	private void showSplashScreen() {
@@ -229,32 +238,12 @@ public class SplashScreenActivity
 		
 		setContentView(R.layout.user_tutorial_screen_slide);
 
-		initView();
+		initTutorialView();
 	}
-	
-	/**
-	 * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in sequence.
-	 */
-	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-		public ScreenSlidePagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
 
-		@Override
-		public Fragment getItem(int position) {
-			return new UserTutorialFragment(position);
-		}
-
-		@Override
-		public int getCount() {
-			return NUM_PAGES;
-		}
-
-	}	
-
-	private void initView() {
+	private void initTutorialView() {
 		mPager = (ViewPager) findViewById(R.id.pager);
-		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+		mPagerAdapter = new TutorialScreenSlidePagerAdapter(getSupportFragmentManager());
 		mPager.setAdapter(mPagerAdapter);	
 	}
 	
@@ -275,7 +264,7 @@ public class SplashScreenActivity
 			case R.id.button_tutorial_start_primary_activity: {
 				if (isDataFetched) {
 					isViewingTutorial = false;
-					SecondScreenApplication.sharedInstance().setUserSeenTutorial();			
+					SecondScreenApplication.sharedInstance().setUserSeenTutorial();	
 					startPrimaryActivity();
 				}
 				break;
