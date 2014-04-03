@@ -9,8 +9,6 @@ import java.util.Stack;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -370,12 +368,14 @@ public abstract class BaseActivity
 //	}
 
 	/**
-	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurences in the activity stack
+	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurrences in the activity stack
 	 */
-	private static void removeFromStackOnDestroy(Activity activity) {
-
-		for (int i = 0; i < activityStack.size(); ++i) {
-			if (activityStack.contains(activity)) {
+	private static void removeFromStackOnDestroy(Activity activity) 
+	{
+		for (int i = 0; i < activityStack.size(); ++i) 
+		{
+			if (activityStack.contains(activity)) 
+			{
 				activityStack.remove(activity);
 			}
 		}
@@ -429,7 +429,8 @@ public abstract class BaseActivity
 		tabTvGuideIcon = (FontTextView) findViewById(R.id.element_tab_icon_guide);
 		tabTvGuideText = (FontTextView) findViewById(R.id.element_tab_text_guide);
 
-		if (tabTvGuide != null) {
+		if (tabTvGuide != null) 
+		{
 			tabTvGuide.setOnClickListener(this);
 		}
 
@@ -437,7 +438,8 @@ public abstract class BaseActivity
 		tabActivityIcon = (FontTextView) findViewById(R.id.element_tab_icon_activity);
 		tabActivityText = (FontTextView) findViewById(R.id.element_tab_text_activity);
 
-		if (tabActivity != null) {
+		if (tabActivity != null) 
+		{
 			tabActivity.setOnClickListener(this);
 		}
 
@@ -445,8 +447,27 @@ public abstract class BaseActivity
 		tabProfileIcon = (FontTextView) findViewById(R.id.element_tab_icon_me);
 		tabProfileText = (FontTextView) findViewById(R.id.element_tab_text_me);
 
-		if (tabProfile != null) {
+		if (tabProfile != null) 
+		{
 			tabProfile.setOnClickListener(this);
+		}
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if(tabProfileText != null)
+		{
+			if(isLoggedIn)
+			{
+				String username = ContentManager.sharedInstance().getFromCacheUserFirstname();
+			
+				tabProfileText.setText(username);
+			}
+			else
+			{
+				String defaultTabText = getString(R.string.tab_me);
+				
+				tabProfileText.setText(defaultTabText);
+			}
 		}
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
@@ -696,7 +717,8 @@ public abstract class BaseActivity
 
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy() 
+	{
 		removeFromStackOnDestroy(this);
 
 		super.onDestroy();
@@ -707,12 +729,14 @@ public abstract class BaseActivity
 	@Override
 	public void onBackPressed() 
 	{
-		if(activityStack.size() <= 2 && isTabActivity())
+		int activityCount = GenericUtils.getActivityCount();
+
+		if(activityCount <= 1 && isTabActivity())
 		{
-		    Intent intent = new Intent(Intent.ACTION_MAIN);
-		    intent.addCategory(Intent.CATEGORY_HOME);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		    startActivity(intent);
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
 		}
 		else
 		{

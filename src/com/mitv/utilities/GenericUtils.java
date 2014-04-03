@@ -10,6 +10,8 @@ import java.util.Locale;
 import java.util.Random;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -126,6 +128,21 @@ public abstract class GenericUtils
 	}
 	
 	
+	
+	public static int getActivityCount()
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+
+		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(3);
+
+		int activityCount = tasks.get(0).numActivities;
+
+		return activityCount;
+	}
+
+
 	
     public static PackageInfo getPackageInfo()
 	{
