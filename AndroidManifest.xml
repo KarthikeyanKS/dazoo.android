@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="111"
-    android:versionName="1.0.111" >
+    android:versionCode="112"
+    android:versionName="1.0.112" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -58,6 +58,13 @@
         android:theme="@android:style/Theme.Light.NoTitleBar" 
         android:logo="@drawable/ic_nav_bar">
         
+        
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        
+        <meta-data android:name="com.google.android.gms.version"
+               android:value="@integer/google_play_services_version"/>
         
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
@@ -294,10 +301,17 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/app_id" />
+        
+        
+        <!-- Used for Google Play Store Campaign Measurement-->;
+		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+		<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+		          android:exported="true">
+		  <intent-filter>
+		    <action android:name="com.android.vending.INSTALL_REFERRER" />
+		  </intent-filter>
+		</receiver>
+        
     </application>
     
 </manifest>

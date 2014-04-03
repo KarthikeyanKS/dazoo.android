@@ -126,8 +126,14 @@ public abstract class BaseActivity
 		 * low memory and then we need to restart the app */
 		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
 			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
+			
 			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
+
+				sendToastMessageWhenRestart("From: OnCreate, we are not UpdatingGuide");
+				Log.e(TAG, "From: OnCreate, we are not isUpdatingGuide");
+				
 				restartTheApp();
+				
 			} else {
 				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
 			}
@@ -277,6 +283,7 @@ public abstract class BaseActivity
 	{
 		/* Handle time */
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+		
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
 		/* Handle day */
@@ -289,12 +296,19 @@ public abstract class BaseActivity
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
 			if(isTimeOffSync == false) {
+				
+				sendToastMessageWhenRestart("From: handleTimeAndDayOnResume");
+				Log.e(TAG, "From: handleTimeAndDayOnResume");
+				
 				restartTheApp();
 			}
 		} 
 	}
 	
-	
+	/* TODO REMOVE ME*/
+	private void sendToastMessageWhenRestart(String message) {
+		ToastHelper.createAndShowLongToast(message);
+	}
 
 	
 	private void killAllActivitiesIncludingThis() {

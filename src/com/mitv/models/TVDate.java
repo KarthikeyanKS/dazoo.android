@@ -48,10 +48,7 @@ public class TVDate
 	{
 		String displayName = super.getDisplayName();
 		
-		if(displayName == null) 
-		{
-			this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
-		}
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
 		
 		return displayName;
 	}
