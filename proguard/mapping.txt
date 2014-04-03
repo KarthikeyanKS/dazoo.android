@@ -35529,588 +35529,6 @@ com.google.tagmanager.protobuf.WireFormat$JavaType -> com.google.tagmanager.prot
     com.google.tagmanager.protobuf.WireFormat$JavaType[] $VALUES -> b
     49:49:com.google.tagmanager.protobuf.WireFormat$JavaType[] values() -> values
     49:49:com.google.tagmanager.protobuf.WireFormat$JavaType valueOf(java.lang.String) -> valueOf
-com.handmark.pulltorefresh.library.ILoadingLayout -> com.handmark.pulltorefresh.library.ILoadingLayout:
-    void setLastUpdatedLabel(java.lang.CharSequence) -> setLastUpdatedLabel
-    void setLoadingDrawable(android.graphics.drawable.Drawable) -> setLoadingDrawable
-    void setPullLabel(java.lang.CharSequence) -> setPullLabel
-    void setRefreshingLabel(java.lang.CharSequence) -> setRefreshingLabel
-    void setReleaseLabel(java.lang.CharSequence) -> setReleaseLabel
-    void setTextTypeface(android.graphics.Typeface) -> setTextTypeface
-com.handmark.pulltorefresh.library.IPullToRefresh -> com.handmark.pulltorefresh.library.IPullToRefresh:
-    boolean demo() -> demo
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode getCurrentMode() -> getCurrentMode
-    boolean getFilterTouchEvents() -> getFilterTouchEvents
-    com.handmark.pulltorefresh.library.ILoadingLayout getLoadingLayoutProxy() -> getLoadingLayoutProxy
-    com.handmark.pulltorefresh.library.ILoadingLayout getLoadingLayoutProxy(boolean,boolean) -> getLoadingLayoutProxy
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode getMode() -> getMode
-    android.view.View getRefreshableView() -> getRefreshableView
-    boolean getShowViewWhileRefreshing() -> getShowViewWhileRefreshing
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State getState() -> getState
-    boolean isPullToRefreshEnabled() -> isPullToRefreshEnabled
-    boolean isPullToRefreshOverScrollEnabled() -> isPullToRefreshOverScrollEnabled
-    boolean isRefreshing() -> isRefreshing
-    boolean isScrollingWhileRefreshingEnabled() -> isScrollingWhileRefreshingEnabled
-    void onRefreshComplete() -> onRefreshComplete
-    void setFilterTouchEvents(boolean) -> setFilterTouchEvents
-    void setMode(com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> setMode
-    void setOnPullEventListener(com.handmark.pulltorefresh.library.PullToRefreshBase$OnPullEventListener) -> setOnPullEventListener
-    void setOnRefreshListener(com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener) -> setOnRefreshListener
-    void setOnRefreshListener(com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener2) -> setOnRefreshListener
-    void setPullToRefreshOverScrollEnabled(boolean) -> setPullToRefreshOverScrollEnabled
-    void setRefreshing() -> setRefreshing
-    void setRefreshing(boolean) -> setRefreshing
-    void setScrollAnimationInterpolator(android.view.animation.Interpolator) -> setScrollAnimationInterpolator
-    void setScrollingWhileRefreshingEnabled(boolean) -> setScrollingWhileRefreshingEnabled
-    void setShowViewWhileRefreshing(boolean) -> setShowViewWhileRefreshing
-com.handmark.pulltorefresh.library.LoadingLayoutProxy -> com.handmark.pulltorefresh.library.LoadingLayoutProxy:
-    java.util.HashSet mLoadingLayouts -> a
-    28:31:void addLayout(com.handmark.pulltorefresh.library.internal.LoadingLayout) -> addLayout
-    35:38:void setLastUpdatedLabel(java.lang.CharSequence) -> setLastUpdatedLabel
-    42:45:void setLoadingDrawable(android.graphics.drawable.Drawable) -> setLoadingDrawable
-    49:52:void setRefreshingLabel(java.lang.CharSequence) -> setRefreshingLabel
-    56:59:void setPullLabel(java.lang.CharSequence) -> setPullLabel
-    63:66:void setReleaseLabel(java.lang.CharSequence) -> setReleaseLabel
-    69:72:void setTextTypeface(android.graphics.Typeface) -> setTextTypeface
-com.handmark.pulltorefresh.library.OverscrollHelper -> com.handmark.pulltorefresh.library.OverscrollHelper:
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Orientation -> a
-    53:54:void overScrollBy(com.handmark.pulltorefresh.library.PullToRefreshBase,int,int,int,int,boolean) -> overScrollBy
-    77:78:void overScrollBy(com.handmark.pulltorefresh.library.PullToRefreshBase,int,int,int,int,int,boolean) -> overScrollBy
-    107:173:void overScrollBy(com.handmark.pulltorefresh.library.PullToRefreshBase,int,int,int,int,int,int,float,boolean) -> overScrollBy
-    176:176:boolean isAndroidOverScrollEnabled(android.view.View) -> a
-    26:26:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Orientation() -> a
-com.handmark.pulltorefresh.library.PullToRefreshAdapterViewBase -> com.handmark.pulltorefresh.library.PullToRefreshAdapterViewBase:
-    boolean mLastItemVisible -> b
-    android.widget.AbsListView$OnScrollListener mOnScrollListener -> c
-    com.handmark.pulltorefresh.library.PullToRefreshBase$OnLastItemVisibleListener mOnLastItemVisibleListener -> d
-    android.view.View mEmptyView -> e
-    com.handmark.pulltorefresh.library.internal.IndicatorLayout mIndicatorIvTop -> f
-    com.handmark.pulltorefresh.library.internal.IndicatorLayout mIndicatorIvBottom -> g
-    boolean mShowIndicator -> h
-    boolean mScrollEmptyView -> i
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> j
-    42:54:android.widget.FrameLayout$LayoutParams convertEmptyViewLayoutParams(android.view.ViewGroup$LayoutParams) -> a
-    99:99:boolean getShowIndicator() -> getShowIndicator
-    106:127:void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
-    134:141:void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
-    152:153:void setAdapter(android.widget.ListAdapter) -> setAdapter
-    169:197:void setEmptyView(android.view.View) -> setEmptyView
-    208:209:void setOnItemClickListener(android.widget.AdapterView$OnItemClickListener) -> setOnItemClickListener
-    212:213:void setOnLastItemVisibleListener(com.handmark.pulltorefresh.library.PullToRefreshBase$OnLastItemVisibleListener) -> setOnLastItemVisibleListener
-    216:217:void setOnScrollListener(android.widget.AbsListView$OnScrollListener) -> setOnScrollListener
-    220:221:void setScrollEmptyView(boolean) -> setScrollEmptyView
-    232:241:void setShowIndicator(boolean) -> setShowIndicator
-    247:262:void onPullToRefresh() -> onPullToRefresh
-    265:270:void onRefreshing(boolean) -> onRefreshing
-    274:289:void onReleaseToRefresh() -> onReleaseToRefresh
-    293:298:void onReset() -> onReset
-    303:304:void handleStyledAttributes(android.content.res.TypedArray) -> handleStyledAttributes
-    307:307:boolean isReadyForPullStart() -> isReadyForPullStart
-    311:311:boolean isReadyForPullEnd() -> isReadyForPullEnd
-    316:320:void onScrollChanged(int,int,int,int) -> onScrollChanged
-    324:332:void updateUIForMode() -> updateUIForMode
-    335:367:void addIndicatorViews() -> e
-    370:370:boolean getShowIndicatorInternal() -> getShowIndicatorInternal
-    374:399:boolean isFirstItemVisible() -> f
-    403:435:boolean isLastItemVisible() -> g
-    439:448:void removeIndicatorViews() -> h
-    451:474:void updateIndicatorViewsVisibility() -> i
-    38:38:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode() -> a
-com.handmark.pulltorefresh.library.PullToRefreshBase -> com.handmark.pulltorefresh.library.PullToRefreshBase:
-    int SMOOTH_SCROLL_DURATION_MS -> SMOOTH_SCROLL_DURATION_MS
-    int SMOOTH_SCROLL_LONG_DURATION_MS -> SMOOTH_SCROLL_LONG_DURATION_MS
-    int mTouchSlop -> b
-    float mLastMotionX -> c
-    float mLastMotionY -> d
-    float mInitialMotionX -> e
-    float mInitialMotionY -> f
-    boolean mIsBeingDragged -> g
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State mState -> h
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode mMode -> i
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode mCurrentMode -> j
-    android.view.View mRefreshableView -> a
-    android.widget.FrameLayout mRefreshableViewWrapper -> k
-    boolean mShowViewWhileRefreshing -> l
-    boolean mScrollingWhileRefreshingEnabled -> m
-    boolean mFilterTouchEvents -> n
-    boolean mOverScrollEnabled -> o
-    boolean mLayoutVisibilityChangesEnabled -> p
-    android.view.animation.Interpolator mScrollAnimationInterpolator -> q
-    com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle mLoadingAnimationStyle -> r
-    com.handmark.pulltorefresh.library.internal.LoadingLayout mHeaderLayout -> s
-    com.handmark.pulltorefresh.library.internal.LoadingLayout mFooterLayout -> t
-    com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener mOnRefreshListener -> u
-    com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener2 mOnRefreshListener2 -> v
-    com.handmark.pulltorefresh.library.PullToRefreshBase$OnPullEventListener mOnPullEventListener -> w
-    com.handmark.pulltorefresh.library.PullToRefreshBase$SmoothScrollRunnable mCurrentSmoothScrollRunnable -> x
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Orientation -> y
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$State -> z
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> A
-    132:142:void addView(android.view.View,int,android.view.ViewGroup$LayoutParams) -> addView
-    146:154:boolean demo() -> demo
-    159:159:com.handmark.pulltorefresh.library.PullToRefreshBase$Mode getCurrentMode() -> getCurrentMode
-    164:164:boolean getFilterTouchEvents() -> getFilterTouchEvents
-    169:169:com.handmark.pulltorefresh.library.ILoadingLayout getLoadingLayoutProxy() -> getLoadingLayoutProxy
-    174:174:com.handmark.pulltorefresh.library.ILoadingLayout getLoadingLayoutProxy(boolean,boolean) -> getLoadingLayoutProxy
-    179:179:com.handmark.pulltorefresh.library.PullToRefreshBase$Mode getMode() -> getMode
-    184:184:android.view.View getRefreshableView() -> getRefreshableView
-    189:189:boolean getShowViewWhileRefreshing() -> getShowViewWhileRefreshing
-    194:194:com.handmark.pulltorefresh.library.PullToRefreshBase$State getState() -> getState
-    201:201:boolean isDisableScrollingWhileRefreshing() -> isDisableScrollingWhileRefreshing
-    206:206:boolean isPullToRefreshEnabled() -> isPullToRefreshEnabled
-    211:211:boolean isPullToRefreshOverScrollEnabled() -> isPullToRefreshOverScrollEnabled
-    217:217:boolean isRefreshing() -> isRefreshing
-    222:222:boolean isScrollingWhileRefreshingEnabled() -> isScrollingWhileRefreshingEnabled
-    228:299:boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
-    304:307:void onRefreshComplete() -> onRefreshComplete
-    312:372:boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
-    376:377:void setScrollingWhileRefreshingEnabled(boolean) -> setScrollingWhileRefreshingEnabled
-    383:384:void setDisableScrollingWhileRefreshing(boolean) -> setDisableScrollingWhileRefreshing
-    388:389:void setFilterTouchEvents(boolean) -> setFilterTouchEvents
-    396:397:void setLastUpdatedLabel(java.lang.CharSequence) -> setLastUpdatedLabel
-    404:405:void setLoadingDrawable(android.graphics.drawable.Drawable) -> setLoadingDrawable
-    412:414:void setLoadingDrawable(android.graphics.drawable.Drawable,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> setLoadingDrawable
-    418:419:void setLongClickable(boolean) -> setLongClickable
-    423:430:void setMode(com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> setMode
-    433:434:void setOnPullEventListener(com.handmark.pulltorefresh.library.PullToRefreshBase$OnPullEventListener) -> setOnPullEventListener
-    438:440:void setOnRefreshListener(com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener) -> setOnRefreshListener
-    444:446:void setOnRefreshListener(com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener2) -> setOnRefreshListener
-    453:454:void setPullLabel(java.lang.CharSequence) -> setPullLabel
-    461:462:void setPullLabel(java.lang.CharSequence,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> setPullLabel
-    470:471:void setPullToRefreshEnabled(boolean) -> setPullToRefreshEnabled
-    475:476:void setPullToRefreshOverScrollEnabled(boolean) -> setPullToRefreshOverScrollEnabled
-    480:481:void setRefreshing() -> setRefreshing
-    485:488:void setRefreshing(boolean) -> setRefreshing
-    495:496:void setRefreshingLabel(java.lang.CharSequence) -> setRefreshingLabel
-    503:505:void setRefreshingLabel(java.lang.CharSequence,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> setRefreshingLabel
-    512:513:void setReleaseLabel(java.lang.CharSequence) -> setReleaseLabel
-    520:522:void setReleaseLabel(java.lang.CharSequence,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> setReleaseLabel
-    525:526:void setScrollAnimationInterpolator(android.view.animation.Interpolator) -> setScrollAnimationInterpolator
-    530:531:void setShowViewWhileRefreshing(boolean) -> setShowViewWhileRefreshing
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
-    540:568:void setState(com.handmark.pulltorefresh.library.PullToRefreshBase$State,boolean[]) -> a
-    575:576:void addViewInternal(android.view.View,int,android.view.ViewGroup$LayoutParams) -> addViewInternal
-    583:584:void addViewInternal(android.view.View,android.view.ViewGroup$LayoutParams) -> addViewInternal
-    587:590:com.handmark.pulltorefresh.library.internal.LoadingLayout createLoadingLayout(android.content.Context,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode,android.content.res.TypedArray) -> createLoadingLayout
-    598:607:com.handmark.pulltorefresh.library.LoadingLayoutProxy createLoadingLayoutProxy(boolean,boolean) -> createLoadingLayoutProxy
-    android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    627:628:void disableLoadingLayoutVisibilityChanges() -> disableLoadingLayoutVisibilityChanges
-    631:631:com.handmark.pulltorefresh.library.internal.LoadingLayout getFooterLayout() -> getFooterLayout
-    635:635:int getFooterSize() -> getFooterSize
-    639:639:com.handmark.pulltorefresh.library.internal.LoadingLayout getHeaderLayout() -> getHeaderLayout
-    643:643:int getHeaderSize() -> getHeaderSize
-    647:647:int getPullToRefreshScrollDuration() -> getPullToRefreshScrollDuration
-    651:651:int getPullToRefreshScrollDurationLonger() -> getPullToRefreshScrollDurationLonger
-    655:655:android.widget.FrameLayout getRefreshableViewWrapper() -> getRefreshableViewWrapper
-    665:665:void handleStyledAttributes(android.content.res.TypedArray) -> handleStyledAttributes
-    boolean isReadyForPullEnd() -> isReadyForPullEnd
-    boolean isReadyForPullStart() -> isReadyForPullStart
-    692:692:void onPtrRestoreInstanceState(android.os.Bundle) -> onPtrRestoreInstanceState
-    701:701:void onPtrSaveInstanceState(android.os.Bundle) -> onPtrSaveInstanceState
-    708:719:void onPullToRefresh() -> onPullToRefresh
-    728:763:void onRefreshing(boolean) -> onRefreshing
-    770:781:void onReleaseToRefresh() -> onReleaseToRefresh
-    788:796:void onReset() -> onReset
-    800:823:void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
-    827:840:android.os.Parcelable onSaveInstanceState() -> onSaveInstanceState
-    846:867:void onSizeChanged(int,int,int,int) -> onSizeChanged
-    874:919:void refreshLoadingViewsSize() -> refreshLoadingViewsSize
-    924:940:void refreshRefreshableViewSize(int,int) -> refreshRefreshableViewSize
-    950:986:void setHeaderScroll(int) -> setHeaderScroll
-    995:996:void smoothScrollTo(int) -> smoothScrollTo
-    1006:1007:void smoothScrollTo(int,com.handmark.pulltorefresh.library.PullToRefreshBase$OnSmoothScrollFinishedListener) -> smoothScrollTo
-    1016:1017:void smoothScrollToLonger(int) -> smoothScrollToLonger
-    1026:1050:void updateUIForMode() -> updateUIForMode
-    1053:1059:void addRefreshableView(android.content.Context,android.view.View) -> a
-    1062:1071:void callRefreshListener() -> a
-    1075:1143:void init(android.content.Context,android.util.AttributeSet) -> a
-    1146:1154:boolean isReadyForPull() -> e
-    1169:1213:void pullEvent() -> f
-    1216:1222:android.widget.LinearLayout$LayoutParams getLoadingLayoutLayoutParams() -> getLoadingLayoutLayoutParams
-    1228:1233:int getMaximumPullScroll() -> getMaximumPullScroll
-    1244:1245:void smoothScrollTo(int,long) -> a
-    1249:1277:void smoothScrollTo(int,long,long,com.handmark.pulltorefresh.library.PullToRefreshBase$OnSmoothScrollFinishedListener) -> a
-    1280:1287:void smoothScrollToAndBack(int) -> a
-    90:90:android.view.animation.Interpolator access$0(com.handmark.pulltorefresh.library.PullToRefreshBase) -> a
-    43:43:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Orientation() -> b
-    43:43:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$State() -> c
-    43:43:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode() -> d
-    1061:1061:void access$4(com.handmark.pulltorefresh.library.PullToRefreshBase) -> b
-    1247:1247:void access$5(com.handmark.pulltorefresh.library.PullToRefreshBase,int,long,long,com.handmark.pulltorefresh.library.PullToRefreshBase$OnSmoothScrollFinishedListener) -> a
-com.handmark.pulltorefresh.library.PullToRefreshBase$1 -> bis:
-    com.handmark.pulltorefresh.library.PullToRefreshBase this$0 -> a
-    742:743:void onSmoothScrollFinished() -> a
-com.handmark.pulltorefresh.library.PullToRefreshBase$2 -> bit:
-    com.handmark.pulltorefresh.library.PullToRefreshBase this$0 -> a
-    864:865:void run() -> run
-com.handmark.pulltorefresh.library.PullToRefreshBase$3 -> biu:
-    com.handmark.pulltorefresh.library.PullToRefreshBase this$0 -> a
-    1284:1285:void onSmoothScrollFinished() -> a
-com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle -> com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle:
-    com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle ROTATE -> ROTATE
-    com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle FLIP -> FLIP
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$AnimationStyle -> a
-    com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle[] ENUM$VALUES -> b
-    1303:1303:com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle getDefault() -> a
-    1315:1320:com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle mapIntToValue(int) -> a
-    1325:1330:com.handmark.pulltorefresh.library.internal.LoadingLayout createLoadingLayout(android.content.Context,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode,com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation,android.content.res.TypedArray) -> a
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle[] values() -> values
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$AnimationStyle valueOf(java.lang.String) -> valueOf
-    1289:1289:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$AnimationStyle() -> b
-com.handmark.pulltorefresh.library.PullToRefreshBase$Mode -> com.handmark.pulltorefresh.library.PullToRefreshBase$Mode:
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode DISABLED -> DISABLED
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode PULL_FROM_START -> PULL_FROM_START
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode PULL_FROM_END -> PULL_FROM_END
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode BOTH -> BOTH
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode MANUAL_REFRESH_ONLY -> MANUAL_REFRESH_ONLY
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode PULL_DOWN_TO_REFRESH -> PULL_DOWN_TO_REFRESH
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode PULL_UP_TO_REFRESH -> PULL_UP_TO_REFRESH
-    int mIntValue -> a
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode[] ENUM$VALUES -> b
-    1387:1394:com.handmark.pulltorefresh.library.PullToRefreshBase$Mode mapIntToValue(int) -> a
-    1398:1398:com.handmark.pulltorefresh.library.PullToRefreshBase$Mode getDefault() -> a
-    1412:1412:boolean permitsPullToRefresh() -> b
-    1419:1419:boolean showHeaderLoadingLayout() -> showHeaderLoadingLayout
-    1426:1426:boolean showFooterLoadingLayout() -> showFooterLoadingLayout
-    1430:1430:int getIntValue() -> c
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$Mode[] values() -> values
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$Mode valueOf(java.lang.String) -> valueOf
-com.handmark.pulltorefresh.library.PullToRefreshBase$OnLastItemVisibleListener -> com.handmark.pulltorefresh.library.PullToRefreshBase$OnLastItemVisibleListener:
-    void onLastItemVisible() -> onLastItemVisible
-com.handmark.pulltorefresh.library.PullToRefreshBase$OnPullEventListener -> com.handmark.pulltorefresh.library.PullToRefreshBase$OnPullEventListener:
-    void onPullEvent(com.handmark.pulltorefresh.library.PullToRefreshBase,com.handmark.pulltorefresh.library.PullToRefreshBase$State,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> onPullEvent
-com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener -> com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener:
-    void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> onRefresh
-com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener2 -> com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener2:
-    void onPullDownToRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> onPullDownToRefresh
-    void onPullUpToRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> onPullUpToRefresh
-com.handmark.pulltorefresh.library.PullToRefreshBase$OnSmoothScrollFinishedListener -> biv:
-    void onSmoothScrollFinished() -> a
-com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation -> com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation:
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation VERTICAL -> VERTICAL
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation HORIZONTAL -> HORIZONTAL
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation[] ENUM$VALUES -> a
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation[] values() -> values
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation valueOf(java.lang.String) -> valueOf
-com.handmark.pulltorefresh.library.PullToRefreshBase$SmoothScrollRunnable -> biw:
-    android.view.animation.Interpolator mInterpolator -> b
-    int mScrollToY -> c
-    int mScrollFromY -> d
-    long mDuration -> e
-    com.handmark.pulltorefresh.library.PullToRefreshBase$OnSmoothScrollFinishedListener mListener -> f
-    boolean mContinueRunning -> g
-    long mStartTime -> h
-    int mCurrentY -> i
-    com.handmark.pulltorefresh.library.PullToRefreshBase this$0 -> a
-    1614:1640:void run() -> run
-    1643:1645:void stop() -> a
-com.handmark.pulltorefresh.library.PullToRefreshBase$State -> com.handmark.pulltorefresh.library.PullToRefreshBase$State:
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State RESET -> RESET
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State PULL_TO_REFRESH -> PULL_TO_REFRESH
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State RELEASE_TO_REFRESH -> RELEASE_TO_REFRESH
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State REFRESHING -> REFRESHING
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State MANUAL_REFRESHING -> MANUAL_REFRESHING
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State OVERSCROLLING -> OVERSCROLLING
-    int mIntValue -> a
-    com.handmark.pulltorefresh.library.PullToRefreshBase$State[] ENUM$VALUES -> b
-    1567:1574:com.handmark.pulltorefresh.library.PullToRefreshBase$State mapIntToValue(int) -> a
-    1584:1584:int getIntValue() -> a
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$State[] values() -> values
-    1:1:com.handmark.pulltorefresh.library.PullToRefreshBase$State valueOf(java.lang.String) -> valueOf
-com.handmark.pulltorefresh.library.PullToRefreshExpandableListView -> com.handmark.pulltorefresh.library.PullToRefreshExpandableListView:
-    48:48:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
-    54:62:android.widget.ExpandableListView createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    1:1:android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-com.handmark.pulltorefresh.library.PullToRefreshExpandableListView$InternalExpandableListView -> bix:
-    com.handmark.pulltorefresh.library.PullToRefreshExpandableListView this$0 -> a
-    73:74:void setEmptyView(android.view.View) -> setEmptyView
-    78:79:void setEmptyViewInternal(android.view.View) -> setEmptyViewInternal
-com.handmark.pulltorefresh.library.PullToRefreshExpandableListView$InternalExpandableListViewSDK9 -> biy:
-    com.handmark.pulltorefresh.library.PullToRefreshExpandableListView this$0 -> b
-    93:100:boolean overScrollBy(int,int,int,int,int,int,int,int,boolean) -> overScrollBy
-com.handmark.pulltorefresh.library.PullToRefreshGridView -> com.handmark.pulltorefresh.library.PullToRefreshGridView:
-    48:48:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
-    54:62:android.widget.GridView createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    1:1:android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-com.handmark.pulltorefresh.library.PullToRefreshGridView$InternalGridView -> biz:
-    com.handmark.pulltorefresh.library.PullToRefreshGridView this$0 -> a
-    73:74:void setEmptyView(android.view.View) -> setEmptyView
-    78:79:void setEmptyViewInternal(android.view.View) -> setEmptyViewInternal
-com.handmark.pulltorefresh.library.PullToRefreshGridView$InternalGridViewSDK9 -> bja:
-    com.handmark.pulltorefresh.library.PullToRefreshGridView this$0 -> b
-    93:99:boolean overScrollBy(int,int,int,int,int,int,int,int,boolean) -> overScrollBy
-com.handmark.pulltorefresh.library.PullToRefreshHorizontalScrollView -> com.handmark.pulltorefresh.library.PullToRefreshHorizontalScrollView:
-    46:46:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
-    53:60:android.widget.HorizontalScrollView createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    65:65:boolean isReadyForPullStart() -> isReadyForPullStart
-    70:74:boolean isReadyForPullEnd() -> isReadyForPullEnd
-    1:1:android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-com.handmark.pulltorefresh.library.PullToRefreshHorizontalScrollView$InternalHorizontalScrollViewSDK9 -> bjb:
-    com.handmark.pulltorefresh.library.PullToRefreshHorizontalScrollView this$0 -> a
-    88:95:boolean overScrollBy(int,int,int,int,int,int,int,int,boolean) -> overScrollBy
-    102:107:int getScrollRange() -> a
-com.handmark.pulltorefresh.library.PullToRefreshListView -> com.handmark.pulltorefresh.library.PullToRefreshListView:
-    com.handmark.pulltorefresh.library.internal.LoadingLayout mHeaderLoadingView -> b
-    com.handmark.pulltorefresh.library.internal.LoadingLayout mFooterLoadingView -> c
-    android.widget.FrameLayout mLvFooterLoadingFrame -> d
-    boolean mListViewExtrasEnabled -> e
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> f
-    62:62:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
-    71:127:void onRefreshing(boolean) -> onRefreshing
-    134:185:void onReset() -> onReset
-    189:202:com.handmark.pulltorefresh.library.LoadingLayoutProxy createLoadingLayoutProxy(boolean,boolean) -> createLoadingLayoutProxy
-    207:212:android.widget.ListView createListView(android.content.Context,android.util.AttributeSet) -> createListView
-    217:221:android.widget.ListView createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    226:254:void handleStyledAttributes(android.content.res.TypedArray) -> handleStyledAttributes
-    1:1:android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    40:40:android.widget.FrameLayout access$1(com.handmark.pulltorefresh.library.PullToRefreshListView) -> a
-    35:35:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode() -> e
-com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListView -> com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListView:
-    boolean mAddedLvFooter -> b
-    com.handmark.pulltorefresh.library.PullToRefreshListView this$0 -> a
-    293:297:void dispatchDraw(android.graphics.Canvas) -> dispatchDraw
-    307:310:boolean dispatchTouchEvent(android.view.MotionEvent) -> dispatchTouchEvent
-    317:323:void setAdapter(android.widget.ListAdapter) -> setAdapter
-    327:328:void setEmptyView(android.view.View) -> setEmptyView
-    332:333:void setEmptyViewInternal(android.view.View) -> setEmptyViewInternal
-com.handmark.pulltorefresh.library.PullToRefreshListView$InternalListViewSDK9 -> bjc:
-    com.handmark.pulltorefresh.library.PullToRefreshListView this$0 -> b
-    267:273:boolean overScrollBy(int,int,int,int,int,int,int,int,boolean) -> overScrollBy
-com.handmark.pulltorefresh.library.PullToRefreshScrollView -> com.handmark.pulltorefresh.library.PullToRefreshScrollView:
-    46:46:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
-    52:59:android.widget.ScrollView createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    64:64:boolean isReadyForPullStart() -> isReadyForPullStart
-    69:73:boolean isReadyForPullEnd() -> isReadyForPullEnd
-    1:1:android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-com.handmark.pulltorefresh.library.PullToRefreshScrollView$InternalScrollViewSDK9 -> bjd:
-    com.handmark.pulltorefresh.library.PullToRefreshScrollView this$0 -> a
-    87:94:boolean overScrollBy(int,int,int,int,int,int,int,int,boolean) -> overScrollBy
-    101:106:int getScrollRange() -> a
-com.handmark.pulltorefresh.library.PullToRefreshWebView -> com.handmark.pulltorefresh.library.PullToRefreshWebView:
-    com.handmark.pulltorefresh.library.PullToRefreshBase$OnRefreshListener defaultOnRefreshListener -> b
-    android.webkit.WebChromeClient defaultWebChromeClient -> c
-    92:92:com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation getPullToRefreshScrollDirection() -> getPullToRefreshScrollDirection
-    98:105:android.webkit.WebView createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    110:110:boolean isReadyForPullStart() -> isReadyForPullStart
-    115:116:boolean isReadyForPullEnd() -> isReadyForPullEnd
-    121:123:void onPtrRestoreInstanceState(android.os.Bundle) -> onPtrRestoreInstanceState
-    127:129:void onPtrSaveInstanceState(android.os.Bundle) -> onPtrSaveInstanceState
-    1:1:android.view.View createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-com.handmark.pulltorefresh.library.PullToRefreshWebView$1 -> bje:
-    34:35:void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> onRefresh
-com.handmark.pulltorefresh.library.PullToRefreshWebView$2 -> bjf:
-    com.handmark.pulltorefresh.library.PullToRefreshWebView this$0 -> a
-    43:46:void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
-com.handmark.pulltorefresh.library.PullToRefreshWebView$InternalWebViewSDK9 -> bjg:
-    com.handmark.pulltorefresh.library.PullToRefreshWebView this$0 -> a
-    150:157:boolean overScrollBy(int,int,int,int,int,int,int,int,boolean) -> overScrollBy
-    161:161:int getScrollRange() -> a
-com.handmark.pulltorefresh.library.R -> com.handmark.pulltorefresh.library.R:
-com.handmark.pulltorefresh.library.R$anim -> com.handmark.pulltorefresh.library.R$anim:
-    int slide_in_from_bottom -> slide_in_from_bottom
-    int slide_in_from_top -> slide_in_from_top
-    int slide_out_to_bottom -> slide_out_to_bottom
-    int slide_out_to_top -> slide_out_to_top
-com.handmark.pulltorefresh.library.R$attr -> com.handmark.pulltorefresh.library.R$attr:
-    int ptrAdapterViewBackground -> ptrAdapterViewBackground
-    int ptrAnimationStyle -> ptrAnimationStyle
-    int ptrDrawable -> ptrDrawable
-    int ptrDrawableBottom -> ptrDrawableBottom
-    int ptrDrawableEnd -> ptrDrawableEnd
-    int ptrDrawableStart -> ptrDrawableStart
-    int ptrDrawableTop -> ptrDrawableTop
-    int ptrHeaderBackground -> ptrHeaderBackground
-    int ptrHeaderSubTextColor -> ptrHeaderSubTextColor
-    int ptrHeaderTextAppearance -> ptrHeaderTextAppearance
-    int ptrHeaderTextColor -> ptrHeaderTextColor
-    int ptrListViewExtrasEnabled -> ptrListViewExtrasEnabled
-    int ptrMode -> ptrMode
-    int ptrOverScroll -> ptrOverScroll
-    int ptrRefreshableViewBackground -> ptrRefreshableViewBackground
-    int ptrRotateDrawableWhilePulling -> ptrRotateDrawableWhilePulling
-    int ptrScrollingWhileRefreshingEnabled -> ptrScrollingWhileRefreshingEnabled
-    int ptrShowIndicator -> ptrShowIndicator
-    int ptrSubHeaderTextAppearance -> ptrSubHeaderTextAppearance
-com.handmark.pulltorefresh.library.R$dimen -> com.handmark.pulltorefresh.library.R$dimen:
-    int header_footer_left_right_padding -> header_footer_left_right_padding
-    int header_footer_top_bottom_padding -> header_footer_top_bottom_padding
-    int indicator_corner_radius -> indicator_corner_radius
-    int indicator_internal_padding -> indicator_internal_padding
-    int indicator_right_padding -> indicator_right_padding
-com.handmark.pulltorefresh.library.R$drawable -> com.handmark.pulltorefresh.library.R$drawable:
-    int default_ptr_flip -> default_ptr_flip
-    int default_ptr_rotate -> default_ptr_rotate
-    int indicator_arrow -> indicator_arrow
-    int indicator_bg_bottom -> indicator_bg_bottom
-    int indicator_bg_top -> indicator_bg_top
-com.handmark.pulltorefresh.library.R$id -> com.handmark.pulltorefresh.library.R$id:
-    int both -> both
-    int disabled -> disabled
-    int fl_inner -> fl_inner
-    int flip -> flip
-    int gridview -> gridview
-    int manualOnly -> manualOnly
-    int pullDownFromTop -> pullDownFromTop
-    int pullFromEnd -> pullFromEnd
-    int pullFromStart -> pullFromStart
-    int pullUpFromBottom -> pullUpFromBottom
-    int pull_to_refresh_image -> pull_to_refresh_image
-    int pull_to_refresh_progress -> pull_to_refresh_progress
-    int pull_to_refresh_sub_text -> pull_to_refresh_sub_text
-    int pull_to_refresh_text -> pull_to_refresh_text
-    int rotate -> rotate
-    int scrollview -> scrollview
-    int webview -> webview
-com.handmark.pulltorefresh.library.R$layout -> com.handmark.pulltorefresh.library.R$layout:
-    int pull_to_refresh_header_horizontal -> pull_to_refresh_header_horizontal
-    int pull_to_refresh_header_vertical -> pull_to_refresh_header_vertical
-com.handmark.pulltorefresh.library.R$string -> com.handmark.pulltorefresh.library.R$string:
-    int pull_to_refresh_from_bottom_pull_label -> pull_to_refresh_from_bottom_pull_label
-    int pull_to_refresh_from_bottom_refreshing_label -> pull_to_refresh_from_bottom_refreshing_label
-    int pull_to_refresh_from_bottom_release_label -> pull_to_refresh_from_bottom_release_label
-    int pull_to_refresh_pull_label -> pull_to_refresh_pull_label
-    int pull_to_refresh_refreshing_label -> pull_to_refresh_refreshing_label
-    int pull_to_refresh_release_label -> pull_to_refresh_release_label
-com.handmark.pulltorefresh.library.R$styleable -> com.handmark.pulltorefresh.library.R$styleable:
-    int[] PullToRefresh -> PullToRefresh
-    int PullToRefresh_ptrAdapterViewBackground -> PullToRefresh_ptrAdapterViewBackground
-    int PullToRefresh_ptrAnimationStyle -> PullToRefresh_ptrAnimationStyle
-    int PullToRefresh_ptrDrawable -> PullToRefresh_ptrDrawable
-    int PullToRefresh_ptrDrawableBottom -> PullToRefresh_ptrDrawableBottom
-    int PullToRefresh_ptrDrawableEnd -> PullToRefresh_ptrDrawableEnd
-    int PullToRefresh_ptrDrawableStart -> PullToRefresh_ptrDrawableStart
-    int PullToRefresh_ptrDrawableTop -> PullToRefresh_ptrDrawableTop
-    int PullToRefresh_ptrHeaderBackground -> PullToRefresh_ptrHeaderBackground
-    int PullToRefresh_ptrHeaderSubTextColor -> PullToRefresh_ptrHeaderSubTextColor
-    int PullToRefresh_ptrHeaderTextAppearance -> PullToRefresh_ptrHeaderTextAppearance
-    int PullToRefresh_ptrHeaderTextColor -> PullToRefresh_ptrHeaderTextColor
-    int PullToRefresh_ptrListViewExtrasEnabled -> PullToRefresh_ptrListViewExtrasEnabled
-    int PullToRefresh_ptrMode -> PullToRefresh_ptrMode
-    int PullToRefresh_ptrOverScroll -> PullToRefresh_ptrOverScroll
-    int PullToRefresh_ptrRefreshableViewBackground -> PullToRefresh_ptrRefreshableViewBackground
-    int PullToRefresh_ptrRotateDrawableWhilePulling -> PullToRefresh_ptrRotateDrawableWhilePulling
-    int PullToRefresh_ptrScrollingWhileRefreshingEnabled -> PullToRefresh_ptrScrollingWhileRefreshingEnabled
-    int PullToRefresh_ptrShowIndicator -> PullToRefresh_ptrShowIndicator
-    int PullToRefresh_ptrSubHeaderTextAppearance -> PullToRefresh_ptrSubHeaderTextAppearance
-com.handmark.pulltorefresh.library.extras.PullToRefreshWebView2 -> com.handmark.pulltorefresh.library.extras.PullToRefreshWebView2:
-    com.handmark.pulltorefresh.library.extras.PullToRefreshWebView2$JsValueCallback mJsCallback -> b
-    java.util.concurrent.atomic.AtomicBoolean mIsReadyForPullDown -> c
-    java.util.concurrent.atomic.AtomicBoolean mIsReadyForPullUp -> d
-    86:92:android.webkit.WebView createRefreshableView(android.content.Context,android.util.AttributeSet) -> createRefreshableView
-    98:103:boolean isReadyForPullStart() -> isReadyForPullStart
-    109:114:boolean isReadyForPullEnd() -> isReadyForPullEnd
-com.handmark.pulltorefresh.library.extras.PullToRefreshWebView2$JsValueCallback -> bjh:
-    com.handmark.pulltorefresh.library.extras.PullToRefreshWebView2 this$0 -> a
-com.handmark.pulltorefresh.library.extras.SoundPullEventListener -> com.handmark.pulltorefresh.library.extras.SoundPullEventListener:
-    android.content.Context mContext -> a
-    java.util.HashMap mSoundMap -> b
-    android.media.MediaPlayer mCurrentMediaPlayer -> c
-    47:51:void onPullEvent(com.handmark.pulltorefresh.library.PullToRefreshBase,com.handmark.pulltorefresh.library.PullToRefreshBase$State,com.handmark.pulltorefresh.library.PullToRefreshBase$Mode) -> onPullEvent
-    66:67:void addSoundEvent(com.handmark.pulltorefresh.library.PullToRefreshBase$State,int) -> addSoundEvent
-    73:74:void clearSounds() -> clearSounds
-    80:80:android.media.MediaPlayer getCurrentMediaPlayer() -> getCurrentMediaPlayer
-    85:94:void playSound(int) -> a
-com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor -> com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor:
-    void setEmptyViewInternal(android.view.View) -> setEmptyViewInternal
-    void setEmptyView(android.view.View) -> setEmptyView
-com.handmark.pulltorefresh.library.internal.FlipLoadingLayout -> com.handmark.pulltorefresh.library.internal.FlipLoadingLayout:
-    android.view.animation.Animation mRotateAnimation -> b
-    android.view.animation.Animation mResetRotateAnimation -> c
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> d
-    60:83:void onLoadingDrawableSet(android.graphics.drawable.Drawable) -> onLoadingDrawableSet
-    88:88:void onPullImpl(float) -> onPullImpl
-    93:96:void pullToRefreshImpl() -> pullToRefreshImpl
-    100:103:void refreshingImpl() -> refreshingImpl
-    107:108:void releaseToRefreshImpl() -> releaseToRefreshImpl
-    112:115:void resetImpl() -> resetImpl
-    119:119:int getDefaultDrawableResId() -> getDefaultDrawableResId
-    123:143:float getDrawableRotationAngle() -> getDrawableRotationAngle
-    34:34:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode() -> a
-com.handmark.pulltorefresh.library.internal.IndicatorLayout -> com.handmark.pulltorefresh.library.internal.IndicatorLayout:
-    android.view.animation.Animation mInAnim -> a
-    android.view.animation.Animation mOutAnim -> b
-    android.widget.ImageView mArrowImageView -> c
-    android.view.animation.Animation mRotateAnimation -> d
-    android.view.animation.Animation mResetRotateAnimation -> e
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> f
-    100:105:boolean isVisible() -> isVisible
-    109:110:void hide() -> hide
-    113:115:void show() -> show
-    119:127:void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
-    132:132:void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
-    136:137:void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
-    140:141:void releaseToRefresh() -> releaseToRefresh
-    144:145:void pullToRefresh() -> pullToRefresh
-    37:37:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode() -> a
-com.handmark.pulltorefresh.library.internal.LoadingLayout -> com.handmark.pulltorefresh.library.internal.LoadingLayout:
-    android.view.animation.Interpolator ANIMATION_INTERPOLATOR -> a
-    android.widget.FrameLayout mInnerLayout -> b
-    android.widget.ImageView mHeaderImage -> mHeaderImage
-    android.widget.ProgressBar mHeaderProgress -> mHeaderProgress
-    boolean mUseIntrinsicAnimation -> c
-    android.widget.TextView mHeaderText -> d
-    android.widget.TextView mSubHeaderText -> e
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Mode mMode -> mMode
-    com.handmark.pulltorefresh.library.PullToRefreshBase$Orientation mScrollDirection -> mScrollDirection
-    java.lang.CharSequence mPullLabel -> f
-    java.lang.CharSequence mRefreshingLabel -> g
-    java.lang.CharSequence mReleaseLabel -> h
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Orientation -> i
-    int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode -> j
-    184:187:void setHeight(int) -> setHeight
-    190:193:void setWidth(int) -> setWidth
-    196:201:int getContentSize() -> getContentSize
-    206:218:void hideAllViews() -> hideAllViews
-    221:224:void onPull(float) -> onPull
-    227:233:void pullToRefresh() -> pullToRefresh
-    236:250:void refreshing() -> refreshing
-    253:259:void releaseToRefresh() -> releaseToRefresh
-    262:281:void reset() -> reset
-    285:286:void setLastUpdatedLabel(java.lang.CharSequence) -> setLastUpdatedLabel
-    290:295:void setLoadingDrawable(android.graphics.drawable.Drawable) -> setLoadingDrawable
-    298:299:void setPullLabel(java.lang.CharSequence) -> setPullLabel
-    302:303:void setRefreshingLabel(java.lang.CharSequence) -> setRefreshingLabel
-    306:307:void setReleaseLabel(java.lang.CharSequence) -> setReleaseLabel
-    311:312:void setTextTypeface(android.graphics.Typeface) -> setTextTypeface
-    315:327:void showInvisibleViews() -> showInvisibleViews
-    int getDefaultDrawableResId() -> getDefaultDrawableResId
-    void onLoadingDrawableSet(android.graphics.drawable.Drawable) -> onLoadingDrawableSet
-    void onPullImpl(float) -> onPullImpl
-    void pullToRefreshImpl() -> pullToRefreshImpl
-    void refreshingImpl() -> refreshingImpl
-    void releaseToRefreshImpl() -> releaseToRefreshImpl
-    void resetImpl() -> resetImpl
-    348:361:void setSubHeaderText(java.lang.CharSequence) -> setSubHeaderText
-    364:367:void setSubTextAppearance(int) -> setSubTextAppearance
-    370:373:void setSubTextColor(android.content.res.ColorStateList) -> setSubTextColor
-    376:382:void setTextAppearance(int) -> setTextAppearance
-    385:391:void setTextColor(android.content.res.ColorStateList) -> setTextColor
-    44:44:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Orientation() -> b
-    44:44:int[] $SWITCH_TABLE$com$handmark$pulltorefresh$library$PullToRefreshBase$Mode() -> c
-com.handmark.pulltorefresh.library.internal.RotateLoadingLayout -> com.handmark.pulltorefresh.library.internal.RotateLoadingLayout:
-    android.view.animation.Animation mRotateAnimation -> b
-    android.graphics.Matrix mHeaderImageMatrix -> c
-    float mRotationPivotX -> d
-    float mRotationPivotY -> e
-    boolean mRotateDrawableWhilePulling -> f
-    59:63:void onLoadingDrawableSet(android.graphics.drawable.Drawable) -> onLoadingDrawableSet
-    67:75:void onPullImpl(float) -> onPullImpl
-    79:80:void refreshingImpl() -> refreshingImpl
-    84:86:void resetImpl() -> resetImpl
-    89:93:void resetImageRotation() -> a
-    98:98:void pullToRefreshImpl() -> pullToRefreshImpl
-    103:103:void releaseToRefreshImpl() -> releaseToRefreshImpl
-    107:107:int getDefaultDrawableResId() -> getDefaultDrawableResId
-com.handmark.pulltorefresh.library.internal.Utils -> com.handmark.pulltorefresh.library.internal.Utils:
-    10:11:void warnDeprecation(java.lang.String,java.lang.String) -> warnDeprecation
-com.handmark.pulltorefresh.library.internal.ViewCompat -> com.handmark.pulltorefresh.library.internal.ViewCompat:
-    28:33:void postOnAnimation(android.view.View,java.lang.Runnable) -> postOnAnimation
-    36:41:void setBackground(android.view.View,android.graphics.drawable.Drawable) -> setBackground
-    44:47:void setLayerType(android.view.View,int) -> setLayerType
-com.handmark.pulltorefresh.library.internal.ViewCompat$SDK11 -> bji:
-    53:54:void setLayerType(android.view.View,int) -> a
-com.handmark.pulltorefresh.library.internal.ViewCompat$SDK16 -> bjj:
-    61:62:void postOnAnimation(android.view.View,java.lang.Runnable) -> a
-    65:66:void setBackground(android.view.View,android.graphics.drawable.Drawable) -> a
 com.imbryk.viewPager.LoopPagerAdapterWrapper -> com.imbryk.viewPager.LoopPagerAdapterWrapper:
     android.support.v4.view.PagerAdapter mAdapter -> a
     android.util.SparseArray mToDestroy -> b
@@ -36131,7 +35549,7 @@ com.imbryk.viewPager.LoopPagerAdapterWrapper -> com.imbryk.viewPager.LoopPagerAd
     139:140:void restoreState(android.os.Parcelable,java.lang.ClassLoader) -> restoreState
     144:144:android.os.Parcelable saveState() -> saveState
     149:150:void startUpdate(android.view.ViewGroup) -> startUpdate
-com.imbryk.viewPager.LoopPagerAdapterWrapper$ToDestroy -> bjk:
+com.imbryk.viewPager.LoopPagerAdapterWrapper$ToDestroy -> bis:
     android.view.ViewGroup container -> a
     int position -> b
     java.lang.Object object -> c
@@ -36151,7 +35569,7 @@ com.imbryk.viewPager.LoopViewPager -> com.imbryk.viewPager.LoopViewPager:
     128:129:void init() -> g
     48:48:com.imbryk.viewPager.LoopPagerAdapterWrapper access$0(com.imbryk.viewPager.LoopViewPager) -> a
     1:1:int access$1(com.imbryk.viewPager.LoopViewPager) -> b
-com.imbryk.viewPager.LoopViewPager$1 -> bjl:
+com.imbryk.viewPager.LoopViewPager$1 -> bit:
     float mPreviousOffset -> b
     float mPreviousPosition -> c
     com.imbryk.viewPager.LoopViewPager this$0 -> a
@@ -38948,6 +38366,7 @@ com.mitv.Constants -> com.mitv.Constants:
     java.lang.String JSON_MIME_TYPE -> JSON_MIME_TYPE
     java.lang.String HTTP_CORE_DEAFULT_ENCODING -> HTTP_CORE_DEAFULT_ENCODING
     int HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT -> HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT
+    java.lang.String ELLIPSIS_STRING -> ELLIPSIS_STRING
     java.lang.String HTTP_SCHEME -> HTTP_SCHEME
     java.lang.String HTTPS_SCHEME -> HTTPS_SCHEME
     java.lang.String BACKEND_TEST_ENVIRONMENT -> BACKEND_TEST_ENVIRONMENT
@@ -39293,8 +38712,11 @@ com.mitv.Constants -> com.mitv.Constants:
     java.lang.String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL -> SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL
     java.lang.String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN -> SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN
     java.lang.String SHARED_PREFERENCES_DATE_LAST_OPEN_APP -> SHARED_PREFERENCES_DATE_LAST_OPEN_APP
+    java.lang.String FACEBOOK_APP_PACKAGE_NAME -> FACEBOOK_APP_PACKAGE_NAME
+    int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE -> MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE
     java.lang.String SUPPORTED_API_VERSION -> SUPPORTED_API_VERSION
     java.lang.String APP_WAS_PREINSTALLED_FILE_NAME -> APP_WAS_PREINSTALLED_FILE_NAME
+    boolean FORCE_SPANISH_LOCALE -> FORCE_SPANISH_LOCALE
     boolean IS_PREINSTALLED_VERSION -> IS_PREINSTALLED_VERSION
     java.lang.String CACHE_DATABASE_NAME -> CACHE_DATABASE_NAME
     int CACHE_DATABASE_VERSION -> CACHE_DATABASE_VERSION
@@ -39304,8 +38726,6 @@ com.mitv.Constants -> com.mitv.Constants:
     boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS -> USE_HOCKEY_APP_UPDATE_NOTIFICATIONS
     boolean ENABLE_STRICT_MODE -> ENABLE_STRICT_MODE
     boolean IGNORE_INVALID_SSL_CERTIFICATES -> IGNORE_INVALID_SSL_CERTIFICATES
-    java.lang.String FACEBOOK_APP_PACKAGE_NAME -> FACEBOOK_APP_PACKAGE_NAME
-    int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE -> MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE
     java.lang.String ALL_CATEGORIES_TAG_ID -> ALL_CATEGORIES_TAG_ID
 com.mitv.ContentManager -> com.mitv.ContentManager:
     java.lang.String TAG -> TAG
@@ -39635,11 +39055,7 @@ com.mitv.R$anim -> com.mitv.R$anim:
     int push_right_in -> push_right_in
     int push_right_out -> push_right_out
     int slide_in -> slide_in
-    int slide_in_from_bottom -> slide_in_from_bottom
-    int slide_in_from_top -> slide_in_from_top
     int slide_out -> slide_out
-    int slide_out_to_bottom -> slide_out_to_bottom
-    int slide_out_to_top -> slide_out_to_top
 com.mitv.R$array -> com.mitv.R$array:
     int twelve_hours_in_integers -> twelve_hours_in_integers
     int twenty_four_hours_in_integers -> twenty_four_hours_in_integers
@@ -39745,25 +39161,6 @@ com.mitv.R$attr -> com.mitv.R$attr:
     int progressBarPadding -> progressBarPadding
     int progressBarStyle -> progressBarStyle
     int prompt -> prompt
-    int ptrAdapterViewBackground -> ptrAdapterViewBackground
-    int ptrAnimationStyle -> ptrAnimationStyle
-    int ptrDrawable -> ptrDrawable
-    int ptrDrawableBottom -> ptrDrawableBottom
-    int ptrDrawableEnd -> ptrDrawableEnd
-    int ptrDrawableStart -> ptrDrawableStart
-    int ptrDrawableTop -> ptrDrawableTop
-    int ptrHeaderBackground -> ptrHeaderBackground
-    int ptrHeaderSubTextColor -> ptrHeaderSubTextColor
-    int ptrHeaderTextAppearance -> ptrHeaderTextAppearance
-    int ptrHeaderTextColor -> ptrHeaderTextColor
-    int ptrListViewExtrasEnabled -> ptrListViewExtrasEnabled
-    int ptrMode -> ptrMode
-    int ptrOverScroll -> ptrOverScroll
-    int ptrRefreshableViewBackground -> ptrRefreshableViewBackground
-    int ptrRotateDrawableWhilePulling -> ptrRotateDrawableWhilePulling
-    int ptrScrollingWhileRefreshingEnabled -> ptrScrollingWhileRefreshingEnabled
-    int ptrShowIndicator -> ptrShowIndicator
-    int ptrSubHeaderTextAppearance -> ptrSubHeaderTextAppearance
     int queryHint -> queryHint
     int radius -> radius
     int searchDropdownBackground -> searchDropdownBackground
@@ -39946,12 +39343,7 @@ com.mitv.R$dimen -> com.mitv.R$dimen:
     int header_1 -> header_1
     int header_2 -> header_2
     int header_3 -> header_3
-    int header_footer_left_right_padding -> header_footer_left_right_padding
-    int header_footer_top_bottom_padding -> header_footer_top_bottom_padding
     int image_padding -> image_padding
-    int indicator_corner_radius -> indicator_corner_radius
-    int indicator_internal_padding -> indicator_internal_padding
-    int indicator_right_padding -> indicator_right_padding
     int ingress -> ingress
     int links -> links
     int marginBottom -> marginBottom
@@ -40110,8 +39502,6 @@ com.mitv.R$drawable -> com.mitv.R$drawable:
     int custom_theme_textfield_disabled_focused_holo_light -> custom_theme_textfield_disabled_focused_holo_light
     int custom_theme_textfield_disabled_holo_light -> custom_theme_textfield_disabled_holo_light
     int custom_theme_textfield_focused_holo_light -> custom_theme_textfield_focused_holo_light
-    int default_ptr_flip -> default_ptr_flip
-    int default_ptr_rotate -> default_ptr_rotate
     int edittext_activated -> edittext_activated
     int edittext_standard -> edittext_standard
     int ic_action_search -> ic_action_search
@@ -40132,9 +39522,6 @@ com.mitv.R$drawable -> com.mitv.R$drawable:
     int ic_timebar_active_gradient -> ic_timebar_active_gradient
     int ic_undobar_undo -> ic_undobar_undo
     int ic_up_indicator -> ic_up_indicator
-    int indicator_arrow -> indicator_arrow
-    int indicator_bg_bottom -> indicator_bg_bottom
-    int indicator_bg_top -> indicator_bg_top
     int layout_rounded_corners_blue0 -> layout_rounded_corners_blue0
     int layout_rounded_corners_blue1 -> layout_rounded_corners_blue1
     int layout_rounded_corners_blue2 -> layout_rounded_corners_blue2
@@ -40336,7 +39723,6 @@ com.mitv.R$id -> com.mitv.R$id:
     int block_tripple_broadcast_title_textview -> block_tripple_broadcast_title_textview
     int block_tripple_broadcast_title_time -> block_tripple_broadcast_title_time
     int block_tripple_broadcast_two_bottom_divider -> block_tripple_broadcast_two_bottom_divider
-    int both -> both
     int bottom -> bottom
     int broacastpage_block_container_layout -> broacastpage_block_container_layout
     int broacastpage_repetitions -> broacastpage_repetitions
@@ -40385,7 +39771,6 @@ com.mitv.R$id -> com.mitv.R$id:
     int dialog_remove_notification_tv -> dialog_remove_notification_tv
     int dialog_update_container -> dialog_update_container
     int disableHome -> disableHome
-    int disabled -> disabled
     int divider -> divider
     int dropdown -> dropdown
     int edit_query -> edit_query
@@ -40435,13 +39820,10 @@ com.mitv.R$id -> com.mitv.R$id:
     int expanded_menu -> expanded_menu
     int feed_activity_footer_view -> feed_activity_footer_view
     int feed_activity_footer_view_text -> feed_activity_footer_view_text
-    int fl_inner -> fl_inner
-    int flip -> flip
     int fragment_container -> fragment_container
     int fragment_tvguide_type_tag_container -> fragment_tvguide_type_tag_container
     int fragment_tvguide_type_tag_listview -> fragment_tvguide_type_tag_listview
     int gallery_paging -> gallery_paging
-    int gridview -> gridview
     int home -> home
     int homeAsUp -> homeAsUp
     int home_container -> home_container
@@ -40465,7 +39847,6 @@ com.mitv.R$id -> com.mitv.R$id:
     int loading_container -> loading_container
     int login_page_text -> login_page_text
     int login_page_title -> login_page_title
-    int manualOnly -> manualOnly
     int middle -> middle
     int mitv_reset_password_button -> mitv_reset_password_button
     int mitv_reset_password_button_tv -> mitv_reset_password_button_tv
@@ -40545,14 +39926,6 @@ com.mitv.R$id -> com.mitv.R$id:
     int populart_listview_footer -> populart_listview_footer
     int progress_circular -> progress_circular
     int progress_horizontal -> progress_horizontal
-    int pullDownFromTop -> pullDownFromTop
-    int pullFromEnd -> pullFromEnd
-    int pullFromStart -> pullFromStart
-    int pullUpFromBottom -> pullUpFromBottom
-    int pull_to_refresh_image -> pull_to_refresh_image
-    int pull_to_refresh_progress -> pull_to_refresh_progress
-    int pull_to_refresh_sub_text -> pull_to_refresh_sub_text
-    int pull_to_refresh_text -> pull_to_refresh_text
     int radio -> radio
     int recommendations_list_container -> recommendations_list_container
     int repeating_list_container -> repeating_list_container
@@ -40579,7 +39952,6 @@ com.mitv.R$id -> com.mitv.R$id:
     int resetpassword_title_tv -> resetpassword_title_tv
     int resetpasswordfinal_avatar_iv -> resetpasswordfinal_avatar_iv
     int resetpasswordfinal_container -> resetpasswordfinal_container
-    int rotate -> rotate
     int row_add_channel_container -> row_add_channel_container
     int row_add_channel_icon -> row_add_channel_icon
     int row_add_channel_text -> row_add_channel_text
@@ -40634,7 +40006,6 @@ com.mitv.R$id -> com.mitv.R$id:
     int row_upcoming_or_repeating_reminder_view -> row_upcoming_or_repeating_reminder_view
     int satellite -> satellite
     int scrollView -> scrollView
-    int scrollview -> scrollview
     int search_badge -> search_badge
     int search_bar -> search_bar
     int search_button -> search_button
@@ -40733,7 +40104,6 @@ com.mitv.R$id -> com.mitv.R$id:
     int upcoming_episodes_list_container -> upcoming_episodes_list_container
     int upcoming_episodes_list_listview -> upcoming_episodes_list_listview
     int useLogo -> useLogo
-    int webview -> webview
     int whatelseison_divider -> whatelseison_divider
     int whatelseison_listitem_channel -> whatelseison_listitem_channel
     int whatelseison_listitem_divider -> whatelseison_listitem_divider
@@ -40851,8 +40221,6 @@ com.mitv.R$layout -> com.mitv.R$layout:
     int layout_whatelseison -> layout_whatelseison
     int loading_footer_feed_activity -> loading_footer_feed_activity
     int no_data -> no_data
-    int pull_to_refresh_header_horizontal -> pull_to_refresh_header_horizontal
-    int pull_to_refresh_header_vertical -> pull_to_refresh_header_vertical
     int row_add_channel -> row_add_channel
     int row_block_recommended_activitypage -> row_block_recommended_activitypage
     int row_channelpage_current_list_item -> row_channelpage_current_list_item
@@ -41075,12 +40443,6 @@ com.mitv.R$string -> com.mitv.R$string:
     int popular -> popular
     int popular_now -> popular_now
     int product_view_content_expired -> product_view_content_expired
-    int pull_to_refresh_from_bottom_pull_label -> pull_to_refresh_from_bottom_pull_label
-    int pull_to_refresh_from_bottom_refreshing_label -> pull_to_refresh_from_bottom_refreshing_label
-    int pull_to_refresh_from_bottom_release_label -> pull_to_refresh_from_bottom_release_label
-    int pull_to_refresh_pull_label -> pull_to_refresh_pull_label
-    int pull_to_refresh_refreshing_label -> pull_to_refresh_refreshing_label
-    int pull_to_refresh_release_label -> pull_to_refresh_release_label
     int reminder_text_remove -> reminder_text_remove
     int reminder_text_set_bottom -> reminder_text_set_bottom
     int reminder_text_set_middle -> reminder_text_set_middle
@@ -41506,26 +40868,6 @@ com.mitv.R$styleable -> com.mitv.R$styleable:
     int MenuView_android_preserveIconSpacing -> MenuView_android_preserveIconSpacing
     int MenuView_android_verticalDivider -> MenuView_android_verticalDivider
     int MenuView_android_windowAnimationStyle -> MenuView_android_windowAnimationStyle
-    int[] PullToRefresh -> PullToRefresh
-    int PullToRefresh_ptrAdapterViewBackground -> PullToRefresh_ptrAdapterViewBackground
-    int PullToRefresh_ptrAnimationStyle -> PullToRefresh_ptrAnimationStyle
-    int PullToRefresh_ptrDrawable -> PullToRefresh_ptrDrawable
-    int PullToRefresh_ptrDrawableBottom -> PullToRefresh_ptrDrawableBottom
-    int PullToRefresh_ptrDrawableEnd -> PullToRefresh_ptrDrawableEnd
-    int PullToRefresh_ptrDrawableStart -> PullToRefresh_ptrDrawableStart
-    int PullToRefresh_ptrDrawableTop -> PullToRefresh_ptrDrawableTop
-    int PullToRefresh_ptrHeaderBackground -> PullToRefresh_ptrHeaderBackground
-    int PullToRefresh_ptrHeaderSubTextColor -> PullToRefresh_ptrHeaderSubTextColor
-    int PullToRefresh_ptrHeaderTextAppearance -> PullToRefresh_ptrHeaderTextAppearance
-    int PullToRefresh_ptrHeaderTextColor -> PullToRefresh_ptrHeaderTextColor
-    int PullToRefresh_ptrListViewExtrasEnabled -> PullToRefresh_ptrListViewExtrasEnabled
-    int PullToRefresh_ptrMode -> PullToRefresh_ptrMode
-    int PullToRefresh_ptrOverScroll -> PullToRefresh_ptrOverScroll
-    int PullToRefresh_ptrRefreshableViewBackground -> PullToRefresh_ptrRefreshableViewBackground
-    int PullToRefresh_ptrRotateDrawableWhilePulling -> PullToRefresh_ptrRotateDrawableWhilePulling
-    int PullToRefresh_ptrScrollingWhileRefreshingEnabled -> PullToRefresh_ptrScrollingWhileRefreshingEnabled
-    int PullToRefresh_ptrShowIndicator -> PullToRefresh_ptrShowIndicator
-    int PullToRefresh_ptrSubHeaderTextAppearance -> PullToRefresh_ptrSubHeaderTextAppearance
     int[] SearchView -> SearchView
     int SearchView_android_imeOptions -> SearchView_android_imeOptions
     int SearchView_android_inputType -> SearchView_android_inputType
@@ -41700,25 +41042,25 @@ com.mitv.activities.ChannelPageActivity -> com.mitv.activities.ChannelPageActivi
     android.widget.ImageView channelIconIv -> q
     com.mitv.listadapters.ChannelPageListAdapter listAdapter -> r
     com.mitv.models.TVChannel channel -> s
-    java.util.ArrayList currentAndUpcomingbroadcasts -> t
+    java.util.List currentAndUpcomingbroadcasts -> t
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> u
     52:53:void setActivityCallbackListener() -> setActivityCallbackListener
     60:65:void onCreate(android.os.Bundle) -> onCreate
     73:78:void onResume() -> onResume
-    84:93:void initViews() -> d
-    99:131:void setFollowingBroadcasts(java.util.ArrayList) -> a
+    84:93:void initLayout() -> d
+    99:131:void setFollowingBroadcasts(java.util.List) -> a
     138:141:void onBackPressed() -> onBackPressed
     149:150:void loadData() -> loadData
     157:157:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    165:190:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    197:213:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    218:218:void attachFragment() -> attachFragment
-    222:222:void removeActiveFragment() -> removeActiveFragment
+    165:191:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    198:214:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    219:219:void attachFragment() -> attachFragment
+    223:223:void removeActiveFragment() -> removeActiveFragment
     44:44:com.mitv.models.TVChannel access$0(com.mitv.activities.ChannelPageActivity) -> a
     33:33:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
-com.mitv.activities.ChannelPageActivity$1 -> bjm:
+com.mitv.activities.ChannelPageActivity$1 -> biu:
     com.mitv.activities.ChannelPageActivity this$0 -> a
-    java.util.ArrayList val$currentAndUpcomingbroadcasts -> b
+    java.util.List val$currentAndUpcomingbroadcasts -> b
     108:129:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.mitv.activities.FeedActivity -> com.mitv.activities.FeedActivity:
     java.lang.String TAG -> o
@@ -41756,7 +41098,7 @@ com.mitv.activities.FeedActivity -> com.mitv.activities.FeedActivity:
     41:41:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> c
     41:41:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> d
     58:58:void access$3(com.mitv.activities.FeedActivity,boolean) -> a
-com.mitv.activities.FeedActivity$1 -> bjn:
+com.mitv.activities.FeedActivity$1 -> biv:
     com.mitv.activities.FeedActivity this$0 -> a
     547:548:void run() -> run
 com.mitv.activities.HomeActivity -> com.mitv.activities.HomeActivity:
@@ -41781,7 +41123,7 @@ com.mitv.activities.HomeActivity -> com.mitv.activities.HomeActivity:
     223:243:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
     35:35:void access$0(com.mitv.activities.HomeActivity,int) -> a
     25:25:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
-com.mitv.activities.HomeActivity$1 -> bjo:
+com.mitv.activities.HomeActivity$1 -> biw:
     com.mitv.activities.HomeActivity this$0 -> a
     120:137:void onIndexSelected(int) -> onIndexSelected
 com.mitv.activities.LikesActivity -> com.mitv.activities.LikesActivity:
@@ -41916,10 +41258,10 @@ com.mitv.activities.SearchPageActivity -> com.mitv.activities.SearchPageActivity
     89:89:java.lang.String access$2() -> b
     349:349:void access$3(com.mitv.activities.SearchPageActivity) -> c
     55:55:int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum() -> c
-com.mitv.activities.SearchPageActivity$1 -> bjp:
+com.mitv.activities.SearchPageActivity$1 -> bix:
     com.mitv.activities.SearchPageActivity this$0 -> a
     242:247:void run() -> run
-com.mitv.activities.SearchPageActivity$SearchRunnable -> bjq:
+com.mitv.activities.SearchPageActivity$SearchRunnable -> biy:
     boolean cancelled -> b
     com.mitv.activities.SearchPageActivity this$0 -> a
     66:80:void run() -> run
@@ -41936,13 +41278,13 @@ com.mitv.activities.SignUpSelectionActivity -> com.mitv.activities.SignUpSelecti
     65:65:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
     72:73:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
     79:136:void initViews() -> b
-com.mitv.activities.SignUpSelectionActivity$1 -> bjr:
+com.mitv.activities.SignUpSelectionActivity$1 -> biz:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     94:99:void onClick(android.view.View) -> onClick
-com.mitv.activities.SignUpSelectionActivity$2 -> bjs:
+com.mitv.activities.SignUpSelectionActivity$2 -> bja:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     109:112:void onClick(android.view.View) -> onClick
-com.mitv.activities.SignUpSelectionActivity$3 -> bjt:
+com.mitv.activities.SignUpSelectionActivity$3 -> bjb:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     122:125:void onClick(android.view.View) -> onClick
 com.mitv.activities.SplashScreenActivity -> com.mitv.activities.SplashScreenActivity:
@@ -42041,10 +41383,10 @@ com.mitv.activities.authentication.LoginWithFacebookActivity -> com.mitv.activit
     277:312:com.androidquery.callback.AjaxCallback getFacebookAuthenticationCallback() -> h
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     35:35:java.lang.String access$1() -> c
-com.mitv.activities.authentication.LoginWithFacebookActivity$1 -> bju:
+com.mitv.activities.authentication.LoginWithFacebookActivity$1 -> bjc:
     com.mitv.activities.authentication.LoginWithFacebookActivity this$0 -> a
     241:244:void failure(android.content.Context,int,java.lang.String) -> failure
-com.mitv.activities.authentication.LoginWithFacebookActivity$2 -> bjv:
+com.mitv.activities.authentication.LoginWithFacebookActivity$2 -> bjd:
     com.mitv.activities.authentication.LoginWithFacebookActivity this$0 -> a
     282:300:void callback(java.lang.String,org.json.JSONObject,com.androidquery.callback.AjaxStatus) -> a
     306:309:void failure(int,java.lang.String) -> failure
@@ -42178,45 +41520,45 @@ com.mitv.activities.base.BaseActivity -> com.mitv.activities.base.BaseActivity:
     void loadData() -> loadData
     boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
     void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    125:150:void onCreate(android.os.Bundle) -> onCreate
-    153:169:void restartTheApp() -> restartTheApp
-    174:175:void registerAsListenerForRequest(com.mitv.enums.RequestIdentifierEnum) -> registerAsListenerForRequest
-    178:179:void unregisterListenerFromAllRequests() -> unregisterListenerFromAllRequests
-    216:281:void onResume() -> onResume
-    287:308:void handleTimeAndDayOnResume() -> b
-    312:313:void sendToastMessageWhenRestart(java.lang.String) -> b
-    317:320:void killAllActivitiesIncludingThis() -> c
-    323:342:int getIndexOfTodayFromTVDates() -> d
-    352:359:void pushActivityToStack(com.mitv.activities.base.BaseActivity) -> a
-    363:371:void printActivityStack() -> g
-    391:398:void removeFromStackOnDestroy(android.app.Activity) -> a
+    123:148:void onCreate(android.os.Bundle) -> onCreate
+    151:167:void restartTheApp() -> restartTheApp
+    172:173:void registerAsListenerForRequest(com.mitv.enums.RequestIdentifierEnum) -> registerAsListenerForRequest
+    176:177:void unregisterListenerFromAllRequests() -> unregisterListenerFromAllRequests
+    214:279:void onResume() -> onResume
+    285:306:void handleTimeAndDayOnResume() -> b
+    310:311:void sendToastMessageWhenRestart(java.lang.String) -> b
+    315:318:void killAllActivitiesIncludingThis() -> c
+    321:340:int getIndexOfTodayFromTVDates() -> d
+    350:357:void pushActivityToStack(com.mitv.activities.base.BaseActivity) -> a
+    361:369:void printActivityStack() -> g
+    389:398:void removeFromStackOnDestroy(android.app.Activity) -> a
     401:404:void removeActivitiesThatRequiresLoginFromStack(android.app.Activity) -> b
     407:420:android.app.Activity getMostRecentTabActivity() -> getMostRecentTabActivity
     427:427:boolean isTabActivity() -> h
     434:435:boolean isTabActivity(android.app.Activity) -> c
-    442:477:void setTabViews() -> setTabViews
-    482:517:void setSelectedTabAsTVGuide() -> setSelectedTabAsTVGuide
-    522:558:void setSelectedTabAsActivityFeed() -> setSelectedTabAsActivityFeed
-    563:599:void setSelectedTabAsUserProfile() -> setSelectedTabAsUserProfile
-    603:646:void onClick(android.view.View) -> onClick
-    650:674:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    679:695:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    702:709:void onStop() -> onStop
-    714:717:void onDestroy() -> onDestroy
-    724:735:void onBackPressed() -> onBackPressed
-    741:751:void setContentView(int) -> setContentView
-    758:785:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
-    791:881:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
-    885:946:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
-    949:965:void hideRequestStatusLayouts() -> i
-    968:1002:void initCallbackLayouts() -> j
-    1005:1008:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
-    1011:1014:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
-    57:57:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> e
-    57:57:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> f
-com.mitv.activities.base.BaseActivity$1 -> bjw:
+    442:498:void setTabViews() -> setTabViews
+    503:538:void setSelectedTabAsTVGuide() -> setSelectedTabAsTVGuide
+    543:579:void setSelectedTabAsActivityFeed() -> setSelectedTabAsActivityFeed
+    584:620:void setSelectedTabAsUserProfile() -> setSelectedTabAsUserProfile
+    624:667:void onClick(android.view.View) -> onClick
+    671:695:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    700:716:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    723:730:void onStop() -> onStop
+    736:739:void onDestroy() -> onDestroy
+    746:759:void onBackPressed() -> onBackPressed
+    765:775:void setContentView(int) -> setContentView
+    782:809:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
+    815:905:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    909:970:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
+    973:989:void hideRequestStatusLayouts() -> i
+    992:1026:void initCallbackLayouts() -> j
+    1029:1032:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
+    1035:1038:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
+    55:55:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> e
+    55:55:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> f
+com.mitv.activities.base.BaseActivity$1 -> bje:
     com.mitv.activities.base.BaseActivity this$0 -> a
-    663:666:void onClick(android.view.View) -> onClick
+    684:687:void onClick(android.view.View) -> onClick
 com.mitv.activities.base.BaseActivityLoginRequired -> com.mitv.activities.base.BaseActivityLoginRequired:
 com.mitv.activities.base.BaseActivityWithoutSearchOption -> com.mitv.activities.base.BaseActivityWithoutSearchOption:
 com.mitv.activities.base.BaseContentActivity -> com.mitv.activities.base.BaseContentActivity:
@@ -42297,7 +41639,6 @@ com.mitv.asynctasks.GetTVTags -> com.mitv.asynctasks.GetTVTags:
     java.lang.String TAG -> a
     40:61:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
 com.mitv.asynctasks.PerformInternalTracking -> com.mitv.asynctasks.PerformInternalTracking:
-    java.lang.String URL_SUFFIX -> a
 com.mitv.asynctasks.PerformUserHasSeenAdAdzerk -> com.mitv.asynctasks.PerformUserHasSeenAdAdzerk:
 com.mitv.asynctasks.PerformUserLoginWithCredentials -> com.mitv.asynctasks.PerformUserLoginWithCredentials:
     java.lang.String TAG -> a
@@ -42649,7 +41990,7 @@ com.mitv.fragments.TVGuideTableFragment -> com.mitv.fragments.TVGuideTableFragme
     337:341:void onTimeChange(int) -> onTimeChange
     61:61:java.util.ArrayList access$0(com.mitv.fragments.TVGuideTableFragment) -> a
     39:39:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> n
-com.mitv.fragments.TVGuideTableFragment$RemoveAlreadyEndedBroadcastsTask -> bjx:
+com.mitv.fragments.TVGuideTableFragment$RemoveAlreadyEndedBroadcastsTask -> bjf:
     int startIndex -> b
     com.mitv.fragments.TVGuideTableFragment this$0 -> a
     310:329:void run() -> run
@@ -42797,21 +42138,21 @@ com.mitv.listadapters.AdListAdapter -> com.mitv.listadapters.AdListAdapter:
     333:340:boolean isAdPosition(int) -> isAdPosition
     347:355:int positionExcludingAds(int) -> positionExcludingAds
     40:40:android.app.Activity access$0(com.mitv.listadapters.AdListAdapter) -> a
-com.mitv.listadapters.AdListAdapter$1 -> bjy:
+com.mitv.listadapters.AdListAdapter$1 -> bjg:
     com.mitv.listadapters.AdListAdapter this$0 -> a
     com.mitv.listadapters.TVGuideListAdapter$ViewHolder val$holder -> b
     java.lang.String val$imageUrl -> c
     java.lang.String val$impressionUrl -> d
     238:264:void run() -> run
     233:233:com.mitv.listadapters.AdListAdapter access$0(com.mitv.listadapters.AdListAdapter$1) -> a
-com.mitv.listadapters.AdListAdapter$1$1 -> bjz:
+com.mitv.listadapters.AdListAdapter$1$1 -> bjh:
     com.mitv.listadapters.AdListAdapter$1 this$1 -> a
     java.lang.String val$impressionUrl -> b
     243:243:void onLoadingStarted(java.lang.String,android.view.View) -> onLoadingStarted
     246:246:void onLoadingFailed(java.lang.String,android.view.View,com.nostra13.universalimageloader.core.assist.FailReason) -> onLoadingFailed
     249:249:void onLoadingCancelled(java.lang.String,android.view.View) -> onLoadingCancelled
     257:262:void onLoadingComplete(java.lang.String,android.view.View,android.graphics.Bitmap) -> onLoadingComplete
-com.mitv.listadapters.AdListAdapter$2 -> bka:
+com.mitv.listadapters.AdListAdapter$2 -> bji:
     com.mitv.listadapters.AdListAdapter this$0 -> a
     java.lang.String val$clickUrl -> b
     283:286:void onClick(android.view.View) -> onClick
@@ -42828,11 +42169,11 @@ com.mitv.listadapters.BlockPopularListViewAdapter -> com.mitv.listadapters.Block
     1:1:java.lang.Object getItem(int) -> getItem
     31:31:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
     38:38:android.app.Activity access$2(com.mitv.listadapters.BlockPopularListViewAdapter) -> a
-com.mitv.listadapters.BlockPopularListViewAdapter$1 -> bkb:
+com.mitv.listadapters.BlockPopularListViewAdapter$1 -> bjj:
     com.mitv.listadapters.BlockPopularListViewAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     176:181:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.BlockPopularListViewAdapter$ViewHolder -> bkc:
+com.mitv.listadapters.BlockPopularListViewAdapter$ViewHolder -> bjk:
     android.widget.LinearLayout mContainer -> a
     android.widget.ImageView mPoster -> b
     android.widget.TextView mTitle -> c
@@ -42843,21 +42184,21 @@ com.mitv.listadapters.ChannelPageListAdapter -> com.mitv.listadapters.ChannelPag
     java.lang.String TAG -> a
     android.view.LayoutInflater layoutInflater -> b
     android.app.Activity activity -> c
-    java.util.ArrayList currentAndUpcomingbroadcasts -> d
+    java.util.List currentAndUpcomingbroadcasts -> d
     com.mitv.listadapters.ChannelPageListAdapter$ViewHolder holder -> e
     boolean isAiring -> f
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> g
-    54:58:int getCount() -> getCount
-    63:67:com.mitv.models.TVBroadcast getItem(int) -> getItem
-    72:72:long getItemId(int) -> getItemId
-    76:77:void notifyBroadcastEnded() -> notifyBroadcastEnded
-    81:181:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    186:191:void setOnGoingElementRed() -> b
-    195:196:int getViewTypeCount() -> getViewTypeCount
-    201:207:int getItemViewType(int) -> getItemViewType
+    58:62:int getCount() -> getCount
+    67:71:com.mitv.models.TVBroadcast getItem(int) -> getItem
+    76:76:long getItemId(int) -> getItemId
+    80:81:void notifyBroadcastEnded() -> notifyBroadcastEnded
+    85:185:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    190:195:void setOnGoingElementRed() -> b
+    199:200:int getViewTypeCount() -> getViewTypeCount
+    205:211:int getItemViewType(int) -> getItemViewType
     1:1:java.lang.Object getItem(int) -> getItem
     31:31:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
-com.mitv.listadapters.ChannelPageListAdapter$ViewHolder -> bkd:
+com.mitv.listadapters.ChannelPageListAdapter$ViewHolder -> bjl:
     android.widget.TextView title -> a
     android.widget.TextView description -> b
     android.widget.TextView startTime -> c
@@ -42885,22 +42226,22 @@ com.mitv.listadapters.FeedListAdapter -> com.mitv.listadapters.FeedListAdapter:
     44:44:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> b
     630:630:void access$2(com.mitv.listadapters.FeedListAdapter,com.mitv.models.TVBroadcastWithChannelInfo) -> a
     54:54:android.app.Activity access$3(com.mitv.listadapters.FeedListAdapter) -> a
-com.mitv.listadapters.FeedListAdapter$1 -> bke:
+com.mitv.listadapters.FeedListAdapter$1 -> bjm:
     com.mitv.listadapters.FeedListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcast -> b
     309:310:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.FeedListAdapter$2 -> bkf:
+com.mitv.listadapters.FeedListAdapter$2 -> bjn:
     com.mitv.listadapters.FeedListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcast -> b
     543:544:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.FeedListAdapter$3 -> bkg:
+com.mitv.listadapters.FeedListAdapter$3 -> bjo:
     com.mitv.listadapters.FeedListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcast -> b
     552:553:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.FeedListAdapter$4 -> bkh:
+com.mitv.listadapters.FeedListAdapter$4 -> bjp:
     com.mitv.listadapters.FeedListAdapter this$0 -> a
     619:622:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.FeedListAdapter$BroadcastViewHolder -> bki:
+com.mitv.listadapters.FeedListAdapter$BroadcastViewHolder -> bjq:
     android.widget.RelativeLayout container -> a
     android.widget.TextView headerTv -> b
     android.widget.ImageView landscapeIv -> c
@@ -42913,7 +42254,7 @@ com.mitv.listadapters.FeedListAdapter$BroadcastViewHolder -> bki:
     android.widget.RelativeLayout shareContainer -> j
     com.mitv.ui.elements.ReminderView reminderView -> k
     com.mitv.ui.elements.LikeView likeView -> l
-com.mitv.listadapters.FeedListAdapter$PopularBroadcastsViewHolder -> bkj:
+com.mitv.listadapters.FeedListAdapter$PopularBroadcastsViewHolder -> bjr:
     android.widget.RelativeLayout mContainerOne -> a
     android.widget.ImageView mPosterOne -> b
     android.widget.TextView mTitleOne -> c
@@ -42960,14 +42301,14 @@ com.mitv.listadapters.LikesListAdapter -> com.mitv.listadapters.LikesListAdapter
     36:36:int access$6(com.mitv.listadapters.LikesListAdapter) -> b
     35:35:java.util.List access$7(com.mitv.listadapters.LikesListAdapter) -> c
     30:30:java.lang.String access$8() -> c
-com.mitv.listadapters.LikesListAdapter$1 -> bkk:
+com.mitv.listadapters.LikesListAdapter$1 -> bjs:
     com.mitv.listadapters.LikesListAdapter this$0 -> a
     181:184:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.LikesListAdapter$2 -> bkl:
+com.mitv.listadapters.LikesListAdapter$2 -> bjt:
     com.mitv.listadapters.LikesListAdapter this$0 -> a
     com.mitv.activities.base.BaseActivity val$activity -> b
     199:212:void run() -> run
-com.mitv.listadapters.LikesListAdapter$ViewHolder -> bkm:
+com.mitv.listadapters.LikesListAdapter$ViewHolder -> bju:
     android.widget.TextView programTitleTv -> a
     android.widget.TextView programTypeTv -> b
     android.widget.RelativeLayout buttonContainer -> c
@@ -42985,13 +42326,13 @@ com.mitv.listadapters.MyChannelsListAdapter -> com.mitv.listadapters.MyChannelsL
     1:1:java.lang.Object getItem(int) -> getItem
     42:42:java.util.ArrayList access$1(com.mitv.listadapters.MyChannelsListAdapter) -> a
     44:44:com.mitv.interfaces.MyChannelsCountInterface access$2(com.mitv.listadapters.MyChannelsListAdapter) -> b
-com.mitv.listadapters.MyChannelsListAdapter$1 -> bkn:
+com.mitv.listadapters.MyChannelsListAdapter$1 -> bjv:
     com.mitv.listadapters.MyChannelsListAdapter this$0 -> a
     com.mitv.models.TVChannel val$channel -> b
     com.mitv.listadapters.MyChannelsListAdapter$ViewHolder val$holder -> c
     android.content.res.Resources val$resources -> d
     128:144:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.MyChannelsListAdapter$ViewHolder -> bko:
+com.mitv.listadapters.MyChannelsListAdapter$ViewHolder -> bjw:
     android.widget.TextView channelName -> a
     android.widget.ImageView channelLogo -> b
     android.widget.RelativeLayout button -> c
@@ -43009,11 +42350,11 @@ com.mitv.listadapters.PopularListAdapter -> com.mitv.listadapters.PopularListAda
     1:1:java.lang.Object getItem(int) -> getItem
     33:33:android.app.Activity access$1(com.mitv.listadapters.PopularListAdapter) -> a
     28:28:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
-com.mitv.listadapters.PopularListAdapter$1 -> bkp:
+com.mitv.listadapters.PopularListAdapter$1 -> bjx:
     com.mitv.listadapters.PopularListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     123:129:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.PopularListAdapter$2 -> bkq:
+com.mitv.listadapters.PopularListAdapter$2 -> bjy:
     com.mitv.listadapters.PopularListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     194:197:void onClick(android.view.View) -> onClick
@@ -43048,19 +42389,19 @@ com.mitv.listadapters.RemindersListAdapter -> com.mitv.listadapters.RemindersLis
     42:42:int access$4(com.mitv.listadapters.RemindersListAdapter) -> b
     41:41:java.util.ArrayList access$5(com.mitv.listadapters.RemindersListAdapter) -> c
     36:36:java.lang.String access$6() -> b
-com.mitv.listadapters.RemindersListAdapter$1 -> bkr:
+com.mitv.listadapters.RemindersListAdapter$1 -> bjz:
     com.mitv.listadapters.RemindersListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     254:259:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.RemindersListAdapter$2 -> bks:
+com.mitv.listadapters.RemindersListAdapter$2 -> bka:
     com.mitv.listadapters.RemindersListAdapter this$0 -> a
     com.mitv.models.TVChannel val$tvChannel -> b
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> c
     267:279:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.RemindersListAdapter$3 -> bkt:
+com.mitv.listadapters.RemindersListAdapter$3 -> bkb:
     com.mitv.listadapters.RemindersListAdapter this$0 -> a
     309:320:void run() -> run
-com.mitv.listadapters.RemindersListAdapter$ViewHolder -> bku:
+com.mitv.listadapters.RemindersListAdapter$ViewHolder -> bkc:
     android.widget.RelativeLayout mHeaderContainer -> a
     android.widget.RelativeLayout mInformationContainer -> b
     android.widget.TextView mHeaderTv -> c
@@ -43095,53 +42436,52 @@ com.mitv.listadapters.SearchPageListAdapter -> com.mitv.listadapters.SearchPageL
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum() -> b
     36:36:java.util.ArrayList access$3(com.mitv.listadapters.SearchPageListAdapter) -> a
-com.mitv.listadapters.SearchPageListAdapter$1 -> bkv:
+com.mitv.listadapters.SearchPageListAdapter$1 -> bkd:
     com.mitv.listadapters.SearchPageListAdapter this$0 -> a
     286:291:android.widget.Filter$FilterResults performFiltering(java.lang.CharSequence) -> performFiltering
     296:299:void publishResults(java.lang.CharSequence,android.widget.Filter$FilterResults) -> publishResults
-com.mitv.listadapters.SearchPageListAdapter$ViewHolder -> bkw:
+com.mitv.listadapters.SearchPageListAdapter$ViewHolder -> bke:
     android.widget.LinearLayout typeAndTimeContainer -> a
     com.mitv.ui.elements.FontTextView title -> b
     com.mitv.ui.elements.FontTextView type -> c
     com.mitv.ui.elements.FontTextView time -> d
 com.mitv.listadapters.TVGuideListAdapter -> com.mitv.listadapters.TVGuideListAdapter:
     java.lang.String TAG -> a
-    java.lang.String ELLIPSIS_STRING -> b
-    android.view.LayoutInflater layoutInflater -> c
-    android.app.Activity activity -> d
-    com.mitv.models.TVDate tvDate -> e
-    int currentHour -> f
-    int rowWidth -> g
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> h
-    76:84:int getViewTypeCount() -> getViewTypeCount
-    90:92:boolean isAddMoreChannelsCellPosition(int) -> a
-    99:105:int getItemViewType(int) -> getItemViewType
-    111:335:android.view.View getViewForGuideCell(int,android.view.View,android.view.ViewGroup) -> getViewForGuideCell
-    346:370:android.view.View createAddChannelsCell() -> createAddChannelsCell
-    376:376:java.lang.Runnable yesSigninOrSignUpBlock() -> yesSigninOrSignUpBlock
-    393:418:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    425:430:int getCount() -> getCount
-    451:456:void refreshList(int) -> refreshList
-    461:462:void setRowWidth(int) -> setRowWidth
-    468:476:void removeOnGlobalLayoutListener(android.view.View,android.view.ViewTreeObserver$OnGlobalLayoutListener) -> removeOnGlobalLayoutListener
-    54:54:android.app.Activity access$0(com.mitv.listadapters.TVGuideListAdapter) -> a
-    56:56:int access$1(com.mitv.listadapters.TVGuideListAdapter) -> b
+    android.view.LayoutInflater layoutInflater -> b
+    android.app.Activity activity -> c
+    com.mitv.models.TVDate tvDate -> d
+    int currentHour -> e
+    int rowWidth -> f
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> g
+    74:82:int getViewTypeCount() -> getViewTypeCount
+    88:90:boolean isAddMoreChannelsCellPosition(int) -> a
+    97:103:int getItemViewType(int) -> getItemViewType
+    109:333:android.view.View getViewForGuideCell(int,android.view.View,android.view.ViewGroup) -> getViewForGuideCell
+    344:368:android.view.View createAddChannelsCell() -> createAddChannelsCell
+    374:374:java.lang.Runnable yesSigninOrSignUpBlock() -> yesSigninOrSignUpBlock
+    391:416:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    423:428:int getCount() -> getCount
+    449:454:void refreshList(int) -> refreshList
+    459:460:void setRowWidth(int) -> setRowWidth
+    466:474:void removeOnGlobalLayoutListener(android.view.View,android.view.ViewTreeObserver$OnGlobalLayoutListener) -> removeOnGlobalLayoutListener
+    52:52:android.app.Activity access$0(com.mitv.listadapters.TVGuideListAdapter) -> a
+    54:54:int access$1(com.mitv.listadapters.TVGuideListAdapter) -> b
     46:46:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
-com.mitv.listadapters.TVGuideListAdapter$1 -> bkx:
+com.mitv.listadapters.TVGuideListAdapter$1 -> bkf:
     com.mitv.listadapters.TVGuideListAdapter this$0 -> a
     com.mitv.listadapters.TVGuideListAdapter$ViewHolder val$holder -> b
-    138:148:void onGlobalLayout() -> onGlobalLayout
-com.mitv.listadapters.TVGuideListAdapter$2 -> bky:
+    136:146:void onGlobalLayout() -> onGlobalLayout
+com.mitv.listadapters.TVGuideListAdapter$2 -> bkg:
     com.mitv.listadapters.TVGuideListAdapter this$0 -> a
     com.mitv.models.TVChannelGuide val$guide -> b
-    171:177:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.TVGuideListAdapter$3 -> bkz:
+    169:175:void onClick(android.view.View) -> onClick
+com.mitv.listadapters.TVGuideListAdapter$3 -> bkh:
     com.mitv.listadapters.TVGuideListAdapter this$0 -> a
-    356:367:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.TVGuideListAdapter$4 -> bla:
+    354:365:void onClick(android.view.View) -> onClick
+com.mitv.listadapters.TVGuideListAdapter$4 -> bki:
     com.mitv.listadapters.TVGuideListAdapter this$0 -> a
-    380:385:void run() -> run
-com.mitv.listadapters.TVGuideListAdapter$ViewHolder -> blb:
+    378:383:void run() -> run
+com.mitv.listadapters.TVGuideListAdapter$ViewHolder -> bkj:
     android.widget.RelativeLayout container -> a
     android.widget.ImageView channelLogo -> b
     android.widget.TextView textView -> c
@@ -43161,11 +42501,11 @@ com.mitv.listadapters.TVGuideTagListAdapter -> com.mitv.listadapters.TVGuideTagL
     1:1:java.lang.Object getItem(int) -> getItem
     33:33:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
     39:39:android.app.Activity access$2(com.mitv.listadapters.TVGuideTagListAdapter) -> a
-com.mitv.listadapters.TVGuideTagListAdapter$1 -> blc:
+com.mitv.listadapters.TVGuideTagListAdapter$1 -> bkk:
     com.mitv.listadapters.TVGuideTagListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     169:172:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.TVGuideTagListAdapter$ViewHolder -> bld:
+com.mitv.listadapters.TVGuideTagListAdapter$ViewHolder -> bkl:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mImageIv -> b
     android.widget.TextView mTitleTv -> c
@@ -43197,11 +42537,11 @@ com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter -> com.mitv.lista
     78:177:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
     28:28:android.app.Activity access$1(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter) -> a
-com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$1 -> ble:
+com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$1 -> bkm:
     com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter this$0 -> a
     com.mitv.models.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     162:168:void onClick(android.view.View) -> onClick
-com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> blf:
+com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> bkn:
     android.widget.RelativeLayout headerContainer -> a
     android.widget.TextView header -> b
     android.widget.LinearLayout container -> c
@@ -43301,16 +42641,16 @@ com.mitv.models.TVChannel -> com.mitv.models.TVChannel:
     72:84:boolean equals(java.lang.Object) -> equals
     90:94:boolean areDataFieldsValid() -> areDataFieldsValid
 com.mitv.models.TVChannelGuide -> com.mitv.models.TVChannelGuide:
-    19:20:boolean hasBroadcasts() -> hasBroadcasts
-    26:26:java.util.ArrayList getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(int,com.mitv.models.TVDate) -> getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour
-    33:35:java.util.ArrayList getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(int,com.mitv.models.TVDate,int) -> getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour
-    41:41:java.util.ArrayList getBroadcastsFromPosition(int) -> getBroadcastsFromPosition
-    50:59:java.util.ArrayList getCurrentAndUpcomingBroadcastsUsingCurrentTime() -> getCurrentAndUpcomingBroadcastsUsingCurrentTime
-    67:87:java.util.ArrayList getBroadcastsFromPosition(int,int) -> getBroadcastsFromPosition
-    97:114:int getClosestBroadcastIndex(int,com.mitv.models.TVDate,int) -> getClosestBroadcastIndex
-    130:145:int getClosestBroadcastIndex(int) -> getClosestBroadcastIndex
-    150:153:int hashCode() -> hashCode
-    159:171:boolean equals(java.lang.Object) -> equals
+    22:23:boolean hasBroadcasts() -> hasBroadcasts
+    29:29:java.util.ArrayList getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(int,com.mitv.models.TVDate) -> getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour
+    36:38:java.util.ArrayList getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(int,com.mitv.models.TVDate,int) -> getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour
+    44:44:java.util.ArrayList getBroadcastsFromPosition(int) -> getBroadcastsFromPosition
+    54:65:java.util.List getCurrentAndUpcomingBroadcastsUsingCurrentTime() -> getCurrentAndUpcomingBroadcastsUsingCurrentTime
+    73:93:java.util.ArrayList getBroadcastsFromPosition(int,int) -> getBroadcastsFromPosition
+    103:120:int getClosestBroadcastIndex(int,com.mitv.models.TVDate,int) -> getClosestBroadcastIndex
+    136:151:int getClosestBroadcastIndex(int) -> getClosestBroadcastIndex
+    156:159:int hashCode() -> hashCode
+    165:177:boolean equals(java.lang.Object) -> equals
 com.mitv.models.TVChannelId -> com.mitv.models.TVChannelId:
     23:26:int hashCode() -> hashCode
     33:50:boolean equals(java.lang.Object) -> equals
@@ -44083,11 +43423,11 @@ com.mitv.populators.TrippleBroadcastBlockPopulator -> com.mitv.populators.Trippl
     40:40:com.mitv.models.TVBroadcastWithChannelInfo access$2(com.mitv.populators.TrippleBroadcastBlockPopulator) -> a
     49:49:boolean access$3(com.mitv.populators.TrippleBroadcastBlockPopulator) -> b
     39:39:android.app.Activity access$4(com.mitv.populators.TrippleBroadcastBlockPopulator) -> c
-com.mitv.populators.TrippleBroadcastBlockPopulator$1 -> blg:
+com.mitv.populators.TrippleBroadcastBlockPopulator$1 -> bko:
     com.mitv.populators.TrippleBroadcastBlockPopulator this$0 -> a
     java.util.ArrayList val$repeatingOrUpcomingBroadcasts -> b
     305:307:void onClick(android.view.View) -> onClick
-com.mitv.populators.TrippleBroadcastBlockPopulator$2 -> blh:
+com.mitv.populators.TrippleBroadcastBlockPopulator$2 -> bkp:
     com.mitv.populators.TrippleBroadcastBlockPopulator this$0 -> a
     java.util.ArrayList val$repeatingOrUpcomingBroadcasts -> b
     322:340:void run() -> run
@@ -44148,10 +43488,10 @@ com.mitv.ui.elements.LikeView -> com.mitv.ui.elements.LikeView:
     39:39:com.mitv.models.UserLike access$1(com.mitv.ui.elements.LikeView) -> b
     154:154:void access$2(com.mitv.ui.elements.LikeView) -> c
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> a
-com.mitv.ui.elements.LikeView$1 -> bli:
+com.mitv.ui.elements.LikeView$1 -> bkq:
     com.mitv.ui.elements.LikeView this$0 -> a
     162:164:void run() -> run
-com.mitv.ui.elements.LikeView$2 -> blj:
+com.mitv.ui.elements.LikeView$2 -> bkr:
     com.mitv.ui.elements.LikeView this$0 -> a
     175:179:void run() -> run
 com.mitv.ui.elements.ReminderView -> com.mitv.ui.elements.ReminderView:
@@ -44171,7 +43511,7 @@ com.mitv.ui.elements.ReminderView -> com.mitv.ui.elements.ReminderView:
     185:185:java.lang.Runnable yesNotificationProcedure() -> yesNotificationProcedure
     38:38:com.mitv.ui.elements.FontTextView access$0(com.mitv.ui.elements.ReminderView) -> a
     43:43:void access$1(com.mitv.ui.elements.ReminderView,boolean) -> a
-com.mitv.ui.elements.ReminderView$1 -> blk:
+com.mitv.ui.elements.ReminderView$1 -> bks:
     com.mitv.ui.elements.ReminderView this$0 -> a
     189:192:void run() -> run
 com.mitv.ui.elements.SwipeClockBar -> com.mitv.ui.elements.SwipeClockBar:
@@ -44219,17 +43559,17 @@ com.mitv.ui.elements.SwipeClockBar -> com.mitv.ui.elements.SwipeClockBar:
     65:65:int access$7(com.mitv.ui.elements.SwipeClockBar) -> f
     60:60:float access$8(com.mitv.ui.elements.SwipeClockBar) -> g
     53:53:android.widget.ListView access$9(com.mitv.ui.elements.SwipeClockBar) -> h
-com.mitv.ui.elements.SwipeClockBar$1 -> bll:
+com.mitv.ui.elements.SwipeClockBar$1 -> bkt:
     com.mitv.ui.elements.SwipeClockBar this$0 -> a
     150:158:void onClick(android.view.View) -> onClick
     146:146:com.mitv.ui.elements.SwipeClockBar access$0(com.mitv.ui.elements.SwipeClockBar$1) -> a
-com.mitv.ui.elements.SwipeClockBar$1$1 -> blm:
+com.mitv.ui.elements.SwipeClockBar$1$1 -> bku:
     com.mitv.ui.elements.SwipeClockBar$1 this$1 -> a
     155:156:void run() -> run
-com.mitv.ui.elements.SwipeClockBar$2 -> bln:
+com.mitv.ui.elements.SwipeClockBar$2 -> bkv:
     com.mitv.ui.elements.SwipeClockBar this$0 -> a
     193:200:void onGlobalLayout() -> onGlobalLayout
-com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> blo:
+com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> bkw:
     java.util.List hoursOfTheDay -> b
     int listViewHeight -> c
     int index24OfSelectedHour -> d
@@ -44247,7 +43587,7 @@ com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> blo:
     341:341:boolean showOddHour() -> a
     346:427:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     247:247:void access$0(com.mitv.ui.elements.SwipeClockBar$TimeListAdapter,int) -> a
-com.mitv.ui.elements.SwipeClockBar$TimeListAdapter$ViewHolder -> blp:
+com.mitv.ui.elements.SwipeClockBar$TimeListAdapter$ViewHolder -> bkx:
     com.mitv.ui.elements.FontTextView textView -> a
     com.mitv.ui.elements.SwipeClockBar$TimeListAdapter this$1 -> b
 com.mitv.ui.elements.TextDrawable -> com.mitv.ui.elements.TextDrawable:
@@ -44306,13 +43646,13 @@ com.mitv.ui.elements.UndoBarController -> com.mitv.ui.elements.UndoBarController
     22:22:android.view.View access$2(com.mitv.ui.elements.UndoBarController) -> c
     31:31:void access$3(com.mitv.ui.elements.UndoBarController,java.lang.CharSequence) -> a
     30:30:void access$4(com.mitv.ui.elements.UndoBarController,android.os.Parcelable) -> a
-com.mitv.ui.elements.UndoBarController$1 -> blq:
+com.mitv.ui.elements.UndoBarController$1 -> bky:
     com.mitv.ui.elements.UndoBarController this$0 -> a
     172:173:void run() -> run
-com.mitv.ui.elements.UndoBarController$2 -> blr:
+com.mitv.ui.elements.UndoBarController$2 -> bkz:
     com.mitv.ui.elements.UndoBarController this$0 -> a
     60:62:void onClick(android.view.View) -> onClick
-com.mitv.ui.elements.UndoBarController$3 -> bls:
+com.mitv.ui.elements.UndoBarController$3 -> bla:
     com.mitv.ui.elements.UndoBarController this$0 -> a
     135:138:void onAnimationEnd(android.animation.Animator) -> onAnimationEnd
 com.mitv.ui.elements.UndoBarController$UndoListener -> com.mitv.ui.elements.UndoBarController$UndoListener:
@@ -44332,7 +43672,7 @@ com.mitv.ui.elements.VerticalSeekBar -> com.mitv.ui.elements.VerticalSeekBar:
     117:118:void onSizeChanged(int,int,int,int) -> onSizeChanged
     121:122:void setParentClockbar(com.mitv.ui.elements.SwipeClockBar) -> setParentClockbar
     21:21:com.mitv.ui.elements.FontTextView access$0(com.mitv.ui.elements.VerticalSeekBar) -> a
-com.mitv.ui.elements.VerticalSeekBar$1 -> blt:
+com.mitv.ui.elements.VerticalSeekBar$1 -> blb:
     com.mitv.ui.elements.VerticalSeekBar this$0 -> a
     98:99:void run() -> run
 com.mitv.ui.helpers.DialogHelper -> com.mitv.ui.helpers.DialogHelper:
@@ -44344,39 +43684,39 @@ com.mitv.ui.helpers.DialogHelper -> com.mitv.ui.helpers.DialogHelper:
     240:273:void showPromptTokenExpiredDialog(android.app.Activity) -> showPromptTokenExpiredDialog
     279:315:void showMandatoryAppUpdateDialog(android.app.Activity) -> showMandatoryAppUpdateDialog
     20:20:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
-com.mitv.ui.helpers.DialogHelper$1 -> blu:
+com.mitv.ui.helpers.DialogHelper$1 -> blc:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     108:114:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$2 -> blv:
+com.mitv.ui.helpers.DialogHelper$2 -> bld:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Activity val$activity -> b
     int val$notificationId -> c
     android.app.Dialog val$dialog -> d
     122:129:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$3 -> blw:
+com.mitv.ui.helpers.DialogHelper$3 -> ble:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     159:165:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$4 -> blx:
+com.mitv.ui.helpers.DialogHelper$4 -> blf:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
     173:179:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$5 -> bly:
+com.mitv.ui.helpers.DialogHelper$5 -> blg:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     207:213:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$6 -> blz:
+com.mitv.ui.helpers.DialogHelper$6 -> blh:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
     221:227:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$7 -> bma:
+com.mitv.ui.helpers.DialogHelper$7 -> bli:
     253:253:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$8 -> bmb:
+com.mitv.ui.helpers.DialogHelper$8 -> blj:
     android.app.Activity val$activity -> a
     android.app.Dialog val$dialog -> b
     261:266:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$9 -> bmc:
+com.mitv.ui.helpers.DialogHelper$9 -> blk:
     android.app.Activity val$activity -> a
     290:308:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.NotificationHelper -> com.mitv.ui.helpers.NotificationHelper:
@@ -44397,12 +43737,12 @@ com.mitv.utilities.AnimationUtils -> com.mitv.utilities.AnimationUtils:
     19:30:void animationSet(android.view.View) -> animationSet
     36:63:void expand(android.view.View) -> expand
     69:98:void collapse(android.view.View) -> collapse
-com.mitv.utilities.AnimationUtils$1 -> bmd:
+com.mitv.utilities.AnimationUtils$1 -> bll:
     android.view.View val$v -> a
     int val$targtetHeight -> b
     48:50:void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
     55:55:boolean willChangeBounds() -> willChangeBounds
-com.mitv.utilities.AnimationUtils$2 -> bme:
+com.mitv.utilities.AnimationUtils$2 -> blm:
     android.view.View val$v -> a
     int val$initialHeight -> b
     76:85:void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
@@ -44463,36 +43803,37 @@ com.mitv.utilities.FileUtils -> com.mitv.utilities.FileUtils:
     93:99:boolean isExternalStorageReadable() -> isExternalStorageReadable
 com.mitv.utilities.GenericUtils -> com.mitv.utilities.GenericUtils:
     java.lang.String TAG -> a
-    48:48:int getRandomNumberBetween() -> getRandomNumberBetween
-    57:67:int getRandomNumberBetween(int,int) -> getRandomNumberBetween
-    77:96:void startShareActivity(android.app.Activity,com.mitv.models.TVBroadcast) -> startShareActivity
-    104:115:java.util.Locale getCurrentLocale(android.content.Context) -> getCurrentLocale
-    122:125:boolean isActivityNotNullAndNotFinishing(android.app.Activity) -> isActivityNotNullAndNotFinishing
-    132:147:android.content.pm.PackageInfo getPackageInfo() -> getPackageInfo
-    154:171:android.content.pm.ApplicationInfo getApplicationInfo() -> getApplicationInfo
-    178:187:boolean isFacebookAppInstalled() -> isFacebookAppInstalled
-    194:208:boolean isMinimumRequiredFacebookAppInstalled() -> isMinimumRequiredFacebookAppInstalled
-    215:231:android.content.pm.PackageInfo getPackageInfo(java.lang.String) -> a
-    238:238:java.lang.String getCurrentAppVersion() -> getCurrentAppVersion
-    252:288:java.lang.String getSHA512PasswordHash(java.lang.String) -> getSHA512PasswordHash
-    295:327:boolean hideKeyboard(android.app.Activity) -> hideKeyboard
-    335:362:int getScreenWidth(android.app.Activity) -> getScreenWidth
-    370:397:int getScreenHeight(android.app.Activity) -> getScreenHeight
-    404:410:int geDeviceDensityDPI() -> geDeviceDensityDPI
-    422:441:void logFacebookKeyHash(android.content.Context) -> logFacebookKeyHash
-    448:459:java.lang.String replaceDashWithEnDash(java.lang.String) -> replaceDashWithEnDash
-    467:482:java.lang.String getDeviceId() -> getDeviceId
+    50:50:int getRandomNumberBetween() -> getRandomNumberBetween
+    59:69:int getRandomNumberBetween(int,int) -> getRandomNumberBetween
+    79:98:void startShareActivity(android.app.Activity,com.mitv.models.TVBroadcast) -> startShareActivity
+    106:117:java.util.Locale getCurrentLocale(android.content.Context) -> getCurrentLocale
+    124:127:boolean isActivityNotNullAndNotFinishing(android.app.Activity) -> isActivityNotNullAndNotFinishing
+    134:142:int getActivityCount() -> getActivityCount
+    149:164:android.content.pm.PackageInfo getPackageInfo() -> getPackageInfo
+    171:188:android.content.pm.ApplicationInfo getApplicationInfo() -> getApplicationInfo
+    195:204:boolean isFacebookAppInstalled() -> isFacebookAppInstalled
+    211:225:boolean isMinimumRequiredFacebookAppInstalled() -> isMinimumRequiredFacebookAppInstalled
+    232:248:android.content.pm.PackageInfo getPackageInfo(java.lang.String) -> a
+    255:255:java.lang.String getCurrentAppVersion() -> getCurrentAppVersion
+    269:305:java.lang.String getSHA512PasswordHash(java.lang.String) -> getSHA512PasswordHash
+    312:344:boolean hideKeyboard(android.app.Activity) -> hideKeyboard
+    352:379:int getScreenWidth(android.app.Activity) -> getScreenWidth
+    387:414:int getScreenHeight(android.app.Activity) -> getScreenHeight
+    421:427:int geDeviceDensityDPI() -> geDeviceDensityDPI
+    439:458:void logFacebookKeyHash(android.content.Context) -> logFacebookKeyHash
+    465:476:java.lang.String replaceDashWithEnDash(java.lang.String) -> replaceDashWithEnDash
+    484:499:java.lang.String getDeviceId() -> getDeviceId
 com.mitv.utilities.HyperLinkUtils -> com.mitv.utilities.HyperLinkUtils:
     28:45:void stripUnderlines(android.widget.TextView) -> stripUnderlines
 com.mitv.utilities.HyperLinkUtils$URLSpanWithoutUnderline -> com.mitv.utilities.HyperLinkUtils$URLSpanWithoutUnderline:
     20:23:void updateDrawState(android.text.TextPaint) -> updateDrawState
 com.mitv.utilities.LanguageUtils -> com.mitv.utilities.LanguageUtils:
     java.lang.String TAG -> a
-    33:35:java.util.Locale getISO8601Locale() -> getISO8601Locale
-    41:53:java.util.Locale getCurrentLocale() -> getCurrentLocale
-    60:62:boolean isCurrentLocaleSpanish() -> isCurrentLocaleSpanish
-    72:85:java.lang.String capitalize(java.lang.String,java.util.Locale) -> capitalize
-    97:190:void setupProgressBar(android.app.Activity,com.mitv.models.TVBroadcast,android.widget.ProgressBar,android.widget.TextView) -> setupProgressBar
+    34:36:java.util.Locale getISO8601Locale() -> getISO8601Locale
+    43:66:java.util.Locale getCurrentLocale() -> getCurrentLocale
+    73:75:boolean isCurrentLocaleSpanish() -> isCurrentLocaleSpanish
+    85:98:java.lang.String capitalize(java.lang.String,java.util.Locale) -> capitalize
+    110:203:void setupProgressBar(android.app.Activity,com.mitv.models.TVBroadcast,android.widget.ProgressBar,android.widget.TextView) -> setupProgressBar
 com.mitv.utilities.ListUtils -> com.mitv.utilities.ListUtils:
     11:32:boolean deepEquals(java.util.List,java.util.List,com.mitv.models.comparators.BaseComparator) -> deepEquals
 com.mitv.utilities.NetworkUtils -> com.mitv.utilities.NetworkUtils:
@@ -44537,7 +43878,7 @@ com.nostra13.universalimageloader.cache.disc.LimitedDiscCache -> com.nostra13.un
     int getSize(java.io.File) -> getSize
     38:38:java.util.Map access$000(com.nostra13.universalimageloader.cache.disc.LimitedDiscCache) -> a
     38:38:java.util.concurrent.atomic.AtomicInteger access$100(com.nostra13.universalimageloader.cache.disc.LimitedDiscCache) -> b
-com.nostra13.universalimageloader.cache.disc.LimitedDiscCache$1 -> bmf:
+com.nostra13.universalimageloader.cache.disc.LimitedDiscCache$1 -> bln:
     com.nostra13.universalimageloader.cache.disc.LimitedDiscCache this$0 -> a
     76:85:void run() -> run
 com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache -> com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache:
@@ -44683,14 +44024,14 @@ com.nostra13.universalimageloader.core.DefaultConfigurationFactory -> com.nostra
     108:108:com.nostra13.universalimageloader.core.decode.ImageDecoder createImageDecoder(boolean) -> createImageDecoder
     113:113:com.nostra13.universalimageloader.core.display.BitmapDisplayer createBitmapDisplayer() -> createBitmapDisplayer
     118:118:java.util.concurrent.ThreadFactory createThreadFactory(int) -> a
-com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> bmg:
+com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> blo:
     java.util.concurrent.atomic.AtomicInteger poolNumber -> a
     java.lang.ThreadGroup group -> b
     java.util.concurrent.atomic.AtomicInteger threadNumber -> c
     java.lang.String namePrefix -> d
     int threadPriority -> e
     139:142:java.lang.Thread newThread(java.lang.Runnable) -> newThread
-com.nostra13.universalimageloader.core.DisplayBitmapTask -> bmh:
+com.nostra13.universalimageloader.core.DisplayBitmapTask -> blp:
     android.graphics.Bitmap bitmap -> a
     java.lang.String imageUri -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -44765,7 +44106,7 @@ com.nostra13.universalimageloader.core.DisplayImageOptions -> com.nostra13.unive
     66:66:com.nostra13.universalimageloader.core.display.BitmapDisplayer access$3500(com.nostra13.universalimageloader.core.DisplayImageOptions) -> q
     66:66:android.os.Handler access$3600(com.nostra13.universalimageloader.core.DisplayImageOptions) -> r
     66:66:boolean access$3700(com.nostra13.universalimageloader.core.DisplayImageOptions) -> s
-com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> bmi:
+com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> blq:
 com.nostra13.universalimageloader.core.DisplayImageOptions$Builder -> com.nostra13.universalimageloader.core.DisplayImageOptions$Builder:
     int imageResOnLoading -> a
     int imageResForEmptyUri -> b
@@ -44901,7 +44242,7 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration -> com.nostra13.
     com.nostra13.universalimageloader.core.download.ImageDownloader slowNetworkDownloader -> x
     139:139:com.nostra13.universalimageloader.core.ImageLoaderConfiguration createDefault(android.content.Context) -> createDefault
     143:153:com.nostra13.universalimageloader.core.assist.ImageSize getMaxImageSize() -> a
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> bmj:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> blr:
 com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder:
     int DEFAULT_THREAD_POOL_SIZE -> DEFAULT_THREAD_POOL_SIZE
     int DEFAULT_THREAD_PRIORITY -> DEFAULT_THREAD_PRIORITY
@@ -44974,7 +44315,7 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.n
     161:161:com.nostra13.universalimageloader.core.decode.ImageDecoder access$1800(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> s
     161:161:boolean access$1900(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> t
     161:161:boolean access$2000(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> u
-com.nostra13.universalimageloader.core.ImageLoaderEngine -> bmk:
+com.nostra13.universalimageloader.core.ImageLoaderEngine -> bls:
     com.nostra13.universalimageloader.core.ImageLoaderConfiguration configuration -> a
     java.util.concurrent.Executor taskExecutor -> b
     java.util.concurrent.Executor taskExecutorForCachedImages -> c
@@ -45005,11 +44346,11 @@ com.nostra13.universalimageloader.core.ImageLoaderEngine -> bmk:
     40:40:void access$000(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> a
     40:40:java.util.concurrent.Executor access$100(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> b
     40:40:java.util.concurrent.Executor access$200(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> c
-com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> bml:
+com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> blt:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask val$task -> a
     com.nostra13.universalimageloader.core.ImageLoaderEngine this$0 -> b
     72:79:void run() -> run
-com.nostra13.universalimageloader.core.ImageLoadingInfo -> bmm:
+com.nostra13.universalimageloader.core.ImageLoadingInfo -> blu:
     java.lang.String uri -> a
     java.lang.String memoryCacheKey -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -45018,7 +44359,7 @@ com.nostra13.universalimageloader.core.ImageLoadingInfo -> bmm:
     com.nostra13.universalimageloader.core.assist.ImageLoadingListener listener -> f
     com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener progressListener -> g
     java.util.concurrent.locks.ReentrantLock loadFromUriLock -> h
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> bmn:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> blv:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> f
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> g
     android.os.Handler handler -> h
@@ -45062,22 +44403,22 @@ com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> bmn:
     491:492:void log(java.lang.String) -> b
     495:496:void log(java.lang.String,java.lang.Object[]) -> a
     55:55:com.nostra13.universalimageloader.core.ImageLoaderConfiguration access$000(com.nostra13.universalimageloader.core.LoadAndDisplayImageTask) -> a
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> bmo:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> blw:
     int val$current -> a
     int val$total -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     375:376:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> bmp:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> blx:
     com.nostra13.universalimageloader.core.assist.FailReason$FailType val$failType -> a
     java.lang.Throwable val$failCause -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     386:390:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> bmq:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> bly:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
     399:400:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> bmr:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> blz:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
-com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> bms:
+com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> bma:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> a
     android.graphics.Bitmap bitmap -> b
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> c
@@ -45151,7 +44492,7 @@ com.nostra13.universalimageloader.core.assist.MemoryCacheUtil -> com.nostra13.un
     66:72:java.util.List findCachedBitmapsForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> findCachedBitmapsForImageUri
     82:88:java.util.List findCacheKeysForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> findCacheKeysForImageUri
     98:107:void removeFromCache(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> removeFromCache
-com.nostra13.universalimageloader.core.assist.MemoryCacheUtil$1 -> bmt:
+com.nostra13.universalimageloader.core.assist.MemoryCacheUtil$1 -> bmb:
     52:54:int compare(java.lang.String,java.lang.String) -> a
     49:49:int compare(java.lang.Object,java.lang.Object) -> compare
 com.nostra13.universalimageloader.core.assist.PauseOnScrollListener -> com.nostra13.universalimageloader.core.assist.PauseOnScrollListener:
@@ -45183,7 +44524,7 @@ com.nostra13.universalimageloader.core.assist.ViewScaleType -> com.nostra13.univ
     27:27:com.nostra13.universalimageloader.core.assist.ViewScaleType[] values() -> values
     27:27:com.nostra13.universalimageloader.core.assist.ViewScaleType valueOf(java.lang.String) -> valueOf
     59:70:com.nostra13.universalimageloader.core.assist.ViewScaleType fromImageView(android.widget.ImageView) -> fromImageView
-com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> bmu:
+com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> bmc:
     int[] $SwitchMap$android$widget$ImageView$ScaleType -> a
 com.nostra13.universalimageloader.core.assist.deque.BlockingDeque -> com.nostra13.universalimageloader.core.assist.deque.BlockingDeque:
     void addFirst(java.lang.Object) -> addFirst
@@ -45309,8 +44650,8 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque -> com.n
     1007:1007:java.util.Iterator descendingIterator() -> descendingIterator
     1133:1146:void writeObject(java.io.ObjectOutputStream) -> writeObject
     1155:1167:void readObject(java.io.ObjectInputStream) -> readObject
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> bmv:
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> bmw:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> bmd:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> bme:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> a
     java.lang.Object nextItem -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node lastRet -> d
@@ -45322,15 +44663,15 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Abstract
     1084:1084:boolean hasNext() -> hasNext
     1088:1093:java.lang.Object next() -> next
     1097:1109:void remove() -> remove
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$DescendingItr -> bmx:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$DescendingItr -> bmf:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque this$0 -> d
     1120:1120:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node firstNode() -> a
     1121:1121:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node nextNode(com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node) -> a
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> bmy:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> bmg:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque this$0 -> d
     1114:1114:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node firstNode() -> a
     1115:1115:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node nextNode(com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node) -> a
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> bmz:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> bmh:
     java.lang.Object item -> a
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node prev -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> c
@@ -45426,7 +44767,7 @@ com.nostra13.universalimageloader.core.download.BaseImageDownloader -> com.nostr
     173:174:java.io.InputStream getStreamFromAssets(java.lang.String,java.lang.Object) -> getStreamFromAssets
     186:193:java.io.InputStream getStreamFromDrawable(java.lang.String,java.lang.Object) -> getStreamFromDrawable
     210:210:java.io.InputStream getStreamFromOtherSource(java.lang.String,java.lang.Object) -> getStreamFromOtherSource
-com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> bna:
+com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> bmi:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.download.HttpClientImageDownloader -> com.nostra13.universalimageloader.core.download.HttpClientImageDownloader:
     org.apache.http.client.HttpClient httpClient -> a
@@ -45453,12 +44794,12 @@ com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme -> com.no
 com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader -> com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     38:43:java.io.InputStream getStream(java.lang.String,java.lang.Object) -> getStream
-com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader$1 -> bnb:
+com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader$1 -> bmj:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader -> com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     40:46:java.io.InputStream getStream(java.lang.String,java.lang.Object) -> getStream
-com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader$1 -> bnc:
+com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader$1 -> bmk:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.imageaware.ImageAware -> com.nostra13.universalimageloader.core.imageaware.ImageAware:
     int getWidth() -> getWidth
@@ -45502,7 +44843,7 @@ com.nostra13.universalimageloader.utils.ImageSizeUtils -> com.nostra13.universal
     92:131:int computeImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> computeImageSampleSize
     144:152:int computeMinImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize) -> computeMinImageSampleSize
     179:202:float computeImageScale(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> computeImageScale
-com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> bnd:
+com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> bml:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$assist$ViewScaleType -> a
 com.nostra13.universalimageloader.utils.IoUtils -> com.nostra13.universalimageloader.utils.IoUtils:
     int DEFAULT_BUFFER_SIZE -> DEFAULT_BUFFER_SIZE
@@ -45584,7 +44925,7 @@ com.viewpagerindicator.CirclePageIndicator$SavedState -> com.viewpagerindicator.
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     538:540:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> bne:
+com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> bmm:
     546:546:com.viewpagerindicator.CirclePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     551:551:com.viewpagerindicator.CirclePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -45607,14 +44948,14 @@ com.viewpagerindicator.IconPageIndicator -> com.viewpagerindicator.IconPageIndic
     155:170:void setCurrentItem(int) -> setCurrentItem
     174:175:void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener) -> setOnPageChangeListener
     41:41:void access$0(com.viewpagerindicator.IconPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.IconPageIndicator$1 -> bnf:
+com.viewpagerindicator.IconPageIndicator$1 -> bmn:
     com.viewpagerindicator.IconPageIndicator this$0 -> a
     android.view.View val$iconView -> b
     66:69:void run() -> run
 com.viewpagerindicator.IconPagerAdapter -> com.viewpagerindicator.IconPagerAdapter:
     int getIconResId(int) -> getIconResId
     int getCount() -> getCount
-com.viewpagerindicator.IcsLinearLayout -> bng:
+com.viewpagerindicator.IcsLinearLayout -> bmo:
     int[] LL -> a
     android.graphics.drawable.Drawable mDivider -> b
     int mDividerWidth -> c
@@ -45673,7 +45014,7 @@ com.viewpagerindicator.LinePageIndicator$SavedState -> com.viewpagerindicator.Li
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     431:433:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.LinePageIndicator$SavedState$1 -> bnh:
+com.viewpagerindicator.LinePageIndicator$SavedState$1 -> bmp:
     439:439:com.viewpagerindicator.LinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     444:444:com.viewpagerindicator.LinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -45859,16 +45200,16 @@ com.viewpagerindicator.TabPageIndicator -> com.viewpagerindicator.TabPageIndicat
     75:75:com.viewpagerindicator.TabPageIndicator$OnTabReselectedListener access$1(com.viewpagerindicator.TabPageIndicator) -> b
     72:72:int access$2(com.viewpagerindicator.TabPageIndicator) -> c
     53:53:void access$3(com.viewpagerindicator.TabPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.TabPageIndicator$1 -> bni:
+com.viewpagerindicator.TabPageIndicator$1 -> bmq:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     57:64:void onClick(android.view.View) -> onClick
-com.viewpagerindicator.TabPageIndicator$2 -> bnj:
+com.viewpagerindicator.TabPageIndicator$2 -> bmr:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     android.view.View val$tabView -> b
     127:130:void run() -> run
 com.viewpagerindicator.TabPageIndicator$OnTabReselectedListener -> com.viewpagerindicator.TabPageIndicator$OnTabReselectedListener:
     void onTabReselected(int) -> onTabReselected
-com.viewpagerindicator.TabPageIndicator$TabView -> bnk:
+com.viewpagerindicator.TabPageIndicator$TabView -> bms:
     int mIndex -> b
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     270:277:void onMeasure(int,int) -> onMeasure
@@ -45974,7 +45315,7 @@ com.viewpagerindicator.TitlePageIndicator$SavedState -> com.viewpagerindicator.T
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     845:847:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> bnl:
+com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> bmt:
     853:853:com.viewpagerindicator.TitlePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     858:858:com.viewpagerindicator.TitlePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -46019,17 +45360,17 @@ com.viewpagerindicator.UnderlinePageIndicator -> com.viewpagerindicator.Underlin
     42:42:android.graphics.Paint access$1(com.viewpagerindicator.UnderlinePageIndicator) -> b
     47:47:int access$2(com.viewpagerindicator.UnderlinePageIndicator) -> c
     60:60:java.lang.Runnable access$3(com.viewpagerindicator.UnderlinePageIndicator) -> d
-com.viewpagerindicator.UnderlinePageIndicator$1 -> bnm:
+com.viewpagerindicator.UnderlinePageIndicator$1 -> bmu:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     62:70:void run() -> run
-com.viewpagerindicator.UnderlinePageIndicator$2 -> bnn:
+com.viewpagerindicator.UnderlinePageIndicator$2 -> bmv:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     281:284:void run() -> run
 com.viewpagerindicator.UnderlinePageIndicator$SavedState -> com.viewpagerindicator.UnderlinePageIndicator$SavedState:
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     385:387:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> bno:
+com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> bmw:
     393:393:com.viewpagerindicator.UnderlinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     398:398:com.viewpagerindicator.UnderlinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -46074,22 +45415,22 @@ net.hockeyapp.android.CrashManager -> net.hockeyapp.android.CrashManager:
     535:555:java.lang.String[] searchForStackTraces() -> b
     71:71:void access$000(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> a
     71:71:void access$100(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> b
-net.hockeyapp.android.CrashManager$1 -> bnp:
+net.hockeyapp.android.CrashManager$1 -> bmx:
     net.hockeyapp.android.CrashManagerListener val$listener -> a
     java.lang.ref.WeakReference val$weakContext -> b
     boolean val$ignoreDefaultHandler -> c
     366:372:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$2 -> bnq:
+net.hockeyapp.android.CrashManager$2 -> bmy:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     377:378:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$3 -> bnr:
+net.hockeyapp.android.CrashManager$3 -> bmz:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     394:396:void run() -> run
-net.hockeyapp.android.CrashManager$4 -> bns:
+net.hockeyapp.android.CrashManager$4 -> bna:
     548:548:boolean accept(java.io.File,java.lang.String) -> accept
 net.hockeyapp.android.CrashManagerListener -> net.hockeyapp.android.CrashManagerListener:
     43:43:boolean ignoreDefaultHandler() -> ignoreDefaultHandler
@@ -46173,26 +45514,26 @@ net.hockeyapp.android.FeedbackActivity -> net.hockeyapp.android.FeedbackActivity
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$800(net.hockeyapp.android.FeedbackActivity) -> f
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$802(net.hockeyapp.android.FeedbackActivity,net.hockeyapp.android.adapters.MessagesAdapter) -> a
     71:71:android.widget.ListView access$900(net.hockeyapp.android.FeedbackActivity) -> g
-net.hockeyapp.android.FeedbackActivity$1 -> bnt:
+net.hockeyapp.android.FeedbackActivity$1 -> bnb:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     157:159:void run() -> run
-net.hockeyapp.android.FeedbackActivity$2 -> bnu:
+net.hockeyapp.android.FeedbackActivity$2 -> bnc:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     170:207:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$2$1 -> bnv:
+net.hockeyapp.android.FeedbackActivity$2$1 -> bnd:
     net.hockeyapp.android.FeedbackActivity$2 this$1 -> a
     202:204:void run() -> run
-net.hockeyapp.android.FeedbackActivity$3 -> bnw:
+net.hockeyapp.android.FeedbackActivity$3 -> bne:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     218:256:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$3$1 -> bnx:
+net.hockeyapp.android.FeedbackActivity$3$1 -> bnf:
     net.hockeyapp.android.FeedbackActivity$3 this$1 -> a
     250:251:void run() -> run
-net.hockeyapp.android.FeedbackActivity$4 -> bny:
+net.hockeyapp.android.FeedbackActivity$4 -> bng:
     net.hockeyapp.android.objects.FeedbackResponse val$feedbackResponse -> a
     net.hockeyapp.android.FeedbackActivity this$0 -> b
     346:383:void run() -> run
-net.hockeyapp.android.FeedbackActivity$5 -> bnz:
+net.hockeyapp.android.FeedbackActivity$5 -> bnh:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     508:510:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.FeedbackActivityInterface -> net.hockeyapp.android.FeedbackActivityInterface:
@@ -46263,18 +45604,18 @@ net.hockeyapp.android.UpdateActivity -> net.hockeyapp.android.UpdateActivity:
     340:354:void onPrepareDialog(int,android.app.Dialog) -> onPrepareDialog
     62:62:android.view.View getLayoutView() -> getLayoutView
     62:62:net.hockeyapp.android.objects.ErrorObject access$002(net.hockeyapp.android.UpdateActivity,net.hockeyapp.android.objects.ErrorObject) -> a
-net.hockeyapp.android.UpdateActivity$1 -> boa:
+net.hockeyapp.android.UpdateActivity$1 -> bni:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     163:164:void downloadSuccessful(net.hockeyapp.android.tasks.DownloadFileTask) -> downloadSuccessful
     167:173:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
     176:181:java.lang.String getStringForResource(int) -> getStringForResource
-net.hockeyapp.android.UpdateActivity$2 -> bob:
+net.hockeyapp.android.UpdateActivity$2 -> bnj:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     292:293:void run() -> run
-net.hockeyapp.android.UpdateActivity$3 -> boc:
+net.hockeyapp.android.UpdateActivity$3 -> bnk:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     307:308:void run() -> run
-net.hockeyapp.android.UpdateActivity$4 -> bod:
+net.hockeyapp.android.UpdateActivity$4 -> bnl:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     329:331:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.UpdateActivityInterface -> net.hockeyapp.android.UpdateActivityInterface:
@@ -46293,7 +45634,7 @@ net.hockeyapp.android.UpdateFragment -> net.hockeyapp.android.UpdateFragment:
     213:221:java.lang.String getAppName() -> getAppName
     231:231:android.view.View getLayoutView() -> getLayoutView
     60:60:void access$000(net.hockeyapp.android.UpdateFragment,android.app.Activity) -> a
-net.hockeyapp.android.UpdateFragment$1 -> boe:
+net.hockeyapp.android.UpdateFragment$1 -> bnm:
     android.app.Activity val$activity -> a
     net.hockeyapp.android.UpdateFragment this$0 -> b
     166:169:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
@@ -46450,10 +45791,10 @@ net.hockeyapp.android.tasks.CheckUpdateTask -> net.hockeyapp.android.tasks.Check
     79:79:android.app.Activity access$100(net.hockeyapp.android.tasks.CheckUpdateTask) -> b
     79:79:void access$200(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray) -> a
     79:79:void access$300(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray,java.lang.Boolean) -> a
-net.hockeyapp.android.tasks.CheckUpdateTask$1 -> bof:
+net.hockeyapp.android.tasks.CheckUpdateTask$1 -> bnn:
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> a
     299:300:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.CheckUpdateTask$2 -> bog:
+net.hockeyapp.android.tasks.CheckUpdateTask$2 -> bno:
     org.json.JSONArray val$updateInfo -> a
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> b
     305:316:void onClick(android.content.DialogInterface,int) -> onClick
@@ -46475,10 +45816,10 @@ net.hockeyapp.android.tasks.DownloadFileTask -> net.hockeyapp.android.tasks.Down
     62:62:void onPostExecute(java.lang.Object) -> onPostExecute
     62:62:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     62:62:net.hockeyapp.android.listeners.DownloadFileListener access$000(net.hockeyapp.android.tasks.DownloadFileTask) -> a
-net.hockeyapp.android.tasks.DownloadFileTask$1 -> boh:
+net.hockeyapp.android.tasks.DownloadFileTask$1 -> bnp:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     182:183:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.DownloadFileTask$2 -> boi:
+net.hockeyapp.android.tasks.DownloadFileTask$2 -> bnq:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     188:189:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.tasks.ParseFeedbackTask -> net.hockeyapp.android.tasks.ParseFeedbackTask:
@@ -46513,21 +45854,21 @@ net.hockeyapp.android.utils.ConnectionManager -> net.hockeyapp.android.utils.Con
     org.apache.http.client.HttpClient httpClient -> a
     53:53:net.hockeyapp.android.utils.ConnectionManager getInstance() -> getInstance
     57:57:org.apache.http.client.HttpClient getHttpClient() -> getHttpClient
-net.hockeyapp.android.utils.ConnectionManager$1 -> boj:
-net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> bok:
+net.hockeyapp.android.utils.ConnectionManager$1 -> bnr:
+net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> bns:
     net.hockeyapp.android.utils.ConnectionManager INSTANCE -> a
 net.hockeyapp.android.utils.DeviceUtils -> net.hockeyapp.android.utils.DeviceUtils:
     28:28:net.hockeyapp.android.utils.DeviceUtils getInstance() -> getInstance
     37:37:int getCurrentVersionCode(android.content.Context) -> getCurrentVersionCode
     46:63:java.lang.String getAppName(android.content.Context) -> getAppName
-net.hockeyapp.android.utils.DeviceUtils$1 -> bol:
-net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> bom:
+net.hockeyapp.android.utils.DeviceUtils$1 -> bnt:
+net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> bnu:
     net.hockeyapp.android.utils.DeviceUtils INSTANCE -> a
 net.hockeyapp.android.utils.FeedbackParser -> net.hockeyapp.android.utils.FeedbackParser:
     32:32:net.hockeyapp.android.utils.FeedbackParser getInstance() -> getInstance
     41:137:net.hockeyapp.android.objects.FeedbackResponse parseFeedbackResponse(java.lang.String) -> parseFeedbackResponse
-net.hockeyapp.android.utils.FeedbackParser$1 -> bon:
-net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> boo:
+net.hockeyapp.android.utils.FeedbackParser$1 -> bnv:
+net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> bnw:
     net.hockeyapp.android.utils.FeedbackParser INSTANCE -> a
 net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     android.content.SharedPreferences feedbackTokenPrefs -> a
@@ -46541,31 +45882,31 @@ net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     92:101:java.lang.String getNameEmailFromPrefs(android.content.Context) -> getNameEmailFromPrefs
     109:115:void applyChanges(android.content.SharedPreferences$Editor) -> applyChanges
     122:125:java.lang.Boolean applySupported() -> applySupported
-net.hockeyapp.android.utils.PrefsUtil$1 -> bop:
-net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> boq:
+net.hockeyapp.android.utils.PrefsUtil$1 -> bnx:
+net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> bny:
     net.hockeyapp.android.utils.PrefsUtil INSTANCE -> a
 net.hockeyapp.android.utils.UiThreadUtil -> net.hockeyapp.android.utils.UiThreadUtil:
     23:23:net.hockeyapp.android.utils.UiThreadUtil getInstance() -> getInstance
     29:46:void dismissLoadingDialogAndDisplayError(java.lang.ref.WeakReference,android.app.ProgressDialog,int) -> dismissLoadingDialogAndDisplayError
     49:63:void dismissLoading(java.lang.ref.WeakReference,android.app.ProgressDialog) -> dismissLoading
     68:80:void displayToastMessage(java.lang.ref.WeakReference,java.lang.String,int) -> displayToastMessage
-net.hockeyapp.android.utils.UiThreadUtil$1 -> bor:
+net.hockeyapp.android.utils.UiThreadUtil$1 -> bnz:
     android.app.ProgressDialog val$progressDialog -> a
     android.app.Activity val$activity -> b
     int val$errorDialogId -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     37:42:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$2 -> bos:
+net.hockeyapp.android.utils.UiThreadUtil$2 -> boa:
     android.app.ProgressDialog val$progressDialog -> a
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> b
     56:59:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$3 -> bot:
+net.hockeyapp.android.utils.UiThreadUtil$3 -> bob:
     android.app.Activity val$activity -> a
     java.lang.String val$message -> b
     int val$flags -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     75:76:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> bou:
+net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> boc:
     net.hockeyapp.android.utils.UiThreadUtil INSTANCE -> a
 net.hockeyapp.android.utils.Util -> net.hockeyapp.android.utils.Util:
     java.lang.String PREFS_FEEDBACK_TOKEN -> PREFS_FEEDBACK_TOKEN
@@ -46596,7 +45937,7 @@ net.hockeyapp.android.utils.VersionHelper -> net.hockeyapp.android.utils.Version
     213:219:java.lang.String getVersionName(org.json.JSONObject) -> c
     223:235:java.lang.String getVersionNotes(int,org.json.JSONObject) -> c
     251:289:int compareVersionStrings(java.lang.String,java.lang.String) -> compareVersionStrings
-net.hockeyapp.android.utils.VersionHelper$1 -> bov:
+net.hockeyapp.android.utils.VersionHelper$1 -> bod:
     net.hockeyapp.android.utils.VersionHelper this$0 -> a
     90:99:int compare(org.json.JSONObject,org.json.JSONObject) -> a
     87:87:int compare(java.lang.Object,java.lang.Object) -> compare
