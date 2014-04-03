@@ -3,18 +3,12 @@ package com.mitv.activities;
 
 
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -48,6 +42,7 @@ import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -81,7 +76,6 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	private ImageView channelIv;
 	private TextView synopsisTv;
 	private WebView webDisqus;
-	private String webViewHTML;
 
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
@@ -163,6 +157,57 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			url = "";
 		}
 		
+		boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		String userID;
+		String username;
+		String userEmail;
+		
+		if(isUserLoggedIn)
+		{
+			try {
+				userID = URLEncoder.encode(ContentManager.sharedInstance().getFromCacheUserId(), "UTF-8");
+				
+				userID = url.replace("+", "%20");
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				userID = "";
+			}
+			
+			try {
+				username = URLEncoder.encode(ContentManager.sharedInstance().getFromCacheUserFirstname(), "UTF-8");
+				
+				username = url.replace("+", "%20");
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				username = "";
+			}
+			
+			try {
+				userEmail = URLEncoder.encode(ContentManager.sharedInstance().getFromCacheUserEmail(), "UTF-8");
+				
+				userEmail = url.replace("+", "%20");
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				userEmail = "";
+			}
+		}
+		else
+		{
+			userID = null;
+			username = null;
+			userEmail = null;
+		}
+		
 		StringBuilder urlSB = new StringBuilder();
 		
 		urlSB.append("http://gitrgitr.com/test/index.htm");
@@ -172,6 +217,23 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		urlSB.append(contentID);
 		urlSB.append("&url=");
 		urlSB.append(url);
+		
+		if(isUserLoggedIn)
+		{
+			urlSB.append("&id=");
+			urlSB.append(userID);
+			
+			urlSB.append("&username=");
+			urlSB.append(username);
+			
+			urlSB.append("&email=");
+			urlSB.append(userEmail);
+			
+			long timestamp = DateUtils.getNow().getTimeInMillis();
+			
+			urlSB.append("&timestamp=");
+			urlSB.append(timestamp);
+		}
 		
 		webDisqus.loadUrl(urlSB.toString());
 		
@@ -339,34 +401,6 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		webSettings.setBuiltInZoomControls(false);
 		webDisqus.requestFocusFromTouch();
 		
-		StringBuilder htmlSB = new StringBuilder();
-		
-		try 
-		{
-			String line;
-			
-			AssetManager assetManager = getAssets();
-			
-		    InputStream ims = assetManager.open("disqus_comments.html");
-			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(ims));
-			
-			while((line = reader.readLine()) != null) 
-			{
-				htmlSB.append(line);
-			}
-			
-			reader.close();
-		}
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
 		webDisqus.setWebViewClient(new WebViewClient());
 		webDisqus.setWebChromeClient(new WebChromeClient() 
 		{
@@ -377,8 +411,6 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			                         + sourceID);
 			  }
 			});
-		
-		webViewHTML = htmlSB.toString();
 	}
 
 	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) {
