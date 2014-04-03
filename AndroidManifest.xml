@@ -58,6 +58,13 @@
         android:logo="@drawable/ic_nav_bar">
         
         
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        
+        <meta-data android:name="com.google.android.gms.version"
+               android:value="@integer/google_play_services_version"/>
+        
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
             android:name="com.mitv.activities.SplashScreenActivity"
@@ -293,10 +300,17 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/app_id" />
+        
+        
+        <!-- Used for Google Play Store Campaign Measurement-->;
+		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+		<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+		          android:exported="true">
+		  <intent-filter>
+		    <action android:name="com.android.vending.INSTALL_REFERRER" />
+		  </intent-filter>
+		</receiver>
+        
     </application>
     
 </manifest>
