@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -110,15 +111,36 @@ public abstract class DateUtils
 	}
 	
 	
-	public static Integer getTimeZoneOffsetInMinutes()
-	{
+	
+	/**
+	 * This calculation of timezone offset takes in daylight time in consideration.
+	 * 
+	 * @return
+	 */
+	public static Integer getTimeZoneOffsetInMinutes() {
 		Integer timeZoneOffsetInMinutes = 0;
+		
 		TimeZone timeZone = TimeZone.getDefault();
+		
+		Calendar cal = DateUtils.getNow();
+		
+		boolean inDaylightTime = timeZone.inDaylightTime(cal.getTime());
+		
+		Log.d(TAG, "inDaylightTime: " + inDaylightTime);
+		
+		int era = cal.get(Calendar.ERA);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		int timeOfDayMillis = cal.get(Calendar.MILLISECOND);
+		
+		int offsetNEW = timeZone.getOffset(era, year, month, day, dayOfWeek, timeOfDayMillis);
 		
 		if(timeZone != null)
 		{
-			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);		
-			timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
+			int  timeZoneOffsetInMinutesAlternative = (int)(offsetNEW / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+			timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAlternative);
 		}
 		else
 		{
@@ -290,6 +312,7 @@ public abstract class DateUtils
 		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendar();
 		
 		boolean isTVDateNow = (now.after(startOfTVDay) || now.equals(startOfTVDay)) && now.before(endOfTVDay);
+		
 		return isTVDateNow;
 
 	}

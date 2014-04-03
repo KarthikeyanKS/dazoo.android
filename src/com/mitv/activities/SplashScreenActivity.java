@@ -62,15 +62,13 @@ public class SplashScreenActivity
 		super.onCreate(savedInstanceState);
 		
 		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
-		
+		showSplashScreen();
 //		if (hasUserSeenTutorial) {
 //			showSplashScreen();
 //			
 //		} else {
 //			showUserTutorial();
 //		}
-		
-		showSplashScreen();
 		
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
@@ -183,6 +181,7 @@ public class SplashScreenActivity
 		}
 	}
 	
+	
 
 	private void startPrimaryActivity() 
 	{
@@ -202,6 +201,8 @@ public class SplashScreenActivity
 		finish();
 	}
 	
+	
+	
 	private String getTodaysDate() {
 		Calendar cal = DateUtils.getNow();
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
@@ -209,6 +210,7 @@ public class SplashScreenActivity
 		
 		return date;
 	}
+	
 	
 	
 	private void showSplashScreen() {
@@ -223,6 +225,8 @@ public class SplashScreenActivity
 		}
 	}
 	
+	
+	
 	@Override
 	public void onBackPressed() {
 		if (mPager.getCurrentItem() == 0) {
@@ -233,6 +237,8 @@ public class SplashScreenActivity
 		}
 	}
 	
+	
+	
 	private void showUserTutorial() {
 		isViewingTutorial = true;
 		
@@ -240,12 +246,15 @@ public class SplashScreenActivity
 
 		initTutorialView();
 	}
+	
+	
 
 	private void initTutorialView() {
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPagerAdapter = new TutorialScreenSlidePagerAdapter(getSupportFragmentManager());
 		mPager.setAdapter(mPagerAdapter);	
 	}
+	
 	
 
 	@Override
