@@ -25,7 +25,6 @@ import com.mitv.utilities.NetworkUtils;
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
