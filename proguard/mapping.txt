@@ -42178,45 +42178,44 @@ com.mitv.activities.base.BaseActivity -> com.mitv.activities.base.BaseActivity:
     void loadData() -> loadData
     boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
     void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    125:150:void onCreate(android.os.Bundle) -> onCreate
-    153:169:void restartTheApp() -> restartTheApp
-    174:175:void registerAsListenerForRequest(com.mitv.enums.RequestIdentifierEnum) -> registerAsListenerForRequest
-    178:179:void unregisterListenerFromAllRequests() -> unregisterListenerFromAllRequests
-    216:281:void onResume() -> onResume
-    287:308:void handleTimeAndDayOnResume() -> b
-    312:313:void sendToastMessageWhenRestart(java.lang.String) -> b
-    317:320:void killAllActivitiesIncludingThis() -> c
-    323:342:int getIndexOfTodayFromTVDates() -> d
-    352:359:void pushActivityToStack(com.mitv.activities.base.BaseActivity) -> a
-    363:371:void printActivityStack() -> g
-    391:398:void removeFromStackOnDestroy(android.app.Activity) -> a
-    401:404:void removeActivitiesThatRequiresLoginFromStack(android.app.Activity) -> b
-    407:420:android.app.Activity getMostRecentTabActivity() -> getMostRecentTabActivity
-    427:427:boolean isTabActivity() -> h
-    434:435:boolean isTabActivity(android.app.Activity) -> c
-    442:477:void setTabViews() -> setTabViews
-    482:517:void setSelectedTabAsTVGuide() -> setSelectedTabAsTVGuide
-    522:558:void setSelectedTabAsActivityFeed() -> setSelectedTabAsActivityFeed
-    563:599:void setSelectedTabAsUserProfile() -> setSelectedTabAsUserProfile
-    603:646:void onClick(android.view.View) -> onClick
-    650:674:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    679:695:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    702:709:void onStop() -> onStop
-    714:717:void onDestroy() -> onDestroy
-    724:735:void onBackPressed() -> onBackPressed
-    741:751:void setContentView(int) -> setContentView
-    758:785:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
-    791:881:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
-    885:946:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
-    949:965:void hideRequestStatusLayouts() -> i
-    968:1002:void initCallbackLayouts() -> j
-    1005:1008:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
-    1011:1014:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
+    125:147:void onCreate(android.os.Bundle) -> onCreate
+    150:166:void restartTheApp() -> restartTheApp
+    171:172:void registerAsListenerForRequest(com.mitv.enums.RequestIdentifierEnum) -> registerAsListenerForRequest
+    175:176:void unregisterListenerFromAllRequests() -> unregisterListenerFromAllRequests
+    213:278:void onResume() -> onResume
+    284:302:void handleTimeAndDayOnResume() -> b
+    311:314:void killAllActivitiesIncludingThis() -> c
+    317:336:int getIndexOfTodayFromTVDates() -> d
+    346:353:void pushActivityToStack(com.mitv.activities.base.BaseActivity) -> a
+    357:365:void printActivityStack() -> g
+    385:392:void removeFromStackOnDestroy(android.app.Activity) -> a
+    395:398:void removeActivitiesThatRequiresLoginFromStack(android.app.Activity) -> b
+    401:414:android.app.Activity getMostRecentTabActivity() -> getMostRecentTabActivity
+    421:421:boolean isTabActivity() -> h
+    428:429:boolean isTabActivity(android.app.Activity) -> c
+    436:471:void setTabViews() -> setTabViews
+    476:511:void setSelectedTabAsTVGuide() -> setSelectedTabAsTVGuide
+    516:552:void setSelectedTabAsActivityFeed() -> setSelectedTabAsActivityFeed
+    557:593:void setSelectedTabAsUserProfile() -> setSelectedTabAsUserProfile
+    597:640:void onClick(android.view.View) -> onClick
+    644:668:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    673:689:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    696:703:void onStop() -> onStop
+    708:711:void onDestroy() -> onDestroy
+    718:729:void onBackPressed() -> onBackPressed
+    735:745:void setContentView(int) -> setContentView
+    752:779:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
+    785:875:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    879:940:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
+    943:959:void hideRequestStatusLayouts() -> i
+    962:996:void initCallbackLayouts() -> j
+    999:1002:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
+    1005:1008:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
     57:57:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> e
     57:57:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> f
 com.mitv.activities.base.BaseActivity$1 -> bjw:
     com.mitv.activities.base.BaseActivity this$0 -> a
-    663:666:void onClick(android.view.View) -> onClick
+    657:660:void onClick(android.view.View) -> onClick
 com.mitv.activities.base.BaseActivityLoginRequired -> com.mitv.activities.base.BaseActivityLoginRequired:
 com.mitv.activities.base.BaseActivityWithoutSearchOption -> com.mitv.activities.base.BaseActivityWithoutSearchOption:
 com.mitv.activities.base.BaseContentActivity -> com.mitv.activities.base.BaseContentActivity:
