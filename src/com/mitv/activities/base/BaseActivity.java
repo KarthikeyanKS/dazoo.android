@@ -128,9 +128,6 @@ public abstract class BaseActivity
 			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
 			
 			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
-
-				sendToastMessageWhenRestart("From: OnCreate, we are not UpdatingGuide");
-				Log.e(TAG, "From: OnCreate, we are not isUpdatingGuide");
 				
 				restartTheApp();
 				
@@ -296,9 +293,6 @@ public abstract class BaseActivity
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
 			if(isTimeOffSync == false) {
-				
-				sendToastMessageWhenRestart("From: handleTimeAndDayOnResume");
-				Log.e(TAG, "From: handleTimeAndDayOnResume");
 				
 				restartTheApp();
 			}

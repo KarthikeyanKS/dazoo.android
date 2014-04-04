@@ -5,17 +5,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <!-- DOTS -->
-    <LinearLayout
-        android:id="@+id/image_count"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:visibility="gone" >
-    </LinearLayout>
     
     <!-- PAGE 1 -->
 	<RelativeLayout
@@ -100,8 +89,8 @@
 	            style="@style/whitetextbutton"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:paddingLeft="50dp"
-	            android:paddingRight="50dp"
+	            android:paddingLeft="40dp"
+	            android:paddingRight="40dp"
 	            android:paddingTop="10dp"
 	            android:paddingBottom="10dp"
 	            android:layout_alignParentBottom="true"
@@ -122,9 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:background="@color/transparent"
             android:gravity="center"
             android:maxLines="1"
@@ -132,7 +119,7 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:visibility="gone"
-            font:fonttextview="roboto_mitv_bold.ttf" />
+            font:fonttextview="chunkfive.otf" />
 	
 	<!-- INFO -->
 	<com.mitv.ui.elements.FontTextView
@@ -141,17 +128,15 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/tutorial_header"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
             android:gravity="center"
             android:maxLines="2"
             android:singleLine="false"
-            android:textColor="@color/white"
+            android:textColor="@color/orange_light"
             android:textSize="12sp"
             android:visibility="gone"
-            font:fonttextview="roboto_mitv_bold.ttf" />
+            font:fonttextview="roboto_mitv_regular.ttf" />
 	
 	<!-- PAGE 5 -->
 	<com.mitv.ui.elements.FontTextView
@@ -159,8 +144,8 @@
             style="@style/whitetextbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_alignParentBottom="true"
@@ -171,5 +156,5 @@
             android:background="@drawable/background_color_selector_signup_login_box"
             android:visibility="gone"
             android:text="@string/tutorial_start_button" />
-
+	
 </RelativeLayout>

@@ -322,7 +322,7 @@ public class SecondScreenApplication
 					 */
 					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
 					
-					/* Sets app to never show tutorial again if desplayed two times */
+					/* Sets app to never show tutorial again if displayed two times */
 					if (!openLastTwoWeeks) {
 						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, false);
 					}
@@ -358,6 +358,7 @@ public class SecondScreenApplication
 	
 	private Calendar getDateUserLastOpenApp(String lastOpenApp) {
 		Calendar cal = Calendar.getInstance();
+		
 	    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
 		
 		try {
