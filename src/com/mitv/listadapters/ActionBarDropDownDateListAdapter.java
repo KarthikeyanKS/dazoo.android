@@ -8,9 +8,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -34,6 +36,8 @@ public class ActionBarDropDownDateListAdapter
 
 	private Context context;
 	private List<TVDate> tvDates;
+	
+	private int lastDateInList;
 
 	private int selectedIndex = NO_SELECTION;
 
@@ -41,6 +45,8 @@ public class ActionBarDropDownDateListAdapter
 	{
 		this.context = context;
 		this.tvDates = mDays;
+		
+		lastDateInList = tvDates.size() - 1;
 	}
 
 	@Override
@@ -85,6 +91,7 @@ public class ActionBarDropDownDateListAdapter
 
 		TextView dayName;
 		TextView dayAndMonth;
+		View lastDividerDropdownDates;
 
 		if (isHeader) {
 			dayName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_name);
@@ -92,6 +99,18 @@ public class ActionBarDropDownDateListAdapter
 		} else {
 			dayName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
 			dayAndMonth = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
+			
+			lastDividerDropdownDates = (View) row.findViewById(R.id.last_divider_dropdown_dates);
+			
+			if (position == 6) {
+				Log.d("mmm", "make border visible " + position);
+				lastDividerDropdownDates.setVisibility(View.VISIBLE);
+			}
+			
+			/* This check is needed, otherwise the divider will appear in the first element in the list */
+			if (position == 0) {
+				lastDividerDropdownDates.setVisibility(View.GONE);
+			}
 
 			/* Make the selected text position bold */
 			if (position == selectedIndex) {

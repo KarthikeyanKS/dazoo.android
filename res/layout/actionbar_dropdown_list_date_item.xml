@@ -32,6 +32,15 @@
             android:background="@color/transparent"
             android:textColor="@drawable/text_color_selector_day_selector_adapter_item"
             android:textSize="@dimen/ingress" />
+        
     </RelativeLayout>
+    
+    <View
+        android:id="@+id/last_divider_dropdown_dates"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/grey1"
+        android:visibility="gone" />
 
 </RelativeLayout>
