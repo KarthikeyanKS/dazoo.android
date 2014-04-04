@@ -124,9 +124,8 @@ public abstract class DateUtils
 		
 		Calendar cal = DateUtils.getNow();
 		
-		boolean inDaylightTime = timeZone.inDaylightTime(cal.getTime());
-		
-		Log.d(TAG, "inDaylightTime: " + inDaylightTime);
+		/* inDaylightTime, not in use, only for debugging */
+//		boolean inDaylightTime = timeZone.inDaylightTime(cal.getTime());
 		
 		int era = cal.get(Calendar.ERA);
 		int year = cal.get(Calendar.YEAR);

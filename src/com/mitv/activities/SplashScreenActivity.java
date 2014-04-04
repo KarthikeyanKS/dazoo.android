@@ -3,7 +3,6 @@ package com.mitv.activities;
 
 
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.content.Intent;
@@ -29,8 +28,8 @@ import com.mitv.listadapters.TutorialScreenSlidePagerAdapter;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.NetworkUtils;
+import com.viewpagerindicator.CirclePageIndicator;
 
 
 
@@ -45,9 +44,11 @@ public class SplashScreenActivity
 	private FontTextView progressTextView;
 	private int fetchedDataCount = 0;
 	
-	boolean hasUserSeenTutorial;
-	boolean isViewingTutorial = false;
-	boolean isDataFetched = false;
+	private boolean hasUserSeenTutorial;
+	private boolean isViewingTutorial = false;
+	private boolean isDataFetched = false;
+	
+	private final boolean ENABLE_TUTORIAL = true;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
@@ -61,14 +62,12 @@ public class SplashScreenActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
-		showSplashScreen();
-//		if (hasUserSeenTutorial) {
-//			showSplashScreen();
-//			
-//		} else {
-//			showUserTutorial();
-//		}
+		if (ENABLE_TUTORIAL) {
+			showTutorial();
+			
+		} else {
+			showSplashScreen();
+		}
 		
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
@@ -98,6 +97,18 @@ public class SplashScreenActivity
 	}
 		
 
+	
+	private void showTutorial() {
+		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
+		
+		if (hasUserSeenTutorial) {
+			showSplashScreen();
+			
+		} else {
+			showUserTutorial();
+		}
+	}
+	
 	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
@@ -203,16 +214,6 @@ public class SplashScreenActivity
 	
 	
 	
-	private String getTodaysDate() {
-		Calendar cal = DateUtils.getNow();
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-		String date = sdf.format(cal.getTime());
-		
-		return date;
-	}
-	
-	
-	
 	private void showSplashScreen() {
 		isViewingTutorial = false;
 		
@@ -251,12 +252,19 @@ public class SplashScreenActivity
 
 	private void initTutorialView() {
 		mPager = (ViewPager) findViewById(R.id.pager);
+		
 		mPagerAdapter = new TutorialScreenSlidePagerAdapter(getSupportFragmentManager());
-		mPager.setAdapter(mPagerAdapter);	
+		
+		mPager.setAdapter(mPagerAdapter);
+		
+		/* ViewPageIndicator library */
+		CirclePageIndicator titleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+		
+		titleIndicator.setViewPager(mPager);
 	}
 	
-	
 
+	
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
