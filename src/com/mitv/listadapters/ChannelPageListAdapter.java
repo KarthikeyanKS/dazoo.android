@@ -3,7 +3,7 @@ package com.mitv.listadapters;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,15 +34,18 @@ public class ChannelPageListAdapter
 	@SuppressWarnings("unused")
 	private static final String TAG = ChannelPageListAdapter.class.getName();
 
-	private LayoutInflater			layoutInflater;
-	private Activity				activity;
-	private ArrayList<TVBroadcast>	currentAndUpcomingbroadcasts;
-	private ViewHolder				holder;
-	private boolean					isAiring = false;
+	
+	private LayoutInflater layoutInflater;
+	private Activity activity;
+	
+	private List<TVBroadcast> currentAndUpcomingbroadcasts;
+	private ViewHolder holder;
+	private boolean isAiring = false;
 
 	
 	
-	public ChannelPageListAdapter(Activity activity, ArrayList<TVBroadcast> currentAndUpcomingbroadcasts) {
+	public ChannelPageListAdapter(Activity activity, List<TVBroadcast> currentAndUpcomingbroadcasts) 
+	{
 		this.currentAndUpcomingbroadcasts = currentAndUpcomingbroadcasts;
 		this.activity = activity;
 
@@ -50,7 +53,8 @@ public class ChannelPageListAdapter
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount() 
+	{
 		int count = 0;
 		if (currentAndUpcomingbroadcasts != null) {
 			count = currentAndUpcomingbroadcasts.size();

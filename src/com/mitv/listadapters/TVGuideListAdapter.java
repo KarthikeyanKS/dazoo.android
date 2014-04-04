@@ -48,8 +48,6 @@ public class TVGuideListAdapter
 {
 	private static final String TAG = TVGuideListAdapter.class.getName();
 
-	private static String ELLIPSIS_STRING = "...";
-	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private TVDate tvDate;
@@ -275,7 +273,7 @@ public class TVGuideListAdapter
 							textWidth = testPaint.measureText(rowInfoSB.toString());
 						}
 
-						String ellipsisString = ELLIPSIS_STRING;
+						String ellipsisString = Constants.ELLIPSIS_STRING;
 
 						if (deletedChars) 
 						{
