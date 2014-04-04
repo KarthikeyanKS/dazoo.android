@@ -24,97 +24,184 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 	@SuppressWarnings("unused")
 	private static final String TAG = UpcomingOrRepeatingBroadcastsListAdapter.class.getName();
 
+	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private final ArrayList<TVBroadcastWithChannelInfo> broadcasts;
 	private boolean usedForUpcomingEpisodes; /* else used for repeating... */
 
-	public UpcomingOrRepeatingBroadcastsListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> broadcasts, boolean usedForUpcomingEpisodes) {
+	
+	
+	public UpcomingOrRepeatingBroadcastsListAdapter(
+			final Activity activity, 
+			final ArrayList<TVBroadcastWithChannelInfo> broadcasts, 
+			final boolean usedForUpcomingEpisodes) 
+	{
 		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		this.usedForUpcomingEpisodes = usedForUpcomingEpisodes;
 		
 		boolean foundRunningBroadcast = false;
+		
 		int indexOfRunningBroadcast = 0;
-		for (int i = 0; i < broadcasts.size(); ++i) {
+		
+		for (int i = 0; i < broadcasts.size(); ++i) 
+		{
 			TVBroadcastWithChannelInfo upcomingBroadcast = broadcasts.get(i);
-			if (upcomingBroadcast.isAiring()) {
+			
+			if (upcomingBroadcast.isAiring())
+			{
 				foundRunningBroadcast = true;
+				
 				indexOfRunningBroadcast = i;
+				
 				break;
 			}
 		}
 
-		if (foundRunningBroadcast) {
+		if (foundRunningBroadcast)
+		{
 			broadcasts.remove(indexOfRunningBroadcast);
 		}
 
 		this.broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(broadcasts);
+		
 		this.activity = activity;
 	}
 
+	
+	
 	@Override
-	public int getCount() {
-		if (broadcasts != null) {
+	public int getCount()
+	{
+		if (broadcasts != null)
+		{
 			return broadcasts.size();
-		} else
+		} 
+		else
+		{
 			return 0;
+		}
 	}
 
+	
+	
 	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) {
-		if (broadcasts != null) {
+	public TVBroadcastWithChannelInfo getItem(int position) 
+	{
+		if (broadcasts != null) 
+		{
 			return broadcasts.get(position);
-		} else
+		} 
+		else
+		{
 			return null;
+		}
 	}
 
+	
+	
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int arg0) 
+	{
 		return -1;
 	}
 
+	
+	
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent)
+	{
 		View rowView = convertView;
 
 		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
 
-		if (rowView == null) {
+		if (rowView == null) 
+		{
 			rowView = layoutInflater.inflate(R.layout.row_upcoming_or_repeating_broadcast, null);
+			
 			ViewHolder viewHolder = new ViewHolder();
+			
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_or_repeating_header_container);
 			viewHolder.header = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_header_tv);
 			viewHolder.seasonEpisodeTv = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_season_episode);
 			viewHolder.timeTv = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_title_time);
 			viewHolder.channelTv = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_channel);
-
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.row_upcoming_or_repeating_reminder_view);
-
 			viewHolder.container = (LinearLayout) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_info_container);
-
 			viewHolder.divider = (View) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_bottom_divider);
+			
 			rowView.setTag(viewHolder);
 		}
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (broadcastWithChannelInfo != null) {
+		if (broadcastWithChannelInfo != null) 
+		{
 			holder.reminderView.setBroadcast(broadcastWithChannelInfo);
 			
 			/* Used to set a smaller size on the reminder icon */
 			boolean iconSizeSmall = true;
+			
 			holder.reminderView.setSizeOfIcon(iconSizeSmall);
 
 			holder.headerContainer.setVisibility(View.GONE);
 			
 			holder.divider.setVisibility(View.VISIBLE);
 			
-			if (position == 0 || broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals((getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) 
+			boolean isFirstposition = (position == 0);
+			
+			boolean isLastPosition = (position == (getCount() - 1));
+			
+			boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
+			
+			if(isFirstposition == false)
 			{
-				holder.header.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString() + " " + broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
+				TVBroadcastWithChannelInfo previousBroadcastInList = getItem(position - 1);
+				
+				isCurrentBroadcastDayEqualToPreviousBroadcastDay = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
+			}
+			else
+			{
+				isCurrentBroadcastDayEqualToPreviousBroadcastDay = true;
+			}
+			
+			boolean isBeginTimeEqualToNextItem;
+			
+			if(isLastPosition == false)
+			{
+				TVBroadcastWithChannelInfo nextBroadcastInList = getItem(position + 1);
+				
+				isBeginTimeEqualToNextItem = broadcastWithChannelInfo.isTheSameDayAs(nextBroadcastInList);
+			}
+			else
+			{
+				isBeginTimeEqualToNextItem = false;
+			}
+			
+			if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false) 
+			{
+				StringBuilder headerSB = new StringBuilder();
+				
+				boolean isBeginTimeTodayOrTomorrow = broadcastWithChannelInfo.isBeginTimeTodayOrTomorrow();
+				
+				if(isBeginTimeTodayOrTomorrow)
+				{
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+				}
+				else
+				{
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(" ");
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
+				}
+
+				holder.header.setText(headerSB.toString());
+				
 				holder.headerContainer.setVisibility(View.VISIBLE);
 			}
-			if (position != (getCount() - 1) && broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals((getItem(position + 1)).getBeginTimeDayAndMonthAsString()) == false)
+					
+			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
 			{
 				holder.divider.setVisibility(View.GONE);
 			}
@@ -125,19 +212,24 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 				
 				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
 				
-				String seasonEpisode = "";
+				StringBuilder seasonEpisodeSB = new StringBuilder();
 				
 				if (season != 0) 
 				{
-					seasonEpisode += activity.getString(R.string.season) + " " + season + " ";
+					seasonEpisodeSB.append(activity.getString(R.string.season));
+					seasonEpisodeSB.append(" ");
+					seasonEpisodeSB.append(season);
+					seasonEpisodeSB.append(" ");
 				}
 				
 				if (episode > 0) 
 				{
-					seasonEpisode += activity.getString(R.string.episode) + " " + episode;
+					seasonEpisodeSB.append(activity.getString(R.string.episode));
+					seasonEpisodeSB.append(" ");
+					seasonEpisodeSB.append(episode);
 				}
 				
-				holder.seasonEpisodeTv.setText(seasonEpisode);
+				holder.seasonEpisodeTv.setText(seasonEpisodeSB.toString());
 			} 
 			else 
 			{
@@ -168,7 +260,9 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 				}
 			});
 
-		} else {
+		} 
+		else 
+		{
 			holder.seasonEpisodeTv.setText("");
 			holder.timeTv.setText("");
 			holder.channelTv.setText("");
@@ -177,15 +271,18 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 		return rowView;
 	}
 
-	static class ViewHolder {
-		RelativeLayout headerContainer;
-		TextView header;
-		LinearLayout container;
-		TextView seasonEpisodeTv;
-		TextView timeTv;
-		TextView channelTv;
-		ReminderView reminderView;
+	
+	
+	private static class ViewHolder 
+	{
+		private RelativeLayout headerContainer;
+		private TextView header;
+		private LinearLayout container;
+		private TextView seasonEpisodeTv;
+		private TextView timeTv;
+		private TextView channelTv;
+		private ReminderView reminderView;
 
-		View divider;
+		private View divider;
 	}
 }

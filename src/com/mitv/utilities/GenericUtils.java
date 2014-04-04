@@ -129,18 +129,21 @@ public abstract class GenericUtils
 	
 	
 	
-	public static int getActivityCount()
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-
-		ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
-
-		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(3);
-
-		int activityCount = tasks.get(0).numActivities;
-
-		return activityCount;
-	}
+	/*
+	 * IMPORTANT: Reenable permission on Manifest to use this function
+	 */
+//	public static int getActivityCount()
+//	{
+//		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+//
+//		ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+//
+//		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(3);
+//
+//		int activityCount = tasks.get(0).numActivities;
+//
+//		return activityCount;
+//	}
 
 
 	

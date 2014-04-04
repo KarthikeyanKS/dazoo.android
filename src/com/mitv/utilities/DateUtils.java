@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -137,15 +136,10 @@ public abstract class DateUtils
 		
 		int offsetNEW = timeZone.getOffset(era, year, month, day, dayOfWeek, timeOfDayMillis);
 		
-		if(timeZone != null)
-		{
-			int  timeZoneOffsetInMinutesAlternative = (int)(offsetNEW / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
-			timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAlternative);
-		}
-		else
-		{
-			Log.w(TAG, "TimeZone has null value.");
-		}
+		int  timeZoneOffsetInMinutesAlternative = (int)(offsetNEW / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+			
+		timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAlternative);
+
 		return timeZoneOffsetInMinutes;
 	}
 	
@@ -326,8 +320,11 @@ public abstract class DateUtils
 	public static String buildDayOfTheWeekAsString(final Calendar inputCalendar)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		return buildDayOfTheWeekAsString(inputCalendar, context);
 	}
+	
+	
 	
 	/**
 	 * This method is used for showing the right airing day for a show in Broadcast page.
@@ -346,7 +343,10 @@ public abstract class DateUtils
 	 * 
 	 * @return
 	 */
-	private static boolean isSameAiringDayTitle(Calendar inputCalendar, Calendar referencedTime) {
+	public static boolean isSameAiringDayTitle(
+			final Calendar inputCalendar, 
+			final Calendar referencedTime) 
+	{
 		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 
 		boolean correctDay = inputCalendar.get(Calendar.DAY_OF_MONTH) == referencedTime.get(Calendar.DAY_OF_MONTH);
@@ -367,6 +367,89 @@ public abstract class DateUtils
 
 		return isSameDayAsNow;
 	}
+	
+	
+	
+	public static boolean areCalendarsTheSameTVAiringDay(
+			final Calendar inputCalendar1, 
+			final Calendar inputCalendar2) 
+	{
+		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		
+		boolean isYearEqual = (inputCalendar1.get(Calendar.YEAR) - inputCalendar2.get(Calendar.YEAR)) <= 1;
+    	boolean isMonthEqual = (inputCalendar1.get(Calendar.MONTH) - inputCalendar2.get(Calendar.MONTH)) <= 1;
+    	
+		boolean areCalendarsTheSameDayOfMonth = inputCalendar1.get(Calendar.DAY_OF_MONTH) == inputCalendar2.get(Calendar.DAY_OF_MONTH);
+	
+		boolean areCalendarsTheSamePeriod;
+		
+		if(areCalendarsTheSameDayOfMonth)
+		{
+			boolean correctHourPeriod1LowerBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) <= 23;
+			boolean correctHourPeriod1UpperBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
+			
+			boolean correctHourPeriod1LowerBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) <= 23;
+			boolean correctHourPeriod1UpperBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
+			
+			
+			boolean correctHourPeriod2LowerBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) >= 0;
+			boolean correctHourPeriod2UpperBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) < firstHourOfTVDay;
+			
+			boolean correctHourPeriod2LowerBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) >= 0;
+			boolean correctHourPeriod2UpperBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) < firstHourOfTVDay;
+			
+			areCalendarsTheSamePeriod = (correctHourPeriod1LowerBound1 && correctHourPeriod1UpperBound1 && correctHourPeriod1LowerBound2 && correctHourPeriod1UpperBound2) ||
+									    (correctHourPeriod2LowerBound1 && correctHourPeriod2UpperBound1 && correctHourPeriod2LowerBound2 && correctHourPeriod2UpperBound2);
+		}
+		else
+		{
+			if(inputCalendar2.after(inputCalendar1))
+			{
+				boolean isNextDayOfTheMonth = inputCalendar2.get(Calendar.DAY_OF_MONTH) == (inputCalendar1.get(Calendar.DAY_OF_MONTH) + 1);
+				
+				if(isNextDayOfTheMonth)
+				{
+					boolean correctHourLowerBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) <= 23;
+					boolean correctHourUpperBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
+					
+					boolean correctHourLowerBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) >= 0;
+					boolean correctHourUpperBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) < firstHourOfTVDay;
+					
+					areCalendarsTheSamePeriod = (correctHourLowerBound1 && correctHourUpperBound1 && correctHourLowerBound2 && correctHourUpperBound2);
+				}
+				else
+				{
+					areCalendarsTheSamePeriod = false;
+				}
+			}
+			else
+			{
+				boolean isNextDayOfTheMonth = inputCalendar1.get(Calendar.DAY_OF_MONTH) == (inputCalendar2.get(Calendar.DAY_OF_MONTH) + 1);
+				
+				if(isNextDayOfTheMonth)
+				{
+					boolean correctHourLowerBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) >= 0;
+					boolean correctHourUpperBound1 = inputCalendar1.get(Calendar.HOUR_OF_DAY) < firstHourOfTVDay;
+					
+					boolean correctHourLowerBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) <= 23;
+					boolean correctHourUpperBound2 = inputCalendar2.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
+					
+					areCalendarsTheSamePeriod = (correctHourLowerBound1 && correctHourUpperBound1 && correctHourLowerBound2 && correctHourUpperBound2);
+				}
+				else
+				{
+					areCalendarsTheSamePeriod = false;
+				}
+			}
+		}
+		
+		boolean areCalendarsTheSameTVDay = isYearEqual && isMonthEqual && areCalendarsTheSamePeriod;
+		
+		return areCalendarsTheSameTVDay;
+	}
+	
+	
+	
 	
 	private static String getDayOfWeekStringUsingFirstHourOfTVDay(Calendar inputCalendar) {
 		String dayOfTheWeekAsString = null;
@@ -408,18 +491,26 @@ public abstract class DateUtils
     	
 		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;
 		
-		if (isToday) {
+		if (isToday) 
+		{
 			dayOfTheWeekAsString = context.getString(R.string.today);
-		} else {
+		} 
+		else 
+		{
 			Calendar tomorrow = (Calendar) now.clone();
-	 		tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+	 		
+			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
 	 		isSameDay = isSameAiringDayTitle(inputCalendar, tomorrow);
+	 		
 	 		boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
 			
-	 		if(isTomorrow) {
+	 		if(isTomorrow) 
+	 		{
 	 			dayOfTheWeekAsString = context.getString(R.string.tomorrow);
-	 		} else {
+	 		} 
+	 		else 
+	 		{
 	 			dayOfTheWeekAsString = getDayOfWeekStringUsingFirstHourOfTVDay(inputCalendar);
 	 		}
 		}
@@ -448,6 +539,8 @@ public abstract class DateUtils
 		
 		return timeOfDayAsString;
 	}
+	
+	
 	
 	/**
 	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
@@ -525,11 +618,13 @@ public abstract class DateUtils
 	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
 	 * 
 	 */
-	public static String buildDayAndMonthCompositionAsString(final Calendar inputCalendar)
+	public static String buildDayAndMonthCompositionAsString(
+			final Calendar inputCalendar,
+			final boolean useFirstHourOfTheDay)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
-		return buildDayAndMonthCompositionAsString(inputCalendar, context);
+		return buildDayAndMonthCompositionAsString(inputCalendar, context, useFirstHourOfTheDay);
 	}
 	
 	
@@ -539,13 +634,31 @@ public abstract class DateUtils
 	 */
 	private static String buildDayAndMonthCompositionAsString(
 			final Calendar inputCalendar,
-			final Context context)
+			final Context context,
+			final boolean useFirstHourOfTheDay)
 	{
 		String pattern = Constants.DATE_FORMAT_DAY_AND_MONTH;
 				
 		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern);
 		
-		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
+		Calendar calendar = (Calendar) inputCalendar.clone();
+		
+		if(useFirstHourOfTheDay)
+		{
+			int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+	
+			boolean correctHourLowerBound = calendar.get(Calendar.HOUR_OF_DAY) <= 23;
+			boolean correctHourUpperBound = calendar.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
+			
+			boolean isCurrentDay = correctHourLowerBound && correctHourUpperBound;
+	
+			if(isCurrentDay == false)
+			{
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+			}
+		}
+		
+		String timeOfDayAsString = formatter.format(calendar.getTime());
 		
 		return timeOfDayAsString;
 	}

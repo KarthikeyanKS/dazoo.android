@@ -105,7 +105,7 @@ public class ActionBarDropDownDateListAdapter
 			try {
 				Calendar calendar = tvDate.getStartOfTVDayCalendar();
 				dayName.setText(tvDate.getDisplayName());
-				dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar));
+				dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar, false));
 			} catch (Exception e) {
 				e.printStackTrace();
 				dayName.setText("");
