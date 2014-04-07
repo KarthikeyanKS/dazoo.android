@@ -306,7 +306,7 @@ public class TVBroadcast
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) <= 1;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) <= 1;
-    	boolean isSameDay = DateUtils.isSameAiringDayTitle(beginTime, now);
+    	boolean isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, now);
     	
 		boolean isAiringToday = isCorrectYear && isCorrectMonth && isSameDay;
 		boolean isAiringTomorrow = false;
@@ -317,7 +317,7 @@ public class TVBroadcast
 	 		
 			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-			isSameDay = DateUtils.isSameAiringDayTitle(beginTime, tomorrow);
+			isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, tomorrow);
 	 		
 			isAiringTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
 		}

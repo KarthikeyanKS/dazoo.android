@@ -50,6 +50,12 @@ public class NotificationSQLElement
 	private int programYear;
 	private String programGenre;
 	private String programCategory;
+	private String programImageSmallLandscape;
+	private String programImageMediumLandscape;
+	private String programImageLargeLandscape;
+	private String programImageSmallPortrait;
+	private String programImageMediumPortrait;
+	private String programImageLargePortrait;
 	
 	private String seriesId;
 	private String seriesName;
@@ -100,7 +106,14 @@ public class NotificationSQLElement
 				this.setProgramTags(cursor.getString(16));
 				
 				this.setProgramCredits(cursor.getString(17));
-					
+				
+				this.programImageSmallPortrait = cursor.getString(23);
+				this.programImageMediumPortrait = cursor.getString(24);
+				this.programImageLargePortrait = cursor.getString(25);
+				this.programImageSmallLandscape = cursor.getString(26);
+				this.programImageMediumLandscape = cursor.getString(27);
+				this.programImageLargeLandscape = cursor.getString(28);
+				
 				String programTypeAsString = cursor.getString(13);
 				
 				ProgramTypeEnum programType = ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(programTypeAsString);
@@ -111,15 +124,15 @@ public class NotificationSQLElement
 					{
 						this.setProgramSeason(cursor.getString(18));
 						this.setProgramEpisodeNumber(cursor.getInt(19));
-						this.setSeriesId(cursor.getString(23));
-						this.setSeriesName(cursor.getString(24));
+						this.setSeriesId(cursor.getString(29));
+						this.setSeriesName(cursor.getString(30));
 						break;
 					}
 					
 					case SPORT:
 					{
-						this.setSportTypeId(cursor.getString(25));
-						this.setSportTypeName(cursor.getString(26));
+						this.setSportTypeId(cursor.getString(31));
+						this.setSportTypeName(cursor.getString(32));
 						this.setProgramGenre(cursor.getString(21));
 						break;
 					}
@@ -167,6 +180,13 @@ public class NotificationSQLElement
 		
 		this.programTags = tvProgram.getTags().toString();
 		this.programCredits = tvProgram.getCredits().toString();
+		
+		this.programImageSmallLandscape = tvProgram.getImages().getLandscape().getSmall();
+		this.programImageMediumLandscape = tvProgram.getImages().getLandscape().getMedium();
+		this.programImageLargeLandscape = tvProgram.getImages().getLandscape().getLarge();
+		this.programImageSmallPortrait = tvProgram.getImages().getPortrait().getSmall();
+		this.programImageMediumPortrait = tvProgram.getImages().getPortrait().getMedium();
+		this.programImageLargePortrait = tvProgram.getImages().getPortrait().getLarge();
 		
 		ProgramTypeEnum programType = tvProgram.getProgramType();
 		
@@ -543,5 +563,65 @@ public class NotificationSQLElement
 	public void setBroadcastBeginTimeInMilliseconds(
 			long broadcastBeginTimeInMilliseconds) {
 		this.broadcastBeginTimeInMilliseconds = broadcastBeginTimeInMilliseconds;
+	}
+
+
+	public String getProgramImageSmallLandscape() {
+		return programImageSmallLandscape;
+	}
+
+
+	public void setProgramImageSmallLandscape(String programImageSmallLandscape) {
+		this.programImageSmallLandscape = programImageSmallLandscape;
+	}
+
+
+	public String getProgramImageMediumLandscape() {
+		return programImageMediumLandscape;
+	}
+
+
+	public void setProgramImageMediumLandscape(String programImageMediumLandscape) {
+		this.programImageMediumLandscape = programImageMediumLandscape;
+	}
+
+
+	public String getProgramImageLargeLandscape() {
+		return programImageLargeLandscape;
+	}
+
+
+	public void setProgramImageLargeLandscape(String programImageLargeLandscape) {
+		this.programImageLargeLandscape = programImageLargeLandscape;
+	}
+
+
+	public String getProgramImageSmallPortrait() {
+		return programImageSmallPortrait;
+	}
+
+
+	public void setProgramImageSmallPortrait(String programImageSmallPortrait) {
+		this.programImageSmallPortrait = programImageSmallPortrait;
+	}
+
+
+	public String getProgramImageMediumPortrait() {
+		return programImageMediumPortrait;
+	}
+
+
+	public void setProgramImageMediumPortrait(String programImageMediumPortrait) {
+		this.programImageMediumPortrait = programImageMediumPortrait;
+	}
+
+
+	public String getProgramImageLargePortrait() {
+		return programImageLargePortrait;
+	}
+
+
+	public void setProgramImageLargePortrait(String programImageLargePortrait) {
+		this.programImageLargePortrait = programImageLargePortrait;
 	}
 }
