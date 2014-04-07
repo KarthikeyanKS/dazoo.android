@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="111"
-    android:versionName="1.0.111" >
+    android:versionCode="113"
+    android:versionName="1.0.113" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -19,7 +19,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
+	<!-- Re-enable this permission when accessing the system tasks -->
+	<!-- <uses-permission android:name="android.permission.GET_TASKS" />-->
+    
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -33,18 +35,22 @@
        <screen android:screenSize="small" android:screenDensity="mdpi" />
        <screen android:screenSize="small" android:screenDensity="hdpi" />
        <screen android:screenSize="small" android:screenDensity="xhdpi" />
+       <screen android:screenSize="small" android:screenDensity="480" />
        
        <!-- all normal size screens -->
        <screen android:screenSize="normal" android:screenDensity="ldpi" />
        <screen android:screenSize="normal" android:screenDensity="mdpi" />
        <screen android:screenSize="normal" android:screenDensity="hdpi" />
        <screen android:screenSize="normal" android:screenDensity="xhdpi" />
+       <screen android:screenSize="normal" android:screenDensity="480" />
        
        <!-- all large size screens -->
        <screen android:screenSize="large" android:screenDensity="ldpi" />
        <screen android:screenSize="large" android:screenDensity="mdpi" />
        <screen android:screenSize="large" android:screenDensity="hdpi" />
        <screen android:screenSize="large" android:screenDensity="xhdpi" />
+       <screen android:screenSize="large" android:screenDensity="480" />
+   
    </compatible-screens>
     
     <application

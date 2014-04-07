@@ -5,9 +5,12 @@ package com.mitv.models;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
+import com.mitv.Constants;
 import com.mitv.models.gson.TVChannelGuideJSON;
 import com.mitv.utilities.DateUtils;
-import com.mitv.Constants;
 
 
 
@@ -46,11 +49,14 @@ public class TVChannelGuide
 	 *  the current broadcast and the upcoming ones.
 	 * @return
 	 */
-	public ArrayList<TVBroadcast> getCurrentAndUpcomingBroadcastsUsingCurrentTime() {
-		ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = null;
+	public List<TVBroadcast> getCurrentAndUpcomingBroadcastsUsingCurrentTime() 
+	{
+		List<TVBroadcast> currentAndUpcomingbroadcasts = Collections.emptyList();
 		
 		int indexIfNotFound = -1;
+		
 		int indexOfNearestBroadcast = getClosestBroadcastIndex(indexIfNotFound);
+		
 		if (indexOfNearestBroadcast > indexIfNotFound) 
 		{
 			currentAndUpcomingbroadcasts = getBroadcastsFromPosition(indexOfNearestBroadcast);

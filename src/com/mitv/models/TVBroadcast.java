@@ -35,6 +35,7 @@ public class TVBroadcast
 	@SuppressWarnings("unused")
 	private static final String TAG = TVBroadcast.class.getName();
 
+	
 	private static final int NO_INT_VALUE_SET = -1;
 	
 	protected Calendar beginTimeCalendarLocal;
@@ -42,37 +43,46 @@ public class TVBroadcast
 	private Integer durationInMinutes = NO_INT_VALUE_SET;
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
-	private String beginTimeDateRepresentation = null;
-	private String beginTimeDayAndMonthRepresentation = null;
-	private String beginTimeHourAndMinuteRepresentation = null;
-	private String endTimeHourAndMinuteRepresentation = null;
 	private String title = null;
 	
-	public String getTitle() {
-		if (title == null) {
-			if (program != null) {
+	
+	
+	public String getTitle() 
+	{
+		if (title == null) 
+		{
+			if (program != null) 
+			{
 				ProgramTypeEnum programType = program.getProgramType();
 
-				switch (programType) {
-				case TV_EPISODE: {
-					TVSeries series = program.getSeries();
-					if (series != null) {
-						title = series.getName();
+				switch (programType) 
+				{
+					case TV_EPISODE: 
+					{
+						TVSeries series = program.getSeries();
+						
+						if (series != null) 
+						{
+							title = series.getName();
+						}
+						break;
 					}
-					break;
-				}
-				case MOVIE:
-				case SPORT:
-				case OTHER: /* Default */
-				default: {
-					title = program.getTitle();
-					break;
-				}
+					
+					case MOVIE:
+					case SPORT:
+					case OTHER:
+					default: 
+					{
+						title = program.getTitle();
+						break;
+					}
 				}
 			}
 		}
 		return title;
 	}
+	
+	
 	
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
@@ -94,6 +104,8 @@ public class TVBroadcast
 		return endTimeCalendarGMT;
 	}
 
+	
+	
 	/**
 	 * Lazy instantiated variable
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
@@ -110,6 +122,8 @@ public class TVBroadcast
 		
 		return beginTimeCalendarLocal;
 	}
+	
+	
 	
 	/**
 	 * Lazy instantiated variable
@@ -247,12 +261,9 @@ public class TVBroadcast
 	 */
 	public String getBeginTimeDateRepresentation() 
 	{
-		if(beginTimeDateRepresentation == null)
-		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 			
-			beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendarLocal(), context);
-		}
+		String beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendarLocal(), context);
 		
 		return beginTimeDateRepresentation;
 	}
@@ -264,10 +275,7 @@ public class TVBroadcast
 	 */
 	public String getBeginTimeDayAndMonthAsString() 
 	{
-		if(beginTimeDayAndMonthRepresentation == null)
-		{
-			beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getBeginTimeCalendarLocal());
-		}
+		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getBeginTimeCalendarLocal(), false);
 		
 		return beginTimeDayAndMonthRepresentation;
 	}
@@ -275,24 +283,61 @@ public class TVBroadcast
 	
 	public String getBeginTimeHourAndMinuteLocalAsString() 
 	{
-		if(beginTimeHourAndMinuteRepresentation == null)
-		{
-			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarLocal());
-		}
+		String beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarLocal());
 		
 		return beginTimeHourAndMinuteRepresentation;
 	}
 	
 
-	public String getEndTimeHourAndMinuteLocalAsString() {
-		if(endTimeHourAndMinuteRepresentation == null)
-		{
-			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarLocal());
-		}
+	public String getEndTimeHourAndMinuteLocalAsString() 
+	{
+		String endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarLocal());
 		
 		return endTimeHourAndMinuteRepresentation;
 	}
 	
+	
+	
+	public boolean isBeginTimeTodayOrTomorrow()
+	{
+		Calendar now = DateUtils.getNow();
+		
+		Calendar beginTime = this.getBeginTimeCalendarLocal();
+		
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) <= 1;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) <= 1;
+    	boolean isSameDay = DateUtils.isSameAiringDayTitle(beginTime, now);
+    	
+		boolean isAiringToday = isCorrectYear && isCorrectMonth && isSameDay;
+		boolean isAiringTomorrow = false;
+		
+		if (isAiringToday == false)
+		{
+			Calendar tomorrow = (Calendar) now.clone();
+	 		
+			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+			isSameDay = DateUtils.isSameAiringDayTitle(beginTime, tomorrow);
+	 		
+			isAiringTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
+		}
+		
+		boolean isBeginTimeTodayOrTomorrow = (isAiringToday || isAiringTomorrow);
+		
+		return isBeginTimeTodayOrTomorrow;
+	}
+	
+	
+	
+	public boolean isTheSameDayAs(TVBroadcast other)
+	{
+		Calendar beginTime1 = this.getBeginTimeCalendarLocal();
+		Calendar beginTime2 = other.getBeginTimeCalendarLocal();
+		
+		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
+	}
+	
+		
 	
 	/*
 	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
@@ -311,15 +356,21 @@ public class TVBroadcast
 	 */
 	public String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString()
 	{	
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		StringBuilder sb = new StringBuilder();
+		
 		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarLocal());
 		
 		String timeOfDayAsString = getBeginTimeHourAndMinuteLocalAsString();
 		
-		StringBuilder sb = new StringBuilder();
 		sb.append(dayOfTheWeekAsString);
 		
-		if (dayOfTheWeekAsString.equalsIgnoreCase(SecondScreenApplication.sharedInstance().getApplicationContext().getString(R.string.today)) == false &&
-			dayOfTheWeekAsString.equalsIgnoreCase(SecondScreenApplication.sharedInstance().getApplicationContext().getString(R.string.tomorrow)) == false) {
+		boolean isToday = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.today));
+		boolean isTomorrow = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.tomorrow));
+		
+		if (isToday == false && isTomorrow == false) 
+		{
 			String dayAndMonthString = getBeginTimeDayAndMonthAsString();
 			sb.append(" ");
 			sb.append(dayAndMonthString);
@@ -389,29 +440,45 @@ public class TVBroadcast
 		
 		return sb.toString();
 	}
-		
+	
+	
+	
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
+		
 		int result = 1;
+		
 		result = prime * result + ((beginTimeMillis == null) ? 0 : beginTimeMillis.hashCode());
+		
 		return result;
 	}
 
+	
+	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
+		
 		if (obj == null)
 			return false;
+		
 		if (getClass() != obj.getClass())
 			return false;
+		
 		BroadcastJSON other = (BroadcastJSON) obj;
-		if (beginTimeMillis == null) {
+		
+		if (beginTimeMillis == null)
+		{
 			if (other.getBeginTimeMillis() != null)
 				return false;
-		} else if (!beginTimeMillis.equals(other.getBeginTimeMillis()))
+		} 
+		else if (!beginTimeMillis.equals(other.getBeginTimeMillis()))
 			return false;
+		
 		return true;
 	}
 	

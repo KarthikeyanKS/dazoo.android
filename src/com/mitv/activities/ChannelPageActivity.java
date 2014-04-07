@@ -3,8 +3,8 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
 
+import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +42,7 @@ public class ChannelPageActivity
 	private ChannelPageListAdapter listAdapter;
 	
 	private TVChannel channel;
-	private ArrayList<TVBroadcast> currentAndUpcomingbroadcasts;
+	private List<TVBroadcast> currentAndUpcomingbroadcasts;
 
 
 	
@@ -61,7 +61,7 @@ public class ChannelPageActivity
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
-		initViews();
+		initLayout();
 	}
 	
 	
@@ -79,7 +79,7 @@ public class ChannelPageActivity
 
 
 	
-	private void initViews() 
+	private void initLayout() 
 	{
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -94,7 +94,7 @@ public class ChannelPageActivity
 
 	
 	
-	private void setFollowingBroadcasts(final ArrayList<TVBroadcast> currentAndUpcomingbroadcasts) 
+	private void setFollowingBroadcasts(final List<TVBroadcast> currentAndUpcomingbroadcasts) 
 	{
 		listAdapter = new ChannelPageListAdapter(this, currentAndUpcomingbroadcasts);
 		
@@ -166,11 +166,12 @@ public class ChannelPageActivity
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		
-		if(channelGuide != null) {
+		if(channelGuide != null) 
+		{
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
+			
 			currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
 		}
-		
 		
 		if(currentAndUpcomingbroadcasts != null) 
 		{

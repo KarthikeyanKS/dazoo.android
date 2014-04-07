@@ -45,6 +45,8 @@ public class URLParameters
 		try 
 		{
 			encodedValue = URLEncoder.encode(value, Constants.HTTP_CORE_DEAFULT_ENCODING);
+			
+			encodedValue.replace("+", "%20");
 		} 
 		catch (UnsupportedEncodingException ueex) 
 		{

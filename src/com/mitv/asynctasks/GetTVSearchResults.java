@@ -14,7 +14,6 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.SearchResultsForQuery;
 import com.mitv.models.TVSearchResults;
 import com.mitv.models.gson.TVSearchResultsJSON;
-import com.mitv.utilities.RegularExpressionUtils;
 
 
 
@@ -30,21 +29,17 @@ public class GetTVSearchResults
 	
 	
 	public GetTVSearchResults(
-			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener,
-			String searchQuery)
+			final ContentCallbackListener contentCallbackListener,
+			final ViewCallbackListener activityCallbackListener,
+			final String searchQuery)
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, TVSearchResultsJSON.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 		
-		searchQuery = RegularExpressionUtils.escapeSpaceChars(searchQuery);
-		searchQuery = searchQuery.trim();
-		this.searchQuery = searchQuery;
-		
-		StringBuilder querystringValueSB = new StringBuilder();
-		querystringValueSB.append(searchQuery);
-		
-		this.urlParameters.add(Constants.SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY, querystringValueSB.toString());
+		this.searchQuery = searchQuery.trim();
+				
+		this.urlParameters.add(Constants.SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY, this.searchQuery);
 	}
+	
 	
 	
 	@Override
@@ -56,8 +51,6 @@ public class GetTVSearchResults
 		{
 			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 			TVSearchResults tvSearchResults = (TVSearchResults) requestResultObjectContent;
-			
-			searchQuery = RegularExpressionUtils.decodeEncodedSpaceChars(searchQuery);
 			
 			SearchResultsForQuery searchResultsForQuery = new SearchResultsForQuery(searchQuery, tvSearchResults);
 			
@@ -72,19 +65,23 @@ public class GetTVSearchResults
 	}
 
 
+	
 	@Override
-	protected void onPostExecute(Void result) {
+	protected void onPostExecute(Void result) 
+	{
 		super.onPostExecute(result);
 		
-		if(isCancelled()) {
+		if(isCancelled()) 
+		{
 			requestResultObjectContent = null;
+			
 			this.requestResultStatus = FetchRequestResultEnum.SEARCH_CANCELED_BY_USER;
+			
 			Log.d(TAG, "SearchTask was canceled");
-		} else {
+		} 
+		else 
+		{
 			Log.d(TAG, "Search complete (success not garantueed), notifiying ContentManager");
 		}
 	}
-	
-	
-		
 }

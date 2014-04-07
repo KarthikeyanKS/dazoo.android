@@ -13,7 +13,12 @@
     <color name="blue3">#2e6fb7</color>
     
     <color name="yellow">#FF9C22</color>
+    
     <color name="orange">#FF7800</color>
+    <color name="orange_button_pressed">#f6a85a</color>
+    <color name="orange_button_not_pressed">#f7b36f</color>
+    <color name="orange_light">#f9e4cf</color>
+    
     <color name="red">#E8420C</color>
     
     <color name="grey0">#F3F3F3</color>

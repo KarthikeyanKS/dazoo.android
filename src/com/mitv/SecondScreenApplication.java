@@ -296,54 +296,51 @@ public class SecondScreenApplication
 	}
 	
 	
-	
+	/**
+	 * This method checks if user has seen the tutorial or
+	 * if the user has seen the tutorial && not opened the
+	 * app for at least two weeks, then we will show the
+	 * tutorial again to the user.
+	 * 
+	 * @return
+	 */
 	public boolean hasUserSeenTutorial() {
 		
-//		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
-//		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
-//		
-//		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
-//		Calendar now = DateUtils.getNow();
-//		
-//		if (hasUserSeenTutorial) {
-//			Log.d(TAG, "MMM Date: hasUserSeenTutorial: " + hasUserSeenTutorial);
-//			
-//			if (!neverShowTutorialAgain) {
-//				Log.d(TAG, "MMM Date: neverShowTutorialAgain: " + neverShowTutorialAgain);
-//				
-//				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
-//					Log.d(TAG, "MMM Date: lastOpenApp: " + lastOpenApp);
-//					
-//					Calendar cal = Calendar.getInstance();
-//				    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
-//					
-//					try {
-//						cal.setTime(sdf.parse(lastOpenApp));
-//					} catch (ParseException e) {
-//						Log.e(TAG, "MMM Date: Failed to set time for when user last open app.");
-//						e.printStackTrace();
-//					}
-//					
-//					/* 
-//					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
-//					 * FALSE: if app has not been open in last two weeks, tutorial will show.
-//					 */
-//					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
-//					
-//					/* Sets app to never show tutorial again if desplayed two times */
-//					if (!openLastTwoWeeks) {
-//						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, false);
-//					}
-//					
-//					return openLastTwoWeeks;
-//				}
-//			}
-//			
-//		}
-//		
-//		return hasUserSeenTutorial;
-		return true;
+		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
+		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
+		
+		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
+		Calendar now = DateUtils.getNow();
+		
+		if (hasUserSeenTutorial) {
+			
+			if (!neverShowTutorialAgain) {
+				
+				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
+					
+					/* Get calendar from the string lastOpenApp */
+					Calendar cal = getDateUserLastOpenApp(lastOpenApp);
+					
+					/* 
+					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
+					 * FALSE: if app has not been open in last two weeks, tutorial will show.
+					 */
+					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
+					
+					/* Sets app to never show tutorial again if displayed two times */
+					if (!openLastTwoWeeks) {
+						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, false);
+					}
+					
+					return openLastTwoWeeks;
+				}
+			}
+		}
+		
+		return hasUserSeenTutorial;
 	}
+	
+	
 	
 	/* No handling when new year, just returns true, which means that the tutorial will not show. */
 	private boolean checkIfUserOpenedAppLastTwoWeeks(Calendar now, Calendar lastTime) {
@@ -362,14 +359,36 @@ public class SecondScreenApplication
 		return true;
 	}
 	
+	
+	
+	private Calendar getDateUserLastOpenApp(String lastOpenApp) {
+		Calendar cal = Calendar.getInstance();
+		
+	    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+		
+		try {
+			cal.setTime(sdf.parse(lastOpenApp));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return cal;
+	}
+	
+	
+	
 	public void setUserSeenTutorial() {
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true, false);
 	}
+	
+	
 	
 	public void setDateUserLastOpenedApp(String date) {
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date);
 	}
 
+	
+	
 	public ContentManager getContentManager() 
 	{
 		if(contentManager == null) {
