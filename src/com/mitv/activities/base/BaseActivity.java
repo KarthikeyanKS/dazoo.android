@@ -914,7 +914,7 @@ public abstract class BaseActivity
 	{
 		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
 
-		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(this);
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this);
 
 		if (activityNotNullAndNotFinishing) 
 		{

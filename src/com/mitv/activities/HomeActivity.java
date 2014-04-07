@@ -4,6 +4,7 @@ package com.mitv.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -105,7 +106,7 @@ public class HomeActivity
 	@Override
 	protected void attachFragment() 
 	{
-		if (GenericUtils.isActivityNotNullAndNotFinishing(this)) 
+		if (GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this)) 
 		{
 			FragmentManager fm = getSupportFragmentManager();
 			
@@ -113,11 +114,29 @@ public class HomeActivity
 			{
 				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, getOnViewPagerIndexChangedListener());
 
-				fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
+				FragmentTransaction fragmentTransaction = fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null);
+				
+				try
+				{
+					fragmentTransaction.commitAllowingStateLoss();
+				}
+				catch(IllegalStateException ilstex)
+				{
+					Log.e(TAG, ilstex.getMessage());
+				}
 			} 
 			else 
 			{
-				fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
+				FragmentTransaction fragmentTransaction = fm.beginTransaction().attach(activeFragment);
+						
+				try
+				{
+					fragmentTransaction.commitAllowingStateLoss();
+				}
+				catch(IllegalStateException ilstex)
+				{
+					Log.e(TAG, ilstex.getMessage());
+				}
 			}
 		}
 	}

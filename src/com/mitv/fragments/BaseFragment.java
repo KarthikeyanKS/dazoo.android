@@ -191,7 +191,7 @@ public abstract class BaseFragment
 	{
 		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
 
-		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(getActivity());
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(getActivity());
 		
 		if (activityNotNullAndNotFinishing) 
 		{

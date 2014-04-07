@@ -150,7 +150,7 @@ public class SecondScreenApplication
 		{
 			ContentManager.clearAllPersistentCacheData();
 			
-			AppDataUtils.sharedInstance(this).clearAllPreferences();
+			AppDataUtils.sharedInstance(this).clearAllPreferences(false);
 		}
 
 		setInstalledAppVersionToCurrentVersion();
@@ -266,7 +266,7 @@ public class SecondScreenApplication
 	{
 		String currentVersion = getCurrentAppVersion();
 		
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion, false);
 	}
 	
 	
@@ -379,7 +379,7 @@ public class SecondScreenApplication
 	
 	
 	public void setDateUserLastOpenedApp(String date) {
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date, false);
 	}
 
 	

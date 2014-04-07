@@ -136,15 +136,22 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		return hasEnoughDataToShowContent;
 	}
 
-	private ArrayList<TVBroadcastWithChannelInfo> filterOutEpisodesWithBadData() {
+	private ArrayList<TVBroadcastWithChannelInfo> filterOutEpisodesWithBadData() 
+	{
 		/* Remove upcoming broadcasts with season 0 and episode 0 */
 		LinkedList<TVBroadcast> upcomingBroadcastsToRemove = new LinkedList<TVBroadcast>();
+		
 		ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
-		if (programType == ProgramTypeEnum.TV_EPISODE) {
-			for (TVBroadcast upcomingBroadcast : upcomingBroadcasts) {
+		
+		if (programType == ProgramTypeEnum.TV_EPISODE) 
+		{
+			for (TVBroadcast upcomingBroadcast : upcomingBroadcasts) 
+			{
 				TVProgram programFromUpcomingBroadcast = upcomingBroadcast.getProgram();
 
-				if (isProgramIrrelevantAndShouldBeDeleted(programFromUpcomingBroadcast)) {
+				if (programFromUpcomingBroadcast != null &&
+				    isProgramIrrelevantAndShouldBeDeleted(programFromUpcomingBroadcast)) 
+				{
 					upcomingBroadcastsToRemove.add(upcomingBroadcast);
 				}
 			}
@@ -261,7 +268,8 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
 	}
 
-	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) {
+	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) 
+	{
 		boolean isProgramIrrelevantAndShouldBeDeleted = (program.getSeason().getNumber() == 0 && program.getEpisodeNumber() == 0);
 
 		return isProgramIrrelevantAndShouldBeDeleted;

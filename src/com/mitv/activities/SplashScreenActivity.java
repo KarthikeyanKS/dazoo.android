@@ -45,15 +45,12 @@ public class SplashScreenActivity
 	private FontTextView progressTextView;
 	private int fetchedDataCount = 0;
 	
-	private boolean hasUserSeenTutorial;
 	private boolean isViewingTutorial = false;
 	private boolean isDataFetched = false;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
-	
-	public static final String DATE_FORMAT_NOW = "MMM dd, yyyy HH:mm:ss";
-	
+		
 	
 	
 	@Override
@@ -63,7 +60,16 @@ public class SplashScreenActivity
 		
 		if(Constants.ENABLE_FIRST_TIME_TUTORIAL_VIEW) 
 		{
-			showTutorial();	
+			boolean hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
+			
+			if (hasUserSeenTutorial)
+			{
+				showSplashScreen();
+			}
+			else 
+			{
+				showUserTutorial();
+			}
 		} 
 		else 
 		{
@@ -97,23 +103,6 @@ public class SplashScreenActivity
 		}
 	}
 		
-
-	
-	private void showTutorial() 
-	{
-		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
-		
-		if (hasUserSeenTutorial) 
-		{
-			showSplashScreen();
-			
-		} 
-		else 
-		{
-			showUserTutorial();
-		}
-	}
-	
 	
 	
 	@Override
@@ -205,7 +194,8 @@ public class SplashScreenActivity
 
 	private void startPrimaryActivity() 
 	{
-		if(SecondScreenApplication.isAppRestarting()) {
+		if(SecondScreenApplication.isAppRestarting()) 
+		{
 			Log.d(TAG, "isAppRestarting is true => setting to false");
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
@@ -223,16 +213,45 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showSplashScreen() {
+	private void showSplashScreen() 
+	{
 		isViewingTutorial = false;
 		
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
 		
-		if (isDataFetched) {
+		if (isDataFetched) 
+		{
 			startPrimaryActivity();
 		}
+	}
+	
+	
+	
+	private void showUserTutorial() 
+	{
+		isViewingTutorial = true;
+		
+		setContentView(R.layout.user_tutorial_screen_slide);
+
+		initTutorialView();
+	}
+	
+	
+
+	private void initTutorialView() 
+	{
+		mPager = (ViewPager) findViewById(R.id.pager);
+		
+		mPagerAdapter = new TutorialScreenSlidePagerAdapter(getSupportFragmentManager());
+		
+		mPager.setAdapter(mPagerAdapter);
+		
+		/* ViewPageIndicator library */
+		CirclePageIndicator titleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+		
+		titleIndicator.setViewPager(mPager);
 	}
 	
 	
@@ -256,55 +275,38 @@ public class SplashScreenActivity
 			super.onBackPressed();
 		}
 	}
-	
-	
-	
-	private void showUserTutorial() 
-	{
-		isViewingTutorial = true;
-		
-		setContentView(R.layout.user_tutorial_screen_slide);
 
-		initTutorialView();
-	}
 	
-	
-
-	private void initTutorialView() {
-		mPager = (ViewPager) findViewById(R.id.pager);
-		
-		mPagerAdapter = new TutorialScreenSlidePagerAdapter(getSupportFragmentManager());
-		
-		mPager.setAdapter(mPagerAdapter);
-		
-		/* ViewPageIndicator library */
-		CirclePageIndicator titleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-		
-		titleIndicator.setViewPager(mPager);
-	}
-	
-
 	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
 
-		switch (id) {
-		
+		switch (id) 
+		{
 			case R.id.button_splash_tutorial:
-			case R.id.button_tutorial_next: {
+			case R.id.button_tutorial_next: 
+			{
 				mPager.setCurrentItem(mPager.getCurrentItem() + 1);
 				break;
 			}
 			
 			case R.id.button_tutorial_skip:
-			case R.id.button_tutorial_start_primary_activity: {
-				if (isDataFetched) {
+			case R.id.button_tutorial_start_primary_activity: 
+			{
+				if (isDataFetched) 
+				{
 					isViewingTutorial = false;
 					SecondScreenApplication.sharedInstance().setUserSeenTutorial();	
 					startPrimaryActivity();
 				}
 				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick action.");
 			}
 		}
 	}

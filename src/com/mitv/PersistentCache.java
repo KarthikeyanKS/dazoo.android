@@ -674,6 +674,11 @@ public abstract class PersistentCache
 	 */
 	public synchronized TVGuide getTVGuideUsingTVDate(TVDate tvDate) 
 	{
+		if(tvDate == null)
+		{
+			return null;
+		}
+		
 		if (tvGuidesMy == null) 
 		{
 			tvGuidesMy = new HashMap<String, TVGuide>();
