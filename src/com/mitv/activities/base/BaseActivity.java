@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.FontManager;
@@ -137,11 +136,7 @@ public abstract class BaseActivity
 		}
 
 		/* Google Analytics Tracking */
-		EasyTracker.getInstance(this).activityStart(this);
-
-		String className = this.getClass().getName();
-
-		GATrackingManager.sendView(className);
+		GATrackingManager.reportActivityStart(this);
 	}
 	
 	public void restartTheApp() {
@@ -726,11 +721,7 @@ public abstract class BaseActivity
 	protected void onStop() {
 		super.onStop();
 
-		String className = this.getClass().getName();
-
-		GATrackingManager.stopTrackingView(className);
-
-		EasyTracker.getInstance(this).activityStop(this);
+		GATrackingManager.reportActivityStop(this);
 	}
 
 
