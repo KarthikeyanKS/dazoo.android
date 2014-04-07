@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,7 +43,6 @@ import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -79,6 +79,9 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
+	
+	private static final String DISQUS_COMMENTS_URL = "http://gitrgitr.com/test";
+	private static final String DISQUS_COMMENTS_PAGE_URL = DISQUS_COMMENTS_URL + "/index.htm";
 	
 	
 	
@@ -162,6 +165,7 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		String userID;
 		String username;
 		String userEmail;
+		String userImage;
 		
 		if(isUserLoggedIn)
 		{
@@ -209,17 +213,33 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 				
 				userEmail = "";
 			}
+			
+			try 
+			{
+				userImage = ContentManager.sharedInstance().getFromCacheUserProfileImage();
+				
+				userImage = URLEncoder.encode(userImage, "UTF-8");
+				
+				userImage = userImage.replace("+", "%20");
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+				userImage = "";
+			}
 		}
 		else
 		{
 			userID = null;
 			username = null;
 			userEmail = null;
+			userImage = null;
 		}
 		
 		StringBuilder urlSB = new StringBuilder();
 		
-		urlSB.append("http://gitrgitr.com/test/index.htm");
+		urlSB.append(DISQUS_COMMENTS_PAGE_URL);
 		urlSB.append("?title=");
 		urlSB.append(title);
 		urlSB.append("&identifier=");
@@ -232,11 +252,14 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			urlSB.append("&id=");
 			urlSB.append(userID);
 			
-			urlSB.append("&name=");
+			urlSB.append("&username=");
 			urlSB.append(username);
 			
 			urlSB.append("&email=");
 			urlSB.append(userEmail);
+			
+			urlSB.append("&avatar=");
+			urlSB.append(userImage);
 		}
 		
 		webDisqus.loadUrl(urlSB.toString());
@@ -412,7 +435,28 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		webSettings.setBuiltInZoomControls(false);
 		webDisqus.requestFocusFromTouch();
 		
-		webDisqus.setWebViewClient(new WebViewClient());
+		webDisqus.setWebViewClient(new WebViewClient()
+		{
+			@Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) 
+			{
+		        if (checkMatchedLoadedURL(url))
+		        {
+		            return false;
+		        } 
+		        else
+		        {
+		        	Uri uri = Uri.parse(url);
+		        	
+		        	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		        	
+		            startActivity(intent);
+		        }
+		        
+		        return false;
+            }
+		});
+		
 		webDisqus.setWebChromeClient(new WebChromeClient() 
 		{
 			  public void onConsoleMessage(String message, int lineNumber, String sourceID) 
@@ -423,6 +467,35 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			  }
 			});
 	}
+	
+	
+
+	/* used to check if the loaded url matches the base url loaded by the fragment(mUrl)
+	 * @param loadedUrl
+	 * @return true if matches | false if doesn't or either url is null
+	 */
+	private boolean checkMatchedLoadedURL(String loadedUrl)
+	{
+		boolean matchesLoadedURL = false;
+		
+		if (loadedUrl != null && 
+			loadedUrl.isEmpty() == false)
+		{
+			int lastCharacterPosition = loadedUrl.length()-1;
+			
+			char buff = loadedUrl.charAt(lastCharacterPosition);
+			
+			if (buff == '/')
+			{
+				loadedUrl = loadedUrl.substring(0, lastCharacterPosition);
+			}
+
+			matchesLoadedURL = DISQUS_COMMENTS_URL.equalsIgnoreCase(loadedUrl);
+		}
+		
+		return matchesLoadedURL;
+	}
+	  
 
 	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) 
 	{
