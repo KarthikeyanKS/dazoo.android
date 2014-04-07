@@ -328,8 +328,10 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		String minutesString = res.getString(R.string.minutes);
 
 		String contentTitle = null;
-		switch (programType) {
-		case TV_EPISODE: {
+		switch (programType) 
+		{
+		case TV_EPISODE: 
+		{
 			contentTitle = program.getSeries().getName();
 
 			contentTitleTextView.setText(contentTitle);

@@ -5,8 +5,8 @@ import com.mitv.models.ImageSetSize;
 
 public class ImageSetOrientationJSON {
 	
-	private ImageSetSize landscape;
-	private ImageSetSize portrait;
+	protected ImageSetSize landscape;
+	protected ImageSetSize portrait;
 	
 	public ImageSetOrientationJSON(
 			String smallLandscape,

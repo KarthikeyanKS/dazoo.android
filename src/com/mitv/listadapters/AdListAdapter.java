@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +44,7 @@ public class AdListAdapter<T>
 	
 	private List<T> items;
 	private int cellCountBetweenAdCells;
-	private boolean isAdsEnabled;
+	protected boolean isAdsEnabled;
 	private String adMobId;
 
 	
@@ -59,11 +58,11 @@ public class AdListAdapter<T>
 		
 		this.adMobId = adMobId;
 		this.adFormats = ContentManager.sharedInstance().getFromCacheAppConfiguration().getAdzerkFormatsForAndroidGuide();
-		this.cellCountBetweenAdCells = 3;//ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCellsUsingActivityName(fragmentName);
+		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCellsUsingActivityName(fragmentName);
 		
 		this.items = items;
 		
-		boolean globalAdsEnabled = true;//ContentManager.sharedInstance().getFromCacheAppConfiguration().isAdsEnabled();
+		boolean globalAdsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().isAdsEnabled();
 		
 		boolean localAdsEnabled = (cellCountBetweenAdCells > 0);
 		
@@ -73,6 +72,10 @@ public class AdListAdapter<T>
 
 	public void setItems(List<T> items) {
 		this.items = items;
+	}
+	
+	public boolean isAdsEnabled() {
+		return isAdsEnabled;
 	}
 		
 
@@ -179,7 +182,8 @@ public class AdListAdapter<T>
 			{
 				if(TextUtils.isEmpty(holder.adMobView.getAdUnitId())) {
 					holder.adMobView.setAdUnitId(this.adMobId);
-					holder.adMobView.setAdSize(AdSize.SMART_BANNER);
+					holder.adMobView.setAdSize(AdSize.BANNER);
+					
 					holder.adMobView.setAdListener(new AdListener() {
 
 						@Override

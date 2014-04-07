@@ -111,6 +111,11 @@ public class TVGuideListAdapter
 		if (rowView == null) 
 		{
 			rowView = layoutInflater.inflate(R.layout.row_tvguide_list, null);
+			
+			int paddingPixel = 30;
+			float density = activity.getResources().getDisplayMetrics().density;
+			int paddingDp = (int)(paddingPixel * density);
+			rowView.setPadding(0, 0, paddingDp, 0);
 
 			ViewHolder viewHolder = new ViewHolder();
 

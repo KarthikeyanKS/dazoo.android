@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.GATrackingManager;
@@ -78,15 +77,15 @@ public class SplashScreenActivity
 		{
 			showSplashScreen();
 		}
-		
-		/* Google Analytics Tracking */
-		EasyTracker.getInstance(this).activityStart(this);
-		
-		String className = this.getClass().getName();
-		
-		GATrackingManager.sendView(className);
+				
+		GATrackingManager.reportActivityStart(this);
 	}
 
+	@Override
+	protected void onStop() {
+	    super.onStop();
+		GATrackingManager.reportActivityStop(this);
+	}
 	
 	
 	@Override
@@ -220,7 +219,8 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showSplashScreen() {		
+	private void showSplashScreen() 
+	{		
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
@@ -233,7 +233,8 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showUserTutorial() {
+	private void showUserTutorial() 
+	{
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(true);
 		
 		setContentView(R.layout.user_tutorial_screen_slide);
