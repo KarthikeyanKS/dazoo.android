@@ -20,6 +20,8 @@ public abstract class Constants
 	public static final String HTTP_CORE_DEAFULT_ENCODING = "UTF-8";
 	public static final int HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT = 1000;
 	
+	public static final String ELLIPSIS_STRING = "...";
+	
 	/* HTTP and HTTPS schemas */
 	public static final String HTTP_SCHEME = "http://";
 	public static final String HTTPS_SCHEME	= "https://";
@@ -37,8 +39,8 @@ public abstract class Constants
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
 	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
-	public static String URL_INTERNAL_TRACKING_SUFFIX				= "track/unique";
-	public static String URL_INTERNAL_TRACKING						= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
+	public static final String URL_INTERNAL_TRACKING_SUFFIX				= "track/unique";
+	public static final String URL_INTERNAL_TRACKING						= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
 	
 	
 	public static final String URL_GUIDE 							= URL_SERVER + "epg/guide";
@@ -360,7 +362,6 @@ public abstract class Constants
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE			= "APP_WAS_PREINSTALLED_EXTERNAL_STORAGE";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION		= "APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG			= "APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG";
-	public static final String GA_KEY_APP_CURRENT_USER_NETWORK_FLAG					= "APP_CURRENT_USER_NETWORK_FLAG";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL		= "SIGN_UP_COMPLETED_EMAIL";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_FACEBOOK 	= "SIGN_UP_COMPLETED_FACEBOOK";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SHARE					= "SHARE";
@@ -477,7 +478,7 @@ public abstract class Constants
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	
 	/* CONFIGURATIONS FOR SEARCH */
-	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
+	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 2;
 	public static final int DELAY_IN_MILLIS_UNTIL_SEARCH = 400;
 	
     /* CONFIGURATIONS FOR NOTIFICATIONS */
@@ -489,15 +490,21 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
+	public static final String SHARED_PREFERENCES_APP_IS_RESTARTING = "app_is_restarting";
 	
 	/* Shared preferences for TUTORIAL */
 	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";
 	public static final String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN = "com.mitv.app.tutorial.never.start.again";
 	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
 	
+	/* CONFIGURATIONS FOR FACEBOOK */
+	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
+	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
+	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
+	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
 	public static final int CACHE_DATABASE_VERSION = 1;
@@ -507,8 +514,7 @@ public abstract class Constants
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
-	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
-	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
+	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 }

@@ -4,6 +4,7 @@ package com.mitv.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,6 @@ import com.mitv.utilities.NetworkUtils;
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
@@ -106,42 +106,37 @@ public class HomeActivity
 	@Override
 	protected void attachFragment() 
 	{
-		if (GenericUtils.isActivityNotNullAndNotFinishing(this)) 
+		if (GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this)) 
 		{
 			FragmentManager fm = getSupportFragmentManager();
 			
 			if (activeFragment == null) 
 			{
-				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
+				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, getOnViewPagerIndexChangedListener());
+
+				FragmentTransaction fragmentTransaction = fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null);
+				
+				try
 				{
-					@Override
-					public void onIndexSelected(int position) 
-					{
-						selectedTagIndex = position;
-						
-						boolean isConnected = NetworkUtils.isConnected();
-
-						if (hasEnoughDataToShowContent() && isConnected == false) 
-						{
-							ToastHelper.createAndShowNoInternetConnectionToast();
-							
-//							if (undoBarController != null)
-//							{
-//								undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-//							} 
-//							else
-//							{
-//								Log.w(TAG, "Undo bar component is null.");
-//							}
-						}
-					}
-				});
-
-				fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
+					fragmentTransaction.commitAllowingStateLoss();
+				}
+				catch(IllegalStateException ilstex)
+				{
+					Log.e(TAG, ilstex.getMessage());
+				}
 			} 
 			else 
 			{
-				fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
+				FragmentTransaction fragmentTransaction = fm.beginTransaction().attach(activeFragment);
+						
+				try
+				{
+					fragmentTransaction.commitAllowingStateLoss();
+				}
+				catch(IllegalStateException ilstex)
+				{
+					Log.e(TAG, ilstex.getMessage());
+				}
 			}
 		}
 	}
@@ -240,5 +235,28 @@ public class HomeActivity
 			
 			default:{/*Do nothing*/break;}
 		}
+	}
+	
+	
+	
+	public OnViewPagerIndexChangedListener getOnViewPagerIndexChangedListener()
+	{
+		OnViewPagerIndexChangedListener listener = new OnViewPagerIndexChangedListener() 
+		{
+			@Override
+			public void onIndexSelected(int position) 
+			{
+				selectedTagIndex = position;
+				
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (hasEnoughDataToShowContent() && isConnected == false) 
+				{
+					ToastHelper.createAndShowNoInternetConnectionToast();
+				}
+			}	
+		};
+		
+		return listener;
 	}
 }

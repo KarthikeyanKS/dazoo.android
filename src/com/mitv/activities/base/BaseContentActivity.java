@@ -10,7 +10,6 @@ import com.mitv.SecondScreenApplication;
 public abstract class BaseContentActivity 
 	extends BaseActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = BaseContentActivity.class.getName();
 	
 	

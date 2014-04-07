@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
 import com.mitv.Constants;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
@@ -117,15 +119,34 @@ public abstract class GenericUtils
 	
 	
 	
-	public static boolean isActivityNotNullAndNotFinishing(Activity activity)
+	public static boolean isActivityNotNullAndNotFinishingAndNotDestroyed(Activity activity)
 	{
 		boolean activityNotNullAndNotFinishing = (activity != null && 
-											  activity.isFinishing() == false);
+											      activity.isDestroyed() == false &&
+											      activity.isFinishing() == false);
 		
 		return activityNotNullAndNotFinishing;
 	}
 	
 	
+	
+	/*
+	 * IMPORTANT: Reenable permission on Manifest to use this function
+	 */
+//	public static int getActivityCount()
+//	{
+//		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+//
+//		ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+//
+//		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(3);
+//
+//		int activityCount = tasks.get(0).numActivities;
+//
+//		return activityCount;
+//	}
+
+
 	
     public static PackageInfo getPackageInfo()
 	{

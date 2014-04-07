@@ -9,8 +9,6 @@ import java.util.Stack;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -126,14 +124,15 @@ public abstract class BaseActivity
 		
 		/* If ContentManager is not null, and cache is not null and we have no initial data, then this activity got recreated due to
 		 * low memory and then we need to restart the app */
-		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { //!SecondScreenApplication.isContentManagerNull() && !ContentManager.isCacheNull() && 
-			Log.e(TAG, "ContentManager or cache or initialdata was null");
+		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
+			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
 			
-			if(!SecondScreenApplication.isAppRestarting()) {
-				SecondScreenApplication.setAppIsRestarting(true);
-//				restartTheApp();
+			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
+				
+				restartTheApp();
+				
 			} else {
-//				Log.w(TAG, "App is already being restarted");
+				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
 			}
 		}
 
@@ -146,18 +145,22 @@ public abstract class BaseActivity
 	}
 	
 	public void restartTheApp() {
-		Log.e(TAG, "Restarting the app");
-		
-		Intent intent = new Intent(this, SplashScreenActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);		
-		
-		SecondScreenApplication app = SecondScreenApplication.sharedInstance();
-		Context context = app.getApplicationContext();
-		context.startActivity(intent);
-		
-		
-		killAllActivitiesIncludingThis();
-		finish();
+		if (!SecondScreenApplication.isAppRestarting()) {
+			Log.e(TAG, "Restarting the app");
+			SecondScreenApplication.setAppIsRestarting(true);
+
+			Intent intent = new Intent(this, SplashScreenActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+			Context context = app.getApplicationContext();
+			context.startActivity(intent);
+
+			killAllActivitiesIncludingThis();
+			finish();
+		} else {
+			Log.e(TAG, "App is already being restarted");
+		}
 	}
 	
 
@@ -277,6 +280,7 @@ public abstract class BaseActivity
 	{
 		/* Handle time */
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+		
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
 		/* Handle day */
@@ -289,12 +293,16 @@ public abstract class BaseActivity
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
 			if(isTimeOffSync == false) {
+				
 				restartTheApp();
 			}
 		} 
 	}
 	
-	
+	/* TODO REMOVE ME*/
+	private void sendToastMessageWhenRestart(String message) {
+		ToastHelper.createAndShowLongToast(message);
+	}
 
 	
 	private void killAllActivitiesIncludingThis() {
@@ -368,12 +376,14 @@ public abstract class BaseActivity
 //	}
 
 	/**
-	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurences in the activity stack
+	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurrences in the activity stack
 	 */
-	private static void removeFromStackOnDestroy(Activity activity) {
-
-		for (int i = 0; i < activityStack.size(); ++i) {
-			if (activityStack.contains(activity)) {
+	private static void removeFromStackOnDestroy(Activity activity) 
+	{
+		for (int i = 0; i < activityStack.size(); ++i) 
+		{
+			if (activityStack.contains(activity)) 
+			{
 				activityStack.remove(activity);
 			}
 		}
@@ -387,28 +397,27 @@ public abstract class BaseActivity
 		}
 	}
 
-	public static Activity getMostRecentTabActivity() {
+	
+	
+	public static Activity getMostRecentTabActivity() 
+	{
 		Activity mostRecentTabActivity = null;
 
 		/* Iterate through stack, start at top of stack */
-		for (int i = activityStack.size() - 1; i >= 0; --i) {
+		for (int i = activityStack.size() - 1; i >= 0; --i) 
+		{
 			Activity activityInStack = activityStack.get(i);
 
 			/* Check if activityInStack is any of the three TabActivities */
-			if (isTabActivity(activityInStack)) {
+			if (isTabActivity(activityInStack)) 
+			{
 				mostRecentTabActivity = activityInStack;
+				
 				break;
 			}
 		}
 
 		return mostRecentTabActivity;
-	}
-
-	
-	
-	private boolean isTabActivity() 
-	{
-		return isTabActivity(this);
 	}
 
 	
@@ -427,7 +436,8 @@ public abstract class BaseActivity
 		tabTvGuideIcon = (FontTextView) findViewById(R.id.element_tab_icon_guide);
 		tabTvGuideText = (FontTextView) findViewById(R.id.element_tab_text_guide);
 
-		if (tabTvGuide != null) {
+		if (tabTvGuide != null) 
+		{
 			tabTvGuide.setOnClickListener(this);
 		}
 
@@ -435,7 +445,8 @@ public abstract class BaseActivity
 		tabActivityIcon = (FontTextView) findViewById(R.id.element_tab_icon_activity);
 		tabActivityText = (FontTextView) findViewById(R.id.element_tab_text_activity);
 
-		if (tabActivity != null) {
+		if (tabActivity != null) 
+		{
 			tabActivity.setOnClickListener(this);
 		}
 
@@ -443,19 +454,49 @@ public abstract class BaseActivity
 		tabProfileIcon = (FontTextView) findViewById(R.id.element_tab_icon_me);
 		tabProfileText = (FontTextView) findViewById(R.id.element_tab_text_me);
 
-		if (tabProfile != null) {
+		if (tabProfile != null) 
+		{
 			tabProfile.setOnClickListener(this);
+		}
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if(tabProfileText != null)
+		{
+			if(isLoggedIn)
+			{
+				String username = ContentManager.sharedInstance().getFromCacheUserFirstname();
+			
+				tabProfileText.setText(username);
+			}
+			else
+			{
+				String defaultTabText = getString(R.string.tab_me);
+				
+				tabProfileText.setText(defaultTabText);
+			}
 		}
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
-		if (mostRecentTabActivity instanceof HomeActivity) {
+		if(mostRecentTabActivity == null)
+		{
 			setSelectedTabAsTVGuide();
-		} else if (mostRecentTabActivity instanceof FeedActivity) {
+		}
+		else if (mostRecentTabActivity instanceof HomeActivity) 
+		{
+			setSelectedTabAsTVGuide();
+		} 
+		else if (mostRecentTabActivity instanceof FeedActivity) 
+		{
 			setSelectedTabAsActivityFeed();
-		} else if (mostRecentTabActivity instanceof UserProfileActivity) {
+		} 
+		else if (mostRecentTabActivity instanceof UserProfileActivity) 
+		{
 			setSelectedTabAsUserProfile();
-		} else {
+		} 
+		else 
+		{
 			Log.w(TAG, "Unknown activity tab");
 		}
 	}
@@ -694,7 +735,8 @@ public abstract class BaseActivity
 
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy() 
+	{
 		removeFromStackOnDestroy(this);
 
 		super.onDestroy();
@@ -705,17 +747,21 @@ public abstract class BaseActivity
 	@Override
 	public void onBackPressed() 
 	{
-		if(activityStack.size() <= 2 && isTabActivity())
-		{
-		    Intent intent = new Intent(Intent.ACTION_MAIN);
-		    intent.addCategory(Intent.CATEGORY_HOME);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		    startActivity(intent);
-		}
-		else
-		{
-			super.onBackPressed();
-		}
+		//int activityCount = GenericUtils.getActivityCount();
+
+//		if(activityCount <= 1 && isTabActivity())
+//		{
+//			Intent intent = new Intent(Intent.ACTION_MAIN);
+//			intent.addCategory(Intent.CATEGORY_HOME);
+//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			startActivity(intent);
+//		}
+//		else
+//		{
+//			super.onBackPressed();
+//		}
+		
+		super.onBackPressed();
 	}
 	
 
@@ -868,7 +914,7 @@ public abstract class BaseActivity
 	{
 		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
 
-		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(this);
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this);
 
 		if (activityNotNullAndNotFinishing) 
 		{

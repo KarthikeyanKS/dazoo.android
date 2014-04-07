@@ -173,17 +173,7 @@ public class GATrackingManager
 	}
 	
 	
-	
-	
-	public void sendUserNetworkTypeEvent()
-	{
-		String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
-		
-		tracker.send(MapBuilder
-				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG, activeNetworkTypeName, null)
-				.build());
-	}
-	
+
 	public void sendUserSignUpSuccessfulUsingEmailEvent()
 	{
 		sendUserSignUpSuccessfulEvent(false);

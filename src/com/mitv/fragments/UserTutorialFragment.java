@@ -1,13 +1,11 @@
 package com.mitv.fragments;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
@@ -33,10 +31,6 @@ public class UserTutorialFragment extends Fragment {
 	private static final int PAGE4 = 3;
 	private static final int PAGE5 = 4;
 	
-	private LinearLayout count_layout;
-	private static TextView page_text_dots[];
-	private int count = 0;
-	
 	private ImageView imgView;
 	private TextView splash_text;
 	private TextView splash_button;
@@ -45,7 +39,9 @@ public class UserTutorialFragment extends Fragment {
 	private TextView start_button;
 	private TextView header_text;
 	private TextView info_text;
+	
 
+	public static final String ARG_OBJECT = "object";
 	
 	
 	public UserTutorialFragment(int position) {
@@ -62,8 +58,6 @@ public class UserTutorialFragment extends Fragment {
 		initViews();
 		
 		setView();
-		
-//		initDotView();
 		
 		return rootView;
 	}
@@ -123,28 +117,7 @@ public class UserTutorialFragment extends Fragment {
 		}
 	}
 	
-	/* This do not work */
-	private void initDotView() {
-		count_layout = (LinearLayout) rootView.findViewById(R.id.image_count);
-		
-        page_text_dots = new TextView[NUM_PAGES];
-        
-        for (int i = 0; i < page_text_dots.length; i++) {
-            page_text_dots[i].setText(".");
-            page_text_dots[i].setTextSize(45);
-            page_text_dots[i].setTypeface(null, Typeface.BOLD);
-            
-            if (i == currentPage) {
-                page_text_dots[currentPage].setTextColor(android.graphics.Color.WHITE);
-                
-            } else {
-            	page_text_dots[i].setTextColor(android.graphics.Color.GRAY);
-            }
-            
-            count_layout.addView(page_text_dots[i]);
-        }
-        
-	}
+	
 	
 	private void initViews() {
 		/* PAGE 1 */

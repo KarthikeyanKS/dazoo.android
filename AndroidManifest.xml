@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="110"
-    android:versionName="1.0.110" >
+    android:versionCode="113"
+    android:versionName="1.0.113" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -19,7 +19,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
+	<!-- Re-enable this permission when accessing the system tasks -->
+	<!-- <uses-permission android:name="android.permission.GET_TASKS" />-->
+    
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -33,18 +35,22 @@
        <screen android:screenSize="small" android:screenDensity="mdpi" />
        <screen android:screenSize="small" android:screenDensity="hdpi" />
        <screen android:screenSize="small" android:screenDensity="xhdpi" />
+       <screen android:screenSize="small" android:screenDensity="480" />
        
        <!-- all normal size screens -->
        <screen android:screenSize="normal" android:screenDensity="ldpi" />
        <screen android:screenSize="normal" android:screenDensity="mdpi" />
        <screen android:screenSize="normal" android:screenDensity="hdpi" />
        <screen android:screenSize="normal" android:screenDensity="xhdpi" />
+       <screen android:screenSize="normal" android:screenDensity="480" />
        
        <!-- all large size screens -->
        <screen android:screenSize="large" android:screenDensity="ldpi" />
        <screen android:screenSize="large" android:screenDensity="mdpi" />
        <screen android:screenSize="large" android:screenDensity="hdpi" />
        <screen android:screenSize="large" android:screenDensity="xhdpi" />
+       <screen android:screenSize="large" android:screenDensity="480" />
+   
    </compatible-screens>
     
     <application
@@ -57,6 +63,13 @@
         android:theme="@android:style/Theme.Light.NoTitleBar" 
         android:logo="@drawable/ic_nav_bar">
         
+        
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        
+        <meta-data android:name="com.google.android.gms.version"
+               android:value="@integer/google_play_services_version"/>
         
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
@@ -293,10 +306,17 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/app_id" />
+        
+        
+        <!-- Used for Google Play Store Campaign Measurement-->;
+		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+		<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+		          android:exported="true">
+		  <intent-filter>
+		    <action android:name="com.android.vending.INSTALL_REFERRER" />
+		  </intent-filter>
+		</receiver>
+        
     </application>
     
 </manifest>

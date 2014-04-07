@@ -95,6 +95,8 @@ public class TrippleBroadcastBlockPopulator
 		}
 	}
 
+	
+	
 	public void populatePartOfBlock(
 			final int position, 
 			final ArrayList<TVBroadcastWithChannelInfo> broadcastList) 
@@ -104,6 +106,7 @@ public class TrippleBroadcastBlockPopulator
 			final TVBroadcastWithChannelInfo broadcastWithChannelInfo = broadcastList.get(position);
 
 			LinearLayout container = null;
+			
 			boolean setSmallIcon = true;
 
 			switch (position) 
@@ -191,7 +194,7 @@ public class TrippleBroadcastBlockPopulator
 							seasonEpisodeSB.append(" ");
 						}
 	
-						if (episode > 0) 
+						if (episode > 0)
 						{
 							seasonEpisodeSB.append(activity.getString(R.string.episode));
 							seasonEpisodeSB.append(" ");

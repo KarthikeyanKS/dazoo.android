@@ -7,10 +7,7 @@ import java.util.Calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -18,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
@@ -25,13 +23,14 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.fragments.UserTutorialFragment;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.listadapters.TutorialScreenSlidePagerAdapter;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.NetworkUtils;
+import com.viewpagerindicator.CirclePageIndicator;
 
 
 
@@ -46,15 +45,12 @@ public class SplashScreenActivity
 	private FontTextView progressTextView;
 	private int fetchedDataCount = 0;
 	
-	boolean hasUserSeenTutorial;
-	boolean isViewingTutorial = false;
-	boolean isDataFetched = false;
-	
-	private static final int NUM_PAGES = 5;
+	private boolean isViewingTutorial = false;
+	private boolean isDataFetched = false;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
-	
+		
 	
 	
 	@Override
@@ -62,13 +58,22 @@ public class SplashScreenActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
-		
-		if (hasUserSeenTutorial) {
-			showSplashScreen();
+		if(Constants.ENABLE_FIRST_TIME_TUTORIAL_VIEW) 
+		{
+			boolean hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
 			
-		} else {
-			showUserTutorial();
+			if (hasUserSeenTutorial)
+			{
+				showSplashScreen();
+			}
+			else 
+			{
+				showUserTutorial();
+			}
+		} 
+		else 
+		{
+			showSplashScreen();
 		}
 		
 		/* Google Analytics Tracking */
@@ -89,9 +94,7 @@ public class SplashScreenActivity
 		boolean isConnected = NetworkUtils.isConnected();
 		
 		if(isConnected)
-		{
-			GATrackingManager.sharedInstance().sendUserNetworkTypeEvent();
-			
+		{	
 			loadData();
 		}
 		else 
@@ -100,12 +103,13 @@ public class SplashScreenActivity
 		}
 	}
 		
-
+	
 	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
 	{
-		if (!isViewingTutorial) {
+		if (!isViewingTutorial) 
+		{
 			fetchedDataCount++;
 			
 			StringBuilder sb = new StringBuilder();
@@ -115,7 +119,10 @@ public class SplashScreenActivity
 			sb.append(" - ");
 			sb.append(message);
 			
-			progressTextView.setText(sb.toString());
+			if (progressTextView != null) 
+			{
+				progressTextView.setText(sb.toString());
+			}
 		}
 	}
 
@@ -174,7 +181,8 @@ public class SplashScreenActivity
 				
 				isDataFetched = true;
 				
-				if (!isViewingTutorial) {
+				if (!isViewingTutorial) 
+				{
 					startPrimaryActivity();
 				}
 				break;
@@ -183,10 +191,11 @@ public class SplashScreenActivity
 	}
 	
 	
-	
+
 	private void startPrimaryActivity() 
 	{
-		if(SecondScreenApplication.isAppRestarting()) {
+		if(SecondScreenApplication.isAppRestarting()) 
+		{
 			Log.d(TAG, "isAppRestarting is true => setting to false");
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
@@ -204,83 +213,100 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showSplashScreen() {
+	private void showSplashScreen() 
+	{
 		isViewingTutorial = false;
 		
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
 		
-		if (isDataFetched) {
+		if (isDataFetched) 
+		{
 			startPrimaryActivity();
 		}
 	}
 	
-	@Override
-	public void onBackPressed() {
-		if (mPager.getCurrentItem() == 0) {
-			super.onBackPressed();
-
-		} else {
-			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-		}
-	}
 	
-	private void showUserTutorial() {
+	
+	private void showUserTutorial() 
+	{
 		isViewingTutorial = true;
 		
 		setContentView(R.layout.user_tutorial_screen_slide);
 
-		initView();
+		initTutorialView();
 	}
 	
-	/**
-	 * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in sequence.
-	 */
-	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-		public ScreenSlidePagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
+	
 
-		@Override
-		public Fragment getItem(int position) {
-			return new UserTutorialFragment(position);
-		}
-
-		@Override
-		public int getCount() {
-			return NUM_PAGES;
-		}
-
-	}	
-
-	private void initView() {
+	private void initTutorialView() 
+	{
 		mPager = (ViewPager) findViewById(R.id.pager);
-		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-		mPager.setAdapter(mPagerAdapter);	
+		
+		mPagerAdapter = new TutorialScreenSlidePagerAdapter(getSupportFragmentManager());
+		
+		mPager.setAdapter(mPagerAdapter);
+		
+		/* ViewPageIndicator library */
+		CirclePageIndicator titleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+		
+		titleIndicator.setViewPager(mPager);
 	}
 	
-
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onBackPressed() 
+	{
+		if(mPager != null)
+		{
+			if (mPager.getCurrentItem() == 0) 
+			{
+				super.onBackPressed();
+			} 
+			else 
+			{
+				mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+			}
+		}
+		else
+		{
+			super.onBackPressed();
+		}
+	}
+
+	
+	
+	@Override
+	public void onClick(View v) 
+	{
 		int id = v.getId();
 
-		switch (id) {
-		
+		switch (id) 
+		{
 			case R.id.button_splash_tutorial:
-			case R.id.button_tutorial_next: {
+			case R.id.button_tutorial_next: 
+			{
 				mPager.setCurrentItem(mPager.getCurrentItem() + 1);
 				break;
 			}
 			
 			case R.id.button_tutorial_skip:
-			case R.id.button_tutorial_start_primary_activity: {
-				if (isDataFetched) {
+			case R.id.button_tutorial_start_primary_activity: 
+			{
+				if (isDataFetched) 
+				{
 					isViewingTutorial = false;
-					SecondScreenApplication.sharedInstance().setUserSeenTutorial();			
+					SecondScreenApplication.sharedInstance().setUserSeenTutorial();	
 					startPrimaryActivity();
 				}
 				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick action.");
 			}
 		}
 	}

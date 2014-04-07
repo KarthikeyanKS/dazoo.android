@@ -6,6 +6,7 @@
     <issue id="ResourceAsColor" severity="ignore" />
     <issue id="SimpleDateFormat">
         <ignore path="src/com/mitv/SecondScreenApplication.java" />
+        <ignore path="src/com/mitv/activities/SplashScreenActivity.java" />
     </issue>
     <issue id="ValidFragment">
         <ignore path="src/com/mitv/fragments/UserTutorialFragment.java" />

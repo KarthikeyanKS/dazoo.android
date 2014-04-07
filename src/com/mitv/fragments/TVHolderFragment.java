@@ -17,7 +17,6 @@ import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.base.BaseActivity;
 import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVTag;
@@ -29,19 +28,19 @@ public class TVHolderFragment
 	extends Fragment 
 	implements OnPageChangeListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVHolderFragment.class.getName();
 	
 	private static final String BUNDLE_INFO_STARTING_INDEX = "BUNDLE_INFO_STARTING_INDEX";
 
-	private static OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
-	
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
 	
 	private TagTypeFragmentStatePagerAdapter pagerAdapter;
-	private int selectedTabIndex = 0;
+	
+	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
+	private int selectedTabIndex;
 
+	
 	
 	public interface OnViewPagerIndexChangedListener 
 	{
@@ -50,10 +49,10 @@ public class TVHolderFragment
 
 	
 	
-	public static TVHolderFragment newInstance(int startingIndex, OnViewPagerIndexChangedListener listener)
+	public static TVHolderFragment newInstance(
+			final int startingIndex, 
+			final OnViewPagerIndexChangedListener listener)
 	{
-		viewPagerIndexChangedListener = listener;
-
 		TVHolderFragment fragment = new TVHolderFragment();
 		
 		Bundle bundle = new Bundle();
@@ -62,6 +61,9 @@ public class TVHolderFragment
 
 		fragment.setArguments(bundle);
 
+		fragment.setViewPagerIndexChangedListener(listener);
+		fragment.setSelectedTabIndex(0);
+		
 		return fragment;
 	}
 
@@ -88,7 +90,8 @@ public class TVHolderFragment
 		
 		pageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
 
-		if(!SecondScreenApplication.isAppRestarting()) {
+		if(!SecondScreenApplication.isAppRestarting()) 
+		{
 			setAdapter(selectedTabIndex);
 		}
 		
@@ -102,7 +105,14 @@ public class TVHolderFragment
 	{
 		selectedTabIndex = pos;
 		
-		viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+		if(viewPagerIndexChangedListener != null)
+		{
+			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+		}
+		else
+		{
+			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
+		}
 	}
 
 	
@@ -119,7 +129,8 @@ public class TVHolderFragment
 
 	
 	
-	private void setAdapter(int selectedIndex) {
+	private void setAdapter(int selectedIndex) 
+	{
 		TVDate tvDate = ContentManager.sharedInstance().getFromCacheTVDateSelected();
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 
@@ -139,5 +150,30 @@ public class TVHolderFragment
 		pageTabIndicator.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
 		pageTabIndicator.setOnPageChangeListener(this);
+	}
+
+
+
+	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() {
+		return viewPagerIndexChangedListener;
+	}
+
+
+
+	public void setViewPagerIndexChangedListener(
+			OnViewPagerIndexChangedListener viewPagerIndexChangedListener) {
+		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
+	}
+
+
+
+	public int getSelectedTabIndex() {
+		return selectedTabIndex;
+	}
+
+
+
+	public void setSelectedTabIndex(int selectedTabIndex) {
+		this.selectedTabIndex = selectedTabIndex;
 	}
 }

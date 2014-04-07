@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,79 +35,130 @@ public class ActionBarDropDownDateListAdapter
 
 	private Context context;
 	private List<TVDate> tvDates;
-
+	
 	private int selectedIndex = NO_SELECTION;
 
+	
+	
 	public ActionBarDropDownDateListAdapter(Context context, List<TVDate> mDays) 
 	{
 		this.context = context;
 		this.tvDates = mDays;
 	}
 
+	
+	
 	@Override
-	public int getCount() {
+	public int getCount() 
+	{
 		int count = 0;
-		if (tvDates != null) {
+		
+		if (tvDates != null) 
+		{
 			count = tvDates.size();
 		}
 		return count;
 	}
 
+	
+	
 	@Override
-	public TVDate getItem(int position) {
+	public TVDate getItem(int position) 
+	{
 		TVDate tvDate = null;
-		if (tvDates != null) {
+		
+		if (tvDates != null) 
+		{
 			tvDate = tvDates.get(position);
 		}
 
 		return tvDate;
 	}
 
+	
+	
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(int position) 
+	{
 		return -1;
 	}
 
+	
+	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) 
+	{
 		return getViewForHeaderOrRow(position, convertView, parent, true);
 	}
 
-	private View getViewForHeaderOrRow(int position, View convertView, ViewGroup parent, boolean isHeader) {
+	
+	
+	private View getViewForHeaderOrRow(int position, View convertView, ViewGroup parent, boolean isHeader)
+	{
 		View row = convertView;
-		if (row == null) {
+		
+		if (row == null) 
+		{
 			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			if (isHeader) {
+			
+			if (isHeader) 
+			{
 				row = inflater.inflate(R.layout.actionbar_dropdown_list_date_header, parent, false);
-			} else {
+			} 
+			else 
+			{
 				row = inflater.inflate(R.layout.actionbar_dropdown_list_date_item, parent, false);
 			}
 		}
 
 		TextView dayName;
 		TextView dayAndMonth;
+		View lastDividerDropdownDates;
 
-		if (isHeader) {
+		if (isHeader) 
+		{
 			dayName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_name);
 			dayAndMonth = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_number);
-		} else {
+		} 
+		else
+		{
 			dayName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
 			dayAndMonth = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
+			
+			lastDividerDropdownDates = (View) row.findViewById(R.id.last_divider_dropdown_dates);
+			
+			if (position == 6) 
+			{
+				Log.d("mmm", "make border visible " + position);
+				lastDividerDropdownDates.setVisibility(View.VISIBLE);
+			}
+			
+			/* This check is needed, otherwise the divider will appear in the first element in the list */
+			if (position == 0) 
+			{
+				lastDividerDropdownDates.setVisibility(View.GONE);
+			}
 
 			/* Make the selected text position bold */
-			if (position == selectedIndex) {
+			if (position == selectedIndex) 
+			{
 				Typeface bold = FontManager.getFontBold(context);
 				dayName.setTypeface(bold);
 			}
 		}
 
-		if (selectedIndex != NO_SELECTION) {
+		if (selectedIndex != NO_SELECTION) 
+		{
 			TVDate tvDate = getItem(position);
-			try {
+			
+			try 
+			{
 				Calendar calendar = tvDate.getStartOfTVDayCalendar();
 				dayName.setText(tvDate.getDisplayName());
-				dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar));
-			} catch (Exception e) {
+				dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar, false));
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 				dayName.setText("");
 				dayAndMonth.setText("");
@@ -115,7 +167,9 @@ public class ActionBarDropDownDateListAdapter
 			dayName.setVisibility(View.VISIBLE);
 			dayAndMonth.setVisibility(View.VISIBLE);
 
-		} else {
+		} 
+		else 
+		{
 			dayName.setVisibility(View.GONE);
 			dayAndMonth.setVisibility(View.GONE);
 		}
@@ -123,12 +177,18 @@ public class ActionBarDropDownDateListAdapter
 		return row;
 	}
 
+	
+	
 	@Override
-	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+	public View getDropDownView(int position, View convertView, ViewGroup parent) 
+	{
 		return getViewForHeaderOrRow(position, convertView, parent, false);
 	}
 
-	public void setSelectedIndex(int index) {
+	
+	
+	public void setSelectedIndex(int index) 
+	{
 		this.selectedIndex = index;
 	}
 }

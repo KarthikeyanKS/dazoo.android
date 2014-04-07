@@ -163,7 +163,7 @@ public class Cache
 		
 		TVDate selectedTVDate = getTvDateSelected();
 		
-		if(selectedTVDate != null)
+		if(tvChannelId != null && selectedTVDate != null)
 		{
 			TVChannelGuide guide = getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, selectedTVDate);
 			
@@ -174,14 +174,23 @@ public class Cache
 	}
 	
 	
-	public synchronized TVChannelGuide getTVChannelGuideUsingTVChannelIdAndTVDate(TVChannelId tvChannelId, TVDate tvDate) {
+	public synchronized TVChannelGuide getTVChannelGuideUsingTVChannelIdAndTVDate(TVChannelId tvChannelId, TVDate tvDate) 
+	{
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
+		
+		if(tvGuide == null || tvChannelId == null)
+		{
+			return null;
+		}
+		
 		ArrayList<TVChannelGuide> tvChannelGuides = tvGuide.getTvChannelGuides();
 		
 		TVChannelGuide tvChannelGuideFound = null;
 		
-		for(TVChannelGuide tvChannelGuide : tvChannelGuides) {
-			if(tvChannelGuide.getChannelId().getChannelId().equals(tvChannelId.getChannelId())) {
+		for(TVChannelGuide tvChannelGuide : tvChannelGuides) 
+		{
+			if(tvChannelGuide.getChannelId().getChannelId().equals(tvChannelId.getChannelId())) 
+			{
 				tvChannelGuideFound = tvChannelGuide;
 				break;
 			}
