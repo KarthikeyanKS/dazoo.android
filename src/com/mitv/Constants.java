@@ -514,6 +514,7 @@ public abstract class Constants
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
+	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 }

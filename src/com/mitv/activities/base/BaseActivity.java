@@ -397,28 +397,27 @@ public abstract class BaseActivity
 		}
 	}
 
-	public static Activity getMostRecentTabActivity() {
+	
+	
+	public static Activity getMostRecentTabActivity() 
+	{
 		Activity mostRecentTabActivity = null;
 
 		/* Iterate through stack, start at top of stack */
-		for (int i = activityStack.size() - 1; i >= 0; --i) {
+		for (int i = activityStack.size() - 1; i >= 0; --i) 
+		{
 			Activity activityInStack = activityStack.get(i);
 
 			/* Check if activityInStack is any of the three TabActivities */
-			if (isTabActivity(activityInStack)) {
+			if (isTabActivity(activityInStack)) 
+			{
 				mostRecentTabActivity = activityInStack;
+				
 				break;
 			}
 		}
 
 		return mostRecentTabActivity;
-	}
-
-	
-	
-	private boolean isTabActivity() 
-	{
-		return isTabActivity(this);
 	}
 
 	
@@ -480,13 +479,24 @@ public abstract class BaseActivity
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
-		if (mostRecentTabActivity instanceof HomeActivity) {
+		if(mostRecentTabActivity == null)
+		{
 			setSelectedTabAsTVGuide();
-		} else if (mostRecentTabActivity instanceof FeedActivity) {
+		}
+		else if (mostRecentTabActivity instanceof HomeActivity) 
+		{
+			setSelectedTabAsTVGuide();
+		} 
+		else if (mostRecentTabActivity instanceof FeedActivity) 
+		{
 			setSelectedTabAsActivityFeed();
-		} else if (mostRecentTabActivity instanceof UserProfileActivity) {
+		} 
+		else if (mostRecentTabActivity instanceof UserProfileActivity) 
+		{
 			setSelectedTabAsUserProfile();
-		} else {
+		} 
+		else 
+		{
 			Log.w(TAG, "Unknown activity tab");
 		}
 	}

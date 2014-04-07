@@ -111,30 +111,7 @@ public class HomeActivity
 			
 			if (activeFragment == null) 
 			{
-				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
-				{
-					@Override
-					public void onIndexSelected(int position) 
-					{
-						selectedTagIndex = position;
-						
-						boolean isConnected = NetworkUtils.isConnected();
-
-						if (hasEnoughDataToShowContent() && isConnected == false) 
-						{
-							ToastHelper.createAndShowNoInternetConnectionToast();
-							
-//							if (undoBarController != null)
-//							{
-//								undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-//							} 
-//							else
-//							{
-//								Log.w(TAG, "Undo bar component is null.");
-//							}
-						}
-					}
-				});
+				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, getOnViewPagerIndexChangedListener());
 
 				fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
 			} 
@@ -239,5 +216,28 @@ public class HomeActivity
 			
 			default:{/*Do nothing*/break;}
 		}
+	}
+	
+	
+	
+	public OnViewPagerIndexChangedListener getOnViewPagerIndexChangedListener()
+	{
+		OnViewPagerIndexChangedListener listener = new OnViewPagerIndexChangedListener() 
+		{
+			@Override
+			public void onIndexSelected(int position) 
+			{
+				selectedTagIndex = position;
+				
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (hasEnoughDataToShowContent() && isConnected == false) 
+				{
+					ToastHelper.createAndShowNoInternetConnectionToast();
+				}
+			}	
+		};
+		
+		return listener;
 	}
 }

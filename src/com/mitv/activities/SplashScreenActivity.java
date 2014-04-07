@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
@@ -47,8 +48,6 @@ public class SplashScreenActivity
 	private boolean hasUserSeenTutorial;
 	private boolean isViewingTutorial = false;
 	private boolean isDataFetched = false;
-	
-	private final boolean ENABLE_TUTORIAL = true;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
@@ -62,10 +61,12 @@ public class SplashScreenActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (ENABLE_TUTORIAL) {
-			showTutorial();
-			
-		} else {
+		if(Constants.ENABLE_FIRST_TIME_TUTORIAL_VIEW) 
+		{
+			showTutorial();	
+		} 
+		else 
+		{
 			showSplashScreen();
 		}
 		
@@ -98,22 +99,28 @@ public class SplashScreenActivity
 		
 
 	
-	private void showTutorial() {
+	private void showTutorial() 
+	{
 		hasUserSeenTutorial = SecondScreenApplication.sharedInstance().hasUserSeenTutorial();
 		
-		if (hasUserSeenTutorial) {
+		if (hasUserSeenTutorial) 
+		{
 			showSplashScreen();
 			
-		} else {
+		} 
+		else 
+		{
 			showUserTutorial();
 		}
 	}
 	
 	
+	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
 	{
-		if (!isViewingTutorial) {
+		if (!isViewingTutorial) 
+		{
 			fetchedDataCount++;
 			
 			StringBuilder sb = new StringBuilder();
@@ -123,7 +130,8 @@ public class SplashScreenActivity
 			sb.append(" - ");
 			sb.append(message);
 			
-			if (progressTextView != null) {
+			if (progressTextView != null) 
+			{
 				progressTextView.setText(sb.toString());
 			}
 		}
@@ -184,7 +192,8 @@ public class SplashScreenActivity
 				
 				isDataFetched = true;
 				
-				if (!isViewingTutorial) {
+				if (!isViewingTutorial) 
+				{
 					startPrimaryActivity();
 				}
 				break;
@@ -229,18 +238,29 @@ public class SplashScreenActivity
 	
 	
 	@Override
-	public void onBackPressed() {
-		if (mPager.getCurrentItem() == 0) {
+	public void onBackPressed() 
+	{
+		if(mPager != null)
+		{
+			if (mPager.getCurrentItem() == 0) 
+			{
+				super.onBackPressed();
+			} 
+			else 
+			{
+				mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+			}
+		}
+		else
+		{
 			super.onBackPressed();
-
-		} else {
-			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
 		}
 	}
 	
 	
 	
-	private void showUserTutorial() {
+	private void showUserTutorial() 
+	{
 		isViewingTutorial = true;
 		
 		setContentView(R.layout.user_tutorial_screen_slide);

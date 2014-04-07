@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.activities.HomeActivity;
 import com.mitv.activities.base.BaseActivityWithoutSearchOption;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -170,8 +171,20 @@ public class LoginWithMiTVUserActivity
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) 
 				{
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
-					Intent intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
+					
+					Intent intent;
+					
+					if(mostRecentTabActivity != null)
+					{
+						intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
+					}
+					else
+					{
+						intent = new Intent(LoginWithMiTVUserActivity.this, HomeActivity.class);
+					}
+					
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+					
 					startActivity(intent);
 				}				
 				finish();
