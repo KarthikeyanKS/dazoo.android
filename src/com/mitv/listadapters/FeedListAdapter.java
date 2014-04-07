@@ -55,7 +55,7 @@ public class FeedListAdapter
 	
 	public FeedListAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
 	{
-		super(Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
+		super(Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems, Constants.AD_UNIT_ID_FEED_ACTIVITY);
 		this.activity = activity;
 		this.feedItems = feedItems;
 

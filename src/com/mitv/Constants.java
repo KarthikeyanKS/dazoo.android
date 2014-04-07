@@ -39,8 +39,8 @@ public abstract class Constants
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
 	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
-	public static final String URL_INTERNAL_TRACKING_SUFFIX				= "track/unique";
-	public static final String URL_INTERNAL_TRACKING						= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
+	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "track/unique";
+	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
 	
 	
 	public static final String URL_GUIDE 							= URL_SERVER + "epg/guide";
@@ -154,31 +154,38 @@ public abstract class Constants
 	/* Notifications database */
 	public static final String	NOTIFICATION_DATABASE_NAME							= "notifications.db";
 	/* The database version must be updated after a change in the database schema */
-	public static final int		NOTIFICATION_DATABASE_VERSION						= 3;
-	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					= "notifications";
-	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				= "notification_id";
+	public static final int		NOTIFICATION_DATABASE_VERSION						 = 4;
+	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					 = "notifications";
+	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				 = "notification_id";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS = "begin_time_miliseconds";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME			= "begin_time";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME			= "end_time";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_TYPE				= "broadcast_type";
-	public static final String	NOTIFICATION_DB_COLUMN_SHARE_URL					= "share_url";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_SMALL			= "channel_logo_small";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_MEDIUM			= "channel_logo_medium";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_LARGE			= "channel_logo_large";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_ID					= "program_id";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TITLE				= "program_title";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TYPE					= "program_type";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_SHORT		= "program_synopsis_short";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_LONG		= "program_synopsis_long";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAGS					= "program_tags";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CREDITS				= "program_credits";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SEASON 				= "program_season";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE 				= "program_episode";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_YEAR 				= "program_year";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_GENRE 				= "program_genre";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY 			= "program_category";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME			 = "begin_time";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME			 = "end_time";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_TYPE				 = "broadcast_type";
+	public static final String	NOTIFICATION_DB_COLUMN_SHARE_URL					 = "share_url";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					 = "channel_id";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					 = "channel_name";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_SMALL			 = "channel_logo_small";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_MEDIUM			 = "channel_logo_medium";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_LARGE			 = "channel_logo_large";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_ID					 = "program_id";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TITLE				 = "program_title";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TYPE					 = "program_type";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_SHORT		 = "program_synopsis_short";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_LONG		 = "program_synopsis_long";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAGS					 = "program_tags";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CREDITS				 = "program_credits";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SEASON 				 = "program_season";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE 				 = "program_episode";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_YEAR 				 = "program_year";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_GENRE 				 = "program_genre";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY 			 = "program_category";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_SMALL 	 = "program_logo_portrait_small";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_MEDIUM  = "program_logo_portrait_medium";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_LARGE 	 = "program_logo_portrait_large";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_SMALL  = "program_logo_landscape_small";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_MEDIUM = "program_logo_landscape_medium";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_LARGE  = "program_logo_landscape_large";
+	
 	public static final String	NOTIFICATION_DB_COLUMN_SERIES_ID					= "series_id";
 	public static final String	NOTIFICATION_DB_COLUMN_SERIES_NAME					= "series_name";
 	public static final String	NOTIFICATION_DB_COLUMN_SPORT_TYPE_ID				= "sport_type_id";
@@ -353,20 +360,26 @@ public abstract class Constants
 	public static final String PREFS_KEY_APP_WAS_NOT_PREINSTALLED					= "APP_WAS_NOT_PREINSTALLED";
 	
 	/* GOOGLE ANALYTICS KEYS */
+	/* Fields */
+	public static final String GA_FIELD_USER_ID										= "&uid";
+	
 	/* Category keys */
 	public static final String GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT					= "SystemEvent";
 	public static final String GA_EVENT_CATEGORY_KEY_USER_EVENT						= "UserEvent";
+	
 	
 	/* Action keys */
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS				= "APP_WAS_PREINSTALLED_SHARED_PREFS";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE			= "APP_WAS_PREINSTALLED_EXTERNAL_STORAGE";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION		= "APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG			= "APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG";
+	public static final String GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED		= "DEVICE_LOCAL_TIME_UNSYNCED";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL		= "SIGN_UP_COMPLETED_EMAIL";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_FACEBOOK 	= "SIGN_UP_COMPLETED_FACEBOOK";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SHARE					= "SHARE";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_LIKE					= "LIKE";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_REMINDER				= "REMINDER";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_IN					= "USER_SIGNED_IN";
 	public static final String GA_EVENT_KEY_ACTION_FIRST_BOOT						= "OnBoot";
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
@@ -518,4 +531,8 @@ public abstract class Constants
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
+	
+	/* Ad mob stuff */
+	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
+	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";
 }

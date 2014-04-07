@@ -66,6 +66,12 @@ public class NotificationDataSource
 		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_YEAR, notification.getProgramYear());
 		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_GENRE, notification.getProgramGenre());
 		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY, notification.getProgramCategory());
+		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_SMALL, notification.getProgramImageSmallPortrait());
+		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_MEDIUM, notification.getProgramImageMediumPortrait());
+		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_LARGE, notification.getProgramImageLargePortrait());
+		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_SMALL, notification.getProgramImageSmallLandscape());
+		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_MEDIUM, notification.getProgramImageMediumLandscape());
+		values.put(Constants.NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_LARGE, notification.getProgramImageLargeLandscape());
 		
 		values.put(Constants.NOTIFICATION_DB_COLUMN_SERIES_ID, notification.getSeriesId());
 		values.put(Constants.NOTIFICATION_DB_COLUMN_SERIES_NAME, notification.getSeriesName());

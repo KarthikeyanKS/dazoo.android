@@ -114,8 +114,7 @@ public class TVProgram
 		
 		this.year = item.getProgramYear();
 
-		// TODO - Using empty image set representation as no data is available from the notification item.
-		this.images = new ImageSetOrientation();
+		this.images = new ImageSetOrientation(item);
 		
 		// TODO - Using empty tags representation as no data is available from the notification item.
 		this.tags = new ArrayList<String>();

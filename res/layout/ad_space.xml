@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ad_space_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    
-<!--         android:adjustViewBounds="true" -->
-<!--         android:scaleType="centerCrop" -->
-    <ImageView
-        android:id="@+id/ad_space_imageview"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/guide_image_margin"/>
-
     <View
         android:id="@+id/ad_space_separator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_below="@id/ad_space_imageview"
+      	android:layout_alignParentBottom="true"
         android:background="@color/grey1"  />
 
 </RelativeLayout>
