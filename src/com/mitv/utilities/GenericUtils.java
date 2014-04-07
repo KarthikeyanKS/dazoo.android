@@ -121,11 +121,21 @@ public abstract class GenericUtils
 	
 	public static boolean isActivityNotNullAndNotFinishingAndNotDestroyed(Activity activity)
 	{
-		boolean activityNotNullAndNotFinishing = (activity != null && 
+		boolean isActivityNotNullAndNotFinishingAndNotDestroyed;
+	
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+		{
+			isActivityNotNullAndNotFinishingAndNotDestroyed = (activity != null && 
 											      activity.isDestroyed() == false &&
 											      activity.isFinishing() == false);
+		}
+		else
+		{
+			isActivityNotNullAndNotFinishingAndNotDestroyed = (activity != null && 
+					                                           activity.isFinishing() == false);
+		}
 		
-		return activityNotNullAndNotFinishing;
+		return isActivityNotNullAndNotFinishingAndNotDestroyed;
 	}
 	
 	

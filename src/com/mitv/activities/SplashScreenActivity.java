@@ -45,8 +45,9 @@ public class SplashScreenActivity
 	private FontTextView progressTextView;
 	private int fetchedDataCount = 0;
 	
-	private boolean isViewingTutorial = false;
-	private boolean isDataFetched = false;
+	private boolean hasUserSeenTutorial;
+	private boolean isViewingTutorial;
+	private boolean isDataFetched;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
@@ -57,6 +58,8 @@ public class SplashScreenActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		isDataFetched = false;
 		
 		if(Constants.ENABLE_FIRST_TIME_TUTORIAL_VIEW) 
 		{
@@ -89,9 +92,11 @@ public class SplashScreenActivity
 	@Override
 	protected void onResume() 
 	{
-		super.onResume();		
+		super.onResume();
 				
 		boolean isConnected = NetworkUtils.isConnected();
+		
+		isViewingTutorial = SecondScreenApplication.sharedInstance().getIsViewingTutorial();
 		
 		if(isConnected)
 		{	
@@ -213,10 +218,7 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showSplashScreen() 
-	{
-		isViewingTutorial = false;
-		
+	private void showSplashScreen() {		
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
@@ -229,9 +231,8 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showUserTutorial() 
-	{
-		isViewingTutorial = true;
+	private void showUserTutorial() {
+		SecondScreenApplication.sharedInstance().setIsViewingTutorial(true);
 		
 		setContentView(R.layout.user_tutorial_screen_slide);
 
@@ -293,12 +294,17 @@ public class SplashScreenActivity
 			}
 			
 			case R.id.button_tutorial_skip:
-			case R.id.button_tutorial_start_primary_activity: 
-			{
-				if (isDataFetched) 
-				{
-					isViewingTutorial = false;
-					SecondScreenApplication.sharedInstance().setUserSeenTutorial();	
+			case R.id.button_tutorial_start_primary_activity: {
+				if (isDataFetched) {
+					
+					if (hasUserSeenTutorial && isViewingTutorial) {
+						SecondScreenApplication.sharedInstance().setTutorialToNeverShowAgain();
+					}
+					
+					SecondScreenApplication.sharedInstance().setUserSeenTutorial();
+					
+					SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
+					
 					startPrimaryActivity();
 				}
 				break;
