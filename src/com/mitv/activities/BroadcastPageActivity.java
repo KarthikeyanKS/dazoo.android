@@ -165,10 +165,13 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		
 		if(isUserLoggedIn)
 		{
-			try {
-				userID = URLEncoder.encode(ContentManager.sharedInstance().getFromCacheUserId(), "UTF-8");
+			try 
+			{
+				userID = ContentManager.sharedInstance().getFromCacheUserId();
 				
-				userID = url.replace("+", "%20");
+				userID = URLEncoder.encode(userID, "UTF-8");
+				
+				userID = userID.replace("+", "%20");
 				
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
@@ -177,10 +180,13 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 				userID = "";
 			}
 			
-			try {
-				username = URLEncoder.encode(ContentManager.sharedInstance().getFromCacheUserFirstname(), "UTF-8");
+			try 
+			{
+				username = ContentManager.sharedInstance().getFromCacheUserFirstname();
+						
+				username = URLEncoder.encode(username, "UTF-8");
 				
-				username = url.replace("+", "%20");
+				username = username.replace("+", "%20");
 				
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
@@ -189,10 +195,13 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 				username = "";
 			}
 			
-			try {
-				userEmail = URLEncoder.encode(ContentManager.sharedInstance().getFromCacheUserEmail(), "UTF-8");
+			try 
+			{
+				userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
 				
-				userEmail = url.replace("+", "%20");
+				userEmail = URLEncoder.encode(userEmail, "UTF-8");
+				
+				userEmail = userEmail.replace("+", "%20");
 				
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
@@ -223,16 +232,11 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			urlSB.append("&id=");
 			urlSB.append(userID);
 			
-			urlSB.append("&username=");
+			urlSB.append("&name=");
 			urlSB.append(username);
 			
 			urlSB.append("&email=");
 			urlSB.append(userEmail);
-			
-			long timestamp = DateUtils.getNow().getTimeInMillis();
-			
-			urlSB.append("&timestamp=");
-			urlSB.append(timestamp);
 		}
 		
 		webDisqus.loadUrl(urlSB.toString());
