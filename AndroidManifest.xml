@@ -274,6 +274,11 @@
         <!-- HOCKEY APP ACTIVITIES -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
+        
+         <!-- GOOGLE ADMOB -->
+         <activity android:name="com.google.android.gms.ads.AdActivity"
+             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+ 
 
         <receiver
             android:name="com.mitv.broadcastreceivers.AlarmReceiver"

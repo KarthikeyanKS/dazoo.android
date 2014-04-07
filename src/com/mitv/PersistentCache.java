@@ -211,6 +211,9 @@ public abstract class PersistentCache
 	{
 		this.userData = userData;
 		
+		String userId = userData.getUser().getUserId();
+		GATrackingManager.sharedInstance().setUserIdOnTrackerAndSendSignedIn(userId);
+		
 		UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
 		userLoginDataORM.saveInAsyncTask();
 	}

@@ -73,6 +73,11 @@ public class SecondScreenApplication
 			setAppIsRestarting(false);
 		}
 		
+		if(ContentManager.sharedInstance().isLoggedIn()) {
+			String userId = ContentManager.sharedInstance().getFromCacheUserId();
+			GATrackingManager.sharedInstance().setUserIdOnTracker(userId);
+		}
+		
 		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */
 		AppDataUtils.sharedInstance(this);
 		
