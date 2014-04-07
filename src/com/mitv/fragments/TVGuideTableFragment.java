@@ -262,7 +262,7 @@ public class TVGuideTableFragment
 					tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);
 				
 					if(!tvGuideListAdapter.isAdsEnabled()) {
-						swipeClockBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+						swipeClockBar.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
 					}
 					
 					tvGuideListView.setAdapter(tvGuideListAdapter);
@@ -278,6 +278,7 @@ public class TVGuideTableFragment
 			}
 			case SUCCESS_WITH_NO_CONTENT: {
 				clearContentOnTagAndReload();
+				break;
 			}
 			
 			default:
