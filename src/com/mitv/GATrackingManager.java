@@ -12,10 +12,10 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
 import com.mitv.models.TVBroadcast;
 import com.mitv.models.UserLike;
 import com.mitv.utilities.FileUtils;
-import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -155,7 +155,15 @@ public class GATrackingManager
 				.build());
 	}
 	
+	public void setUserIdOnTrackerAndSendSignedIn(String userId) {
+		setUserIdOnTracker(userId);
+		tracker.send(new HitBuilders.EventBuilder().setCategory(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT).setAction(Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_IN).build());
+	}
 	
+	
+	public void setUserIdOnTracker(String userId) {
+		tracker.set(Constants.GA_FIELD_USER_ID, userId);
+	}
 	
 	public void sendViewInstance(String viewName)
 	{
@@ -232,6 +240,12 @@ public class GATrackingManager
 		
 		tracker.send(MapBuilder
 				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder)
+				.build());
+	}
+	
+	public void sendTimeOffSyncEvent() {
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED, null, null)
 				.build());
 	}
 	

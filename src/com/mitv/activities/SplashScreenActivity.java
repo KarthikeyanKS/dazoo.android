@@ -182,6 +182,8 @@ public class SplashScreenActivity
 					String message = getString(R.string.review_date_time_settings);
 
 					ToastHelper.createAndShowLongToast(message);
+					
+					GATrackingManager.sharedInstance().sendTimeOffSyncEvent();
 				}
 				
 				isDataFetched = true;

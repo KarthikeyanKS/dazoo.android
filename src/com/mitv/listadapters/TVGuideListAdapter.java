@@ -58,7 +58,7 @@ public class TVGuideListAdapter
 	
 	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
 	{
-		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide);
+		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
 		this.activity = activity;
 		this.tvDate = date;
 		this.currentHour = hour;
@@ -111,6 +111,11 @@ public class TVGuideListAdapter
 		if (rowView == null) 
 		{
 			rowView = layoutInflater.inflate(R.layout.row_tvguide_list, null);
+			
+			int paddingPixel = 30;
+			float density = activity.getResources().getDisplayMetrics().density;
+			int paddingDp = (int)(paddingPixel * density);
+			rowView.setPadding(0, 0, paddingDp, 0);
 
 			ViewHolder viewHolder = new ViewHolder();
 

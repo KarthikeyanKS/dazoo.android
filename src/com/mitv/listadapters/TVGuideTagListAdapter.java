@@ -44,7 +44,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 	
 	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition) 
 	{
-		super(fragmentName, activity, taggedBroadcasts);
+		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
 		this.taggedBroadcasts = taggedBroadcasts;
 		this.activity = activity;
 		this.currentPosition = currentPosition;
