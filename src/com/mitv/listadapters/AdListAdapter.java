@@ -44,7 +44,7 @@ public class AdListAdapter<T>
 	
 	private List<T> items;
 	private int cellCountBetweenAdCells;
-	private boolean isAdsEnabled;
+	protected boolean isAdsEnabled;
 	private String adMobId;
 
 	
@@ -72,6 +72,10 @@ public class AdListAdapter<T>
 
 	public void setItems(List<T> items) {
 		this.items = items;
+	}
+	
+	public boolean isAdsEnabled() {
+		return isAdsEnabled;
 	}
 		
 
@@ -178,7 +182,8 @@ public class AdListAdapter<T>
 			{
 				if(TextUtils.isEmpty(holder.adMobView.getAdUnitId())) {
 					holder.adMobView.setAdUnitId(this.adMobId);
-					holder.adMobView.setAdSize(AdSize.SMART_BANNER);
+					holder.adMobView.setAdSize(AdSize.BANNER);
+					
 					holder.adMobView.setAdListener(new AdListener() {
 
 						@Override
