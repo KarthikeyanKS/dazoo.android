@@ -261,6 +261,10 @@ public class TVGuideTableFragment
 					TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
 					tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);
 				
+					if(!tvGuideListAdapter.isAdsEnabled()) {
+						swipeClockBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+					}
+					
 					tvGuideListView.setAdapter(tvGuideListAdapter);
 					
 					tvGuideListAdapter.notifyDataSetChanged();

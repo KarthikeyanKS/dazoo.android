@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparent_loading_overlay">#88676767</color>
+    <color name="transparent_white_overlay">#11676767</color>
     
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
