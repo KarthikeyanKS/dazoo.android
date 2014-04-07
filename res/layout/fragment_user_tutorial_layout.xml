@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="70dp"
         android:background="@color/transparent" >
 
         <ImageView
@@ -117,7 +118,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:visibility="gone"
             font:fonttextview="chunkfive.otf" />
 	
@@ -129,12 +130,15 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/tutorial_header"
             android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@color/transparent"
             android:gravity="center"
             android:maxLines="2"
+            android:lineSpacingExtra="2dp"
             android:singleLine="false"
             android:textColor="@color/orange_light"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:visibility="gone"
             font:fonttextview="roboto_mitv_regular.ttf" />
 	

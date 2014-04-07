@@ -155,7 +155,7 @@ public class SecondScreenApplication
 		{
 			ContentManager.clearAllPersistentCacheData();
 			
-			AppDataUtils.sharedInstance(this).clearAllPreferences();
+			AppDataUtils.sharedInstance(this).clearAllPreferences(false);
 		}
 
 		setInstalledAppVersionToCurrentVersion();
@@ -271,7 +271,7 @@ public class SecondScreenApplication
 	{
 		String currentVersion = getCurrentAppVersion();
 		
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion, false);
 	}
 	
 	
@@ -327,14 +327,18 @@ public class SecondScreenApplication
 					 */
 					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
 					
-					/* Sets app to never show tutorial again if displayed two times */
+					/* Sets user is viewing tutorial */
 					if (!openLastTwoWeeks) {
-						AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, false);
+						setIsViewingTutorial(true);
 					}
 					
 					return openLastTwoWeeks;
 				}
 			}
+		}
+		
+		if (!hasUserSeenTutorial) {
+			setIsViewingTutorial(true);
 		}
 		
 		return hasUserSeenTutorial;
@@ -377,6 +381,20 @@ public class SecondScreenApplication
 	
 	
 	
+	public void setIsViewingTutorial(boolean isViewingTutorial) {
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, isViewingTutorial, false);
+	}
+	
+	
+	
+	public boolean getIsViewingTutorial() {
+		boolean isViewingTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, false);
+		
+		return isViewingTutorial;
+	}
+	
+	
+	
 	public void setUserSeenTutorial() {
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true, false);
 	}
@@ -384,7 +402,14 @@ public class SecondScreenApplication
 	
 	
 	public void setDateUserLastOpenedApp(String date) {
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date, false);
+	}
+	
+	
+	
+	public void setTutorialToNeverShowAgain() {
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, false);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, false, false);
 	}
 
 	

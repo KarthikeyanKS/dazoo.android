@@ -8,10 +8,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -28,6 +27,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
 import com.mitv.Constants;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
@@ -119,12 +119,23 @@ public abstract class GenericUtils
 	
 	
 	
-	public static boolean isActivityNotNullAndNotFinishing(Activity activity)
+	public static boolean isActivityNotNullAndNotFinishingAndNotDestroyed(Activity activity)
 	{
-		boolean activityNotNullAndNotFinishing = (activity != null && 
-											  activity.isFinishing() == false);
+		boolean isActivityNotNullAndNotFinishingAndNotDestroyed;
+	
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+		{
+			isActivityNotNullAndNotFinishingAndNotDestroyed = (activity != null && 
+											      activity.isDestroyed() == false &&
+											      activity.isFinishing() == false);
+		}
+		else
+		{
+			isActivityNotNullAndNotFinishingAndNotDestroyed = (activity != null && 
+					                                           activity.isFinishing() == false);
+		}
 		
-		return activityNotNullAndNotFinishing;
+		return isActivityNotNullAndNotFinishingAndNotDestroyed;
 	}
 	
 	

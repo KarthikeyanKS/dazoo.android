@@ -7,7 +7,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import com.mitv.Constants;
 
@@ -55,13 +54,21 @@ public class AppDataUtils
 	
 	public void setPreference(
 			final String name, 
-			final Set<String> value)
+			final Set<String> value,
+			final Boolean immediate)
 	{
 		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
 		
 		prefEditor.putStringSet(name, value);
 		
-		prefEditor.apply();
+		if (immediate) 
+		{
+			prefEditor.commit();
+		} 
+		else 
+		{
+			prefEditor.apply();
+		}
 	}
 	
 
@@ -77,30 +84,48 @@ public class AppDataUtils
 	
 	public void setPreference(
 			final String name, 
-			final String value)
+			final String value,
+			final Boolean immediate)
 	{
 		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
 		
 		prefEditor.putString(name, value);
 		
-		prefEditor.apply();
+		if (immediate) 
+		{
+			prefEditor.commit();
+		} 
+		else 
+		{
+			prefEditor.apply();
+		}
 	}
 	
 	
 	
-	public void clearPreference(final String name)
+	public void clearPreference(
+			final String name,
+			final boolean immediate)
 	{
-		setPreference(name, new String());
+		setPreference(name, new String(), immediate);
 	}
 	
 	
 	
-	public void clearAllPreferences()
+	public void clearAllPreferences(final boolean immediate)
 	{
 		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
 
 		prefEditor.clear();
-		prefEditor.apply();
+		
+		if (immediate) 
+		{
+			prefEditor.commit();
+		} 
+		else 
+		{
+			prefEditor.apply();
+		}
 	}
 	
 		
@@ -114,16 +139,22 @@ public class AppDataUtils
 
 	
 	
-	public void setPreference(final String key, final Boolean value, final Boolean immediate) {
+	public void setPreference(
+			final String key, 
+			final Boolean value, 
+			final Boolean immediate)
+	{
 		final SharedPreferences.Editor prefEditor = sharedPreferences.edit();
 
 		prefEditor.putBoolean(key, value);
 
-		if (immediate) {
+		if (immediate) 
+		{
 			prefEditor.commit();
-		} else {
+		} 
+		else 
+		{
 			prefEditor.apply();
 		}
-
 	}
 }

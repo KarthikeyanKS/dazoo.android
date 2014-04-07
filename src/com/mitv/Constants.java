@@ -502,6 +502,7 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";
 	public static final String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN = "com.mitv.app.tutorial.never.start.again";
 	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
+	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
 	/* CONFIGURATIONS FOR FACEBOOK */
 	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
@@ -520,6 +521,7 @@ public abstract class Constants
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
+	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 	
