@@ -262,7 +262,7 @@ public class TVGuideTableFragment
 					tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);
 				
 					if(!tvGuideListAdapter.isAdsEnabled()) {
-						swipeClockBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+						swipeClockBar.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
 					}
 					
 					tvGuideListView.setAdapter(tvGuideListAdapter);
@@ -272,15 +272,12 @@ public class TVGuideTableFragment
 				}
 				else 
 				{
-					int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
-
-					RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(startIndex);
-					removeAlreadyEndedBroadcastsTask.run();
-					
-					tvTagListAdapter = new TVGuideTagListAdapter(activity, tvTagDisplayName, taggedBroadcasts, startIndex);
-						
-					tvGuideListView.setAdapter(tvTagListAdapter);
+					clearContentOnTagAndReload();
 				}
+				break;
+			}
+			case SUCCESS_WITH_NO_CONTENT: {
+				clearContentOnTagAndReload();
 				break;
 			}
 			
@@ -292,6 +289,17 @@ public class TVGuideTableFragment
 		}		
 	}
 	
+	
+	private void clearContentOnTagAndReload() {
+		int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
+
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(startIndex);
+		removeAlreadyEndedBroadcastsTask.run();
+		
+		tvTagListAdapter = new TVGuideTagListAdapter(activity, tvTagDisplayName, taggedBroadcasts, startIndex);
+			
+		tvGuideListView.setAdapter(tvTagListAdapter);
+	}
 	
 	
 	private class RemoveAlreadyEndedBroadcastsTask

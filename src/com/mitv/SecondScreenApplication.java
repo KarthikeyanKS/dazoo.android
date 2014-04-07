@@ -382,7 +382,7 @@ public class SecondScreenApplication
 	
 	
 	public void setIsViewingTutorial(boolean isViewingTutorial) {
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, isViewingTutorial, false);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, isViewingTutorial, true);
 	}
 	
 	

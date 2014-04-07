@@ -219,7 +219,8 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showSplashScreen() {		
+	private void showSplashScreen() 
+	{		
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
@@ -232,7 +233,8 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showUserTutorial() {
+	private void showUserTutorial() 
+	{
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(true);
 		
 		setContentView(R.layout.user_tutorial_screen_slide);
