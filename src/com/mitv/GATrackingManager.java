@@ -243,6 +243,12 @@ public class GATrackingManager
 				.build());
 	}
 	
+	public void sendTimeOffSyncEvent() {
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED, null, null)
+				.build());
+	}
+	
 	
 	public static void sendView(String viewName)
 	{
