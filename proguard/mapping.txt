@@ -33312,9 +33312,8 @@ com.mitv.activities.SplashScreenActivity -> com.mitv.activities.SplashScreenActi
     boolean isViewingTutorial -> r
     boolean isDataFetched -> s
     android.support.v4.view.ViewPager mPager -> t
-    android.support.v4.view.PagerAdapter mPagerAdapter -> u
-    int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum -> v
-    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> w
+    int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum -> u
+    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> v
     59:82:void onCreate(android.os.Bundle) -> onCreate
     86:88:void onStop() -> onStop
     94:108:void onResume() -> onResume
@@ -33324,8 +33323,6 @@ com.mitv.activities.SplashScreenActivity -> com.mitv.activities.SplashScreenActi
     167:197:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
     203:218:void startPrimaryActivity() -> d
     224:232:void showSplashScreen() -> e
-    238:243:void showUserTutorial() -> f
-    249:259:void initTutorialView() -> g
     266:281:void onBackPressed() -> onBackPressed
     288:321:void onClick(android.view.View) -> onClick
     36:36:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> b
@@ -34345,20 +34342,20 @@ com.mitv.listadapters.MyChannelsListAdapter -> com.mitv.listadapters.MyChannelsL
     java.util.ArrayList channelsMatchingSearch -> c
     java.util.ArrayList checkedChannelIds -> d
     com.mitv.interfaces.MyChannelsCountInterface mCountInterface -> e
-    55:57:void setChannelsMatchingSearchAndRefreshAdapter(java.util.ArrayList) -> setChannelsMatchingSearchAndRefreshAdapter
-    61:65:int getCount() -> getCount
-    70:74:com.mitv.models.TVChannel getItem(int) -> getItem
-    79:79:long getItemId(int) -> getItemId
-    84:147:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    51:53:void setChannelsMatchingSearchAndRefreshAdapter(java.util.ArrayList) -> setChannelsMatchingSearchAndRefreshAdapter
+    57:61:int getCount() -> getCount
+    66:70:com.mitv.models.TVChannel getItem(int) -> getItem
+    75:75:long getItemId(int) -> getItemId
+    80:143:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
-    42:42:java.util.ArrayList access$1(com.mitv.listadapters.MyChannelsListAdapter) -> a
-    44:44:com.mitv.interfaces.MyChannelsCountInterface access$2(com.mitv.listadapters.MyChannelsListAdapter) -> b
+    38:38:java.util.ArrayList access$1(com.mitv.listadapters.MyChannelsListAdapter) -> a
+    40:40:com.mitv.interfaces.MyChannelsCountInterface access$2(com.mitv.listadapters.MyChannelsListAdapter) -> b
 com.mitv.listadapters.MyChannelsListAdapter$1 -> ayy:
     com.mitv.listadapters.MyChannelsListAdapter this$0 -> a
     com.mitv.models.TVChannel val$channel -> b
     com.mitv.listadapters.MyChannelsListAdapter$ViewHolder val$holder -> c
     android.content.res.Resources val$resources -> d
-    128:144:void onClick(android.view.View) -> onClick
+    124:140:void onClick(android.view.View) -> onClick
 com.mitv.listadapters.MyChannelsListAdapter$ViewHolder -> ayz:
     android.widget.TextView channelName -> a
     android.widget.ImageView channelLogo -> b

@@ -11,13 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
