@@ -1,5 +1,7 @@
 package com.mitv.utilities;
 
+import com.mitv.Constants;
+
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.style.URLSpan;
@@ -23,6 +25,8 @@ public class HyperLinkUtils {
 		}
 	}
 	
+	
+	
 	public static void stripUnderlines(TextView textView) 
 	{
 		Spannable s = (Spannable) textView.getText();
@@ -44,5 +48,33 @@ public class HyperLinkUtils {
 		textView.setText(s);
 	}
 	
+
 	
+	public static boolean checkIfMatchesDisqusURL(final String url)
+	{
+		boolean matchesLoadedURL = false;
+		
+		if (url != null && 
+				url.isEmpty() == false)
+		{
+			int lastCharacterPosition = url.length()-1;
+			
+			String urlWithoutLastSlash;
+					
+			char buff = url.charAt(lastCharacterPosition);
+			
+			if (buff == '/')
+			{
+				urlWithoutLastSlash = url.substring(0, lastCharacterPosition);
+			}
+			else
+			{
+				urlWithoutLastSlash = url;
+			}
+
+			matchesLoadedURL = Constants.DISQUS_COMMENTS_PAGE_URL.equalsIgnoreCase(urlWithoutLastSlash);
+		}
+		
+		return matchesLoadedURL;
+	}
 }

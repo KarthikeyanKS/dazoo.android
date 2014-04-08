@@ -511,6 +511,17 @@ public abstract class Constants
 	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
+	/* CONFIGURATIONS FOR DISQUS COMMENTS */
+	public static final String DISQUS_COMMENTS_DOMAIN = HTTPS_SCHEME + BACKEND_ENVIRONMENT_USED;
+	public static final String DISQUS_COMMENTS_PAGE_URL = DISQUS_COMMENTS_DOMAIN + "/test/index.htm";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE = "title";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER = "identifier";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_URL = "url";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_ID = "id";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_NAME = "username";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_EMAIL = "email";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE = "avatar";
+	
 	/* CONFIGURATIONS FOR FACEBOOK */
 	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
@@ -529,6 +540,7 @@ public abstract class Constants
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = false;
+	public static final boolean ENABLE_DISQUS_COMMENTS = false;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 	

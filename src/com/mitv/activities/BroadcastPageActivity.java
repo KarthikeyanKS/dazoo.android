@@ -35,6 +35,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.http.URLParameters;
 import com.mitv.models.TVBroadcast;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVChannelId;
@@ -44,6 +45,7 @@ import com.mitv.populators.BroadcastUpcomingBlockPopulator;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.HyperLinkUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -75,13 +77,12 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	private TextView episodeNameTv;
 	private ImageView channelIv;
 	private TextView synopsisTv;
-	private WebView webDisqus;
+	private WebView webViewDisqusComments;
 
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
 	
-	private static final String DISQUS_COMMENTS_URL = "http://gitrgitr.com/test";
-	private static final String DISQUS_COMMENTS_PAGE_URL = DISQUS_COMMENTS_URL + "/index.htm";
+	
 	
 	
 	
@@ -121,153 +122,19 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
-		String contentID;
-		try {
-			contentID = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
-			
-			contentID = contentID.replace("+", "%20");
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			contentID = "";
-		}
-		
-		String title;
-		try {
-			title = URLEncoder.encode(broadcastWithChannelInfo.getTitle(), "UTF-8");
-			
-			title = title.replace("+", "%20");
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			title = "";
-		}
-		
-		String url;
-		try {
-			url = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
-			
-			url = url.replace("+", "%20");
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			url = "";
-		}
-		
-		boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		String userID;
-		String username;
-		String userEmail;
-		String userImage;
-		
-		if(isUserLoggedIn)
+		if(Constants.ENABLE_DISQUS_COMMENTS)
 		{
-			try 
-			{
-				userID = ContentManager.sharedInstance().getFromCacheUserId();
-				
-				userID = URLEncoder.encode(userID, "UTF-8");
-				
-				userID = userID.replace("+", "%20");
-				
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-				userID = "";
-			}
-			
-			try 
-			{
-				username = ContentManager.sharedInstance().getFromCacheUserFirstname();
-						
-				username = URLEncoder.encode(username, "UTF-8");
-				
-				username = username.replace("+", "%20");
-				
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-				username = "";
-			}
-			
-			try 
-			{
-				userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
-				
-				userEmail = URLEncoder.encode(userEmail, "UTF-8");
-				
-				userEmail = userEmail.replace("+", "%20");
-				
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-				userEmail = "";
-			}
-			
-			try 
-			{
-				userImage = ContentManager.sharedInstance().getFromCacheUserProfileImage();
-				
-				userImage = URLEncoder.encode(userImage, "UTF-8");
-				
-				userImage = userImage.replace("+", "%20");
-				
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-				userImage = "";
-			}
+			setDisqusCommentsURL();
 		}
-		else
-		{
-			userID = null;
-			username = null;
-			userEmail = null;
-			userImage = null;
-		}
-		
-		StringBuilder urlSB = new StringBuilder();
-		
-		urlSB.append(DISQUS_COMMENTS_PAGE_URL);
-		urlSB.append("?title=");
-		urlSB.append(title);
-		urlSB.append("&identifier=");
-		urlSB.append(contentID);
-		urlSB.append("&url=");
-		urlSB.append(url);
-		
-		if(isUserLoggedIn)
-		{
-			urlSB.append("&id=");
-			urlSB.append(userID);
-			
-			urlSB.append("&username=");
-			urlSB.append(username);
-			
-			urlSB.append("&email=");
-			urlSB.append(userEmail);
-			
-			urlSB.append("&avatar=");
-			urlSB.append(userImage);
-		}
-		
-		webDisqus.loadUrl(urlSB.toString());
 		
 		updateStatusOfLikeView();
 
 		super.onResume();
 	}
+		
+		
+	
+		
 
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -427,76 +294,14 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		upcomingContainer = (RelativeLayout) findViewById(R.id.broacastpage_upcoming);
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
 		
-		webDisqus = (WebView) findViewById(R.id.disqus);
-		
-		WebSettings webSettings = webDisqus.getSettings();
-		
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setBuiltInZoomControls(false);
-		webDisqus.requestFocusFromTouch();
-		
-		webDisqus.setWebViewClient(new WebViewClient()
+		if(Constants.ENABLE_DISQUS_COMMENTS)
 		{
-			@Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) 
-			{
-		        if (checkMatchedLoadedURL(url))
-		        {
-		            return false;
-		        } 
-		        else
-		        {
-		        	Uri uri = Uri.parse(url);
-		        	
-		        	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		        	
-		            startActivity(intent);
-		        }
-		        
-		        return false;
-            }
-		});
-		
-		webDisqus.setWebChromeClient(new WebChromeClient() 
-		{
-			  public void onConsoleMessage(String message, int lineNumber, String sourceID) 
-			  {
-			    Log.d("MyApplication", message + " -- From line "
-			                         + lineNumber + " of "
-			                         + sourceID);
-			  }
-			});
-	}
-	
-	
-
-	/* used to check if the loaded url matches the base url loaded by the fragment(mUrl)
-	 * @param loadedUrl
-	 * @return true if matches | false if doesn't or either url is null
-	 */
-	private boolean checkMatchedLoadedURL(String loadedUrl)
-	{
-		boolean matchesLoadedURL = false;
-		
-		if (loadedUrl != null && 
-			loadedUrl.isEmpty() == false)
-		{
-			int lastCharacterPosition = loadedUrl.length()-1;
-			
-			char buff = loadedUrl.charAt(lastCharacterPosition);
-			
-			if (buff == '/')
-			{
-				loadedUrl = loadedUrl.substring(0, lastCharacterPosition);
-			}
-
-			matchesLoadedURL = DISQUS_COMMENTS_URL.equalsIgnoreCase(loadedUrl);
+			setDisqusCommentsWebview();
 		}
-		
-		return matchesLoadedURL;
 	}
-	  
-
+	
+	
+	
 	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) 
 	{
 		boolean isProgramIrrelevantAndShouldBeDeleted = (program.getSeason().getNumber() == 0 && program.getEpisodeNumber() == 0);
@@ -684,7 +489,8 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		/* Important to call super, else tabs wont work */
 		super.onClick(v);
 
@@ -711,5 +517,160 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		super.onBackPressed();
 
 		finish();
+	}
+	
+	
+	
+	private void setDisqusCommentsWebview()
+	{
+		webViewDisqusComments = (WebView) findViewById(R.id.disqus);
+		
+		WebSettings webSettings = webViewDisqusComments.getSettings();
+		
+		webSettings.setJavaScriptEnabled(true);
+		webSettings.setBuiltInZoomControls(false);
+		webViewDisqusComments.requestFocusFromTouch();
+		
+		webViewDisqusComments.setWebViewClient(new WebViewClient()
+		{
+			@Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) 
+			{
+		        if (HyperLinkUtils.checkIfMatchesDisqusURL(url))
+		        {
+		            return false;
+		        } 
+		        else
+		        {
+		        	Uri uri = Uri.parse(url);
+		        	
+		        	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		        	
+		            startActivity(intent);
+		        }
+		        
+		        return false;
+            }
+		});
+		
+		webViewDisqusComments.setWebChromeClient(new WebChromeClient() 
+		{
+			  public void onConsoleMessage(String message, int lineNumber, String sourceID) 
+			  {
+			    Log.d(TAG, message + " -- From line " + lineNumber + " of " + sourceID);
+			  }
+			});
+	}
+	
+	
+	
+	private void setDisqusCommentsURL()
+	{
+		String contentID;
+		try {
+			contentID = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
+			
+			contentID = contentID.replace("+", "%20");
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			contentID = "";
+		}
+		
+		String title;
+		try {
+			title = URLEncoder.encode(broadcastWithChannelInfo.getTitle(), "UTF-8");
+			
+			title = title.replace("+", "%20");
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			title = "";
+		}
+		
+		String url;
+		try {
+			url = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
+			
+			url = url.replace("+", "%20");
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			url = "";
+		}
+		
+		boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		String userID;
+		String username;
+		String userEmail;
+		String userImage;
+		
+		if(isUserLoggedIn)
+		{
+			userID = ContentManager.sharedInstance().getFromCacheUserId();
+			username = ContentManager.sharedInstance().getFromCacheUserFirstname();
+			userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
+			userImage = ContentManager.sharedInstance().getFromCacheUserProfileImage();
+			
+			try 
+			{
+				
+				
+				userID = URLEncoder.encode(userID, "UTF-8");
+				userID = userID.replace("+", "%20");
+				
+				username = URLEncoder.encode(username, "UTF-8");
+				username = username.replace("+", "%20");
+				
+				userEmail = URLEncoder.encode(userEmail, "UTF-8");
+				userEmail = userEmail.replace("+", "%20");
+				
+				userImage = URLEncoder.encode(userImage, "UTF-8");
+				userImage = userImage.replace("+", "%20");
+				
+			} 
+			catch (UnsupportedEncodingException uex) 
+			{
+				Log.e(TAG, uex.getMessage());
+				
+				userID = "";
+				username = "";
+				userEmail = "";
+				userImage = "";
+			}
+		}
+		else
+		{
+			userID = null;
+			username = null;
+			userEmail = null;
+			userImage = null;
+		}
+		
+		URLParameters urlParameters = new URLParameters();
+		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE, title);
+		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER, contentID);
+		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_URL, url);
+				
+		if(isUserLoggedIn)
+		{
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_ID, userID);
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_NAME, username);
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_EMAIL, userEmail);
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE, userImage);
+		}
+		
+		StringBuilder urlSB = new StringBuilder();
+		urlSB.append(Constants.DISQUS_COMMENTS_PAGE_URL);
+		urlSB.append(urlParameters.toString());
+		
+		webViewDisqusComments.loadUrl(urlSB.toString());
 	}
 }
