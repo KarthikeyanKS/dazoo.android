@@ -8,7 +8,6 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -62,7 +61,6 @@ public class GATrackingManager
 	}
 
 	
-	
 	public static Tracker getTracker()
 	{
 		return sharedInstance().getTrackerInstance();
@@ -89,7 +87,6 @@ public class GATrackingManager
 			this.tracker.set("&tid", trackingId);
 		}
 		
-	
 		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().isAppPreinstalled();
 		
 		File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
@@ -124,37 +121,7 @@ public class GATrackingManager
 		
 		Map<String, String> customDimensionsMap = appViewBuilder.build();
 		
-		tracker.send(customDimensionsMap);
-			
-		/* BACKUP/RDUNDANCY OF ANALYTICS PREINSTALL FLAGS */
-//		EventBuilder eventBuilder = new EventBuilder();
-//		eventBuilder
-//		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT)
-//		.setAction(Constants.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS)
-//		.setLabel(wasPreinstalledSharedPrefs);
-//		tracker.send(eventBuilder.build());
-//	
-//		eventBuilder = new EventBuilder();
-//		eventBuilder
-//		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT)
-//		.setAction(Constants.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE)
-//		.setLabel(wasPreinstalledExternalStorage);
-//		tracker.send(eventBuilder.build());
-//
-//		eventBuilder = new EventBuilder();
-//		eventBuilder
-//		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT)
-//		.setAction(Constants.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION)
-//		.setLabel(wasPreinstalledSystemAppLocation);
-//		tracker.send(eventBuilder.build());
-//
-//		eventBuilder = new EventBuilder();
-//		eventBuilder
-//		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT)
-//		.setAction(Constants.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG)
-//		.setLabel(wasPreinstalledSystemAppFlag);
-//		tracker.send(eventBuilder.build());
-		
+		tracker.send(customDimensionsMap);		
 	}
 	
 	public void setUserIdOnTrackerAndSendSignedIn(String userId) {
@@ -166,20 +133,7 @@ public class GATrackingManager
 	public void setUserIdOnTracker(String userId) {
 		tracker.set(Constants.GA_FIELD_USER_ID, userId);
 	}
-	
-	public void sendViewInstance(String viewName)
-	{
-		// Send a screen view for "Home Screen"
-		// Set screen name on the tracker to be sent with all hits.
-		tracker.setScreenName(viewName);
 
-		// Send a screen view for "Home Screen"
-		tracker.send(new HitBuilders.AppViewBuilder().build());
-
-		Log.d(TAG, "GATrackingManager: sendView, viewName: " + viewName);
-	}
-	
-	
 
 	public void sendUserSignUpSuccessfulUsingEmailEvent()
 	{
@@ -199,26 +153,15 @@ public class GATrackingManager
 		if(facebook) {
 			actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_FACEBOOK;
 		}
-				
-		EventBuilder eventBuilder = new EventBuilder();
-		eventBuilder
-		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT)
-		.setAction(actionString)
-		.setLabel(userId);
-		tracker.send(eventBuilder.build());
+		
+		sendUserEventWithLabel(actionString, userId);
 	}
 	
 	
 	public void sendUserSharedEvent(TVBroadcast broadcast)
 	{	
 		String broadcastTitle = broadcast.getTitle();
-		
-		EventBuilder eventBuilder = new EventBuilder();
-		eventBuilder
-		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT)
-		.setAction(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE)
-		.setLabel(broadcastTitle);
-		tracker.send(eventBuilder.build());
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
 	
 	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) {
@@ -229,13 +172,7 @@ public class GATrackingManager
 			addedLike = 0L;
 		}
 				
-		EventBuilder eventBuilder = new EventBuilder();
-		eventBuilder
-		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT)
-		.setAction(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE)
-		.setLabel(broadcastTitle)
-		.setValue(addedLike);
-		tracker.send(eventBuilder.build());
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
 	}
 	
 	public void sendUserReminderEvent(TVBroadcast broadcast, boolean didJustRemoveReminder)
@@ -246,34 +183,60 @@ public class GATrackingManager
 		if(didJustRemoveReminder) {
 			addedReminder = 0L;
 		}
-				
-		EventBuilder eventBuilder = new EventBuilder();
-		eventBuilder
-		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT)
-		.setAction(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER)
-		.setLabel(broadcastTitle)
-		.setValue(addedReminder);
-		tracker.send(eventBuilder.build());
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder);
 	}
 	
 	public void sendTimeOffSyncEvent() {
-		EventBuilder eventBuilder = new EventBuilder();
-		eventBuilder
-		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT)
-		.setAction(Constants.GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED);
-		tracker.send(eventBuilder.build());
+		sendSystemEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED);
 	}
 	
 	public void sendFirstBootEvent() {
+		sendSystemEventWithLabel(Constants.GA_EVENT_KEY_ACTION_FIRST_BOOT, Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT);
+	}
+	
+	/* Methods for sending GA Events */
+	private void sendSystemEvent(String action) {
+		sendEventBase(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, action, false, null, false, 0);
+	}
+	
+	private void sendSystemEventWithLabel(String action, String label) {
+		sendEventWithLabel(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, action, label);
+	}
+	
+	private void sendUserEventWithLabel(String action, String label) {
+		sendEventWithLabel(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label);
+	}
+	
+	private void sendUserEventWithLabelAndValue(String action, String label, long value) {
+		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label, value);
+	}
+	
+	private void sendEventWithLabel(String category, String action, String label) {
+		sendEventBase(category, action, true, label, false, 0);
+	}
+	
+	private void sendEventWithLabelAndValue(String category, String action, String label, long value) {
+		sendEventBase(category, action, true, label, true, value);
+	}
+	
+	private void sendEventBase(String category, String action, boolean setLabel, String label, boolean setValue, long value) {
 		EventBuilder eventBuilder = new EventBuilder();
 		eventBuilder
-		.setCategory(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT)
-		.setAction(Constants.GA_EVENT_KEY_ACTION_FIRST_BOOT)
-		.setLabel(Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT);
+		.setCategory(category)
+		.setAction(action);
+		
+		if(setLabel) {
+			eventBuilder.setLabel(label);
+		}
+		
+		if(setValue) {
+			eventBuilder.setValue(value);
+		}
 		tracker.send(eventBuilder.build());
 	}
 
-	
+	/* Methods for sending screens using autoActivityTracking */
 	public static void reportActivityStart(Activity activity) {
 		GoogleAnalytics googleAnalyticsInstance = sharedInstance().getGoogleAnalyticsInstance();
 		googleAnalyticsInstance.reportActivityStart(activity);
