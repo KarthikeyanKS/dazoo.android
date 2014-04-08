@@ -16,7 +16,11 @@
  */
 package com.viewpagerindicator;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -26,9 +30,6 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * This widget implements the dynamic action bar tab behavior that can change
@@ -66,7 +67,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
 
     private final IcsLinearLayout mTabLayout;
 
-    private ViewPager mViewPager;
+    protected ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
 
     private int mMaxTabWidth;
@@ -155,7 +156,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
-
+        
         if (iconResId != 0) {
             tabView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
         }
@@ -178,7 +179,10 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     }
 
     @Override
-    public void onPageSelected(int arg0) {
+    public void onPageSelected(int arg0) 
+    {
+    	setStyleOnTabViewAtIndex(arg0);
+    	
         setCurrentItem(arg0);
         if (mListener != null) {
             mListener.onPageSelected(arg0);
@@ -221,6 +225,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             }
             addTab(i, title, iconResId);
         }
+        
         if (mSelectedTabIndex > count) {
             mSelectedTabIndex = count - 1;
         }
@@ -258,7 +263,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         mListener = listener;
     }
 
-    private class TabView extends TextView {
+    public class TabView extends TextView {
         private int mIndex;
 
         public TabView(Context context) {
@@ -279,5 +284,35 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         public int getIndex() {
             return mIndex;
         }
+    }
+    
+    
+    public void setInitialStyleOnAllTabs()
+	{
+		for(int i=0; i<mTabLayout.getChildCount(); i++)
+        {
+        	TabView tabView = (TabView) mTabLayout.getChildAt(i);
+        	
+        	if(tabView != null)
+        	{
+        		Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto_mitv_light.ttf");
+                tabView.setTypeface(typeface);
+        	}
+        }
+	}
+    
+    
+    
+    public void setStyleOnTabViewAtIndex(int index)
+    {
+    	setInitialStyleOnAllTabs();
+    	
+    	TabView tabView = (TabView) mTabLayout.getChildAt(index);
+    	
+    	if(tabView != null)
+    	{
+    		Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto_mitv_bold.ttf");
+            tabView.setTypeface(typeface);
+    	}
     }
 }

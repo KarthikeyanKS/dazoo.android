@@ -150,6 +150,9 @@ public class TVHolderFragment
 		pageTabIndicator.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
 		pageTabIndicator.setOnPageChangeListener(this);
+		
+		pageTabIndicator.setInitialStyleOnAllTabs();
+		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
 	}
 
 

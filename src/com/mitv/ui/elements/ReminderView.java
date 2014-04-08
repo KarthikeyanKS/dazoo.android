@@ -126,20 +126,31 @@ public class ReminderView
 		}
 	}
 	
-	public void setSizeOfIcon(boolean small) {
-		if(small) {
-			int smallSize = 28; /* The size is in sp */
-			iconView.setTextSize(smallSize);
-		} else {
-			int smallSize = 30; /* The is the default size is in sp */
-			iconView.setTextSize(smallSize);
+	
+	
+	public void setSizeOfIcon(boolean useSmallSize) 
+	{
+		int size;
+		
+		if(useSmallSize) 
+		{
+			size = 28; /* The size is in sp */
+		} 
+		else 
+		{
+			size = 30; /* The is the default size is in sp */
 		}
+		
+		iconView.setTextSize(size);
 	}
 
+	
+	
 	@Override
 	public void onClick(View v) 
 	{
 		GATrackingManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, isSet);
+		
 		if (isSet == false) 
 		{
 			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);

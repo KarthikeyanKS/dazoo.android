@@ -81,10 +81,12 @@ public class TagTypeFragmentStatePagerAdapter
 	@Override
 	public int getCount() 
 	{
-		if (tvTags != null) {
+		if (tvTags != null) 
+		{
 			return tvTags.size();
 		}
-		else {
+		else 
+		{
 			return 0;
 		}
 	}

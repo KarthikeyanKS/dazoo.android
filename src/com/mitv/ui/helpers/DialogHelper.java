@@ -14,6 +14,7 @@ import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
+import com.mitv.utilities.GenericUtils;
 
 
 
@@ -44,10 +45,17 @@ public class DialogHelper
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(" ");
 				reminderSB.append(broadcast.getProgram().getSeries().getName());
-				reminderSB.append(", ");
-				reminderSB.append(activity.getString(R.string.season));
-				reminderSB.append(" ");
-				reminderSB.append(broadcast.getProgram().getSeason().getNumber());
+
+				int season = broadcast.getProgram().getSeason().getNumber().intValue();
+				
+				if(season > 0)
+				{
+					reminderSB.append(", ");
+					reminderSB.append(activity.getString(R.string.season));
+					reminderSB.append(" ");
+					reminderSB.append(season);
+				}
+				
 				reminderSB.append(", ");
 				reminderSB.append(activity.getString(R.string.episode));
 				reminderSB.append(" ");
@@ -129,7 +137,8 @@ public class DialogHelper
 			}
 		});
 		
-		if(!activity.isFinishing()){
+		if(GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(activity))
+		{
 			 dialog.show();
 		}
 	}
