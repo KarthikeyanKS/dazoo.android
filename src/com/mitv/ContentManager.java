@@ -99,13 +99,13 @@ public class ContentManager
 	private boolean isGoingToMyChannelsFromSearch;
 	private Boolean isLocalDeviceCalendarOffSync;
 			
-	private HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
-	
+	private HashMap<RequestIdentifierEnum, ArrayList<ListenerHolder>> mapRequestToCallbackListeners;
+		
 	public ContentManager()
 	{	
 		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
-		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>>();
+		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ListenerHolder>>();
 		this.isLocalDeviceCalendarOffSync = null;
 		
 		/* 1 for guide and parsing of tagged broadcasts */
@@ -180,15 +180,16 @@ public class ContentManager
     }
 
     private void registerListenerForRequestHelper(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) {
-        ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
+        ArrayList<ListenerHolder> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 
         if (listenerList == null) {
-            listenerList = new ArrayList<ViewCallbackListener>();
+            listenerList = new ArrayList<ListenerHolder>();
             mapRequestToCallbackListeners.put(requestIdentifier, listenerList);
         }
 
-        if (!listenerList.contains(listenerList)) {
-            listenerList.add(listener);
+    	ListenerHolder listenerHolder = new ListenerHolder(listener);
+        if (!listenerList.contains(listenerHolder)) {
+            listenerList.add(listenerHolder);
         }
     }
 
@@ -197,11 +198,12 @@ public class ContentManager
     }
 
     private void unregisterListenerFromAllRequestsHelper(ViewCallbackListener listener) {
-        Collection<ArrayList<ViewCallbackListener>> listenerListCollection = mapRequestToCallbackListeners.values();
+        Collection<ArrayList<ListenerHolder>> listenerListCollection = mapRequestToCallbackListeners.values();
 
-        for (ArrayList<ViewCallbackListener> listenerList : listenerListCollection) {
-            if (listenerList.contains(listener)) {
-                listenerList.remove(listener);
+    	ListenerHolder comparison = new ListenerHolder(listener);
+        for (ArrayList<ListenerHolder> listenerList : listenerListCollection) {
+            if (listenerList.contains(comparison)) {
+                listenerList.remove(comparison);
             }
         }
     }
@@ -211,18 +213,21 @@ public class ContentManager
     }
 
     private void notifyListenersOfRequestResultHelper(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
-        ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
+        ArrayList<ListenerHolder> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 
         if (listenerList != null) {
 
             /* Remove any null listener */
             listenerList.removeAll(Collections.singleton(null));
 
-            for (ViewCallbackListener listener : listenerList) {
-                Log.d(TAG, String.format("PROFILING: notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass().getSimpleName(), requestIdentifier.getDescription(),
-                        result.getDescription()));
-                listener.onResult(result, requestIdentifier);
-            }
+			for (ListenerHolder listenerHolder : listenerList) {
+				if (listenerHolder.isListenerAlive()) {
+					ViewCallbackListener listener = listenerHolder.getListener();
+					Log.d(TAG, String.format("notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass()
+							.getSimpleName(), requestIdentifier.getDescription(), result.getDescription()));
+					listener.onResult(result, requestIdentifier);
+				}
+			}
         }
     }
 	

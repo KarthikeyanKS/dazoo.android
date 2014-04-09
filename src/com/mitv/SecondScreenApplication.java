@@ -362,8 +362,7 @@ public class SecondScreenApplication
 			}
 		}
 
-		Log.d("mmm", "Diffenrence was true");
-		return false;
+		return true;
 	}
 	
 	
