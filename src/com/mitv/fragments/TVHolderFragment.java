@@ -18,8 +18,8 @@ import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVTag;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVTag;
 import com.viewpagerindicator.TabPageIndicator;
 
 

@@ -16,6 +16,7 @@
     <color name="yellow">#FF9C22</color>
     
     <color name="orange">#FF7800</color>
+    <color name="orange_background">#f49231</color>
     <color name="orange_button_pressed">#f6a85a</color>
     <color name="orange_button_not_pressed">#f7b36f</color>
     <color name="orange_light">#f9e4cf</color>

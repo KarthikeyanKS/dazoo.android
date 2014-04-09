@@ -15,7 +15,7 @@ import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.ActionBarDropDownDateListAdapter;
-import com.mitv.models.TVDate;
+import com.mitv.models.objects.mitvapi.TVDate;
 
 
 

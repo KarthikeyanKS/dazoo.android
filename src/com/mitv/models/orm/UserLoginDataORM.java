@@ -11,9 +11,9 @@ import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.mitv.models.ProfileImage;
-import com.mitv.models.UserFieldsData;
-import com.mitv.models.UserLoginData;
+import com.mitv.models.objects.mitvapi.ProfileImage;
+import com.mitv.models.objects.mitvapi.UserFieldsData;
+import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 

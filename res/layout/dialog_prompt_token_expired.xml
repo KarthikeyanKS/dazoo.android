@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_prompt_signin_buttons_divider"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal" >
 
         <com.mitv.ui.elements.FontButton
             android:id="@+id/dialog_prompt_signin_button_cancel"

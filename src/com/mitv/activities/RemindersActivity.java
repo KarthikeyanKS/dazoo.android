@@ -18,8 +18,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.RemindersListAdapter;
-import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.comparators.TVBroadcastComparatorByTime;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 

@@ -10,9 +10,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
@@ -47,9 +51,26 @@ public class SplashScreenActivity
 	private boolean hasUserSeenTutorial;
 	private boolean isViewingTutorial;
 	private boolean isDataFetched;
+	private boolean waitingForData;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
+
+	private RelativeLayout skipButtonContainer;
+	private RelativeLayout startPrimaryActivityContainer;
+	private ProgressBar skipButtonProgressBar;
+	private ProgressBar startPrimaryButtonProgressBar;
+	
+	private TextView splash_button;
+	private TextView next_button;
+	
+	CirclePageIndicator titleIndicator;
+	
+	private static final int PAGE1 = 0;
+	private static final int PAGE2 = 1;
+	private static final int PAGE3 = 2;
+	private static final int PAGE4 = 3;
+	private static final int PAGE5 = 4;
 		
 	
 	
@@ -59,6 +80,8 @@ public class SplashScreenActivity
 		super.onCreate(savedInstanceState);
 		
 		isDataFetched = false;
+		
+		waitingForData = false;
 		
 		if(Constants.ENABLE_FIRST_TIME_TUTORIAL_VIEW) 
 		{
@@ -114,6 +137,8 @@ public class SplashScreenActivity
 	{
 		if (!isViewingTutorial) 
 		{
+			waitingForData = true;
+			
 			fetchedDataCount++;
 			
 			StringBuilder sb = new StringBuilder();
@@ -187,7 +212,7 @@ public class SplashScreenActivity
 				
 				isDataFetched = true;
 				
-				if (!isViewingTutorial) 
+				if (!isViewingTutorial && waitingForData) 
 				{
 					startPrimaryActivity();
 				}
@@ -237,7 +262,7 @@ public class SplashScreenActivity
 	{
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(true);
 		
-		setContentView(R.layout.user_tutorial_screen_slide);
+		setContentView(R.layout.layout_tutorial_screen);
 
 		initTutorialView();
 	}
@@ -252,10 +277,39 @@ public class SplashScreenActivity
 		
 		mPager.setAdapter(mPagerAdapter);
 		
-		/* ViewPageIndicator library */
-		CirclePageIndicator titleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+		skipButtonContainer = (RelativeLayout) findViewById(R.id.skip_button_container);
+		startPrimaryActivityContainer = (RelativeLayout) findViewById(R.id.start_primary_button_container);
+		
+		skipButtonProgressBar = (ProgressBar) findViewById(R.id.skip_button_progressbar);
+		startPrimaryButtonProgressBar = (ProgressBar) findViewById(R.id.start_primary_button_progressbar);
+		
+		splash_button = (TextView) findViewById(R.id.button_splash_tutorial);
+		next_button = (TextView) findViewById(R.id.button_tutorial_next);
+		
+		updateViewForSelectedPage();
+		
+		/* ViewPageIndicator circle */
+		titleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 		
 		titleIndicator.setViewPager(mPager);
+		
+		mPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageSelected(int arg0) {
+				titleIndicator.setCurrentItem(mPager.getCurrentItem());
+				updateViewForSelectedPage();
+			}
+			
+		});
 	}
 	
 	
@@ -282,11 +336,22 @@ public class SplashScreenActivity
 
 	
 	
+	
+	
 	@Override
 	public void onClick(View v) 
 	{
 		int id = v.getId();
 
+		int paddingInDP = 30;
+		int leftpx = pixelsToDp(paddingInDP);
+		
+		paddingInDP = 50;
+		int rightpx = pixelsToDp(paddingInDP);
+		
+		paddingInDP = 10;
+		int topBottompx = pixelsToDp(paddingInDP);
+		
 		switch (id) 
 		{
 			case R.id.button_splash_tutorial:
@@ -296,26 +361,84 @@ public class SplashScreenActivity
 				break;
 			}
 			
-			case R.id.button_tutorial_skip:
+			case R.id.button_tutorial_skip: {
+				skipButtonContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
+				skipButtonProgressBar.setVisibility(View.VISIBLE);
+				finishTutorial();
+				break;
+			}
+			
 			case R.id.button_tutorial_start_primary_activity: {
-				if (isDataFetched) {
-					
-					if (hasUserSeenTutorial && isViewingTutorial) {
-						SecondScreenApplication.sharedInstance().setTutorialToNeverShowAgain();
-					}
-					
-					SecondScreenApplication.sharedInstance().setUserSeenTutorial();
-					
-					SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
-					
-					startPrimaryActivity();
-				}
+				startPrimaryActivityContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
+				startPrimaryButtonProgressBar.setVisibility(View.VISIBLE);
+				finishTutorial();
 				break;
 			}
 			
 			default:
 			{
 				Log.w(TAG, "Unhandled onClick action.");
+			}
+		}
+	}
+	
+	
+	private int pixelsToDp(int padding_in_dp) {
+	    final float scale = getResources().getDisplayMetrics().density;
+	    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+	    return padding_in_px;
+	}
+	
+	
+	private void finishTutorial() {		
+		SecondScreenApplication.sharedInstance().setUserSeenTutorial();
+		
+		SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
+		
+		if (isDataFetched) {
+			startPrimaryActivity();
+			
+		} else {
+			waitingForData = true;
+			isViewingTutorial = false;
+		}
+	}
+	
+	
+	
+	private void updateViewForSelectedPage() {
+		
+		switch (mPager.getCurrentItem()) {
+			case PAGE1: {
+				splash_button.setVisibility(View.VISIBLE);
+				
+				skipButtonContainer.setVisibility(View.GONE);
+				startPrimaryActivityContainer.setVisibility(View.GONE);
+				next_button.setVisibility(View.GONE);
+				break;
+			}
+			
+			case PAGE2:
+			case PAGE3:
+			case PAGE4: {
+				skipButtonContainer.setVisibility(View.VISIBLE);
+				next_button.setVisibility(View.VISIBLE);
+				
+				splash_button.setVisibility(View.GONE);
+				startPrimaryActivityContainer.setVisibility(View.GONE);
+				break;
+			}
+			
+			case PAGE5: {
+				startPrimaryActivityContainer.setVisibility(View.VISIBLE);
+				
+				splash_button.setVisibility(View.GONE);
+				skipButtonContainer.setVisibility(View.GONE);
+				next_button.setVisibility(View.GONE);
+				break;
+			}
+			default: {
+				break;
 			}
 		}
 	}

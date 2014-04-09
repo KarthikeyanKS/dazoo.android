@@ -16,7 +16,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter;
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 
 public abstract class RepetitionsOrUpcomingPage 

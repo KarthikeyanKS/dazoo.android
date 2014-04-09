@@ -30,7 +30,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.FeedListAdapter;
-import com.mitv.models.TVFeedItem;
+import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.HyperLinkUtils;

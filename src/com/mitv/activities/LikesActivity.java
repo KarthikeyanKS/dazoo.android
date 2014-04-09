@@ -18,8 +18,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.LikesListAdapter;
-import com.mitv.models.UserLike;
 import com.mitv.models.comparators.UserLikeComparatorByTitle;
+import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.NetworkUtils;
 
 
