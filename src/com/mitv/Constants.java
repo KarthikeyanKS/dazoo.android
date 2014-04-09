@@ -32,7 +32,7 @@ public abstract class Constants
 	
 	/* CURRENTLY USED BACKEND ENVIVONNEMT AND HTTP SCHEME */
 	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_PRODUCTION_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_TEST_ENVIRONMENT;
 	
 	/* "Static", don't need to change those */
 	public static final String URL_BACKEND_BASE_API					= "api.";
@@ -511,6 +511,29 @@ public abstract class Constants
 	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
+	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */
+	public static final String DISQUS_COMMENTS_DOMAIN = HTTP_SCHEME_USED + BACKEND_ENVIRONMENT_USED;
+	public static final String DISQUS_COMMENTS_PAGE_URL = DISQUS_COMMENTS_DOMAIN + "/test/index.htm";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE = "title";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER = "identifier";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_LANGUAGE = "language";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_URL = "url";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_ID = "id";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_NAME = "username";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_EMAIL = "email";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE = "avatar";
+	
+	/* CONFIGURATIONS FOR DISQUS COMMENTS API CALLS */
+	public static final String DISQUS_API_URL = "https://disqus.com/api";
+	public static final String DISQUS_API_VERSION = "3.0";
+	public static final String DISQUS_API_THREAD_POSTS = "/threads/listPosts";
+	public static final String DISQUS_API_REQUESTS_OUTPUT_TYPE = "json";
+	public static final String DISQUS_API_FORUM_PARAMETER = "forum";
+	public static final String DISQUS_API_THREAD_IDENT_PARAMETER = "thread:ident";
+	public static final String DISQUS_API_FORUM_SECRET_KEY_PARAMETER = "api_secret";
+	public static final String DISQUS_API_FORUM_NAME = "mitvexample";
+	public static final String DISQUS_API_FORUM_SECRET_KEY = "VdUJEM6UxNrvz8tvwbgpm2Q4EiupswNYMs57DoxMuTlzKTKonLnMEZEIdG3UoBL8";
+	
 	/* CONFIGURATIONS FOR FACEBOOK */
 	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
@@ -524,6 +547,7 @@ public abstract class Constants
 	public static final int CACHE_DATABASE_VERSION = 1;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
+	public static final boolean FORCE_ENABLE_DISQUS_COMMENTS = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = false;

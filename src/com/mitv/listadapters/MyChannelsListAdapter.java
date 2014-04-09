@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.interfaces.MyChannelsCountInterface;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 

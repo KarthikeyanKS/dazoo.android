@@ -13,8 +13,8 @@ import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.fragments.TVGuideTableFragment;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVTag;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVTag;
 
 
 

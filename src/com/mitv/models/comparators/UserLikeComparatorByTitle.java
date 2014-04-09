@@ -3,7 +3,7 @@ package com.mitv.models.comparators;
 
 
 
-import com.mitv.models.gson.UserLikeJSON;
+import com.mitv.models.gson.mitvapi.UserLikeJSON;
 
 
 

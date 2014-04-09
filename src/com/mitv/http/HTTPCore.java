@@ -359,6 +359,11 @@ public class HTTPCore
 							{
 								Log.e(TAG, ioex.getMessage(), ioex);
 							}
+							catch (OutOfMemoryError ofmmex) 
+							{
+								// TODO: Add Analytics log here
+								Log.e(TAG, ofmmex.getMessage(), ofmmex);
+							}
 	
 							httpBodyContentResult = temp.toString();
 	

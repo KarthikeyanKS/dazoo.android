@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.ui.elements.ReminderView;
 
 public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {

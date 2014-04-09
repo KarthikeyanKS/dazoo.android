@@ -32,7 +32,7 @@ import com.mitv.Constants;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.models.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
 
 
 

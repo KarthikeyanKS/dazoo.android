@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.mitv.models.TVDate;
+import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 

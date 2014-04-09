@@ -15,31 +15,32 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
+import com.mitv.asynctasks.other.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.AppConfiguration;
-import com.mitv.models.AppVersion;
-import com.mitv.models.RepeatingBroadcastsForBroadcast;
-import com.mitv.models.SearchResultsForQuery;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVChannelId;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVFeedItem;
-import com.mitv.models.TVGuide;
-import com.mitv.models.TVTag;
-import com.mitv.models.UpcomingBroadcastsForBroadcast;
-import com.mitv.models.UserLike;
-import com.mitv.models.UserLoginData;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
+import com.mitv.models.objects.disqus.DisqusComments;
+import com.mitv.models.objects.mitvapi.AppConfiguration;
+import com.mitv.models.objects.mitvapi.AppVersion;
+import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
+import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVFeedItem;
+import com.mitv.models.objects.mitvapi.TVGuide;
+import com.mitv.models.objects.mitvapi.TVTag;
+import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
+import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
@@ -697,6 +698,13 @@ public class ContentManager
 			apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset);
 		}
 	}
+	
+	
+	public void fetchFromServiceDisqusComments(ViewCallbackListener activityCallbackListener, String contentID) 
+	{
+		registerListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_COMMENTS, activityCallbackListener);
+		apiClient.getDisqusThreadPosts(activityCallbackListener, contentID);
+	}
 
 	/*
 	 * METHODS FOR "GETTING" THE DATA, EITHER FROM STORAGE, OR FETCHING FROM
@@ -1009,6 +1017,13 @@ public class ContentManager
 				handleBuildTVBroadcastsForTagsResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
+			
+			case DISQUS_THREAD_COMMENTS:
+			{
+				handleDisqusThreadCommentsResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
 			default:{/* do nothing */break;}
 		}
 	}
@@ -1035,6 +1050,22 @@ public class ContentManager
 		{
 			fetchDataProgressCallbackListener.onFetchDataProgress(totalSteps, message);
 		}
+	}
+	
+	
+	
+	private void handleDisqusThreadCommentsResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			DisqusComments disqusComments = (DisqusComments) content;
+			
+			int totalComments = disqusComments.getResponse().size();
+			
+			getCache().setDisqusTotalPostsForLatestBroadcast(totalComments);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 	
 	
@@ -2084,5 +2115,14 @@ public class ContentManager
 		{
 			apiClient.performUserLogout(activityCallbackListener);
 		}
+	}
+	
+	
+	
+	public int getDisqusTotalPostsForLatestBroadcast()
+	{
+		int disqusTotalPostsForLatestBroadcast = getCache().getDisqusTotalPostsForLatestBroadcast();
+		
+		return disqusTotalPostsForLatestBroadcast;
 	}
 }

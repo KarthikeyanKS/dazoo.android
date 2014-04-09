@@ -18,7 +18,7 @@ import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.models.TVDate;
+import com.mitv.models.objects.mitvapi.TVDate;
 
 
 

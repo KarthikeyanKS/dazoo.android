@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import com.mitv.Constants;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.ui.helpers.DialogHelper;

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_container"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/header_2" />
+
+    <View
+        android:id="@+id/dialog_title_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialog_title"
+        android:background="@color/grey1" />
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/dialog_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_title_divider"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+    <View
+        android:id="@+id/dialog_buttons_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialog_message"
+        android:background="@color/grey1" />
+
+    <LinearLayout
+        android:id="@+id/dialog_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_buttons_divider"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <com.mitv.ui.elements.FontButton
+            android:id="@+id/dialog_button_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        	android:background="@drawable/background_color_selector"
+            android:textColor="@color/black"
+            android:textSize="@dimen/header_3"
+            android:textStyle="bold"
+            android:padding="10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_separator" />
+
+        <com.mitv.ui.elements.FontButton
+            android:id="@+id/dialog_button_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        	android:background="@drawable/background_color_selector"
+            android:textColor="@color/blue1"
+            android:textSize="@dimen/header_3"
+            android:textStyle="bold"
+            android:padding="10dp" />
+    </LinearLayout>
+
+</RelativeLayout>
