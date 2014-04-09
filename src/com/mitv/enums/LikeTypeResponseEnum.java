@@ -6,7 +6,7 @@ package com.mitv.enums;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
-import com.mitv.models.TVProgram;
+import com.mitv.models.objects.mitvapi.TVProgram;
 
 
 

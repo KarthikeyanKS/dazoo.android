@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.mitv.FontManager;
 import com.mitv.R;
-import com.mitv.models.TVDate;
+import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.utilities.DateUtils;
 
 

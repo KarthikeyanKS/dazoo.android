@@ -6,7 +6,7 @@ package com.mitv.populators;
 import android.app.Activity;
 import android.widget.RelativeLayout;
 
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 
 

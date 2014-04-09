@@ -55,8 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_prompt_signin_buttons_divider"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp" >
+        android:orientation="horizontal" >
 
         <com.mitv.ui.elements.FontButton
             android:id="@+id/dialog_prompt_signin_button_cancel"
@@ -67,7 +66,8 @@
             android:text="@string/cancel"
             android:textColor="@color/black"
             android:textSize="@dimen/header_3"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="10dp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -83,7 +83,8 @@
             android:text="@string/sign_in_token_expired_relogin_button"
             android:textColor="@color/blue1"
             android:textSize="@dimen/header_3"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="10dp" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -3,11 +3,11 @@ package com.mitv.activities;
 
 
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Locale;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -36,14 +36,16 @@ import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.http.URLParameters;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannelId;
-import com.mitv.models.TVProgram;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
+import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
+import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.HyperLinkUtils;
 import com.mitv.utilities.LanguageUtils;
@@ -53,9 +55,13 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class BroadcastPageActivity extends BaseContentActivity implements OnClickListener {
+public class BroadcastPageActivity 
+	extends BaseContentActivity 
+	implements OnClickListener 
+{
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
+	
 	private TVChannelId channelId;
 	private long beginTimeInMillis;
 	boolean isLiked = false;
@@ -77,8 +83,13 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	private TextView episodeNameTv;
 	private ImageView channelIv;
 	private TextView synopsisTv;
+	
+	private RelativeLayout disqusCommentsLayout;
+	private RelativeLayout disqusLoginToCommentButtonContainer;
 	private WebView webViewDisqusComments;
-
+	private FontTextView disqusLoginToCommentButton;
+	private FontTextView disqusCommentsHeader;
+	
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
 	
@@ -109,7 +120,8 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		 * Used for when starting this activity from notification center in device or if you click on it from reminder
 		 * list
 		 */
-		if (needToDownloadBroadcastWithChannelInfo) {
+		if (needToDownloadBroadcastWithChannelInfo) 
+		{
 			beginTimeInMillis = intent.getLongExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 
 			String channelIdAsString = intent.getStringExtra(Constants.INTENT_EXTRA_CHANNEL_ID);
@@ -122,47 +134,67 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
-		if(Constants.ENABLE_DISQUS_COMMENTS)
+		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		
+		if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS)
 		{
-			setDisqusCommentsURL();
+			String contentID = broadcastWithChannelInfo.getShareUrl();
+			
+			ContentManager.sharedInstance().fetchFromServiceDisqusComments(this, contentID);
+		}
+		else
+		{
+			setDisqusCommentsWebview(false, 0);
 		}
 		
 		updateStatusOfLikeView();
 
 		super.onResume();
 	}
-		
-		
-	
-		
+			
 
+	
 	@Override
-	protected void onNewIntent(Intent intent) {
+	protected void onNewIntent(Intent intent) 
+	{
 		super.onNewIntent(intent);
+		
 		setIntent(intent);
 	}
 
-	private void updateStatusOfLikeView() {
-		if (likeView != null) {
+	
+	
+	private void updateStatusOfLikeView() 
+	{
+		if (likeView != null) 
+		{
 			likeView.updateImage();
 		}
 	}
 
+	
+	
 	@Override
-	protected void loadData() {
+	protected void loadData() 
+	{
 		updateUI(UIStatusEnum.LOADING);
 		String loadingMessage = getString(R.string.loading_message_broadcastpage_program_info);
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, false, broadcastWithChannelInfo, channelId, beginTimeInMillis);
 	}
 
+	
+	
 	@Override
-	protected boolean hasEnoughDataToShowContent() {
+	protected boolean hasEnoughDataToShowContent() 
+	{
 		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasBroadcastPageData();
 
 		return hasEnoughDataToShowContent;
 	}
 
+	
+	
 	private ArrayList<TVBroadcastWithChannelInfo> filterOutEpisodesWithBadData() 
 	{
 		/* Remove upcoming broadcasts with season 0 and episode 0 */
@@ -193,7 +225,10 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		return upcomingBroadcasts;
 	}
 
-	private void handleInitialDataAvailable() {
+	
+	
+	private void handleInitialDataAvailable() 
+	{
 		broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 
 		repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
@@ -212,32 +247,64 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 
 	}
 
+	
+	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
-		if (fetchRequestResult.wasSuccessful()) {
-			switch (requestIdentifier) {
-			case BROADCAST_PAGE_DATA: {
-				handleInitialDataAvailable();
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-				break;
-
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			switch (requestIdentifier) 
+			{
+				case DISQUS_THREAD_COMMENTS:
+				{
+					int totalDisqusPosts = ContentManager.sharedInstance().getDisqusTotalPostsForLatestBroadcast();
+					
+					setDisqusCommentsWebview(true, totalDisqusPosts);
+					setDisqusCommentsURL(broadcastWithChannelInfo);
+					break;
+				}
+			
+				case BROADCAST_PAGE_DATA: 
+				{
+					handleInitialDataAvailable();
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					break;
+				}
+				
+				case USER_ADD_LIKE: 
+				{
+					updateStatusOfLikeView();
+					break;
+				}
+	
+				default: 
+				{
+					Log.d(TAG, "other request");
+					/* do nothing */break;
+				}
 			}
-			case USER_ADD_LIKE: {
-				updateStatusOfLikeView();
-				break;
-
+		} 
+		else 
+		{
+			switch (requestIdentifier) 
+			{
+				case DISQUS_THREAD_COMMENTS:
+				{
+					setDisqusCommentsWebview(true, 0);
+					setDisqusCommentsURL(broadcastWithChannelInfo);
+					break;
+				}
+				
+				default: 
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
 			}
-
-			default: {
-				Log.d(TAG, "other request");
-				/* do nothing */break;
-			}
-			}
-		} else {
-			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 
+	
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
@@ -266,9 +333,11 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			}
 		}
 	}
+	
+	
 
-	private void initViews() {
-
+	private void initViews() 
+	{
 		actionBar.setTitle(getResources().getString(R.string.broadcast_info));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -293,11 +362,6 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		
 		upcomingContainer = (RelativeLayout) findViewById(R.id.broacastpage_upcoming);
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
-		
-		if(Constants.ENABLE_DISQUS_COMMENTS)
-		{
-			setDisqusCommentsWebview();
-		}
 	}
 	
 	
@@ -309,7 +373,10 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		return isProgramIrrelevantAndShouldBeDeleted;
 	}
 
-	private void populateBlocks() {
+	
+	
+	private void populateBlocks()
+	{
 		populateMainView();
 
 		/* Repetitions */
@@ -332,23 +399,10 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		}
 	}
 
-	private String getYearString(TVProgram program) {
-		String yearString = "";
 
-		if (program != null && program.getYear() != null) {
-			yearString = (program.getYear() == 0) ? "" : String.valueOf(program.getYear());
-		}
-
-		return yearString;
-	}
-
-	private String getGenreString(TVProgram program) {
-		String genreString = (program.getGenre() == null) ? "" : program.getGenre();
-
-		return genreString;
-	}
-
-	private void populateMainView() {
+	
+	private void populateMainView() 
+	{
 		TVProgram program = broadcastWithChannelInfo.getProgram();
 
 		ProgramTypeEnum programType = program.getProgramType();
@@ -392,20 +446,43 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 				episodeNameTv.setVisibility(View.VISIBLE);
 			}
 
-			extrasStringBuilder.append(res.getString(R.string.tv_series)).append(" ").append(getYearString(program)).append(" ").append(durationString)
-					.append(minutesString).append(" ").append(getGenreString(program));
+			String yearAsString = program.getYearAsString();
+			String genreAsString = program.getGenreAsString();
+			
+			extrasStringBuilder.append(res.getString(R.string.tv_series))
+					.append(" ")
+					.append(yearAsString)
+					.append(" ")
+					.append(durationString)
+					.append(minutesString)
+					.append(" ")
+					.append(genreAsString);
 
 			break;
 		}
-		case MOVIE: {
+		
+		case MOVIE: 
+		{
 			contentTitle = program.getTitle();
 			contentTitleTextView.setText(contentTitle);
 
-			extrasStringBuilder.append(res.getString(R.string.movie)).append(" ").append(getYearString(program)).append(" ").append(durationString)
-					.append(minutesString).append(" ").append(getGenreString(program));
+			String yearAsString = program.getYearAsString();
+			String genreAsString = program.getGenreAsString();
+			
+			extrasStringBuilder.append(res.getString(R.string.movie))
+				.append(" ")
+				.append(yearAsString)
+				.append(" ")
+				.append(durationString)
+				.append(minutesString)
+				.append(" ")
+				.append(genreAsString);
+			
 			break;
 		}
-		case SPORT: {
+		
+		case SPORT: 
+		{
 			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
 
 			contentTitleTextView.setText(contentTitle);
@@ -421,8 +498,10 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 
 			extrasStringBuilder.append(res.getString(R.string.sport)).append(" ").append(durationString).append(minutesString).append(" ")
 					.append(program.getSportType().getName());
+			
 			break;
 		}
+		
 		case OTHER: {
 			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
 
@@ -488,6 +567,8 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		shareContainer.setOnClickListener(this);
 	}
 
+	
+	
 	@Override
 	public void onClick(View v) 
 	{
@@ -498,22 +579,40 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 
 		TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) v.getTag();
 
-		switch (viewId) {
-		case R.id.element_social_buttons_share_button_container: {
-			GenericUtils.startShareActivity(this, broadcastWithChannelInfo);
-			break;
+		switch (viewId) 
+		{
+			case R.id.element_social_buttons_share_button_container: 
+			{
+				GenericUtils.startShareActivity(this, broadcastWithChannelInfo);
+				break;
+			}
+			
+			case R.id.disqus_login_to_comment_button_container:
+			{
+				String title = getString(R.string.disqus_comments_login_to_comment_prompt_title);
+				String message = getString(R.string.disqus_comments_login_to_comment_prompt_message);
+				String confirmButtonText = getString(R.string.disqus_comments_login_to_comment_prompt_button_confirm);
+				String cancelButtonText = getString(R.string.disqus_comments_login_to_comment_prompt_button_cancel);
+				
+				Runnable confirmProcedure = getConfirmProcedure(this);
 
-		}
-
-		default: {
-			Log.w(TAG, "Unhandled onClick action");
-			break;
-		}
+				DialogHelper.showDialog(this, title, message, confirmButtonText, cancelButtonText, confirmProcedure, null);
+				break;
+			}
+	
+			default: 
+			{
+				Log.w(TAG, "Unhandled onClick action");
+				break;
+			}
 		}
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 
 		finish();
@@ -521,89 +620,106 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 	
 	
 	
-	private void setDisqusCommentsWebview()
+	private void setDisqusCommentsWebview(
+			final boolean enable,
+			final int totalComments)
 	{
-		webViewDisqusComments = (WebView) findViewById(R.id.disqus);
+		disqusCommentsLayout = (RelativeLayout) findViewById(R.id.disqus_comments_layout);
+		webViewDisqusComments = (WebView) findViewById(R.id.disqus_comments_webview);
 		
-		WebSettings webSettings = webViewDisqusComments.getSettings();
+		disqusLoginToCommentButtonContainer = (RelativeLayout) findViewById(R.id.disqus_login_to_comment_button_container);
 		
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setBuiltInZoomControls(false);
-		webViewDisqusComments.requestFocusFromTouch();
-		
-		webViewDisqusComments.setWebViewClient(new WebViewClient()
+		disqusLoginToCommentButton = (FontTextView) findViewById(R.id.disqus_login_to_comment_button);
+		disqusCommentsHeader = (FontTextView) findViewById(R.id.disqus_comments_header_text);
+				
+		if(enable)
 		{
-			@Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) 
+			disqusCommentsLayout.setVisibility(View.VISIBLE);
+			
+			disqusLoginToCommentButtonContainer.setVisibility(View.GONE);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append(getString(R.string.disqus_comments_header_title));
+			
+			Boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+			
+			if(isUserLoggedIn)
 			{
-		        if (HyperLinkUtils.checkIfMatchesDisqusURL(url))
-		        {
-		            return false;
-		        } 
-		        else
-		        {
-		        	Uri uri = Uri.parse(url);
-		        	
-		        	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		        	
-		            startActivity(intent);
-		        }
-		        
-		        return false;
-            }
-		});
-		
-		webViewDisqusComments.setWebChromeClient(new WebChromeClient() 
+				disqusLoginToCommentButton.setVisibility(View.GONE);
+				
+				disqusCommentsHeader.setText(sb.toString());
+				
+				webViewDisqusComments.setVisibility(View.VISIBLE);
+				
+				WebSettings webSettings = webViewDisqusComments.getSettings();
+				
+				webSettings.setJavaScriptEnabled(true);
+				webSettings.setBuiltInZoomControls(false);
+				webViewDisqusComments.requestFocusFromTouch();
+				
+				webViewDisqusComments.setWebViewClient(new WebViewClient()
+				{
+					@Override
+		            public boolean shouldOverrideUrlLoading(WebView view, String url) 
+					{
+				        if (HyperLinkUtils.checkIfMatchesDisqusURL(url))
+				        {
+				            return false;
+				        } 
+				        else
+				        {
+				        	Uri uri = Uri.parse(url);
+				        	
+				        	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				        	
+				            startActivity(intent);
+				        }
+				        
+				        return false;
+		            }
+				});
+				
+				webViewDisqusComments.setWebChromeClient(new WebChromeClient() 
+				{
+					  public void onConsoleMessage(String message, int lineNumber, String sourceID) 
+					  {
+					    Log.d(TAG, message + " -- From line " + lineNumber + " of " + sourceID);
+					  }
+				});
+			}
+			else
+			{
+				webViewDisqusComments.setVisibility(View.GONE);
+				
+				disqusLoginToCommentButtonContainer.setVisibility(View.VISIBLE);
+				
+				disqusLoginToCommentButtonContainer.setOnClickListener(this);
+				
+				if(totalComments > 0)
+				{
+					sb.append(" (");
+					sb.append(totalComments);
+					sb.append(")");
+				}
+				
+				disqusCommentsHeader.setText(sb.toString());
+			}
+		}
+		else
 		{
-			  public void onConsoleMessage(String message, int lineNumber, String sourceID) 
-			  {
-			    Log.d(TAG, message + " -- From line " + lineNumber + " of " + sourceID);
-			  }
-			});
+			disqusCommentsLayout.setVisibility(View.GONE);
+		}
 	}
 	
 	
 	
-	private void setDisqusCommentsURL()
+	private void setDisqusCommentsURL(final TVBroadcastWithChannelInfo tvBroadcast)
 	{
-		String contentID;
-		try {
-			contentID = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
-			
-			contentID = contentID.replace("+", "%20");
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			contentID = "";
-		}
-		
-		String title;
-		try {
-			title = URLEncoder.encode(broadcastWithChannelInfo.getTitle(), "UTF-8");
-			
-			title = title.replace("+", "%20");
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			title = "";
-		}
-		
-		String url;
-		try {
-			url = URLEncoder.encode(broadcastWithChannelInfo.getShareUrl(), "UTF-8");
-			
-			url = url.replace("+", "%20");
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			url = "";
-		}
+		Locale locale = LanguageUtils.getCurrentLocale();
+		String contentID = tvBroadcast.getShareUrl();
+		String title = tvBroadcast.getTitle();
+		String url = tvBroadcast.getShareUrl();
 		
 		boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
@@ -618,33 +734,6 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 			username = ContentManager.sharedInstance().getFromCacheUserFirstname();
 			userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
 			userImage = ContentManager.sharedInstance().getFromCacheUserProfileImage();
-			
-			try 
-			{
-				
-				
-				userID = URLEncoder.encode(userID, "UTF-8");
-				userID = userID.replace("+", "%20");
-				
-				username = URLEncoder.encode(username, "UTF-8");
-				username = username.replace("+", "%20");
-				
-				userEmail = URLEncoder.encode(userEmail, "UTF-8");
-				userEmail = userEmail.replace("+", "%20");
-				
-				userImage = URLEncoder.encode(userImage, "UTF-8");
-				userImage = userImage.replace("+", "%20");
-				
-			} 
-			catch (UnsupportedEncodingException uex) 
-			{
-				Log.e(TAG, uex.getMessage());
-				
-				userID = "";
-				username = "";
-				userEmail = "";
-				userImage = "";
-			}
 		}
 		else
 		{
@@ -655,10 +744,11 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		}
 		
 		URLParameters urlParameters = new URLParameters();
+		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_LANGUAGE, locale.toString());
 		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE, title);
 		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER, contentID);
 		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_URL, url);
-				
+		
 		if(isUserLoggedIn)
 		{
 			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_ID, userID);
@@ -671,6 +761,28 @@ public class BroadcastPageActivity extends BaseContentActivity implements OnClic
 		urlSB.append(Constants.DISQUS_COMMENTS_PAGE_URL);
 		urlSB.append(urlParameters.toString());
 		
-		webViewDisqusComments.loadUrl(urlSB.toString());
+		if(webViewDisqusComments != null)
+		{
+			webViewDisqusComments.loadUrl(urlSB.toString());
+		}
+		else
+		{
+			Log.w(TAG, "Disqus webview is null.");
+		}
+	}
+	
+	
+	
+	private Runnable getConfirmProcedure(final Activity activity)
+	{
+		return new Runnable() 
+		{
+			public void run() 
+			{
+				Intent intent = new Intent(activity, SignUpSelectionActivity.class);			
+				
+				activity.startActivity(intent);
+			}
+		};
 	}
 }

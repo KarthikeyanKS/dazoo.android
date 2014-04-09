@@ -21,8 +21,8 @@ import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.RepetitionsPageActivity;
 import com.mitv.activities.UpcomingEpisodesPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVProgram;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.ReminderView;
 
 
@@ -188,17 +188,17 @@ public class TrippleBroadcastBlockPopulator
 	
 						if (season > 0) 
 						{
-							seasonEpisodeSB.append(activity.getString(R.string.season));
-							seasonEpisodeSB.append(" ");
-							seasonEpisodeSB.append(season);
-							seasonEpisodeSB.append(" ");
+							seasonEpisodeSB.append(activity.getString(R.string.season))
+							.append(" ")
+							.append(season)
+							.append(" ");
 						}
 	
 						if (episode > 0)
 						{
-							seasonEpisodeSB.append(activity.getString(R.string.episode));
-							seasonEpisodeSB.append(" ");
-							seasonEpisodeSB.append(episode);
+							seasonEpisodeSB.append(activity.getString(R.string.episode))
+							.append(" ")
+							.append(episode);
 						}
 	
 						seasonEpisodeTv.setText(seasonEpisodeSB.toString());

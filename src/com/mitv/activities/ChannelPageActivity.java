@@ -20,11 +20,11 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.ChannelPageListAdapter;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 

@@ -52,6 +52,8 @@ public abstract class AsyncTaskBase<T>
 	
 	protected HTTPCoreResponse response;
 	
+	protected boolean isMiTVAPICall;
+	
 	
 	
 	public AsyncTaskBase(
@@ -60,27 +62,55 @@ public abstract class AsyncTaskBase<T>
 			RequestIdentifierEnum requestIdentifier, 
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
-			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true);
+	}
+	
+	
+	
+	public AsyncTaskBase(
+			ContentCallbackListener contentCallbackListener, 
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier, 
+			Class<T> clazz,
+			boolean manualDeserialization,
+			HTTPRequestTypeEnum httpRequestType,
+			String url) 
+	{
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true);
+	}
+	
+	
+	
+	public AsyncTaskBase(
+			final ContentCallbackListener contentCallbackListener, 
+			final ViewCallbackListener activityCallbackListener,
+			final RequestIdentifierEnum requestIdentifier, 
+			final Class<T> clazz,
+			final boolean manualDeserialization,
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final boolean isMiTVAPICall) 
+	{
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false);
 	}
 	
 
 	
-	public AsyncTaskBase(
-			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener,
-			RequestIdentifierEnum requestIdentifier,
-			Class<T> clazz,
-			Class<?> clazzSingle,
-			boolean manualDeserialization,
-			HTTPRequestTypeEnum httpRequestType,
-			boolean isRelativeURL,
-			String url,
-			URLParameters urlParameters,
-			HeaderParameters headerParameters,
-			String bodyContentData)
+	private AsyncTaskBase(
+			final ContentCallbackListener contentCallbackListener,
+			final ViewCallbackListener activityCallbackListener,
+			final RequestIdentifierEnum requestIdentifier,
+			final Class<T> clazz,
+			final Class<?> clazzSingle,
+			final boolean manualDeserialization,
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final URLParameters urlParameters,
+			final HeaderParameters headerParameters,
+			final String bodyContentData,
+			final boolean isMiTVAPICall)
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
@@ -96,21 +126,26 @@ public abstract class AsyncTaskBase<T>
 		this.requestResultObjectContent = null;
 		this.response = null;
 		
-		/* Add the locale to the header data */
-		Locale locale = LanguageUtils.getCurrentLocale();
+		this.isMiTVAPICall = isMiTVAPICall;
 		
-		if(locale != null)
+		if(isMiTVAPICall)
 		{
-			headerParameters.add(Constants.HTTP_REQUEST_DATA_LOCALE, locale.toString());
+			/* Add the locale to the header data */
+			Locale locale = LanguageUtils.getCurrentLocale();
+			
+			if(locale != null)
+			{
+				headerParameters.add(Constants.HTTP_REQUEST_DATA_LOCALE, locale.toString());
+			}
+			else
+			{
+				Log.w(TAG, "Locale has null value.");
+			}
+			
+			/* Add the timezone to the url parameters */
+			Integer timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
+			urlParameters.add(Constants.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
-		else
-		{
-			Log.w(TAG, "Locale has null value.");
-		}
-		
-		/* Add the timezone to the url parameters */
-		Integer timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-		urlParameters.add(Constants.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		
@@ -149,8 +184,10 @@ public abstract class AsyncTaskBase<T>
 	
 	
 	@Override
-	protected void onPreExecute() {
+	protected void onPreExecute() 
+	{
 		super.onPreExecute();
+		
 		Log.d(TAG, String.format("%s onPreExecute - Performing HTTP request: %s", clazz.getName(), requestIdentifier.getDescription()));
 	}
 
@@ -166,15 +203,18 @@ public abstract class AsyncTaskBase<T>
 		boolean wasSuccessful = requestResultStatus.wasSuccessful();
 		boolean hasResponseString = response.hasResponseString();
 		
-		/* 
-		 * This is a backend restriction and should be changed. 
-		 * In the future, appropriate error response codes should be returned.
-		 * Avoid parsing the object in order not to cause an exception
-		 */
-		//TODO NewArc when support from backend return appropriate error response
-		if(requestResultStatus == FetchRequestResultEnum.BAD_REQUEST)
+		if(isMiTVAPICall)
 		{
-			return null;
+			/* 
+			 * This is a backend restriction and should be changed. 
+			 * In the future, appropriate error response codes should be returned.
+			 * Avoid parsing the object in order not to cause an exception
+			 */
+			//TODO NewArc when support from backend return appropriate error response
+			if(requestResultStatus == FetchRequestResultEnum.BAD_REQUEST)
+			{
+				return null;
+			}
 		}
 		
 		if(hasResponseString)
