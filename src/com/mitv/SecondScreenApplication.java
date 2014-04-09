@@ -319,6 +319,7 @@ public class SecondScreenApplication
 				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
 					
 					/* Get calendar from the string lastOpenApp */
+					Log.d("mmm", "Date format: " + lastOpenApp);
 					Calendar cal = getDateUserLastOpenApp(lastOpenApp);
 					
 					/* 
@@ -329,6 +330,7 @@ public class SecondScreenApplication
 					
 					/* Sets user is viewing tutorial */
 					if (!openLastTwoWeeks) {
+						setTutorialToNeverShowAgain();
 						setIsViewingTutorial(true);
 					}
 					
@@ -359,8 +361,9 @@ public class SecondScreenApplication
 				return false;
 			}
 		}
-		
-		return true;
+
+		Log.d("mmm", "Diffenrence was true");
+		return false;
 	}
 	
 	
@@ -408,8 +411,8 @@ public class SecondScreenApplication
 	
 	
 	public void setTutorialToNeverShowAgain() {
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, false);
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, false, false);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, true);
+//		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, false, true);
 	}
 
 	

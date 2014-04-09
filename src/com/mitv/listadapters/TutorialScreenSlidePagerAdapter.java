@@ -3,6 +3,7 @@ package com.mitv.listadapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.mitv.fragments.UserTutorialFragment;
 
@@ -12,7 +13,6 @@ import com.mitv.fragments.UserTutorialFragment;
 public class TutorialScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final int NUM_PAGES = 5;
-	
 	
 	
 	public TutorialScreenSlidePagerAdapter(FragmentManager fm) {
