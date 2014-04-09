@@ -32,6 +32,7 @@ import com.mitv.models.TVGuide;
 import com.mitv.models.TVTag;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.SwipeClockBar;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -80,20 +81,39 @@ public class TVGuideTableFragment
 	
 	
 	
-	private void updateSwipeClockBarWithDayAndTime() 
-	{
-		if(swipeClockBar != null) 
-		{
+	private void updateSwipeClockBarWithDayAndTime() {
+		if (swipeClockBar != null) {
 			isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
-			
-			if(isToday) 
-			{
-				hour = ContentManager.sharedInstance().getFromCacheSelectedHour();
-			} 
-			else 
-			{
-				hour = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+			int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+
+			if (isToday) {
+				/* If today, default to currentHour */
+				hour = currentHour;
+				if (selectedHour != null && selectedHour >= currentHour) {
+					hour = selectedHour;
+				}
+			} else {
+				if (selectedHour != null) {
+					hour = selectedHour;
+				} else {
+					hour = firstHourOfTVDay;
+				}
 			}
+
+			// if (ContentManager.sharedInstance().getFromCacheSelectedHour() != null) {
+			// hour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+			// Log.e("TIMEBUG", "using selectedHour from cache: " + hour);
+			// } else {
+			// if (isToday) {
+			// hour = DateUtils.getCurrentHourOn24HourFormat();
+			// Log.e("TIMEBUG", "hour in cache null, using current time: " + hour);
+			// } else {
+			// hour = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			// Log.e("TIMEBUG", "hour in cache null, using first hour of tv day: " + hour);
+			// }
+			// }
 
 			swipeClockBar.setHour(hour);
 			swipeClockBar.setToday(isToday);
