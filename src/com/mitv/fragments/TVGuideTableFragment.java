@@ -102,19 +102,6 @@ public class TVGuideTableFragment
 				}
 			}
 
-			// if (ContentManager.sharedInstance().getFromCacheSelectedHour() != null) {
-			// hour = ContentManager.sharedInstance().getFromCacheSelectedHour();
-			// Log.e("TIMEBUG", "using selectedHour from cache: " + hour);
-			// } else {
-			// if (isToday) {
-			// hour = DateUtils.getCurrentHourOn24HourFormat();
-			// Log.e("TIMEBUG", "hour in cache null, using current time: " + hour);
-			// } else {
-			// hour = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
-			// Log.e("TIMEBUG", "hour in cache null, using first hour of tv day: " + hour);
-			// }
-			// }
-
 			swipeClockBar.setHour(hour);
 			swipeClockBar.setToday(isToday);
 		}
