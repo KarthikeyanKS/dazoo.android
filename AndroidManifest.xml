@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="116"
-    android:versionName="1.0.116" >
+    android:versionCode="117"
+    android:versionName="1.0.117" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -99,7 +99,8 @@
             android:name="com.mitv.activities.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/HomePage" >
+            android:theme="@style/HomePage"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- ACTIVITY PAGE -->
@@ -116,7 +117,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBarNoUp" />
+            android:theme="@style/WhiteTitleActionBarNoUp"
+            android:windowSoftInputMode="adjustPan" />
         
         <!-- POPULAR CONTENT PAGE -->
         <activity
@@ -124,7 +126,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- SEARCH PAGE -->
@@ -151,7 +154,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- REMINDERS -->
@@ -169,7 +173,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- About -->
@@ -178,7 +183,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- BROADCAST PAGE -->
@@ -187,7 +193,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- UPCOMING EPISODES PAGE -->
@@ -196,7 +203,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- REPEATITIONS PAGE -->
@@ -205,7 +213,8 @@
             android:launchMode="standard"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- CHANNEL PAGE -->
@@ -214,7 +223,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/ChannelPage" >
+            android:theme="@style/ChannelPage"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- SIGN IN -->

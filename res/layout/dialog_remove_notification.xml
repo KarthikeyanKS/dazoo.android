@@ -31,10 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_remove_notification_divider"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:padding="10dp" >
+        android:orientation="horizontal">
 
         <com.mitv.ui.elements.FontButton
             android:id="@+id/dialog_remove_notification_button_no"
@@ -45,7 +42,8 @@
         	android:background="@drawable/background_color_selector_login_link"
             android:textColor="@color/black"
             android:textSize="@dimen/header_3" 
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:padding="10dp"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -63,7 +61,8 @@
         	android:background="@drawable/background_color_selector_login_link"
             android:textColor="@color/blue1"
             android:textSize="@dimen/header_3" 
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:padding="10dp" />
     </LinearLayout>
 
 </RelativeLayout>

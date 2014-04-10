@@ -20,7 +20,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 

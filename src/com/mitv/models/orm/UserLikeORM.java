@@ -7,8 +7,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.UserLike;
-import com.mitv.models.UserLikeNextBroadcast;
+import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.UserLikeNextBroadcast;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 

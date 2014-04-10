@@ -11,8 +11,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mitv.Constants;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVSearchResultEntity;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVSearchResultEntity;
 
 public class TVSearchResultEntitySeriesDeserializer implements JsonDeserializer<TVSearchResultEntity> {
 	

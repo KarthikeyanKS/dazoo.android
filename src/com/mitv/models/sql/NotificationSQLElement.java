@@ -9,8 +9,8 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVProgram;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVProgram;
 
 
 

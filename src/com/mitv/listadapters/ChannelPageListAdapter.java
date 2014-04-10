@@ -21,7 +21,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ChannelRowTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;

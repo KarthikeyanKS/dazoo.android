@@ -19,7 +19,7 @@ import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.UserLike;
+import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.ui.helpers.DialogHelper;
 
 

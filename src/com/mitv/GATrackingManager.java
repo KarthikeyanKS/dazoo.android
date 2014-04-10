@@ -14,8 +14,8 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.google.android.gms.analytics.Tracker;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.UserLike;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.FileUtils;
 
 

@@ -18,12 +18,12 @@ import android.widget.LinearLayout;
 import com.mitv.R;
 import com.mitv.enums.ContentTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVProgram;
-import com.mitv.models.TVSearchResult;
-import com.mitv.models.TVSearchResultEntity;
-import com.mitv.models.TVSeries;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVProgram;
+import com.mitv.models.objects.mitvapi.TVSearchResult;
+import com.mitv.models.objects.mitvapi.TVSearchResultEntity;
+import com.mitv.models.objects.mitvapi.TVSeries;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.utilities.SpannableUtils;
 
