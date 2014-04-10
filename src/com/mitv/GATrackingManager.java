@@ -246,4 +246,69 @@ public class GATrackingManager
 		GoogleAnalytics googleAnalyticsInstance = sharedInstance().getGoogleAnalyticsInstance();
 		googleAnalyticsInstance.reportActivityStop(activity);
 	}
+	
+	/**
+	 * Manually sending the campaign (as a system event) information to analytics.
+	 * 
+	 * The referrer we get looks like:
+	 * utm_source=xxx&utm_medium=xxx&utm_term=xxx&utm_content=xxx&utm_campaign=xxx
+	 * 
+	 */
+	public void sendGooglePlayCampaignToAnalytics(String campaignData) {
+		String[] parts = null;
+		
+		String campaignSource = null;
+		String campaignMedium = null; 
+		String campaignTerm = null;
+		String campaignContent = null;
+		String campaignName = null;	
+		
+		if (campaignData.contains("&")) {
+			parts = campaignData.split("&");
+			
+			for (int i = 0; i < parts.length; i++) {
+				parts[i] = parts[i].replaceAll("utm_", "");
+				
+				if (parts[i].startsWith("source")) {
+					campaignSource = parts[i];
+
+				} else if (parts[i].startsWith("medium")) {
+					campaignMedium = parts[i];
+
+				} else if (parts[i].startsWith("term")) {
+					campaignTerm = parts[i];
+
+				} else if (parts[i].startsWith("content")) {
+					campaignContent = parts[i];
+
+				} else if (parts[i].startsWith("campaign")) {
+					campaignName = parts[i];
+				}
+			}
+			
+			/* Build an event to send to Analytics */
+			String category = Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT;
+			String action = "Campaign";
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(campaignSource);
+			sb.append(" ");
+			sb.append(campaignMedium);
+			sb.append(" ");
+			sb.append(campaignTerm);
+			sb.append(" ");
+			sb.append(campaignContent);
+			sb.append(" ");
+			sb.append(campaignName);
+
+			String label = sb.toString();
+			
+			sendEventWithLabel(category, action, label);			
+
+		} else {
+			throw new IllegalArgumentException("String in sendGooglePlayCampaignToAnalytics: " + campaignData + " does not contain &");
+			
+		}
+	}
+	
 }

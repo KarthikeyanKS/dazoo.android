@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="117"
-    android:versionName="1.0.117" >
+    android:versionCode="118"
+    android:versionName="1.0.118" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -322,10 +322,9 @@
             </intent-filter>
         </receiver>
         
-        
-        <!-- Used for Google Play Store Campaign Measurement-->;
+        <!-- Used for Google Play Store Campaign Measurement-->
 		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-		<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+		<receiver android:name="com.mitv.broadcastreceivers.CustomGoogleCampaignReceiver"
 		          android:exported="true">
 		  <intent-filter>
 		    <action android:name="com.android.vending.INSTALL_REFERRER" />
