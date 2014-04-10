@@ -49,6 +49,7 @@ public class GetDisqusThreadPosts
 		
 		this.urlParameters.add(Constants.DISQUS_API_THREAD_IDENT_PARAMETER, contentID);
 		this.urlParameters.add(Constants.DISQUS_API_FORUM_PARAMETER, Constants.DISQUS_API_FORUM_NAME);
+		this.urlParameters.add(Constants.DISQUS_API_LIMIT_PARAMETER, Constants.DISQUS_API_LIMIT_VALUE);
 		this.urlParameters.add(Constants.DISQUS_API_FORUM_SECRET_KEY_PARAMETER, Constants.DISQUS_API_FORUM_SECRET_KEY);
 	}
 	

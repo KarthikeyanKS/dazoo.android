@@ -5,15 +5,17 @@ package com.mitv;
 
 import java.io.File;
 import java.util.Map;
-
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
+import com.google.android.gms.analytics.Logger.LogLevel;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.FileUtils;
@@ -66,14 +68,28 @@ public class GATrackingManager
 		return sharedInstance().getTrackerInstance();
 	}
 	
-	private GoogleAnalytics getGoogleAnalyticsInstance() {
+	
+	
+	private GoogleAnalytics getGoogleAnalyticsInstance() 
+	{
+		int isGooglePlayServicesAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+		
+		int googlePlayServicesVersionCode = GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE;
+		
+		Log.d(TAG, "isGooglePlayServicesAvailable result: " + isGooglePlayServicesAvailable + " code: " + googlePlayServicesVersionCode);
+		
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
+		
 		return googleAnalyticsInstance;
 	}
+	
+	
 	
 	public void updateConfiguration() 
 	{
 		GoogleAnalytics googleAnalyticsInstance = getGoogleAnalyticsInstance();
+		
+		googleAnalyticsInstance.getLogger().setLogLevel(LogLevel.WARNING);
 		
 		this.tracker = googleAnalyticsInstance.newTracker(R.xml.analytics);
 		
@@ -108,7 +124,7 @@ public class GATrackingManager
     		/* Set the SAMPLE RATE */
     		tracker.setSampleRate(sampleRateAsPercentage);
 		}
-    		
+       		
 		/* Information regarding if the app was preinstalled or not */
 		
 		/* APP_WAS_PREINSTALLED_SHARED_PREFS is at index 1 */

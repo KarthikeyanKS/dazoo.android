@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import com.mitv.Constants;
 
 
@@ -15,7 +17,6 @@ import com.mitv.Constants;
 public class URLParameters 
 	implements Serializable
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = URLParameters.class.getName();
 	
 	
@@ -40,24 +41,49 @@ public class URLParameters
 			final String header,
 			final String value)
 	{
-		String encodedValue;
-		
-		try 
+		if(value != null)
 		{
-			encodedValue = URLEncoder.encode(value, Constants.HTTP_CORE_DEAFULT_ENCODING);
+			String encodedValue;
 			
-			encodedValue.replace("+", "%20");
-		} 
-		catch (UnsupportedEncodingException ueex) 
-		{
-			ueex.printStackTrace();
+			try 
+			{
+				encodedValue = URLEncoder.encode(value, Constants.HTTP_CORE_DEAFULT_ENCODING);
+				
+				encodedValue.replace("+", "%20");
+			} 
+			catch (UnsupportedEncodingException ueex) 
+			{
+				ueex.printStackTrace();
+				
+				encodedValue = value;
+			}
 			
-			encodedValue = value;
+			URLParameter queryStringParameter = new URLParameter(header, encodedValue);
+			
+			urlParameters.add(queryStringParameter);
 		}
+		else
+		{
+			if(header != null)
+			{
+				Log.w(TAG, "The parameter value for key " + header + " is null and will not be added to urlParameters");
+			}
+			else
+			{
+				Log.w(TAG, "The parameter value is null and will not be added to urlParameters");
+			}
+		}
+	}
+	
+	
+	
+	public void add(
+			final String header,
+			final int value)
+	{
+		Integer valueAsInteger = new Integer(value);
 		
-		URLParameter queryStringParameter = new URLParameter(header, encodedValue);
-		
-		urlParameters.add(queryStringParameter);
+		add(header, valueAsInteger.toString());
 	}
 	
 	

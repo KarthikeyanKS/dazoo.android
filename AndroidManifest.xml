@@ -69,7 +69,7 @@
             android:value="@string/app_id" />
         
         <meta-data android:name="com.google.android.gms.version"
-               android:value="@integer/google_play_services_version"/>
+               	   android:value="@integer/google_play_services_version"/>
         
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
@@ -327,10 +327,10 @@
 		<receiver android:name="com.mitv.broadcastreceivers.CustomGoogleCampaignReceiver"
 		          android:exported="true">
 		  <intent-filter>
-		    <action android:name="com.android.vending.INSTALL_REFERRER" />
+		  	<action android:name="com.android.vending.INSTALL_REFERRER" />
 		  </intent-filter>
 		</receiver>
-        
+
     </application>
     
 </manifest>
