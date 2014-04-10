@@ -87,6 +87,8 @@ public class BroadcastPageActivity
 	private RelativeLayout disqusCommentsLayout;
 	private RelativeLayout disqusLoginToCommentButtonContainer;
 	private WebView webViewDisqusComments;
+	private String webViewDisqusURL;
+	
 	private FontTextView disqusLoginToCommentButton;
 	private FontTextView disqusCommentsHeader;
 	
@@ -105,6 +107,13 @@ public class BroadcastPageActivity
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		initViews();
+		
+		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		
+		if(areDisqusCommentsEnabled == false && Constants.FORCE_ENABLE_DISQUS_COMMENTS == false)
+		{
+			hideDisqusCommentsWebview();
+		}
 	}
 
 	
@@ -135,17 +144,6 @@ public class BroadcastPageActivity
 		}
 
 		updateStatusOfLikeView();
-		
-		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
-		
-		if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS && webViewDisqusComments != null)
-		{
-			webViewDisqusComments.reload();
-		}
-		else
-		{
-			setDisqusCommentsWebview(false, 0);
-		}
 				
 		super.onResume();
 	}
@@ -242,7 +240,6 @@ public class BroadcastPageActivity
 		if (upcomingBroadcasts != null) {
 			upcomingBroadcasts = filterOutEpisodesWithBadData();
 		}
-
 	}
 
 	
@@ -258,14 +255,26 @@ public class BroadcastPageActivity
 				{
 					int totalDisqusPosts = ContentManager.sharedInstance().getDisqusTotalPostsForLatestBroadcast();
 					
-					setDisqusCommentsWebview(true, totalDisqusPosts);
-					setDisqusCommentsURL(broadcastWithChannelInfo);
+					showAndReloadDisqusCommentsWebview(totalDisqusPosts);
+					
 					break;
 				}
 			
 				case BROADCAST_PAGE_DATA: 
 				{
 					handleInitialDataAvailable();
+					
+					boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+					
+					if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS && broadcastWithChannelInfo != null)
+					{
+						String contentID = broadcastWithChannelInfo.getShareUrl();
+						
+						buildDisqusCommentsWebViewURL(broadcastWithChannelInfo);
+						
+						ContentManager.sharedInstance().fetchFromServiceDisqusComments(this, contentID);
+					}
+					
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 					break;
 				}
@@ -276,7 +285,7 @@ public class BroadcastPageActivity
 					break;
 				}
 	
-				default: 
+				default:
 				{
 					Log.d(TAG, "other request");
 					/* do nothing */break;
@@ -289,8 +298,7 @@ public class BroadcastPageActivity
 			{
 				case DISQUS_THREAD_COMMENTS:
 				{
-					setDisqusCommentsWebview(true, 0);
-					setDisqusCommentsURL(broadcastWithChannelInfo);
+					showAndReloadDisqusCommentsWebview(0);
 					break;
 				}
 				
@@ -326,6 +334,7 @@ public class BroadcastPageActivity
 	
 			default: 
 			{
+				hideDisqusCommentsWebview();
 				Log.w(TAG, "updateUI - case not handled");
 				break;
 			}
@@ -360,6 +369,51 @@ public class BroadcastPageActivity
 		
 		upcomingContainer = (RelativeLayout) findViewById(R.id.broacastpage_upcoming);
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
+		
+		disqusCommentsLayout = (RelativeLayout) findViewById(R.id.disqus_comments_layout);
+		webViewDisqusComments = (WebView) findViewById(R.id.disqus_comments_webview);
+		
+		disqusLoginToCommentButtonContainer = (RelativeLayout) findViewById(R.id.disqus_login_to_comment_button_container);
+		
+		disqusLoginToCommentButton = (FontTextView) findViewById(R.id.disqus_login_to_comment_button);
+		disqusCommentsHeader = (FontTextView) findViewById(R.id.disqus_comments_header_text);
+		
+		WebSettings webSettings = webViewDisqusComments.getSettings();
+
+		webSettings.setJavaScriptEnabled(true);
+		webSettings.setBuiltInZoomControls(false);
+
+		webViewDisqusComments.requestFocusFromTouch();
+
+		webViewDisqusComments.setWebViewClient(new WebViewClient()
+		{
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) 
+			{
+				if (HyperLinkUtils.checkIfMatchesDisqusURLOrFrontendURL(url))
+				{
+					return false;
+				}
+				else
+				{
+					Uri uri = Uri.parse(url);
+
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+					startActivity(intent);
+				}
+
+				return false;
+			}
+		});
+
+		webViewDisqusComments.setWebChromeClient(new WebChromeClient() 
+		{
+			public void onConsoleMessage(String message, int lineNumber, String sourceID) 
+			{
+				Log.d(TAG, message + " -- From line " + lineNumber + " of " + sourceID);
+			}
+		});
 	}
 	
 	
@@ -394,19 +448,6 @@ public class BroadcastPageActivity
 			upcomingContainer.setVisibility(View.VISIBLE);
 		} else {
 			upcomingContainer.setVisibility(View.GONE);
-		}
-		
-		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
-		
-		if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS && broadcastWithChannelInfo != null)
-		{
-			String contentID = broadcastWithChannelInfo.getShareUrl();
-			
-			ContentManager.sharedInstance().fetchFromServiceDisqusComments(this, contentID);
-		}
-		else
-		{
-			setDisqusCommentsWebview(false, 0);
 		}
 	}
 
@@ -631,154 +672,109 @@ public class BroadcastPageActivity
 	
 	
 	
-	private void setDisqusCommentsWebview(
-			final boolean enable,
-			final int totalComments)
+	private void hideDisqusCommentsWebview()
 	{
-		disqusCommentsLayout = (RelativeLayout) findViewById(R.id.disqus_comments_layout);
-		webViewDisqusComments = (WebView) findViewById(R.id.disqus_comments_webview);
-		
-		disqusLoginToCommentButtonContainer = (RelativeLayout) findViewById(R.id.disqus_login_to_comment_button_container);
-		
-		disqusLoginToCommentButton = (FontTextView) findViewById(R.id.disqus_login_to_comment_button);
-		disqusCommentsHeader = (FontTextView) findViewById(R.id.disqus_comments_header_text);
-				
-		if(enable)
+		disqusCommentsLayout.setVisibility(View.GONE);
+	}
+	
+	
+	
+	private void showAndReloadDisqusCommentsWebview(final int totalComments)
+	{		
+		disqusCommentsLayout.setVisibility(View.VISIBLE);
+
+		disqusLoginToCommentButtonContainer.setVisibility(View.GONE);
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(getString(R.string.disqus_comments_header_title));
+
+		Boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+
+		if(isUserLoggedIn)
 		{
-			disqusCommentsLayout.setVisibility(View.VISIBLE);
-			
-			disqusLoginToCommentButtonContainer.setVisibility(View.GONE);
-			
-			StringBuilder sb = new StringBuilder();
-			
-			sb.append(getString(R.string.disqus_comments_header_title));
-			
-			Boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-			
-			if(isUserLoggedIn)
-			{
-				disqusLoginToCommentButton.setVisibility(View.GONE);
-				
-				disqusCommentsHeader.setText(sb.toString());
-				
-				webViewDisqusComments.setVisibility(View.VISIBLE);
-				
-				WebSettings webSettings = webViewDisqusComments.getSettings();
-				
-				webSettings.setJavaScriptEnabled(true);
-				webSettings.setBuiltInZoomControls(false);
-				webViewDisqusComments.requestFocusFromTouch();
-				
-				webViewDisqusComments.setWebViewClient(new WebViewClient()
-				{
-					@Override
-		            public boolean shouldOverrideUrlLoading(WebView view, String url) 
-					{
-				        if (HyperLinkUtils.checkIfMatchesDisqusURL(url))
-				        {
-				            return false;
-				        } 
-				        else
-				        {
-				        	Uri uri = Uri.parse(url);
-				        	
-				        	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				        	
-				            startActivity(intent);
-				        }
-				        
-				        return false;
-		            }
-				});
-				
-				webViewDisqusComments.setWebChromeClient(new WebChromeClient() 
-				{
-					  public void onConsoleMessage(String message, int lineNumber, String sourceID) 
-					  {
-					    Log.d(TAG, message + " -- From line " + lineNumber + " of " + sourceID);
-					  }
-				});
-			}
-			else
-			{
-				webViewDisqusComments.setVisibility(View.GONE);
-				
-				disqusLoginToCommentButtonContainer.setVisibility(View.VISIBLE);
-				
-				disqusLoginToCommentButtonContainer.setOnClickListener(this);
-				
-				if(totalComments > 0)
-				{
-					sb.append(" (");
-					sb.append(totalComments);
-					sb.append(")");
-				}
-				
-				disqusCommentsHeader.setText(sb.toString());
-			}
+			disqusLoginToCommentButton.setVisibility(View.GONE);
+
+			disqusCommentsHeader.setText(sb.toString());
+
+			webViewDisqusComments.setVisibility(View.VISIBLE);			
 		}
 		else
 		{
-			disqusCommentsLayout.setVisibility(View.GONE);
+			webViewDisqusComments.setVisibility(View.GONE);
+
+			disqusLoginToCommentButtonContainer.setVisibility(View.VISIBLE);
+
+			disqusLoginToCommentButtonContainer.setOnClickListener(this);
+
+			if(totalComments > 0)
+			{
+				sb.append(" (");
+				sb.append(totalComments);
+				sb.append(")");
+			}
+			else if(totalComments >= Constants.DISQUS_API_LIMIT_VALUE)
+			{
+				sb.append(" (");
+				sb.append(Constants.DISQUS_API_LIMIT_VALUE);
+				sb.append("+)");
+			}
+
+			disqusCommentsHeader.setText(sb.toString());
+		}
+		
+		if(webViewDisqusURL != null && webViewDisqusURL.isEmpty() == false)
+		{
+			webViewDisqusComments.loadUrl(webViewDisqusURL);
+		}
+		else
+		{
+			webViewDisqusComments.reload();
 		}
 	}
 	
 	
 	
-	private void setDisqusCommentsURL(final TVBroadcastWithChannelInfo tvBroadcast)
+	private void buildDisqusCommentsWebViewURL(final TVBroadcastWithChannelInfo tvBroadcast)
 	{
-		Locale locale = LanguageUtils.getCurrentLocale();
-		String contentID = tvBroadcast.getShareUrl();
-		String title = tvBroadcast.getTitle();
-		String url = tvBroadcast.getShareUrl();
-		
-		boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		String userID;
-		String username;
-		String userEmail;
-		String userImage;
-		
-		if(isUserLoggedIn)
+		if(tvBroadcast != null)
 		{
-			userID = ContentManager.sharedInstance().getFromCacheUserId();
-			username = ContentManager.sharedInstance().getFromCacheUserFirstname();
-			userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
-			userImage = ContentManager.sharedInstance().getFromCacheUserProfileImage();
+			Locale locale = LanguageUtils.getCurrentLocale();
+			
+			String title = tvBroadcast.getTitle();
+			String contentID = tvBroadcast.getShareUrl();
+			String url = tvBroadcast.getShareUrl();
+			
+			URLParameters urlParameters = new URLParameters();
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_LANGUAGE, locale.toString());
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE, title);
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER, contentID);
+			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_URL, url);
+			
+			boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+			
+			if(isUserLoggedIn)
+			{
+				String userID = ContentManager.sharedInstance().getFromCacheUserId();
+				String username = ContentManager.sharedInstance().getFromCacheUserFirstname();
+				String userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
+				String userImage = ContentManager.sharedInstance().getFromCacheUserProfileImage();
+				
+				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_ID, userID);
+				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_NAME, username);
+				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_EMAIL, userEmail);
+				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE, userImage);
+			}
+			
+			StringBuilder urlSB = new StringBuilder();
+			urlSB.append(Constants.DISQUS_COMMENTS_PAGE_URL);
+			urlSB.append(urlParameters.toString());
+			
+			webViewDisqusURL = urlSB.toString();
 		}
 		else
 		{
-			userID = null;
-			username = null;
-			userEmail = null;
-			userImage = null;
-		}
-		
-		URLParameters urlParameters = new URLParameters();
-		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_LANGUAGE, locale.toString());
-		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE, title);
-		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER, contentID);
-		urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_URL, url);
-		
-		if(isUserLoggedIn)
-		{
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_ID, userID);
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_NAME, username);
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_EMAIL, userEmail);
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE, userImage);
-		}
-		
-		StringBuilder urlSB = new StringBuilder();
-		urlSB.append(Constants.DISQUS_COMMENTS_PAGE_URL);
-		urlSB.append(urlParameters.toString());
-		
-		if(webViewDisqusComments != null)
-		{
-			webViewDisqusComments.loadUrl(urlSB.toString());
-		}
-		else
-		{
-			Log.w(TAG, "Disqus webview is null.");
+			Log.w(TAG, "TVBroadcast is null. Disqus URL will not be built");
 		}
 	}
 	

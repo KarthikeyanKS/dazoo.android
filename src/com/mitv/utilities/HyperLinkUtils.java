@@ -50,12 +50,15 @@ public class HyperLinkUtils {
 	
 
 	
-	public static boolean checkIfMatchesDisqusURL(final String url)
+	public static boolean checkIfMatchesDisqusURLOrFrontendURL(final String url)
 	{
-		boolean matchesLoadedURL = false;
+		boolean matchesDisqusURLOrFrontendURL = false;
+		
+		boolean matchesDisqusURL = false;
+		boolean isFrontendURL = false;
 		
 		if (url != null && 
-				url.isEmpty() == false)
+			url.isEmpty() == false)
 		{
 			int lastCharacterPosition = url.length()-1;
 			
@@ -72,9 +75,13 @@ public class HyperLinkUtils {
 				urlWithoutLastSlash = url;
 			}
 
-			matchesLoadedURL = Constants.DISQUS_COMMENTS_PAGE_URL.equalsIgnoreCase(urlWithoutLastSlash);
+			matchesDisqusURL = urlWithoutLastSlash.equalsIgnoreCase(Constants.DISQUS_COMMENTS_PAGE_URL);
+			
+			isFrontendURL = urlWithoutLastSlash.startsWith(Constants.URL_FRONTEND_ENVIRONMENT);
+			
+			matchesDisqusURLOrFrontendURL = (matchesDisqusURL || isFrontendURL);
 		}
 		
-		return matchesLoadedURL;
+		return matchesDisqusURLOrFrontendURL;
 	}
 }
