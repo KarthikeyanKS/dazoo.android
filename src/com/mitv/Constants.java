@@ -529,6 +529,8 @@ public abstract class Constants
 	public static final String DISQUS_API_THREAD_POSTS = "/threads/listPosts";
 	public static final String DISQUS_API_REQUESTS_OUTPUT_TYPE = "json";
 	public static final String DISQUS_API_FORUM_PARAMETER = "forum";
+	public static final String DISQUS_API_LIMIT_PARAMETER = "limit";
+	public static final int DISQUS_API_LIMIT_VALUE = 25;
 	public static final String DISQUS_API_THREAD_IDENT_PARAMETER = "thread:ident";
 	public static final String DISQUS_API_FORUM_SECRET_KEY_PARAMETER = "api_secret";
 	public static final String DISQUS_API_FORUM_NAME = "mitvexample";
