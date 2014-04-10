@@ -32,6 +32,7 @@ import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.SwipeClockBar;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -80,19 +81,25 @@ public class TVGuideTableFragment
 	
 	
 	
-	private void updateSwipeClockBarWithDayAndTime() 
-	{
-		if(swipeClockBar != null) 
-		{
+	private void updateSwipeClockBarWithDayAndTime() {
+		if (swipeClockBar != null) {
 			isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
-			
-			if(isToday) 
-			{
-				hour = ContentManager.sharedInstance().getFromCacheSelectedHour();
-			} 
-			else 
-			{
-				hour = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+			int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+
+			if (isToday) {
+				/* If today, default to currentHour */
+				hour = currentHour;
+				if (selectedHour != null && selectedHour >= currentHour) {
+					hour = selectedHour;
+				}
+			} else {
+				if (selectedHour != null) {
+					hour = selectedHour;
+				} else {
+					hour = firstHourOfTVDay;
+				}
 			}
 
 			swipeClockBar.setHour(hour);

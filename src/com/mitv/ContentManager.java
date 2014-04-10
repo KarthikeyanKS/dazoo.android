@@ -1922,15 +1922,9 @@ public class ContentManager
 		return getFromCacheTaggedBroadcastsUsingTVDate(tvDate);
 	}
 	
-	public int getFromCacheSelectedHour() {
-		int selectedHourAsInt;
+	public Integer getFromCacheSelectedHour() {
 		Integer selectedHour = getCache().getNonPersistentSelectedHour();
-		if(selectedHour != null) {
-			selectedHourAsInt = selectedHour.intValue();
-		} else {
-			selectedHourAsInt = DateUtils.getCurrentHourOn24HourFormat();
-		}
-		return selectedHourAsInt;
+		return selectedHour;
 	}
 	
 	public void setSelectedHour(Integer selectedHour) {

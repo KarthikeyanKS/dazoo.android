@@ -175,7 +175,6 @@ public class TVGuideListAdapter
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
 				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
-				ContentManager.sharedInstance().setSelectedHour(currentHour);
 				activity.startActivity(intent);
 			}
 		});

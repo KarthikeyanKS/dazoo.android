@@ -273,11 +273,6 @@ public abstract class BaseActivity
 	
 	private void handleTimeAndDayOnResume() 
 	{
-		/* Handle time */
-		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
-		
-		ContentManager.sharedInstance().setSelectedHour(currentHour);
-
 		/* Handle day */
 		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
 		
