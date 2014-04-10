@@ -69,7 +69,7 @@
             android:value="@string/app_id" />
         
         <meta-data android:name="com.google.android.gms.version"
-               android:value="@integer/google_play_services_version"/>
+               	   android:value="@integer/google_play_services_version"/>
         
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
@@ -323,15 +323,27 @@
         </receiver>
         
         
-        <!-- Used for Google Play Store Campaign Measurement-->;
-		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-		<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-		          android:exported="true">
+        <!-- Used for Google Play Store Campaign Measurement V4 -->
+<!-- 		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" /> -->
+<!-- 		<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver" -->
+<!-- 		          android:exported="true" -->
+<!-- 		          android:enabled="true"> -->
+<!-- 		  <intent-filter> -->
+<!-- 		  	<action android:name="com.android.vending.INSTALL_REFERRER" /> -->
+<!-- 		  </intent-filter> -->
+<!-- 		</receiver> -->
+		
+		
+		<!-- Used for Google Play Store Campaign Measurement V3 -->
+		<service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
+		<receiver android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver" 
+		    	 android:enabled="true"
+		    	 android:exported="true">
 		  <intent-filter>
-		    <action android:name="com.android.vending.INSTALL_REFERRER" />
+		  	<action android:name="com.android.vending.INSTALL_REFERRER" />
 		  </intent-filter>
 		</receiver>
-        
+
     </application>
     
 </manifest>

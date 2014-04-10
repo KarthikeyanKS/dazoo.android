@@ -134,21 +134,19 @@ public class BroadcastPageActivity
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
+		updateStatusOfLikeView();
+		
 		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
 		
-		if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS)
+		if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS && webViewDisqusComments != null)
 		{
-			String contentID = broadcastWithChannelInfo.getShareUrl();
-			
-			ContentManager.sharedInstance().fetchFromServiceDisqusComments(this, contentID);
+			webViewDisqusComments.reload();
 		}
 		else
 		{
 			setDisqusCommentsWebview(false, 0);
 		}
-		
-		updateStatusOfLikeView();
-
+				
 		super.onResume();
 	}
 			
@@ -396,6 +394,19 @@ public class BroadcastPageActivity
 			upcomingContainer.setVisibility(View.VISIBLE);
 		} else {
 			upcomingContainer.setVisibility(View.GONE);
+		}
+		
+		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		
+		if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS && broadcastWithChannelInfo != null)
+		{
+			String contentID = broadcastWithChannelInfo.getShareUrl();
+			
+			ContentManager.sharedInstance().fetchFromServiceDisqusComments(this, contentID);
+		}
+		else
+		{
+			setDisqusCommentsWebview(false, 0);
 		}
 	}
 
