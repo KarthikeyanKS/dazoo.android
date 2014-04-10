@@ -14,11 +14,11 @@ import com.google.gson.JsonSyntaxException;
 import com.mitv.Constants;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.http.HTTPCoreResponse;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVProgram;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVProgram;
 
 /**
  * This class tests the fetched upcoming broadcasts from series. Returns a list of fields from broadcast, channel object and program object.
