@@ -289,18 +289,15 @@ public abstract class BaseActivity
 		} 
 	}
 	
-	/* TODO REMOVE ME*/
-	private void sendToastMessageWhenRestart(String message) {
-		ToastHelper.createAndShowLongToast(message);
-	}
-
 	
-	private void killAllActivitiesIncludingThis() {
+	private void killAllActivitiesIncludingThis() 
+	{
 		for(Activity activity : activityStack) {
 			activity.finish();
 		}
 	}
 
+	
 	private int getIndexOfTodayFromTVDates() {
 		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
 

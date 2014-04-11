@@ -551,6 +551,7 @@ public abstract class Constants
 	public static final String DISQUS_API_URL = "https://disqus.com/api";
 	public static final String DISQUS_API_VERSION = "3.0";
 	public static final String DISQUS_API_THREAD_POSTS = "/threads/listPosts";
+	public static final String DISQUS_API_THREAD_DETAILS = "/threads/details";
 	public static final String DISQUS_API_REQUESTS_OUTPUT_TYPE = "json";
 	public static final String DISQUS_API_FORUM_PARAMETER = "forum";
 	public static final String DISQUS_API_LIMIT_PARAMETER = "limit";

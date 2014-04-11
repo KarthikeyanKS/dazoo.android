@@ -72,12 +72,6 @@ public class GATrackingManager
 	
 	private GoogleAnalytics getGoogleAnalyticsInstance() 
 	{
-		int isGooglePlayServicesAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
-		
-		int googlePlayServicesVersionCode = GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE;
-		
-		Log.d(TAG, "isGooglePlayServicesAvailable result: " + isGooglePlayServicesAvailable + " code: " + googlePlayServicesVersionCode);
-		
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
 		
 		return googleAnalyticsInstance;

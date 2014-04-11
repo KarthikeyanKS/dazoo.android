@@ -251,7 +251,7 @@ public class BroadcastPageActivity
 		{
 			switch (requestIdentifier) 
 			{
-				case DISQUS_THREAD_COMMENTS:
+				case DISQUS_THREAD_DETAILS:
 				{
 					int totalDisqusPosts = ContentManager.sharedInstance().getDisqusTotalPostsForLatestBroadcast();
 					
@@ -272,7 +272,7 @@ public class BroadcastPageActivity
 						
 						buildDisqusCommentsWebViewURL(broadcastWithChannelInfo);
 						
-						ContentManager.sharedInstance().fetchFromServiceDisqusComments(this, contentID);
+						ContentManager.sharedInstance().fetchFromServiceDisqusThreadDetails(this, contentID);
 					}
 					
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
@@ -712,12 +712,6 @@ public class BroadcastPageActivity
 				sb.append(" (");
 				sb.append(totalComments);
 				sb.append(")");
-			}
-			else if(totalComments >= Constants.DISQUS_API_LIMIT_VALUE)
-			{
-				sb.append(" (");
-				sb.append(Constants.DISQUS_API_LIMIT_VALUE);
-				sb.append("+)");
 			}
 
 			disqusCommentsHeader.setText(sb.toString());

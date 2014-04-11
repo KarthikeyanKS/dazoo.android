@@ -33,6 +33,8 @@ public enum FetchRequestResultEnum
 
    INTERNET_CONNECTION_NOT_AVAILABLE(1003, "Internet connection available"),
    
+   JSON_PARSING_ERROR(1009, "Error parsing json"),
+   
    /** 
     * DO NOT change the string on these request enumerations. Those are NOT real errors returned by the server.
     * The string is used in comparison to the response string.
