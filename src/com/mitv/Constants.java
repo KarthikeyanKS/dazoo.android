@@ -261,11 +261,6 @@ public abstract class Constants
 	public static final String	BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
 	public static final String	BROADCAST_SHARE_URL							= "shareUrl";
 
-	public static final String	BROADCAST_TYPE_RERUN							= "RERUN";
-	public static final String	BROADCAST_TYPE_LIVE							= "LIVE";
-	public static final String	BROADCAST_TYPE_OTHER							= "OTHER";
-	public static final String	BROADCAST_TYPE_RECORDED						= "RECORDED";
-
 	/* CHANNEL fields */
 	public static final String	CHANNEL_CHANNEL_ID							= "channelId";
 	public static final String	CHANNEL_NAME									= "name";
