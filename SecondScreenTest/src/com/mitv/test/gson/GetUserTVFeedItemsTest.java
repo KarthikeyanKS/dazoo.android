@@ -20,8 +20,8 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.models.TVFeedItem;
-import com.mitv.models.UserLoginData;
+import com.mitv.models.objects.mitvapi.TVFeedItem;
+import com.mitv.models.objects.mitvapi.UserLoginData;
 
 
 

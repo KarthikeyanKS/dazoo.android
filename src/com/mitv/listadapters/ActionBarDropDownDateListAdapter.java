@@ -129,7 +129,6 @@ public class ActionBarDropDownDateListAdapter
 			
 			if (position == 6) 
 			{
-				Log.d("mmm", "make border visible " + position);
 				lastDividerDropdownDates.setVisibility(View.VISIBLE);
 			}
 			

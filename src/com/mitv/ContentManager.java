@@ -2126,6 +2126,8 @@ public class ContentManager
 		
 		clearUserCache();
 		
+		GATrackingManager.sharedInstance().setUserIdOnTrackerAndSendSignedOut();
+		
 		if(isSessionExpiredLogout == false)
 		{
 			apiClient.performUserLogout(activityCallbackListener);

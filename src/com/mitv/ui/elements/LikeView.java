@@ -98,7 +98,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		
 		setImageToNotLiked();
 		
-		GATrackingManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, true);
+		GATrackingManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
 	}
 	
 	
@@ -110,7 +110,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		
 		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
 
-		GATrackingManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, false);
+		GATrackingManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, false);
 	}
 
 	
