@@ -13,7 +13,7 @@ import org.junit.Test;
 import com.google.gson.Gson;
 import com.mitv.Constants;
 import com.mitv.http.HTTPCoreResponse;
-import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.TVDate;
 
 /**
  * This class tests the fetched dates. Returns a list of date objects.

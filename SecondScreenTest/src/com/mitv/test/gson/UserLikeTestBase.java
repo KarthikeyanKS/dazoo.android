@@ -5,6 +5,7 @@ package com.mitv.test.gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.util.Log;
 
@@ -16,11 +17,11 @@ import com.mitv.enums.LikeTypeRequestEnum;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVProgram;
+import com.mitv.models.UserLike;
 import com.mitv.models.gson.serialization.UserLikeData;
-import com.mitv.models.objects.mitvapi.TVBroadcast;
-import com.mitv.models.objects.mitvapi.TVChannelGuide;
-import com.mitv.models.objects.mitvapi.TVProgram;
-import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.RandomNumberUtils;
 
 

@@ -11,13 +11,13 @@ import org.junit.Test;
 
 import android.test.InstrumentationTestCase;
 
-import com.mitv.asynctasks.mitvapi.GetTVSearchResults;
+import com.mitv.asynctasks.GetTVSearchResults;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
-import com.mitv.models.objects.mitvapi.TVSearchResults;
+import com.mitv.models.SearchResultsForQuery;
+import com.mitv.models.TVSearchResults;
 
 
 

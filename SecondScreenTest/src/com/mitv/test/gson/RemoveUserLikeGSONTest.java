@@ -14,9 +14,9 @@ import com.mitv.enums.LikeTypeRequestEnum;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.models.objects.mitvapi.TVBroadcast;
-import com.mitv.models.objects.mitvapi.TVChannelGuide;
-import com.mitv.models.objects.mitvapi.TVProgram;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVProgram;
 
 
 

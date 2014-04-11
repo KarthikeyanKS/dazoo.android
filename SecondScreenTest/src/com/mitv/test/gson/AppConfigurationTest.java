@@ -16,7 +16,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.HTTPCoreResponse;
-import com.mitv.models.objects.mitvapi.AppConfiguration;
+import com.mitv.models.AppConfiguration;
 
 
 

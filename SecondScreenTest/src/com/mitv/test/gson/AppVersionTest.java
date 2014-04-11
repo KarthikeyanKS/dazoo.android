@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.HTTPCoreResponse;
-import com.mitv.models.gson.mitvapi.AppVersionJSON;
+import com.mitv.models.gson.AppVersionJSON;
 
 
 

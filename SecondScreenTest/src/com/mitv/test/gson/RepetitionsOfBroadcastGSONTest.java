@@ -13,10 +13,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.mitv.Constants;
 import com.mitv.http.HTTPCoreResponse;
-import com.mitv.models.objects.mitvapi.TVBroadcast;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.TVChannelGuide;
-import com.mitv.models.objects.mitvapi.TVProgram;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVProgram;
 
 /**
  * This class tests the fetch broadcasts from program with channel info. Returns a list of fields from broadcast and channel object.

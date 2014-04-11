@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
@@ -108,6 +109,7 @@ public class TVHolderFragment
 		if(viewPagerIndexChangedListener != null)
 		{
 			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+			GATrackingManager.sharedInstance().sendUserTagSelectionEvent(pos);
 		}
 		else
 		{

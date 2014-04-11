@@ -17,8 +17,8 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.models.gson.mitvapi.TVSearchResultsJSON;
-import com.mitv.models.objects.mitvapi.TVSearchResults;
+import com.mitv.models.TVSearchResults;
+import com.mitv.models.gson.TVSearchResultsJSON;
 import com.mitv.utilities.RegularExpressionUtils;
 
 
@@ -38,6 +38,7 @@ public class TVSearchGSONTest
 		URLParameters urlParameters = new URLParameters();
 		
 		StringBuilder querystringValueSB = new StringBuilder();
+		wordToSearchFor = RegularExpressionUtils.escapeSpaceChars(wordToSearchFor);
 		wordToSearchFor = wordToSearchFor.trim();
 		querystringValueSB.append(wordToSearchFor);
 		

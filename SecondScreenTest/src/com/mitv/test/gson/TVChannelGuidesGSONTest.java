@@ -15,10 +15,10 @@ import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.URLParameters;
-import com.mitv.models.objects.mitvapi.TVBroadcast;
-import com.mitv.models.objects.mitvapi.TVChannelGuide;
-import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVChannelId;
+import com.mitv.models.TVDate;
 
 /**
  * This class tests the fetching Guide data. Returns a list of objects containing fields from channel, list of broadcasts (with fields from broadcast and program object).

@@ -94,7 +94,7 @@ public abstract class GenericUtils
 		activity.startActivity(chooserIntent);
 		
 		/* Send sharing event to Google Analytics */
-		GATrackingManager.sharedInstance().sendUserSharedEvent(broadcast);
+		GATrackingManager.sharedInstance().sendUserSharedEvent(activity, broadcast);
 	}
 	
 

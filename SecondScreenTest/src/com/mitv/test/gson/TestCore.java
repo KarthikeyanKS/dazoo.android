@@ -29,7 +29,7 @@ public abstract class TestCore
 	
 	
 	protected static final int YEAR_OF_2000 = 2000;
-	protected static final String DEFAULT_TEST_USER_EMAIL = "junit_test@test.test";
+	protected static final String DEFAULT_TEST_USER_EMAIL = "junit_test@mi.tv";
 	protected static final String DEFAULT_TEST_USER_PASSWORD = "junit_test";
 	protected static final String DEFAULT_TEST_USER_FACEBOOK_TOKEN = "CAADx1RnSnyQBAKfO3m8ZALzlwa9O9ybGfH4nmM0BAW3zN2uWSecJZBURfspqZBYKZAQ2ZCATjcUFZCkxyr2ARZCIxsAQ67u63JtrL80oKZBvsRCTY0dqfebDUuPZBevROWPZCJyWutPOAq0ZAie2Spk6SgZBzd7OxBV80ejFs9Up6MqAFutYMeoSSEtD7iZCCqFwiGm4Ej8uKmP6hsMoGaeYfkwqazfZCHLxDYfDvR9SGqNFQ0oQZDZD";
 	protected static final String DEFAULT_NEW_TEST_USER_EMAIL_PREFIX = "junit_test_";

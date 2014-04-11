@@ -319,7 +319,6 @@ public class SecondScreenApplication
 				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
 					
 					/* Get calendar from the string lastOpenApp */
-					Log.d("mmm", "Date format: " + lastOpenApp);
 					Calendar cal = getDateUserLastOpenApp(lastOpenApp);
 					
 					/* 

@@ -2,6 +2,9 @@ package com.mitv.ui.elements;
 
 import java.util.Locale;
 
+import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Handler;
@@ -99,6 +102,8 @@ public class VerticalSeekBar extends SeekBar {
 				}
 			}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
 			swipeClockBar.dehighlightClockbar();
+
+			GATrackingManager.sharedInstance().sendUserHourSelectionEvent();
 			break;
 		}
 		case MotionEvent.ACTION_CANCEL: {
