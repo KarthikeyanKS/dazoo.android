@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.interfaces.MyChannelsCountInterface;
@@ -36,6 +37,7 @@ extends BaseAdapter
 	private LayoutInflater layoutInflater;
 	private ArrayList<TVChannel> channelsMatchingSearch;
 	private ArrayList<TVChannelId> checkedChannelIds;
+	private String searchQuery;
 
 	private MyChannelsCountInterface mCountInterface;
 
@@ -47,8 +49,9 @@ extends BaseAdapter
 		layoutInflater = (LayoutInflater) SecondScreenApplication.sharedInstance().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setChannelsMatchingSearchAndRefreshAdapter(ArrayList<TVChannel> channelsMatchingSearch) {
+	public void setChannelsMatchingSearchAndRefreshAdapter(String searchQuery, ArrayList<TVChannel> channelsMatchingSearch) {
 		this.channelsMatchingSearch = channelsMatchingSearch;
+		this.searchQuery = searchQuery;
 		notifyDataSetChanged();
 	}
 
@@ -134,6 +137,8 @@ extends BaseAdapter
 						holder.buttonTv.setText("✓ " + resources.getString(R.string.agregado)); //TODO: Update icon when it is in font.
 						holder.button.setBackgroundResource(R.drawable.layout_rounded_corners_blue0);
 					}
+
+					GATrackingManager.sharedInstance().sendUserChannelSearchResultClickedEvent(searchQuery, channelByTag.getName(), checked);
 					int checkedChannelsCount = checkedChannelIds.size();
 					mCountInterface.setSelectedChannelCount(checkedChannelsCount);
 				}

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
@@ -155,7 +156,7 @@ public class FeedListAdapter
 	public void populatePopularItemAtIndex(
 			PopularBroadcastsViewHolder viewHolder, 
 			ArrayList<TVBroadcastWithChannelInfo> broadcasts, 
-			int popularRowIndex) 
+			final int popularRowIndex) 
 	{
 		ImageView imageView = null;
 		TextView title = null;
@@ -306,7 +307,7 @@ public class FeedListAdapter
 					@Override
 					public void onClick(View v) 
 					{
-						popularBroadcastClicked(broadcast);
+						popularBroadcastClicked(FeedItemTypeEnum.POPULAR_BROADCASTS, broadcast, popularRowIndex);
 					}
 				});
 			}
@@ -500,7 +501,7 @@ public class FeedListAdapter
 				}
 			}
 			
-			FeedItemTypeEnum feedItemType = feedItem.getItemType();
+			final FeedItemTypeEnum feedItemType = feedItem.getItemType();
 			
 			switch (feedItemType) 
 			{
@@ -540,7 +541,7 @@ public class FeedListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					popularBroadcastClicked(broadcast);
+					popularBroadcastClicked(feedItemType, broadcast, 0);
 				}
 			});
 
@@ -627,8 +628,9 @@ public class FeedListAdapter
 	
 	
 	
-	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
+	private void popularBroadcastClicked(FeedItemTypeEnum feedItemType, TVBroadcastWithChannelInfo broadcastWithChannelInfo, int index) 
 	{
+		GATrackingManager.sharedInstance().sendUserFeedItemPressedEvent(feedItemType, broadcastWithChannelInfo, index);
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 		
 		Intent intent = new Intent(activity, BroadcastPageActivity.class);

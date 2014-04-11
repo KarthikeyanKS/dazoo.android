@@ -7,12 +7,14 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.google.android.gms.analytics.Logger.LogLevel;
 import com.google.android.gms.analytics.Tracker;
+import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
@@ -63,7 +65,7 @@ public class GATrackingManager
 	private GoogleAnalytics getGoogleAnalyticsInstance() 
 	{
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
-		
+
 		return googleAnalyticsInstance;
 	}
 
@@ -71,9 +73,9 @@ public class GATrackingManager
 	public void updateConfiguration() 
 	{
 		GoogleAnalytics googleAnalyticsInstance = getGoogleAnalyticsInstance();
-		
+
 		googleAnalyticsInstance.getLogger().setLogLevel(LogLevel.WARNING);
-		
+
 		this.tracker = googleAnalyticsInstance.newTracker(R.xml.analytics);
 
 		boolean cacheHasAppConfiguration = ContentManager.sharedInstance().getFromCacheHasAppConfiguration();
@@ -166,7 +168,7 @@ public class GATrackingManager
 		String action = actionBase;
 		if (actionBase != null && activity != null) {
 			String activityName = activity.getClass().getSimpleName();
-			StringBuilder sb = new StringBuilder(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE);
+			StringBuilder sb = new StringBuilder(actionBase);
 			sb.append("_").append(activityName);
 			action = sb.toString();
 		}
@@ -223,10 +225,25 @@ public class GATrackingManager
 		}
 	}
 
-	public void sendUserHourSelectionEvent() {
+	public void sendUserHourSelectionEvent(int lastSelectedHour) {
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
-			sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, selectedHour.toString());
+			int selectedHourInt = selectedHour.intValue();
+
+			int timeDiff = Math.abs(selectedHourInt - lastSelectedHour);
+			
+			StringBuilder sb = new StringBuilder();
+			if(selectedHourInt < lastSelectedHour) {
+				sb.append(timeDiff).append("H_BACK_IN_TIME");
+			} else if(selectedHourInt > lastSelectedHour) {
+				sb.append(timeDiff).append("H_FORWARD_IN_TIME");
+			} else {
+				sb.append("SAME_HOUR");
+			}
+			
+			String label = sb.toString();
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)selectedHour);
 		}
 	}
 
@@ -247,6 +264,131 @@ public class GATrackingManager
 			String dateString = sb.toString();
 			sendUserEventWithLabelAndValue(action, dateString, (long) dayIndex);
 		}
+	}
+
+	public void sendUserPressedMenuButtonEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_HARDWARE_BUTTON_MENU_PRESS);
+	}
+	
+	public void sendUserPressedUserProfilePageTopViewEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_USER_PROFILE_TOP_VIEW_PRESS);
+	}
+	
+	public void sendUserPressedAddMoreChannelsCell() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_ADD_MORE_CHANNELS_CELL_PRESS);
+	}
+	
+	public void sendUserPressedSearchButtonOnKeyBoard() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_SEARCH_KEYBOARD_BUTTON_PRESS);
+	}
+	
+	public void sendUserPressedLikeInLikesActivity() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_LIKE_IN_LIKES_ACTIVITY_PRESS);
+	}
+	
+	public void sendUserPressedChannelInMyChannelsActivity() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_MY_CHANNELS_PRESS);
+	}
+	
+	public void sendUserFeedListScrolledToItemAtIndexEvent(int feedItemIndex, boolean scrollDown) {
+		String scrollDirection;
+		if(scrollDown) {
+			scrollDirection = "SCROLLED_DOWN";
+		} else {
+
+			scrollDirection = "SCROLLED_UP";
+		}
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_FEED_LIST_SCROLLED, scrollDirection, (long)feedItemIndex);
+	}
+
+	public void sendUserFeedItemPressedEvent(FeedItemTypeEnum feedItemType, TVBroadcast broadcast, int indexIfMultiplePopularItemCell) {
+		String broadcastTitle = broadcast.getTitle();
+
+		switch (feedItemType) {
+		case POPULAR_BROADCAST: {
+			sendUserFeedItemPopularBroadcastPressedEvent(broadcastTitle);
+			break;
+		}
+		case POPULAR_BROADCASTS: {
+			sendUserFeedItemPopularBroadcastsPressedEvent(broadcastTitle, indexIfMultiplePopularItemCell);
+			break;
+		}
+		case POPULAR_TWITTER: {
+			sendUserFeedItemTwitterPressedEvent(broadcastTitle);
+			break;
+		}
+		case RECOMMENDED_BROADCAST: {
+			sendUserFeedItemRecommendedPressedEvent(broadcastTitle);
+			break;
+		}
+		case BROADCAST: {
+			/* Is this always "Te gustan" ("You like") feed items */
+			sendUserFeedItemYouLikePressedEvent(broadcastTitle);
+			break;
+		}
+		default: {
+			/* Do nothing */
+			break;
+		}
+		}
+	}
+
+	private void sendUserFeedItemPopularBroadcastPressedEvent(String broadcastTitle) {
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_FEED_ITEM_POPULAR_SINGLE, broadcastTitle);
+	}
+
+	private void sendUserFeedItemPopularBroadcastsPressedEvent(String broadcastTitle, int indexIfMultiplePopularItemCell) {
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_FEED_ITEM_POPULAR_MULTIPLE, broadcastTitle, (long) indexIfMultiplePopularItemCell);
+	}
+	
+	private void sendUserFeedItemTwitterPressedEvent(String broadcastTitle) {
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_FEED_ITEM_TWITTER, broadcastTitle);
+	}
+	
+	private void sendUserFeedItemRecommendedPressedEvent(String broadcastTitle) {
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_FEED_ITEM_RECOMMENDED, broadcastTitle);
+	}
+	
+	private void sendUserFeedItemYouLikePressedEvent(String broadcastTitle) {
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_FEED_ITEM_YOU_LIKE, broadcastTitle);
+	}
+
+	public void sendUserSearchResultPressedEvent(String searchQuery, String hitName, int position) {
+		StringBuilder sb = new StringBuilder("Query:\"");
+		sb.append(searchQuery)
+		.append("\", Clicked:\"")
+		.append(hitName)
+		.append("\"");
+		
+		
+		String label = sb.toString();
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_SEARCH_RESULT_PRESS, label, (long)position);
+	}
+	
+	public void sendUserChannelSearchResultClickedEvent(String searchQuery, String hitName, boolean didJustRemovedChannel) {
+		StringBuilder sb = new StringBuilder("Query:\"");
+		sb.append(searchQuery)
+		.append("\", Clicked:\"")
+		.append(hitName)
+		.append("\"");
+		
+		String label = sb.toString();
+		
+		Long addedChannel = 1L;
+		if (didJustRemovedChannel) {
+			addedChannel = 0L;
+		}
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH_RESULT_PRESS, label, addedChannel);
+	}
+	
+	public void sendUserSearchEvent(String searchQuery) {
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_SEARCH, searchQuery);
+	}
+	
+	public void sendUserMyChannelsPageSearchEvent(String searchedChannel) {
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH, searchedChannel);
 	}
 
 	/* Methods for sending GA Events */
@@ -289,6 +431,8 @@ public class GATrackingManager
 		if (setValue) {
 			eventBuilder.setValue(value);
 		}
+
+		Log.d(TAG, String.format("%s, %s, %s, %d", category, action, label, value));
 		tracker.send(eventBuilder.build());
 	}
 
@@ -302,29 +446,28 @@ public class GATrackingManager
 		GoogleAnalytics googleAnalyticsInstance = sharedInstance().getGoogleAnalyticsInstance();
 		googleAnalyticsInstance.reportActivityStop(activity);
 	}
-	
+
 	/**
 	 * Manually sending the campaign (as a system event) information to analytics.
 	 * 
-	 * The referrer we get looks like:
-	 * utm_source=xxx&utm_medium=xxx&utm_term=xxx&utm_content=xxx&utm_campaign=xxx
+	 * The referrer we get looks like: utm_source=xxx&utm_medium=xxx&utm_term=xxx&utm_content=xxx&utm_campaign=xxx
 	 * 
 	 */
 	public void sendGooglePlayCampaignToAnalytics(String campaignData) {
 		String[] parts = null;
-		
+
 		String campaignSource = null;
-		String campaignMedium = null; 
+		String campaignMedium = null;
 		String campaignTerm = null;
 		String campaignContent = null;
-		String campaignName = null;	
-		
+		String campaignName = null;
+
 		if (campaignData.contains("&")) {
 			parts = campaignData.split("&");
-			
+
 			for (int i = 0; i < parts.length; i++) {
 				parts[i] = parts[i].replaceAll("utm_", "");
-				
+
 				if (parts[i].startsWith("source")) {
 					campaignSource = parts[i];
 
@@ -341,11 +484,11 @@ public class GATrackingManager
 					campaignName = parts[i];
 				}
 			}
-			
+
 			/* Build an event to send to Analytics */
 			String category = Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT;
 			String action = "Campaign";
-			
+
 			StringBuilder sb = new StringBuilder();
 			sb.append(campaignSource);
 			sb.append(" ");
@@ -358,13 +501,13 @@ public class GATrackingManager
 			sb.append(campaignName);
 
 			String label = sb.toString();
-			
-			sendEventWithLabel(category, action, label);			
+
+			sendEventWithLabel(category, action, label);
 
 		} else {
 			throw new IllegalArgumentException("String in sendGooglePlayCampaignToAnalytics: " + campaignData + " does not contain &");
-			
+
 		}
 	}
-	
+
 }

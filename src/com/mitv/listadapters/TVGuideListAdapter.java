@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
@@ -354,6 +355,8 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{	
+				GATrackingManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
+				
 				/* WHEN LOGGED IN */
 				if (ContentManager.sharedInstance().isLoggedIn()) 
 				{
