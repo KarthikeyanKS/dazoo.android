@@ -5,15 +5,17 @@ package com.mitv;
 
 import java.io.File;
 import java.util.Map;
-
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
+import com.google.android.gms.analytics.Logger.LogLevel;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.FileUtils;
@@ -66,14 +68,28 @@ public class GATrackingManager
 		return sharedInstance().getTrackerInstance();
 	}
 	
-	private GoogleAnalytics getGoogleAnalyticsInstance() {
+	
+	
+	private GoogleAnalytics getGoogleAnalyticsInstance() 
+	{
+		int isGooglePlayServicesAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+		
+		int googlePlayServicesVersionCode = GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE;
+		
+		Log.d(TAG, "isGooglePlayServicesAvailable result: " + isGooglePlayServicesAvailable + " code: " + googlePlayServicesVersionCode);
+		
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
+		
 		return googleAnalyticsInstance;
 	}
+	
+	
 	
 	public void updateConfiguration() 
 	{
 		GoogleAnalytics googleAnalyticsInstance = getGoogleAnalyticsInstance();
+		
+		googleAnalyticsInstance.getLogger().setLogLevel(LogLevel.WARNING);
 		
 		this.tracker = googleAnalyticsInstance.newTracker(R.xml.analytics);
 		
@@ -108,7 +124,7 @@ public class GATrackingManager
     		/* Set the SAMPLE RATE */
     		tracker.setSampleRate(sampleRateAsPercentage);
 		}
-    		
+       		
 		/* Information regarding if the app was preinstalled or not */
 		
 		/* APP_WAS_PREINSTALLED_SHARED_PREFS is at index 1 */
@@ -246,4 +262,69 @@ public class GATrackingManager
 		GoogleAnalytics googleAnalyticsInstance = sharedInstance().getGoogleAnalyticsInstance();
 		googleAnalyticsInstance.reportActivityStop(activity);
 	}
+	
+	/**
+	 * Manually sending the campaign (as a system event) information to analytics.
+	 * 
+	 * The referrer we get looks like:
+	 * utm_source=xxx&utm_medium=xxx&utm_term=xxx&utm_content=xxx&utm_campaign=xxx
+	 * 
+	 */
+	public void sendGooglePlayCampaignToAnalytics(String campaignData) {
+		String[] parts = null;
+		
+		String campaignSource = null;
+		String campaignMedium = null; 
+		String campaignTerm = null;
+		String campaignContent = null;
+		String campaignName = null;	
+		
+		if (campaignData.contains("&")) {
+			parts = campaignData.split("&");
+			
+			for (int i = 0; i < parts.length; i++) {
+				parts[i] = parts[i].replaceAll("utm_", "");
+				
+				if (parts[i].startsWith("source")) {
+					campaignSource = parts[i];
+
+				} else if (parts[i].startsWith("medium")) {
+					campaignMedium = parts[i];
+
+				} else if (parts[i].startsWith("term")) {
+					campaignTerm = parts[i];
+
+				} else if (parts[i].startsWith("content")) {
+					campaignContent = parts[i];
+
+				} else if (parts[i].startsWith("campaign")) {
+					campaignName = parts[i];
+				}
+			}
+			
+			/* Build an event to send to Analytics */
+			String category = Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT;
+			String action = "Campaign";
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(campaignSource);
+			sb.append(" ");
+			sb.append(campaignMedium);
+			sb.append(" ");
+			sb.append(campaignTerm);
+			sb.append(" ");
+			sb.append(campaignContent);
+			sb.append(" ");
+			sb.append(campaignName);
+
+			String label = sb.toString();
+			
+			sendEventWithLabel(category, action, label);			
+
+		} else {
+			throw new IllegalArgumentException("String in sendGooglePlayCampaignToAnalytics: " + campaignData + " does not contain &");
+			
+		}
+	}
+	
 }
