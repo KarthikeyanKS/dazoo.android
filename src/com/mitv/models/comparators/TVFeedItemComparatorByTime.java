@@ -5,9 +5,9 @@ package com.mitv.models.comparators;
 
 import java.util.ArrayList;
 
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVFeedItem;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVFeedItem;
 
 
 

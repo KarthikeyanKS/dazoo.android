@@ -8,7 +8,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 
 import com.mitv.FontManager;
 import com.mitv.R;
-import com.mitv.models.TVDate;
+import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.utilities.DateUtils;
 
 
@@ -129,7 +128,6 @@ public class ActionBarDropDownDateListAdapter
 			
 			if (position == 6) 
 			{
-				Log.d("mmm", "make border visible " + position);
 				lastDividerDropdownDates.setVisibility(View.VISIBLE);
 			}
 			

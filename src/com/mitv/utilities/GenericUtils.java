@@ -32,7 +32,7 @@ import com.mitv.Constants;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.models.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
 
 
 
@@ -94,7 +94,7 @@ public abstract class GenericUtils
 		activity.startActivity(chooserIntent);
 		
 		/* Send sharing event to Google Analytics */
-		GATrackingManager.sharedInstance().sendUserSharedEvent(broadcast);
+		GATrackingManager.sharedInstance().sendUserSharedEvent(activity, broadcast);
 	}
 	
 

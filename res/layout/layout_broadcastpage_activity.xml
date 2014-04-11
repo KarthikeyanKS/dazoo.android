@@ -41,6 +41,16 @@
                 android:layout_below="@id/broacastpage_repetitions"
                 android:layout_marginTop="10dp"
                 layout="@layout/block_broadcastpage_upcoming_or_repetition_layout" />
+            
+            <!-- DISQUS COMMENTS PANEL -->
+    		<include
+        		android:id="@+id/disqus_comments_layout"
+        		android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/broacastpage_upcoming"
+                android:layout_marginTop="10dp"
+        		layout="@layout/layout_disqus_comments" />
+    		
         </RelativeLayout>
     </ScrollView>
 
@@ -58,9 +68,5 @@
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_main_layout" />
-
-    <!-- UNDO BAR -->
-
-    <include layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

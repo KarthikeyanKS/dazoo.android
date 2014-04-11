@@ -15,11 +15,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.UserLike;
+import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.ui.helpers.DialogHelper;
 
 
@@ -200,6 +201,8 @@ public class LikesListAdapter
 				   currentPosition < userLikes.size()) 
 				{
 					UserLike userLike = getItem(currentPosition);
+					
+					GATrackingManager.sharedInstance().sendUserLikesEvent(activity, userLike, true);
 					
 					ContentManager.sharedInstance().removeUserLike(activity, userLike);
 

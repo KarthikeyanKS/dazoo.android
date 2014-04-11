@@ -10,8 +10,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVSearchResultEntity;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVSearchResultEntity;
 
 
 

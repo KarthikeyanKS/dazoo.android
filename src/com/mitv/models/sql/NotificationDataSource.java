@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.mitv.Constants;
-import com.mitv.models.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 
 
 

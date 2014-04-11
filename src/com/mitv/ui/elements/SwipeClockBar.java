@@ -218,7 +218,7 @@ public class SwipeClockBar
 	}
 
 	
-	private List<Integer> generate24Hours() 
+	public static List<Integer> generate24Hours() 
 	{
 		List<Integer> hours = new ArrayList<Integer>();
 		

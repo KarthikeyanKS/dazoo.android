@@ -93,36 +93,4 @@ public class ToastHelper
 		
 		toast.show();
 	}
-	
-	
-	/* This is not used any longer. Please remove in the next iteration */
-//	public static void createAndShowLikeToast(
-//			final Activity activity,
-//			String message)
-//	{
-//		Toast toast = new Toast(activity.getApplicationContext());
-//		
-//		LayoutInflater inflater = activity.getLayoutInflater();
-//		
-//		View layout = inflater.inflate(R.layout.toast_notification_and_like_set, (ViewGroup) activity.findViewById(R.id.notification_and_like_set_toast_container));
-//
-//		TextView text = (TextView) layout.findViewById(R.id.notification_and_like_set_toast_tv);
-//		
-//		text.setText(message);
-//
-//		if(android.os.Build.VERSION.SDK_INT >= 13) 
-//		{
-//			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //200
-//		} 
-//		else 
-//		{
-//			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //100
-//		}
-//		
-//		toast.setDuration(Toast.LENGTH_SHORT);
-//		toast.setView(layout);
-//		
-//		toast.show();
-//	}
-
 }

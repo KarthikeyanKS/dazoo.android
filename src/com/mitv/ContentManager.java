@@ -15,31 +15,32 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
+import com.mitv.asynctasks.other.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.AppConfiguration;
-import com.mitv.models.AppVersion;
-import com.mitv.models.RepeatingBroadcastsForBroadcast;
-import com.mitv.models.SearchResultsForQuery;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVChannelId;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVFeedItem;
-import com.mitv.models.TVGuide;
-import com.mitv.models.TVTag;
-import com.mitv.models.UpcomingBroadcastsForBroadcast;
-import com.mitv.models.UserLike;
-import com.mitv.models.UserLoginData;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
+import com.mitv.models.objects.disqus.DisqusThreadDetails;
+import com.mitv.models.objects.mitvapi.AppConfiguration;
+import com.mitv.models.objects.mitvapi.AppVersion;
+import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
+import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVFeedItem;
+import com.mitv.models.objects.mitvapi.TVGuide;
+import com.mitv.models.objects.mitvapi.TVTag;
+import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
+import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
@@ -99,13 +100,13 @@ public class ContentManager
 	private boolean isGoingToMyChannelsFromSearch;
 	private Boolean isLocalDeviceCalendarOffSync;
 			
-	private HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
-	
+	private HashMap<RequestIdentifierEnum, ArrayList<ListenerHolder>> mapRequestToCallbackListeners;
+		
 	public ContentManager()
 	{	
 		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
-		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>>();
+		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ListenerHolder>>();
 		this.isLocalDeviceCalendarOffSync = null;
 		
 		/* 1 for guide and parsing of tagged broadcasts */
@@ -180,15 +181,16 @@ public class ContentManager
     }
 
     private void registerListenerForRequestHelper(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) {
-        ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
+        ArrayList<ListenerHolder> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 
         if (listenerList == null) {
-            listenerList = new ArrayList<ViewCallbackListener>();
+            listenerList = new ArrayList<ListenerHolder>();
             mapRequestToCallbackListeners.put(requestIdentifier, listenerList);
         }
 
-        if (!listenerList.contains(listenerList)) {
-            listenerList.add(listener);
+    	ListenerHolder listenerHolder = new ListenerHolder(listener);
+        if (!listenerList.contains(listenerHolder)) {
+            listenerList.add(listenerHolder);
         }
     }
 
@@ -197,11 +199,12 @@ public class ContentManager
     }
 
     private void unregisterListenerFromAllRequestsHelper(ViewCallbackListener listener) {
-        Collection<ArrayList<ViewCallbackListener>> listenerListCollection = mapRequestToCallbackListeners.values();
+        Collection<ArrayList<ListenerHolder>> listenerListCollection = mapRequestToCallbackListeners.values();
 
-        for (ArrayList<ViewCallbackListener> listenerList : listenerListCollection) {
-            if (listenerList.contains(listener)) {
-                listenerList.remove(listener);
+    	ListenerHolder comparison = new ListenerHolder(listener);
+        for (ArrayList<ListenerHolder> listenerList : listenerListCollection) {
+            if (listenerList.contains(comparison)) {
+                listenerList.remove(comparison);
             }
         }
     }
@@ -211,18 +214,21 @@ public class ContentManager
     }
 
     private void notifyListenersOfRequestResultHelper(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
-        ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
+        ArrayList<ListenerHolder> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 
         if (listenerList != null) {
 
             /* Remove any null listener */
             listenerList.removeAll(Collections.singleton(null));
 
-            for (ViewCallbackListener listener : listenerList) {
-                Log.d(TAG, String.format("PROFILING: notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass().getSimpleName(), requestIdentifier.getDescription(),
-                        result.getDescription()));
-                listener.onResult(result, requestIdentifier);
-            }
+			for (ListenerHolder listenerHolder : listenerList) {
+				if (listenerHolder.isListenerAlive()) {
+					ViewCallbackListener listener = listenerHolder.getListener();
+					Log.d(TAG, String.format("notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass()
+							.getSimpleName(), requestIdentifier.getDescription(), result.getDescription()));
+					listener.onResult(result, requestIdentifier);
+				}
+			}
         }
     }
 	
@@ -692,7 +698,22 @@ public class ContentManager
 			apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset);
 		}
 	}
+	
+	
+	public void fetchFromServiceDisqusComments(ViewCallbackListener activityCallbackListener, String contentID) 
+	{
+		registerListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_COMMENTS, activityCallbackListener);
+		apiClient.getDisqusThreadPosts(activityCallbackListener, contentID);
+	}
+	
+	
+	public void fetchFromServiceDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID) 
+	{
+		registerListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_DETAILS, activityCallbackListener);
+		apiClient.getDisqusThreadDetails(activityCallbackListener, contentID);
+	}
 
+	
 	/*
 	 * METHODS FOR "GETTING" THE DATA, EITHER FROM STORAGE, OR FETCHING FROM
 	 * BACKEND
@@ -1004,6 +1025,19 @@ public class ContentManager
 				handleBuildTVBroadcastsForTagsResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
+			
+			case DISQUS_THREAD_COMMENTS:
+			{
+				handleDisqusThreadCommentsResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
+			case DISQUS_THREAD_DETAILS:
+			{
+				handleDisqusThreadDetailsResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
 			default:{/* do nothing */break;}
 		}
 	}
@@ -1030,6 +1064,29 @@ public class ContentManager
 		{
 			fetchDataProgressCallbackListener.onFetchDataProgress(totalSteps, message);
 		}
+	}
+	
+	
+	
+	private void handleDisqusThreadCommentsResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	{
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	private void handleDisqusThreadDetailsResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			DisqusThreadDetails disqusThreadDetails = (DisqusThreadDetails) content;
+			
+			int totalComments = disqusThreadDetails.getResponse().getPosts();
+			
+			getCache().setDisqusTotalPostsForLatestBroadcast(totalComments);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 	
 	
@@ -1886,15 +1943,9 @@ public class ContentManager
 		return getFromCacheTaggedBroadcastsUsingTVDate(tvDate);
 	}
 	
-	public int getFromCacheSelectedHour() {
-		int selectedHourAsInt;
+	public Integer getFromCacheSelectedHour() {
 		Integer selectedHour = getCache().getNonPersistentSelectedHour();
-		if(selectedHour != null) {
-			selectedHourAsInt = selectedHour.intValue();
-		} else {
-			selectedHourAsInt = DateUtils.getCurrentHourOn24HourFormat();
-		}
-		return selectedHourAsInt;
+		return selectedHour;
 	}
 	
 	public void setSelectedHour(Integer selectedHour) {
@@ -2075,9 +2126,20 @@ public class ContentManager
 		
 		clearUserCache();
 		
+		GATrackingManager.sharedInstance().setUserIdOnTrackerAndSendSignedOut();
+		
 		if(isSessionExpiredLogout == false)
 		{
 			apiClient.performUserLogout(activityCallbackListener);
 		}
+	}
+	
+	
+	
+	public int getDisqusTotalPostsForLatestBroadcast()
+	{
+		int disqusTotalPostsForLatestBroadcast = getCache().getDisqusTotalPostsForLatestBroadcast();
+		
+		return disqusTotalPostsForLatestBroadcast;
 	}
 }

@@ -4,7 +4,6 @@ package com.mitv.fragments;
 
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
@@ -22,8 +20,6 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.ui.elements.FontTextView;
-import com.mitv.ui.elements.UndoBarController;
-import com.mitv.ui.elements.UndoBarController.UndoListener;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -32,17 +28,13 @@ import com.mitv.utilities.NetworkUtils;
 
 public abstract class BaseFragment 
 	extends Fragment
-	implements ViewCallbackListener, OnClickListener, UndoListener
+	implements ViewCallbackListener, OnClickListener
 {
 	private static final String TAG = BaseFragment.class.getName();
 
 	
-	protected View undoBarlayoutView;
-	private UndoBarController undoBarController;
-	
 	private RelativeLayout requestEmptyLayout;
 	private RelativeLayout requestLoadingLayout;
-	private TextView requestEmptyLayoutTitle;
 	private FontTextView requestEmptyLayoutDetails;
 	private FontTextView requestLoadingLayoutDetails;
 	private RelativeLayout requestFailedLayout;
@@ -92,24 +84,6 @@ public abstract class BaseFragment
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
 	}
 
-	
-	
-	@Override
-	public void onUndo(Parcelable token) 
-	{
-		if (undoBarController != null) 
-		{
-			undoBarController.hideUndoBar(true);
-			undoBarController = new UndoBarController(undoBarlayoutView, this);
-		} 
-		else 
-		{
-			Log.w(TAG, "Undo bar component is null.");
-		}
-		
-		loadDataWithConnectivityCheck();
-	}
-	
 	
 	
 	/*
@@ -247,7 +221,6 @@ public abstract class BaseFragment
 					if (requestEmptyLayout != null) 
 					{
 						requestEmptyLayout.setVisibility(View.VISIBLE);
-						requestEmptyLayoutTitle.setVisibility(View.VISIBLE);
 						requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 						requestEmptyLayout.startAnimation(anim);
 					}
@@ -287,7 +260,6 @@ public abstract class BaseFragment
 		if (requestEmptyLayout != null) 
 		{
 			requestEmptyLayout.setVisibility(View.GONE);
-			requestEmptyLayoutTitle.setVisibility(View.GONE);
 			requestEmptyLayoutDetails.setVisibility(View.GONE);
 		}
 		
@@ -306,8 +278,6 @@ public abstract class BaseFragment
 		requestLoadingLayoutDetails = (FontTextView) view.findViewById(R.id.request_loading_details_tv);
 
 		requestEmptyLayout = (RelativeLayout) view.findViewById(R.id.request_empty_main_layout);
-		
-		requestEmptyLayoutTitle = (TextView) view.findViewById(R.id.request_empty_title_tv);
 
 		requestEmptyLayoutDetails = (FontTextView) view.findViewById(R.id.request_empty_details_tv);
 		
@@ -321,28 +291,12 @@ public abstract class BaseFragment
 		{
 			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
-		
-		undoBarlayoutView = getActivity().findViewById(R.id.undobar);
-
-		if (undoBarlayoutView != null) 
-		{
-			undoBarController = new UndoBarController(undoBarlayoutView, this);
-		} 
-		else 
-		{
-			Log.w(TAG, "Undo bar element not present.");
-		}
 	}
 	
 	protected void setEmptyLayoutDetailsMessage(String message) {
 		if (requestEmptyLayoutDetails != null) {
 			requestEmptyLayoutDetails.setText(message);
 			requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
-		}
-		
-		if (requestEmptyLayoutTitle != null) {
-			requestEmptyLayoutTitle.setText(message);
-			requestEmptyLayoutTitle.setVisibility(View.VISIBLE);
 		}
 	}
 	

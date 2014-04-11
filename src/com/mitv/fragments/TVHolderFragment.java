@@ -15,11 +15,12 @@ import android.view.ViewGroup;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVTag;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVTag;
 import com.viewpagerindicator.TabPageIndicator;
 
 
@@ -108,6 +109,7 @@ public class TVHolderFragment
 		if(viewPagerIndexChangedListener != null)
 		{
 			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+			GATrackingManager.sharedInstance().sendUserTagSelectionEvent(pos);
 		}
 		else
 		{
@@ -150,6 +152,9 @@ public class TVHolderFragment
 		pageTabIndicator.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
 		pageTabIndicator.setOnPageChangeListener(this);
+		
+		pageTabIndicator.setInitialStyleOnAllTabs();
+		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
 	}
 
 

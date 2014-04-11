@@ -12,13 +12,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View.OnClickListener;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -26,10 +29,10 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.listadapters.MyChannelsListAdapter;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelId;
 import com.mitv.models.comparators.TVChannelComparatorByName;
 import com.mitv.models.comparators.TVChannelIdComparatorById;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.utilities.LanguageUtils;
 import com.mitv.utilities.ListUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -38,7 +41,7 @@ import com.mitv.utilities.NetworkUtils;
 
 public class MyChannelsActivity 
 	extends BaseActivityLoginRequired 
-	implements MyChannelsCountInterface, OnClickListener, TextWatcher
+	implements MyChannelsCountInterface, TextWatcher
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = MyChannelsActivity.class.getName();
@@ -49,6 +52,8 @@ public class MyChannelsActivity
 	private EditText searchChannelField;
 	
 	private MyChannelsListAdapter adapter;
+	
+	private String search;
 
 	private List<TVChannel> allChannelObjects = new ArrayList<TVChannel>();
 	private ArrayList<TVChannelId> myChannelIds = new ArrayList<TVChannelId>();
@@ -89,6 +94,12 @@ public class MyChannelsActivity
 
 
 		listView = (ListView) findViewById(R.id.listview);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				GATrackingManager.sharedInstance().sendUserPressedChannelInMyChannelsActivity();
+			}
+		});
 		channelCountTextView = (TextView) findViewById(R.id.mychannels_header_counter_tv);
 		searchChannelField = (EditText) findViewById(R.id.mychannels_header_search_ev);
 	}
@@ -127,6 +138,7 @@ public class MyChannelsActivity
 	@Override
 	public void onPause() 
 	{
+		GATrackingManager.sharedInstance().sendUserMyChannelsPageSearchEvent(search);
 		updateMyChannels();
 		super.onPause();
 	}
@@ -253,7 +265,7 @@ public class MyChannelsActivity
 	@Override
 	public void afterTextChanged(Editable editable)
 	{
-		String search = editable.toString();
+		search = editable.toString();
 		
 		if (search.contains(System.getProperty("line.separator"))) 
 		{	
@@ -271,7 +283,7 @@ public class MyChannelsActivity
 		channelsMatchingSearch.clear();
 		
 		if (!TextUtils.isEmpty(search)) 
-		{	
+		{				
 			/* Go through list of all channels and add channels which name contains the searched string */
 			for(TVChannel tvChannel : allChannelObjects) 
 			{
@@ -291,7 +303,7 @@ public class MyChannelsActivity
 			channelsMatchingSearch.addAll(allChannelObjects);
 		}
 
-		adapter.setChannelsMatchingSearchAndRefreshAdapter(channelsMatchingSearch);
+		adapter.setChannelsMatchingSearchAndRefreshAdapter(search, channelsMatchingSearch);
 	}
 
 	@Override

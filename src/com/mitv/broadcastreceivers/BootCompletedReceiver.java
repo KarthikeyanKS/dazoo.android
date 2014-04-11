@@ -9,12 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.mitv.Constants;
 import com.mitv.GATrackingManager;
-import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.FileUtils;
 

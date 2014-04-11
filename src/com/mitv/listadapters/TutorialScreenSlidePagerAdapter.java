@@ -14,7 +14,6 @@ public class TutorialScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 	private static final int NUM_PAGES = 5;
 	
 	
-	
 	public TutorialScreenSlidePagerAdapter(FragmentManager fm) {
 		super(fm);
 	}

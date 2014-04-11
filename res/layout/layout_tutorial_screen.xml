@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </android.support.v4.view.ViewPager>
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal" >
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/button_splash_tutorial"
+            style="@style/whitetextbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/background_color_selector_signup_login_box"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:text="@string/tutorial_learn_more_button"
+            android:visibility="gone" />
+
+        <!-- Skip button without progressbar -->
+
+        <RelativeLayout
+            android:id="@+id/skip_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_color_selector_orange_box"
+            android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="10dp"
+            android:visibility="gone" >
+
+            <ProgressBar
+                android:id="@+id/skip_button_progressbar"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:visibility="gone" />
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/button_tutorial_skip"
+                style="@style/whitetextbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/skip_button_progressbar"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:text="@string/tutorial_skip_button" />
+        </RelativeLayout>
+
+        <!-- Next button -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/button_tutorial_next"
+            style="@style/whitetextbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/skip_button_container"
+            android:background="@drawable/background_color_selector_signup_login_box"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:paddingBottom="10dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="10dp"
+            android:text="@string/tutorial_next_button"
+            android:visibility="gone" />
+
+        <!-- PAGE 5 -->
+        <!-- Skip button without progressbar -->
+
+        <RelativeLayout
+            android:id="@+id/start_primary_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/background_color_selector_signup_login_box"
+            android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="10dp"
+            android:visibility="gone" >
+
+            <ProgressBar
+                android:id="@+id/start_primary_button_progressbar"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:visibility="gone" />
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/button_tutorial_start_primary_activity"
+                style="@style/whitetextbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/start_primary_button_progressbar"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:text="@string/tutorial_start_button" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -239,7 +239,7 @@ public class HomeActivity
 	
 	
 	
-	public OnViewPagerIndexChangedListener getOnViewPagerIndexChangedListener()
+	private OnViewPagerIndexChangedListener getOnViewPagerIndexChangedListener()
 	{
 		OnViewPagerIndexChangedListener listener = new OnViewPagerIndexChangedListener() 
 		{

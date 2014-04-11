@@ -36,7 +36,9 @@ public enum RequestIdentifierEnum {
 	TV_GUIDE_STANDALONE(33, "TV Guide call for standlone calls"),  /* This identifier will be used when refetching the guide due to a channel change, or forcing a refetch */
 	TV_CHANNEL_IDS_USER_STANDALONE(34, "TV Channel IDs user for standalone calls"), /* Used when start app as not logged in and then login in, need to update the TV Channels Ids */
 	USER_ACTIVITY_FEED_INITIAL_DATA(35, "Feed items and likes for FeedActivity"),
-	SNTP_CALL(36, "SNTP call");
+	SNTP_CALL(36, "SNTP call"),
+	DISQUS_THREAD_COMMENTS(37, "Disqus thread comments"),
+	DISQUS_THREAD_DETAILS(38, "Disqus thread details");
 	
 	
 	private final int id;

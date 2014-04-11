@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
@@ -33,10 +34,10 @@ import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVProgram;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.helpers.DialogHelper;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -175,7 +176,6 @@ public class TVGuideListAdapter
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
 				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
-				ContentManager.sharedInstance().setSelectedHour(currentHour);
 				activity.startActivity(intent);
 			}
 		});
@@ -355,6 +355,8 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{	
+				GATrackingManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
+				
 				/* WHEN LOGGED IN */
 				if (ContentManager.sharedInstance().isLoggedIn()) 
 				{

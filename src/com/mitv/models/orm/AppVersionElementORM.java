@@ -11,8 +11,8 @@ import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.mitv.models.AppVersion;
-import com.mitv.models.AppVersionElement;
+import com.mitv.models.objects.mitvapi.AppVersion;
+import com.mitv.models.objects.mitvapi.AppVersionElement;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 

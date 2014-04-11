@@ -9,15 +9,15 @@ import java.util.HashMap;
 
 import android.content.Context;
 
-import com.mitv.models.RepeatingBroadcastsForBroadcast;
-import com.mitv.models.SearchResultsForQuery;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVChannelId;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVGuide;
-import com.mitv.models.UpcomingBroadcastsForBroadcast;
-import com.mitv.models.UserLike;
+import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
+import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVGuide;
+import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
+import com.mitv.models.objects.mitvapi.UserLike;
 
 
 
@@ -56,7 +56,9 @@ public class Cache
 	private Class<?> nonPersistentReturnActivity;
 	private UserLike nonPersistentLikeToAddAfterLogin;
 	private Calendar initialCallSNTPCalendar;
-		
+	
+	private int disqusTotalPostsForLatestBroadcast;
+	
 	
 	
 	/* Should only be used by the ContentManager */
@@ -409,5 +411,18 @@ public class Cache
 	public synchronized void setInitialCallSNTPCalendar(Calendar initialCallSNTPCalendar) 
 	{
 		this.initialCallSNTPCalendar = initialCallSNTPCalendar;
+	}
+
+
+
+	public int getDisqusTotalPostsForLatestBroadcast() {
+		return disqusTotalPostsForLatestBroadcast;
+	}
+
+
+
+	public void setDisqusTotalPostsForLatestBroadcast(
+			int disqusTotalPostsForLatestBroadcast) {
+		this.disqusTotalPostsForLatestBroadcast = disqusTotalPostsForLatestBroadcast;
 	}
 }

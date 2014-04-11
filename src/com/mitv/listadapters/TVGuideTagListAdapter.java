@@ -23,7 +23,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -78,11 +78,13 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 	
 	
-	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) {
+	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) 
+	{
 		View rowView = convertView;
 
-		// get the item with the displacement depending on the scheduled time on air
+		// Get the item with the displacement depending on the scheduled time on air
 		int indexForBroadcast = currentPosition + position;
+		
 		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
 
 		if (rowView == null) {
@@ -103,16 +105,20 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (broadcastWithChannelInfo != null) {
-			// If on air
-			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) {
+		if (broadcastWithChannelInfo != null) 
+		{
+			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) 
+			{
 				LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
-			} else {
+			} 
+			else 
+			{
 				holder.mDurationPb.setVisibility(View.GONE);
 				holder.mTimeLeftTv.setVisibility(View.GONE);
 			}
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
+			
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 
 			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
