@@ -34,6 +34,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.ContentTypeEnum;
@@ -43,6 +44,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.SearchPageListAdapter;
 import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVSearchResult;
 import com.mitv.models.objects.mitvapi.TVSearchResults;
@@ -136,6 +138,7 @@ public class SearchPageActivity
 	public void onPause()
 	{
 		super.onPause();
+		GATrackingManager.sharedInstance().sendUserSearchEvent(lastSearchQuery);
 		GenericUtils.hideKeyboard(this);
 	}
 	
@@ -255,11 +258,16 @@ public class SearchPageActivity
 
 		ContentTypeEnum resultResultType = result.getEntityType();
 
+		String hitName;
+		
 		switch (resultResultType) 
 		{
 			case CHANNEL: 
 			{
-				TVChannelId channelId = result.getEntity().getChannel().getChannelId();
+				TVChannel tvChannel = result.getEntity().getChannel();
+				TVChannelId channelId = tvChannel.getChannelId();
+				
+				hitName = tvChannel.getName();
 				
 				Intent intent;
 				
@@ -290,6 +298,8 @@ public class SearchPageActivity
 				/* Open the detail view for the individual broadcast */
 				TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
 				
+				hitName = nextBroadcast.getTitle();
+				
 				if (nextBroadcast != null) 
 				{
 					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
@@ -306,6 +316,8 @@ public class SearchPageActivity
 			}
 		}
 
+
+		GATrackingManager.sharedInstance().sendUserSearchResultPressedEvent(lastSearchQuery, hitName, position);
 		GenericUtils.hideKeyboard(this);
 	}
 
@@ -338,6 +350,7 @@ public class SearchPageActivity
 	{
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) 
 		{
+			GATrackingManager.sharedInstance().sendUserPressedSearchButtonOnKeyBoard();
 			performSearchAndTriggerAutocomplete();
 			return true;
 		}

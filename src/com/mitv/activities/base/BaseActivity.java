@@ -18,6 +18,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -158,6 +159,17 @@ public abstract class BaseActivity
 		}
 	}
 	
+	@Override
+	public boolean onKeyDown(int keycode, KeyEvent e) {
+	    switch(keycode) {
+	        case KeyEvent.KEYCODE_MENU:
+	        	GATrackingManager.sharedInstance().sendUserPressedMenuButtonEvent();
+	            return true;
+	    }
+
+	    return super.onKeyDown(keycode, e);
+	}
+		
 
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
