@@ -1,9 +1,9 @@
+
 package com.mitv.ui.elements;
 
-import java.util.Locale;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
+
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,35 +14,52 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
-public class VerticalSeekBar extends SeekBar {
+import com.mitv.GATrackingManager;
 
+
+
+public class VerticalSeekBar 
+	extends SeekBar 
+{
 	private static final String tag = "VerticalSeekBarSmallThumb (internal)";
 	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 300;
 
+	
 	private int hoursPerDay;
 	private int firstHourOfDay;
 	private FontTextView selectedHourTextView;
 
+	
 	private SwipeClockBar swipeClockBar;
 
-	public VerticalSeekBar(Context context) {
+
+	
+	public VerticalSeekBar(Context context) 
+	{
 		super(context);
 		setup();
 	}
 
-	public VerticalSeekBar(Context context, AttributeSet attrs, int defStyle) {
+	
+	
+	public VerticalSeekBar(Context context, AttributeSet attrs, int defStyle) 
+	{
 		super(context, attrs, defStyle);
 		setup();
 	}
 
-	public VerticalSeekBar(Context context, AttributeSet attrs) {
+	
+	
+	public VerticalSeekBar(Context context, AttributeSet attrs) 
+	{
 		super(context, attrs);
 		setup();
 	}
 
-	private void setup() {
-	}
+	
+	private void setup() {}
 
+	
 	public void setValues(int hoursPerDay, int firstHourOfDay) {
 		this.hoursPerDay = hoursPerDay;
 		this.firstHourOfDay = firstHourOfDay;

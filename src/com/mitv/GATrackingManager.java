@@ -4,17 +4,15 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.google.android.gms.analytics.Logger.LogLevel;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
@@ -22,7 +20,9 @@ import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
 
-public class GATrackingManager {
+public class GATrackingManager 
+{
+	@SuppressWarnings("unused")
 	private static final String TAG = GATrackingManager.class.getName();
 
 	private static GATrackingManager instance;
@@ -46,29 +46,30 @@ public class GATrackingManager {
 		return instance;
 	}
 
-	public Tracker getTrackerInstance() {
+	
+	public Tracker getTrackerInstance() 
+	{
 		return tracker;
 	}
 
-	public static Tracker getTracker() {
+	
+	public static Tracker getTracker() 
+	{
 		return sharedInstance().getTrackerInstance();
 	}
-<<<<<<< HEAD
-	
+
 	
 	
 	private GoogleAnalytics getGoogleAnalyticsInstance() 
 	{
-=======
-
-	private GoogleAnalytics getGoogleAnalyticsInstance() {
->>>>>>> master
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
 		
 		return googleAnalyticsInstance;
 	}
 
-	public void updateConfiguration() {
+	
+	public void updateConfiguration() 
+	{
 		GoogleAnalytics googleAnalyticsInstance = getGoogleAnalyticsInstance();
 		
 		googleAnalyticsInstance.getLogger().setLogLevel(LogLevel.WARNING);
