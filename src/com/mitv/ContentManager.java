@@ -24,7 +24,7 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
-import com.mitv.models.objects.disqus.DisqusComments;
+import com.mitv.models.objects.disqus.DisqusThreadDetails;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
 import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
@@ -705,7 +705,15 @@ public class ContentManager
 		registerListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_COMMENTS, activityCallbackListener);
 		apiClient.getDisqusThreadPosts(activityCallbackListener, contentID);
 	}
+	
+	
+	public void fetchFromServiceDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID) 
+	{
+		registerListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_DETAILS, activityCallbackListener);
+		apiClient.getDisqusThreadDetails(activityCallbackListener, contentID);
+	}
 
+	
 	/*
 	 * METHODS FOR "GETTING" THE DATA, EITHER FROM STORAGE, OR FETCHING FROM
 	 * BACKEND
@@ -1024,6 +1032,12 @@ public class ContentManager
 				break;
 			}
 			
+			case DISQUS_THREAD_DETAILS:
+			{
+				handleDisqusThreadDetailsResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
 			default:{/* do nothing */break;}
 		}
 	}
@@ -1056,11 +1070,18 @@ public class ContentManager
 	
 	private void handleDisqusThreadCommentsResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	private void handleDisqusThreadDetailsResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	{
 		if(result.wasSuccessful() && content != null) 
 		{
-			DisqusComments disqusComments = (DisqusComments) content;
+			DisqusThreadDetails disqusThreadDetails = (DisqusThreadDetails) content;
 			
-			int totalComments = disqusComments.getResponse().size();
+			int totalComments = disqusThreadDetails.getResponse().getPosts();
 			
 			getCache().setDisqusTotalPostsForLatestBroadcast(totalComments);
 		}

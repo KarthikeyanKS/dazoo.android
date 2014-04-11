@@ -10,6 +10,7 @@ import com.mitv.GATrackingManager;
 
 public class CustomGoogleCampaignReceiver extends BroadcastReceiver {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = CustomGoogleCampaignReceiver.class.getName();
 
 	@Override

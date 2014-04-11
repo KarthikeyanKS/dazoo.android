@@ -18,6 +18,7 @@ public class DisqusUserJSON
     protected boolean isPrimary;
     protected String joinedAt;
     protected String id;
+    protected DisqusUserAvatarJSON avatar;
     
     
     
@@ -99,5 +100,11 @@ public class DisqusUserJSON
 
 	public String getId() {
 		return id;
+	}
+
+
+
+	public DisqusUserAvatarJSON getAvatar() {
+		return avatar;
 	}
 }

@@ -31,6 +31,7 @@ import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
+import com.mitv.ImageLoaderManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
@@ -217,6 +218,8 @@ public abstract class BaseActivity
 	{
 		super.onResume();
 		
+		ImageLoaderManager.sharedInstance(this).resume();
+		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
 		{
 			hockeyAppCheckForCrashes();
@@ -301,18 +304,15 @@ public abstract class BaseActivity
 		} 
 	}
 	
-	/* TODO REMOVE ME*/
-	private void sendToastMessageWhenRestart(String message) {
-		ToastHelper.createAndShowLongToast(message);
-	}
-
 	
-	private void killAllActivitiesIncludingThis() {
+	private void killAllActivitiesIncludingThis() 
+	{
 		for(Activity activity : activityStack) {
 			activity.finish();
 		}
 	}
 
+	
 	private int getIndexOfTodayFromTVDates() {
 		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
 
@@ -724,8 +724,19 @@ public abstract class BaseActivity
 		}
 	}
 
+	
 	@Override
-	protected void onStop() {
+	protected void onPause() 
+	{
+		super.onPause();
+
+		ImageLoaderManager.sharedInstance(this).pause();
+	}
+	
+	
+	@Override
+	protected void onStop() 
+	{
 		super.onStop();
 
 		GATrackingManager.reportActivityStop(this);

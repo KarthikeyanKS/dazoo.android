@@ -48,7 +48,6 @@ public class SplashScreenActivity
 	private FontTextView progressTextView;
 	private int fetchedDataCount = 0;
 	
-	private boolean hasUserSeenTutorial;
 	private boolean isViewingTutorial;
 	private boolean isDataFetched;
 	private boolean waitingForData;
