@@ -42,7 +42,6 @@ public abstract class BaseFragment
 	
 	private RelativeLayout requestEmptyLayout;
 	private RelativeLayout requestLoadingLayout;
-	private TextView requestEmptyLayoutTitle;
 	private FontTextView requestEmptyLayoutDetails;
 	private FontTextView requestLoadingLayoutDetails;
 	private RelativeLayout requestFailedLayout;
@@ -247,7 +246,6 @@ public abstract class BaseFragment
 					if (requestEmptyLayout != null) 
 					{
 						requestEmptyLayout.setVisibility(View.VISIBLE);
-						requestEmptyLayoutTitle.setVisibility(View.VISIBLE);
 						requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 						requestEmptyLayout.startAnimation(anim);
 					}
@@ -287,7 +285,6 @@ public abstract class BaseFragment
 		if (requestEmptyLayout != null) 
 		{
 			requestEmptyLayout.setVisibility(View.GONE);
-			requestEmptyLayoutTitle.setVisibility(View.GONE);
 			requestEmptyLayoutDetails.setVisibility(View.GONE);
 		}
 		
@@ -306,8 +303,6 @@ public abstract class BaseFragment
 		requestLoadingLayoutDetails = (FontTextView) view.findViewById(R.id.request_loading_details_tv);
 
 		requestEmptyLayout = (RelativeLayout) view.findViewById(R.id.request_empty_main_layout);
-		
-		requestEmptyLayoutTitle = (TextView) view.findViewById(R.id.request_empty_title_tv);
 
 		requestEmptyLayoutDetails = (FontTextView) view.findViewById(R.id.request_empty_details_tv);
 		
@@ -338,11 +333,6 @@ public abstract class BaseFragment
 		if (requestEmptyLayoutDetails != null) {
 			requestEmptyLayoutDetails.setText(message);
 			requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
-		}
-		
-		if (requestEmptyLayoutTitle != null) {
-			requestEmptyLayoutTitle.setText(message);
-			requestEmptyLayoutTitle.setVisibility(View.VISIBLE);
 		}
 	}
 	
