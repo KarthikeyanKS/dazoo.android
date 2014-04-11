@@ -351,17 +351,21 @@ public class GATrackingManager
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_SEARCH_RESULT_PRESS, label, (long)position);
 	}
 	
-	public void sendUserChannelSearchResultClickedEvent(String searchQuery, String hitName, int position) {
+	public void sendUserChannelSearchResultClickedEvent(String searchQuery, String hitName, boolean didJustRemovedChannel) {
 		StringBuilder sb = new StringBuilder("Query:\"");
 		sb.append(searchQuery)
 		.append("\", Clicked:\"")
 		.append(hitName)
 		.append("\"");
 		
-		
 		String label = sb.toString();
 		
-		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH_RESULT_PRESS, label, (long)position);
+		Long addedChannel = 1L;
+		if (didJustRemovedChannel) {
+			addedChannel = 0L;
+		}
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH_RESULT_PRESS, label, addedChannel);
 	}
 	
 	public void sendUserSearchEvent(String searchQuery) {

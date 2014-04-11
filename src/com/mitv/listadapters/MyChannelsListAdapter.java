@@ -128,7 +128,6 @@ extends BaseAdapter
 				TVChannel channelByTag = (TVChannel) channel;
 				if (channelByTag != null) {
 					TVChannelId channelId = channelByTag.getChannelId();
-					GATrackingManager.sharedInstance().sendUserChannelSearchResultClickedEvent(searchQuery, channelByTag.getName(), position);
 					if (checked) {
 						checkedChannelIds.remove(channelId);
 						holder.buttonTv.setText("+  " + resources.getString(R.string.agregar));
@@ -138,6 +137,8 @@ extends BaseAdapter
 						holder.buttonTv.setText("✓ " + resources.getString(R.string.agregado)); //TODO: Update icon when it is in font.
 						holder.button.setBackgroundResource(R.drawable.layout_rounded_corners_blue0);
 					}
+
+					GATrackingManager.sharedInstance().sendUserChannelSearchResultClickedEvent(searchQuery, channelByTag.getName(), checked);
 					int checkedChannelsCount = checkedChannelIds.size();
 					mCountInterface.setSelectedChannelCount(checkedChannelsCount);
 				}
