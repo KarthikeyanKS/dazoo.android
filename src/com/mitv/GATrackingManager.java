@@ -19,6 +19,7 @@ import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
 
@@ -229,14 +230,17 @@ public class GATrackingManager
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
 		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
-			int selectedHourInt = selectedHour.intValue();
-
-			int timeDiff = Math.abs(selectedHourInt - lastSelectedHour);
+			List<Integer> hours = SwipeClockBar.generate24Hours();
+			Integer lastSelectedHourAsInteger = Integer.valueOf(lastSelectedHour);
+			int indexOfSelectedHour = hours.indexOf(selectedHour);
+			int indexOfLastSelectedHour = hours.indexOf(lastSelectedHourAsInteger);
+		
+			int timeDiff = Math.abs(indexOfSelectedHour - indexOfLastSelectedHour);
 			
 			StringBuilder sb = new StringBuilder();
-			if(selectedHourInt < lastSelectedHour) {
+			if(indexOfSelectedHour < indexOfLastSelectedHour) {
 				sb.append(timeDiff).append("H_BACK_IN_TIME");
-			} else if(selectedHourInt > lastSelectedHour) {
+			} else if(indexOfSelectedHour > indexOfLastSelectedHour) {
 				sb.append(timeDiff).append("H_FORWARD_IN_TIME");
 			} else {
 				sb.append("SAME_HOUR");
