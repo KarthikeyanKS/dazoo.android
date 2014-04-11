@@ -31009,6 +31009,7 @@ com.mitv.GATrackingManager -> com.mitv.GATrackingManager:
     268:274:void sendFirstBootEvent() -> sendFirstBootEvent
     278:280:void reportActivityStart(android.app.Activity) -> reportActivityStart
     283:285:void reportActivityStop(android.app.Activity) -> reportActivityStop
+    292:316:void sendGooglePlayCampaignToAnalytics() -> sendGooglePlayCampaignToAnalytics
 com.mitv.ImageLoaderManager -> com.mitv.ImageLoaderManager:
     java.lang.String TAG -> TAG
     com.mitv.ImageLoaderManager instance -> instance
@@ -33831,6 +33832,9 @@ com.mitv.broadcastreceivers.AlarmSetter -> com.mitv.broadcastreceivers.AlarmSett
 com.mitv.broadcastreceivers.BootCompletedReceiver -> com.mitv.broadcastreceivers.BootCompletedReceiver:
     java.lang.String TAG -> a
     34:59:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.mitv.broadcastreceivers.CustomGoogleCampaignReceiver -> com.mitv.broadcastreceivers.CustomGoogleCampaignReceiver:
+    java.lang.String TAG -> a
+    20:41:void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.mitv.enums.ActivityFeedAdapterTypeEnum -> com.mitv.enums.ActivityFeedAdapterTypeEnum:
     com.mitv.enums.ActivityFeedAdapterTypeEnum ADS -> ADS
     com.mitv.enums.ActivityFeedAdapterTypeEnum BROADCAST -> BROADCAST
