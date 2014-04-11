@@ -1020,12 +1020,14 @@ public abstract class BaseActivity
 	protected void setEmptyLayoutDetailsMessage(String message) {
 		if (requestEmptyLayoutDetails != null) {
 			requestEmptyLayoutDetails.setText(message);
+			requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 		}
 	}
 	
 	protected void setLoadingLayoutDetailsMessage(String message) {
 		if (requestLoadingLayoutDetails != null) {
 			requestLoadingLayoutDetails.setText(message);
+			requestLoadingLayoutDetails.setVisibility(View.VISIBLE);
 		}
 	}
 }
