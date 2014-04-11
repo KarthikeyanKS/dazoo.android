@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
 import com.mitv.asynctasks.disqus.GetDisqusThreadPosts;
 import com.mitv.asynctasks.mitvapi.GetAdsAdzerk;
 import com.mitv.asynctasks.mitvapi.GetAppConfigurationData;
@@ -396,5 +397,12 @@ public class APIClient
 	{
 		GetDisqusThreadPosts getDisqusThreadPosts = new GetDisqusThreadPosts(contentCallbackListener, activityCallbackListener, contentID);
 		getDisqusThreadPosts.execute();
+	}
+	
+	
+	public void getDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID)
+	{
+		GetDisqusThreadDetails getDisqusThreadDetails = new GetDisqusThreadDetails(contentCallbackListener, activityCallbackListener, contentID);
+		getDisqusThreadDetails.execute();
 	}
 }

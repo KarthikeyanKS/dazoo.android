@@ -412,8 +412,5 @@
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_main_layout"/>
-    
-     <!-- UNDO BAR -->
-     <include layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

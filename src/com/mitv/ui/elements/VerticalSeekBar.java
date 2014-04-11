@@ -1,4 +1,7 @@
+
 package com.mitv.ui.elements;
+
+
 
 import java.util.Locale;
 
@@ -11,35 +14,53 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
-public class VerticalSeekBar extends SeekBar {
+import com.mitv.GATrackingManager;
 
+
+
+public class VerticalSeekBar 
+	extends SeekBar 
+{
 	private static final String tag = "VerticalSeekBarSmallThumb (internal)";
 	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 300;
 
+	
 	private int hoursPerDay;
 	private int firstHourOfDay;
+	private int lastSelectedHour;
 	private FontTextView selectedHourTextView;
 
+	
 	private SwipeClockBar swipeClockBar;
 
-	public VerticalSeekBar(Context context) {
+
+	
+	public VerticalSeekBar(Context context) 
+	{
 		super(context);
 		setup();
 	}
 
-	public VerticalSeekBar(Context context, AttributeSet attrs, int defStyle) {
+	
+	
+	public VerticalSeekBar(Context context, AttributeSet attrs, int defStyle) 
+	{
 		super(context, attrs, defStyle);
 		setup();
 	}
 
-	public VerticalSeekBar(Context context, AttributeSet attrs) {
+	
+	
+	public VerticalSeekBar(Context context, AttributeSet attrs) 
+	{
 		super(context, attrs);
 		setup();
 	}
 
-	private void setup() {
-	}
+	
+	private void setup() {}
 
+	
 	public void setValues(int hoursPerDay, int firstHourOfDay) {
 		this.hoursPerDay = hoursPerDay;
 		this.firstHourOfDay = firstHourOfDay;
@@ -50,9 +71,13 @@ public class VerticalSeekBar extends SeekBar {
 		selectedHourTextView.setVisibility(View.GONE);
 	}
 	
+	private int getCurrentHourFromProgressBar() {
+		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
+		return hour;
+	}
 
 	private void updateTextViewText() {
-		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
+		int hour = getCurrentHourFromProgressBar();
 
 		String hourString = String.format(Locale.getDefault(), "%02d:00", hour);
 
@@ -85,7 +110,7 @@ public class VerticalSeekBar extends SeekBar {
 			int height = getHeight();
 			int i = max - (int) (max * event.getY() / height);
 			setProgress(getMax() - i);
-
+			
 			onSizeChanged(getWidth(), height, 0, 0);
 			updateTextViewText();
 			swipeClockBar.highlightClockbar();
@@ -99,6 +124,9 @@ public class VerticalSeekBar extends SeekBar {
 				}
 			}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
 			swipeClockBar.dehighlightClockbar();
+
+			GATrackingManager.sharedInstance().sendUserHourSelectionEvent(lastSelectedHour);
+			lastSelectedHour = getCurrentHourFromProgressBar();
 			break;
 		}
 		case MotionEvent.ACTION_CANCEL: {

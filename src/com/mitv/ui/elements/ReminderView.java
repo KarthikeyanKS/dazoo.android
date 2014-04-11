@@ -149,7 +149,7 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
-		GATrackingManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, isSet);
+		GATrackingManager.sharedInstance().sendUserReminderEvent(activity, tvBroadcastWithChannelInfo, isSet);
 		
 		if (isSet == false) 
 		{

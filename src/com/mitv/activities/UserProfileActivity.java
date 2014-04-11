@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import com.androidquery.auth.FacebookHandle;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
@@ -252,6 +253,7 @@ public class UserProfileActivity
 
 		/* ONLY USED WHEN LOGGED IN */
 		personalView = (RelativeLayout) findViewById(R.id.myprofile_person_container_signed_in);
+		personalView.setOnClickListener(this);
 
 		signUpContainer = (RelativeLayout) findViewById(R.id.myprofile_signup_container);
 		signUpContainer.setOnClickListener(this);
@@ -382,6 +384,10 @@ public class UserProfileActivity
 
 		switch (id)
 		{
+			case R.id.myprofile_person_container_signed_in: {
+				GATrackingManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
+				break;
+			}
 			case R.id.myprofile_likes_container: 
 			{
 				intent = new Intent(UserProfileActivity.this, LikesActivity.class);

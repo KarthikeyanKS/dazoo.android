@@ -3,7 +3,6 @@ package com.mitv.listadapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
 import com.mitv.fragments.UserTutorialFragment;
 

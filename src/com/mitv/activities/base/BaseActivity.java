@@ -18,6 +18,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
+import com.mitv.ImageLoaderManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
@@ -158,6 +160,17 @@ public abstract class BaseActivity
 		}
 	}
 	
+	@Override
+	public boolean onKeyDown(int keycode, KeyEvent e) {
+	    switch(keycode) {
+	        case KeyEvent.KEYCODE_MENU:
+	        	GATrackingManager.sharedInstance().sendUserPressedMenuButtonEvent();
+	            return true;
+	    }
+
+	    return super.onKeyDown(keycode, e);
+	}
+		
 
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
@@ -204,6 +217,8 @@ public abstract class BaseActivity
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		ImageLoaderManager.sharedInstance(this).resume();
 		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
 		{
@@ -289,18 +304,15 @@ public abstract class BaseActivity
 		} 
 	}
 	
-	/* TODO REMOVE ME*/
-	private void sendToastMessageWhenRestart(String message) {
-		ToastHelper.createAndShowLongToast(message);
-	}
-
 	
-	private void killAllActivitiesIncludingThis() {
+	private void killAllActivitiesIncludingThis() 
+	{
 		for(Activity activity : activityStack) {
 			activity.finish();
 		}
 	}
 
+	
 	private int getIndexOfTodayFromTVDates() {
 		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
 
@@ -712,8 +724,19 @@ public abstract class BaseActivity
 		}
 	}
 
+	
 	@Override
-	protected void onStop() {
+	protected void onPause() 
+	{
+		super.onPause();
+
+		ImageLoaderManager.sharedInstance(this).pause();
+	}
+	
+	
+	@Override
+	protected void onStop() 
+	{
 		super.onStop();
 
 		GATrackingManager.reportActivityStop(this);

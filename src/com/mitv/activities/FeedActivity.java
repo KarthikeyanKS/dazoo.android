@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
@@ -56,6 +57,7 @@ public class FeedActivity
 //	private TextView greetingTv;
 	private boolean reachedEnd;
 	private boolean isEndReachedNoConnectionToastShowing;
+	private int lastVisibleBottomRowIndex = 1;
 
 	
 	@Override
@@ -506,8 +508,9 @@ public class FeedActivity
 
 	
 	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {/* Do nothing */}
-
+	public void onScrollStateChanged(AbsListView view, int scrollState) {/* Do nothing */
+		
+	}
 
 	
 	@Override
@@ -518,8 +521,18 @@ public class FeedActivity
 		if (totalItemCount > 0) 
 		{
 			// If scrolling past bottom and there is a next page of products to fetch
-			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
+			int visibleBottomRowIndex = firstVisibleItem + visibleItemCount;
+			boolean pastTotalCount = (visibleBottomRowIndex >= totalItemCount);
 
+			if(visibleBottomRowIndex != lastVisibleBottomRowIndex) {
+				boolean scrollingDown = (visibleBottomRowIndex > lastVisibleBottomRowIndex);
+				GATrackingManager.sharedInstance().sendUserFeedListScrolledToItemAtIndexEvent(visibleBottomRowIndex, scrollingDown);
+			}
+				
+			/* Store the latest row index  */
+			lastVisibleBottomRowIndex = visibleBottomRowIndex;
+			
+			
 			if (pastTotalCount && !reachedEnd)
 			{
 				boolean isConnected = NetworkUtils.isConnected();
