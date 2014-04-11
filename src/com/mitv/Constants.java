@@ -14,10 +14,11 @@ public abstract class Constants
 	/* HTTP and HTTPS schemas */
 	public static final String HTTP_SCHEME = "http://";
 	public static final String HTTPS_SCHEME	= "https://";
+	public static final String FORWARD_SLASH = "/";
 	
 	/* BACKEND API BASE URLs */
-	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com/";
-	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv/";
+	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com" + FORWARD_SLASH;
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv" + FORWARD_SLASH;
 	
 	/* FRONTEND API BASE URLs */
 	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
@@ -38,7 +39,7 @@ public abstract class Constants
 	public static final int CACHE_DATABASE_VERSION = 1;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
-	public static final boolean FORCE_ENABLE_DISQUS_COMMENTS = true;
+	public static final boolean FORCE_ENABLE_DISQUS_COMMENTS = false;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = false;
