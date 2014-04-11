@@ -296,7 +296,7 @@ public class BroadcastPageActivity
 		{
 			switch (requestIdentifier) 
 			{
-				case DISQUS_THREAD_COMMENTS:
+				case DISQUS_THREAD_DETAILS:
 				{
 					showAndReloadDisqusCommentsWebview(0);
 					break;

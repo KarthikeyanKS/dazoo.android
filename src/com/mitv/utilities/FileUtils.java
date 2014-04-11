@@ -6,34 +6,37 @@ package com.mitv.utilities;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Locale;
-
 import android.os.Environment;
+import android.util.Log;
+
 
 
 
 public abstract class FileUtils 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = AppDataUtils.class.getName();
 
 	
+	private static final String ANDROID_DATA_PATH = "/Android/data/";
 	
+	
+			
 	public static File getFile(String fileName) 
 	{
 		File file = null;
 
-		if (isExternalStorageReadable()) 
+		if (fileName != null && isExternalStorageReadable()) 
 		{
-			String root = Environment.getExternalStorageDirectory().toString();
-
+			StringBuilder filePathSB = new StringBuilder();
+			
+			String externalStorageDirectory = Environment.getExternalStorageDirectory().toString();
+			
+			filePathSB.append(externalStorageDirectory);
+			filePathSB.append(ANDROID_DATA_PATH);
+			
 			try 
 			{
-				Locale locale = LanguageUtils.getCurrentLocale();
-
-				String filePath = String.format(locale, "%s/Android/data/", root);
-
-				File myDir = new File(filePath);
+				File myDir = new File(filePathSB.toString());
 
 				myDir.mkdirs();
 
@@ -41,19 +44,57 @@ public abstract class FileUtils
 			} 
 			catch (Exception e) 
 			{
-				e.printStackTrace();
+				Log.e(TAG, e.getMessage());
 			}
+		}
+		else
+		{
+			Log.w(TAG, "Filename is null or external storage not readable.");
 		}
 
 		return file;
 	}
 
-	public static boolean fileExists(File file) {
+	
+	
+	public static void saveFile(File file) 
+	{
+		if(file != null) 
+		{
+			if(fileExists(file) == false) 
+			{
+				if(isExternalStorageWritable()) 
+				{
+					FileOutputStream fos;
+					OutputStreamWriter outsw;
+					
+					try 
+					{
+						fos = new FileOutputStream(file, true);
+	
+						outsw = new OutputStreamWriter(fos);
+	
+						outsw.close();
+					} 
+					catch (Exception e) 
+					{
+						Log.e(TAG, e.getMessage());
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	public static boolean fileExists(File file) 
+	{
 		boolean fileExists = false;
 
-		if (isExternalStorageReadable()) {
-
-			if (file != null) {
+		if (isExternalStorageReadable()) 
+		{
+			if (file != null) 
+			{
 				fileExists = file.exists();
 			}
 		}
@@ -61,38 +102,25 @@ public abstract class FileUtils
 		return fileExists;
 	}
 
-	public static void saveFile(File file) {
-		if (file != null) {
-			if (!fileExists(file)) {
-				if (isExternalStorageWritable()) {
-					try {
-						FileOutputStream os = new FileOutputStream(file, true);
 	
-						OutputStreamWriter out = new OutputStreamWriter(os);
 	
-						out.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
-
-	public static boolean isExternalStorageWritable() {
+	private static boolean isExternalStorageWritable() 
+	{
 		String state = Environment.getExternalStorageState();
 
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			return true;
-		}
-
-		return false;
+		boolean isExternalStorageWritable = Environment.MEDIA_MOUNTED.equals(state);
+		
+		return isExternalStorageWritable;
 	}
 
-	public static boolean isExternalStorageReadable() {
+	
+	
+	private static boolean isExternalStorageReadable() 
+	{
 		String state = Environment.getExternalStorageState();
 
-		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) 
+		{
 			return true;
 		}
 

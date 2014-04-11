@@ -30,6 +30,7 @@ import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
+import com.mitv.ImageLoaderManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
@@ -204,6 +205,8 @@ public abstract class BaseActivity
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		ImageLoaderManager.sharedInstance(this).resume();
 		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
 		{
@@ -709,8 +712,19 @@ public abstract class BaseActivity
 		}
 	}
 
+	
 	@Override
-	protected void onStop() {
+	protected void onPause() 
+	{
+		super.onPause();
+
+		ImageLoaderManager.sharedInstance(this).pause();
+	}
+	
+	
+	@Override
+	protected void onStop() 
+	{
 		super.onStop();
 
 		GATrackingManager.reportActivityStop(this);

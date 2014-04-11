@@ -324,32 +324,6 @@ public abstract class DateUtils
 	}
 	
 	
-
-//	public static boolean isSameAiringDayTitle(
-//			final Calendar inputCalendar, 
-//			final Calendar referencedTime) 
-//	{
-//		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
-//
-//		boolean correctDay = inputCalendar.get(Calendar.DAY_OF_MONTH) == referencedTime.get(Calendar.DAY_OF_MONTH);
-//		boolean correctHourLowerBound = inputCalendar.get(Calendar.HOUR_OF_DAY) <= 23;
-//		boolean correctHourUpperBound = inputCalendar.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
-//		boolean correctHour = correctHourLowerBound && correctHourUpperBound;
-//
-//		boolean isCorrectDayIfBeforeTwelveAtNight = correctDay && correctHour;
-//
-//		correctDay = inputCalendar.get(Calendar.DAY_OF_MONTH) == (referencedTime.get(Calendar.DAY_OF_MONTH) + 1);
-//		correctHourLowerBound = inputCalendar.get(Calendar.HOUR_OF_DAY) >= 0;
-//		correctHourUpperBound = inputCalendar.get(Calendar.HOUR_OF_DAY) < firstHourOfTVDay;
-//		correctHour = correctHourLowerBound && correctHourUpperBound;
-//
-//		boolean isCorrectDayIfAfterTwelveAtNight = correctDay && correctHour;
-//
-//		boolean isSameDayAsNow = isCorrectDayIfBeforeTwelveAtNight || isCorrectDayIfAfterTwelveAtNight;
-//
-//		return isSameDayAsNow;
-//	}
-	
 	
 	/**
 	 * This method compares 2 calendar objects, returning true if they are in the same "broadcast day", or false otherwise
