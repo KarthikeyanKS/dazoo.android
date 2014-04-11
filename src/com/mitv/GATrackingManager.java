@@ -225,10 +225,25 @@ public class GATrackingManager
 		}
 	}
 
-	public void sendUserHourSelectionEvent() {
+	public void sendUserHourSelectionEvent(int lastSelectedHour) {
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
-			sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, selectedHour.toString());
+			int selectedHourInt = selectedHour.intValue();
+
+			int timeDiff = Math.abs(selectedHourInt - lastSelectedHour);
+			
+			StringBuilder sb = new StringBuilder();
+			if(selectedHourInt < lastSelectedHour) {
+				sb.append(timeDiff).append("H_BACK_IN_TIME");
+			} else if(selectedHourInt > lastSelectedHour) {
+				sb.append(timeDiff).append("H_FORWARD_IN_TIME");
+			} else {
+				sb.append("SAME_HOUR");
+			}
+			
+			String label = sb.toString();
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)selectedHour);
 		}
 	}
 

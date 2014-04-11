@@ -27,6 +27,7 @@ public class VerticalSeekBar
 	
 	private int hoursPerDay;
 	private int firstHourOfDay;
+	private int lastSelectedHour;
 	private FontTextView selectedHourTextView;
 
 	
@@ -70,9 +71,13 @@ public class VerticalSeekBar
 		selectedHourTextView.setVisibility(View.GONE);
 	}
 	
+	private int getCurrentHourFromProgressBar() {
+		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
+		return hour;
+	}
 
 	private void updateTextViewText() {
-		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
+		int hour = getCurrentHourFromProgressBar();
 
 		String hourString = String.format(Locale.getDefault(), "%02d:00", hour);
 
@@ -105,7 +110,7 @@ public class VerticalSeekBar
 			int height = getHeight();
 			int i = max - (int) (max * event.getY() / height);
 			setProgress(getMax() - i);
-
+			
 			onSizeChanged(getWidth(), height, 0, 0);
 			updateTextViewText();
 			swipeClockBar.highlightClockbar();
@@ -120,7 +125,8 @@ public class VerticalSeekBar
 			}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
 			swipeClockBar.dehighlightClockbar();
 
-			GATrackingManager.sharedInstance().sendUserHourSelectionEvent();
+			GATrackingManager.sharedInstance().sendUserHourSelectionEvent(lastSelectedHour);
+			lastSelectedHour = getCurrentHourFromProgressBar();
 			break;
 		}
 		case MotionEvent.ACTION_CANCEL: {
