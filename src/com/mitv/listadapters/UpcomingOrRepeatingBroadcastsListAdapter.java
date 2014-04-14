@@ -13,9 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.ui.elements.ReminderView;
 

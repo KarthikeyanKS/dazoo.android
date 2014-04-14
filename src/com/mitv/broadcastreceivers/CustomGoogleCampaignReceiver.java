@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.analytics.CampaignTrackingReceiver;
-import com.mitv.GATrackingManager;
+import com.mitv.managers.TrackingGAManager;
 
 public class CustomGoogleCampaignReceiver extends BroadcastReceiver {
 
@@ -27,6 +27,6 @@ public class CustomGoogleCampaignReceiver extends BroadcastReceiver {
 		/* Pass the extras from the intent to the Google Analytics receiver */
 		new CampaignTrackingReceiver().onReceive(context, intent);
 		
-		GATrackingManager.sharedInstance().sendGooglePlayCampaignToAnalytics(campaignData);
+		TrackingGAManager.sharedInstance().sendGooglePlayCampaignToAnalytics(campaignData);
 	}
 }

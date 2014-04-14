@@ -7,8 +7,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-import com.mitv.FontManager;
 import com.mitv.R;
+import com.mitv.managers.FontManager;
 
 public class FontButton extends Button {
 

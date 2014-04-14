@@ -52,8 +52,8 @@ import com.mitv.models.objects.mitvapi.UserLike;
 
 public class APIClient
 {	
-	private static final int  pool_executor_default_core_pool_size  = 7;
-	private static final int  pool_executor_default_max_pool_size   = 10;
+	private static final int  pool_executor_default_core_pool_size  = 15;
+	private static final int  pool_executor_default_max_pool_size   = 20;
 	private static final long pool_executor_default_keep_alive_time = 5000L;
 	
 	

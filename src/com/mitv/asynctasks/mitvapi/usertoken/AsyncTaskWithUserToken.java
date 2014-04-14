@@ -7,12 +7,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.ContentManager;
 
 
 

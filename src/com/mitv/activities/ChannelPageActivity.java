@@ -13,13 +13,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.ChannelPageListAdapter;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;

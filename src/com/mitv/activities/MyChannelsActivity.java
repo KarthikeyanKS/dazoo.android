@@ -20,8 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -29,6 +27,8 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.listadapters.MyChannelsListAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.TVChannelComparatorByName;
 import com.mitv.models.comparators.TVChannelIdComparatorById;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -97,7 +97,7 @@ public class MyChannelsActivity
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				GATrackingManager.sharedInstance().sendUserPressedChannelInMyChannelsActivity();
+				TrackingGAManager.sharedInstance().sendUserPressedChannelInMyChannelsActivity();
 			}
 		});
 		channelCountTextView = (TextView) findViewById(R.id.mychannels_header_counter_tv);
@@ -138,7 +138,7 @@ public class MyChannelsActivity
 	@Override
 	public void onPause() 
 	{
-		GATrackingManager.sharedInstance().sendUserMyChannelsPageSearchEvent(search);
+		TrackingGAManager.sharedInstance().sendUserMyChannelsPageSearchEvent(search);
 		updateMyChannels();
 		super.onPause();
 	}

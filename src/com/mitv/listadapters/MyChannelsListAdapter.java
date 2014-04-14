@@ -16,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.interfaces.MyChannelsCountInterface;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -138,7 +138,7 @@ extends BaseAdapter
 						holder.button.setBackgroundResource(R.drawable.layout_rounded_corners_blue0);
 					}
 
-					GATrackingManager.sharedInstance().sendUserChannelSearchResultClickedEvent(searchQuery, channelByTag.getName(), checked);
+					TrackingGAManager.sharedInstance().sendUserChannelSearchResultClickedEvent(searchQuery, channelByTag.getName(), checked);
 					int checkedChannelsCount = checkedChannelIds.size();
 					mCountInterface.setSelectedChannelCount(checkedChannelsCount);
 				}

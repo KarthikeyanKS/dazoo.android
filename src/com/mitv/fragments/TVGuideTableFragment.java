@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -24,6 +23,7 @@ import com.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.TVGuideListAdapter;
 import com.mitv.listadapters.TVGuideTagListAdapter;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;

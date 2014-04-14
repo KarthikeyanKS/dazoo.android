@@ -27,8 +27,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.FontManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -36,6 +34,8 @@ import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.http.URLParameters;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.FontManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannelId;

@@ -51,7 +51,7 @@ public abstract class Constants
 	/* AMAZON INSIGHTS DEMO */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
 	public static final String AMAZON_INSIGHTS_PUBLIC_KEY = "f2a04686bcc24285a46a7823300fcf1b";
-	public static final String AMAZON_INSIGHTS_PRIVATE_KEY = "7GCv830tpJAbqSC5BsXYwJ2S1JGto2Ej29wD99BQK6M";
+	public static final String AMAZON_INSIGHTS_PRIVATE_KEY = "7GCv830tpJAbqSC5BsXYwJ2S1JGto2Ej29wD99BQK6M=";
 	
 	/* HockeyApp Settings */
 	public static final String TESTFLIGHT_TOKEN = "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
