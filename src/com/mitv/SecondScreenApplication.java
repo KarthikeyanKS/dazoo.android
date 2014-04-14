@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
@@ -64,6 +65,7 @@ public class SecondScreenApplication
 		}
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate() 
 	{

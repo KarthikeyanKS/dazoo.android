@@ -28,6 +28,7 @@ import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 import com.mitv.utilities.RegularExpressionUtils;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -107,6 +108,7 @@ public class SignUpWithEmailActivity
 
 		if (isConnected) 
 		{
+			Appirater.significantEvent(this);
 			ContentManager.sharedInstance().performSignUp(this, email, password, firstname, lastname);
 		}
 		else

@@ -105,4 +105,16 @@ public class TrackingManager
 			TrackingAIManager.sharedInstance().resumeSession();
 		}
 	}
+	
+	
+	
+	public void sendUserTutorialExitEvent(int page) 
+	{	
+		TrackingGAManager.sharedInstance().sendUserTutorialExitEvent(page);
+		
+		if(Constants.ENABLE_AMAZON_INSIGHTS)
+		{
+			TrackingAIManager.sharedInstance().sendUserTutorialExitEvent(page);
+		}
+	}
 }
