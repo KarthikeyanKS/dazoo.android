@@ -103,7 +103,9 @@ public class BuildTVBroadcastsForTags
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>();
+		
 		double startTime = System.currentTimeMillis();
+		
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) 
 		{
 			TVChannelId tvChannelId = tvChannelGuide.getChannelId();

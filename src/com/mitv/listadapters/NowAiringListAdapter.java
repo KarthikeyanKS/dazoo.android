@@ -8,16 +8,15 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
@@ -31,68 +30,106 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> 
+public class NowAiringListAdapter 
+	extends BaseAdapter
 {
-	private static final String TAG = TVGuideTagListAdapter.class.getName();
+	@SuppressWarnings("unused")
+	private static final String TAG = NowAiringListAdapter.class.getName();
 
+	
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
-	private int currentPosition;
+	private final ArrayList<TVBroadcastWithChannelInfo> broadcasts;
 
 	
 	
-	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition) 
+	public NowAiringListAdapter(
+			final Activity activity, 
+			final ArrayList<TVBroadcastWithChannelInfo> broadcasts) 
 	{
-		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
-		this.taggedBroadcasts = taggedBroadcasts;
-		this.activity = activity;
-		this.currentPosition = currentPosition;
-	}
-
-	
-	
-	@Override
-	public int getViewTypeCount() 
-	{
-		return super.getViewTypeCount() + 1;
-	}
-
-	
-	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
-		Log.d(TAG, "Fetching index " + position);
+		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		/* Superclass AdListAdapter will create view if this is a position of an ad. */
-		View rowView = super.getView(position, convertView, parent);
-
-		if (rowView == null)
+		boolean foundRunningBroadcast = false;
+		
+		int indexOfRunningBroadcast = 0;
+		
+		for (int i = 0; i < broadcasts.size(); ++i) 
 		{
-			rowView = getViewForBroadCastCell(position, convertView, parent);
+			TVBroadcastWithChannelInfo upcomingBroadcast = broadcasts.get(i);
+			
+			if (upcomingBroadcast.isAiring())
+			{
+				foundRunningBroadcast = true;
+				
+				indexOfRunningBroadcast = i;
+				
+				break;
+			}
 		}
 
-		return rowView;
+		if (foundRunningBroadcast)
+		{
+			broadcasts.remove(indexOfRunningBroadcast);
+		}
+
+		this.broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(broadcasts);
+		
+		this.activity = activity;
 	}
 
 	
 	
-	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) 
+	@Override
+	public int getCount()
+	{
+		if (broadcasts != null)
+		{
+			return broadcasts.size();
+		} 
+		else
+		{
+			return 0;
+		}
+	}
+	
+	
+	
+	@Override
+	public TVBroadcastWithChannelInfo getItem(int position) 
+	{
+		if (broadcasts != null) 
+		{
+			return broadcasts.get(position);
+		} 
+		else 
+		{
+			return null;
+		}
+	}
+
+		
+	
+	@Override
+	public long getItemId(int arg0) 
+	{
+		return -1;
+	}
+
+	
+	
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent)
 	{
 		View rowView = convertView;
 
-		// Get the item with the displacement depending on the scheduled time on air
-		int indexForBroadcast = currentPosition + position;
-		
-		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) getItem(position);
 
 		if (rowView == null) 
 		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
-			rowView = layoutInflater.inflate(R.layout.element_poster_broadcast, null);
+			rowView = layoutInflater.inflate(R.layout.element_poster_broadcast_also_airing_now, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
@@ -232,7 +269,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 	
 	
-	static class ViewHolder 
+	private static class ViewHolder 
 	{
 		private RelativeLayout mContainer;
 		private ImageView mImageIv;
@@ -242,43 +279,5 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 		private TextView mDescTv;
 		private TextView mTimeLeftTv;
 		private ProgressBar mDurationPb;
-	}
-
-	
-	
-	@Override
-	public int getCount() 
-	{
-		if (taggedBroadcasts != null) 
-		{
-			return taggedBroadcasts.size() - currentPosition;
-		} 
-		else 
-		{
-			return 0;
-		}
-	}
-
-	
-	
-	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) 
-	{
-		if (taggedBroadcasts != null) 
-		{
-			return taggedBroadcasts.get(position);
-		} 
-		else 
-		{
-			return null;
-		}
-	}
-
-	
-	
-	@Override
-	public long getItemId(int arg0) 
-	{
-		return -1;
 	}
 }
