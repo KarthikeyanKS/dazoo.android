@@ -26,6 +26,7 @@ import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
 import com.mitv.utilities.NetworkUtils;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -117,6 +118,8 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	@Override
 	public void onClick(View v) 
 	{
+		Appirater.significantEvent(activity);
+		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);

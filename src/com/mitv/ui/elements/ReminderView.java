@@ -24,6 +24,7 @@ import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.NotificationHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -150,6 +151,8 @@ public class ReminderView
 	public void onClick(View v) 
 	{
 		GATrackingManager.sharedInstance().sendUserReminderEvent(activity, tvBroadcastWithChannelInfo, isSet);
+		
+		Appirater.significantEvent(activity);
 		
 		if (isSet == false) 
 		{

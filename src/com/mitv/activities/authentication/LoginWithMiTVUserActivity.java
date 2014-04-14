@@ -27,6 +27,7 @@ import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 import com.mitv.utilities.RegularExpressionUtils;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -94,6 +95,7 @@ public class LoginWithMiTVUserActivity
 
 		if (isConnected) 
 		{
+			Appirater.significantEvent(this);
 			ContentManager.sharedInstance().performLogin(this, username, password);
 		}
 		else

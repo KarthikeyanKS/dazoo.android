@@ -20,6 +20,7 @@ import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -60,6 +61,8 @@ public class HomeActivity
 		initLayout();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		
+		Appirater.appLaunched(this);
 	}
 	
 	
