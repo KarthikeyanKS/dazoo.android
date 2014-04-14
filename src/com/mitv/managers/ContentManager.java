@@ -1,5 +1,5 @@
 
-package com.mitv;
+package com.mitv.managers;
 
 
 
@@ -15,6 +15,11 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mitv.APIClient;
+import com.mitv.Cache;
+import com.mitv.ListenerHolder;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.asynctasks.other.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -1337,7 +1342,7 @@ public class ContentManager
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 			
-			GATrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingEmailEvent();
+			TrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingEmailEvent();
 		} 
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_SIGN_UP, result);
@@ -1409,8 +1414,9 @@ public class ContentManager
 			
 			boolean wasJustCreated = userData.getUser().isCreated();
 			
-			if(wasJustCreated) {
-				GATrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingFacebookEvent();
+			if(wasJustCreated) 
+			{
+				TrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingFacebookEvent();
 			}
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
@@ -2128,7 +2134,7 @@ public class ContentManager
 		
 		clearUserCache();
 		
-		GATrackingManager.sharedInstance().setUserIdOnTrackerAndSendSignedOut();
+		TrackingGAManager.sharedInstance().setUserIdOnTrackerAndSendSignedOut();
 		
 		if(isSessionExpiredLogout == false)
 		{

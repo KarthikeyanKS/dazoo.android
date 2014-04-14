@@ -14,6 +14,9 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.ImageLoaderManager;
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
@@ -75,7 +78,7 @@ public class SecondScreenApplication
 		
 		if(ContentManager.sharedInstance().isLoggedIn()) {
 			String userId = ContentManager.sharedInstance().getFromCacheUserId();
-			GATrackingManager.sharedInstance().setUserIdOnTracker(userId);
+			TrackingGAManager.sharedInstance().setUserIdOnTracker(userId);
 		}
 		
 		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */

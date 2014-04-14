@@ -1,4 +1,4 @@
-package com.mitv;
+package com.mitv.managers;
 
 import java.io.File;
 import java.util.Calendar;
@@ -14,6 +14,9 @@ import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.google.android.gms.analytics.Logger.LogLevel;
 import com.google.android.gms.analytics.Tracker;
+import com.mitv.Constants;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVDate;
@@ -23,26 +26,26 @@ import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
 
-public class GATrackingManager 
+public class TrackingGAManager 
 {
-	private static final String TAG = GATrackingManager.class.getName();
+	private static final String TAG = TrackingGAManager.class.getName();
 
-	private static GATrackingManager instance;
+	private static TrackingGAManager instance;
 
 	private Tracker tracker;
 	private Context context;
 
-	public GATrackingManager(final Context context) {
+	public TrackingGAManager(final Context context) {
 		this.context = context;
 
 		updateConfiguration();
 	}
 
-	public static GATrackingManager sharedInstance() {
+	public static TrackingGAManager sharedInstance() {
 		if (instance == null) {
 			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 
-			instance = new GATrackingManager(context);
+			instance = new TrackingGAManager(context);
 		}
 
 		return instance;
@@ -145,15 +148,9 @@ public class GATrackingManager
 		tracker.set(Constants.GA_FIELD_USER_ID, userId);
 	}
 
-	public void sendUserSignUpSuccessfulUsingEmailEvent() {
-		sendUserSignUpSuccessfulEvent(false);
-	}
-
-	public void sendUserSignUpSuccessfulUsingFacebookEvent() {
-		sendUserSignUpSuccessfulEvent(true);
-	}
-
-	public void sendUserSignUpSuccessfulEvent(boolean facebook) {
+	
+	public void sendUserSignUpSuccessfulEvent(boolean facebook) 
+	{
 		String userId = ContentManager.sharedInstance().getFromCacheUserId();
 
 		String actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL;

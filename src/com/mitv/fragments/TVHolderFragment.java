@@ -14,11 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.imbryk.viewPager.LoopViewPager;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.viewpagerindicator.TabPageIndicator;
@@ -109,7 +109,7 @@ public class TVHolderFragment
 		if(viewPagerIndexChangedListener != null)
 		{
 			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
-			GATrackingManager.sharedInstance().sendUserTagSelectionEvent(pos);
+			TrackingGAManager.sharedInstance().sendUserTagSelectionEvent(pos);
 		}
 		else
 		{

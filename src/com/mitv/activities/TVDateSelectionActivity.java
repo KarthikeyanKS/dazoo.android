@@ -9,13 +9,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.util.Log;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.ActionBarDropDownDateListAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 
 
@@ -178,7 +178,7 @@ public abstract class TVDateSelectionActivity
 					
 					fetchGuideForSelectedDay(position);
 					
-					GATrackingManager.sharedInstance().sendUserDaySelectionEvent(this, position);
+					TrackingGAManager.sharedInstance().sendUserDaySelectionEvent(this, position);
 					break;
 				}
 				

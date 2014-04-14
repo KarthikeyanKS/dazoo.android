@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.mitv.GATrackingManager;
+import com.mitv.managers.TrackingGAManager;
 
 
 
@@ -125,7 +125,7 @@ public class VerticalSeekBar
 			}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
 			swipeClockBar.dehighlightClockbar();
 
-			GATrackingManager.sharedInstance().sendUserHourSelectionEvent(lastSelectedHour);
+			TrackingGAManager.sharedInstance().sendUserHourSelectionEvent(lastSelectedHour);
 			lastSelectedHour = getCurrentHourFromProgressBar();
 			break;
 		}

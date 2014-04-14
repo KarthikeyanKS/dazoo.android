@@ -19,8 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -29,6 +27,8 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.TutorialScreenSlidePagerAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
@@ -100,13 +100,13 @@ public class SplashScreenActivity
 			showSplashScreen();
 		}
 				
-		GATrackingManager.reportActivityStart(this);
+		TrackingGAManager.reportActivityStart(this);
 	}
 
 	@Override
 	protected void onStop() {
 	    super.onStop();
-		GATrackingManager.reportActivityStop(this);
+		TrackingGAManager.reportActivityStop(this);
 	}
 	
 	
@@ -206,7 +206,7 @@ public class SplashScreenActivity
 
 					ToastHelper.createAndShowLongToast(message);
 					
-					GATrackingManager.sharedInstance().sendTimeOffSyncEvent();
+					TrackingGAManager.sharedInstance().sendTimeOffSyncEvent();
 				}
 				
 				isDataFetched = true;
