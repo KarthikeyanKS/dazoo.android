@@ -8236,6 +8236,1400 @@ android.support.v7.widget.SuggestionsAdapter$ChildViewCache -> qh:
     android.widget.ImageView mIcon1 -> c
     android.widget.ImageView mIcon2 -> d
     android.widget.ImageView mIconRefine -> e
+com.amazon.insights.ABTestClient -> com.amazon.insights.ABTestClient:
+    com.amazon.insights.InsightsHandler getVariations(java.lang.String[]) -> getVariations
+com.amazon.insights.AmazonInsights -> com.amazon.insights.AmazonInsights:
+    java.lang.String SDK_VERSION -> SDK_VERSION
+    java.lang.String SDK_NAME -> SDK_NAME
+    com.amazon.insights.core.util.SDKInfo sdkInfo -> sdkInfo
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.util.Map instances -> instances
+    135:137:com.amazon.insights.InsightsCredentials newCredentials(java.lang.String,java.lang.String) -> newCredentials
+    146:146:com.amazon.insights.InsightsOptions newDefaultOptions() -> newDefaultOptions
+    159:159:com.amazon.insights.InsightsOptions newOptions(boolean,boolean) -> newOptions
+    169:172:com.amazon.insights.AmazonInsights getInstance(com.amazon.insights.InsightsCredentials) -> getInstance
+    186:186:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.InsightsCredentials,android.content.Context) -> newInstance
+    199:199:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.InsightsCredentials,android.content.Context,com.amazon.insights.InsightsCallback) -> newInstance
+    212:212:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.InsightsCredentials,android.content.Context,com.amazon.insights.InsightsOptions) -> newInstance
+    226:226:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.InsightsCredentials,android.content.Context,com.amazon.insights.InsightsOptions,com.amazon.insights.InsightsCallback) -> newInstance
+    231:238:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.InsightsCredentials,android.content.Context,com.amazon.insights.InsightsOptions,java.util.Map,com.amazon.insights.InsightsCallback) -> newInstance
+    243:243:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.core.InsightsContext) -> newInstance
+    247:256:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.core.InsightsContext,com.amazon.insights.InsightsOptions) -> newInstance
+    260:269:com.amazon.insights.AmazonInsights newInstance(com.amazon.insights.core.InsightsContext,com.amazon.insights.InsightsOptions,com.amazon.insights.InsightsCallback) -> newInstance
+    273:273:com.amazon.insights.core.InsightsContext newInsightsContext(com.amazon.insights.InsightsCredentials,android.content.Context) -> newInsightsContext
+    277:277:com.amazon.insights.core.InsightsContext newInsightsContext(com.amazon.insights.InsightsCredentials,android.content.Context,java.util.Map) -> newInsightsContext
+    com.amazon.insights.ABTestClient getABTestClient() -> getABTestClient
+    com.amazon.insights.EventClient getEventClient() -> getEventClient
+    com.amazon.insights.UserProfile getUserProfile() -> getUserProfile
+    com.amazon.insights.SessionClient getSessionClient() -> getSessionClient
+    305:305:com.amazon.insights.core.util.SDKInfo getSDKInfo() -> getSDKInfo
+    117:117:com.amazon.insights.core.log.Logger access$000() -> access$000
+com.amazon.insights.AmazonInsights$DefaultAmazonInsights -> com.amazon.insights.AmazonInsights$DefaultAmazonInsights:
+    com.amazon.insights.core.InsightsContext context -> context
+    com.amazon.insights.ABTestClient abClient -> abClient
+    com.amazon.insights.event.InternalEventClient eventClient -> eventClient
+    com.amazon.insights.session.InternalSessionClient sessionClient -> sessionClient
+    316:316:com.amazon.insights.ABTestClient getABTestClient() -> getABTestClient
+    321:321:com.amazon.insights.EventClient getEventClient() -> getEventClient
+    326:326:com.amazon.insights.UserProfile getUserProfile() -> getUserProfile
+    331:331:com.amazon.insights.SessionClient getSessionClient() -> getSessionClient
+com.amazon.insights.Event -> com.amazon.insights.Event:
+    void addAttribute(java.lang.String,java.lang.String) -> addAttribute
+    boolean hasAttribute(java.lang.String) -> hasAttribute
+    void addMetric(java.lang.String,java.lang.Number) -> addMetric
+    boolean hasMetric(java.lang.String) -> hasMetric
+    java.lang.String getEventType() -> getEventType
+    java.lang.String getAttribute(java.lang.String) -> getAttribute
+    java.lang.Number getMetric(java.lang.String) -> getMetric
+    com.amazon.insights.Event withAttribute(java.lang.String,java.lang.String) -> withAttribute
+    com.amazon.insights.Event withMetric(java.lang.String,java.lang.Number) -> withMetric
+    java.util.Map getAllAttributes() -> getAllAttributes
+    java.util.Map getAllMetrics() -> getAllMetrics
+com.amazon.insights.EventClient -> com.amazon.insights.EventClient:
+    void recordEvent(com.amazon.insights.Event) -> recordEvent
+    com.amazon.insights.Event createEvent(java.lang.String) -> createEvent
+    void addGlobalAttribute(java.lang.String,java.lang.String) -> addGlobalAttribute
+    void addGlobalAttribute(java.lang.String,java.lang.String,java.lang.String) -> addGlobalAttribute
+    void addGlobalMetric(java.lang.String,java.lang.Number) -> addGlobalMetric
+    void addGlobalMetric(java.lang.String,java.lang.String,java.lang.Number) -> addGlobalMetric
+    void removeGlobalAttribute(java.lang.String) -> removeGlobalAttribute
+    void removeGlobalAttribute(java.lang.String,java.lang.String) -> removeGlobalAttribute
+    void removeGlobalMetric(java.lang.String) -> removeGlobalMetric
+    void removeGlobalMetric(java.lang.String,java.lang.String) -> removeGlobalMetric
+    void submitEvents() -> submitEvents
+com.amazon.insights.InsightsCallback -> com.amazon.insights.InsightsCallback:
+    com.amazon.insights.core.log.Logger logger -> logger
+    void onComplete(java.lang.Object) -> onComplete
+    38:39:void onError(com.amazon.insights.error.InsightsError) -> onError
+com.amazon.insights.InsightsCredentials -> com.amazon.insights.InsightsCredentials:
+    java.lang.String getApplicationKey() -> getApplicationKey
+    java.lang.String getPrivateKey() -> getPrivateKey
+    int hashCode() -> hashCode
+    boolean equals(java.lang.Object) -> equals
+com.amazon.insights.InsightsHandler -> com.amazon.insights.InsightsHandler:
+    void setCallback(com.amazon.insights.InsightsCallback) -> setCallback
+com.amazon.insights.InsightsOptions -> com.amazon.insights.InsightsOptions:
+    boolean getAllowEventCollection() -> getAllowEventCollection
+    boolean getAllowWANDelivery() -> getAllowWANDelivery
+com.amazon.insights.InsightsProcessingService -> com.amazon.insights.InsightsProcessingService:
+    java.lang.String AVAILABILITY_SERVICE_WORKER -> AVAILABILITY_SERVICE_WORKER
+    java.lang.String ACTION_SYNC_CONFIGURATION -> ACTION_SYNC_CONFIGURATION
+    java.lang.String ACTION_SUBMIT_MEASUREMENTS -> ACTION_SUBMIT_MEASUREMENTS
+    45:46:void onCreate() -> onCreate
+    54:56:void onHandleIntent(android.content.Intent) -> onHandleIntent
+    65:72:void cancelPendingIntent(android.content.Context,java.lang.String) -> cancelPendingIntent
+    82:96:android.app.PendingIntent getPendingIntent(android.content.Context,java.lang.String,android.os.Bundle) -> getPendingIntent
+com.amazon.insights.SessionClient -> com.amazon.insights.SessionClient:
+    void pauseSession() -> pauseSession
+    void resumeSession() -> resumeSession
+com.amazon.insights.UserProfile -> com.amazon.insights.UserProfile:
+    java.util.Map getDimensions() -> getDimensions
+    com.amazon.insights.UserProfile addDimensionAsNumber(java.lang.String,java.lang.Number) -> addDimensionAsNumber
+    com.amazon.insights.UserProfile addDimensionAsString(java.lang.String,java.lang.String) -> addDimensionAsString
+com.amazon.insights.Variation -> com.amazon.insights.Variation:
+    java.lang.String getName() -> getName
+    java.lang.String getProjectName() -> getProjectName
+    int getVariableAsInt(java.lang.String,int) -> getVariableAsInt
+    float getVariableAsFloat(java.lang.String,float) -> getVariableAsFloat
+    short getVariableAsShort(java.lang.String,short) -> getVariableAsShort
+    long getVariableAsLong(java.lang.String,long) -> getVariableAsLong
+    java.lang.String getVariableAsString(java.lang.String,java.lang.String) -> getVariableAsString
+    boolean getVariableAsBoolean(java.lang.String,boolean) -> getVariableAsBoolean
+    double getVariableAsDouble(java.lang.String,double) -> getVariableAsDouble
+    boolean containsVariable(java.lang.String) -> containsVariable
+com.amazon.insights.VariationSet -> com.amazon.insights.VariationSet:
+    com.amazon.insights.Variation getVariation(java.lang.String) -> getVariation
+    boolean contains(java.lang.String) -> contains
+    java.util.Iterator iterator() -> iterator
+    int size() -> size
+com.amazon.insights.abtest.DefaultABTestClient -> com.amazon.insights.abtest.DefaultABTestClient:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String ALLOW_OPERATION_AFTER_HEADER -> ALLOW_OPERATION_AFTER_HEADER
+    java.lang.String ENDPOINT_PATH -> ENDPOINT_PATH
+    java.lang.String KEY_MAX_ALLOCATIONS -> KEY_MAX_ALLOCATIONS
+    java.lang.String KEY_ABTEST_ENABLED -> KEY_ABTEST_ENABLED
+    java.lang.String KEY_VARIATION_IDS -> KEY_VARIATION_IDS
+    java.lang.String KEY_ENDPOINT -> KEY_ENDPOINT
+    java.lang.String KEY_ALLOCATION_REQUEST_RETRIES -> KEY_ALLOCATION_REQUEST_RETRIES
+    int DEFAULT_MAX_ALLOCATIONS -> DEFAULT_MAX_ALLOCATIONS
+    boolean DEFAULT_ABTEST_ENABLEMENT -> DEFAULT_ABTEST_ENABLEMENT
+    java.lang.String DEFAULT_ENDPOINT -> DEFAULT_ENDPOINT
+    int DEFAULT_ALLOCATION_REQUEST_RETRIES -> DEFAULT_ALLOCATION_REQUEST_RETRIES
+    java.util.Map appliedVariationIds -> appliedVariationIds
+    com.amazon.insights.core.InsightsContext context -> context
+    java.util.concurrent.ExecutorService executor -> executor
+    com.amazon.insights.abtest.cache.VariationCache variationCache -> variationCache
+    com.amazon.insights.event.InternalEventClient eventClient -> eventClient
+    74:75:com.amazon.insights.abtest.DefaultABTestClient newInstance(com.amazon.insights.core.InsightsContext,com.amazon.insights.event.InternalEventClient) -> newInstance
+    91:101:void setAppliedVariationIdsAsGlobalAttribute(java.util.Map) -> setAppliedVariationIdsAsGlobalAttribute
+    104:135:void setVariationIdsFromAllocatedVariation(com.amazon.insights.abtest.DefaultVariation) -> setVariationIdsFromAllocatedVariation
+    139:162:com.amazon.insights.InsightsHandler getVariations(java.lang.String[]) -> getVariations
+    166:253:com.amazon.insights.core.DefaultInsightsHandler allocateVariations(java.util.Set,com.amazon.insights.core.DefaultInsightsHandler) -> allocateVariations
+    257:273:java.util.Set allocateDefaultVariations(java.util.Set,java.util.Map) -> allocateDefaultVariations
+    277:293:java.util.Set allocateCachedVariations(java.util.Set,java.util.Map) -> allocateCachedVariations
+    297:345:java.util.Set allocateServerVariations(java.util.Set,java.util.Map,java.util.Map) -> allocateServerVariations
+    349:353:boolean canHandleRequest() -> canHandleRequest
+    359:377:com.amazon.insights.core.http.HttpClient$Request createHttpRequest(java.util.Set,java.util.Map,java.util.Map) -> createHttpRequest
+    381:386:void cacheVariations(java.util.Map) -> cacheVariations
+    389:420:java.lang.String buildRequestBody(java.util.Set,java.util.Map,java.util.Map) -> buildRequestBody
+    431:445:org.json.JSONObject buildUserProfile(java.util.Map) -> buildUserProfile
+    449:470:org.json.JSONObject buildAllocationRequest(java.util.Set,java.util.Map) -> buildAllocationRequest
+    475:487:org.json.JSONObject variationToHttpRequest(com.amazon.insights.abtest.DefaultVariation) -> variationToHttpRequest
+    491:547:java.util.Map parseVariationResponse(java.lang.String) -> parseVariationResponse
+    551:551:java.lang.String getEndpointUrl() -> getEndpointUrl
+    555:555:int getMaxAllocations() -> getMaxAllocations
+    50:50:int access$000(com.amazon.insights.abtest.DefaultABTestClient) -> access$000
+    50:50:com.amazon.insights.core.log.Logger access$100() -> access$100
+    50:50:com.amazon.insights.core.InsightsContext access$200(com.amazon.insights.abtest.DefaultABTestClient) -> access$200
+com.amazon.insights.abtest.DefaultABTestClient$1 -> com.amazon.insights.abtest.DefaultABTestClient$1:
+    java.util.Set val$projectNames -> val$projectNames
+    java.util.concurrent.atomic.AtomicReference val$dimensions -> val$dimensions
+    com.amazon.insights.core.DefaultInsightsHandler val$getVariationHandler -> val$getVariationHandler
+    com.amazon.insights.abtest.DefaultABTestClient this$0 -> this$0
+    174:251:void run() -> run
+com.amazon.insights.abtest.DefaultABTestClient$1$1 -> com.amazon.insights.abtest.DefaultABTestClient$1$1:
+    java.util.Map val$variations -> val$variations
+    com.amazon.insights.abtest.DefaultABTestClient$1 this$1 -> this$1
+    200:211:com.amazon.insights.Variation getVariation(java.lang.String) -> getVariation
+    216:216:boolean contains(java.lang.String) -> contains
+    221:222:java.util.Iterator iterator() -> iterator
+    244:244:int size() -> size
+com.amazon.insights.abtest.DefaultABTestClient$1$1$1 -> com.amazon.insights.abtest.DefaultABTestClient$1$1$1:
+    java.util.Iterator val$iter -> val$iter
+    com.amazon.insights.abtest.DefaultABTestClient$1$1 this$2 -> this$2
+    225:225:boolean hasNext() -> hasNext
+    230:232:com.amazon.insights.Variation next() -> next
+    237:237:void remove() -> remove
+    222:222:java.lang.Object next() -> next
+com.amazon.insights.abtest.DefaultVariation -> com.amazon.insights.abtest.DefaultVariation:
+    com.amazon.insights.core.log.Logger logger -> logger
+    com.amazon.insights.abtest.DefaultVariation NULL_VARIATION -> NULL_VARIATION
+    java.lang.String applicationKey -> applicationKey
+    long experimentId -> experimentId
+    long variationId -> variationId
+    java.lang.String projectName -> projectName
+    java.lang.String variationName -> variationName
+    com.amazon.insights.core.idresolver.Id uniqueId -> uniqueId
+    java.util.Map variables -> variables
+    java.util.Date expirationDate -> expirationDate
+    com.amazon.insights.abtest.DefaultVariation$AllocationSource source -> source
+    java.lang.String DEFAULT_VARIATION_NAME -> DEFAULT_VARIATION_NAME
+    45:50:com.amazon.insights.abtest.DefaultVariation newVariation(com.amazon.insights.abtest.DefaultVariation$Builder) -> newVariation
+    70:70:com.amazon.insights.abtest.DefaultVariation$AllocationSource getAllocationSource() -> getAllocationSource
+    74:74:long getVariationId() -> getVariationId
+    78:78:java.util.Date getExpirationDate() -> getExpirationDate
+    82:82:boolean isExpired() -> isExpired
+    86:89:boolean isDefault() -> isDefault
+    98:98:java.lang.String getProjectName() -> getProjectName
+    106:106:java.lang.String getApplicationKey() -> getApplicationKey
+    115:118:java.lang.String getName() -> getName
+    126:126:com.amazon.insights.core.idresolver.Id getUniqueId() -> getUniqueId
+    134:134:long getExperimentId() -> getExperimentId
+    145:156:int getVariableAsInt(java.lang.String,int) -> getVariableAsInt
+    167:178:long getVariableAsLong(java.lang.String,long) -> getVariableAsLong
+    189:200:short getVariableAsShort(java.lang.String,short) -> getVariableAsShort
+    211:222:double getVariableAsDouble(java.lang.String,double) -> getVariableAsDouble
+    233:244:float getVariableAsFloat(java.lang.String,float) -> getVariableAsFloat
+    255:266:boolean getVariableAsBoolean(java.lang.String,boolean) -> getVariableAsBoolean
+    277:283:java.lang.String getVariableAsString(java.lang.String,java.lang.String) -> getVariableAsString
+    293:293:boolean containsVariable(java.lang.String) -> containsVariable
+    302:302:java.util.Iterator variablesIterator() -> variablesIterator
+    307:315:java.lang.String toString() -> toString
+    321:342:org.json.JSONObject toJSONObject() -> toJSONObject
+com.amazon.insights.abtest.DefaultVariation$AllocationSource -> com.amazon.insights.abtest.DefaultVariation$AllocationSource:
+    com.amazon.insights.abtest.DefaultVariation$AllocationSource SERVER -> SERVER
+    com.amazon.insights.abtest.DefaultVariation$AllocationSource CACHE -> CACHE
+    com.amazon.insights.abtest.DefaultVariation$AllocationSource DEFAULT -> DEFAULT
+    com.amazon.insights.abtest.DefaultVariation$AllocationSource[] $VALUES -> $VALUES
+    37:37:com.amazon.insights.abtest.DefaultVariation$AllocationSource[] values() -> values
+    37:37:com.amazon.insights.abtest.DefaultVariation$AllocationSource valueOf(java.lang.String) -> valueOf
+com.amazon.insights.abtest.DefaultVariation$Builder -> com.amazon.insights.abtest.DefaultVariation$Builder:
+    java.lang.String projectName -> projectName
+    java.lang.String applicationKey -> applicationKey
+    long experimentId -> experimentId
+    long variationId -> variationId
+    java.lang.String variationName -> variationName
+    com.amazon.insights.core.idresolver.Id uniqueId -> uniqueId
+    java.util.Map variables -> variables
+    java.util.Date expirationDate -> expirationDate
+    java.util.Date appliedDate -> appliedDate
+    com.amazon.insights.abtest.DefaultVariation$AllocationSource source -> source
+    358:358:java.lang.String getApplicationKey() -> getApplicationKey
+    362:365:com.amazon.insights.abtest.DefaultVariation$Builder setApplicationKey(java.lang.String) -> setApplicationKey
+    369:370:void setAllocationSource(com.amazon.insights.abtest.DefaultVariation$AllocationSource) -> setAllocationSource
+    373:373:com.amazon.insights.abtest.DefaultVariation$AllocationSource getAllocationSource() -> getAllocationSource
+    377:377:java.lang.String getProjectName() -> getProjectName
+    381:384:com.amazon.insights.abtest.DefaultVariation$Builder setProjectName(java.lang.String) -> setProjectName
+    388:388:long getExperimentId() -> getExperimentId
+    392:393:com.amazon.insights.abtest.DefaultVariation$Builder setExperimentId(long) -> setExperimentId
+    397:397:long getVariationId() -> getVariationId
+    401:402:com.amazon.insights.abtest.DefaultVariation$Builder setVariationId(long) -> setVariationId
+    406:406:java.lang.String getVariationName() -> getVariationName
+    410:413:com.amazon.insights.abtest.DefaultVariation$Builder setVariationName(java.lang.String) -> setVariationName
+    417:417:com.amazon.insights.core.idresolver.Id getUniqueId() -> getUniqueId
+    421:424:com.amazon.insights.abtest.DefaultVariation$Builder setUniqueId(com.amazon.insights.core.idresolver.Id) -> setUniqueId
+    428:428:java.util.Map getVariables() -> getVariables
+    432:435:com.amazon.insights.abtest.DefaultVariation$Builder setVariables(java.util.Map) -> setVariables
+    439:439:java.util.Date getExpirationDate() -> getExpirationDate
+    443:446:com.amazon.insights.abtest.DefaultVariation$Builder setExpirationDate(java.util.Date) -> setExpirationDate
+    450:450:java.util.Date getAppliedDate() -> getAppliedDate
+    454:457:com.amazon.insights.abtest.DefaultVariation$Builder setAppliedDate(java.util.Date) -> setAppliedDate
+    461:461:com.amazon.insights.abtest.DefaultVariation build() -> build
+com.amazon.insights.abtest.cache.FileVariationCache -> com.amazon.insights.abtest.cache.FileVariationCache:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String VARIATIONS_DIRECTORY -> VARIATIONS_DIRECTORY
+    com.amazon.insights.core.system.FileManager fileManager -> fileManager
+    java.io.File variationsDirectory -> variationsDirectory
+    java.util.Map variationFiles -> variationFiles
+    54:62:void loadVariationFileInfo() -> loadVariationFileInfo
+    66:115:boolean put(com.amazon.insights.abtest.DefaultVariation) -> put
+    120:135:java.util.Map get(java.util.Set) -> get
+    140:152:java.util.Map getAll() -> getAll
+    157:157:boolean contains(com.amazon.insights.abtest.DefaultVariation) -> contains
+    161:214:com.amazon.insights.abtest.DefaultVariation loadVariationFromFile(java.io.File) -> loadVariationFromFile
+    218:233:boolean writeVariationToFile(com.amazon.insights.abtest.DefaultVariation,java.io.Writer) -> writeVariationToFile
+com.amazon.insights.abtest.cache.VariationCache -> com.amazon.insights.abtest.cache.VariationCache:
+    boolean put(com.amazon.insights.abtest.DefaultVariation) -> put
+    java.util.Map get(java.util.Set) -> get
+    java.util.Map getAll() -> getAll
+    boolean contains(com.amazon.insights.abtest.DefaultVariation) -> contains
+com.amazon.insights.abtest.cache.VariationCaches -> com.amazon.insights.abtest.cache.VariationCaches:
+    13:13:com.amazon.insights.abtest.cache.VariationCache tryGetFileVariationCache(com.amazon.insights.core.InsightsContext) -> tryGetFileVariationCache
+com.amazon.insights.core.DefaultInsightsContext -> com.amazon.insights.core.DefaultInsightsContext:
+    com.amazon.insights.core.configuration.Configuration configuration -> configuration
+    com.amazon.insights.core.idresolver.Id uniqueId -> uniqueId
+    com.amazon.insights.core.http.HttpClient httpClient -> httpClient
+    com.amazon.insights.core.util.SDKInfo sdkInfo -> sdkInfo
+    com.amazon.insights.UserProfile userProfile -> userProfile
+    com.amazon.insights.InsightsCredentials credentials -> credentials
+    com.amazon.insights.core.idresolver.UniqueIdService uniqueIdService -> uniqueIdService
+    com.amazon.insights.core.system.System system -> system
+    com.amazon.insights.delivery.DeliveryClient deliveryClient -> deliveryClient
+    44:44:com.amazon.insights.core.InsightsContext newInstance(com.amazon.insights.InsightsCredentials,android.content.Context,com.amazon.insights.core.util.SDKInfo,boolean,java.util.Map) -> newInstance
+    74:74:com.amazon.insights.InsightsCredentials getCredentials() -> getCredentials
+    79:79:com.amazon.insights.core.configuration.Configuration getConfiguration() -> getConfiguration
+    84:84:com.amazon.insights.core.idresolver.Id getUniqueId() -> getUniqueId
+    89:89:com.amazon.insights.core.http.HttpClient getHttpClient() -> getHttpClient
+    94:94:com.amazon.insights.core.util.SDKInfo getSDKInfo() -> getSDKInfo
+    99:99:com.amazon.insights.UserProfile getUserProfile() -> getUserProfile
+    104:104:com.amazon.insights.core.system.System getSystem() -> getSystem
+    109:111:void synchronize() -> synchronize
+    115:115:com.amazon.insights.delivery.DeliveryClient getDeliveryClient() -> getDeliveryClient
+com.amazon.insights.core.DefaultInsightsHandler -> com.amazon.insights.core.DefaultInsightsHandler:
+    com.amazon.insights.InsightsCallback callback -> callback
+    java.lang.Object response -> response
+    com.amazon.insights.error.InsightsError error -> error
+    19:30:void setCallback(com.amazon.insights.InsightsCallback) -> setCallback
+    33:44:void onComplete(java.lang.Object) -> onComplete
+    47:58:void onError(com.amazon.insights.error.InsightsError) -> onError
+com.amazon.insights.core.InsightsContext -> com.amazon.insights.core.InsightsContext:
+    com.amazon.insights.InsightsCredentials getCredentials() -> getCredentials
+    com.amazon.insights.core.configuration.Configuration getConfiguration() -> getConfiguration
+    com.amazon.insights.delivery.DeliveryClient getDeliveryClient() -> getDeliveryClient
+    com.amazon.insights.core.idresolver.Id getUniqueId() -> getUniqueId
+    com.amazon.insights.core.http.HttpClient getHttpClient() -> getHttpClient
+    com.amazon.insights.core.util.SDKInfo getSDKInfo() -> getSDKInfo
+    com.amazon.insights.UserProfile getUserProfile() -> getUserProfile
+    com.amazon.insights.core.system.System getSystem() -> getSystem
+    void synchronize() -> synchronize
+com.amazon.insights.core.configuration.Configuration -> com.amazon.insights.core.configuration.Configuration:
+    java.lang.Long getLong(java.lang.String) -> getLong
+    java.lang.String getString(java.lang.String) -> getString
+    java.lang.Integer getInt(java.lang.String) -> getInt
+    java.lang.Short getShort(java.lang.String) -> getShort
+    java.lang.Double getDouble(java.lang.String) -> getDouble
+    java.lang.Boolean getBoolean(java.lang.String) -> getBoolean
+    java.lang.Long optLong(java.lang.String,java.lang.Long) -> optLong
+    java.lang.String optString(java.lang.String,java.lang.String) -> optString
+    java.lang.Integer optInt(java.lang.String,java.lang.Integer) -> optInt
+    java.lang.Short optShort(java.lang.String,java.lang.Short) -> optShort
+    java.lang.Double optDouble(java.lang.String,java.lang.Double) -> optDouble
+    java.lang.Boolean optBoolean(java.lang.String,java.lang.Boolean) -> optBoolean
+    void refresh() -> refresh
+com.amazon.insights.core.configuration.HttpCachingConfiguration -> com.amazon.insights.core.configuration.HttpCachingConfiguration:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String ENDPOINT -> ENDPOINT
+    java.lang.String ENDPOINT_PATH -> ENDPOINT_PATH
+    java.lang.String UNIQUE_ID_HEADER_NAME -> UNIQUE_ID_HEADER_NAME
+    java.lang.String CONFIG_KEY -> CONFIG_KEY
+    java.lang.String CONFIG_KEY_LAST_SYNC -> CONFIG_KEY_LAST_SYNC
+    long DEFAULT_SYNC_INTERVAL -> DEFAULT_SYNC_INTERVAL
+    com.amazon.insights.core.InsightsContext context -> context
+    java.util.concurrent.ExecutorService backgroundExecutor -> backgroundExecutor
+    java.util.Map overrideProperties -> overrideProperties
+    java.util.concurrent.atomic.AtomicLong lastSync -> lastSync
+    java.util.concurrent.atomic.AtomicBoolean isUpdateInProgress -> isUpdateInProgress
+    java.util.Map properties -> properties
+    53:53:com.amazon.insights.core.configuration.HttpCachingConfiguration newInstance(com.amazon.insights.core.InsightsContext,java.util.Map) -> newInstance
+    94:109:java.lang.Long getLong(java.lang.String) -> getLong
+    115:120:java.lang.String getString(java.lang.String) -> getString
+    126:141:java.lang.Integer getInt(java.lang.String) -> getInt
+    146:160:java.lang.Double getDouble(java.lang.String) -> getDouble
+    165:179:java.lang.Boolean getBoolean(java.lang.String) -> getBoolean
+    184:200:java.lang.Short getShort(java.lang.String) -> getShort
+    205:206:java.lang.Long optLong(java.lang.String,java.lang.Long) -> optLong
+    211:212:java.lang.String optString(java.lang.String,java.lang.String) -> optString
+    217:218:java.lang.Integer optInt(java.lang.String,java.lang.Integer) -> optInt
+    223:224:java.lang.Short optShort(java.lang.String,java.lang.Short) -> optShort
+    229:230:java.lang.Double optDouble(java.lang.String,java.lang.Double) -> optDouble
+    235:236:java.lang.Boolean optBoolean(java.lang.String,java.lang.Boolean) -> optBoolean
+    241:242:void refresh() -> refresh
+    246:247:java.lang.String optStringInternal(java.lang.String,java.lang.String) -> optStringInternal
+    255:279:void updateMappings(org.json.JSONObject) -> updateMappings
+    287:360:void syncConfiguration() -> syncConfiguration
+    367:377:com.amazon.insights.core.http.HttpClient$Request createHttpRequest() -> createHttpRequest
+    381:381:com.amazon.insights.core.http.HttpClient$Request createHttpRequestInstance() -> createHttpRequestInstance
+    389:407:void evaluateLastSync() -> evaluateLastSync
+    410:410:long getLastSync() -> getLastSync
+    414:417:void setLastSync(long) -> setLastSync
+    420:420:com.amazon.insights.core.InsightsContext getContext() -> getContext
+    424:424:java.util.concurrent.ExecutorService getBackgroundExecutor() -> getBackgroundExecutor
+    428:428:java.util.concurrent.atomic.AtomicBoolean getIsUpdateInProgress() -> getIsUpdateInProgress
+    31:31:com.amazon.insights.core.InsightsContext access$000(com.amazon.insights.core.configuration.HttpCachingConfiguration) -> access$000
+    31:31:java.util.Map access$100(com.amazon.insights.core.configuration.HttpCachingConfiguration) -> access$100
+    31:31:com.amazon.insights.core.log.Logger access$200() -> access$200
+    31:31:com.amazon.insights.core.InsightsContext access$300(com.amazon.insights.core.configuration.HttpCachingConfiguration) -> access$300
+    31:31:void access$400(com.amazon.insights.core.configuration.HttpCachingConfiguration,org.json.JSONObject) -> access$400
+    31:31:java.util.concurrent.atomic.AtomicBoolean access$500(com.amazon.insights.core.configuration.HttpCachingConfiguration) -> access$500
+com.amazon.insights.core.configuration.HttpCachingConfiguration$1 -> com.amazon.insights.core.configuration.HttpCachingConfiguration$1:
+    com.amazon.insights.core.configuration.HttpCachingConfiguration this$0 -> this$0
+    294:357:void run() -> run
+com.amazon.insights.core.http.ClientInfoInterceptor -> com.amazon.insights.core.http.ClientInfoInterceptor:
+    java.lang.String CLIENT_INFO_HEADER_NAME -> CLIENT_INFO_HEADER_NAME
+    android.content.Context context -> context
+    31:31:android.content.Context getContext() -> getContext
+    35:36:void setContext(android.content.Context) -> setContext
+    40:43:void before(com.amazon.insights.core.http.HttpClient$Request) -> before
+    48:48:void after(com.amazon.insights.core.http.HttpClient$Response) -> after
+    51:80:com.amazon.insights.core.http.ClientInfoInterceptor$ClientInfo getClientInfo() -> getClientInfo
+com.amazon.insights.core.http.ClientInfoInterceptor$ClientInfo -> com.amazon.insights.core.http.ClientInfoInterceptor$ClientInfo:
+    java.lang.String TAG -> TAG
+    java.lang.String os -> os
+    java.lang.String osVersion -> osVersion
+    java.lang.String model -> model
+    java.lang.String manufacturer -> manufacturer
+    java.lang.String networkType -> networkType
+    java.lang.String carrier -> carrier
+    107:107:java.lang.String getOS() -> getOS
+    111:112:void setOS(java.lang.String) -> setOS
+    115:115:java.lang.String getOSVersion() -> getOSVersion
+    119:120:void setOSVersion(java.lang.String) -> setOSVersion
+    123:123:java.lang.String getModel() -> getModel
+    127:128:void setModel(java.lang.String) -> setModel
+    131:131:java.lang.String getManufacturer() -> getManufacturer
+    135:136:void setManufacturer(java.lang.String) -> setManufacturer
+    139:139:java.lang.String getNetworkType() -> getNetworkType
+    143:144:void setNetworkType(java.lang.String) -> setNetworkType
+    147:147:java.lang.String getCarrier() -> getCarrier
+    151:152:void setCarrier(java.lang.String) -> setCarrier
+    156:156:java.lang.String toString() -> toString
+    160:171:org.json.JSONObject toJsonObject() -> toJsonObject
+com.amazon.insights.core.http.DefaultHttpClient -> com.amazon.insights.core.http.DefaultHttpClient:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String TAG -> TAG
+    java.lang.String REQUESTTIME_HEADER -> REQUESTTIME_HEADER
+    java.lang.String REQUESTATTEMPTS_HEADER -> REQUESTATTEMPTS_HEADER
+    java.lang.String SERVERINFO_HEADER -> SERVERINFO_HEADER
+    java.lang.String DATE_HEADER -> DATE_HEADER
+    int IO_EXCEPTION_RESPONSE_CODE -> IO_EXCEPTION_RESPONSE_CODE
+    java.lang.String TIME_FORMAT -> TIME_FORMAT
+    java.text.DateFormat df -> df
+    java.util.List interceptors -> interceptors
+    297:297:com.amazon.insights.core.http.HttpClient$Request newRequest() -> newRequest
+    307:310:void addInterceptor(com.amazon.insights.core.http.HttpClient$Interceptor) -> addInterceptor
+    322:342:com.amazon.insights.core.http.HttpClient$Response execute(com.amazon.insights.core.http.HttpClient$Request,java.lang.Integer) -> execute
+    348:385:org.apache.http.client.methods.HttpUriRequest buildHttpRequest(com.amazon.insights.core.http.HttpClient$Request) -> buildHttpRequest
+    389:389:java.lang.String getCurrentDateTime() -> getCurrentDateTime
+    393:411:long calculateRequestSize(org.apache.http.client.methods.HttpUriRequest) -> calculateRequestSize
+    415:429:long calculateResponseSize(org.apache.http.HttpResponse) -> calculateResponseSize
+    433:506:com.amazon.insights.core.http.HttpClient$Response executeHttpRequest(org.apache.http.client.methods.HttpUriRequest,int) -> executeHttpRequest
+com.amazon.insights.core.http.DefaultHttpClient$1 -> com.amazon.insights.core.http.DefaultHttpClient$1:
+    int[] $SwitchMap$com$amazon$insights$core$http$HttpClient$HttpMethod -> $SwitchMap$com$amazon$insights$core$http$HttpClient$HttpMethod
+com.amazon.insights.core.http.DefaultHttpClient$DefaultRequest -> com.amazon.insights.core.http.DefaultHttpClient$DefaultRequest:
+    java.util.Map params -> params
+    java.util.Map headers -> headers
+    byte[] postBody -> postBody
+    com.amazon.insights.core.http.HttpClient$HttpMethod method -> method
+    java.lang.String url -> url
+    62:63:com.amazon.insights.core.http.HttpClient$Request addParam(java.lang.String,java.lang.String) -> addParam
+    67:68:com.amazon.insights.core.http.HttpClient$Request addHeader(java.lang.String,java.lang.String) -> addHeader
+    73:81:com.amazon.insights.core.http.HttpClient$Request removeHeader(java.lang.String) -> removeHeader
+    87:91:com.amazon.insights.core.http.HttpClient$Request setPostBody(java.lang.String) -> setPostBody
+    95:96:com.amazon.insights.core.http.HttpClient$Request setMethod(com.amazon.insights.core.http.HttpClient$HttpMethod) -> setMethod
+    100:101:com.amazon.insights.core.http.HttpClient$Request setUrl(java.lang.String) -> setUrl
+    106:106:java.util.Map getParams() -> getParams
+    110:110:java.util.Map getHeaders() -> getHeaders
+    115:120:java.lang.String getPostBody() -> getPostBody
+    125:125:com.amazon.insights.core.http.HttpClient$HttpMethod getMethod() -> getMethod
+    129:129:java.lang.String getUrl() -> getUrl
+    134:147:java.lang.String toString() -> toString
+    152:157:com.amazon.insights.core.http.HttpClient$Request setPostBody(byte[]) -> setPostBody
+    162:165:byte[] getPostBodyBytes() -> getPostBodyBytes
+com.amazon.insights.core.http.DefaultHttpClient$DefaultResponse -> com.amazon.insights.core.http.DefaultHttpClient$DefaultResponse:
+    int code -> code
+    java.lang.String message -> message
+    java.lang.String response -> response
+    com.amazon.insights.core.http.HttpClient$Request originatingRequest -> originatingRequest
+    long requestSize -> requestSize
+    long responseSize -> responseSize
+    java.util.Map headersMap -> headersMap
+    179:179:com.amazon.insights.core.http.HttpClient$Response createResponse() -> createResponse
+    188:189:com.amazon.insights.core.http.HttpClient$Response addHeader(java.lang.String,java.lang.String) -> addHeader
+    193:194:com.amazon.insights.core.http.HttpClient$Response setCode(int) -> setCode
+    198:199:com.amazon.insights.core.http.HttpClient$Response setMessage(java.lang.String) -> setMessage
+    203:204:com.amazon.insights.core.http.HttpClient$Response setResponse(java.lang.String) -> setResponse
+    209:210:com.amazon.insights.core.http.HttpClient$Response setOriginatingRequest(com.amazon.insights.core.http.HttpClient$Request) -> setOriginatingRequest
+    215:215:com.amazon.insights.core.http.HttpClient$Request getOriginatingRequest() -> getOriginatingRequest
+    220:221:com.amazon.insights.core.http.HttpClient$Response setRequestSize(long) -> setRequestSize
+    226:226:long getRequestSize() -> getRequestSize
+    231:232:com.amazon.insights.core.http.HttpClient$Response setResponseSize(long) -> setResponseSize
+    237:237:long getResponseSize() -> getResponseSize
+    243:243:java.util.Map getHeaders() -> getHeaders
+    248:257:java.lang.String getHeader(java.lang.String) -> getHeader
+    261:261:int getCode() -> getCode
+    265:265:java.lang.String getMessage() -> getMessage
+    269:269:java.lang.String getResponse() -> getResponse
+    274:283:java.lang.String toString() -> toString
+com.amazon.insights.core.http.HttpClient -> com.amazon.insights.core.http.HttpClient:
+    void addInterceptor(com.amazon.insights.core.http.HttpClient$Interceptor) -> addInterceptor
+    com.amazon.insights.core.http.HttpClient$Response execute(com.amazon.insights.core.http.HttpClient$Request,java.lang.Integer) -> execute
+    com.amazon.insights.core.http.HttpClient$Request newRequest() -> newRequest
+com.amazon.insights.core.http.HttpClient$HttpMethod -> com.amazon.insights.core.http.HttpClient$HttpMethod:
+    com.amazon.insights.core.http.HttpClient$HttpMethod GET -> GET
+    com.amazon.insights.core.http.HttpClient$HttpMethod POST -> POST
+    com.amazon.insights.core.http.HttpClient$HttpMethod[] $VALUES -> $VALUES
+    14:14:com.amazon.insights.core.http.HttpClient$HttpMethod[] values() -> values
+    14:14:com.amazon.insights.core.http.HttpClient$HttpMethod valueOf(java.lang.String) -> valueOf
+com.amazon.insights.core.http.HttpClient$Interceptor -> com.amazon.insights.core.http.HttpClient$Interceptor:
+    void before(com.amazon.insights.core.http.HttpClient$Request) -> before
+    void after(com.amazon.insights.core.http.HttpClient$Response) -> after
+com.amazon.insights.core.http.HttpClient$Request -> com.amazon.insights.core.http.HttpClient$Request:
+    com.amazon.insights.core.http.HttpClient$Request addParam(java.lang.String,java.lang.String) -> addParam
+    com.amazon.insights.core.http.HttpClient$Request addHeader(java.lang.String,java.lang.String) -> addHeader
+    com.amazon.insights.core.http.HttpClient$Request removeHeader(java.lang.String) -> removeHeader
+    com.amazon.insights.core.http.HttpClient$Request setPostBody(java.lang.String) -> setPostBody
+    com.amazon.insights.core.http.HttpClient$Request setPostBody(byte[]) -> setPostBody
+    com.amazon.insights.core.http.HttpClient$Request setMethod(com.amazon.insights.core.http.HttpClient$HttpMethod) -> setMethod
+    com.amazon.insights.core.http.HttpClient$Request setUrl(java.lang.String) -> setUrl
+    java.util.Map getParams() -> getParams
+    java.util.Map getHeaders() -> getHeaders
+    java.lang.String getPostBody() -> getPostBody
+    byte[] getPostBodyBytes() -> getPostBodyBytes
+    com.amazon.insights.core.http.HttpClient$HttpMethod getMethod() -> getMethod
+    java.lang.String getUrl() -> getUrl
+    java.lang.String toString() -> toString
+com.amazon.insights.core.http.HttpClient$Response -> com.amazon.insights.core.http.HttpClient$Response:
+    com.amazon.insights.core.http.HttpClient$Response addHeader(java.lang.String,java.lang.String) -> addHeader
+    com.amazon.insights.core.http.HttpClient$Response setCode(int) -> setCode
+    com.amazon.insights.core.http.HttpClient$Response setMessage(java.lang.String) -> setMessage
+    com.amazon.insights.core.http.HttpClient$Response setResponse(java.lang.String) -> setResponse
+    com.amazon.insights.core.http.HttpClient$Response setOriginatingRequest(com.amazon.insights.core.http.HttpClient$Request) -> setOriginatingRequest
+    com.amazon.insights.core.http.HttpClient$Request getOriginatingRequest() -> getOriginatingRequest
+    com.amazon.insights.core.http.HttpClient$Response setRequestSize(long) -> setRequestSize
+    long getRequestSize() -> getRequestSize
+    com.amazon.insights.core.http.HttpClient$Response setResponseSize(long) -> setResponseSize
+    long getResponseSize() -> getResponseSize
+    java.util.Map getHeaders() -> getHeaders
+    java.lang.String getHeader(java.lang.String) -> getHeader
+    int getCode() -> getCode
+    java.lang.String getMessage() -> getMessage
+    java.lang.String getResponse() -> getResponse
+    java.lang.String toString() -> toString
+com.amazon.insights.core.http.HttpUtil -> com.amazon.insights.core.http.HttpUtil:
+    org.apache.http.client.HttpClient client -> client
+    java.lang.String STALE_CHECK_PARAM_NAME -> STALE_CHECK_PARAM_NAME
+    29:36:org.apache.http.client.HttpClient getHttpClient() -> getHttpClient
+    40:54:org.apache.http.client.HttpClient createHttpClient() -> createHttpClient
+    58:80:java.lang.String getMessageForResponse(com.amazon.insights.core.http.HttpClient$Response) -> getMessageForResponse
+com.amazon.insights.core.http.LogInterceptor -> com.amazon.insights.core.http.LogInterceptor:
+    com.amazon.insights.core.log.Logger logger -> logger
+    18:21:void before(com.amazon.insights.core.http.HttpClient$Request) -> before
+    25:28:void after(com.amazon.insights.core.http.HttpClient$Response) -> after
+com.amazon.insights.core.http.RequestTimingInterceptor -> com.amazon.insights.core.http.RequestTimingInterceptor:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String REQUESTTIME_HEADER -> REQUESTTIME_HEADER
+    java.lang.String REQUESTATTEMPTS_HEADER -> REQUESTATTEMPTS_HEADER
+    java.lang.String SERVERINFO_HEADER -> SERVERINFO_HEADER
+    java.lang.String TIMEZONE_FORMAT -> TIMEZONE_FORMAT
+    java.text.DateFormat df -> df
+    com.amazon.insights.event.InternalEventClient eventClient -> eventClient
+    com.amazon.insights.core.system.Connectivity connectivity -> connectivity
+    38:38:void before(com.amazon.insights.core.http.HttpClient$Request) -> before
+    42:43:void after(com.amazon.insights.core.http.HttpClient$Response) -> after
+    46:46:java.lang.String getTimeZone() -> getTimeZone
+    51:114:void recordRequestTimeEvent(com.amazon.insights.core.http.HttpClient$Response) -> recordRequestTimeEvent
+com.amazon.insights.core.http.SDKInfoInterceptor -> com.amazon.insights.core.http.SDKInfoInterceptor:
+    java.lang.String CLIENT_SDK_VERSION_HEADER_NAME -> CLIENT_SDK_VERSION_HEADER_NAME
+    com.amazon.insights.core.util.SDKInfo sdkInfo -> sdkInfo
+    23:26:void before(com.amazon.insights.core.http.HttpClient$Request) -> before
+    30:30:void after(com.amazon.insights.core.http.HttpClient$Response) -> after
+com.amazon.insights.core.http.SignatureBuilderException -> com.amazon.insights.core.http.SignatureBuilderException:
+    long serialVersionUID -> serialVersionUID
+com.amazon.insights.core.http.SignatureInterceptor -> com.amazon.insights.core.http.SignatureInterceptor:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String AUTH_HEADER_SIGNATURE -> AUTH_HEADER_SIGNATURE
+    java.lang.String AUTH_HEADER_SIGNATURE_TIMESTAMP -> AUTH_HEADER_SIGNATURE_TIMESTAMP
+    java.lang.String TIME_FORMAT -> TIME_FORMAT
+    java.util.TimeZone timeZone -> timeZone
+    java.text.DateFormat df -> df
+    java.lang.String privateKey -> privateKey
+    54:54:java.lang.String getTimeStamp() -> getTimeStamp
+    58:58:java.lang.String getPrivateKey() -> getPrivateKey
+    64:81:void before(com.amazon.insights.core.http.HttpClient$Request) -> before
+    86:86:void after(com.amazon.insights.core.http.HttpClient$Response) -> after
+com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder -> com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder:
+    java.lang.String TAG -> TAG
+    java.lang.String privateKey -> privateKey
+    java.lang.String httpVerb -> httpVerb
+    java.lang.String fullPath -> fullPath
+    java.lang.String timestamp -> timestamp
+    byte[] body -> body
+    boolean isBinaryRequest -> isBinaryRequest
+    103:104:com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder withPrivateKey(java.lang.String) -> withPrivateKey
+    108:108:com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder withHttpMethod(com.amazon.insights.core.http.HttpClient$HttpMethod) -> withHttpMethod
+    112:113:com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder withHttpVerb(java.lang.String) -> withHttpVerb
+    117:118:com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder withFullPath(java.lang.String) -> withFullPath
+    122:123:com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder withTimestamp(java.lang.String) -> withTimestamp
+    127:128:com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder isBinaryRequest(boolean) -> isBinaryRequest
+    132:133:com.amazon.insights.core.http.SignatureInterceptor$SignatureBuilder withBody(byte[]) -> withBody
+    144:155:java.lang.String createSignature() -> createSignature
+    159:172:byte[] createHash() -> createHash
+com.amazon.insights.core.idresolver.Id -> com.amazon.insights.core.idresolver.Id:
+    com.amazon.insights.core.idresolver.Id EMPTY_ID -> EMPTY_ID
+    java.lang.String id -> id
+    11:11:com.amazon.insights.core.idresolver.Id getEmptyId() -> getEmptyId
+    21:24:com.amazon.insights.core.idresolver.Id valueOf(java.lang.String) -> valueOf
+    28:28:java.lang.String getValue() -> getValue
+    33:36:int hashCode() -> hashCode
+    41:53:boolean equals(java.lang.Object) -> equals
+com.amazon.insights.core.idresolver.RandomUUIDGenerator -> com.amazon.insights.core.idresolver.RandomUUIDGenerator:
+    13:13:java.lang.String generateUniqueIdString() -> generateUniqueIdString
+com.amazon.insights.core.idresolver.SharedPrefsUniqueIdService -> com.amazon.insights.core.idresolver.SharedPrefsUniqueIdService:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String PREFS_NAME -> PREFS_NAME
+    java.lang.String UNIQUE_ID_KEY -> UNIQUE_ID_KEY
+    com.amazon.insights.core.idresolver.UniqueIdGenerator generator -> generator
+    25:25:com.amazon.insights.core.idresolver.UniqueIdService newInstance() -> newInstance
+    38:49:com.amazon.insights.core.idresolver.Id getUniqueId(com.amazon.insights.core.InsightsContext) -> getUniqueId
+    53:61:com.amazon.insights.core.idresolver.Id getIdFromPreferences(com.amazon.insights.core.system.Preferences) -> getIdFromPreferences
+    66:70:void storeUniqueId(com.amazon.insights.core.system.Preferences,com.amazon.insights.core.idresolver.Id) -> storeUniqueId
+com.amazon.insights.core.idresolver.UniqueIdGenerator -> com.amazon.insights.core.idresolver.UniqueIdGenerator:
+    java.lang.String generateUniqueIdString() -> generateUniqueIdString
+com.amazon.insights.core.idresolver.UniqueIdService -> com.amazon.insights.core.idresolver.UniqueIdService:
+    com.amazon.insights.core.idresolver.Id getUniqueId(com.amazon.insights.core.InsightsContext) -> getUniqueId
+com.amazon.insights.core.io.DecryptionException -> com.amazon.insights.core.io.DecryptionException:
+    long serialVersionUID -> serialVersionUID
+com.amazon.insights.core.io.EncryptedBufferedReader -> com.amazon.insights.core.io.EncryptedBufferedReader:
+    int BUFFER_SIZE -> BUFFER_SIZE
+    java.io.BufferedReader reader -> reader
+    javax.crypto.Cipher cipher -> cipher
+    49:99:java.lang.String readLine() -> readLine
+    105:106:void close() -> close
+    110:110:int read() -> read
+    115:115:int read(char[]) -> read
+    120:120:int read(char[],int,int) -> read
+    125:125:int read(java.nio.CharBuffer) -> read
+    130:130:boolean ready() -> ready
+    135:136:void reset() -> reset
+    140:140:long skip(long) -> skip
+    145:145:void mark(int) -> mark
+    150:150:boolean markSupported() -> markSupported
+com.amazon.insights.core.io.EncryptedWriter -> com.amazon.insights.core.io.EncryptedWriter:
+    java.io.Writer writer -> writer
+    javax.crypto.Cipher cipher -> cipher
+    43:71:void write(java.lang.String) -> write
+    75:75:void write(java.lang.String,int,int) -> write
+    80:80:void write(char[]) -> write
+    85:85:void write(char[],int,int) -> write
+    90:90:void write(int) -> write
+    95:95:java.io.Writer append(char) -> append
+    100:100:java.io.Writer append(java.lang.CharSequence,int,int) -> append
+    105:105:java.io.Writer append(java.lang.CharSequence) -> append
+    110:111:void close() -> close
+    115:116:void flush() -> flush
+    20:20:java.lang.Appendable append(char) -> append
+    20:20:java.lang.Appendable append(java.lang.CharSequence,int,int) -> append
+    20:20:java.lang.Appendable append(java.lang.CharSequence) -> append
+com.amazon.insights.core.log.LogInitializer -> com.amazon.insights.core.log.LogInitializer:
+    void tryInitialize() -> tryInitialize
+com.amazon.insights.core.log.Logger -> com.amazon.insights.core.log.Logger:
+    java.lang.String TAG -> TAG
+    com.amazon.insights.core.log.Logger$LogLevel globalLevel -> globalLevel
+    java.util.Map appenders -> appenders
+    java.util.Map loggers -> loggers
+    com.amazon.insights.core.log.Logger$LogLevel classLevel -> classLevel
+    java.lang.Class cls -> cls
+    java.lang.String tag -> tag
+    boolean initialized -> initialized
+    boolean $assertionsDisabled -> $assertionsDisabled
+    41:45:boolean isLoggingEnabled(com.amazon.insights.core.log.Logger$LogLevel) -> isLoggingEnabled
+    49:55:com.amazon.insights.core.log.Logger$LogLevel getLogLevel() -> getLogLevel
+    59:60:void setGlobalLevel(com.amazon.insights.core.log.Logger$LogLevel) -> setGlobalLevel
+    63:63:com.amazon.insights.core.log.Logger$LogLevel getGlobalLevel() -> getGlobalLevel
+    67:68:void setLevel(com.amazon.insights.core.log.Logger$LogLevel) -> setLevel
+    71:72:void attachLogAppender(com.amazon.insights.core.log.appender.LogAppender) -> attachLogAppender
+    75:76:void detachLogAppender(com.amazon.insights.core.log.appender.LogAppender) -> detachLogAppender
+    79:79:java.util.Collection getLogAppenders() -> getLogAppenders
+    83:83:com.amazon.insights.core.log.Logger getLogger(java.lang.Class) -> getLogger
+    87:97:com.amazon.insights.core.log.Logger getClassLogger(java.lang.Class) -> getClassLogger
+    102:109:void attachAppender(com.amazon.insights.core.log.appender.LogAppender) -> attachAppender
+    112:119:void detachAppender(com.amazon.insights.core.log.appender.LogAppender) -> detachAppender
+    122:122:java.util.Collection getAppenders() -> getAppenders
+    126:126:java.lang.Class getLogClass() -> getLogClass
+    130:130:java.lang.String getTag() -> getTag
+    134:139:void d(java.lang.String) -> d
+    142:147:void d(java.lang.String,java.lang.Throwable) -> d
+    150:153:void devd(java.lang.String) -> devd
+    156:159:void devd(java.lang.String,java.lang.Throwable) -> devd
+    162:167:void v(java.lang.String) -> v
+    170:175:void v(java.lang.String,java.lang.Throwable) -> v
+    178:181:void devv(java.lang.String) -> devv
+    184:187:void devv(java.lang.String,java.lang.Throwable) -> devv
+    190:195:void i(java.lang.String) -> i
+    198:203:void i(java.lang.String,java.lang.Throwable) -> i
+    206:209:void devi(java.lang.String) -> devi
+    212:215:void devi(java.lang.String,java.lang.Throwable) -> devi
+    218:223:void w(java.lang.String) -> w
+    226:231:void w(java.lang.Throwable) -> w
+    234:239:void w(java.lang.String,java.lang.Throwable) -> w
+    242:245:void devw(java.lang.String) -> devw
+    248:251:void devw(java.lang.Throwable) -> devw
+    254:257:void devw(java.lang.String,java.lang.Throwable) -> devw
+    260:265:void e(java.lang.String) -> e
+    268:273:void e(java.lang.String,java.lang.Throwable) -> e
+    276:279:void deve(java.lang.String) -> deve
+    282:285:void deve(java.lang.String,java.lang.Throwable) -> deve
+    290:299:void tryInitialize() -> tryInitialize
+    302:306:void tryInitialize(com.amazon.insights.core.log.LogInitializer) -> tryInitialize
+com.amazon.insights.core.log.Logger$1 -> com.amazon.insights.core.log.Logger$1:
+    294:296:void tryInitialize() -> tryInitialize
+com.amazon.insights.core.log.Logger$LogLevel -> com.amazon.insights.core.log.Logger$LogLevel:
+    com.amazon.insights.core.log.Logger$LogLevel VERBOSE -> VERBOSE
+    com.amazon.insights.core.log.Logger$LogLevel DEBUG -> DEBUG
+    com.amazon.insights.core.log.Logger$LogLevel INFO -> INFO
+    com.amazon.insights.core.log.Logger$LogLevel WARN -> WARN
+    com.amazon.insights.core.log.Logger$LogLevel ERROR -> ERROR
+    com.amazon.insights.core.log.Logger$LogLevel OFF -> OFF
+    com.amazon.insights.core.log.Logger$LogLevel[] $VALUES -> $VALUES
+    25:25:com.amazon.insights.core.log.Logger$LogLevel[] values() -> values
+    25:25:com.amazon.insights.core.log.Logger$LogLevel valueOf(java.lang.String) -> valueOf
+com.amazon.insights.core.log.appender.DeveloperLogCatAppender -> com.amazon.insights.core.log.appender.DeveloperLogCatAppender:
+    13:14:void devd(java.lang.String,java.lang.String) -> devd
+    18:19:void devd(java.lang.String,java.lang.String,java.lang.Throwable) -> devd
+    23:24:void devv(java.lang.String,java.lang.String) -> devv
+    28:29:void devv(java.lang.String,java.lang.String,java.lang.Throwable) -> devv
+    33:34:void devi(java.lang.String,java.lang.String) -> devi
+    38:39:void devi(java.lang.String,java.lang.String,java.lang.Throwable) -> devi
+    43:44:void devw(java.lang.String,java.lang.String) -> devw
+    48:49:void devw(java.lang.String,java.lang.Throwable) -> devw
+    53:54:void devw(java.lang.String,java.lang.String,java.lang.Throwable) -> devw
+    58:59:void deve(java.lang.String,java.lang.String) -> deve
+    63:64:void deve(java.lang.String,java.lang.String,java.lang.Throwable) -> deve
+com.amazon.insights.core.log.appender.LogAppender -> com.amazon.insights.core.log.appender.LogAppender:
+    10:10:void d(java.lang.String,java.lang.String) -> d
+    13:13:void d(java.lang.String,java.lang.String,java.lang.Throwable) -> d
+    16:16:void devd(java.lang.String,java.lang.String) -> devd
+    19:19:void devd(java.lang.String,java.lang.String,java.lang.Throwable) -> devd
+    22:22:void v(java.lang.String,java.lang.String) -> v
+    25:25:void v(java.lang.String,java.lang.String,java.lang.Throwable) -> v
+    28:28:void devv(java.lang.String,java.lang.String) -> devv
+    31:31:void devv(java.lang.String,java.lang.String,java.lang.Throwable) -> devv
+    34:34:void i(java.lang.String,java.lang.String) -> i
+    37:37:void i(java.lang.String,java.lang.String,java.lang.Throwable) -> i
+    40:40:void devi(java.lang.String,java.lang.String) -> devi
+    43:43:void devi(java.lang.String,java.lang.String,java.lang.Throwable) -> devi
+    46:46:void w(java.lang.String,java.lang.String) -> w
+    49:49:void w(java.lang.String,java.lang.Throwable) -> w
+    52:52:void w(java.lang.String,java.lang.String,java.lang.Throwable) -> w
+    55:55:void devw(java.lang.String,java.lang.String) -> devw
+    58:58:void devw(java.lang.String,java.lang.Throwable) -> devw
+    61:61:void devw(java.lang.String,java.lang.String,java.lang.Throwable) -> devw
+    64:64:void e(java.lang.String,java.lang.String) -> e
+    67:67:void e(java.lang.String,java.lang.String,java.lang.Throwable) -> e
+    70:70:void deve(java.lang.String,java.lang.String) -> deve
+    73:73:void deve(java.lang.String,java.lang.String,java.lang.Throwable) -> deve
+    76:76:java.lang.String decorateMessage(java.lang.Class,java.lang.String) -> decorateMessage
+com.amazon.insights.core.system.AndroidAppDetails -> com.amazon.insights.core.system.AndroidAppDetails:
+    com.amazon.insights.core.log.Logger logger -> logger
+    android.content.Context applicationContext -> applicationContext
+    android.content.pm.PackageInfo packageInfo -> packageInfo
+    32:36:java.lang.String packageName() -> packageName
+    44:48:java.lang.String versionName() -> versionName
+    56:60:java.lang.String versionCode() -> versionCode
+    68:78:java.lang.String[] signatures() -> signatures
+com.amazon.insights.core.system.AndroidConnectivity -> com.amazon.insights.core.system.AndroidConnectivity:
+    com.amazon.insights.core.log.Logger logger -> logger
+    boolean hasWifi -> hasWifi
+    boolean hasMobile -> hasMobile
+    boolean inAirplaneMode -> inAirplaneMode
+    android.content.Context context -> context
+    40:41:boolean isConnected() -> isConnected
+    46:46:boolean hasWifi() -> hasWifi
+    51:51:boolean hasWAN() -> hasWAN
+    55:82:void determineAvailability() -> determineAvailability
+com.amazon.insights.core.system.AndroidConnectivity$Network -> com.amazon.insights.core.system.AndroidConnectivity$Network:
+    com.amazon.insights.core.system.AndroidConnectivity$Network MOBILE -> MOBILE
+    com.amazon.insights.core.system.AndroidConnectivity$Network WIFI -> WIFI
+    com.amazon.insights.core.system.AndroidConnectivity$Network[] $VALUES -> $VALUES
+    17:17:com.amazon.insights.core.system.AndroidConnectivity$Network[] values() -> values
+    17:17:com.amazon.insights.core.system.AndroidConnectivity$Network valueOf(java.lang.String) -> valueOf
+com.amazon.insights.core.system.AndroidDeviceDetails -> com.amazon.insights.core.system.AndroidDeviceDetails:
+    15:15:java.lang.String platformVersion() -> platformVersion
+    20:20:java.lang.String platform() -> platform
+    25:25:java.lang.String manufacturer() -> manufacturer
+    30:30:java.lang.String model() -> model
+    35:35:java.util.Locale locale() -> locale
+com.amazon.insights.core.system.AndroidPreferences -> com.amazon.insights.core.system.AndroidPreferences:
+    android.content.SharedPreferences preferences -> preferences
+    22:22:boolean getBoolean(java.lang.String,boolean) -> getBoolean
+    27:27:int getInt(java.lang.String,int) -> getInt
+    32:32:float getFloat(java.lang.String,float) -> getFloat
+    37:37:long getLong(java.lang.String,long) -> getLong
+    42:42:java.lang.String getString(java.lang.String,java.lang.String) -> getString
+    47:50:void putBoolean(java.lang.String,boolean) -> putBoolean
+    54:57:void putInt(java.lang.String,int) -> putInt
+    61:64:void putFloat(java.lang.String,float) -> putFloat
+    68:71:void putLong(java.lang.String,long) -> putLong
+    75:78:void putString(java.lang.String,java.lang.String) -> putString
+com.amazon.insights.core.system.AndroidSystem -> com.amazon.insights.core.system.AndroidSystem:
+    com.amazon.insights.core.system.Preferences preferences -> preferences
+    com.amazon.insights.core.system.FileManager fileManager -> fileManager
+    com.amazon.insights.core.system.Connectivity connectivity -> connectivity
+    com.amazon.insights.core.system.AppDetails appDetails -> appDetails
+    com.amazon.insights.core.system.DeviceDetails deviceDetails -> deviceDetails
+    28:28:com.amazon.insights.core.system.FileManager getFileManager() -> getFileManager
+    33:33:com.amazon.insights.core.system.Preferences getPreferences() -> getPreferences
+    38:38:com.amazon.insights.core.system.Connectivity getConnectivity() -> getConnectivity
+    43:43:com.amazon.insights.core.system.AppDetails getAppDetails() -> getAppDetails
+    48:48:com.amazon.insights.core.system.DeviceDetails getDeviceDetails() -> getDeviceDetails
+com.amazon.insights.core.system.AppDetails -> com.amazon.insights.core.system.AppDetails:
+    java.lang.String packageName() -> packageName
+    java.lang.String versionName() -> versionName
+    java.lang.String versionCode() -> versionCode
+    java.lang.String[] signatures() -> signatures
+com.amazon.insights.core.system.Connectivity -> com.amazon.insights.core.system.Connectivity:
+    boolean isConnected() -> isConnected
+    boolean hasWifi() -> hasWifi
+    boolean hasWAN() -> hasWAN
+com.amazon.insights.core.system.DefaultFileManager -> com.amazon.insights.core.system.DefaultFileManager:
+    java.io.File directory -> directory
+    27:33:java.io.File createDirectory(java.lang.String) -> createDirectory
+    38:39:java.io.File getDirectory(java.lang.String) -> getDirectory
+    44:45:java.util.Set listFilesInDirectory(java.lang.String) -> listFilesInDirectory
+    50:57:java.util.Set listFilesInDirectory(java.io.File) -> listFilesInDirectory
+    62:63:java.io.File createFile(java.lang.String) -> createFile
+    68:73:java.io.File createFile(java.io.File) -> createFile
+    78:79:boolean deleteFile(java.lang.String) -> deleteFile
+    84:87:boolean deleteFile(java.io.File) -> deleteFile
+    92:93:java.io.InputStream newInputStream(java.lang.String) -> newInputStream
+    98:99:java.io.InputStream newInputStream(java.io.File) -> newInputStream
+    104:105:java.io.OutputStream newOutputStream(java.lang.String,boolean) -> newOutputStream
+    110:111:java.io.OutputStream newOutputStream(java.io.File,boolean) -> newOutputStream
+com.amazon.insights.core.system.DeviceDetails -> com.amazon.insights.core.system.DeviceDetails:
+    java.lang.String platformVersion() -> platformVersion
+    java.lang.String platform() -> platform
+    java.lang.String manufacturer() -> manufacturer
+    java.lang.String model() -> model
+    java.util.Locale locale() -> locale
+com.amazon.insights.core.system.FileManager -> com.amazon.insights.core.system.FileManager:
+    java.io.File createDirectory(java.lang.String) -> createDirectory
+    java.io.File getDirectory(java.lang.String) -> getDirectory
+    java.util.Set listFilesInDirectory(java.lang.String) -> listFilesInDirectory
+    java.util.Set listFilesInDirectory(java.io.File) -> listFilesInDirectory
+    java.io.File createFile(java.lang.String) -> createFile
+    java.io.File createFile(java.io.File) -> createFile
+    boolean deleteFile(java.lang.String) -> deleteFile
+    boolean deleteFile(java.io.File) -> deleteFile
+    java.io.InputStream newInputStream(java.lang.String) -> newInputStream
+    java.io.InputStream newInputStream(java.io.File) -> newInputStream
+    java.io.OutputStream newOutputStream(java.lang.String,boolean) -> newOutputStream
+    java.io.OutputStream newOutputStream(java.io.File,boolean) -> newOutputStream
+com.amazon.insights.core.system.Preferences -> com.amazon.insights.core.system.Preferences:
+    boolean getBoolean(java.lang.String,boolean) -> getBoolean
+    int getInt(java.lang.String,int) -> getInt
+    float getFloat(java.lang.String,float) -> getFloat
+    long getLong(java.lang.String,long) -> getLong
+    java.lang.String getString(java.lang.String,java.lang.String) -> getString
+    void putBoolean(java.lang.String,boolean) -> putBoolean
+    void putInt(java.lang.String,int) -> putInt
+    void putFloat(java.lang.String,float) -> putFloat
+    void putLong(java.lang.String,long) -> putLong
+    void putString(java.lang.String,java.lang.String) -> putString
+com.amazon.insights.core.system.System -> com.amazon.insights.core.system.System:
+    com.amazon.insights.core.system.FileManager getFileManager() -> getFileManager
+    com.amazon.insights.core.system.Preferences getPreferences() -> getPreferences
+    com.amazon.insights.core.system.Connectivity getConnectivity() -> getConnectivity
+    com.amazon.insights.core.system.AppDetails getAppDetails() -> getAppDetails
+    com.amazon.insights.core.system.DeviceDetails getDeviceDetails() -> getDeviceDetails
+com.amazon.insights.core.util.DateUtil -> com.amazon.insights.core.util.DateUtil:
+    java.text.DateFormat ISO_DATE_FORMATTER_UTC -> ISO_DATE_FORMATTER_UTC
+    java.lang.String DATE_FORMAT_STRING -> DATE_FORMAT_STRING
+    28:28:java.text.DateFormat getDateFormat() -> getDateFormat
+    32:32:java.lang.String isoDateFromMillis(long) -> isoDateFromMillis
+    41:41:java.text.DateFormat createLocaleIndependentDateFormatter(java.lang.String) -> createLocaleIndependentDateFormatter
+com.amazon.insights.core.util.JSONBuilder -> com.amazon.insights.core.util.JSONBuilder:
+    org.json.JSONObject json -> json
+    22:28:com.amazon.insights.core.util.JSONBuilder withAttribute(java.lang.String,java.lang.Object) -> withAttribute
+    33:33:org.json.JSONObject toJSONObject() -> toJSONObject
+    39:45:java.lang.String toString() -> toString
+com.amazon.insights.core.util.JSONSerializable -> com.amazon.insights.core.util.JSONSerializable:
+    org.json.JSONObject toJSONObject() -> toJSONObject
+com.amazon.insights.core.util.Nullable -> com.amazon.insights.core.util.Nullable:
+com.amazon.insights.core.util.Preconditions -> com.amazon.insights.core.util.Preconditions:
+    83:86:void checkArgument(boolean) -> checkArgument
+    102:105:void checkArgument(boolean,java.lang.Object) -> checkArgument
+    134:138:void checkArgument(boolean,java.lang.String,java.lang.Object[]) -> checkArgument
+    150:153:void checkState(boolean) -> checkState
+    169:172:void checkState(boolean,java.lang.Object) -> checkState
+    201:205:void checkState(boolean,java.lang.String,java.lang.Object[]) -> checkState
+    218:221:java.lang.Object checkNotNull(java.lang.Object) -> checkNotNull
+    238:241:java.lang.Object checkNotNull(java.lang.Object,java.lang.Object) -> checkNotNull
+    269:275:java.lang.Object checkNotNull(java.lang.Object,java.lang.String,java.lang.Object[]) -> checkNotNull
+    321:321:int checkElementIndex(int,int) -> checkElementIndex
+    346:350:int checkElementIndex(int,int,java.lang.String) -> checkElementIndex
+    354:359:java.lang.String badElementIndex(int,int,java.lang.String) -> badElementIndex
+    381:381:int checkPositionIndex(int,int) -> checkPositionIndex
+    406:410:int checkPositionIndex(int,int,java.lang.String) -> checkPositionIndex
+    414:419:java.lang.String badPositionIndex(int,int,java.lang.String) -> badPositionIndex
+    447:451:void checkPositionIndexes(int,int,int) -> checkPositionIndexes
+    454:461:java.lang.String badPositionIndexes(int,int,int) -> badPositionIndexes
+    480:509:java.lang.String format(java.lang.String,java.lang.Object[]) -> format
+com.amazon.insights.core.util.SDKInfo -> com.amazon.insights.core.util.SDKInfo:
+    java.lang.String name -> name
+    java.lang.String version -> version
+    17:17:java.lang.String getName() -> getName
+    21:21:java.lang.String getVersion() -> getVersion
+    26:26:java.lang.String toString() -> toString
+com.amazon.insights.core.util.StringUtil -> com.amazon.insights.core.util.StringUtil:
+    java.lang.String UTF_8 -> UTF_8
+    33:33:boolean isNullOrEmpty(java.lang.String) -> isNullOrEmpty
+    37:37:boolean isBlank(java.lang.String) -> isBlank
+    50:57:java.lang.String convertStreamToString(java.io.InputStream,java.nio.charset.Charset) -> convertStreamToString
+    70:70:java.lang.String convertStreamToUTF8String(java.io.InputStream) -> convertStreamToUTF8String
+    81:86:java.lang.String clipString(java.lang.String,int,boolean) -> clipString
+    90:101:java.lang.String convertArrayToString(java.lang.String[]) -> convertArrayToString
+    105:116:java.lang.String convertSetToString(java.util.Set) -> convertSetToString
+    128:145:java.lang.String trimOrPadString(java.lang.String,int,char) -> trimOrPadString
+com.amazon.insights.delivery.DefaultDeliveryClient -> com.amazon.insights.delivery.DefaultDeliveryClient:
+    java.lang.String EVENTS_DIRECTORY -> EVENTS_DIRECTORY
+    com.amazon.insights.core.log.Logger logger -> logger
+    int MAX_EVENT_OPERATIONS -> MAX_EVENT_OPERATIONS
+    int MAX_SUBMIT_OPERATIONS -> MAX_SUBMIT_OPERATIONS
+    int CLIPPED_EVENT_LENGTH -> CLIPPED_EVENT_LENGTH
+    java.lang.String KEY_EVENT_RECORDER_MAX_RETRIES -> KEY_EVENT_RECORDER_MAX_RETRIES
+    java.lang.String KEY_MAX_SUBMISSION_SIZE -> KEY_MAX_SUBMISSION_SIZE
+    int DEFAULT_EVENT_RECORD_REQUEST_RETRIES -> DEFAULT_EVENT_RECORD_REQUEST_RETRIES
+    long DEFAULT_MAX_SUBMISSION_SIZE -> DEFAULT_MAX_SUBMISSION_SIZE
+    java.lang.String KEY_MAX_SUBMISSIONS_ALLOWED -> KEY_MAX_SUBMISSIONS_ALLOWED
+    int DEFAULT_MAX_SUBMISSIONS_ALLOWED -> DEFAULT_MAX_SUBMISSIONS_ALLOWED
+    java.util.Set RETRY_REQUEST_CODES -> RETRY_REQUEST_CODES
+    com.amazon.insights.delivery.policy.DeliveryPolicyFactory policyFactory -> policyFactory
+    java.util.concurrent.ExecutorService eventsRunnableQueue -> eventsRunnableQueue
+    java.util.concurrent.ExecutorService submissionRunnableQueue -> submissionRunnableQueue
+    com.amazon.insights.core.InsightsContext context -> context
+    com.amazon.insights.delivery.ERSRequestBuilder requestBuilder -> requestBuilder
+    com.amazon.insights.delivery.EventStore eventStore -> eventStore
+    com.amazon.insights.event.adapter.EventAdapter eventAdapter -> eventAdapter
+    java.util.concurrent.atomic.AtomicLong avgWriteEventTimeMillis -> avgWriteEventTimeMillis
+    java.util.concurrent.atomic.AtomicLong eventsProcessed -> eventsProcessed
+    74:80:com.amazon.insights.delivery.DefaultDeliveryClient newInstance(com.amazon.insights.core.InsightsContext,boolean) -> newInstance
+    95:96:void notify(com.amazon.insights.event.InternalEvent) -> notify
+    100:122:void enqueueEventForDelivery(com.amazon.insights.event.InternalEvent) -> enqueueEventForDelivery
+    125:131:void calculateAndSetAverageWriteEventTime(long,long) -> calculateAndSetAverageWriteEventTime
+    135:135:long getSubmissionLatchWaitTime() -> getSubmissionLatchWaitTime
+    140:150:void attemptDelivery() -> attemptDelivery
+    153:219:void attemptDelivery(java.util.List) -> attemptDelivery
+    222:256:boolean submitEvents(org.json.JSONArray,java.util.List) -> submitEvents
+    262:267:java.util.List getBatchedItems() -> getBatchedItems
+    272:286:java.lang.String[] batchedEvents() -> batchedEvents
+    36:36:com.amazon.insights.event.adapter.EventAdapter access$000(com.amazon.insights.delivery.DefaultDeliveryClient) -> access$000
+    36:36:com.amazon.insights.delivery.EventStore access$100(com.amazon.insights.delivery.DefaultDeliveryClient) -> access$100
+    36:36:com.amazon.insights.core.log.Logger access$200() -> access$200
+    36:36:void access$300(com.amazon.insights.delivery.DefaultDeliveryClient,long,long) -> access$300
+    36:36:long access$400(com.amazon.insights.delivery.DefaultDeliveryClient) -> access$400
+    36:36:com.amazon.insights.core.InsightsContext access$500(com.amazon.insights.delivery.DefaultDeliveryClient) -> access$500
+    36:36:boolean access$600(com.amazon.insights.delivery.DefaultDeliveryClient,org.json.JSONArray,java.util.List) -> access$600
+com.amazon.insights.delivery.DefaultDeliveryClient$1 -> com.amazon.insights.delivery.DefaultDeliveryClient$1:
+    com.amazon.insights.event.InternalEvent val$event -> val$event
+    long val$origEventsProcessed -> val$origEventsProcessed
+    long val$startEnqueueTimeMillis -> val$startEnqueueTimeMillis
+    com.amazon.insights.delivery.DefaultDeliveryClient this$0 -> this$0
+    105:120:void run() -> run
+com.amazon.insights.delivery.DefaultDeliveryClient$2 -> com.amazon.insights.delivery.DefaultDeliveryClient$2:
+    java.util.concurrent.CountDownLatch val$submitWaitLatch -> val$submitWaitLatch
+    com.amazon.insights.delivery.DefaultDeliveryClient this$0 -> this$0
+    157:158:void run() -> run
+com.amazon.insights.delivery.DefaultDeliveryClient$3 -> com.amazon.insights.delivery.DefaultDeliveryClient$3:
+    java.util.List val$policies -> val$policies
+    java.util.concurrent.CountDownLatch val$submitWaitLatch -> val$submitWaitLatch
+    com.amazon.insights.delivery.DefaultDeliveryClient this$0 -> this$0
+    165:216:void run() -> run
+com.amazon.insights.delivery.DefaultDeliveryClient$4 -> com.amazon.insights.delivery.DefaultDeliveryClient$4:
+    java.util.concurrent.CountDownLatch val$eventsReadyLatch -> val$eventsReadyLatch
+    com.amazon.insights.delivery.DefaultDeliveryClient this$0 -> this$0
+    276:277:void run() -> run
+com.amazon.insights.delivery.DeliveryClient -> com.amazon.insights.delivery.DeliveryClient:
+    void enqueueEventForDelivery(com.amazon.insights.event.InternalEvent) -> enqueueEventForDelivery
+    void attemptDelivery() -> attemptDelivery
+    java.lang.String[] batchedEvents() -> batchedEvents
+com.amazon.insights.delivery.ERSRequestBuilder -> com.amazon.insights.delivery.ERSRequestBuilder:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String ENDPOINT_PATH -> ENDPOINT_PATH
+    java.lang.String CONTENT_ENCODING_KEY -> CONTENT_ENCODING_KEY
+    java.lang.String KEY_ENDPOINT -> KEY_ENDPOINT
+    java.lang.String DEFAULT_ENDPOINT -> DEFAULT_ENDPOINT
+    java.lang.String UNIQUE_ID_HEADER_KEY -> UNIQUE_ID_HEADER_KEY
+    com.amazon.insights.core.InsightsContext context -> context
+    35:88:com.amazon.insights.core.http.HttpClient$Request createHttpRequest(org.json.JSONArray) -> createHttpRequest
+    93:93:java.lang.String getEndpointUrl() -> getEndpointUrl
+com.amazon.insights.delivery.EventStore -> com.amazon.insights.delivery.EventStore:
+    boolean put(java.lang.String) -> put
+    com.amazon.insights.delivery.EventStore$EventIterator iterator() -> iterator
+com.amazon.insights.delivery.EventStore$EventIterator -> com.amazon.insights.delivery.EventStore$EventIterator:
+    void removeReadEvents() -> removeReadEvents
+    java.lang.String peek() -> peek
+com.amazon.insights.delivery.EventStoreException -> com.amazon.insights.delivery.EventStoreException:
+    long serialVersionUID -> serialVersionUID
+com.amazon.insights.delivery.FileEventStore -> com.amazon.insights.delivery.FileEventStore:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String EVENTS_DIRECTORY -> EVENTS_DIRECTORY
+    java.lang.String EVENT_FILE_NAME -> EVENT_FILE_NAME
+    java.lang.String ENCRYPTION_ALGORITHM -> ENCRYPTION_ALGORITHM
+    java.lang.String KEY_MAX_STORAGE_SIZE -> KEY_MAX_STORAGE_SIZE
+    long MAX_STORAGE_SIZE -> MAX_STORAGE_SIZE
+    double ERROR_LENGTH_THRESHOLD_PERCENTAGE -> ERROR_LENGTH_THRESHOLD_PERCENTAGE
+    java.util.concurrent.locks.ReentrantLock accessLock -> accessLock
+    com.amazon.insights.core.InsightsContext context -> context
+    java.io.File eventsFile -> eventsFile
+    javax.crypto.SecretKey secretKey -> secretKey
+    50:50:com.amazon.insights.delivery.FileEventStore newInstance(com.amazon.insights.core.InsightsContext) -> newInstance
+    86:108:boolean put(java.lang.String) -> put
+    112:131:boolean tryCreateEventsFile() -> tryCreateEventsFile
+    135:153:java.io.Writer tryInitializeWriter() -> tryInitializeWriter
+    157:164:void tryCloseWriter(java.io.Writer) -> tryCloseWriter
+    168:257:java.io.File deleteReadEvents(int) -> deleteReadEvents
+    262:262:com.amazon.insights.delivery.EventStore$EventIterator iterator() -> iterator
+    34:34:java.io.File access$000(com.amazon.insights.delivery.FileEventStore) -> access$000
+    34:34:com.amazon.insights.core.InsightsContext access$100(com.amazon.insights.delivery.FileEventStore) -> access$100
+    34:34:com.amazon.insights.core.log.Logger access$200() -> access$200
+    34:34:javax.crypto.SecretKey access$300(com.amazon.insights.delivery.FileEventStore) -> access$300
+    34:34:java.util.concurrent.locks.ReentrantLock access$400(com.amazon.insights.delivery.FileEventStore) -> access$400
+    34:34:java.io.File access$500(com.amazon.insights.delivery.FileEventStore,int) -> access$500
+com.amazon.insights.delivery.FileEventStore$1 -> com.amazon.insights.delivery.FileEventStore$1:
+    int linesRead -> linesRead
+    java.lang.String nextBuffer -> nextBuffer
+    com.amazon.insights.core.io.EncryptedBufferedReader reader -> reader
+    boolean isEndOfFile -> isEndOfFile
+    com.amazon.insights.delivery.FileEventStore this$0 -> this$0
+    269:287:boolean tryOpenReader() -> tryOpenReader
+    291:300:void tryCloseReader() -> tryCloseReader
+    304:340:boolean hasNext() -> hasNext
+    346:380:java.lang.String next() -> next
+    386:391:java.lang.String peek() -> peek
+    397:397:void remove() -> remove
+    402:409:void removeReadEvents() -> removeReadEvents
+    412:415:void resetReader() -> resetReader
+    262:262:java.lang.Object next() -> next
+com.amazon.insights.delivery.policy.ConnectivityPolicy -> com.amazon.insights.delivery.policy.ConnectivityPolicy:
+    java.lang.String ALLOW_WAN_KEY -> ALLOW_WAN_KEY
+    boolean ALLOW_WAN_DEFAULT -> ALLOW_WAN_DEFAULT
+    com.amazon.insights.core.system.Connectivity connectivity -> connectivity
+    boolean isWanAllowed -> isWanAllowed
+    com.amazon.insights.core.InsightsContext context -> context
+    27:35:boolean isAllowed() -> isAllowed
+    41:41:void handleDeliveryAttempt(boolean) -> handleDeliveryAttempt
+com.amazon.insights.delivery.policy.DefaultDeliveryPolicyFactory -> com.amazon.insights.delivery.policy.DefaultDeliveryPolicyFactory:
+    com.amazon.insights.core.InsightsContext context -> context
+    boolean isWanAllowed -> isWanAllowed
+    long forceSubmissionInterval -> forceSubmissionInterval
+    long backgroundSubmissionInterval -> backgroundSubmissionInterval
+    long BG_SUBMISSION_WAIT_TIME_SEC -> BG_SUBMISSION_WAIT_TIME_SEC
+    long FORCE_SUBMISSION_WAIT_TIME_SEC -> FORCE_SUBMISSION_WAIT_TIME_SEC
+    30:30:com.amazon.insights.delivery.policy.DeliveryPolicy newConnectivityPolicy() -> newConnectivityPolicy
+    35:35:com.amazon.insights.delivery.policy.DeliveryPolicy newForceSubmissionTimePolicy() -> newForceSubmissionTimePolicy
+    40:40:com.amazon.insights.delivery.policy.DeliveryPolicy newBackgroundSubmissionTimePolicy() -> newBackgroundSubmissionTimePolicy
+com.amazon.insights.delivery.policy.DeliveryPolicy -> com.amazon.insights.delivery.policy.DeliveryPolicy:
+    boolean isAllowed() -> isAllowed
+    void handleDeliveryAttempt(boolean) -> handleDeliveryAttempt
+com.amazon.insights.delivery.policy.DeliveryPolicyFactory -> com.amazon.insights.delivery.policy.DeliveryPolicyFactory:
+    com.amazon.insights.delivery.policy.DeliveryPolicy newConnectivityPolicy() -> newConnectivityPolicy
+    com.amazon.insights.delivery.policy.DeliveryPolicy newForceSubmissionTimePolicy() -> newForceSubmissionTimePolicy
+    com.amazon.insights.delivery.policy.DeliveryPolicy newBackgroundSubmissionTimePolicy() -> newBackgroundSubmissionTimePolicy
+com.amazon.insights.delivery.policy.SubmissionTimePolicy -> com.amazon.insights.delivery.policy.SubmissionTimePolicy:
+    java.lang.String SUBMITTED_TIME_KEY -> SUBMITTED_TIME_KEY
+    com.amazon.insights.core.InsightsContext context -> context
+    java.lang.Long waitInterval -> waitInterval
+    java.lang.Long lastSubmittedTime -> lastSubmittedTime
+    27:28:boolean isAllowed() -> isAllowed
+    33:37:void handleDeliveryAttempt(boolean) -> handleDeliveryAttempt
+com.amazon.insights.error.BaseInsightsError -> com.amazon.insights.error.BaseInsightsError:
+    java.lang.String message -> message
+    16:16:java.lang.String getMessage() -> getMessage
+com.amazon.insights.error.InsightsError -> com.amazon.insights.error.InsightsError:
+    java.lang.String getMessage() -> getMessage
+com.amazon.insights.error.InvalidArgumentError -> com.amazon.insights.error.InvalidArgumentError:
+    java.lang.String MESSAGE_TEMPLATE -> MESSAGE_TEMPLATE
+    java.lang.String parameterName -> parameterName
+    27:27:java.lang.String getParameterName() -> getParameterName
+    14:14:java.lang.String getMessage() -> getMessage
+com.amazon.insights.error.NullArgumentError -> com.amazon.insights.error.NullArgumentError:
+    java.lang.String MESSAGE_TEMPLATE -> MESSAGE_TEMPLATE
+    java.lang.String parameterName -> parameterName
+    28:28:java.lang.String getParameterName() -> getParameterName
+    15:15:java.lang.String getMessage() -> getMessage
+com.amazon.insights.error.UnexpectedError -> com.amazon.insights.error.UnexpectedError:
+    java.lang.Exception exception -> exception
+    28:28:java.lang.Exception getException() -> getException
+    16:16:java.lang.String getMessage() -> getMessage
+com.amazon.insights.event.DefaultEvent -> com.amazon.insights.event.DefaultEvent:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String applicationKey -> applicationKey
+    java.lang.String eventType -> eventType
+    java.lang.String sdkName -> sdkName
+    java.lang.String sdkVersion -> sdkVersion
+    java.util.Map attributes -> attributes
+    java.util.Map metrics -> metrics
+    java.lang.Long timestamp -> timestamp
+    com.amazon.insights.core.idresolver.Id uniqueId -> uniqueId
+    com.amazon.insights.core.system.AppDetails appDetails -> appDetails
+    com.amazon.insights.core.system.DeviceDetails deviceDetails -> deviceDetails
+    45:45:com.amazon.insights.event.DefaultEvent createFromEvent(com.amazon.insights.core.InsightsContext,java.lang.Long,com.amazon.insights.Event) -> createFromEvent
+    51:51:com.amazon.insights.event.DefaultEvent newInstance(com.amazon.insights.core.InsightsContext,java.lang.Long,java.lang.String) -> newInstance
+    79:88:void addAttribute(java.lang.String,java.lang.String) -> addAttribute
+    92:95:boolean hasAttribute(java.lang.String) -> hasAttribute
+    100:109:void addMetric(java.lang.String,java.lang.Number) -> addMetric
+    113:116:boolean hasMetric(java.lang.String) -> hasMetric
+    121:121:java.lang.String getEventType() -> getEventType
+    126:129:java.lang.String getAttribute(java.lang.String) -> getAttribute
+    134:137:java.lang.Number getMetric(java.lang.String) -> getMetric
+    142:142:java.lang.String getApplicationKey() -> getApplicationKey
+    147:147:java.lang.Long getEventTimestamp() -> getEventTimestamp
+    152:152:com.amazon.insights.core.idresolver.Id getUniqueId() -> getUniqueId
+    157:157:java.lang.String getSdkName() -> getSdkName
+    162:162:java.lang.String getSdkVersion() -> getSdkVersion
+    167:168:com.amazon.insights.event.DefaultEvent withAttribute(java.lang.String,java.lang.String) -> withAttribute
+    173:174:com.amazon.insights.event.DefaultEvent withMetric(java.lang.String,java.lang.Number) -> withMetric
+    179:179:java.util.Map getAllAttributes() -> getAllAttributes
+    184:184:java.util.Map getAllMetrics() -> getAllMetrics
+    189:193:java.lang.String toString() -> toString
+    199:266:org.json.JSONObject toJSONObject() -> toJSONObject
+    29:29:com.amazon.insights.Event withMetric(java.lang.String,java.lang.Number) -> withMetric
+    29:29:com.amazon.insights.Event withAttribute(java.lang.String,java.lang.String) -> withAttribute
+com.amazon.insights.event.DefaultEventClient -> com.amazon.insights.event.DefaultEventClient:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String ANALYTICS_ENABLED -> ANALYTICS_ENABLED
+    int MAX_EVENT_TYPE_LENGTH -> MAX_EVENT_TYPE_LENGTH
+    java.lang.String EVENT_SCHEMA_VERSION -> EVENT_SCHEMA_VERSION
+    com.amazon.insights.delivery.DeliveryClient deliveryClient -> deliveryClient
+    com.amazon.insights.core.InsightsContext context -> context
+    java.util.Map globalAttributes -> globalAttributes
+    java.util.Map globalMetrics -> globalMetrics
+    java.util.Map eventTypeAttributes -> eventTypeAttributes
+    java.util.Map eventTypeMetrics -> eventTypeMetrics
+    java.util.List observers -> observers
+    java.util.Map reservedAttributes -> reservedAttributes
+    boolean allowEventCollection -> allowEventCollection
+    50:51:com.amazon.insights.event.DefaultEventClient newInstance(com.amazon.insights.core.InsightsContext,boolean) -> newInstance
+    70:70:java.util.Set getReservedAttributeKeys() -> getReservedAttributeKeys
+    75:138:void recordEvent(com.amazon.insights.Event,boolean) -> recordEvent
+    142:154:com.amazon.insights.Event createEvent(java.lang.String) -> createEvent
+    159:159:com.amazon.insights.event.InternalEvent createInternalEvent(java.lang.String) -> createInternalEvent
+    164:166:void submitEvents() -> submitEvents
+    170:181:void addGlobalAttribute(java.lang.String,java.lang.String) -> addGlobalAttribute
+    185:207:void addGlobalAttribute(java.lang.String,java.lang.String,java.lang.String) -> addGlobalAttribute
+    211:223:void addGlobalMetric(java.lang.String,java.lang.Number) -> addGlobalMetric
+    227:248:void addGlobalMetric(java.lang.String,java.lang.String,java.lang.Number) -> addGlobalMetric
+    252:270:void addEventObserver(com.amazon.insights.event.EventObserver) -> addEventObserver
+    274:292:void removeEventObserver(com.amazon.insights.event.EventObserver) -> removeEventObserver
+    295:298:java.util.List getEventObservers() -> getEventObservers
+    302:309:void notifyObservers(com.amazon.insights.event.InternalEvent) -> notifyObservers
+    313:319:void removeGlobalAttribute(java.lang.String) -> removeGlobalAttribute
+    323:337:void removeGlobalAttribute(java.lang.String,java.lang.String) -> removeGlobalAttribute
+    341:347:void removeGlobalMetric(java.lang.String) -> removeGlobalMetric
+    351:365:void removeGlobalMetric(java.lang.String,java.lang.String) -> removeGlobalMetric
+    369:373:java.lang.String toString() -> toString
+    379:454:org.json.JSONObject toJSONObject() -> toJSONObject
+    467:468:void recordEvent(com.amazon.insights.Event) -> recordEvent
+    471:471:boolean getAllowEventCollection() -> getAllowEventCollection
+com.amazon.insights.event.EventConstraintDecorator -> com.amazon.insights.event.EventConstraintDecorator:
+    com.amazon.insights.core.log.Logger logger -> logger
+    int MAX_EVENT_ATTRIBUTE_METRIC_KEY_LENGTH -> MAX_EVENT_ATTRIBUTE_METRIC_KEY_LENGTH
+    int MAX_EVENT_ATTRIBUTE_VALUE_LENGTH -> MAX_EVENT_ATTRIBUTE_VALUE_LENGTH
+    int MAX_NUM_OF_METRICS_AND_ATTRIBUTES -> MAX_NUM_OF_METRICS_AND_ATTRIBUTES
+    com.amazon.insights.Event decoratedEvent -> decoratedEvent
+    int maxAttributesAndMetrics -> maxAttributesAndMetrics
+    java.util.concurrent.atomic.AtomicInteger currentNumOfAttributesAndMetrics -> currentNumOfAttributesAndMetrics
+    46:46:com.amazon.insights.event.EventConstraintDecorator newInstance(com.amazon.insights.Event) -> newInstance
+    57:67:void addAttribute(java.lang.String,java.lang.String) -> addAttribute
+    71:77:boolean hasAttribute(java.lang.String) -> hasAttribute
+    83:93:void addMetric(java.lang.String,java.lang.Number) -> addMetric
+    97:103:boolean hasMetric(java.lang.String) -> hasMetric
+    108:108:java.lang.String getEventType() -> getEventType
+    113:113:java.lang.String getAttribute(java.lang.String) -> getAttribute
+    118:118:java.lang.Number getMetric(java.lang.String) -> getMetric
+    124:129:com.amazon.insights.Event withAttribute(java.lang.String,java.lang.String) -> withAttribute
+    135:140:com.amazon.insights.Event withMetric(java.lang.String,java.lang.Number) -> withMetric
+    145:145:java.util.Map getAllAttributes() -> getAllAttributes
+    150:150:java.util.Map getAllMetrics() -> getAllMetrics
+    155:164:com.amazon.insights.event.EventConstraintDecorator$Pair processAttribute(java.lang.String,java.lang.String) -> processAttribute
+    169:174:com.amazon.insights.event.EventConstraintDecorator$Pair processMetric(java.lang.String,java.lang.Number) -> processMetric
+com.amazon.insights.event.EventConstraintDecorator$Pair -> com.amazon.insights.event.EventConstraintDecorator$Pair:
+    java.lang.Object key -> key
+    java.lang.Object value -> value
+    22:22:java.lang.Object getKey() -> getKey
+    26:26:java.lang.Object getValue() -> getValue
+    16:16:java.lang.Object access$000(com.amazon.insights.event.EventConstraintDecorator$Pair) -> access$000
+    16:16:java.lang.Object access$100(com.amazon.insights.event.EventConstraintDecorator$Pair) -> access$100
+com.amazon.insights.event.EventObserver -> com.amazon.insights.event.EventObserver:
+    void notify(com.amazon.insights.event.InternalEvent) -> notify
+com.amazon.insights.event.InternalEvent -> com.amazon.insights.event.InternalEvent:
+    java.lang.String getApplicationKey() -> getApplicationKey
+    java.lang.Long getEventTimestamp() -> getEventTimestamp
+    com.amazon.insights.core.idresolver.Id getUniqueId() -> getUniqueId
+    java.lang.String getSdkName() -> getSdkName
+    java.lang.String getSdkVersion() -> getSdkVersion
+com.amazon.insights.event.InternalEventClient -> com.amazon.insights.event.InternalEventClient:
+    com.amazon.insights.event.InternalEvent createInternalEvent(java.lang.String) -> createInternalEvent
+    void recordEvent(com.amazon.insights.Event,boolean) -> recordEvent
+    void addEventObserver(com.amazon.insights.event.EventObserver) -> addEventObserver
+    void removeEventObserver(com.amazon.insights.event.EventObserver) -> removeEventObserver
+com.amazon.insights.event.adapter.EventAdapter -> com.amazon.insights.event.adapter.EventAdapter:
+    java.lang.Object translateFromEvent(com.amazon.insights.event.InternalEvent) -> translateFromEvent
+com.amazon.insights.event.adapter.JSONEventAdapter -> com.amazon.insights.event.adapter.JSONEventAdapter:
+    com.amazon.insights.core.log.Logger logger -> logger
+    18:30:org.json.JSONObject translateFromEvent(com.amazon.insights.event.InternalEvent) -> translateFromEvent
+    35:35:java.lang.String toString() -> toString
+    13:13:java.lang.Object translateFromEvent(com.amazon.insights.event.InternalEvent) -> translateFromEvent
+com.amazon.insights.event.adapter.MeasurementEventAdapter -> com.amazon.insights.event.adapter.MeasurementEventAdapter:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String CLIENT_ID -> CLIENT_ID
+    java.lang.String VERSION -> VERSION
+    com.amazon.insights.event.adapter.JSONEventAdapter jsonAdapter -> jsonAdapter
+    java.util.concurrent.locks.ReentrantReadWriteLock lock -> lock
+    java.util.concurrent.locks.ReentrantReadWriteLock$ReadLock readLock -> readLock
+    com.amazon.insights.core.configuration.Configuration configuration -> configuration
+    35:66:com.amazon.sdk.availability.Measurement translateFromEvent(com.amazon.insights.event.InternalEvent) -> translateFromEvent
+    71:71:java.lang.String toString() -> toString
+    18:18:java.lang.Object translateFromEvent(com.amazon.insights.event.InternalEvent) -> translateFromEvent
+com.amazon.insights.impl.DefaultInsightsCredentials -> com.amazon.insights.impl.DefaultInsightsCredentials:
+    java.lang.String applicationKey -> applicationKey
+    java.lang.String privateKey -> privateKey
+    22:22:java.lang.String getApplicationKey() -> getApplicationKey
+    27:27:java.lang.String getPrivateKey() -> getPrivateKey
+    32:33:int hashCode() -> hashCode
+    38:47:boolean equals(java.lang.Object) -> equals
+com.amazon.insights.impl.DefaultInsightsOptions -> com.amazon.insights.impl.DefaultInsightsOptions:
+    boolean allowEventCollection -> allowEventCollection
+    boolean allowWANDelivery -> allowWANDelivery
+    21:21:boolean getAllowEventCollection() -> getAllowEventCollection
+    26:26:boolean getAllowWANDelivery() -> getAllowWANDelivery
+com.amazon.insights.monetization.AmazonMonetizationEventBuilder -> com.amazon.insights.monetization.AmazonMonetizationEventBuilder:
+    com.amazon.insights.core.log.Logger logger -> logger
+    43:43:com.amazon.insights.monetization.AmazonMonetizationEventBuilder create(com.amazon.insights.EventClient) -> create
+    54:55:com.amazon.insights.monetization.AmazonMonetizationEventBuilder withProductId(java.lang.String) -> withProductId
+    67:68:com.amazon.insights.monetization.AmazonMonetizationEventBuilder withFormattedItemPrice(java.lang.String) -> withFormattedItemPrice
+    80:81:com.amazon.insights.monetization.AmazonMonetizationEventBuilder withQuantity(int) -> withQuantity
+    98:113:boolean isValid() -> isValid
+com.amazon.insights.monetization.CustomMonetizationEventBuilder -> com.amazon.insights.monetization.CustomMonetizationEventBuilder:
+    com.amazon.insights.core.log.Logger logger -> logger
+    51:51:com.amazon.insights.monetization.CustomMonetizationEventBuilder create(com.amazon.insights.EventClient) -> create
+    62:63:com.amazon.insights.monetization.CustomMonetizationEventBuilder withStore(java.lang.String) -> withStore
+    74:75:com.amazon.insights.monetization.CustomMonetizationEventBuilder withProductId(java.lang.String) -> withProductId
+    86:87:com.amazon.insights.monetization.CustomMonetizationEventBuilder withQuantity(int) -> withQuantity
+    98:99:com.amazon.insights.monetization.CustomMonetizationEventBuilder withFormattedItemPrice(java.lang.String) -> withFormattedItemPrice
+    110:111:com.amazon.insights.monetization.CustomMonetizationEventBuilder withItemPrice(double) -> withItemPrice
+    122:123:com.amazon.insights.monetization.CustomMonetizationEventBuilder withCurrency(java.lang.String) -> withCurrency
+    134:135:com.amazon.insights.monetization.CustomMonetizationEventBuilder withTransactionId(java.lang.String) -> withTransactionId
+    151:173:boolean isValid() -> isValid
+com.amazon.insights.monetization.GooglePlayMonetizationEventBuilder -> com.amazon.insights.monetization.GooglePlayMonetizationEventBuilder:
+    com.amazon.insights.core.log.Logger logger -> logger
+    46:46:com.amazon.insights.monetization.GooglePlayMonetizationEventBuilder create(com.amazon.insights.EventClient) -> create
+    57:58:com.amazon.insights.monetization.GooglePlayMonetizationEventBuilder withProductId(java.lang.String) -> withProductId
+    71:72:com.amazon.insights.monetization.GooglePlayMonetizationEventBuilder withFormattedItemPrice(java.lang.String) -> withFormattedItemPrice
+    84:85:com.amazon.insights.monetization.GooglePlayMonetizationEventBuilder withQuantity(int) -> withQuantity
+    97:98:com.amazon.insights.monetization.GooglePlayMonetizationEventBuilder withTransactionId(java.lang.String) -> withTransactionId
+    120:140:boolean isValid() -> isValid
+com.amazon.insights.monetization.MonetizationEventBuilder -> com.amazon.insights.monetization.MonetizationEventBuilder:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String PURCHASE_EVENT_NAME -> PURCHASE_EVENT_NAME
+    java.lang.String PURCHASE_EVENT_QUANTITY_METRIC -> PURCHASE_EVENT_QUANTITY_METRIC
+    java.lang.String PURCHASE_EVENT_ITEM_PRICE_METRIC -> PURCHASE_EVENT_ITEM_PRICE_METRIC
+    java.lang.String PURCHASE_EVENT_PRODUCT_ID_ATTR -> PURCHASE_EVENT_PRODUCT_ID_ATTR
+    java.lang.String PURCHASE_EVENT_PRICE_FORMATTED_ATTR -> PURCHASE_EVENT_PRICE_FORMATTED_ATTR
+    java.lang.String PURCHASE_EVENT_STORE_ATTR -> PURCHASE_EVENT_STORE_ATTR
+    java.lang.String PURCHASE_EVENT_LOCALE_ATTR -> PURCHASE_EVENT_LOCALE_ATTR
+    java.lang.String PURCHASE_EVENT_TRANSACTION_ID_ATTR -> PURCHASE_EVENT_TRANSACTION_ID_ATTR
+    java.lang.String PURCHASE_EVENT_CURRENCY_ATTR -> PURCHASE_EVENT_CURRENCY_ATTR
+    java.lang.String AMAZON_STORE -> AMAZON_STORE
+    java.lang.String GOOGLE_PLAY_STORE -> GOOGLE_PLAY_STORE
+    java.lang.String VIRTUAL_STORE -> VIRTUAL_STORE
+    java.lang.String productId -> productId
+    java.lang.String store -> store
+    java.lang.Integer quantity -> quantity
+    java.lang.String formattedItemPrice -> formattedItemPrice
+    java.lang.Double itemPrice -> itemPrice
+    java.lang.String transactionId -> transactionId
+    java.lang.String currency -> currency
+    com.amazon.insights.EventClient eventClient -> eventClient
+    64:89:com.amazon.insights.Event build() -> build
+    boolean isValid() -> isValid
+    117:117:java.lang.String getProductId() -> getProductId
+    125:126:void setProductId(java.lang.String) -> setProductId
+    134:134:java.lang.Integer getQuantity() -> getQuantity
+    142:143:void setQuantity(java.lang.Integer) -> setQuantity
+    152:152:java.lang.Double getItemPrice() -> getItemPrice
+    160:161:void setItemPrice(java.lang.Double) -> setItemPrice
+    171:171:java.lang.String getFormattedItemPrice() -> getFormattedItemPrice
+    179:180:void setFormattedItemPrice(java.lang.String) -> setFormattedItemPrice
+    188:188:java.lang.String getCurrency() -> getCurrency
+    196:197:void setCurrency(java.lang.String) -> setCurrency
+    205:205:java.lang.String getStore() -> getStore
+    215:216:void setStore(java.lang.String) -> setStore
+    225:225:java.lang.String getTransactionId() -> getTransactionId
+    233:234:void setTransactionId(java.lang.String) -> setTransactionId
+    238:267:boolean doBaseValidation() -> doBaseValidation
+com.amazon.insights.monetization.VirtualMonetizationEventBuilder -> com.amazon.insights.monetization.VirtualMonetizationEventBuilder:
+    com.amazon.insights.core.log.Logger logger -> logger
+    42:42:com.amazon.insights.monetization.VirtualMonetizationEventBuilder create(com.amazon.insights.EventClient) -> create
+    53:54:com.amazon.insights.monetization.VirtualMonetizationEventBuilder withProductId(java.lang.String) -> withProductId
+    65:66:com.amazon.insights.monetization.VirtualMonetizationEventBuilder withItemPrice(double) -> withItemPrice
+    77:78:com.amazon.insights.monetization.VirtualMonetizationEventBuilder withQuantity(int) -> withQuantity
+    90:91:com.amazon.insights.monetization.VirtualMonetizationEventBuilder withCurrency(java.lang.String) -> withCurrency
+    109:129:boolean isValid() -> isValid
+com.amazon.insights.profile.DefaultUserProfile -> com.amazon.insights.profile.DefaultUserProfile:
+    java.util.Map dimensions -> dimensions
+    24:24:com.amazon.insights.UserProfile newInstance() -> newInstance
+    33:33:java.util.Map getDimensions() -> getDimensions
+    43:46:com.amazon.insights.UserProfile addDimensionAsBoolean(java.lang.String,boolean) -> addDimensionAsBoolean
+    57:60:com.amazon.insights.UserProfile addDimensionAsNumber(java.lang.String,java.lang.Number) -> addDimensionAsNumber
+    71:74:com.amazon.insights.UserProfile addDimensionAsString(java.lang.String,java.lang.String) -> addDimensionAsString
+    83:85:int hashCode() -> hashCode
+    96:102:boolean equals(java.lang.Object) -> equals
+    113:135:int compareTo(com.amazon.insights.profile.DefaultUserProfile) -> compareTo
+    15:15:int compareTo(java.lang.Object) -> compareTo
+com.amazon.insights.session.FileSessionStore -> com.amazon.insights.session.FileSessionStore:
+    com.amazon.insights.core.log.Logger logger -> logger
+    java.lang.String SESSION_DIRECTORY -> SESSION_DIRECTORY
+    java.lang.String SESSION_FILE_NAME -> SESSION_FILE_NAME
+    java.lang.String ENCRYPTION_ALGORITHM -> ENCRYPTION_ALGORITHM
+    java.lang.String KEY_MAX_STORAGE_SIZE -> KEY_MAX_STORAGE_SIZE
+    long MAX_STORAGE_SIZE -> MAX_STORAGE_SIZE
+    com.amazon.insights.core.InsightsContext context -> context
+    java.io.File sessionFile -> sessionFile
+    javax.crypto.SecretKey secretKey -> secretKey
+    java.util.concurrent.locks.ReentrantReadWriteLock lock -> lock
+    java.util.concurrent.locks.ReentrantReadWriteLock$ReadLock readSessionLock -> readSessionLock
+    java.util.concurrent.locks.ReentrantReadWriteLock$WriteLock writeSessionLock -> writeSessionLock
+    com.amazon.insights.core.io.EncryptedBufferedReader reader -> reader
+    89:112:void storeSession(com.amazon.insights.session.Session) -> storeSession
+    115:126:java.io.Writer tryInitializeWriter() -> tryInitializeWriter
+    130:137:void tryCloseWriter(java.io.Writer) -> tryCloseWriter
+    140:157:boolean tryOpenReader() -> tryOpenReader
+    161:175:void tryCloseReader() -> tryCloseReader
+    179:205:com.amazon.insights.session.Session getSession() -> getSession
+com.amazon.insights.session.InternalSessionClient -> com.amazon.insights.session.InternalSessionClient:
+    void startSession() -> startSession
+    void stopSession() -> stopSession
+com.amazon.insights.session.Session -> com.amazon.insights.session.Session:
+    java.lang.String SESSION_ID_DATE_FORMAT -> SESSION_ID_DATE_FORMAT
+    java.lang.String SESSION_ID_TIME_FORMAT -> SESSION_ID_TIME_FORMAT
+    char SESSION_ID_DELIMITER -> SESSION_ID_DELIMITER
+    char SESSION_ID_PAD_CHAR -> SESSION_ID_PAD_CHAR
+    int SESSION_ID_APPKEY_LENGTH -> SESSION_ID_APPKEY_LENGTH
+    int SESSION_ID_UNIQID_LENGTH -> SESSION_ID_UNIQID_LENGTH
+    java.lang.String JSON_SESSION_ID_ATTR -> JSON_SESSION_ID_ATTR
+    java.lang.String JSON_START_TIME_ATTR -> JSON_START_TIME_ATTR
+    java.lang.String JSON_STOP_TIME_ATTR -> JSON_STOP_TIME_ATTR
+    java.text.DateFormat sessionIdTimeFormat -> sessionIdTimeFormat
+    java.lang.String sessionID -> sessionID
+    long startTime -> startTime
+    java.lang.Long stopTime -> stopTime
+    57:57:com.amazon.insights.session.Session newInstance(com.amazon.insights.core.InsightsContext) -> newInstance
+    69:85:com.amazon.insights.session.Session getSessionFromSerializedSession(java.lang.String) -> getSessionFromSerializedSession
+    136:136:boolean isPaused() -> isPaused
+    145:148:void pause() -> pause
+    155:156:void resume() -> resume
+    167:176:java.lang.Number getSessionDuration() -> getSessionDuration
+    189:193:java.lang.String generateSessionID(com.amazon.insights.core.InsightsContext) -> generateSessionID
+    202:211:org.json.JSONObject toJSONObject() -> toJSONObject
+    215:219:java.lang.String toString() -> toString
+    226:226:java.lang.String getSessionID() -> getSessionID
+    229:229:long getStartTime() -> getStartTime
+    232:232:java.lang.Long getStopTime() -> getStopTime
+com.amazon.insights.session.SessionStore -> com.amazon.insights.session.SessionStore:
+    void storeSession(com.amazon.insights.session.Session) -> storeSession
+    com.amazon.insights.session.Session getSession() -> getSession
+com.amazon.insights.session.SessionStoreException -> com.amazon.insights.session.SessionStoreException:
+    long serialVersionUID -> serialVersionUID
+com.amazon.insights.session.client.ActiveSessionState -> com.amazon.insights.session.client.ActiveSessionState:
+    21:22:void resume() -> resume
+    29:30:void pause() -> pause
+    40:47:void start() -> start
+    54:55:void stop() -> stop
+com.amazon.insights.session.client.DefaultSessionClient -> com.amazon.insights.session.client.DefaultSessionClient:
+    java.lang.String SESSION_START_EVENT_TYPE -> SESSION_START_EVENT_TYPE
+    java.lang.String SESSION_STOP_EVENT_TYPE -> SESSION_STOP_EVENT_TYPE
+    java.lang.String SESSION_PAUSE_EVENT_TYPE -> SESSION_PAUSE_EVENT_TYPE
+    java.lang.String SESSION_RESUME_EVENT_TYPE -> SESSION_RESUME_EVENT_TYPE
+    java.lang.String SESSION_ID_ATTRIBUTE_KEY -> SESSION_ID_ATTRIBUTE_KEY
+    java.lang.String SESSION_DURATION_METRIC_KEY -> SESSION_DURATION_METRIC_KEY
+    java.lang.String SESSION_START_TIME_ATTRIBUTE_KEY -> SESSION_START_TIME_ATTRIBUTE_KEY
+    java.lang.String SESSION_STOP_TIME_ATTRIBUTE_KEY -> SESSION_STOP_TIME_ATTRIBUTE_KEY
+    long DEFAULT_RESUME_DELAY -> DEFAULT_RESUME_DELAY
+    long DEFAULT_RESTART_DELAY -> DEFAULT_RESTART_DELAY
+    java.lang.String RESUME_DELAY_CONFIG_KEY -> RESUME_DELAY_CONFIG_KEY
+    java.lang.String RESTART_DELAY_CONFIG_KEY -> RESTART_DELAY_CONFIG_KEY
+    com.amazon.insights.core.log.Logger logger -> logger
+    com.amazon.insights.event.InternalEventClient eventClient -> eventClient
+    com.amazon.insights.core.InsightsContext context -> context
+    com.amazon.insights.session.Session session -> session
+    com.amazon.insights.session.client.SessionClientState state -> state
+    com.amazon.insights.session.SessionStore sessionStore -> sessionStore
+    com.amazon.insights.session.client.SessionClientState INACTIVE_STATE -> INACTIVE_STATE
+    com.amazon.insights.session.client.SessionClientState ACTIVE_STATE -> ACTIVE_STATE
+    com.amazon.insights.session.client.SessionClientState PAUSED_STATE -> PAUSED_STATE
+    long resumeDelay -> resumeDelay
+    long restartDelay -> restartDelay
+    81:82:com.amazon.insights.session.client.DefaultSessionClient newInstance(com.amazon.insights.core.InsightsContext,com.amazon.insights.event.InternalEventClient) -> newInstance
+    91:92:void startSession() -> startSession
+    99:100:void stopSession() -> stopSession
+    107:108:void pauseSession() -> pauseSession
+    117:118:void resumeSession() -> resumeSession
+    127:127:java.lang.String toString() -> toString
+    158:158:com.amazon.insights.session.Session getSession() -> getSession
+    161:161:long getRestartDelay() -> getRestartDelay
+    164:164:long getResumeDelay() -> getResumeDelay
+    179:182:com.amazon.insights.session.client.DefaultSessionClient$SessionState getSessionState() -> getSessionState
+    186:199:void changeState(com.amazon.insights.session.client.DefaultSessionClient$SessionState) -> changeState
+com.amazon.insights.session.client.DefaultSessionClient$1 -> com.amazon.insights.session.client.DefaultSessionClient$1:
+    int[] $SwitchMap$com$amazon$insights$session$client$DefaultSessionClient$SessionState -> $SwitchMap$com$amazon$insights$session$client$DefaultSessionClient$SessionState
+com.amazon.insights.session.client.DefaultSessionClient$SessionState -> com.amazon.insights.session.client.DefaultSessionClient$SessionState:
+    com.amazon.insights.session.client.DefaultSessionClient$SessionState INACTIVE -> INACTIVE
+    com.amazon.insights.session.client.DefaultSessionClient$SessionState ACTIVE -> ACTIVE
+    com.amazon.insights.session.client.DefaultSessionClient$SessionState PAUSED -> PAUSED
+    com.amazon.insights.session.client.DefaultSessionClient$SessionState[] $VALUES -> $VALUES
+    170:170:com.amazon.insights.session.client.DefaultSessionClient$SessionState[] values() -> values
+    170:170:com.amazon.insights.session.client.DefaultSessionClient$SessionState valueOf(java.lang.String) -> valueOf
+com.amazon.insights.session.client.InactiveSessionState -> com.amazon.insights.session.client.InactiveSessionState:
+    26:31:void resume() -> resume
+    42:47:void pause() -> pause
+    57:58:void start() -> start
+    66:67:void stop() -> stop
+com.amazon.insights.session.client.PausedSessionState -> com.amazon.insights.session.client.PausedSessionState:
+    21:28:void resume() -> resume
+    36:37:void pause() -> pause
+    44:46:void start() -> start
+    53:54:void stop() -> stop
+com.amazon.insights.session.client.SessionClientState -> com.amazon.insights.session.client.SessionClientState:
+    com.amazon.insights.session.client.DefaultSessionClient client -> client
+    void resume() -> resume
+    void pause() -> pause
+    void start() -> start
+    void stop() -> stop
+    35:47:void executeStart() -> executeStart
+    53:74:void executeStop() -> executeStop
+    83:98:void executePause() -> executePause
+    106:119:void executeResume() -> executeResume
 com.androidquery.AQuery -> com.androidquery.AQuery:
 com.androidquery.AbstractAQuery -> com.androidquery.AbstractAQuery:
     android.view.View root -> a
@@ -30165,6 +31559,18 @@ com.j256.ormlite.table.TableUtils -> com.j256.ormlite.table.TableUtils:
     454:486:int doStatements(com.j256.ormlite.support.DatabaseConnection,java.lang.String,java.util.Collection,boolean,boolean,boolean) -> doStatements
     491:518:int doCreateTestQueries(com.j256.ormlite.support.DatabaseConnection,com.j256.ormlite.db.DatabaseType,java.util.List) -> doCreateTestQueries
     523:526:java.util.List addCreateTableStatements(com.j256.ormlite.support.ConnectionSource,com.j256.ormlite.table.TableInfo,boolean) -> addCreateTableStatements
+com.mitv.AITrackingManager -> com.mitv.AITrackingManager:
+    java.lang.String TAG -> TAG
+    com.mitv.AITrackingManager instance -> instance
+    android.content.Context context -> context
+    com.amazon.insights.AmazonInsights insights -> insights
+    39:46:com.mitv.AITrackingManager sharedInstance() -> sharedInstance
+    54:60:com.amazon.insights.AmazonInsights getAmazonInsightsInstance() -> getAmazonInsightsInstance
+    67:69:com.amazon.insights.EventClient getEventClient() -> getEventClient
+    76:77:void pauseSession() -> pauseSession
+    83:84:void resumeSession() -> resumeSession
+    90:93:void submitEvents() -> submitEvents
+    99:123:void recordCustomEvent() -> recordCustomEvent
 com.mitv.APIClient -> com.mitv.APIClient:
     int pool_executor_default_core_pool_size -> pool_executor_default_core_pool_size
     int pool_executor_default_max_pool_size -> pool_executor_default_max_pool_size
@@ -30276,6 +31682,7 @@ com.mitv.Cache -> com.mitv.Cache:
 com.mitv.Constants -> com.mitv.Constants:
     java.lang.String HTTP_SCHEME -> HTTP_SCHEME
     java.lang.String HTTPS_SCHEME -> HTTPS_SCHEME
+    java.lang.String FORWARD_SLASH -> FORWARD_SLASH
     java.lang.String BACKEND_TEST_ENVIRONMENT -> BACKEND_TEST_ENVIRONMENT
     java.lang.String BACKEND_PRODUCTION_ENVIRONMENT -> BACKEND_PRODUCTION_ENVIRONMENT
     java.lang.String FRONTEND_TEST_ENVIRONMENT -> FRONTEND_TEST_ENVIRONMENT
@@ -30297,6 +31704,10 @@ com.mitv.Constants -> com.mitv.Constants:
     boolean ENABLE_STRICT_MODE -> ENABLE_STRICT_MODE
     boolean IGNORE_INVALID_SSL_CERTIFICATES -> IGNORE_INVALID_SSL_CERTIFICATES
     boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW -> ENABLE_FIRST_TIME_TUTORIAL_VIEW
+    boolean ENABLE_AMAZON_INSIGHTS -> ENABLE_AMAZON_INSIGHTS
+    java.lang.String AMAZON_INSIGHTS_IDENTIFIER -> AMAZON_INSIGHTS_IDENTIFIER
+    java.lang.String AMAZON_INSIGHTS_PUBLIC_KEY -> AMAZON_INSIGHTS_PUBLIC_KEY
+    java.lang.String AMAZON_INSIGHTS_PRIVATE_KEY -> AMAZON_INSIGHTS_PRIVATE_KEY
     java.lang.String TESTFLIGHT_TOKEN -> TESTFLIGHT_TOKEN
     java.lang.String HOCKEY_APP_TOKEN -> HOCKEY_APP_TOKEN
     java.lang.String JSON_MIME_TYPE -> JSON_MIME_TYPE
@@ -30468,10 +31879,6 @@ com.mitv.Constants -> com.mitv.Constants:
     java.lang.String BROADCAST_END_TIME -> BROADCAST_END_TIME
     java.lang.String BROADCAST_BEGIN_TIME_MILLIS -> BROADCAST_BEGIN_TIME_MILLIS
     java.lang.String BROADCAST_SHARE_URL -> BROADCAST_SHARE_URL
-    java.lang.String BROADCAST_TYPE_RERUN -> BROADCAST_TYPE_RERUN
-    java.lang.String BROADCAST_TYPE_LIVE -> BROADCAST_TYPE_LIVE
-    java.lang.String BROADCAST_TYPE_OTHER -> BROADCAST_TYPE_OTHER
-    java.lang.String BROADCAST_TYPE_RECORDED -> BROADCAST_TYPE_RECORDED
     java.lang.String CHANNEL_CHANNEL_ID -> CHANNEL_CHANNEL_ID
     java.lang.String CHANNEL_NAME -> CHANNEL_NAME
     java.lang.String CHANNEL_LOGO -> CHANNEL_LOGO
@@ -30741,133 +32148,133 @@ com.mitv.ContentManager -> com.mitv.ContentManager:
     198:199:void unregisterListenerFromAllRequests(com.mitv.interfaces.ViewCallbackListener) -> unregisterListenerFromAllRequests
     202:210:void unregisterListenerFromAllRequestsHelper(com.mitv.interfaces.ViewCallbackListener) -> unregisterListenerFromAllRequestsHelper
     213:214:void notifyListenersOfRequestResult(com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> notifyListenersOfRequestResult
-    217:233:void notifyListenersOfRequestResultHelper(com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> notifyListenersOfRequestResultHelper
-    237:237:boolean isUpdatingGuide() -> isUpdatingGuide
-    244:245:void clearAllPersistentCacheData() -> clearAllPersistentCacheData
-    250:263:void buildTVBroadcastsForTags(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> buildTVBroadcastsForTags
-    269:277:void handleBuildTVBroadcastsForTagsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBuildTVBroadcastsForTagsResponse
-    283:303:void fetchFromServiceInitialCall(com.mitv.interfaces.ViewCallbackListener,com.mitv.interfaces.FetchDataProgressCallbackListener) -> fetchFromServiceInitialCall
-    313:551:void handleInitialDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleInitialDataResponse
-    555:572:void fetchFromServiceTVDataOnUserStatusChange(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceTVDataOnUserStatusChange
-    577:580:void fetchFromServiceTVGuideForSelectedDay(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceTVGuideForSelectedDay
-    584:594:void fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVDate,java.util.List) -> fetchFromServiceTVGuideUsingTVDateAndTVChannelIds
-    598:612:void fetchFromServiceTVGuideUsingTVDate(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVDate) -> fetchFromServiceTVGuideUsingTVDate
-    617:622:void fetchFromServiceActivityFeedData(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceActivityFeedData
-    627:629:void fetchFromServiceSearchResults(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> fetchFromServiceSearchResults
-    634:636:void fetchFromServiceUserLikes(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceUserLikes
-    641:643:void fetchFromServicePopularBroadcasts(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServicePopularBroadcasts
-    648:658:void fetchFromServiceUpcomingBroadcasts(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> fetchFromServiceUpcomingBroadcasts
-    663:673:void fetchFromServiceRepeatingBroadcasts(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> fetchFromServiceRepeatingBroadcasts
-    678:680:void fetchFromServiceIndividualBroadcast(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVChannelId,long) -> fetchFromServiceIndividualBroadcast
-    687:689:void checkNetworkConnectivity(com.mitv.interfaces.ViewCallbackListener) -> checkNetworkConnectivity
-    694:700:void fetchFromServiceMoreActivityData(com.mitv.interfaces.ViewCallbackListener,int) -> fetchFromServiceMoreActivityData
-    705:707:void fetchFromServiceDisqusComments(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> fetchFromServiceDisqusComments
-    712:714:void fetchFromServiceDisqusThreadDetails(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> fetchFromServiceDisqusThreadDetails
-    724:727:void getElseFetchFromServiceTVGuideUsingSelectedTVDate(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServiceTVGuideUsingSelectedTVDate
-    732:742:void getElseFetchFromServiceSearchResultForSearchQuery(com.mitv.interfaces.ViewCallbackListener,boolean,java.lang.String) -> getElseFetchFromServiceSearchResultForSearchQuery
-    747:755:void getElseFetchFromServiceTVGuideUsingTVDate(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVDate) -> getElseFetchFromServiceTVGuideUsingTVDate
-    760:768:void getElseFetchFromServiceActivityFeedData(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServiceActivityFeedData
-    773:776:void getElseBuildTaggedBroadcastsForSelectedTVDate(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> getElseBuildTaggedBroadcastsForSelectedTVDate
-    781:792:void getElseBuildTaggedBroadcastsUsingTVDate(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVDate,java.lang.String) -> getElseBuildTaggedBroadcastsUsingTVDate
-    797:805:void getElseFetchFromServicePopularBroadcasts(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServicePopularBroadcasts
-    810:818:void getElseFetchFromServiceUserLikes(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServiceUserLikes
-    834:851:void getElseFetchFromServiceBroadcastPageData(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,com.mitv.models.objects.mitvapi.TVChannelId,long) -> getElseFetchFromServiceBroadcastPageData
-    856:868:void getElseFetchFromServiceUpcomingBroadcasts(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> getElseFetchFromServiceUpcomingBroadcasts
-    873:882:void getElseFetchFromServiceRepeatingBroadcasts(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> getElseFetchFromServiceRepeatingBroadcasts
-    893:1043:void onResult(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> onResult
-    1051:1057:void notifyFetchDataProgressListenerMessage(java.lang.String) -> notifyFetchDataProgressListenerMessage
-    1063:1067:void notifyFetchDataProgressListenerMessage(int,java.lang.String) -> notifyFetchDataProgressListenerMessage
-    1073:1074:void handleDisqusThreadCommentsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleDisqusThreadCommentsResponse
-    1080:1090:void handleDisqusThreadDetailsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleDisqusThreadDetailsResponse
-    1099:1100:void handleInternetConnectionDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleInternetConnectionDataResponse
-    1108:1130:void handleActivityFeedMoreItemsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleActivityFeedMoreItemsResponse
-    1139:1180:void handleActivityFeedInitalFetchResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleActivityFeedInitalFetchResponse
-    1192:1217:void handleTVChannelGuidesForSelectedDayResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVChannelGuidesForSelectedDayResponse
-    1221:1235:void handleTVBroadcastsPopularBroadcastsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVBroadcastsPopularBroadcastsResponse
-    1239:1254:void handleSearchResultResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSearchResultResponse
-    1264:1325:void handleBroadcastPageDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBroadcastPageDataResponse
-    1330:1342:void handleSignUpResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSignUpResponse
-    1347:1356:void handleGetUserLikesResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleGetUserLikesResponse
-    1361:1371:void handleAddUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleAddUserLikeResponse
-    1376:1384:void handleRemoveUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleRemoveUserLikeResponse
-    1389:1397:void handleResetPasswordSendEmailResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleResetPasswordSendEmailResponse
-    1402:1418:void handleUserTokenWithFacebookTokenResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleUserTokenWithFacebookTokenResponse
-    1433:1449:void handleTVChannelIdsUserResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVChannelIdsUserResponse
-    1456:1466:void setNewTVChannelIdsAndFetchGuide(com.mitv.interfaces.ViewCallbackListener,java.util.ArrayList,java.util.ArrayList) -> setNewTVChannelIdsAndFetchGuide
-    1471:1480:void handleLoginResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleLoginResponse
-    1484:1487:void handleLogoutResponse(com.mitv.interfaces.ViewCallbackListener) -> handleLogoutResponse
-    1493:1505:void handleSetChannelsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleSetChannelsResponse
-    1511:1522:void performInternalTracking(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> performInternalTracking
-    1530:1535:void addUserLike(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.UserLike) -> addUserLike
-    1540:1541:void removeUserLike(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.UserLike) -> removeUserLike
-    1548:1557:void performSignUp(com.mitv.interfaces.ViewCallbackListener,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> performSignUp
-    1562:1569:void performLogin(com.mitv.interfaces.ViewCallbackListener,java.lang.String,java.lang.String) -> performLogin
-    1574:1575:void performResetPassword(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> performResetPassword
-    1580:1581:void getUserTokenWithFacebookFBToken(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> getUserTokenWithFacebookFBToken
-    1585:1586:void performSetUserChannels(com.mitv.interfaces.ViewCallbackListener,java.util.List) -> performSetUserChannels
-    1590:1592:java.util.List getFromCacheTVChannelIdsUser() -> getFromCacheTVChannelIdsUser
-    1600:1607:boolean getFromCacheHasInitialData() -> getFromCacheHasInitialData
-    1614:1614:boolean getFromCacheHasTVDates() -> getFromCacheHasTVDates
-    1621:1621:boolean getFromCacheHasUserLikes() -> getFromCacheHasUserLikes
-    1627:1627:boolean getFromCacheHasActivityFeed() -> getFromCacheHasActivityFeed
-    1631:1631:boolean getFromCacheHasTVTags() -> getFromCacheHasTVTags
-    1636:1645:boolean getFromCacheHasTVTagsAndGuideForSelectedTVDate() -> getFromCacheHasTVTagsAndGuideForSelectedTVDate
-    1650:1650:boolean getFromCacheHasUserTVChannelIds() -> getFromCacheHasUserTVChannelIds
-    1654:1654:boolean getFromCacheHasTVChannelsAll() -> getFromCacheHasTVChannelsAll
-    1659:1659:boolean getFromCacheHasTVBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVChannelId,long) -> getFromCacheHasTVBroadcastWithChannelInfo
-    1665:1678:boolean getFromCacheHasBroadcastPageData() -> getFromCacheHasBroadcastPageData
-    1685:1685:boolean getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay
-    1691:1691:boolean getFromCacheHasPopularBroadcasts() -> getFromCacheHasPopularBroadcasts
-    1699:1709:void setTVDateSelectedUsingIndexAndFetchGuideForDay(com.mitv.interfaces.ViewCallbackListener,int) -> setTVDateSelectedUsingIndexAndFetchGuideForDay
-    1718:1719:com.mitv.models.objects.mitvapi.TVDate getFromCacheTVDateSelected() -> getFromCacheTVDateSelected
-    1725:1726:int getFromCacheTVDateSelectedIndex() -> getFromCacheTVDateSelectedIndex
-    1732:1733:int getFromCacheFirstHourOfTVDay() -> getFromCacheFirstHourOfTVDay
-    1739:1744:boolean selectedTVDateIsToday() -> selectedTVDateIsToday
-    1752:1753:void setTVDateSelectedUsingIndex(int) -> setTVDateSelectedUsingIndex
-    1758:1760:java.util.List getFromCacheTVTags() -> getFromCacheTVTags
-    1767:1769:com.mitv.models.objects.mitvapi.TVGuide getFromCacheTVGuideForSelectedDay() -> getFromCacheTVGuideForSelectedDay
-    1773:1774:com.mitv.models.objects.mitvapi.SearchResultsForQuery getFromCacheSearchResults() -> getFromCacheSearchResults
-    1779:1781:com.mitv.models.objects.mitvapi.AppConfiguration getFromCacheAppConfiguration() -> getFromCacheAppConfiguration
-    1787:1787:boolean getFromCacheHasAppConfiguration() -> getFromCacheHasAppConfiguration
-    1793:1794:com.mitv.models.objects.mitvapi.TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay
-    1800:1801:java.util.ArrayList getFromCacheActivityFeedData() -> getFromCacheActivityFeedData
-    1816:1817:java.lang.String getFromCacheUserToken() -> getFromCacheUserToken
-    1822:1823:boolean isLoggedIn() -> isLoggedIn
-    1833:1838:void setUpcomingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setUpcomingBroadcasts
-    1844:1849:void setRepeatingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setRepeatingBroadcasts
-    1860:1874:java.util.ArrayList getFromCacheUpcomingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheUpcomingBroadcastsVerifyCorrect
-    1880:1887:java.util.ArrayList getFromCacheUpcomingBroadcasts() -> getFromCacheUpcomingBroadcasts
-    1900:1914:java.util.ArrayList getFromCacheRepeatingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheRepeatingBroadcastsVerifyCorrect
-    1920:1928:java.util.ArrayList getFromCacheRepeatingBroadcasts() -> getFromCacheRepeatingBroadcasts
-    1933:1934:void setSelectedBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> setSelectedBroadcastWithChannelInfo
-    1937:1938:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getFromCacheSelectedBroadcastWithChannelInfo() -> getFromCacheSelectedBroadcastWithChannelInfo
-    1942:1943:java.util.HashMap getFromCacheTaggedBroadcastsForSelectedTVDate() -> getFromCacheTaggedBroadcastsForSelectedTVDate
-    1947:1948:java.lang.Integer getFromCacheSelectedHour() -> getFromCacheSelectedHour
-    1952:1953:void setSelectedHour(java.lang.Integer) -> setSelectedHour
-    1957:1958:void setSelectedTVChannelId(com.mitv.models.objects.mitvapi.TVChannelId) -> setSelectedTVChannelId
-    1962:1963:com.mitv.models.objects.mitvapi.TVChannelId getFromCacheSelectedTVChannelId() -> getFromCacheSelectedTVChannelId
-    1967:1968:java.lang.String getFromCacheUserLastname() -> getFromCacheUserLastname
-    1973:1974:java.lang.String getFromCacheUserFirstname() -> getFromCacheUserFirstname
-    1978:1979:java.lang.String getFromCacheUserEmail() -> getFromCacheUserEmail
-    1983:1984:java.lang.String getFromCacheUserId() -> getFromCacheUserId
-    1988:1989:java.lang.String getFromCacheUserProfileImage() -> getFromCacheUserProfileImage
-    1995:1997:java.util.List getFromCacheTVChannelsAll() -> getFromCacheTVChannelsAll
-    2003:2005:java.util.List getFromCacheUserLikes() -> getFromCacheUserLikes
-    2011:2012:boolean isContainedInUserLikes(com.mitv.models.objects.mitvapi.UserLike) -> isContainedInUserLikes
-    2016:2017:boolean isContainedInUsedChannelIds(com.mitv.models.objects.mitvapi.TVChannelId) -> isContainedInUsedChannelIds
-    2022:2022:com.mitv.models.objects.mitvapi.TVChannel getFromCacheTVChannelById(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelById
-    2026:2027:java.lang.String getFromCacheWelcomeMessage() -> getFromCacheWelcomeMessage
-    2031:2032:java.util.HashMap getFromCacheTaggedBroadcastsUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> getFromCacheTaggedBroadcastsUsingTVDate
-    2036:2037:java.util.ArrayList getFromCachePopularBroadcasts() -> getFromCachePopularBroadcasts
-    2042:2044:java.util.List getFromCacheTVDates() -> getFromCacheTVDates
-    2048:2049:void setReturnActivity(java.lang.Class) -> setReturnActivity
-    2058:2066:boolean tryStartReturnActivity(android.app.Activity) -> tryStartReturnActivity
-    2071:2072:java.lang.Class getReturnActivity() -> getReturnActivity
-    2076:2077:void setLikeToAddAfterLogin(com.mitv.models.objects.mitvapi.UserLike) -> setLikeToAddAfterLogin
-    2083:2106:boolean isLocalDeviceCalendarOffSync() -> isLocalDeviceCalendarOffSync
-    2113:2117:void clearUserCache() -> clearUserCache
-    2125:2135:void performLogout(com.mitv.interfaces.ViewCallbackListener,boolean) -> performLogout
-    2141:2143:int getDisqusTotalPostsForLatestBroadcast() -> getDisqusTotalPostsForLatestBroadcast
+    218:234:void notifyListenersOfRequestResultHelper(com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> notifyListenersOfRequestResultHelper
+    239:239:boolean isUpdatingGuide() -> isUpdatingGuide
+    246:247:void clearAllPersistentCacheData() -> clearAllPersistentCacheData
+    252:265:void buildTVBroadcastsForTags(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> buildTVBroadcastsForTags
+    271:279:void handleBuildTVBroadcastsForTagsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBuildTVBroadcastsForTagsResponse
+    285:305:void fetchFromServiceInitialCall(com.mitv.interfaces.ViewCallbackListener,com.mitv.interfaces.FetchDataProgressCallbackListener) -> fetchFromServiceInitialCall
+    315:553:void handleInitialDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleInitialDataResponse
+    557:574:void fetchFromServiceTVDataOnUserStatusChange(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceTVDataOnUserStatusChange
+    579:582:void fetchFromServiceTVGuideForSelectedDay(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceTVGuideForSelectedDay
+    586:596:void fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVDate,java.util.List) -> fetchFromServiceTVGuideUsingTVDateAndTVChannelIds
+    600:614:void fetchFromServiceTVGuideUsingTVDate(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVDate) -> fetchFromServiceTVGuideUsingTVDate
+    619:624:void fetchFromServiceActivityFeedData(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceActivityFeedData
+    629:631:void fetchFromServiceSearchResults(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> fetchFromServiceSearchResults
+    636:638:void fetchFromServiceUserLikes(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServiceUserLikes
+    643:645:void fetchFromServicePopularBroadcasts(com.mitv.interfaces.ViewCallbackListener) -> fetchFromServicePopularBroadcasts
+    650:660:void fetchFromServiceUpcomingBroadcasts(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> fetchFromServiceUpcomingBroadcasts
+    665:675:void fetchFromServiceRepeatingBroadcasts(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> fetchFromServiceRepeatingBroadcasts
+    680:682:void fetchFromServiceIndividualBroadcast(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVChannelId,long) -> fetchFromServiceIndividualBroadcast
+    689:691:void checkNetworkConnectivity(com.mitv.interfaces.ViewCallbackListener) -> checkNetworkConnectivity
+    696:702:void fetchFromServiceMoreActivityData(com.mitv.interfaces.ViewCallbackListener,int) -> fetchFromServiceMoreActivityData
+    707:709:void fetchFromServiceDisqusComments(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> fetchFromServiceDisqusComments
+    714:716:void fetchFromServiceDisqusThreadDetails(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> fetchFromServiceDisqusThreadDetails
+    726:729:void getElseFetchFromServiceTVGuideUsingSelectedTVDate(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServiceTVGuideUsingSelectedTVDate
+    734:744:void getElseFetchFromServiceSearchResultForSearchQuery(com.mitv.interfaces.ViewCallbackListener,boolean,java.lang.String) -> getElseFetchFromServiceSearchResultForSearchQuery
+    749:757:void getElseFetchFromServiceTVGuideUsingTVDate(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVDate) -> getElseFetchFromServiceTVGuideUsingTVDate
+    762:770:void getElseFetchFromServiceActivityFeedData(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServiceActivityFeedData
+    775:778:void getElseBuildTaggedBroadcastsForSelectedTVDate(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> getElseBuildTaggedBroadcastsForSelectedTVDate
+    783:794:void getElseBuildTaggedBroadcastsUsingTVDate(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.TVDate,java.lang.String) -> getElseBuildTaggedBroadcastsUsingTVDate
+    799:807:void getElseFetchFromServicePopularBroadcasts(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServicePopularBroadcasts
+    812:820:void getElseFetchFromServiceUserLikes(com.mitv.interfaces.ViewCallbackListener,boolean) -> getElseFetchFromServiceUserLikes
+    836:853:void getElseFetchFromServiceBroadcastPageData(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,com.mitv.models.objects.mitvapi.TVChannelId,long) -> getElseFetchFromServiceBroadcastPageData
+    858:870:void getElseFetchFromServiceUpcomingBroadcasts(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> getElseFetchFromServiceUpcomingBroadcasts
+    875:884:void getElseFetchFromServiceRepeatingBroadcasts(com.mitv.interfaces.ViewCallbackListener,boolean,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> getElseFetchFromServiceRepeatingBroadcasts
+    895:1045:void onResult(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> onResult
+    1053:1059:void notifyFetchDataProgressListenerMessage(java.lang.String) -> notifyFetchDataProgressListenerMessage
+    1065:1069:void notifyFetchDataProgressListenerMessage(int,java.lang.String) -> notifyFetchDataProgressListenerMessage
+    1075:1076:void handleDisqusThreadCommentsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleDisqusThreadCommentsResponse
+    1082:1092:void handleDisqusThreadDetailsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleDisqusThreadDetailsResponse
+    1101:1102:void handleInternetConnectionDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleInternetConnectionDataResponse
+    1110:1132:void handleActivityFeedMoreItemsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleActivityFeedMoreItemsResponse
+    1141:1182:void handleActivityFeedInitalFetchResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleActivityFeedInitalFetchResponse
+    1194:1219:void handleTVChannelGuidesForSelectedDayResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVChannelGuidesForSelectedDayResponse
+    1223:1237:void handleTVBroadcastsPopularBroadcastsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVBroadcastsPopularBroadcastsResponse
+    1241:1256:void handleSearchResultResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSearchResultResponse
+    1266:1327:void handleBroadcastPageDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBroadcastPageDataResponse
+    1332:1344:void handleSignUpResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSignUpResponse
+    1349:1358:void handleGetUserLikesResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleGetUserLikesResponse
+    1363:1373:void handleAddUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleAddUserLikeResponse
+    1378:1386:void handleRemoveUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleRemoveUserLikeResponse
+    1391:1399:void handleResetPasswordSendEmailResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleResetPasswordSendEmailResponse
+    1404:1420:void handleUserTokenWithFacebookTokenResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleUserTokenWithFacebookTokenResponse
+    1435:1451:void handleTVChannelIdsUserResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVChannelIdsUserResponse
+    1458:1468:void setNewTVChannelIdsAndFetchGuide(com.mitv.interfaces.ViewCallbackListener,java.util.ArrayList,java.util.ArrayList) -> setNewTVChannelIdsAndFetchGuide
+    1473:1482:void handleLoginResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleLoginResponse
+    1486:1489:void handleLogoutResponse(com.mitv.interfaces.ViewCallbackListener) -> handleLogoutResponse
+    1495:1507:void handleSetChannelsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleSetChannelsResponse
+    1513:1524:void performInternalTracking(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> performInternalTracking
+    1532:1537:void addUserLike(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.UserLike) -> addUserLike
+    1542:1543:void removeUserLike(com.mitv.interfaces.ViewCallbackListener,com.mitv.models.objects.mitvapi.UserLike) -> removeUserLike
+    1550:1559:void performSignUp(com.mitv.interfaces.ViewCallbackListener,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> performSignUp
+    1564:1571:void performLogin(com.mitv.interfaces.ViewCallbackListener,java.lang.String,java.lang.String) -> performLogin
+    1576:1577:void performResetPassword(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> performResetPassword
+    1582:1583:void getUserTokenWithFacebookFBToken(com.mitv.interfaces.ViewCallbackListener,java.lang.String) -> getUserTokenWithFacebookFBToken
+    1587:1588:void performSetUserChannels(com.mitv.interfaces.ViewCallbackListener,java.util.List) -> performSetUserChannels
+    1592:1594:java.util.List getFromCacheTVChannelIdsUser() -> getFromCacheTVChannelIdsUser
+    1602:1609:boolean getFromCacheHasInitialData() -> getFromCacheHasInitialData
+    1616:1616:boolean getFromCacheHasTVDates() -> getFromCacheHasTVDates
+    1623:1623:boolean getFromCacheHasUserLikes() -> getFromCacheHasUserLikes
+    1629:1629:boolean getFromCacheHasActivityFeed() -> getFromCacheHasActivityFeed
+    1633:1633:boolean getFromCacheHasTVTags() -> getFromCacheHasTVTags
+    1638:1647:boolean getFromCacheHasTVTagsAndGuideForSelectedTVDate() -> getFromCacheHasTVTagsAndGuideForSelectedTVDate
+    1652:1652:boolean getFromCacheHasUserTVChannelIds() -> getFromCacheHasUserTVChannelIds
+    1656:1656:boolean getFromCacheHasTVChannelsAll() -> getFromCacheHasTVChannelsAll
+    1661:1661:boolean getFromCacheHasTVBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVChannelId,long) -> getFromCacheHasTVBroadcastWithChannelInfo
+    1667:1680:boolean getFromCacheHasBroadcastPageData() -> getFromCacheHasBroadcastPageData
+    1687:1687:boolean getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay
+    1693:1693:boolean getFromCacheHasPopularBroadcasts() -> getFromCacheHasPopularBroadcasts
+    1701:1711:void setTVDateSelectedUsingIndexAndFetchGuideForDay(com.mitv.interfaces.ViewCallbackListener,int) -> setTVDateSelectedUsingIndexAndFetchGuideForDay
+    1720:1721:com.mitv.models.objects.mitvapi.TVDate getFromCacheTVDateSelected() -> getFromCacheTVDateSelected
+    1727:1728:int getFromCacheTVDateSelectedIndex() -> getFromCacheTVDateSelectedIndex
+    1734:1735:int getFromCacheFirstHourOfTVDay() -> getFromCacheFirstHourOfTVDay
+    1741:1746:boolean selectedTVDateIsToday() -> selectedTVDateIsToday
+    1754:1755:void setTVDateSelectedUsingIndex(int) -> setTVDateSelectedUsingIndex
+    1760:1762:java.util.List getFromCacheTVTags() -> getFromCacheTVTags
+    1769:1771:com.mitv.models.objects.mitvapi.TVGuide getFromCacheTVGuideForSelectedDay() -> getFromCacheTVGuideForSelectedDay
+    1775:1776:com.mitv.models.objects.mitvapi.SearchResultsForQuery getFromCacheSearchResults() -> getFromCacheSearchResults
+    1781:1783:com.mitv.models.objects.mitvapi.AppConfiguration getFromCacheAppConfiguration() -> getFromCacheAppConfiguration
+    1789:1789:boolean getFromCacheHasAppConfiguration() -> getFromCacheHasAppConfiguration
+    1795:1796:com.mitv.models.objects.mitvapi.TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay
+    1802:1803:java.util.ArrayList getFromCacheActivityFeedData() -> getFromCacheActivityFeedData
+    1818:1819:java.lang.String getFromCacheUserToken() -> getFromCacheUserToken
+    1824:1825:boolean isLoggedIn() -> isLoggedIn
+    1835:1840:void setUpcomingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setUpcomingBroadcasts
+    1846:1851:void setRepeatingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setRepeatingBroadcasts
+    1862:1876:java.util.ArrayList getFromCacheUpcomingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheUpcomingBroadcastsVerifyCorrect
+    1882:1889:java.util.ArrayList getFromCacheUpcomingBroadcasts() -> getFromCacheUpcomingBroadcasts
+    1902:1916:java.util.ArrayList getFromCacheRepeatingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheRepeatingBroadcastsVerifyCorrect
+    1922:1930:java.util.ArrayList getFromCacheRepeatingBroadcasts() -> getFromCacheRepeatingBroadcasts
+    1935:1936:void setSelectedBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> setSelectedBroadcastWithChannelInfo
+    1939:1940:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getFromCacheSelectedBroadcastWithChannelInfo() -> getFromCacheSelectedBroadcastWithChannelInfo
+    1944:1945:java.util.HashMap getFromCacheTaggedBroadcastsForSelectedTVDate() -> getFromCacheTaggedBroadcastsForSelectedTVDate
+    1949:1950:java.lang.Integer getFromCacheSelectedHour() -> getFromCacheSelectedHour
+    1954:1955:void setSelectedHour(java.lang.Integer) -> setSelectedHour
+    1959:1960:void setSelectedTVChannelId(com.mitv.models.objects.mitvapi.TVChannelId) -> setSelectedTVChannelId
+    1964:1965:com.mitv.models.objects.mitvapi.TVChannelId getFromCacheSelectedTVChannelId() -> getFromCacheSelectedTVChannelId
+    1969:1970:java.lang.String getFromCacheUserLastname() -> getFromCacheUserLastname
+    1975:1976:java.lang.String getFromCacheUserFirstname() -> getFromCacheUserFirstname
+    1980:1981:java.lang.String getFromCacheUserEmail() -> getFromCacheUserEmail
+    1985:1986:java.lang.String getFromCacheUserId() -> getFromCacheUserId
+    1990:1991:java.lang.String getFromCacheUserProfileImage() -> getFromCacheUserProfileImage
+    1997:1999:java.util.List getFromCacheTVChannelsAll() -> getFromCacheTVChannelsAll
+    2005:2007:java.util.List getFromCacheUserLikes() -> getFromCacheUserLikes
+    2013:2014:boolean isContainedInUserLikes(com.mitv.models.objects.mitvapi.UserLike) -> isContainedInUserLikes
+    2018:2019:boolean isContainedInUsedChannelIds(com.mitv.models.objects.mitvapi.TVChannelId) -> isContainedInUsedChannelIds
+    2024:2024:com.mitv.models.objects.mitvapi.TVChannel getFromCacheTVChannelById(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelById
+    2028:2029:java.lang.String getFromCacheWelcomeMessage() -> getFromCacheWelcomeMessage
+    2033:2034:java.util.HashMap getFromCacheTaggedBroadcastsUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> getFromCacheTaggedBroadcastsUsingTVDate
+    2038:2039:java.util.ArrayList getFromCachePopularBroadcasts() -> getFromCachePopularBroadcasts
+    2044:2046:java.util.List getFromCacheTVDates() -> getFromCacheTVDates
+    2050:2051:void setReturnActivity(java.lang.Class) -> setReturnActivity
+    2060:2068:boolean tryStartReturnActivity(android.app.Activity) -> tryStartReturnActivity
+    2073:2074:java.lang.Class getReturnActivity() -> getReturnActivity
+    2078:2079:void setLikeToAddAfterLogin(com.mitv.models.objects.mitvapi.UserLike) -> setLikeToAddAfterLogin
+    2085:2108:boolean isLocalDeviceCalendarOffSync() -> isLocalDeviceCalendarOffSync
+    2115:2119:void clearUserCache() -> clearUserCache
+    2127:2137:void performLogout(com.mitv.interfaces.ViewCallbackListener,boolean) -> performLogout
+    2143:2145:int getDisqusTotalPostsForLatestBroadcast() -> getDisqusTotalPostsForLatestBroadcast
     49:49:int[] $SWITCH_TABLE$com$mitv$ContentManager$RequestToCallBackMapAccessIdentifier() -> $SWITCH_TABLE$com$mitv$ContentManager$RequestToCallBackMapAccessIdentifier
     49:49:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum
 com.mitv.ContentManager$RequestToCallBackMapAccessIdentifier -> com.mitv.ContentManager$RequestToCallBackMapAccessIdentifier:
@@ -31246,6 +32653,7 @@ com.mitv.R$bool -> com.mitv.R$bool:
     int abc_config_allowActionMenuItemTextWithIcon -> abc_config_allowActionMenuItemTextWithIcon
     int abc_config_showMenuShortcutsWhenKeyboardPresent -> abc_config_showMenuShortcutsWhenKeyboardPresent
     int abc_split_action_bar_is_narrow -> abc_split_action_bar_is_narrow
+    int appirator_test_mode -> appirator_test_mode
     int default_circle_indicator_centered -> default_circle_indicator_centered
     int default_circle_indicator_snap -> default_circle_indicator_snap
     int default_line_indicator_centered -> default_line_indicator_centered
@@ -31256,6 +32664,9 @@ com.mitv.R$color -> com.mitv.R$color:
     int abc_search_url_text_normal -> abc_search_url_text_normal
     int abc_search_url_text_pressed -> abc_search_url_text_pressed
     int abc_search_url_text_selected -> abc_search_url_text_selected
+    int appirator_button_end_color -> appirator_button_end_color
+    int appirator_button_start_color -> appirator_button_start_color
+    int appirator_button_text_color -> appirator_button_text_color
     int black -> black
     int black_light -> black_light
     int blue0 -> blue0
@@ -31490,6 +32901,7 @@ com.mitv.R$drawable -> com.mitv.R$drawable:
     int background_color_selector_signup_login_box -> background_color_selector_signup_login_box
     int background_color_selector_white -> background_color_selector_white
     int broadcast_horizontal_progressbar -> broadcast_horizontal_progressbar
+    int button_appirator -> button_appirator
     int common_signin_btn_icon_dark -> common_signin_btn_icon_dark
     int common_signin_btn_icon_disabled_dark -> common_signin_btn_icon_disabled_dark
     int common_signin_btn_icon_disabled_focus_dark -> common_signin_btn_icon_disabled_focus_dark
@@ -31741,6 +33153,7 @@ com.mitv.R$id -> com.mitv.R$id:
     int button_tutorial_next -> button_tutorial_next
     int button_tutorial_skip -> button_tutorial_skip
     int button_tutorial_start_primary_activity -> button_tutorial_start_primary_activity
+    int cancel -> cancel
     int channelpage_broadcast_details_container -> channelpage_broadcast_details_container
     int channelpage_broadcast_details_progressbar -> channelpage_broadcast_details_progressbar
     int channelpage_broadcast_details_text_tv -> channelpage_broadcast_details_text_tv
@@ -31870,6 +33283,7 @@ com.mitv.R$id -> com.mitv.R$id:
     int loading_container -> loading_container
     int login_page_text -> login_page_text
     int login_page_title -> login_page_title
+    int message -> message
     int middle -> middle
     int mitv_reset_password_button -> mitv_reset_password_button
     int mitv_reset_password_button_tv -> mitv_reset_password_button_tv
@@ -31950,6 +33364,8 @@ com.mitv.R$id -> com.mitv.R$id:
     int progress_circular -> progress_circular
     int progress_horizontal -> progress_horizontal
     int radio -> radio
+    int rate -> rate
+    int rateLater -> rateLater
     int recommendations_list_container -> recommendations_list_container
     int repeating_list_container -> repeating_list_container
     int repeating_list_listview -> repeating_list_listview
@@ -32145,6 +33561,10 @@ com.mitv.R$id -> com.mitv.R$id:
     int withText -> withText
 com.mitv.R$integer -> com.mitv.R$integer:
     int abc_max_action_buttons -> abc_max_action_buttons
+    int appirator_days_before_reminding -> appirator_days_before_reminding
+    int appirator_days_until_prompt -> appirator_days_until_prompt
+    int appirator_events_until_prompt -> appirator_events_until_prompt
+    int appirator_launches_until_prompt -> appirator_launches_until_prompt
     int default_circle_indicator_orientation -> default_circle_indicator_orientation
     int default_title_indicator_footer_indicator_style -> default_title_indicator_footer_indicator_style
     int default_title_indicator_line_position -> default_title_indicator_line_position
@@ -32180,6 +33600,7 @@ com.mitv.R$layout -> com.mitv.R$layout:
     int actionbar_dropdown_list_date_item -> actionbar_dropdown_list_date_item
     int actionbar_search_textview -> actionbar_search_textview
     int ad_space -> ad_space
+    int appirater -> appirater
     int block_bottom_tabs -> block_bottom_tabs
     int block_broadcastpage_cast_and_crew -> block_broadcastpage_cast_and_crew
     int block_broadcastpage_main_content -> block_broadcastpage_main_content
@@ -32295,6 +33716,8 @@ com.mitv.R$string -> com.mitv.R$string:
     int and -> and
     int app_id -> app_id
     int app_name -> app_name
+    int appirator_app_title -> appirator_app_title
+    int appirator_market_url -> appirator_market_url
     int auth_client_needs_enabling_title -> auth_client_needs_enabling_title
     int auth_client_needs_installation_title -> auth_client_needs_installation_title
     int auth_client_needs_update_title -> auth_client_needs_update_title
@@ -32444,6 +33867,11 @@ com.mitv.R$string -> com.mitv.R$string:
     int popular -> popular
     int popular_now -> popular_now
     int product_view_content_expired -> product_view_content_expired
+    int rate -> rate
+    int rate_cancel -> rate_cancel
+    int rate_later -> rate_later
+    int rate_message -> rate_message
+    int rate_title -> rate_title
     int reminder_text_remove -> reminder_text_remove
     int reminder_text_set_bottom -> reminder_text_set_bottom
     int reminder_text_set_middle -> reminder_text_set_middle
@@ -32715,6 +34143,7 @@ com.mitv.R$style -> com.mitv.R$style:
     int Widget_AppCompat_Spinner_DropDown_ActionBar -> Widget_AppCompat_Spinner_DropDown_ActionBar
     int Widget_IconPageIndicator -> Widget_IconPageIndicator
     int Widget_TabPageIndicator -> Widget_TabPageIndicator
+    int appiratorButton -> appiratorButton
     int bluetextbutton -> bluetextbutton
     int edittext -> edittext
     int error -> error
@@ -33391,18 +34820,18 @@ com.mitv.activities.UserProfileActivity -> com.mitv.activities.UserProfileActivi
     com.mitv.ui.elements.FontTextView reminderCountTv -> E
     int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> F
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> G
-    71:83:void onCreate(android.os.Bundle) -> onCreate
-    90:93:void onResume() -> onResume
-    100:113:void loadData() -> loadData
-    120:128:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    137:188:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    195:231:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    237:282:void initLayout() -> d
-    288:352:void populateViews() -> e
-    356:371:void updateUserLikesGUI() -> h
-    379:451:void onClick(android.view.View) -> onClick
-    38:38:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
-    38:38:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
+    72:84:void onCreate(android.os.Bundle) -> onCreate
+    91:99:void onResume() -> onResume
+    106:119:void loadData() -> loadData
+    126:134:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    143:194:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    201:237:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    243:288:void initLayout() -> d
+    294:358:void populateViews() -> e
+    362:377:void updateUserLikesGUI() -> h
+    385:457:void onClick(android.view.View) -> onClick
+    39:39:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
+    39:39:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
 com.mitv.activities.authentication.LoginWithFacebookActivity -> com.mitv.activities.authentication.LoginWithFacebookActivity:
     java.lang.String TAG -> o
     android.support.v7.app.ActionBar actionBar -> p
@@ -33560,45 +34989,45 @@ com.mitv.activities.base.BaseActivity -> com.mitv.activities.base.BaseActivity:
     void loadData() -> loadData
     boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
     void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    124:142:void onCreate(android.os.Bundle) -> onCreate
-    145:161:void restartTheApp() -> restartTheApp
-    165:171:boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
-    177:178:void registerAsListenerForRequest(com.mitv.enums.RequestIdentifierEnum) -> registerAsListenerForRequest
-    181:182:void unregisterListenerFromAllRequests() -> unregisterListenerFromAllRequests
-    219:286:void onResume() -> onResume
-    292:305:void handleTimeAndDayOnResume() -> b
-    310:313:void killAllActivitiesIncludingThis() -> c
-    317:336:int getIndexOfTodayFromTVDates() -> d
-    346:353:void pushActivityToStack(com.mitv.activities.base.BaseActivity) -> a
-    357:365:void printActivityStack() -> e
-    385:394:void removeFromStackOnDestroy(android.app.Activity) -> a
-    397:400:void removeActivitiesThatRequiresLoginFromStack(android.app.Activity) -> b
-    406:422:android.app.Activity getMostRecentTabActivity() -> getMostRecentTabActivity
-    429:430:boolean isTabActivity(android.app.Activity) -> c
-    437:504:void setTabViews() -> setTabViews
-    509:544:void setSelectedTabAsTVGuide() -> setSelectedTabAsTVGuide
-    549:585:void setSelectedTabAsActivityFeed() -> setSelectedTabAsActivityFeed
-    590:626:void setSelectedTabAsUserProfile() -> setSelectedTabAsUserProfile
-    630:673:void onClick(android.view.View) -> onClick
-    677:701:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
-    706:722:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    731:734:void onPause() -> onPause
-    740:743:void onStop() -> onStop
-    749:752:void onDestroy() -> onDestroy
-    773:774:void onBackPressed() -> onBackPressed
-    780:790:void setContentView(int) -> setContentView
-    797:824:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
-    830:920:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
-    924:985:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
-    988:1004:void hideRequestStatusLayouts() -> h
-    1007:1041:void initCallbackLayouts() -> i
-    1044:1048:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
-    1051:1055:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
-    56:56:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> f
-    56:56:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> g
+    125:143:void onCreate(android.os.Bundle) -> onCreate
+    146:162:void restartTheApp() -> restartTheApp
+    166:172:boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    178:179:void registerAsListenerForRequest(com.mitv.enums.RequestIdentifierEnum) -> registerAsListenerForRequest
+    182:183:void unregisterListenerFromAllRequests() -> unregisterListenerFromAllRequests
+    220:292:void onResume() -> onResume
+    298:311:void handleTimeAndDayOnResume() -> b
+    316:319:void killAllActivitiesIncludingThis() -> c
+    323:342:int getIndexOfTodayFromTVDates() -> d
+    352:359:void pushActivityToStack(com.mitv.activities.base.BaseActivity) -> a
+    363:371:void printActivityStack() -> e
+    380:389:void removeFromStackOnDestroy(android.app.Activity) -> a
+    392:395:void removeActivitiesThatRequiresLoginFromStack(android.app.Activity) -> b
+    401:417:android.app.Activity getMostRecentTabActivity() -> getMostRecentTabActivity
+    424:425:boolean isTabActivity(android.app.Activity) -> c
+    432:499:void setTabViews() -> setTabViews
+    504:539:void setSelectedTabAsTVGuide() -> setSelectedTabAsTVGuide
+    544:580:void setSelectedTabAsActivityFeed() -> setSelectedTabAsActivityFeed
+    585:621:void setSelectedTabAsUserProfile() -> setSelectedTabAsUserProfile
+    625:668:void onClick(android.view.View) -> onClick
+    672:696:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    701:718:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    727:737:void onPause() -> onPause
+    743:746:void onStop() -> onStop
+    752:755:void onDestroy() -> onDestroy
+    776:777:void onBackPressed() -> onBackPressed
+    783:793:void setContentView(int) -> setContentView
+    800:827:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
+    833:923:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    927:988:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
+    991:1007:void hideRequestStatusLayouts() -> h
+    1010:1044:void initCallbackLayouts() -> i
+    1047:1051:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
+    1054:1058:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
+    57:57:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> f
+    57:57:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> g
 com.mitv.activities.base.BaseActivity$1 -> ayl:
     com.mitv.activities.base.BaseActivity this$0 -> a
-    690:693:void onClick(android.view.View) -> onClick
+    685:688:void onClick(android.view.View) -> onClick
 com.mitv.activities.base.BaseActivityLoginRequired -> com.mitv.activities.base.BaseActivityLoginRequired:
 com.mitv.activities.base.BaseActivityWithoutSearchOption -> com.mitv.activities.base.BaseActivityWithoutSearchOption:
 com.mitv.activities.base.BaseContentActivity -> com.mitv.activities.base.BaseContentActivity:
@@ -34245,14 +35674,14 @@ com.mitv.listadapters.ChannelPageListAdapter -> com.mitv.listadapters.ChannelPag
     com.mitv.listadapters.ChannelPageListAdapter$ViewHolder holder -> e
     boolean isAiring -> f
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> g
-    58:62:int getCount() -> getCount
-    67:71:com.mitv.models.objects.mitvapi.TVBroadcast getItem(int) -> getItem
-    76:76:long getItemId(int) -> getItemId
-    80:81:void notifyBroadcastEnded() -> notifyBroadcastEnded
-    85:185:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    190:195:void setOnGoingElementRed() -> b
-    199:200:int getViewTypeCount() -> getViewTypeCount
-    205:211:int getItemViewType(int) -> getItemViewType
+    57:61:int getCount() -> getCount
+    66:70:com.mitv.models.objects.mitvapi.TVBroadcast getItem(int) -> getItem
+    78:78:long getItemId(int) -> getItemId
+    85:86:void notifyBroadcastEnded() -> notifyBroadcastEnded
+    93:235:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    240:245:void setOnGoingElementRed() -> b
+    249:250:int getViewTypeCount() -> getViewTypeCount
+    255:261:int getItemViewType(int) -> getItemViewType
     1:1:java.lang.Object getItem(int) -> getItem
     31:31:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
 com.mitv.listadapters.ChannelPageListAdapter$ViewHolder -> ayr:
@@ -34574,19 +36003,19 @@ com.mitv.listadapters.TVGuideTagListAdapter -> com.mitv.listadapters.TVGuideTagL
     java.util.ArrayList taggedBroadcasts -> d
     int currentPosition -> e
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> f
-    58:58:int getViewTypeCount() -> getViewTypeCount
-    66:76:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    83:180:android.view.View getViewForBroadCastCell(int,android.view.View,android.view.ViewGroup) -> getViewForBroadCastCell
-    196:199:int getCount() -> getCount
-    205:208:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
-    214:214:long getItemId(int) -> getItemId
+    59:59:int getViewTypeCount() -> getViewTypeCount
+    67:77:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    84:230:android.view.View getViewForBroadCastCell(int,android.view.View,android.view.ViewGroup) -> getViewForBroadCastCell
+    248:251:int getCount() -> getCount
+    257:260:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
+    266:266:long getItemId(int) -> getItemId
     1:1:java.lang.Object getItem(int) -> getItem
-    33:33:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> b
-    39:39:android.app.Activity access$2(com.mitv.listadapters.TVGuideTagListAdapter) -> a
+    34:34:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> b
+    40:40:android.app.Activity access$2(com.mitv.listadapters.TVGuideTagListAdapter) -> a
 com.mitv.listadapters.TVGuideTagListAdapter$1 -> azr:
     com.mitv.listadapters.TVGuideTagListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
-    175:178:void onClick(android.view.View) -> onClick
+    222:227:void onClick(android.view.View) -> onClick
 com.mitv.listadapters.TVGuideTagListAdapter$ViewHolder -> azs:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mImageIv -> b
@@ -34616,13 +36045,13 @@ com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter -> com.mitv.lista
     77:83:int getCount() -> getCount
     92:98:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
     107:107:long getItemId(int) -> getItemId
-    115:269:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    115:271:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
     29:29:android.app.Activity access$1(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter) -> a
 com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$1 -> azt:
     com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
-    252:258:void onClick(android.view.View) -> onClick
+    254:260:void onClick(android.view.View) -> onClick
 com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> azu:
     android.widget.RelativeLayout headerContainer -> a
     android.widget.TextView header -> b
@@ -34632,22 +36061,22 @@ com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> azu
     android.widget.TextView channelTv -> f
     com.mitv.ui.elements.ReminderView reminderView -> g
     android.view.View divider -> h
-    276:276:void access$1(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    277:277:void access$2(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> a
-    279:279:void access$3(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> b
-    280:280:void access$4(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> c
-    281:281:void access$5(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> d
-    282:282:void access$6(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,com.mitv.ui.elements.ReminderView) -> a
-    278:278:void access$7(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.LinearLayout) -> a
-    284:284:void access$8(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.view.View) -> a
-    282:282:com.mitv.ui.elements.ReminderView access$9(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> a
-    276:276:android.widget.RelativeLayout access$10(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> b
-    284:284:android.view.View access$11(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> c
-    277:277:android.widget.TextView access$12(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> d
-    279:279:android.widget.TextView access$13(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> e
-    280:280:android.widget.TextView access$14(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> f
-    281:281:android.widget.TextView access$15(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> g
-    278:278:android.widget.LinearLayout access$16(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> h
+    278:278:void access$1(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    279:279:void access$2(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> a
+    281:281:void access$3(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> b
+    282:282:void access$4(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> c
+    283:283:void access$5(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> d
+    284:284:void access$6(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,com.mitv.ui.elements.ReminderView) -> a
+    280:280:void access$7(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.LinearLayout) -> a
+    286:286:void access$8(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.view.View) -> a
+    284:284:com.mitv.ui.elements.ReminderView access$9(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> a
+    278:278:android.widget.RelativeLayout access$10(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> b
+    286:286:android.view.View access$11(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> c
+    279:279:android.widget.TextView access$12(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> d
+    281:281:android.widget.TextView access$13(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> e
+    282:282:android.widget.TextView access$14(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> f
+    283:283:android.widget.TextView access$15(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> g
+    280:280:android.widget.LinearLayout access$16(com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> h
 com.mitv.models.comparators.BaseComparator -> com.mitv.models.comparators.BaseComparator:
 com.mitv.models.comparators.TVBroadcastComparatorByTime -> com.mitv.models.comparators.TVBroadcastComparatorByTime:
     16:32:int compare(com.mitv.models.objects.mitvapi.TVBroadcast,com.mitv.models.objects.mitvapi.TVBroadcast) -> compare
@@ -35193,32 +36622,33 @@ com.mitv.models.objects.mitvapi.TVBroadcast -> com.mitv.models.objects.mitvapi.T
     java.lang.String title -> title
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
     52:82:java.lang.String getTitle() -> getTitle
-    92:93:java.util.Calendar getBeginTimeCalendarGMT() -> getBeginTimeCalendarGMT
-    103:104:java.util.Calendar getEndTimeCalendarGMT() -> getEndTimeCalendarGMT
-    115:123:java.util.Calendar getBeginTimeCalendarLocal() -> getBeginTimeCalendarLocal
-    134:142:java.util.Calendar getEndTimeCalendarLocal() -> getEndTimeCalendarLocal
-    148:152:boolean isBroadcastCurrentlyAiring() -> isBroadcastCurrentlyAiring
-    159:164:java.lang.Integer getBroadcastDurationInMinutes() -> getBroadcastDurationInMinutes
-    171:175:java.lang.Integer getElapsedMinutesSinceBroadcastStarted() -> getElapsedMinutesSinceBroadcastStarted
-    182:186:java.lang.Integer getRemainingMinutesUntilBroadcastEnds() -> getRemainingMinutesUntilBroadcastEnds
-    194:200:java.util.Calendar getBroadcastBeginTimeForNotification() -> getBroadcastBeginTimeForNotification
-    207:212:boolean isBroadcastAiringInOrInLessThan(int) -> isBroadcastAiringInOrInLessThan
-    219:221:boolean isEndTimeAfter(java.util.Calendar) -> isEndTimeAfter
-    228:232:boolean isAiring() -> isAiring
-    239:243:boolean hasEnded() -> hasEnded
-    250:254:boolean hasNotAiredYet() -> hasNotAiredYet
-    264:268:java.lang.String getBeginTimeDateRepresentation() -> getBeginTimeDateRepresentation
-    278:280:java.lang.String getBeginTimeDayAndMonthAsString() -> getBeginTimeDayAndMonthAsString
-    286:288:java.lang.String getBeginTimeHourAndMinuteLocalAsString() -> getBeginTimeHourAndMinuteLocalAsString
-    294:296:java.lang.String getEndTimeHourAndMinuteLocalAsString() -> getEndTimeHourAndMinuteLocalAsString
-    303:327:boolean isBeginTimeTodayOrTomorrow() -> isBeginTimeTodayOrTomorrow
-    334:337:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.TVBroadcast) -> isTheSameDayAs
-    348:348:java.lang.String getBeginTimeDayOfTheWeekAsString() -> getBeginTimeDayOfTheWeekAsString
-    359:382:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
-    394:441:java.lang.String getStartingTimeAsString() -> getStartingTimeAsString
-    449:455:int hashCode() -> hashCode
-    463:482:boolean equals(java.lang.Object) -> equals
-    488:510:boolean areDataFieldsValid() -> areDataFieldsValid
+    89:117:java.lang.String buildSeasonAndEpisodeString() -> buildSeasonAndEpisodeString
+    127:128:java.util.Calendar getBeginTimeCalendarGMT() -> getBeginTimeCalendarGMT
+    138:139:java.util.Calendar getEndTimeCalendarGMT() -> getEndTimeCalendarGMT
+    150:158:java.util.Calendar getBeginTimeCalendarLocal() -> getBeginTimeCalendarLocal
+    169:177:java.util.Calendar getEndTimeCalendarLocal() -> getEndTimeCalendarLocal
+    183:187:boolean isBroadcastCurrentlyAiring() -> isBroadcastCurrentlyAiring
+    194:199:java.lang.Integer getBroadcastDurationInMinutes() -> getBroadcastDurationInMinutes
+    206:210:java.lang.Integer getElapsedMinutesSinceBroadcastStarted() -> getElapsedMinutesSinceBroadcastStarted
+    217:221:java.lang.Integer getRemainingMinutesUntilBroadcastEnds() -> getRemainingMinutesUntilBroadcastEnds
+    229:235:java.util.Calendar getBroadcastBeginTimeForNotification() -> getBroadcastBeginTimeForNotification
+    242:247:boolean isBroadcastAiringInOrInLessThan(int) -> isBroadcastAiringInOrInLessThan
+    254:256:boolean isEndTimeAfter(java.util.Calendar) -> isEndTimeAfter
+    263:267:boolean isAiring() -> isAiring
+    274:278:boolean hasEnded() -> hasEnded
+    285:289:boolean hasNotAiredYet() -> hasNotAiredYet
+    299:303:java.lang.String getBeginTimeDateRepresentation() -> getBeginTimeDateRepresentation
+    313:315:java.lang.String getBeginTimeDayAndMonthAsString() -> getBeginTimeDayAndMonthAsString
+    321:323:java.lang.String getBeginTimeHourAndMinuteLocalAsString() -> getBeginTimeHourAndMinuteLocalAsString
+    329:331:java.lang.String getEndTimeHourAndMinuteLocalAsString() -> getEndTimeHourAndMinuteLocalAsString
+    338:362:boolean isBeginTimeTodayOrTomorrow() -> isBeginTimeTodayOrTomorrow
+    369:372:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.TVBroadcast) -> isTheSameDayAs
+    383:383:java.lang.String getBeginTimeDayOfTheWeekAsString() -> getBeginTimeDayOfTheWeekAsString
+    394:417:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
+    429:476:java.lang.String getStartingTimeAsString() -> getStartingTimeAsString
+    484:490:int hashCode() -> hashCode
+    498:517:boolean equals(java.lang.Object) -> equals
+    523:545:boolean areDataFieldsValid() -> areDataFieldsValid
     31:31:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo -> com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo:
     java.lang.String TAG -> TAG
@@ -37109,6 +38539,57 @@ com.nostra13.universalimageloader.utils.StorageUtils -> com.nostra13.universalim
     111:118:java.io.File getOwnCacheDirectory(android.content.Context,java.lang.String) -> getOwnCacheDirectory
     122:135:java.io.File getExternalCacheDir(android.content.Context) -> a
     139:140:boolean hasExternalStoragePermission(android.content.Context) -> b
+com.sbstrm.appirater.Appirater -> com.sbstrm.appirater.Appirater:
+    44:104:void appLaunched(android.content.Context) -> appLaunched
+    108:111:void rateApp(android.content.Context) -> rateApp
+    114:121:void significantEvent(android.content.Context) -> significantEvent
+    124:129:void rateApp(android.content.Context,android.content.SharedPreferences$Editor) -> b
+    133:191:void showRateDialog(android.content.Context,android.content.SharedPreferences$Editor) -> c
+    123:123:void access$0(android.content.Context,android.content.SharedPreferences$Editor) -> a
+com.sbstrm.appirater.Appirater$1 -> bbs:
+    android.content.Context val$mContext -> a
+    android.content.SharedPreferences$Editor val$editor -> b
+    android.app.Dialog val$dialog -> c
+    160:162:void onClick(android.view.View) -> onClick
+com.sbstrm.appirater.Appirater$2 -> bbt:
+    android.content.SharedPreferences$Editor val$editor -> a
+    android.app.Dialog val$dialog -> b
+    169:174:void onClick(android.view.View) -> onClick
+com.sbstrm.appirater.Appirater$3 -> bbu:
+    android.content.SharedPreferences$Editor val$editor -> a
+    android.app.Dialog val$dialog -> b
+    181:186:void onClick(android.view.View) -> onClick
+com.sbstrm.appirater.R -> com.sbstrm.appirater.R:
+com.sbstrm.appirater.R$bool -> com.sbstrm.appirater.R$bool:
+    int appirator_test_mode -> appirator_test_mode
+com.sbstrm.appirater.R$color -> com.sbstrm.appirater.R$color:
+    int appirator_button_end_color -> appirator_button_end_color
+    int appirator_button_start_color -> appirator_button_start_color
+    int appirator_button_text_color -> appirator_button_text_color
+com.sbstrm.appirater.R$drawable -> com.sbstrm.appirater.R$drawable:
+    int button_appirator -> button_appirator
+com.sbstrm.appirater.R$id -> com.sbstrm.appirater.R$id:
+    int cancel -> cancel
+    int message -> message
+    int rate -> rate
+    int rateLater -> rateLater
+com.sbstrm.appirater.R$integer -> com.sbstrm.appirater.R$integer:
+    int appirator_days_before_reminding -> appirator_days_before_reminding
+    int appirator_days_until_prompt -> appirator_days_until_prompt
+    int appirator_events_until_prompt -> appirator_events_until_prompt
+    int appirator_launches_until_prompt -> appirator_launches_until_prompt
+com.sbstrm.appirater.R$layout -> com.sbstrm.appirater.R$layout:
+    int appirater -> appirater
+com.sbstrm.appirater.R$string -> com.sbstrm.appirater.R$string:
+    int appirator_app_title -> appirator_app_title
+    int appirator_market_url -> appirator_market_url
+    int rate -> rate
+    int rate_cancel -> rate_cancel
+    int rate_later -> rate_later
+    int rate_message -> rate_message
+    int rate_title -> rate_title
+com.sbstrm.appirater.R$style -> com.sbstrm.appirater.R$style:
+    int appiratorButton -> appiratorButton
 com.viewpagerindicator.CirclePageIndicator -> com.viewpagerindicator.CirclePageIndicator:
     float mRadius -> a
     android.graphics.Paint mPaintPageFill -> b
@@ -37162,7 +38643,7 @@ com.viewpagerindicator.CirclePageIndicator$SavedState -> com.viewpagerindicator.
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     538:540:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> bbs:
+com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> bbv:
     546:546:com.viewpagerindicator.CirclePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     551:551:com.viewpagerindicator.CirclePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -37185,14 +38666,14 @@ com.viewpagerindicator.IconPageIndicator -> com.viewpagerindicator.IconPageIndic
     155:170:void setCurrentItem(int) -> setCurrentItem
     174:175:void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener) -> setOnPageChangeListener
     41:41:void access$0(com.viewpagerindicator.IconPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.IconPageIndicator$1 -> bbt:
+com.viewpagerindicator.IconPageIndicator$1 -> bbw:
     com.viewpagerindicator.IconPageIndicator this$0 -> a
     android.view.View val$iconView -> b
     66:69:void run() -> run
 com.viewpagerindicator.IconPagerAdapter -> com.viewpagerindicator.IconPagerAdapter:
     int getIconResId(int) -> getIconResId
     int getCount() -> getCount
-com.viewpagerindicator.IcsLinearLayout -> bbu:
+com.viewpagerindicator.IcsLinearLayout -> bbx:
     int[] LL -> a
     android.graphics.drawable.Drawable mDivider -> b
     int mDividerWidth -> c
@@ -37251,7 +38732,7 @@ com.viewpagerindicator.LinePageIndicator$SavedState -> com.viewpagerindicator.Li
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     431:433:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.LinePageIndicator$SavedState$1 -> bbv:
+com.viewpagerindicator.LinePageIndicator$SavedState$1 -> bby:
     439:439:com.viewpagerindicator.LinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     444:444:com.viewpagerindicator.LinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -37438,10 +38919,10 @@ com.viewpagerindicator.TabPageIndicator -> com.viewpagerindicator.TabPageIndicat
     76:76:com.viewpagerindicator.TabPageIndicator$OnTabReselectedListener access$0(com.viewpagerindicator.TabPageIndicator) -> a
     73:73:int access$1(com.viewpagerindicator.TabPageIndicator) -> b
     54:54:void access$2(com.viewpagerindicator.TabPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.TabPageIndicator$1 -> bbw:
+com.viewpagerindicator.TabPageIndicator$1 -> bbz:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     58:65:void onClick(android.view.View) -> onClick
-com.viewpagerindicator.TabPageIndicator$2 -> bbx:
+com.viewpagerindicator.TabPageIndicator$2 -> bca:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     android.view.View val$tabView -> b
     128:131:void run() -> run
@@ -37553,7 +39034,7 @@ com.viewpagerindicator.TitlePageIndicator$SavedState -> com.viewpagerindicator.T
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     845:847:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> bby:
+com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> bcb:
     853:853:com.viewpagerindicator.TitlePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     858:858:com.viewpagerindicator.TitlePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -37598,17 +39079,17 @@ com.viewpagerindicator.UnderlinePageIndicator -> com.viewpagerindicator.Underlin
     42:42:android.graphics.Paint access$1(com.viewpagerindicator.UnderlinePageIndicator) -> b
     47:47:int access$2(com.viewpagerindicator.UnderlinePageIndicator) -> c
     60:60:java.lang.Runnable access$3(com.viewpagerindicator.UnderlinePageIndicator) -> d
-com.viewpagerindicator.UnderlinePageIndicator$1 -> bbz:
+com.viewpagerindicator.UnderlinePageIndicator$1 -> bcc:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     62:70:void run() -> run
-com.viewpagerindicator.UnderlinePageIndicator$2 -> bca:
+com.viewpagerindicator.UnderlinePageIndicator$2 -> bcd:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     281:284:void run() -> run
 com.viewpagerindicator.UnderlinePageIndicator$SavedState -> com.viewpagerindicator.UnderlinePageIndicator$SavedState:
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     385:387:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> bcb:
+com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> bce:
     393:393:com.viewpagerindicator.UnderlinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     398:398:com.viewpagerindicator.UnderlinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -37653,22 +39134,22 @@ net.hockeyapp.android.CrashManager -> net.hockeyapp.android.CrashManager:
     535:555:java.lang.String[] searchForStackTraces() -> b
     71:71:void access$000(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> a
     71:71:void access$100(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> b
-net.hockeyapp.android.CrashManager$1 -> bcc:
+net.hockeyapp.android.CrashManager$1 -> bcf:
     net.hockeyapp.android.CrashManagerListener val$listener -> a
     java.lang.ref.WeakReference val$weakContext -> b
     boolean val$ignoreDefaultHandler -> c
     366:372:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$2 -> bcd:
+net.hockeyapp.android.CrashManager$2 -> bcg:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     377:378:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$3 -> bce:
+net.hockeyapp.android.CrashManager$3 -> bch:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     394:396:void run() -> run
-net.hockeyapp.android.CrashManager$4 -> bcf:
+net.hockeyapp.android.CrashManager$4 -> bci:
     548:548:boolean accept(java.io.File,java.lang.String) -> accept
 net.hockeyapp.android.CrashManagerListener -> net.hockeyapp.android.CrashManagerListener:
     43:43:boolean ignoreDefaultHandler() -> ignoreDefaultHandler
@@ -37752,26 +39233,26 @@ net.hockeyapp.android.FeedbackActivity -> net.hockeyapp.android.FeedbackActivity
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$800(net.hockeyapp.android.FeedbackActivity) -> f
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$802(net.hockeyapp.android.FeedbackActivity,net.hockeyapp.android.adapters.MessagesAdapter) -> a
     71:71:android.widget.ListView access$900(net.hockeyapp.android.FeedbackActivity) -> g
-net.hockeyapp.android.FeedbackActivity$1 -> bcg:
+net.hockeyapp.android.FeedbackActivity$1 -> bcj:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     157:159:void run() -> run
-net.hockeyapp.android.FeedbackActivity$2 -> bch:
+net.hockeyapp.android.FeedbackActivity$2 -> bck:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     170:207:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$2$1 -> bci:
+net.hockeyapp.android.FeedbackActivity$2$1 -> bcl:
     net.hockeyapp.android.FeedbackActivity$2 this$1 -> a
     202:204:void run() -> run
-net.hockeyapp.android.FeedbackActivity$3 -> bcj:
+net.hockeyapp.android.FeedbackActivity$3 -> bcm:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     218:256:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$3$1 -> bck:
+net.hockeyapp.android.FeedbackActivity$3$1 -> bcn:
     net.hockeyapp.android.FeedbackActivity$3 this$1 -> a
     250:251:void run() -> run
-net.hockeyapp.android.FeedbackActivity$4 -> bcl:
+net.hockeyapp.android.FeedbackActivity$4 -> bco:
     net.hockeyapp.android.objects.FeedbackResponse val$feedbackResponse -> a
     net.hockeyapp.android.FeedbackActivity this$0 -> b
     346:383:void run() -> run
-net.hockeyapp.android.FeedbackActivity$5 -> bcm:
+net.hockeyapp.android.FeedbackActivity$5 -> bcp:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     508:510:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.FeedbackActivityInterface -> net.hockeyapp.android.FeedbackActivityInterface:
@@ -37842,18 +39323,18 @@ net.hockeyapp.android.UpdateActivity -> net.hockeyapp.android.UpdateActivity:
     340:354:void onPrepareDialog(int,android.app.Dialog) -> onPrepareDialog
     62:62:android.view.View getLayoutView() -> getLayoutView
     62:62:net.hockeyapp.android.objects.ErrorObject access$002(net.hockeyapp.android.UpdateActivity,net.hockeyapp.android.objects.ErrorObject) -> a
-net.hockeyapp.android.UpdateActivity$1 -> bcn:
+net.hockeyapp.android.UpdateActivity$1 -> bcq:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     163:164:void downloadSuccessful(net.hockeyapp.android.tasks.DownloadFileTask) -> downloadSuccessful
     167:173:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
     176:181:java.lang.String getStringForResource(int) -> getStringForResource
-net.hockeyapp.android.UpdateActivity$2 -> bco:
+net.hockeyapp.android.UpdateActivity$2 -> bcr:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     292:293:void run() -> run
-net.hockeyapp.android.UpdateActivity$3 -> bcp:
+net.hockeyapp.android.UpdateActivity$3 -> bcs:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     307:308:void run() -> run
-net.hockeyapp.android.UpdateActivity$4 -> bcq:
+net.hockeyapp.android.UpdateActivity$4 -> bct:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     329:331:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.UpdateActivityInterface -> net.hockeyapp.android.UpdateActivityInterface:
@@ -37872,7 +39353,7 @@ net.hockeyapp.android.UpdateFragment -> net.hockeyapp.android.UpdateFragment:
     213:221:java.lang.String getAppName() -> getAppName
     231:231:android.view.View getLayoutView() -> getLayoutView
     60:60:void access$000(net.hockeyapp.android.UpdateFragment,android.app.Activity) -> a
-net.hockeyapp.android.UpdateFragment$1 -> bcr:
+net.hockeyapp.android.UpdateFragment$1 -> bcu:
     android.app.Activity val$activity -> a
     net.hockeyapp.android.UpdateFragment this$0 -> b
     166:169:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
@@ -38029,10 +39510,10 @@ net.hockeyapp.android.tasks.CheckUpdateTask -> net.hockeyapp.android.tasks.Check
     79:79:android.app.Activity access$100(net.hockeyapp.android.tasks.CheckUpdateTask) -> b
     79:79:void access$200(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray) -> a
     79:79:void access$300(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray,java.lang.Boolean) -> a
-net.hockeyapp.android.tasks.CheckUpdateTask$1 -> bcs:
+net.hockeyapp.android.tasks.CheckUpdateTask$1 -> bcv:
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> a
     299:300:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.CheckUpdateTask$2 -> bct:
+net.hockeyapp.android.tasks.CheckUpdateTask$2 -> bcw:
     org.json.JSONArray val$updateInfo -> a
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> b
     305:316:void onClick(android.content.DialogInterface,int) -> onClick
@@ -38054,10 +39535,10 @@ net.hockeyapp.android.tasks.DownloadFileTask -> net.hockeyapp.android.tasks.Down
     62:62:void onPostExecute(java.lang.Object) -> onPostExecute
     62:62:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     62:62:net.hockeyapp.android.listeners.DownloadFileListener access$000(net.hockeyapp.android.tasks.DownloadFileTask) -> a
-net.hockeyapp.android.tasks.DownloadFileTask$1 -> bcu:
+net.hockeyapp.android.tasks.DownloadFileTask$1 -> bcx:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     182:183:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.DownloadFileTask$2 -> bcv:
+net.hockeyapp.android.tasks.DownloadFileTask$2 -> bcy:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     188:189:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.tasks.ParseFeedbackTask -> net.hockeyapp.android.tasks.ParseFeedbackTask:
@@ -38092,21 +39573,21 @@ net.hockeyapp.android.utils.ConnectionManager -> net.hockeyapp.android.utils.Con
     org.apache.http.client.HttpClient httpClient -> a
     53:53:net.hockeyapp.android.utils.ConnectionManager getInstance() -> getInstance
     57:57:org.apache.http.client.HttpClient getHttpClient() -> getHttpClient
-net.hockeyapp.android.utils.ConnectionManager$1 -> bcw:
-net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> bcx:
+net.hockeyapp.android.utils.ConnectionManager$1 -> bcz:
+net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> bda:
     net.hockeyapp.android.utils.ConnectionManager INSTANCE -> a
 net.hockeyapp.android.utils.DeviceUtils -> net.hockeyapp.android.utils.DeviceUtils:
     28:28:net.hockeyapp.android.utils.DeviceUtils getInstance() -> getInstance
     37:37:int getCurrentVersionCode(android.content.Context) -> getCurrentVersionCode
     46:63:java.lang.String getAppName(android.content.Context) -> getAppName
-net.hockeyapp.android.utils.DeviceUtils$1 -> bcy:
-net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> bcz:
+net.hockeyapp.android.utils.DeviceUtils$1 -> bdb:
+net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> bdc:
     net.hockeyapp.android.utils.DeviceUtils INSTANCE -> a
 net.hockeyapp.android.utils.FeedbackParser -> net.hockeyapp.android.utils.FeedbackParser:
     32:32:net.hockeyapp.android.utils.FeedbackParser getInstance() -> getInstance
     41:137:net.hockeyapp.android.objects.FeedbackResponse parseFeedbackResponse(java.lang.String) -> parseFeedbackResponse
-net.hockeyapp.android.utils.FeedbackParser$1 -> bda:
-net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> bdb:
+net.hockeyapp.android.utils.FeedbackParser$1 -> bdd:
+net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> bde:
     net.hockeyapp.android.utils.FeedbackParser INSTANCE -> a
 net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     android.content.SharedPreferences feedbackTokenPrefs -> a
@@ -38120,31 +39601,31 @@ net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     92:101:java.lang.String getNameEmailFromPrefs(android.content.Context) -> getNameEmailFromPrefs
     109:115:void applyChanges(android.content.SharedPreferences$Editor) -> applyChanges
     122:125:java.lang.Boolean applySupported() -> applySupported
-net.hockeyapp.android.utils.PrefsUtil$1 -> bdc:
-net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> bdd:
+net.hockeyapp.android.utils.PrefsUtil$1 -> bdf:
+net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> bdg:
     net.hockeyapp.android.utils.PrefsUtil INSTANCE -> a
 net.hockeyapp.android.utils.UiThreadUtil -> net.hockeyapp.android.utils.UiThreadUtil:
     23:23:net.hockeyapp.android.utils.UiThreadUtil getInstance() -> getInstance
     29:46:void dismissLoadingDialogAndDisplayError(java.lang.ref.WeakReference,android.app.ProgressDialog,int) -> dismissLoadingDialogAndDisplayError
     49:63:void dismissLoading(java.lang.ref.WeakReference,android.app.ProgressDialog) -> dismissLoading
     68:80:void displayToastMessage(java.lang.ref.WeakReference,java.lang.String,int) -> displayToastMessage
-net.hockeyapp.android.utils.UiThreadUtil$1 -> bde:
+net.hockeyapp.android.utils.UiThreadUtil$1 -> bdh:
     android.app.ProgressDialog val$progressDialog -> a
     android.app.Activity val$activity -> b
     int val$errorDialogId -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     37:42:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$2 -> bdf:
+net.hockeyapp.android.utils.UiThreadUtil$2 -> bdi:
     android.app.ProgressDialog val$progressDialog -> a
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> b
     56:59:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$3 -> bdg:
+net.hockeyapp.android.utils.UiThreadUtil$3 -> bdj:
     android.app.Activity val$activity -> a
     java.lang.String val$message -> b
     int val$flags -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     75:76:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> bdh:
+net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> bdk:
     net.hockeyapp.android.utils.UiThreadUtil INSTANCE -> a
 net.hockeyapp.android.utils.Util -> net.hockeyapp.android.utils.Util:
     java.lang.String PREFS_FEEDBACK_TOKEN -> PREFS_FEEDBACK_TOKEN
@@ -38175,7 +39656,7 @@ net.hockeyapp.android.utils.VersionHelper -> net.hockeyapp.android.utils.Version
     213:219:java.lang.String getVersionName(org.json.JSONObject) -> c
     223:235:java.lang.String getVersionNotes(int,org.json.JSONObject) -> c
     251:289:int compareVersionStrings(java.lang.String,java.lang.String) -> compareVersionStrings
-net.hockeyapp.android.utils.VersionHelper$1 -> bdi:
+net.hockeyapp.android.utils.VersionHelper$1 -> bdl:
     net.hockeyapp.android.utils.VersionHelper this$0 -> a
     90:99:int compare(org.json.JSONObject,org.json.JSONObject) -> a
     87:87:int compare(java.lang.Object,java.lang.Object) -> compare
