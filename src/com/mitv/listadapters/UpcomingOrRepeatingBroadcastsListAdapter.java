@@ -194,7 +194,9 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
 				}
 
-				holder.header.setText(headerSB.toString());
+				/* Capitalized letters in header */
+				String headerText = headerSB.toString();
+				holder.header.setText(headerText.toUpperCase());
 				
 				holder.headerContainer.setVisibility(View.VISIBLE);
 			}
