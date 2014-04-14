@@ -28,10 +28,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.FontManager;
-import com.mitv.GATrackingManager;
-import com.mitv.ImageLoaderManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
@@ -43,6 +39,11 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.TrackingManager;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.FontManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.ImageLoaderManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
@@ -137,8 +138,7 @@ public abstract class BaseActivity
 			}
 		}
 
-		/* Google Analytics Tracking */
-		GATrackingManager.reportActivityStart(this);
+		TrackingManager.sharedInstance().reportActivityStart(this);
 	}
 	
 	public void restartTheApp() {
@@ -164,7 +164,7 @@ public abstract class BaseActivity
 	public boolean onKeyDown(int keycode, KeyEvent e) {
 	    switch(keycode) {
 	        case KeyEvent.KEYCODE_MENU:
-	        	GATrackingManager.sharedInstance().sendUserPressedMenuButtonEvent();
+	        	TrackingGAManager.sharedInstance().sendUserPressedMenuButtonEvent();
 	            return true;
 	    }
 
@@ -219,6 +219,8 @@ public abstract class BaseActivity
 		super.onResume();
 		
 		ImageLoaderManager.sharedInstance(this).resume();
+		
+		TrackingManager.sharedInstance().onResume(this);
 		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
 		{
@@ -364,19 +366,8 @@ public abstract class BaseActivity
 		}
 	}
 
-	/* Remove activity from activitStack */
-//	private static void removeFromStack(Activity activity) 
-//	{
-//		if (activityStack.contains(activity)) 
-//		{
-//			if (activityStack.peek() == activity) 
-//			{
-//				int positionToRemove = activityStack.size() - 1;
-//				activityStack.removeElementAt(positionToRemove);
-//			}
-//		}
-//	}
 
+	
 	/**
 	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurrences in the activity stack
 	 */
@@ -718,7 +709,8 @@ public abstract class BaseActivity
 			return true;
 		}
 
-		default: {
+		default: 
+		{
 			return super.onOptionsItemSelected(item);
 		}
 		}
@@ -729,7 +721,9 @@ public abstract class BaseActivity
 	protected void onPause() 
 	{
 		super.onPause();
-
+ 
+		TrackingManager.sharedInstance().onPause(this);
+		
 		ImageLoaderManager.sharedInstance(this).pause();
 	}
 	
@@ -739,7 +733,7 @@ public abstract class BaseActivity
 	{
 		super.onStop();
 
-		GATrackingManager.reportActivityStop(this);
+		TrackingManager.sharedInstance().reportActivityStop(this);
 	}
 
 

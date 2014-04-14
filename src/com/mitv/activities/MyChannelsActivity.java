@@ -16,12 +16,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -29,6 +28,8 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.listadapters.MyChannelsListAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.TVChannelComparatorByName;
 import com.mitv.models.comparators.TVChannelIdComparatorById;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -50,6 +51,7 @@ public class MyChannelsActivity
 	private TextView channelCountTextView;
 
 	private EditText searchChannelField;
+	private TextView editTextClearBtn;
 	
 	private MyChannelsListAdapter adapter;
 	
@@ -97,11 +99,15 @@ public class MyChannelsActivity
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				GATrackingManager.sharedInstance().sendUserPressedChannelInMyChannelsActivity();
+				TrackingGAManager.sharedInstance().sendUserPressedChannelInMyChannelsActivity();
 			}
 		});
+		
 		channelCountTextView = (TextView) findViewById(R.id.mychannels_header_counter_tv);
 		searchChannelField = (EditText) findViewById(R.id.mychannels_header_search_ev);
+		
+		editTextClearBtn = (TextView) findViewById(R.id.searchbar_clear_x);
+		editTextClearBtn.setOnClickListener(this);
 	}
 
 	
@@ -130,6 +136,7 @@ public class MyChannelsActivity
 	public void onBackPressed() 
 	{
 		super.onBackPressed();	
+		
 		finish();
 	}
 
@@ -138,7 +145,7 @@ public class MyChannelsActivity
 	@Override
 	public void onPause() 
 	{
-		GATrackingManager.sharedInstance().sendUserMyChannelsPageSearchEvent(search);
+		TrackingGAManager.sharedInstance().sendUserMyChannelsPageSearchEvent(search);
 		updateMyChannels();
 		super.onPause();
 	}
@@ -283,7 +290,10 @@ public class MyChannelsActivity
 		channelsMatchingSearch.clear();
 		
 		if (!TextUtils.isEmpty(search)) 
-		{				
+		{
+			
+			editTextClearBtn.setVisibility(View.VISIBLE);
+			
 			/* Go through list of all channels and add channels which name contains the searched string */
 			for(TVChannel tvChannel : allChannelObjects) 
 			{
@@ -301,9 +311,34 @@ public class MyChannelsActivity
 		{
 			/* If search string is empty show all channel objects */
 			channelsMatchingSearch.addAll(allChannelObjects);
+			
+			editTextClearBtn.setVisibility(View.INVISIBLE);
 		}
 
 		adapter.setChannelsMatchingSearchAndRefreshAdapter(search, channelsMatchingSearch);
+	}
+	
+	
+	
+	@Override
+	public void onClick(View v) 
+	{
+		super.onClick(v);
+
+		switch (v.getId()) 
+		{
+			case R.id.searchbar_clear_x: 
+			{
+				searchChannelField.setText("");
+				
+				editTextClearBtn.setVisibility(View.INVISIBLE);
+				
+				/* Hide keyboard when pressing clean button */
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(searchChannelField.getWindowToken(), 0);
+				break;
+			}
+		}
 	}
 
 	@Override

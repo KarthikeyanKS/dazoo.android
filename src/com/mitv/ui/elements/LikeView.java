@@ -12,20 +12,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
 import com.mitv.utilities.NetworkUtils;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -98,7 +99,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		
 		setImageToNotLiked();
 		
-		GATrackingManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
+		TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
 	}
 	
 	
@@ -110,13 +111,15 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		
 		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
 
-		GATrackingManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, false);
+		TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, false);
 	}
 
 	
 	@Override
 	public void onClick(View v) 
 	{
+		Appirater.significantEvent(activity);
+		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);

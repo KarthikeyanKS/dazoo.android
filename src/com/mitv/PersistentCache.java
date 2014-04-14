@@ -11,6 +11,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -212,7 +213,7 @@ public abstract class PersistentCache
 		this.userData = userData;
 		
 		String userId = userData.getUser().getUserId();
-		GATrackingManager.sharedInstance().sendUserSignedInEventAndSetUserIdOnTracker(userId);
+		TrackingGAManager.sharedInstance().sendUserSignedInEventAndSetUserIdOnTracker(userId);
 		
 		UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
 		userLoginDataORM.saveInAsyncTask();

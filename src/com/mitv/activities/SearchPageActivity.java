@@ -26,15 +26,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.ContentTypeEnum;
@@ -42,6 +39,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.SearchPageListAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -95,7 +94,7 @@ public class SearchPageActivity
 
 	private Menu menu;
 	private InstantAutoCompleteView editTextSearch;
-	private ImageView editTextClearBtn;
+	private TextView editTextClearBtn;
 	private ProgressBar progressBar;
 	private String lastSearchQuery;
 	
@@ -138,7 +137,7 @@ public class SearchPageActivity
 	public void onPause()
 	{
 		super.onPause();
-		GATrackingManager.sharedInstance().sendUserSearchEvent(lastSearchQuery);
+		TrackingGAManager.sharedInstance().sendUserSearchEvent(lastSearchQuery);
 		GenericUtils.hideKeyboard(this);
 	}
 	
@@ -191,7 +190,7 @@ public class SearchPageActivity
 
 		progressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
 
-		editTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
+		editTextClearBtn = (TextView) searchFieldView.findViewById(R.id.searchbar_clear);
 
 		editTextSearch = (InstantAutoCompleteView) searchFieldView.findViewById(R.id.searchbar_edittext);
 		editTextSearch.setActivity(this);
@@ -298,16 +297,18 @@ public class SearchPageActivity
 				/* Open the detail view for the individual broadcast */
 				TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
 				
-				hitName = nextBroadcast.getTitle();
-				
 				if (nextBroadcast != null) 
 				{
+					hitName = nextBroadcast.getTitle();
+					
 					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
 					startActivity(intent);
 				} 
 				else 
 				{
+					hitName = "";
+					
 					String message = getString(R.string.search_no_upcoming_broadcasts);
 					
 					ToastHelper.createAndShowShortToast(message);
@@ -316,8 +317,8 @@ public class SearchPageActivity
 			}
 		}
 
-
-		GATrackingManager.sharedInstance().sendUserSearchResultPressedEvent(lastSearchQuery, hitName, position);
+		TrackingGAManager.sharedInstance().sendUserSearchResultPressedEvent(lastSearchQuery, hitName, position);
+		
 		GenericUtils.hideKeyboard(this);
 	}
 
@@ -333,6 +334,7 @@ public class SearchPageActivity
 			{
 				editTextSearch.setText("");
 				editTextSearch.dismissDropDown();
+				editTextClearBtn.setVisibility(View.GONE);
 				break;
 			}
 			
@@ -350,7 +352,7 @@ public class SearchPageActivity
 	{
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) 
 		{
-			GATrackingManager.sharedInstance().sendUserPressedSearchButtonOnKeyBoard();
+			TrackingGAManager.sharedInstance().sendUserPressedSearchButtonOnKeyBoard();
 			performSearchAndTriggerAutocomplete();
 			return true;
 		}

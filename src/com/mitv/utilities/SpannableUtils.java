@@ -4,8 +4,8 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 
-import com.mitv.FontManager;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.FontManager;
 import com.mitv.ui.elements.CustomTypefaceSpan;
 
 public class SpannableUtils {

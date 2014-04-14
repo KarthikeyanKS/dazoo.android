@@ -17,8 +17,6 @@ import android.widget.ScrollView;
 
 import com.androidquery.auth.FacebookHandle;
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
@@ -28,6 +26,9 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityWithTabs;
+import com.mitv.managers.TrackingAIManager;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.sql.NotificationDataSource;
@@ -66,7 +67,7 @@ public class UserProfileActivity
 	
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
@@ -88,6 +89,11 @@ public class UserProfileActivity
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		if(Constants.ENABLE_AMAZON_INSIGHTS)
+		{
+			TrackingAIManager.sharedInstance().recordTestEvent();
+		}
 		
 		populateViews();
 	}
@@ -385,7 +391,7 @@ public class UserProfileActivity
 		switch (id)
 		{
 			case R.id.myprofile_person_container_signed_in: {
-				GATrackingManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
+				TrackingGAManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
 				break;
 			}
 			case R.id.myprofile_likes_container: 

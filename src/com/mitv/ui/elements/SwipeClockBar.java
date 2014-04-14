@@ -24,9 +24,9 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
+import com.mitv.managers.ContentManager;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.LanguageUtils;

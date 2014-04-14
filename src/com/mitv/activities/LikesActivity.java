@@ -13,14 +13,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.LikesListAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.UserLikeComparatorByTitle;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.NetworkUtils;
@@ -58,7 +58,7 @@ public class LikesActivity
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				GATrackingManager.sharedInstance().sendUserPressedLikeInLikesActivity();
+				TrackingGAManager.sharedInstance().sendUserPressedLikeInLikesActivity();
 			}
 		});
 

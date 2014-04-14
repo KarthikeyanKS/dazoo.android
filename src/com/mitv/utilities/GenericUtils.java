@@ -29,10 +29,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.mitv.Constants;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -76,6 +77,8 @@ public abstract class GenericUtils
 			final Activity activity, 
 			final TVBroadcast broadcast) 
 	{
+		Appirater.significantEvent(activity);
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append(activity.getString(R.string.share_comment));
 		sb.append(" ");
@@ -94,7 +97,7 @@ public abstract class GenericUtils
 		activity.startActivity(chooserIntent);
 		
 		/* Send sharing event to Google Analytics */
-		GATrackingManager.sharedInstance().sendUserSharedEvent(activity, broadcast);
+		TrackingGAManager.sharedInstance().sendUserSharedEvent(activity, broadcast);
 	}
 	
 
@@ -119,6 +122,7 @@ public abstract class GenericUtils
 	
 	
 	
+	@SuppressLint("NewApi")
 	public static boolean isActivityNotNullAndNotFinishingAndNotDestroyed(Activity activity)
 	{
 		boolean isActivityNotNullAndNotFinishingAndNotDestroyed;

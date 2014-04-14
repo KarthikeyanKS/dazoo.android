@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 

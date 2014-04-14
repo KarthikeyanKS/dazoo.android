@@ -1,5 +1,5 @@
 
-package com.mitv;
+package com.mitv.managers;
 
 
 
@@ -9,6 +9,7 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.mitv.R;
 import com.nostra13.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;

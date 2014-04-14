@@ -15,8 +15,8 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.mitv.FontManager;
 import com.mitv.R;
+import com.mitv.managers.FontManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.utilities.DateUtils;
 

@@ -15,9 +15,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 
 

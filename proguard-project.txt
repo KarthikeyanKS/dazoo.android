@@ -1,5 +1,5 @@
 ##---------------Begin: proguard configuration common for all Android apps ----------
--optimizationpasses 5
+-dontoptimize
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
@@ -9,7 +9,6 @@
 -printseeds seeds.txt
 -printusage unused.txt
 -printmapping mapping.txt
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 
 -allowaccessmodification
 -keepattributes *Annotation*
@@ -42,6 +41,14 @@
 # Preserve all native method names and the names of their classes.
 -keepclasseswithmembernames class * {
     native <methods>;
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
 -keepclasseswithmembernames class * {
@@ -85,6 +92,12 @@
 ##---------------End: proguard configuration for Debugging  ----------
 
 
+
+##---------------Begin: proguard configuration for Amazon Insights (AI) SDK  ----------
+-dontwarn com.amazon.**
+-keep class com.amazon.** {*;}
+-keepattributes *Annotation*
+##---------------End: proguard configuration for AI  ----------
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard

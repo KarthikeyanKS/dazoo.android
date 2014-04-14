@@ -25,8 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
@@ -34,6 +32,8 @@ import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVDate;
@@ -355,7 +355,7 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{	
-				GATrackingManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
+				TrackingGAManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
 				
 				/* WHEN LOGGED IN */
 				if (ContentManager.sharedInstance().isLoggedIn()) 

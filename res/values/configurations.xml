@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
 
 	<!-- APP ID SETTINGS -->
@@ -18,6 +19,7 @@
     <string name="icon_heart" translatable="false"> 		&#x0398;</string>
     <string name="icon_blocks" translatable="false"> 		&#x039A;</string>
     <string name="icon_search" translatable="false"> 		&#x039B;</string>
+    <string name="icon_clear_search" translatable="false">	&#x03A5;</string>
     <string name="icon_settings" translatable="false"> 		&#x039C;</string>
     <string name="icon_share" translatable="false">			&#x039D;</string>
     <string name="icon_twitter" translatable="false"> 		&#x039E;</string>
@@ -26,10 +28,10 @@
     <string name="icon_my_profile" translatable="false"> 	&#x03A1;</string>
     <string name="icon_movie" translatable="false"> 		&#x03A2;</string>
     <string name="icon_add_channels" translatable="false">	&#x03A3;</string>
-    <string name="icon_trending" translatable="false"> 	&#x0397;</string>
-    <string name="icon_magnet" translatable="false"> 	&#x039B;</string>
-    <string name="icon_bookmark" translatable="false"> 	&#xE804;</string>
-    <string name="icon_pin" translatable="false"> 		&#xE800;</string>
-    <string name="icon_series" translatable="false"> 	&#xE801;</string>
+    <string name="icon_trending" translatable="false"> 		&#x0397;</string>
+    <string name="icon_magnet" translatable="false"> 		&#x039B;</string>
+    <string name="icon_bookmark" translatable="false"> 		&#xE804;</string>
+    <string name="icon_pin" translatable="false"> 			&#xE800;</string>
+    <string name="icon_series" translatable="false"> 		&#xE801;</string>
     
 </resources>

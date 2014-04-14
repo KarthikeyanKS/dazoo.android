@@ -10,16 +10,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.mitv.managers.ContentManager;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
+import com.sbstrm.appirater.Appirater;
 
 
 
@@ -60,6 +61,8 @@ public class HomeActivity
 		initLayout();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		
+		Appirater.appLaunched(this);
 	}
 	
 	
