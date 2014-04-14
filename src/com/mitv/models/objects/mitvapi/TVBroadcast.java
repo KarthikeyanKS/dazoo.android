@@ -84,6 +84,41 @@ public class TVBroadcast
 	
 	
 	
+	public String buildSeasonAndEpisodeString()
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+	
+		StringBuilder seasonEpisodeSB = new StringBuilder();
+		
+		ProgramTypeEnum programType = program.getProgramType();
+		
+		if(programType == ProgramTypeEnum.TV_EPISODE)
+		{
+			int season = program.getSeason().getNumber().intValue();
+			
+			int episode = program.getEpisodeNumber();
+	
+			if (season > 0) 
+			{
+				seasonEpisodeSB.append(context.getString(R.string.season))
+				.append(" ")
+				.append(season)
+				.append(" ");
+			}
+			
+			if (episode > 0) 
+			{
+				seasonEpisodeSB.append(context.getString(R.string.episode))
+				.append(" ")
+				.append(season);
+			}
+		}
+		
+		return seasonEpisodeSB.toString();
+	}
+	
+	
+	
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */

@@ -14,10 +14,11 @@ public abstract class Constants
 	/* HTTP and HTTPS schemas */
 	public static final String HTTP_SCHEME = "http://";
 	public static final String HTTPS_SCHEME	= "https://";
+	public static final String FORWARD_SLASH = "/";
 	
 	/* BACKEND API BASE URLs */
-	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com/";
-	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv/";
+	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com" + FORWARD_SLASH;
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv" + FORWARD_SLASH;
 	
 	/* FRONTEND API BASE URLs */
 	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
@@ -44,7 +45,13 @@ public abstract class Constants
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
+	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
 	
+	
+	/* AMAZON INSIGHTS DEMO */
+	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
+	public static final String AMAZON_INSIGHTS_PUBLIC_KEY = "f2a04686bcc24285a46a7823300fcf1b";
+	public static final String AMAZON_INSIGHTS_PRIVATE_KEY = "7GCv830tpJAbqSC5BsXYwJ2S1JGto2Ej29wD99BQK6M";
 	
 	/* HockeyApp Settings */
 	public static final String TESTFLIGHT_TOKEN = "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
@@ -260,11 +267,6 @@ public abstract class Constants
 	public static final String	BROADCAST_END_TIME							= "endTime";
 	public static final String	BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
 	public static final String	BROADCAST_SHARE_URL							= "shareUrl";
-
-	public static final String	BROADCAST_TYPE_RERUN							= "RERUN";
-	public static final String	BROADCAST_TYPE_LIVE							= "LIVE";
-	public static final String	BROADCAST_TYPE_OTHER							= "OTHER";
-	public static final String	BROADCAST_TYPE_RECORDED						= "RECORDED";
 
 	/* CHANNEL fields */
 	public static final String	CHANNEL_CHANNEL_ID							= "channelId";

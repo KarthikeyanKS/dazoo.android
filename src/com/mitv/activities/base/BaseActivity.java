@@ -27,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.mitv.AITrackingManager;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.FontManager;
@@ -220,6 +221,11 @@ public abstract class BaseActivity
 		
 		ImageLoaderManager.sharedInstance(this).resume();
 		
+		if(Constants.ENABLE_AMAZON_INSIGHTS)
+		{
+			AITrackingManager.sharedInstance().resumeSession();
+		}
+		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
 		{
 			hockeyAppCheckForCrashes();
@@ -364,19 +370,8 @@ public abstract class BaseActivity
 		}
 	}
 
-	/* Remove activity from activitStack */
-//	private static void removeFromStack(Activity activity) 
-//	{
-//		if (activityStack.contains(activity)) 
-//		{
-//			if (activityStack.peek() == activity) 
-//			{
-//				int positionToRemove = activityStack.size() - 1;
-//				activityStack.removeElementAt(positionToRemove);
-//			}
-//		}
-//	}
 
+	
 	/**
 	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurrences in the activity stack
 	 */
@@ -718,7 +713,8 @@ public abstract class BaseActivity
 			return true;
 		}
 
-		default: {
+		default: 
+		{
 			return super.onOptionsItemSelected(item);
 		}
 		}
@@ -729,7 +725,14 @@ public abstract class BaseActivity
 	protected void onPause() 
 	{
 		super.onPause();
-
+ 
+		if(Constants.ENABLE_AMAZON_INSIGHTS)
+		{
+			AITrackingManager.sharedInstance().submitEvents();
+			
+			AITrackingManager.sharedInstance().pauseSession();
+		}
+		
 		ImageLoaderManager.sharedInstance(this).pause();
 	}
 	

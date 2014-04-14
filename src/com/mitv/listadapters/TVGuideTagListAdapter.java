@@ -22,6 +22,7 @@ import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
@@ -87,10 +88,14 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 		
 		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
 
-		if (rowView == null) {
+		if (rowView == null) 
+		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
 			rowView = layoutInflater.inflate(R.layout.element_poster_broadcast, null);
+			
 			ViewHolder viewHolder = new ViewHolder();
+			
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
 			viewHolder.mImageIv = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
 			viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
@@ -126,60 +131,107 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
 
-			switch (programType) {
-			case MOVIE: {
-				holder.mTitleTv.setText(activity.getString(R.string.icon_movie) + " " + broadcastWithChannelInfo.getProgram().getTitle());
-				holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
-				break;
-			}
-			case TV_EPISODE: {
-				String season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().toString();
-				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
-				String seasonEpisode = "";
-				if (!season.equals("0")) {
-					seasonEpisode += activity.getString(R.string.season) + " " + season + " ";
+			switch (programType) 
+			{
+				case MOVIE: 
+				{
+					StringBuilder titleSB = new StringBuilder();
+					
+					titleSB.append(activity.getString(R.string.icon_movie))
+					.append(" ")
+					.append(broadcastWithChannelInfo.getTitle());
+					
+					holder.mTitleTv.setText(titleSB.toString());
+					
+					holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
+					
+					break;
 				}
-				if (episode > 0) {
-					seasonEpisode += activity.getString(R.string.episode) + " " + episode;
+				
+				case TV_EPISODE: 
+				{
+					holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+					
+					String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
+					holder.mDescTv.setText(seasonAndEpisodeString);
+					break;
 				}
-				holder.mDescTv.setText(seasonEpisode);
-				holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getSeries().getName());
-				break;
-			}
-			case SPORT: {
-				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastWithChannelInfo.getBroadcastType())) {
-					holder.mTitleTv.setText(activity.getString(R.string.icon_live) + " " + broadcastWithChannelInfo.getProgram().getTitle());
-				} else {
-					holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getTitle());
+				
+				case SPORT: 
+				{
+					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+					{
+						StringBuilder titleSB = new StringBuilder();
+						
+						titleSB.append(activity.getString(R.string.icon_live))
+						.append(" ")
+						.append(broadcastWithChannelInfo.getTitle());
+						
+						holder.mTitleTv.setText(titleSB.toString());
+					} 
+					else 
+					{
+						holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+					}
+	
+					StringBuilder descriptionSB = new StringBuilder();
+					
+					descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
+					.append(": ")
+					.append(broadcastWithChannelInfo.getProgram().getTournament());
+					
+					holder.mDescTv.setText(descriptionSB.toString());
+					break;
 				}
-
-				holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getSportType().getName() + ": " + broadcastWithChannelInfo.getProgram().getTournament());
-				break;
-			}
-			case OTHER: {
-				holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getTitle());
-				holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getCategory());
-				break;
-			}
-			default: {
-				holder.mDescTv.setText("");
-				break;
-			}
+				
+				case OTHER: 
+				{
+					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+					{
+						StringBuilder titleSB = new StringBuilder();
+						
+						titleSB.append(activity.getString(R.string.icon_live))
+						.append(" ")
+						.append(broadcastWithChannelInfo.getTitle());
+						
+						holder.mTitleTv.setText(titleSB.toString());
+					} 
+					else 
+					{
+						holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+					}
+					
+					holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getCategory());
+					break;
+				}
+				
+				default: 
+				{
+					holder.mDescTv.setText("");
+					holder.mDescTv.setText("");
+					break;
+				}
 			}
 		}
 
-		holder.mContainer.setOnClickListener(new View.OnClickListener() {
-
+		holder.mContainer.setOnClickListener(new View.OnClickListener() 
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
+				
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				
 				activity.startActivity(intent);
 			}
 		});
+		
 		return rowView;
 	}
 
+	
+	
 	static class ViewHolder {
 		RelativeLayout mContainer;
 		ImageView mImageIv;

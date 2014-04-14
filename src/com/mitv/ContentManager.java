@@ -213,11 +213,12 @@ public class ContentManager
         useRequestToCallBackListenerMap(RequestToCallBackMapAccessIdentifier.NOTIFY_LISTENER, requestIdentifier, null, result);
     }
 
-    private void notifyListenersOfRequestResultHelper(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
+    private void notifyListenersOfRequestResultHelper(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) 
+    {
         ArrayList<ListenerHolder> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 
-        if (listenerList != null) {
-
+        if (listenerList != null) 
+        {
             /* Remove any null listener */
             listenerList.removeAll(Collections.singleton(null));
 
@@ -231,9 +232,10 @@ public class ContentManager
 			}
         }
     }
+
 	
-	
-	public boolean isUpdatingGuide() {
+	public boolean isUpdatingGuide() 
+	{
 		return isUpdatingGuide;
 	}
 	
