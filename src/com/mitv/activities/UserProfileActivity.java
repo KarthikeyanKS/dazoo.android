@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.androidquery.auth.FacebookHandle;
+import com.mitv.AITrackingManager;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.GATrackingManager;
@@ -66,7 +67,7 @@ public class UserProfileActivity
 	
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
@@ -88,6 +89,11 @@ public class UserProfileActivity
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		if(Constants.ENABLE_AMAZON_INSIGHTS)
+		{
+			AITrackingManager.sharedInstance().recordCustomEvent();
+		}
 		
 		populateViews();
 	}
