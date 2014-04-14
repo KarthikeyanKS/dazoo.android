@@ -30,9 +30,10 @@ public class UserTutorialFragment extends Fragment {
 	private static final int PAGE5 = 4;
 	
 	private ImageView imgView;
-	private TextView splash_text;
-	private TextView header_text;
-	private TextView info_text;
+	private TextView splashText;
+	private TextView headerText;
+	private TextView infoText;
+	private TextView tutorialInfoExtraArea;
 
 	private ImageView image_mobile_tutorial;
 
@@ -63,47 +64,47 @@ public class UserTutorialFragment extends Fragment {
 			case PAGE1: {
 				rootView.setBackgroundResource(R.drawable.splash_bg);
 				imgView.setVisibility(View.VISIBLE);
-				splash_text.setVisibility(View.VISIBLE);
+				splashText.setVisibility(View.VISIBLE);
 				break;
 			}
 			case PAGE2: {
-//				rootView.setBackgroundResource(R.drawable.tutorial_screen1);
 				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile1);
 				image_mobile_tutorial.setVisibility(View.VISIBLE);
-				header_text.setText(R.string.tutorial_header_page1);
-				header_text.setVisibility(View.VISIBLE);
-				info_text.setText(R.string.tutorial_info_page1);
-				info_text.setVisibility(View.VISIBLE);
+				headerText.setText(R.string.tutorial_header_page1);
+				headerText.setVisibility(View.VISIBLE);
+				infoText.setText(R.string.tutorial_info_page1);
+				infoText.setVisibility(View.VISIBLE);
 				break;
 			}
 			case PAGE3: {
-//				rootView.setBackgroundResource(R.drawable.tutorial_screen2);
 				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile2);
 				image_mobile_tutorial.setVisibility(View.VISIBLE);
-				header_text.setText(R.string.tutorial_header_page2);
-				header_text.setVisibility(View.VISIBLE);
-				info_text.setText(R.string.tutorial_info_page2);
-				info_text.setVisibility(View.VISIBLE);
+				headerText.setText(R.string.tutorial_header_page2);
+				headerText.setVisibility(View.VISIBLE);
+				infoText.setText(R.string.tutorial_info_page2);
+//				tutorialInfoExtraArea.setText("                 ");
+//				tutorialInfoExtraArea.setVisibility(View.VISIBLE);
+				infoText.setVisibility(View.VISIBLE);
 				break;
 			}
 			case PAGE4: {
-//				rootView.setBackgroundResource(R.drawable.tutorial_screen3);
 				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile3);
 				image_mobile_tutorial.setVisibility(View.VISIBLE);
-				header_text.setText(R.string.tutorial_header_page3);
-				header_text.setVisibility(View.VISIBLE);
-				info_text.setText(R.string.tutorial_info_page3);
-				info_text.setVisibility(View.VISIBLE);
+				headerText.setText(R.string.tutorial_header_page3);
+				headerText.setVisibility(View.VISIBLE);
+				infoText.setText(R.string.tutorial_info_page3);
+				infoText.setVisibility(View.VISIBLE);
 				break;
 			}
 			case PAGE5: {
-//				rootView.setBackgroundResource(R.drawable.tutorial_screen4);
 				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile4);
 				image_mobile_tutorial.setVisibility(View.VISIBLE);
-				header_text.setText(R.string.tutorial_header_page4);
-				header_text.setVisibility(View.VISIBLE);
-				info_text.setText(R.string.tutorial_info_page4);
-				info_text.setVisibility(View.VISIBLE);
+				headerText.setText(R.string.tutorial_header_page4);
+				headerText.setVisibility(View.VISIBLE);
+				infoText.setText(R.string.tutorial_info_page4);
+//				tutorialInfoExtraArea.setText("                 ");
+//				tutorialInfoExtraArea.setVisibility(View.VISIBLE);
+				infoText.setVisibility(View.VISIBLE);
 				break;
 			}
 			default: {
@@ -119,11 +120,12 @@ public class UserTutorialFragment extends Fragment {
 		
 		/* PAGE 1 */
 		imgView = (ImageView) rootView.findViewById(R.id.splash_screen_activity_logo_tutorial);
-		splash_text = (TextView) rootView.findViewById(R.id.splash_screen_activity_info_text_tutorial);
+		splashText = (TextView) rootView.findViewById(R.id.splash_screen_activity_info_text_tutorial);
 		
 		/* HEADER & INFO */
-		header_text = (TextView) rootView.findViewById(R.id.tutorial_header);
-		info_text = (TextView) rootView.findViewById(R.id.tutorial_info);
+		headerText = (TextView) rootView.findViewById(R.id.tutorial_header);
+		infoText = (TextView) rootView.findViewById(R.id.tutorial_info);
+		tutorialInfoExtraArea = (TextView) rootView.findViewById(R.id.tutorial_info_extra_area);
 		
 		image_mobile_tutorial = (ImageView) rootView.findViewById(R.id.image_mobile_tutorial);
 	}
