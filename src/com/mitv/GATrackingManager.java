@@ -25,7 +25,6 @@ import com.mitv.utilities.FileUtils;
 
 public class GATrackingManager 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = GATrackingManager.class.getName();
 
 	private static GATrackingManager instance;
