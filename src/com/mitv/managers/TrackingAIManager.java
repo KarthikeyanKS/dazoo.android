@@ -192,6 +192,18 @@ public class TrackingAIManager
 	
 	
 	
+	public void sendUserTutorialExitEvent(int page) 
+	{
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		HashMap<String, String> metrics = new HashMap<String, String>();
+
+		attributes.put("Page label", Integer.toString(page));
+		
+		recordEventBase(Constants.GA_EVENT_KEY_USER_EXIT_TUTORIAL, attributes, metrics);
+	}
+	
+	
+	
 	public void recordTestEvent()
 	{
 		EventClient eventClient = getEventClient();

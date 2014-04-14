@@ -29,6 +29,7 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.TutorialScreenSlidePagerAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
@@ -363,6 +364,9 @@ public class SplashScreenActivity
 			case R.id.button_tutorial_skip: {
 				skipButtonContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				skipButtonProgressBar.setVisibility(View.VISIBLE);
+				
+				TrackingManager.sharedInstance().sendUserTutorialExitEvent(mPager.getCurrentItem());
+				
 				finishTutorial();
 				break;
 			}
@@ -370,6 +374,9 @@ public class SplashScreenActivity
 			case R.id.button_tutorial_start_primary_activity: {
 				startPrimaryActivityContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				startPrimaryButtonProgressBar.setVisibility(View.VISIBLE);
+				
+				TrackingManager.sharedInstance().sendUserTutorialExitEvent(PAGE5);
+				
 				finishTutorial();
 				break;
 			}
