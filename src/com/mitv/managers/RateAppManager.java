@@ -56,27 +56,26 @@ public class RateAppManager {
 		return prefs;
 	}
 
+	
 	public static void appLaunched(Context context) {
 		boolean testMode = context.getResources().getBoolean(R.bool.appirator_test_mode);
-
-		SharedPreferences prefs = getSharedPrefs(context);
-		if (!testMode && (prefs.getBoolean(PREF_DONT_SHOW, false) || prefs.getBoolean(PREF_RATE_CLICKED, false))) {
-			return;
-		}
-
-		SharedPreferences.Editor editor = prefs.edit();
-
 		if (testMode) {
 			showRateDialog(context);
 			return;
 		}
 
+		SharedPreferences prefs = getSharedPrefs(context);
+		
+		boolean dontShowDialog = prefs.getBoolean(PREF_DONT_SHOW, false) || prefs.getBoolean(PREF_RATE_CLICKED, false);
+		if (dontShowDialog) {
+			return;
+		}
+
+		SharedPreferences.Editor editor = prefs.edit();
+
 		// Increment launch counter
 		long launchCount = prefs.getLong(PREF_LAUNCH_COUNT, 0);
-
-		// Get date of first launch
-		long dateFirstLaunch = prefs.getLong(PREF_DATE_FIRST_LAUNCHED, 0);
-
+		
 		try {
 			int appVersionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
 			if (prefs.getInt(PREF_APP_VERSION_CODE, 0) != appVersionCode) {
@@ -94,12 +93,14 @@ public class RateAppManager {
 		launchCount++;
 		editor.putLong(PREF_LAUNCH_COUNT, launchCount);
 
+		// Get date of first launch
+		long dateFirstLaunch = prefs.getLong(PREF_DATE_FIRST_LAUNCHED, 0);
 		if (dateFirstLaunch == 0) {
 			dateFirstLaunch = System.currentTimeMillis();
 			editor.putLong(PREF_DATE_FIRST_LAUNCHED, dateFirstLaunch);
 		}
 
-		editor.commit();
+		editor.apply();
 
 		/* Show dialog if criteria is met */
 		tryShowRateDialog(context);
@@ -122,13 +123,25 @@ public class RateAppManager {
 		return enoughLaunches;
 	}
 
-	private static boolean hasEnoughEventsHappened(Context context) {
-		SharedPreferences prefs = getSharedPrefs(context);
-		long eventCount = prefs.getLong(PREF_EVENT_COUNT, 0);
-		boolean enoughEventsHaveHappened = (eventCount >= context.getResources().getInteger(R.integer.appirator_events_until_prompt));
-		return enoughEventsHaveHappened;
-	}
+//	private static boolean hasEnoughEventsHappened(Context context) {
+//		SharedPreferences prefs = getSharedPrefs(context);
+//		long eventCount = prefs.getLong(PREF_EVENT_COUNT, 0);
+//		boolean enoughEventsHaveHappened = (eventCount >= context.getResources().getInteger(R.integer.appirator_events_until_prompt));
+//		return enoughEventsHaveHappened;
+//	}
 
+	private static boolean hasBeenRemindedOnceAlready(Context context) {
+		boolean hasBeenRemindedOnceAlready = false;
+		
+		SharedPreferences prefs = getSharedPrefs(context);
+		long dateReminderPressed = prefs.getLong(PREF_DATE_REMINDER_PRESSED, 0);
+		if (dateReminderPressed > 0) {
+			hasBeenRemindedOnceAlready = true;
+		}
+		
+		return hasBeenRemindedOnceAlready;
+	}
+	
 	private static boolean hasEnoughTimePassedSinceLastReminder(Context context) {
 		boolean hasEnoughTimePassedSinceLastReminder = false;
 
@@ -152,20 +165,25 @@ public class RateAppManager {
 	}
 
 	public static void tryShowRateDialog(Context context) {
-		boolean preventRateAppDialog = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
-		if (preventRateAppDialog || !Constants.ENABLE_RATE_APP_DIALOG) {
+		boolean preventRateAppDialogBackend = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
+		boolean preventRateAppDialogLocal = !Constants.ENABLE_RATE_APP_DIALOG;
+		if (preventRateAppDialogBackend || preventRateAppDialogLocal) {
 			return;
 		}
 
-		boolean showDialog = false;
+		boolean showDialog;
 
 		SharedPreferences prefs = getSharedPrefs(context);
 		SharedPreferences.Editor editor = prefs.edit();
 
 		boolean persistentShowDialogValueHasBeenSet = prefs.getBoolean(PREFS_HAS_SHOW_DIALOG_VALUE_BEEN_SET, false);
 
-		if (!persistentShowDialogValueHasBeenSet) {
-
+		if (persistentShowDialogValueHasBeenSet) {
+			/* Read value from preferences */
+			showDialog = prefs.getBoolean(PREFS_SHOW_DIALOG_VALUE, false);
+		} else {
+			/* Show dialog value has not yet been set */
+			
 			if (hasEnoughDaysPassed(context)) {
 				if(hasAppBeenLaunchedEnoughTimes(context)) {
 					showDialog = true;
@@ -174,39 +192,35 @@ public class RateAppManager {
 				}
 				editor.putBoolean(PREFS_SHOW_DIALOG_VALUE, showDialog);
 				editor.putBoolean(PREFS_HAS_SHOW_DIALOG_VALUE_BEEN_SET, true);
+				editor.apply();
+			} else {
+				/* Not enough days have passed yet, so don't show dialog */
+				showDialog = false;
 			}
-		} else {
-			/* Read value from preferences */
-			showDialog = prefs.getBoolean(PREFS_HAS_SHOW_DIALOG_VALUE_BEEN_SET, false);
 		}
 
-		if (showDialog) {
-			showDialog = false;
-			
+		if (showDialog && hasBeenRemindedOnceAlready(context)) {
 			if (hasEnoughTimePassedSinceLastReminder(context)) {
 				boolean capNumberOfReminders = context.getResources().getBoolean(R.bool.appirator_cap_number_of_reminders);
 
 				if (capNumberOfReminders) {
-					if(!hasBeenRemindedTooManyTimes(context)) {
+					if (!hasBeenRemindedTooManyTimes(context)) {
 						showDialog = true;
 					}
 				} else {
 					showDialog = true;
 				}
+			} else {
+				/* Not enough time has passed... */
+				showDialog = false;
 			}
 		}
 
-		editor.commit();
+
 		
 		if (showDialog) {
 			showRateDialog(context);
 		}
-	}
-
-	public static void rateApp(Context context) {
-		SharedPreferences prefs = getSharedPrefs(context);
-		SharedPreferences.Editor editor = prefs.edit();
-		rateApp(context, editor);
 	}
 
 	@SuppressLint("NewApi")
@@ -229,7 +243,7 @@ public class RateAppManager {
 		context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(context.getString(R.string.appirator_market_url), context.getPackageName()))));
 		if (editor != null) {
 			editor.putBoolean(PREF_RATE_CLICKED, true);
-			editor.commit();
+			editor.apply();
 		}
 	}
 
@@ -263,7 +277,7 @@ public class RateAppManager {
 					editor.putLong(PREF_REMINDER_COUNT, reminderCount);
 
 					editor.putLong(PREF_DATE_REMINDER_PRESSED, System.currentTimeMillis());
-					editor.commit();
+					editor.apply();
 				}
 				dialog.dismiss();
 			}
@@ -276,7 +290,7 @@ public class RateAppManager {
 				TrackingGAManager.sharedInstance().sendUserPressedNoThanksInRateDialogEvent();
 				if (editor != null) {
 					editor.putBoolean(PREF_DONT_SHOW, true);
-					editor.commit();
+					editor.apply();
 				}
 				dialog.dismiss();
 			}
