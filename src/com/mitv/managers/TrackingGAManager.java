@@ -160,6 +160,15 @@ public class TrackingGAManager
 
 		sendUserEventWithLabel(actionString, userId);
 	}
+	
+	
+	
+	public void sendHTTPCoreOutOfMemoryException() 
+	{
+		sendSystemEvent(Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION);
+	}
+	
+	
 
 	private String actionByAppendingActivityName(String actionBase, Activity activity) {
 		String action = actionBase;

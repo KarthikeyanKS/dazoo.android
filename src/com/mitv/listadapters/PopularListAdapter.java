@@ -188,10 +188,9 @@ public class PopularListAdapter
 					/* Go to the corresponding Broadcast page */
 					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
-					// TODO NewArc set return activity?? For detecting tab
+
 					// coloring
 					activity.startActivity(intent);
-
 				}
 			});
 

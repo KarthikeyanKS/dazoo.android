@@ -427,6 +427,7 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_OUT				= "USER_SIGNED_OUT";
 	public static final String GA_EVENT_KEY_ACTION_FIRST_BOOT						= "OnBoot";
 	public static final String GA_EVENT_KEY_USER_EXIT_TUTORIAL						= "EXIT_TUTORIAL";
+	public static final String GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION		= "HTTP_CORE_OUT_OF_MEMORY_EXCEPTION";
 	
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";

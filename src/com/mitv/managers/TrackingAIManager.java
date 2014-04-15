@@ -162,6 +162,17 @@ public class TrackingAIManager
 	{
 		reportUserSignUpSuccessfulEvent(true);
 	}
+	
+	
+	public void reportHTTPCoreOutOfMemoryException() 
+	{
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		HashMap<String, String> metrics = new HashMap<String, String>();
+		
+		String eventName = Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION;
+		
+		recordEventBase(eventName, attributes, metrics);
+	}
 
 	
 	
