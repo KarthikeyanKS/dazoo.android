@@ -18,6 +18,7 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.Appirater;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -26,7 +27,6 @@ import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
 import com.mitv.utilities.NetworkUtils;
-import com.sbstrm.appirater.Appirater;
 
 
 
