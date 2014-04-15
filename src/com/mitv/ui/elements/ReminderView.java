@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.managers.Appirater;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
@@ -24,7 +25,6 @@ import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.NotificationHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
-import com.sbstrm.appirater.Appirater;
 
 
 

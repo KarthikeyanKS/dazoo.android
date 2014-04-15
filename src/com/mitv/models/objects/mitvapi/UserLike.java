@@ -82,7 +82,7 @@ public class UserLike
 		return wasAddedManually;
 	}
 	
-	private static String getContentIdFromTVProgram(TVProgram tvProgarm) 
+	public static String getContentIdFromTVProgram(TVProgram tvProgarm) 
 	{
 		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromTVProgram(tvProgarm);
 		
