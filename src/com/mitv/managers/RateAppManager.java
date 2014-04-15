@@ -186,8 +186,10 @@ public class RateAppManager {
 			if (hasEnoughTimePassedSinceLastReminder(context)) {
 				boolean capNumberOfReminders = context.getResources().getBoolean(R.bool.appirator_cap_number_of_reminders);
 
-				if (capNumberOfReminders && !hasBeenRemindedTooManyTimes(context)) {
-					showDialog = true;
+				if (capNumberOfReminders) {
+					if(!hasBeenRemindedTooManyTimes(context)) {
+						showDialog = true;
+					}
 				} else {
 					showDialog = true;
 				}
