@@ -5,9 +5,9 @@
     	Amazon App Store = http://www.amazon.com/gp/mas/dl/android?p=%s
      -->
     <string name="appirator_market_url">market://details?id=%s</string>
-    <integer name="appirator_days_until_prompt">20</integer>
+    <integer name="appirator_days_until_prompt">14</integer>
     <integer name="appirator_launches_until_prompt">10</integer>
-    <integer name="appirator_events_until_prompt">20</integer>
+    <integer name="appirator_events_until_prompt">10</integer>
     
     
     <bool name="appirator_use_logical_and_instead_of_or_for_event_and_days_until_condition">false</bool>
