@@ -1865,16 +1865,22 @@ public class ContentManager
 	 */
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
 	{
-		if (broadcast.getProgram().getSeries() == null) {
-			return null;
-			
-		} else {
+		if (broadcast.getProgram().getSeries() == null) 
+		{
+			return null;	
+		} 
+		else 
+		{
 			String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
+			
 			ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
 			
-			if(getCache().containsUpcomingBroadcastsForBroadcast(tvSeriesId)) {
+			if(getCache().containsUpcomingBroadcastsForBroadcast(tvSeriesId)) 
+			{
 				UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = getCache().getNonPersistentUpcomingBroadcasts();
-				if(upcomingBroadcastsForBroadcast != null) {
+				
+				if(upcomingBroadcastsForBroadcast != null)
+				{
 					upcomingBroadcasts= upcomingBroadcastsForBroadcast.getRelatedBroadcasts();
 				}
 			}
@@ -1882,6 +1888,52 @@ public class ContentManager
 			return upcomingBroadcasts;
 		}
 	}
+	
+	
+	
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheBroadcastsAiringNowOnDifferentChannels(
+			final TVBroadcastWithChannelInfo broadcastWithChannelInfo,
+			final boolean randomizeListElements) 
+	{
+		ArrayList<TVBroadcastWithChannelInfo> broadcastsPlayingNow = new ArrayList<TVBroadcastWithChannelInfo>();
+		
+		TVChannelId inputTvChannelId = broadcastWithChannelInfo.getChannel().getChannelId();
+		
+		List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
+		
+		if(tvChannelIds != null && 
+		   tvChannelIds.isEmpty() == false)
+		{
+			for(TVChannelId tvChannelId: tvChannelIds)
+			{
+				TVChannel tvChannel = getCache().getTVChannelById(tvChannelId);
+				
+				if(tvChannelId.equals(inputTvChannelId) == false && tvChannel != null)
+				{
+					TVChannelGuide tvChannelGuide = getCache().getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
+			
+					TVBroadcast tvBroadcastPlayingNow = tvChannelGuide.getBroadcastPlayingNow();
+					
+					if(tvBroadcastPlayingNow != null)
+					{
+						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoPlayingNow = new TVBroadcastWithChannelInfo(tvBroadcastPlayingNow);
+						tvBroadcastWithChannelInfoPlayingNow.setChannel(tvChannel);
+						
+						broadcastsPlayingNow.add(tvBroadcastWithChannelInfoPlayingNow);
+					}
+				}
+			}
+		}
+		
+		if(randomizeListElements)
+		{
+			Collections.shuffle(broadcastsPlayingNow);
+		}
+		
+		return broadcastsPlayingNow;
+	}
+	
+	
 	
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcasts() 
 	{

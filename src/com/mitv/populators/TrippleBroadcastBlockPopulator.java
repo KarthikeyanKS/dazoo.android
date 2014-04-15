@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +31,9 @@ public class TrippleBroadcastBlockPopulator
 {
 	private static String TAG = TrippleBroadcastBlockPopulator.class.getName();
 
+	
+	private static final int TOTAL_SHOWS_IN_INITIAL_LIST = 3;
+	
 	private static final int POSITION_ONE = 0;
 	private static final int POSITION_TWO = 1;
 	private static final int POSITION_THREE = 2;
@@ -229,8 +231,6 @@ public class TrippleBroadcastBlockPopulator
 	
 		TextView title = (TextView) containerView.findViewById(R.id.block_tripple_broadcast_title_textview);
 
-		Resources res = activity.getResources();
-
 		String titleString;
 
 		String showMoreString;
@@ -243,25 +243,25 @@ public class TrippleBroadcastBlockPopulator
 			{
 				case TV_EPISODE: 
 				{
-					titleString = res.getString(R.string.repetitions_episode);
+					titleString = activity.getString(R.string.repetitions_episode);
 					break;
 				}
 				
 				case MOVIE: 
 				{
-					titleString = res.getString(R.string.repetitions_movie);
+					titleString = activity.getString(R.string.repetitions_movie);
 					break;
 				}
 				
 				case SPORT: 
 				{
-					titleString = res.getString(R.string.repetitions_sport_event);
+					titleString = activity.getString(R.string.repetitions_sport_event);
 					break;
 				}
 				
 				case OTHER:
 				{
-					titleString = res.getString(R.string.repetitions_other);
+					titleString = activity.getString(R.string.repetitions_other);
 					break;
 				}
 				
@@ -284,11 +284,11 @@ public class TrippleBroadcastBlockPopulator
 
 		title.setText(titleString);
 
-		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts);
-		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts);
-		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_ONE, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_TWO, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_THREE, repeatingOrUpcomingBroadcasts);
 
-		if(repeatingOrUpcomingBroadcasts.size() > 3) 
+		if(repeatingOrUpcomingBroadcasts.size() > TOTAL_SHOWS_IN_INITIAL_LIST) 
 		{
 			View divider = (View) containerView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
 

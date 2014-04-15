@@ -11,5 +11,5 @@ package com.mitv.activities;
  *
  */
 public class RepetitionsPageActivity 
-	extends RepetitionsOrUpcomingPage
+	extends RepetitionsOrUpcomingListMoreActivity
 {}
