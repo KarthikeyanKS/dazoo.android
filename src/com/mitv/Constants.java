@@ -546,6 +546,7 @@ public abstract class Constants
 	public static final int	NOTIFY_MINUTES_BEFORE_THE_BROADCAST	= 15;
     
     /* Shared preferences for data storage */
+	public static final String DEVICE_PREFERENCES_FILE = "device_id.xml";
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
 	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";

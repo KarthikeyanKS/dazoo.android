@@ -1522,7 +1522,7 @@ public class ContentManager
 		{
 			String tvProgramId = broadcast.getProgram().getProgramId();
 			
-			String deviceId = GenericUtils.getDeviceId();
+			String deviceId = GenericUtils.getDeviceID();
 			
 			apiClient.performInternalTracking(null, tvProgramId, deviceId);
 		}
