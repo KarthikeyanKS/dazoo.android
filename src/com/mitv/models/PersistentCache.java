@@ -1,5 +1,5 @@
 
-package com.mitv;
+package com.mitv.models;
 
 
 
@@ -11,6 +11,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mitv.Constants;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.TrackingGAManager;

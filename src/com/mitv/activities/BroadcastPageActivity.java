@@ -41,7 +41,7 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
-import com.mitv.populators.NowAiringBroadcastPopulator;
+import com.mitv.populators.BroadcastNowAiringBlockPopulator;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
@@ -469,7 +469,7 @@ public class BroadcastPageActivity
 		
 		if (similarBroadcastsAiringNow != null && !similarBroadcastsAiringNow.isEmpty()) 
 		{
-			NowAiringBroadcastPopulator similarBroadcastsAiringNowBlock = new NowAiringBroadcastPopulator(this, nowAiringContainer, broadcastWithChannelInfo);
+			BroadcastNowAiringBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastNowAiringBlockPopulator(this, nowAiringContainer, broadcastWithChannelInfo);
 			similarBroadcastsAiringNowBlock.createBlock(similarBroadcastsAiringNow);
 			nowAiringContainer.setVisibility(View.VISIBLE);
 		}

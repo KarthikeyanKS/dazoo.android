@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.APIClient;
-import com.mitv.Cache;
 import com.mitv.ListenerHolder;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -27,6 +26,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.models.Cache;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.models.objects.disqus.DisqusThreadDetails;

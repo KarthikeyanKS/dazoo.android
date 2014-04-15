@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.activities.RepetitionsPageActivity;
-import com.mitv.activities.UpcomingEpisodesPageActivity;
+import com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity;
+import com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -326,7 +326,7 @@ public class TrippleBroadcastBlockPopulator
 
 				if (usedForRepetitions) 
 				{
-					Intent intent = new Intent(activity, RepetitionsPageActivity.class);
+					Intent intent = new Intent(activity, RepetitionsListMoreActivity.class);
 
 					ContentManager.sharedInstance().setRepeatingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 
@@ -334,7 +334,7 @@ public class TrippleBroadcastBlockPopulator
 				} 
 				else
 				{
-					Intent intent = new Intent(activity, UpcomingEpisodesPageActivity.class);
+					Intent intent = new Intent(activity, UpcomingListMoreActivity.class);
 
 					ContentManager.sharedInstance().setUpcomingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 
