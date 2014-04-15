@@ -26,7 +26,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -95,7 +94,7 @@ public class SearchPageActivity
 
 	private Menu menu;
 	private InstantAutoCompleteView editTextSearch;
-	private ImageView editTextClearBtn;
+	private TextView editTextClearBtn;
 	private ProgressBar progressBar;
 	private String lastSearchQuery;
 	
@@ -191,7 +190,7 @@ public class SearchPageActivity
 
 		progressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
 
-		editTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
+		editTextClearBtn = (TextView) searchFieldView.findViewById(R.id.searchbar_clear);
 
 		editTextSearch = (InstantAutoCompleteView) searchFieldView.findViewById(R.id.searchbar_edittext);
 		editTextSearch.setActivity(this);
@@ -335,6 +334,7 @@ public class SearchPageActivity
 			{
 				editTextSearch.setText("");
 				editTextSearch.dismissDropDown();
+				editTextClearBtn.setVisibility(View.GONE);
 				break;
 			}
 			

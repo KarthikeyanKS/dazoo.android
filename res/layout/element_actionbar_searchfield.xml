@@ -44,20 +44,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-	     android:layout_marginRight="8dp"
+	    android:layout_marginRight="8dp"
         android:visibility="gone" />
-
-    <ImageView
-	     android:id="@+id/searchbar_clear"
-	     android:layout_width="28dp"
-	     android:layout_height="28dp"
-	     android:padding="5dp"
-	     android:layout_marginRight="4dp"
-	     android:layout_alignParentRight="true"
-	     android:layout_centerVertical="true"
-	     android:clickable="true"
-	     android:src="@drawable/cross_selector"
-	     android:background="@drawable/background_color_selector_cross"
-	     android:visibility="invisible" />
+    
+   
+    <com.mitv.ui.elements.FontTextView
+		android:id="@+id/searchbar_clear"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:padding="10dp"
+		android:background="@drawable/background_color_selector_cross"
+		android:textSize="20sp"
+		android:clickable="true"
+		android:text="@string/icon_clear_search"
+		android:textColor="@color/white"
+		android:visibility="invisible" 
+		font:fonttextview="roboto_mitv_medium.ttf" />
+    
 
 </RelativeLayout>

@@ -387,6 +387,16 @@ public class TrackingGAManager
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_SEARCH, searchQuery);
 	}
 	
+	public void sendUserTutorialExitEvent(int page) {
+		/* 5 pages of total between 0-4, therefore we add 1 */
+		page += 1;
+		
+		String labelPage = Integer.toString(page);
+		String label = "User left tutorial on page: " + labelPage;
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EXIT_TUTORIAL, label);
+	}
+	
 	public void sendUserMyChannelsPageSearchEvent(String searchedChannel) {
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH, searchedChannel);
 	}
