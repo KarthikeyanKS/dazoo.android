@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.managers.Appirater;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
@@ -152,7 +152,7 @@ public class ReminderView
 	{
 		TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, tvBroadcastWithChannelInfo, isSet);
 		
-		Appirater.significantEvent(activity);
+		RateAppManager.significantEvent(activity);
 		
 		if (isSet == false) 
 		{

@@ -16,7 +16,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
-import com.mitv.managers.Appirater;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
@@ -64,14 +64,11 @@ public class HomeActivity
 			hasShowWelcomeToast = false;			
 			
 			registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
-			
-			Appirater.appLaunched(this);
-			
 		} else {
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
-
 		
+		RateAppManager.appLaunched(this);
 	}
 	
 	

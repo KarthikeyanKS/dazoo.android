@@ -30,7 +30,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.managers.Appirater;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 
@@ -49,7 +49,7 @@ public abstract class GenericUtils
 			final Activity activity, 
 			final TVBroadcast broadcast) 
 	{
-		Appirater.significantEvent(activity);
+		RateAppManager.significantEvent(activity);
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(activity.getString(R.string.share_comment));

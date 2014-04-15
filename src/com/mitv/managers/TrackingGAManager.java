@@ -274,7 +274,21 @@ public class TrackingGAManager
 			sendUserEventWithLabelAndValue(action, dateString, (long) dayIndex);
 		}
 	}
+	
+	
 
+	public void sendUserPressedRateInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_RATE_BUTTON_PRESS);
+	}
+	
+	public void sendUserPressedRemindLaterInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_REMIND_BUTTON_PRESS);
+	}
+	
+	public void sendUserPressedNoThanksInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_NO_BUTTON_PRESS);
+	}
+	
 	public void sendUserPressedMenuButtonEvent() {
 		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_HARDWARE_BUTTON_MENU_PRESS);
 	}
