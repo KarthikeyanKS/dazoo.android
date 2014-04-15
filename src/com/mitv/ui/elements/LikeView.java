@@ -18,7 +18,7 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.managers.Appirater;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -118,7 +118,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	@Override
 	public void onClick(View v) 
 	{
-		Appirater.significantEvent(activity);
+		RateAppManager.significantEvent(activity);
 		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 

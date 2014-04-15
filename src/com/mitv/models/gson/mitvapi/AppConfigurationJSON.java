@@ -40,6 +40,8 @@ public class AppConfigurationJSON
 	/* Disqus comments configuration */
 	protected boolean areDisqusCommentsEnabled;
 	
+	protected boolean preventRateAppDialog;
+	
 	/* Cell count configuration */
 	protected int feedActivityCellCountBetweenAdCells;
 	protected int guideFragmentCellCountBetweenAdCells;
@@ -264,7 +266,9 @@ public class AppConfigurationJSON
 		return adsEnabled;
 	}
 
-
+	public boolean isPreventingRateAppDialog() {
+		return preventRateAppDialog;
+	}
 
 	public List<Integer> getAdzerkFormatsForAndroidGuide() {
 		return adzerkFormatsForAndroidGuide;

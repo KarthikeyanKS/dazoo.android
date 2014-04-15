@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.mitv.Constants;
 import com.mitv.R;
 
 /*	
@@ -28,7 +29,7 @@ import com.mitv.R;
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-public class Appirater {
+public class RateAppManager {
 
 	private static final String PREF_LAUNCH_COUNT = "launch_count";
 	private static final String PREF_EVENT_COUNT = "event_count";
@@ -94,9 +95,17 @@ public class Appirater {
 		}
 		
 		editor.commit();
+		
+		/* Show dialog if criteria is met */
+		tryShowRateDialog(context);
 	}
 	
 	private static void tryShowRateDialog(Context context) {
+		boolean preventRateAppDialog = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
+		if(preventRateAppDialog || !Constants.ENABLE_RATE_APP_DIALOG) {
+			return;
+		}
+		
 		boolean useAndInsteadOfOrAsBooleanOperatorBetweenEventAndDaysUntil = context.getResources().getBoolean(R.bool.appirator_use_logical_and_instead_of_or_for_event_and_days_until_condition);
 		boolean capNumberOfReminders = context.getResources().getBoolean(R.bool.appirator_cap_number_of_reminders);
 		int reminderCap = context.getResources().getInteger(R.integer.appirator_max_reminder_count);
@@ -198,6 +207,7 @@ public class Appirater {
 		Button rateButton = (Button) layout.findViewById(R.id.rate);
 		rateButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				TrackingGAManager.sharedInstance().sendUserPressedRateInRateDialogEvent();
 				rateApp(context, editor);
 				dialog.dismiss();
 			}
@@ -207,8 +217,8 @@ public class Appirater {
 		rateLaterButton.setText(context.getString(R.string.rate_later));
 		rateLaterButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				TrackingGAManager.sharedInstance().sendUserPressedRemindLaterInRateDialogEvent();
 				if (editor != null) {
-					
 					/* Update number of times "remind me later" has been pressed */
 					long reminderCount = prefs.getLong(PREF_REMINDER_COUNT, 0);
 					reminderCount++;
@@ -225,6 +235,7 @@ public class Appirater {
 		cancelButton.setText(context.getString(R.string.rate_cancel));
 		cancelButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				TrackingGAManager.sharedInstance().sendUserPressedNoThanksInRateDialogEvent();
 				if (editor != null) {
 					editor.putBoolean(PREF_DONT_SHOW, true);
 					editor.commit();
