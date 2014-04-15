@@ -41,15 +41,8 @@
                 android:layout_below="@id/broacastpage_repetitions"
                 android:layout_marginTop="10dp"
                 layout="@layout/block_broadcastpage_upcoming_or_repetition_layout" />
-            
-            <include
-                android:id="@+id/broacastpage_upcoming"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/broacastpage_repetitions"
-                android:layout_marginTop="10dp"
-                layout="@layout/block_broadcastpage_upcoming_or_repetition_layout" />
-            
+                        
+            <!-- BROADCASTS AIRING NOW ON OTHER CHANNELS -->
             <include
                 android:id="@+id/broacastpage_similar_airing_now"
                 android:layout_width="match_parent"

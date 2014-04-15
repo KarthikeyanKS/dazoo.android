@@ -67,10 +67,9 @@ public class TVChannelGuide
 	
 	
 	
-	// TODO
-	public List<TVBroadcast> getPlayingNow()
+	public TVBroadcast getBroadcastPlayingNow()
 	{
-		List<TVBroadcast> currentAndUpcomingbroadcasts = Collections.emptyList();
+		TVBroadcast currentlyAiringBroadcast = null;
 
 		int indexIfNotFound = -1;
 
@@ -78,10 +77,17 @@ public class TVChannelGuide
 
 		if (indexOfNearestBroadcast > indexIfNotFound) 
 		{
-			currentAndUpcomingbroadcasts = getBroadcastsFromPosition(indexOfNearestBroadcast);
+			TVBroadcast nearestBroadcast = broadcasts.get(indexOfNearestBroadcast);
+			
+			boolean isAiring = nearestBroadcast.isAiring();
+			
+			if(isAiring)
+			{
+				currentlyAiringBroadcast = nearestBroadcast;
+			}
 		}
 
-		return currentAndUpcomingbroadcasts;
+		return currentlyAiringBroadcast;
 	}
 	
 	

@@ -5,31 +5,29 @@ package com.mitv.activities;
 
 import java.util.ArrayList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
-import com.mitv.enums.BroadcastListAdapterTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.listadapters.UpcomingOrRepeatingBroadcastsListAdapter;
+import com.mitv.listadapters.NowAiringListAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 
 
-public abstract class RepetitionsOrUpcomingPage 
+public class NowAiringListMoreActivity 
 	extends BaseActivity
 {
-	private static final String TAG = RepetitionsOrUpcomingPage.class.getName();
+	@SuppressWarnings("unused")
+	private static final String TAG = NowAiringListMoreActivity.class.getName();
 
 	
 	private ListView listView;
-	private UpcomingOrRepeatingBroadcastsListAdapter listAdapter;
+	private NowAiringListAdapter listAdapter;
 	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
-	private BroadcastListAdapterTypeEnum broadcastListAdapterType;
 
 
 	
@@ -38,26 +36,17 @@ public abstract class RepetitionsOrUpcomingPage
 	{
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.layout_repeating_list_activity);
+		setContentView(R.layout.layout_now_airing_more_list);
 		
 		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		
-		if(this instanceof RepetitionsPageActivity) 
-		{
-			broadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(runningBroadcast);
+		broadcasts = ContentManager.sharedInstance().getFromCacheBroadcastsAiringNowOnDifferentChannels(runningBroadcast, false);
 			
-			broadcastListAdapterType = BroadcastListAdapterTypeEnum.PROGRAM_REPETITIONS;
-		} 
-		else
-		{
-			broadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(runningBroadcast);
-			
-			broadcastListAdapterType = BroadcastListAdapterTypeEnum.UPCOMING_BROADCASTS;
-		}
-		
 		initViews();
+		
 		loadData();
 	}
+	
 	
 	
 	private void initViews() 
@@ -68,33 +57,11 @@ public abstract class RepetitionsOrUpcomingPage
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		
-		String title;
-		
-		switch(broadcastListAdapterType)
-		{
-			case PROGRAM_REPETITIONS:
-			{
-				title = getString(R.string.repetitions);
-				break;
-			}
-			
-			case UPCOMING_BROADCASTS:
-			{
-				title = getString(R.string.upcoming_episodes);
-				break;
-			}
-						
-			default:
-			{
-				Log.w(TAG, "Unhnadled broadcast type enum");
-				title = "";
-				break;
-			}
-		}
-				
+		String title = getString(R.string.similar_broadcasts_airing_now);
+
 		actionBar.setTitle(title);
 		
-		listView = (ListView) findViewById(R.id.repeating_list_listview);
+		listView = (ListView) findViewById(R.id.broadcasts_now_airing_more_list_listview);
 	}
 	
 	
@@ -148,7 +115,7 @@ public abstract class RepetitionsOrUpcomingPage
 		{	
 			case SUCCESS_WITH_CONTENT:
 			{
-				listAdapter = new UpcomingOrRepeatingBroadcastsListAdapter(this, broadcasts, broadcastListAdapterType);
+				listAdapter = new NowAiringListAdapter(this, broadcasts);
 				listView.setAdapter(listAdapter);
 				listView.setVisibility(View.VISIBLE);
 				break;

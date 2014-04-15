@@ -27,10 +27,10 @@ public abstract class Constants
 		
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+	//public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+	//public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
@@ -48,7 +48,7 @@ public abstract class Constants
 	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
 	
 	
-	/* AMAZON INSIGHTS DEMO */
+	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
 	public static final String AMAZON_INSIGHTS_PUBLIC_KEY = "f2a04686bcc24285a46a7823300fcf1b";
 	public static final String AMAZON_INSIGHTS_PRIVATE_KEY = "7GCv830tpJAbqSC5BsXYwJ2S1JGto2Ej29wD99BQK6M=";

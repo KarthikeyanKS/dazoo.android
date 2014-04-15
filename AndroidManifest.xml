@@ -216,7 +216,17 @@
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-
+        
+        <!-- NOW AIRING LIST MORE PAGE -->
+        <activity
+            android:name="com.mitv.activities.NowAiringListMoreActivity"
+            android:launchMode="standard"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        
         <!-- CHANNEL PAGE -->
         <activity
             android:name="com.mitv.activities.ChannelPageActivity"

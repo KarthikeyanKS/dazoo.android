@@ -7,7 +7,7 @@
     android:orientation="vertical" >
 
     <com.mitv.ui.elements.FontTextView
-        android:id="@+id/block_tripple_broadcast_title_textview"
+        android:id="@+id/block_broadcast_airing_now_title_textview"
         style="@style/headercard2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,66 +17,66 @@
         android:layout_marginTop="10dp" />
 
     <!-- FIRST BROADCAST AIRING NOW  -->
-
     <include
-        android:id="@+id/block_broadcast_upcoming_one"
+        android:id="@+id/block_broadcast_airing_now_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_title_textview"
+        android:layout_below="@id/block_broadcast_airing_now_title_textview"
         layout="@layout/element_poster_broadcast_also_airing_now" />
 
     <View
-        android:id="@+id/block_tripple_broadcast_one_bottom_divider"
+        android:id="@+id/block_broadcast_airing_now_one_bottom_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/block_broadcast_upcoming_one"
+        android:layout_below="@id/block_broadcast_airing_now_one"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/grey1"
         android:visibility="gone" />
 
+    
     <!-- SECOND BROADCAST AIRING NOW  -->
-
     <include
-        android:id="@+id/block_broadcast_upcoming_two"
+        android:id="@+id/block_broadcast_airing_now_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_one_bottom_divider"
+        android:layout_below="@id/block_broadcast_airing_now_one_bottom_divider"
         layout="@layout/element_poster_broadcast_also_airing_now" />
 
     <View
-        android:id="@+id/block_tripple_broadcast_two_bottom_divider"
+        android:id="@+id/block_broadcast_airing_now_two_bottom_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/block_broadcast_upcoming_two"
+        android:layout_below="@id/block_broadcast_airing_now_two"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/grey1"
         android:visibility="gone" />
+    
 
     <!-- THIRD BROADCAST AIRING NOW -->
-
     <include
-        android:id="@+id/block_broadcast_upcoming_three"
+        android:id="@+id/block_broadcast_airing_now_three"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_two_bottom_divider"
+        android:layout_below="@id/block_broadcast_airing_now_two_bottom_divider"
         layout="@layout/element_poster_broadcast_also_airing_now" />
 
     <View
-        android:id="@+id/block_tripple_broadcast_three_bottom_divider"
+        android:id="@+id/block_broadcast_airing_now_three_bottom_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/block_broadcast_upcoming_three"
+        android:layout_below="@id/block_broadcast_airing_now_three"
         android:background="@color/grey1"
         android:visibility="gone" />
 
+    <!-- MORE ELEMENTS -->
     <com.mitv.ui.elements.FontTextView
-        android:id="@+id/block_tripple_broadcast_more_textview"
+        android:id="@+id/block_broadcast_airing_now_show_more_textview"
         style="@style/meta1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_three_bottom_divider"
+        android:layout_below="@id/block_broadcast_airing_now_three_bottom_divider"
         android:layout_centerVertical="true"
         android:background="@drawable/background_color_selector"
         android:gravity="left"
@@ -87,7 +87,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/block_tripple_broadcast_more_textview"
+        android:layout_below="@id/block_broadcast_airing_now_show_more_textview"
         android:background="@color/grey2" />
 
 </RelativeLayout>

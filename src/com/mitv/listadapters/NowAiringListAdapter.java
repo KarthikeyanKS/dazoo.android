@@ -50,29 +50,6 @@ public class NowAiringListAdapter
 	{
 		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		boolean foundRunningBroadcast = false;
-		
-		int indexOfRunningBroadcast = 0;
-		
-		for (int i = 0; i < broadcasts.size(); ++i) 
-		{
-			TVBroadcastWithChannelInfo upcomingBroadcast = broadcasts.get(i);
-			
-			if (upcomingBroadcast.isAiring())
-			{
-				foundRunningBroadcast = true;
-				
-				indexOfRunningBroadcast = i;
-				
-				break;
-			}
-		}
-
-		if (foundRunningBroadcast)
-		{
-			broadcasts.remove(indexOfRunningBroadcast);
-		}
-
 		this.broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(broadcasts);
 		
 		this.activity = activity;
@@ -125,7 +102,7 @@ public class NowAiringListAdapter
 
 		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) getItem(position);
 
-		if (rowView == null) 
+		if (rowView == null)
 		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
@@ -149,15 +126,7 @@ public class NowAiringListAdapter
 
 		if (broadcastWithChannelInfo != null) 
 		{
-			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) 
-			{
-				LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
-			} 
-			else 
-			{
-				holder.mDurationPb.setVisibility(View.GONE);
-				holder.mTimeLeftTv.setVisibility(View.GONE);
-			}
+			LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
 			
@@ -244,7 +213,7 @@ public class NowAiringListAdapter
 				
 				default: 
 				{
-					holder.mDescTv.setText("");
+					holder.mTitleTv.setText("");
 					holder.mDescTv.setText("");
 					break;
 				}

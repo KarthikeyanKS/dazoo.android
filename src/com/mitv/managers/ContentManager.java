@@ -1891,36 +1891,43 @@ public class ContentManager
 	
 	
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheBroadcastsAiringNowOnDifferentChannels(final TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheBroadcastsAiringNowOnDifferentChannels(
+			final TVBroadcastWithChannelInfo broadcastWithChannelInfo,
+			final boolean randomizeListElements) 
 	{
 		ArrayList<TVBroadcastWithChannelInfo> broadcastsPlayingNow = new ArrayList<TVBroadcastWithChannelInfo>();
 		
 		TVChannelId inputTvChannelId = broadcastWithChannelInfo.getChannel().getChannelId();
 		
-		List<TVChannel> tvChannels = getCache().getTvChannels();
+		List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 		
-		if(tvChannels != null && 
-		   tvChannels.isEmpty() == false)
+		if(tvChannelIds != null && 
+		   tvChannelIds.isEmpty() == false)
 		{
-			for(TVChannel tvChannel: tvChannels)
+			for(TVChannelId tvChannelId: tvChannelIds)
 			{
-				if(tvChannel.equals(inputTvChannelId) == false)
+				TVChannel tvChannel = getCache().getTVChannelById(tvChannelId);
+				
+				if(tvChannelId.equals(inputTvChannelId) == false && tvChannel != null)
 				{
-					TVChannelGuide tvChannelGuide = getCache().getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannel.getChannelId());
+					TVChannelGuide tvChannelGuide = getCache().getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
 			
-					List<TVBroadcast> tvBroadcastsPlayingNow = tvChannelGuide.getPlayingNow();
+					TVBroadcast tvBroadcastPlayingNow = tvChannelGuide.getBroadcastPlayingNow();
 					
-					List<TVBroadcastWithChannelInfo> tvBroadcastsWithChannelInfoPlayingNow = new ArrayList<TVBroadcastWithChannelInfo>();
-					
-					for(TVBroadcast tvBroadcast : tvBroadcastsPlayingNow)
+					if(tvBroadcastPlayingNow != null)
 					{
-						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo = new TVBroadcastWithChannelInfo(tvBroadcast);
-						tvBroadcastWithChannelInfo.setChannel(tvChannel);
+						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoPlayingNow = new TVBroadcastWithChannelInfo(tvBroadcastPlayingNow);
+						tvBroadcastWithChannelInfoPlayingNow.setChannel(tvChannel);
+						
+						broadcastsPlayingNow.add(tvBroadcastWithChannelInfoPlayingNow);
 					}
-					
-					broadcastsPlayingNow.addAll(tvBroadcastsWithChannelInfoPlayingNow);
 				}
 			}
+		}
+		
+		if(randomizeListElements)
+		{
+			Collections.shuffle(broadcastsPlayingNow);
 		}
 		
 		return broadcastsPlayingNow;
