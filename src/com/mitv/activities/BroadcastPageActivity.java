@@ -111,7 +111,7 @@ public class BroadcastPageActivity
 		
 		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
 		
-		if(areDisqusCommentsEnabled == false && Constants.FORCE_ENABLE_DISQUS_COMMENTS == false)
+		if(areDisqusCommentsEnabled == false)
 		{
 			hideDisqusCommentsWebview();
 		}
@@ -277,7 +277,7 @@ public class BroadcastPageActivity
 					
 					boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
 					
-					if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS && broadcastWithChannelInfo != null)
+					if(areDisqusCommentsEnabled && broadcastWithChannelInfo != null)
 					{
 						String contentID = broadcastWithChannelInfo.getShareUrl();
 						
