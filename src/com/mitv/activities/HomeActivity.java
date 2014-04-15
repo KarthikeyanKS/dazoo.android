@@ -52,15 +52,21 @@ public class HomeActivity
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_home_activity);
-
-		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-		selectedTagIndex = 0;
-		hasShowWelcomeToast = false;
 		
 		initLayout();
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		boolean isConnected = NetworkUtils.isConnected();
+		
+		if (isConnected) {
+			getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+			selectedTagIndex = 0;
+			hasShowWelcomeToast = false;			
+			
+			registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		} else {
+			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+		}
 		
 		RateAppManager.appLaunched(this);
 	}

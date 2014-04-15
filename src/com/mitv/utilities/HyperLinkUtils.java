@@ -1,4 +1,7 @@
+
 package com.mitv.utilities;
+
+
 
 import com.mitv.Constants;
 
@@ -7,8 +10,10 @@ import android.text.TextPaint;
 import android.text.style.URLSpan;
 import android.widget.TextView;
 
-public class HyperLinkUtils {
-	
+
+
+public class HyperLinkUtils 
+{	
 	private static class URLSpanWithoutUnderline extends URLSpan 
 	{
 		public URLSpanWithoutUnderline(String url) 

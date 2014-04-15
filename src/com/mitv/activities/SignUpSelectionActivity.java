@@ -49,7 +49,10 @@ public class SignUpSelectionActivity
 	
 	
 	@Override
-	protected void loadData() {/* Do nothing (no data to load on this activity) */}
+	protected void loadData() 
+	{
+		/* Do nothing (no data to load on this activity) */
+	}
 	
 	
 	
@@ -62,7 +65,10 @@ public class SignUpSelectionActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {/* Do nothing (no data to load on this activity) */}
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
+		/* Do nothing (no data to load on this activity) */
+	}
 	
 	
 	

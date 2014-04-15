@@ -1,3 +1,4 @@
+
 package com.mitv.activities;
 
 
@@ -12,14 +13,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
@@ -44,7 +45,6 @@ public class MyChannelsActivity
 	extends BaseActivityLoginRequired 
 	implements MyChannelsCountInterface, TextWatcher
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = MyChannelsActivity.class.getName();
 
 	private ListView listView;
@@ -80,9 +80,13 @@ public class MyChannelsActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 		
 		boolean isGoingToMyChannelsFromSearch = ContentManager.sharedInstance().isGoingToMyChannelsFromSearch();
-		if(isGoingToMyChannelsFromSearch) {
+		
+		if(isGoingToMyChannelsFromSearch) 
+		{
 			ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(false);
+			
 			TVChannelId selectedTVChannelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+			
 			selectedTVChannelFromSearch = ContentManager.sharedInstance().getFromCacheTVChannelById(selectedTVChannelId);
 		}
 	}
@@ -94,11 +98,12 @@ public class MyChannelsActivity
 		actionBar.setTitle(getString(R.string.myprofile_my_channels));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-
 		listView = (ListView) findViewById(R.id.listview);
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		listView.setOnItemClickListener(new OnItemClickListener() 
+		{
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) 
+			{
 				TrackingGAManager.sharedInstance().sendUserPressedChannelInMyChannelsActivity();
 			}
 		});
@@ -117,14 +122,18 @@ public class MyChannelsActivity
 		setSelectedChannelCount(checkedChannelIds.size());
 		
 		adapter = new MyChannelsListAdapter(this, channelsMatchingSearch, checkedChannelIds);
+		
 		listView.setAdapter(adapter);
+		
 		if (allChannelObjects != null && !allChannelObjects.isEmpty())
 		{
 			searchChannelField.addTextChangedListener(this);
-			if(selectedTVChannelFromSearch != null) {
+			
+			if(selectedTVChannelFromSearch != null) 
+			{
 				searchChannelField.setText(selectedTVChannelFromSearch.getName());
 			}
-		} 
+		}
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
@@ -132,6 +141,7 @@ public class MyChannelsActivity
 	}
 	
 
+	
 	@Override
 	public void onBackPressed() 
 	{
@@ -146,33 +156,53 @@ public class MyChannelsActivity
 	public void onPause() 
 	{
 		TrackingGAManager.sharedInstance().sendUserMyChannelsPageSearchEvent(search);
+		
 		updateMyChannels();
+		
 		super.onPause();
 	}
 	
 
-	private void updateMyChannels() {
-		if(channelsHaveChanged()) {
+	
+	private void updateMyChannels() 
+	{
+		if(channelsHaveChanged()) 
+		{
 			ArrayList<TVChannelId> tvChannelsForNewGuides = getOnlyNewTVChannelIds();
+			
 			ContentManager.sharedInstance().setNewTVChannelIdsAndFetchGuide(this, tvChannelsForNewGuides, checkedChannelIds);
 		}
 	}
 	
-	private ArrayList<TVChannelId> getOnlyNewTVChannelIds() {
+	
+	
+	private ArrayList<TVChannelId> getOnlyNewTVChannelIds() 
+	{
 		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		
 		ArrayList<TVChannelId> onlyNewTVChannelIdsIfAny = new ArrayList<TVChannelId>();
-		for(TVChannelId channelId : checkedChannelIds) {
-			if(!idsInCache.contains(channelId)) {
+		
+		for(TVChannelId channelId : checkedChannelIds) 
+		{
+			if(idsInCache.contains(channelId) == false)
+			{
 				onlyNewTVChannelIdsIfAny.add(channelId);
 			}
 		}
+		
 		return onlyNewTVChannelIdsIfAny;
 	}
 	
-	private boolean channelsHaveChanged() {
+	
+	
+	private boolean channelsHaveChanged() 
+	{
 		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		
 		boolean listIdentical = ListUtils.deepEquals(idsInCache, checkedChannelIds, new TVChannelIdComparatorById());
-		boolean channelsHaveChanged = !listIdentical;
+		
+		boolean channelsHaveChanged = (listIdentical == false);
+		
 		return channelsHaveChanged;
 	}
 
@@ -209,18 +239,17 @@ public class MyChannelsActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
+		boolean hasEnoughDataToShowContent = false;
+		
 		boolean isConnected = NetworkUtils.isConnected();
 
 		if (isConnected) 
 		{
-			boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasUserTVChannelIds()
+			hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasUserTVChannelIds()
 					 && ContentManager.sharedInstance().getFromCacheHasTVChannelsAll();
-			return hasEnoughDataToShowContent;
 		}
-		else
-		{
-			return false;
-		}
+		
+		return hasEnoughDataToShowContent;
 	}
 	
 	
@@ -269,6 +298,7 @@ public class MyChannelsActivity
 	}
 	
 	
+	
 	@Override
 	public void afterTextChanged(Editable editable)
 	{
@@ -290,8 +320,7 @@ public class MyChannelsActivity
 		channelsMatchingSearch.clear();
 		
 		if (!TextUtils.isEmpty(search)) 
-		{
-			
+		{		
 			editTextClearBtn.setVisibility(View.VISIBLE);
 			
 			/* Go through list of all channels and add channels which name contains the searched string */
@@ -325,7 +354,9 @@ public class MyChannelsActivity
 	{
 		super.onClick(v);
 
-		switch (v.getId()) 
+		int viewID = v.getId();
+		
+		switch(viewID) 
 		{
 			case R.id.searchbar_clear_x: 
 			{
@@ -338,12 +369,20 @@ public class MyChannelsActivity
 				imm.hideSoftInputFromWindow(searchChannelField.getWindowToken(), 0);
 				break;
 			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick id");
+				break;
+			}
 		}
 	}
 
+	
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+	
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {}
 }

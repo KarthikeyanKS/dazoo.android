@@ -325,7 +325,6 @@ public class TVGuideListAdapter
 				holder.textView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 
 			}
-			//If there is no data, show message "No content is available". TODO: What to do here?
 			else 
 			{
 				holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");

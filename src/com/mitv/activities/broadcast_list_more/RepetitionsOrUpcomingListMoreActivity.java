@@ -1,5 +1,5 @@
 
-package com.mitv.activities;
+package com.mitv.activities.broadcast_list_more;
 
 
 
@@ -42,7 +42,7 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 		
 		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		
-		if(this instanceof RepetitionsPageActivity) 
+		if(this instanceof RepetitionsListMoreActivity) 
 		{
 			broadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(runningBroadcast);
 			

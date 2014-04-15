@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.APIClient;
-import com.mitv.Cache;
 import com.mitv.ListenerHolder;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -27,6 +26,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.models.Cache;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.models.objects.disqus.DisqusThreadDetails;
@@ -1336,7 +1336,6 @@ public class ContentManager
 	{
 		if (result.wasSuccessful() && content != null)
 		{
-			// TODO NewArc - Refactor to SignUpCompleteData object instead?
 			UserLoginData userData = (UserLoginData) content;
 			getCache().setUserData(userData);
 
@@ -1835,25 +1834,37 @@ public class ContentManager
 	
 	/* NON-PERSISTENT USER DATA, TEMPORARY SAVED IN STORAGE, IN ORDER TO PASS DATA BETWEEN ACTIVITES */
 	
-	public void setUpcomingBroadcasts(TVBroadcastWithChannelInfo broadcast, ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) 
+	public void setUpcomingBroadcasts(final TVBroadcastWithChannelInfo broadcast, final ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) 
 	{
-		//TODO NewArc check if null
-		String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
+		if(broadcast != null)
+		{
+			String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
 		
-		UpcomingBroadcastsForBroadcast upcomingBroadcastsObject = new UpcomingBroadcastsForBroadcast(tvSeriesId, upcomingBroadcasts);
+			UpcomingBroadcastsForBroadcast upcomingBroadcastsObject = new UpcomingBroadcastsForBroadcast(tvSeriesId, upcomingBroadcasts);
 		
-		getCache().setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
+			getCache().setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
+		}
+		else
+		{
+			Log.w(TAG, "Broadcast is null");
+		}
 	}
 	
 	
 	public void setRepeatingBroadcasts(TVBroadcastWithChannelInfo broadcast, ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts) 
 	{
-		//TODO NewArc check if null
-		String programId = broadcast.getProgram().getProgramId();
-		
-		RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(programId, repeatingBroadcasts);
-		
-		getCache().setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
+		if(broadcast != null)
+		{
+			String programId = broadcast.getProgram().getProgramId();
+			
+			RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(programId, repeatingBroadcasts);
+			
+			getCache().setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
+		}
+		else
+		{
+			Log.w(TAG, "Broadcast is null");
+		}
 	}
 	
 	
@@ -1956,19 +1967,27 @@ public class ContentManager
 	 */
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
 	{
-		//TODO NewArc check if null
-		String programId = broadcast.getProgram().getProgramId();
-		
 		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = null;
-		
-		if(getCache().containsRepeatingBroadcastsForBroadcast(programId)) 
+	
+		if(broadcast != null)
 		{
-			RepeatingBroadcastsForBroadcast repeatingBroadcastObject = getCache().getNonPersistentRepeatingBroadcasts();
+			String programId = broadcast.getProgram().getProgramId();
 			
-			if(repeatingBroadcastObject != null) 
+			
+			
+			if(getCache().containsRepeatingBroadcastsForBroadcast(programId)) 
 			{
-				repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcastsWithExclusions(broadcast);
+				RepeatingBroadcastsForBroadcast repeatingBroadcastObject = getCache().getNonPersistentRepeatingBroadcasts();
+				
+				if(repeatingBroadcastObject != null) 
+				{
+					repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcastsWithExclusions(broadcast);
+				}
 			}
+		}
+		else
+		{
+			Log.w(TAG, "Broadcast is null");
 		}
 		
 		return repeatingBroadcasts;

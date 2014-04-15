@@ -65,7 +65,7 @@ public class ResetPasswordSendEmailActivity
 		
 		if(!TextUtils.isEmpty(email) && RegularExpressionUtils.checkEmail(email)) 
 		{
-			emailResetPasswordEditText.setEnabled(false); //TODO NewArc do we need to disable the edit text field???
+			emailResetPasswordEditText.setEnabled(false);
 		
 			updateUI(UIStatusEnum.LOADING);
 			

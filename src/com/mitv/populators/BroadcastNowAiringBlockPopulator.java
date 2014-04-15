@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.activities.NowAiringListMoreActivity;
+import com.mitv.activities.broadcast_list_more.NowAiringListMoreActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
@@ -28,10 +28,10 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class NowAiringBroadcastPopulator 
+public class BroadcastNowAiringBlockPopulator 
 	implements OnClickListener 
 {
-	private static String TAG = NowAiringBroadcastPopulator.class.getName();
+	private static String TAG = BroadcastNowAiringBlockPopulator.class.getName();
 
 	
 	private static final int TOTAL_SHOWS_IN_INITIAL_LIST = 3;
@@ -49,7 +49,7 @@ public class NowAiringBroadcastPopulator
 
 	
 	
-	public NowAiringBroadcastPopulator(
+	public BroadcastNowAiringBlockPopulator(
 			final Activity activity, 
 			final RelativeLayout containerView,
 			final TVBroadcastWithChannelInfo runningBroadcast)

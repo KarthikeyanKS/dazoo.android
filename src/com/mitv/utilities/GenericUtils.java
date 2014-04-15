@@ -7,7 +7,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -43,33 +42,6 @@ public abstract class GenericUtils
 	
 	
 	private static final String TEXT_PLAIN = "text/plain";
-	
-	
-	
-	public static int getRandomNumberBetween() 
-	{
-		return getRandomNumberBetween(0, Integer.MAX_VALUE);
-	}
-	
-	
-	
-	public static int getRandomNumberBetween(
-			final int min,
-			final int max) 
-	{
-        Random foo = new Random();
-        
-        int randomNumber = foo.nextInt(max - min) + min;
-        
-        if(randomNumber == min) 
-        {
-            return min + 1;
-        }
-        else 
-        {
-            return randomNumber;
-        }
-    }
 	
 	
 	
@@ -445,11 +417,26 @@ public abstract class GenericUtils
 		return densityDpi;
 	}
 	
+
 	
-	
-	/* Only use when adding a new computer to Facebook */
-	public static void logFacebookKeyHash(final Context context)
+	public static int convertDPToPixels(final int valueInDP) 
 	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+	    float scale = context.getResources().getDisplayMetrics().density;
+	  
+	    int valueInPixels = (int) (valueInDP * scale + 0.5f);
+	    
+	    return valueInPixels;
+	}
+	
+	
+	
+	/* Only used when adding a new computer to Facebook */
+	public static void logFacebookKeyHash()
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		PackageInfo info;
 		
 		try 
