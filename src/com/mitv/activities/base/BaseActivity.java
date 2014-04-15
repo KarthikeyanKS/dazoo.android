@@ -131,7 +131,11 @@ public abstract class BaseActivity
 			
 			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
 				
-				restartTheApp();
+				boolean isConnected = NetworkUtils.isConnected();
+				
+				if (isConnected) {
+					restartTheApp();
+				}
 				
 			} else {
 				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");

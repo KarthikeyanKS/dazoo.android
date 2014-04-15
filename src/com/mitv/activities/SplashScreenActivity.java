@@ -203,6 +203,15 @@ public class SplashScreenActivity
 				break;
 			}
 			
+			case NO_CONNECTION_AVAILABLE:
+			{				
+				if (!isViewingTutorial) {
+					startPrimaryActivity();
+				}
+				
+				break;
+			}
+			
 			default:
 			{
 				boolean isLocalDeviceCalendarOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
@@ -251,7 +260,9 @@ public class SplashScreenActivity
 	
 	
 	private void showSplashScreen() 
-	{		
+	{
+		isViewingTutorial = false;
+		
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
@@ -369,9 +380,14 @@ public class SplashScreenActivity
 				skipButtonContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				skipButtonProgressBar.setVisibility(View.VISIBLE);
 				
-				TrackingManager.sharedInstance().sendUserTutorialExitEvent(mPager.getCurrentItem());
+				boolean isConnected = NetworkUtils.isConnected();
 				
+				if (isConnected) {
+					TrackingManager.sharedInstance().sendUserTutorialExitEvent(mPager.getCurrentItem());				
+				}
+
 				finishTutorial();
+				
 				break;
 			}
 			
@@ -380,9 +396,14 @@ public class SplashScreenActivity
 				startPrimaryActivityContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				startPrimaryButtonProgressBar.setVisibility(View.VISIBLE);
 				
-				TrackingManager.sharedInstance().sendUserTutorialExitEvent(PAGE5);
+				boolean isConnected = NetworkUtils.isConnected();
+				
+				if (isConnected) {
+					TrackingManager.sharedInstance().sendUserTutorialExitEvent(PAGE5);				
+				}
 				
 				finishTutorial();
+				
 				break;
 			}
 			
@@ -401,14 +422,18 @@ public class SplashScreenActivity
 		
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
 		
-		if (isDataFetched) 
-		{
-			startPrimaryActivity();	
-		} 
-		else 
-		{
+		boolean isConnected = NetworkUtils.isConnected();
+		
+		if (isDataFetched) {
+			startPrimaryActivity();
+			
+		} else {
 			waitingForData = true;
 			isViewingTutorial = false;
+			
+			if (!isConnected) {
+				startPrimaryActivity();
+			}
 		}
 	}
 	
