@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.activities.broadcast_list_more.NowAiringListMoreActivity;
+import com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
@@ -28,10 +28,10 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class BroadcastNowAiringBlockPopulator 
+public class BroadcastAiringOnDifferentChannelBlockPopulator 
 	implements OnClickListener 
 {
-	private static String TAG = BroadcastNowAiringBlockPopulator.class.getName();
+	private static String TAG = BroadcastAiringOnDifferentChannelBlockPopulator.class.getName();
 
 	
 	private static final int TOTAL_SHOWS_IN_INITIAL_LIST = 3;
@@ -49,7 +49,7 @@ public class BroadcastNowAiringBlockPopulator
 
 	
 	
-	public BroadcastNowAiringBlockPopulator(
+	public BroadcastAiringOnDifferentChannelBlockPopulator(
 			final Activity activity, 
 			final RelativeLayout containerView,
 			final TVBroadcastWithChannelInfo runningBroadcast)
@@ -150,7 +150,15 @@ public class BroadcastNowAiringBlockPopulator
 			
 			if (broadcastWithChannelInfo != null) 
 			{
-				LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, durationPb, timeLeftTv);
+				if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) 
+				{
+					LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, durationPb, timeLeftTv);
+				} 
+				else 
+				{
+					durationPb.setVisibility(View.GONE);
+					timeLeftTv.setVisibility(View.GONE);
+				}
 
 				ImageAware imageAware = new ImageViewAware(imageIv, false);
 				
@@ -307,7 +315,7 @@ public class BroadcastNowAiringBlockPopulator
 			{
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(runningBroadcast);
 				
-				Intent intent = new Intent(activity, NowAiringListMoreActivity.class);
+				Intent intent = new Intent(activity, AiringOnDifferentChannelListMoreActivity.class);
 
 				activity.startActivity(intent);
 			}

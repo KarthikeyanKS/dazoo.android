@@ -41,7 +41,7 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
-import com.mitv.populators.BroadcastNowAiringBlockPopulator;
+import com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
@@ -250,7 +250,7 @@ public class BroadcastPageActivity
 			upcomingBroadcasts = filterOutEpisodesWithBadData();
 		}
 		
-		similarBroadcastsAiringNow = ContentManager.sharedInstance().getFromCacheBroadcastsAiringNowOnDifferentChannels(broadcastWithChannelInfo, true);
+		similarBroadcastsAiringNow = ContentManager.sharedInstance().getFromCacheBroadcastsAiringOnDifferentChannels(broadcastWithChannelInfo, true);
 	}
 
 	
@@ -469,7 +469,7 @@ public class BroadcastPageActivity
 		
 		if (similarBroadcastsAiringNow != null && !similarBroadcastsAiringNow.isEmpty()) 
 		{
-			BroadcastNowAiringBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastNowAiringBlockPopulator(this, nowAiringContainer, broadcastWithChannelInfo);
+			BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(this, nowAiringContainer, broadcastWithChannelInfo);
 			similarBroadcastsAiringNowBlock.createBlock(similarBroadcastsAiringNow);
 			nowAiringContainer.setVisibility(View.VISIBLE);
 		}

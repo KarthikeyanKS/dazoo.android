@@ -1902,9 +1902,9 @@ public class ContentManager
 	
 	
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheBroadcastsAiringNowOnDifferentChannels(
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheBroadcastsAiringOnDifferentChannels(
 			final TVBroadcastWithChannelInfo broadcastWithChannelInfo,
-			final boolean randomizeListElements) 
+			final boolean randomizeListElements)
 	{
 		ArrayList<TVBroadcastWithChannelInfo> broadcastsPlayingNow = new ArrayList<TVBroadcastWithChannelInfo>();
 		
@@ -1923,11 +1923,14 @@ public class ContentManager
 				{
 					TVChannelGuide tvChannelGuide = getCache().getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
 			
-					TVBroadcast tvBroadcastPlayingNow = tvChannelGuide.getBroadcastPlayingNow();
+					List<TVBroadcast> tvBroadcastsPlayingOnChannel = tvChannelGuide.getBroadcastPlayingBetween(broadcastWithChannelInfo.getBeginTimeCalendarLocal(), broadcastWithChannelInfo.getEndTimeCalendarLocal());
 					
-					if(tvBroadcastPlayingNow != null)
+					if(tvBroadcastsPlayingOnChannel.isEmpty() == false)
 					{
-						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoPlayingNow = new TVBroadcastWithChannelInfo(tvBroadcastPlayingNow);
+						/* Only use the first of each channel */
+						TVBroadcast tvBroadcastPlayingOnChannel = tvBroadcastsPlayingOnChannel.get(0);
+						
+						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoPlayingNow = new TVBroadcastWithChannelInfo(tvBroadcastPlayingOnChannel);
 						tvBroadcastWithChannelInfoPlayingNow.setChannel(tvChannel);
 						
 						broadcastsPlayingNow.add(tvBroadcastWithChannelInfoPlayingNow);

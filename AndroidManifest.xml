@@ -219,7 +219,7 @@
         
         <!-- LIST MORE BROADCASTS NOW AIRING PAGE -->
         <activity
-            android:name="com.mitv.activities.broadcast_list_more.NowAiringListMoreActivity"
+            android:name="com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity"
             android:launchMode="standard"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"

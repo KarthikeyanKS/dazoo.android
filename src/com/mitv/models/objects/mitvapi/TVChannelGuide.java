@@ -67,27 +67,24 @@ public class TVChannelGuide
 	
 	
 	
-	public TVBroadcast getBroadcastPlayingNow()
+	public List<TVBroadcast> getBroadcastPlayingBetween(
+			final Calendar inputBegin,
+			final Calendar inputEnd)
 	{
-		TVBroadcast currentlyAiringBroadcast = null;
+		ArrayList<TVBroadcast> airingBroadcasts = new ArrayList<TVBroadcast>();
 
-		int indexIfNotFound = -1;
-
-		int indexOfNearestBroadcast = getClosestBroadcastIndex(indexIfNotFound);
-
-		if (indexOfNearestBroadcast > indexIfNotFound) 
+		for(TVBroadcast broadcast : broadcasts)
 		{
-			TVBroadcast nearestBroadcast = broadcasts.get(indexOfNearestBroadcast);
+			Calendar broadcastBegin = broadcast.getBeginTimeCalendarLocal();
+			Calendar broadcastEnd = broadcast.getEndTimeCalendarLocal();
 			
-			boolean isAiring = nearestBroadcast.isAiring();
-			
-			if(isAiring)
+			if(broadcastBegin.after(inputBegin) && broadcastEnd.before(inputEnd) && broadcast.hasEnded() == false)
 			{
-				currentlyAiringBroadcast = nearestBroadcast;
+				airingBroadcasts.add(broadcast);
 			}
 		}
-
-		return currentlyAiringBroadcast;
+		
+		return airingBroadcasts;
 	}
 	
 	
