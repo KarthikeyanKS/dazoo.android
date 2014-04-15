@@ -11,6 +11,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
@@ -21,6 +23,8 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.models.objects.mitvapi.TVGuide;
+import com.mitv.models.objects.mitvapi.TVProgram;
+import com.mitv.models.objects.mitvapi.TVSeries;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
@@ -286,6 +290,8 @@ public abstract class PersistentCache
 		if(userLikes != null)
 		{
 			userLikes.remove(userLikeToRemove);
+			
+			deleteFeedItemUsingLike(userLikeToRemove);
 		}
 		else
 		{
@@ -551,6 +557,27 @@ public abstract class PersistentCache
 		}
 		
 		activityFeed.addAll(additionalActivityFeedItems);
+	}
+	
+	private void deleteFeedItemUsingLike(UserLike like) {
+		
+		ArrayList<TVFeedItem> feedItemsToDelete = new ArrayList<TVFeedItem>();
+		
+		for(TVFeedItem feedItem : activityFeed) {
+			if(feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+				TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
+				
+				TVProgram program = broadcast.getProgram();
+				String contentIdFromProgram = UserLike.getContentIdFromTVProgram(program);
+				
+				if(contentIdFromProgram.equals(like.getContentId())) {
+					feedItemsToDelete.add(feedItem);
+				}
+			}
+		}
+		
+
+		activityFeed.removeAll(feedItemsToDelete);
 	}
 
 	
