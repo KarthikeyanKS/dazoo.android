@@ -45,7 +45,7 @@ public abstract class Constants
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
-	public static final boolean ENABLE_RATE_APP_DIALOG = false;
+	public static final boolean ENABLE_RATE_APP_DIALOG = true;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */

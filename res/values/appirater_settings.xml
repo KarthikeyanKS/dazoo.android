@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Change the market_url for other markets i.e. Amazon App Store
+
+    <!--
+         Change the market_url for other markets i.e. Amazon App Store
     	Google Play = market://details?id=%s
     	Amazon App Store = http://www.amazon.com/gp/mas/dl/android?p=%s
-     -->
+    -->
     <string name="appirator_market_url">market://details?id=%s</string>
+
+    <!-- Change to true to show every time, for testing -->
+    <bool name="appirator_test_mode">false</bool>
+
     <integer name="appirator_days_until_prompt">14</integer>
     <integer name="appirator_launches_until_prompt">5</integer>
     
-    <integer name="appirator_events_until_prompt">2</integer>
-    
-    <bool name="appirator_use_logical_and_instead_of_or_for_event_and_days_until_condition">false</bool>
-    
     <bool name="appirator_cap_number_of_reminders">true</bool>
     
-      <!-- Only relevant if capping number of reminders -->
+    <!-- Only relevant if capping number of reminders -->
     <integer name="appirator_max_reminder_count">3</integer>
-    
+
     <!-- Set this to 0 to remind every launch -->
     <integer name="appirator_days_before_reminding">3</integer>
     
-    <!-- Change to true to show every time, for testing -->
-    <bool name="appirator_test_mode">false</bool>
+    <!-- SETTINGS NOT BEING USED -->
+    <integer name="appirator_events_until_prompt">10</integer>
 </resources>
