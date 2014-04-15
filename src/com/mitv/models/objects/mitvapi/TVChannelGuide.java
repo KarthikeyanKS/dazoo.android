@@ -65,7 +65,33 @@ public class TVChannelGuide
 		return currentAndUpcomingbroadcasts;
 	}
 	
+	
+	
+	public TVBroadcast getBroadcastPlayingNow()
+	{
+		TVBroadcast currentlyAiringBroadcast = null;
 
+		int indexIfNotFound = -1;
+
+		int indexOfNearestBroadcast = getClosestBroadcastIndex(indexIfNotFound);
+
+		if (indexOfNearestBroadcast > indexIfNotFound) 
+		{
+			TVBroadcast nearestBroadcast = broadcasts.get(indexOfNearestBroadcast);
+			
+			boolean isAiring = nearestBroadcast.isAiring();
+			
+			if(isAiring)
+			{
+				currentlyAiringBroadcast = nearestBroadcast;
+			}
+		}
+
+		return currentlyAiringBroadcast;
+	}
+	
+	
+	
 	public ArrayList<TVBroadcast> getBroadcastsFromPosition(
 			final int startIndex,
 			final int maximumBrodacasts) 

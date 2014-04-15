@@ -64,7 +64,7 @@ public class SplashScreenActivity
 	private TextView splash_button;
 	private TextView next_button;
 	
-	CirclePageIndicator titleIndicator;
+	private CirclePageIndicator titleIndicator;
 	
 	private static final int PAGE1 = 0;
 	private static final int PAGE2 = 1;

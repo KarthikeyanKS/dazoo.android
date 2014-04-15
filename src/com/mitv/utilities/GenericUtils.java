@@ -31,9 +31,9 @@ import android.view.inputmethod.InputMethodManager;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.Appirater;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
-import com.sbstrm.appirater.Appirater;
 
 
 
