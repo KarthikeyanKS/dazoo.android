@@ -12,6 +12,11 @@
     
     <bool name="appirator_use_logical_and_instead_of_or_for_event_and_days_until_condition">false</bool>
     
+    <bool name="appirator_cap_number_of_reminders">true</bool>
+    
+      <!-- Only relevant if capping number of reminders -->
+    <integer name="appirator_max_reminder_count">3</integer>
+    
     <!-- Set this to 0 to remind every launch -->
     <integer name="appirator_days_before_reminding">3</integer>
     

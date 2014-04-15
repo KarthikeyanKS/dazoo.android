@@ -32,12 +32,14 @@ public class Appirater {
 
 	private static final String PREF_LAUNCH_COUNT = "launch_count";
 	private static final String PREF_EVENT_COUNT = "event_count";
+	private static final String PREF_REMINDER_COUNT = "reminder_count";
 	private static final String PREF_RATE_CLICKED = "rateclicked";
 	private static final String PREF_DONT_SHOW = "dontshow";
 	private static final String PREF_DATE_REMINDER_PRESSED = "date_reminder_pressed";
 	private static final String PREF_DATE_FIRST_LAUNCHED = "date_firstlaunch";
 	private static final String PREF_APP_VERSION_CODE = "versioncode";
 	private static final String PREFS_NAME = ".appirater";
+
 
 	private static SharedPreferences getSharedPrefs(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + PREFS_NAME, 0);
@@ -46,8 +48,7 @@ public class Appirater {
 
 	public static void appLaunched(Context context) {
 		boolean testMode = context.getResources().getBoolean(R.bool.appirator_test_mode);
-		boolean useAndInsteadOfOrAsBooleanOperatorBetweenEventAndDaysUntil = context.getResources().getBoolean(R.bool.appirator_use_logical_and_instead_of_or_for_event_and_days_until_condition);
-
+	
 		SharedPreferences prefs = getSharedPrefs(context);
 		if (!testMode && (prefs.getBoolean(PREF_DONT_SHOW, false) || prefs.getBoolean(PREF_RATE_CLICKED, false))) {
 			return;
@@ -56,50 +57,73 @@ public class Appirater {
 		SharedPreferences.Editor editor = prefs.edit();
 
 		if (testMode) {
-			showRateDialog(context, editor);
+			showRateDialog(context);
 			return;
 		}
 
 		// Increment launch counter
-		long launch_count = prefs.getLong(PREF_LAUNCH_COUNT, 0);
+		long launchCount = prefs.getLong(PREF_LAUNCH_COUNT, 0);
 
 		// Get events counter
-		long event_count = prefs.getLong(PREF_EVENT_COUNT, 0);
+		long eventCount = prefs.getLong(PREF_EVENT_COUNT, 0);
 
 		// Get date of first launch
-		long date_firstLaunch = prefs.getLong(PREF_DATE_FIRST_LAUNCHED, 0);
-
-		// Get reminder date pressed
-		long date_reminder_pressed = prefs.getLong(PREF_DATE_REMINDER_PRESSED, 0);
+		long dateFirstLaunch = prefs.getLong(PREF_DATE_FIRST_LAUNCHED, 0);
 
 		try {
 			int appVersionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
 			if (prefs.getInt(PREF_APP_VERSION_CODE, 0) != appVersionCode) {
-				// Reset the launch and event counters to help assure users are rating based on the latest version.
-				launch_count = 0;
-				event_count = 0;
-				editor.putLong(PREF_EVENT_COUNT, event_count);
+				// Reset the launch, reminder and event counters to help assure users are rating based on the latest version.
+				launchCount = 0;
+				eventCount = 0;
+				editor.putLong(PREF_EVENT_COUNT, eventCount);
+				editor.putLong(PREF_LAUNCH_COUNT, launchCount);
+				editor.putLong(PREF_REMINDER_COUNT, 0);
 			}
 			editor.putInt(PREF_APP_VERSION_CODE, appVersionCode);
 		} catch (Exception e) {
 			// do nothing
 		}
 
-		launch_count++;
-		editor.putLong(PREF_LAUNCH_COUNT, launch_count);
+		launchCount++;
+		editor.putLong(PREF_LAUNCH_COUNT, launchCount);
 
-		if (date_firstLaunch == 0) {
-			date_firstLaunch = System.currentTimeMillis();
-			editor.putLong(PREF_DATE_FIRST_LAUNCHED, date_firstLaunch);
+		if (dateFirstLaunch == 0) {
+			dateFirstLaunch = System.currentTimeMillis();
+			editor.putLong(PREF_DATE_FIRST_LAUNCHED, dateFirstLaunch);
 		}
+		
+		editor.commit();
+	}
+	
+	private static void tryShowRateDialog(Context context) {
+		boolean useAndInsteadOfOrAsBooleanOperatorBetweenEventAndDaysUntil = context.getResources().getBoolean(R.bool.appirator_use_logical_and_instead_of_or_for_event_and_days_until_condition);
+		boolean capNumberOfReminders = context.getResources().getBoolean(R.bool.appirator_cap_number_of_reminders);
+		int reminderCap = context.getResources().getInteger(R.integer.appirator_max_reminder_count);
+		
+		SharedPreferences prefs = getSharedPrefs(context);
+		
+		long launchCount = prefs.getLong(PREF_LAUNCH_COUNT, 0);
 
+		// Get events counter
+		long eventCount = prefs.getLong(PREF_EVENT_COUNT, 0);
+
+		// Get date of first launch
+		long dateFirstLaunch = prefs.getLong(PREF_DATE_FIRST_LAUNCHED, 0);
+
+		// Get reminder date pressed
+		long dateReminderPressed = prefs.getLong(PREF_DATE_REMINDER_PRESSED, 0);
+		
+		// Get reminder counter
+		long reminderCount = prefs.getLong(PREF_REMINDER_COUNT, 0);
+		
 		// Wait at least n days or m events before opening
-		if (launch_count >= context.getResources().getInteger(R.integer.appirator_launches_until_prompt)) {
+		if (launchCount >= context.getResources().getInteger(R.integer.appirator_launches_until_prompt)) {
 			long millisecondsToWait = context.getResources().getInteger(R.integer.appirator_days_until_prompt) * 24 * 60 * 60 * 1000L;
 
 			boolean showDialog;
-			boolean enoughDaysHavePassed = (System.currentTimeMillis() >= (date_firstLaunch + millisecondsToWait));
-			boolean enoughEventsHaveHappened = (event_count >= context.getResources().getInteger(R.integer.appirator_events_until_prompt));
+			boolean enoughDaysHavePassed = (System.currentTimeMillis() >= (dateFirstLaunch + millisecondsToWait));
+			boolean enoughEventsHaveHappened = (eventCount >= context.getResources().getInteger(R.integer.appirator_events_until_prompt));
 
 			if (useAndInsteadOfOrAsBooleanOperatorBetweenEventAndDaysUntil) {
 				showDialog = enoughDaysHavePassed && enoughEventsHaveHappened;
@@ -108,18 +132,28 @@ public class Appirater {
 			}
 
 			if (showDialog) {
-				if (date_reminder_pressed == 0) {
-					showRateDialog(context, editor);
-				} else {
+				if(dateReminderPressed > 0) {
 					long remindMillisecondsToWait = context.getResources().getInteger(R.integer.appirator_days_before_reminding) * 24 * 60 * 60 * 1000L;
-					if (System.currentTimeMillis() >= (remindMillisecondsToWait + date_reminder_pressed)) {
-						showRateDialog(context, editor);
+	
+					boolean enoughTimePassedSinceLastReminder = (System.currentTimeMillis() >= (remindMillisecondsToWait + dateReminderPressed));
+					
+					if(enoughTimePassedSinceLastReminder) {
+						if(capNumberOfReminders) {
+							boolean reminderAmountCapReached = reminderCount >= reminderCap; //TODO read from prefs
+							if(reminderAmountCapReached) {
+								showDialog = false;
+							}
+						}
+					} else {
+						showDialog = false;
 					}
 				}
 			}
+			
+			if (showDialog) {
+				showRateDialog(context);
+			}
 		}
-
-		editor.commit();
 	}
 
 	public static void rateApp(Context context) {
@@ -136,9 +170,12 @@ public class Appirater {
 			return;
 		}
 
-		long event_count = prefs.getLong(PREF_EVENT_COUNT, 0);
-		event_count++;
-		prefs.edit().putLong(PREF_EVENT_COUNT, event_count).apply();
+		long eventCount = prefs.getLong(PREF_EVENT_COUNT, 0);
+		eventCount++;
+		prefs.edit().putLong(PREF_EVENT_COUNT, eventCount).apply();
+		
+		/* Show dialog if criteria is met */
+		tryShowRateDialog(context);
 	}
 
 	private static void rateApp(Context context, final SharedPreferences.Editor editor) {
@@ -150,7 +187,10 @@ public class Appirater {
 	}
 
 	@SuppressLint("NewApi")
-	private static void showRateDialog(final Context context, final SharedPreferences.Editor editor) {
+	private static void showRateDialog(final Context context) {
+		final SharedPreferences prefs = getSharedPrefs(context);
+		final SharedPreferences.Editor editor = prefs.edit();
+		
 		final Dialog dialog = new Dialog(context);
 
 		LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.appirater, null);
@@ -168,6 +208,12 @@ public class Appirater {
 		rateLaterButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (editor != null) {
+					
+					/* Update number of times "remind me later" has been pressed */
+					long reminderCount = prefs.getLong(PREF_REMINDER_COUNT, 0);
+					reminderCount++;
+					editor.putLong(PREF_REMINDER_COUNT, reminderCount);
+					
 					editor.putLong(PREF_DATE_REMINDER_PRESSED, System.currentTimeMillis());
 					editor.commit();
 				}

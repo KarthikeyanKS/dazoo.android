@@ -23,7 +23,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:text="@string/rate_title"
-        android:textColor="@color/blue3"
+        android:textColor="@color/blue2"
         android:textSize="28sp"
         font:fonttextview="chunkfive.otf" />
 
