@@ -147,6 +147,7 @@ public class UserProfileActivity
 				// Do nothing
 				break;
 			}
+			
 			case USER_LIKES:
 			case TV_GUIDE_STANDALONE:
 			{
@@ -160,6 +161,7 @@ public class UserProfileActivity
 				}
 				break;
 			}
+			
 			case TV_GUIDE_INITIAL_CALL:
 			{
 				if (fetchRequestResult.wasSuccessful()) 
@@ -367,6 +369,7 @@ public class UserProfileActivity
 			userLikesSB.append("(");
 			userLikesSB.append(userLikes.size());
 			userLikesSB.append(")");
+			
 			likesCountTv.setText(userLikesSB.toString());
 			likesCountTv.setVisibility(View.VISIBLE);
 		} 
@@ -384,16 +387,18 @@ public class UserProfileActivity
 		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
 		super.onClick(v);
 
-		int id = v.getId();
+		int viewID = v.getId();
 
 		Intent intent = null;
 
-		switch (id)
+		switch (viewID)
 		{
-			case R.id.myprofile_person_container_signed_in: {
+			case R.id.myprofile_person_container_signed_in: 
+			{
 				TrackingGAManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
 				break;
 			}
+			
 			case R.id.myprofile_likes_container: 
 			{
 				intent = new Intent(UserProfileActivity.this, LikesActivity.class);
@@ -438,11 +443,11 @@ public class UserProfileActivity
 	
 			case R.id.myprofile_logout_container: 
 			{
-				/* It is important to clear the internal cache of the facebook handle object */
+				/* It is important to clear the internal cache of the Facebook handle object */
 				FacebookHandle facebookHandle = LoginWithFacebookActivity.getDefaultFacebookHandle(this);
 				facebookHandle.unauth();
 				
-				/* Important that the user gets the direct feedback when logging out, assume that the logout to the BE succeeds */
+				/* Important that the user gets the direct feedback when logging out, assume that the logout to the backend succeeds */
 				ContentManager.sharedInstance().performLogout(this, false);
 				
 				populateViews();

@@ -445,11 +445,26 @@ public abstract class GenericUtils
 		return densityDpi;
 	}
 	
+
 	
-	
-	/* Only use when adding a new computer to Facebook */
-	public static void logFacebookKeyHash(final Context context)
+	public static int convertDPToPixels(final int valueInDP) 
 	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+	    float scale = context.getResources().getDisplayMetrics().density;
+	  
+	    int valueInPixels = (int) (valueInDP * scale + 0.5f);
+	    
+	    return valueInPixels;
+	}
+	
+	
+	
+	/* Only used when adding a new computer to Facebook */
+	public static void logFacebookKeyHash()
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		PackageInfo info;
 		
 		try 
