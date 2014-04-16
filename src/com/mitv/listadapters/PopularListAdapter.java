@@ -18,11 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -188,10 +188,9 @@ public class PopularListAdapter
 					/* Go to the corresponding Broadcast page */
 					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
-					// TODO NewArc set return activity?? For detecting tab
+
 					// coloring
 					activity.startActivity(intent);
-
 				}
 			});
 

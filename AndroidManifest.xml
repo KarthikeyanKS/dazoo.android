@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="120"
-    android:versionName="1.0.120" >
+    android:versionCode="125"
+    android:versionName="1.0.125" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -197,9 +197,9 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
 
-        <!-- UPCOMING EPISODES PAGE -->
+        <!-- LIST MORE UPCOMING EPISODES PAGE -->
         <activity
-            android:name="com.mitv.activities.UpcomingEpisodesPageActivity"
+            android:name="com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
@@ -207,16 +207,26 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
 
-        <!-- REPEATITIONS PAGE -->
+        <!-- LIST MORE BROADCASTS REPEATITIONS PAGE -->
         <activity
-            android:name="com.mitv.activities.RepetitionsPageActivity"
+            android:name="com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivityreActivity"
             android:launchMode="standard"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-
+        
+        <!-- LIST MORE BROADCASTS NOW AIRING PAGE -->
+        <activity
+            android:name="com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity"
+            android:launchMode="standard"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        
         <!-- CHANNEL PAGE -->
         <activity
             android:name="com.mitv.activities.ChannelPageActivity"

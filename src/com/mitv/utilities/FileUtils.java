@@ -17,7 +17,8 @@ public abstract class FileUtils
 	private static final String TAG = AppDataUtils.class.getName();
 
 	
-	private static final String ANDROID_DATA_PATH = "/Android/data/";
+	public static final String ANDROID_FONTS_PATH = "fonts/";
+	public static final String ANDROID_DATA_PATH = "/Android/data/";
 	
 	
 			

@@ -12,14 +12,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.RateAppManager;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.ui.helpers.DialogHelper;
@@ -92,13 +93,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	
 	private void removeLike() 
 	{
-		ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
-		
 		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), null);
-		
-		setImageToNotLiked();
-		
-		GATrackingManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
 	}
 	
 	
@@ -110,13 +105,15 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		
 		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
 
-		GATrackingManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, false);
+		TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, false);
 	}
 
 	
 	@Override
 	public void onClick(View v) 
 	{
+		RateAppManager.significantEvent(activity);
+		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);
@@ -161,6 +158,9 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 			public void run() {
 				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
 				setImageToNotLiked();
+				
+				setImageToNotLiked();
+				TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
 			}
 		};
 	}
@@ -184,6 +184,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		viewCallbackListener.onResult(fetchRequestResult, requestIdentifier);
+		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		
 		if(fetchRequestResult.wasSuccessful()) {
 			switch (requestIdentifier) {

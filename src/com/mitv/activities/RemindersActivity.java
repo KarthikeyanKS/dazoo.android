@@ -81,11 +81,9 @@ public class RemindersActivity
 
 		List<NotificationSQLElement> notificationList = notificationDataSource.getAllNotifications();
 
-		for (int i = 0; i < notificationList.size(); i++) 
+		for (NotificationSQLElement element : notificationList) 
 		{
-			NotificationSQLElement item = notificationList.get(i);
-
-			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(item);
+			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(element);
 
 			tvBroadcasts.add(broadcast);
 		}

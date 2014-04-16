@@ -1,5 +1,5 @@
 
-package com.mitv;
+package com.mitv.managers;
 
 
 
@@ -15,6 +15,10 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.mitv.APIClient;
+import com.mitv.ListenerHolder;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.asynctasks.other.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -22,6 +26,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.models.Cache;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.models.objects.disqus.DisqusThreadDetails;
@@ -1331,13 +1336,12 @@ public class ContentManager
 	{
 		if (result.wasSuccessful() && content != null)
 		{
-			// TODO NewArc - Refactor to SignUpCompleteData object instead?
 			UserLoginData userData = (UserLoginData) content;
 			getCache().setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 			
-			GATrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingEmailEvent();
+			TrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingEmailEvent();
 		} 
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_SIGN_UP, result);
@@ -1409,8 +1413,9 @@ public class ContentManager
 			
 			boolean wasJustCreated = userData.getUser().isCreated();
 			
-			if(wasJustCreated) {
-				GATrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingFacebookEvent();
+			if(wasJustCreated) 
+			{
+				TrackingManager.sharedInstance().sendUserSignUpSuccessfulUsingFacebookEvent();
 			}
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
@@ -1517,7 +1522,7 @@ public class ContentManager
 		{
 			String tvProgramId = broadcast.getProgram().getProgramId();
 			
-			String deviceId = GenericUtils.getDeviceId();
+			String deviceId = GenericUtils.getDeviceID();
 			
 			apiClient.performInternalTracking(null, tvProgramId, deviceId);
 		}
@@ -1829,25 +1834,37 @@ public class ContentManager
 	
 	/* NON-PERSISTENT USER DATA, TEMPORARY SAVED IN STORAGE, IN ORDER TO PASS DATA BETWEEN ACTIVITES */
 	
-	public void setUpcomingBroadcasts(TVBroadcastWithChannelInfo broadcast, ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) 
+	public void setUpcomingBroadcasts(final TVBroadcastWithChannelInfo broadcast, final ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) 
 	{
-		//TODO NewArc check if null
-		String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
+		if(broadcast != null)
+		{
+			String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
 		
-		UpcomingBroadcastsForBroadcast upcomingBroadcastsObject = new UpcomingBroadcastsForBroadcast(tvSeriesId, upcomingBroadcasts);
+			UpcomingBroadcastsForBroadcast upcomingBroadcastsObject = new UpcomingBroadcastsForBroadcast(tvSeriesId, upcomingBroadcasts);
 		
-		getCache().setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
+			getCache().setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
+		}
+		else
+		{
+			Log.w(TAG, "Broadcast is null");
+		}
 	}
 	
 	
 	public void setRepeatingBroadcasts(TVBroadcastWithChannelInfo broadcast, ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts) 
 	{
-		//TODO NewArc check if null
-		String programId = broadcast.getProgram().getProgramId();
-		
-		RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(programId, repeatingBroadcasts);
-		
-		getCache().setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
+		if(broadcast != null)
+		{
+			String programId = broadcast.getProgram().getProgramId();
+			
+			RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(programId, repeatingBroadcasts);
+			
+			getCache().setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
+		}
+		else
+		{
+			Log.w(TAG, "Broadcast is null");
+		}
 	}
 	
 	
@@ -1859,16 +1876,22 @@ public class ContentManager
 	 */
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
 	{
-		if (broadcast.getProgram().getSeries() == null) {
-			return null;
-			
-		} else {
+		if (broadcast.getProgram().getSeries() == null) 
+		{
+			return null;	
+		} 
+		else 
+		{
 			String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
+			
 			ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
 			
-			if(getCache().containsUpcomingBroadcastsForBroadcast(tvSeriesId)) {
+			if(getCache().containsUpcomingBroadcastsForBroadcast(tvSeriesId)) 
+			{
 				UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = getCache().getNonPersistentUpcomingBroadcasts();
-				if(upcomingBroadcastsForBroadcast != null) {
+				
+				if(upcomingBroadcastsForBroadcast != null)
+				{
 					upcomingBroadcasts= upcomingBroadcastsForBroadcast.getRelatedBroadcasts();
 				}
 			}
@@ -1876,6 +1899,55 @@ public class ContentManager
 			return upcomingBroadcasts;
 		}
 	}
+	
+	
+	
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheBroadcastsAiringOnDifferentChannels(
+			final TVBroadcastWithChannelInfo broadcastWithChannelInfo,
+			final boolean randomizeListElements)
+	{
+		ArrayList<TVBroadcastWithChannelInfo> broadcastsPlayingNow = new ArrayList<TVBroadcastWithChannelInfo>();
+		
+		TVChannelId inputTvChannelId = broadcastWithChannelInfo.getChannel().getChannelId();
+		
+		List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
+		
+		if(tvChannelIds != null && 
+		   tvChannelIds.isEmpty() == false)
+		{
+			for(TVChannelId tvChannelId: tvChannelIds)
+			{
+				TVChannel tvChannel = getCache().getTVChannelById(tvChannelId);
+				
+				if(tvChannelId.equals(inputTvChannelId) == false && tvChannel != null)
+				{
+					TVChannelGuide tvChannelGuide = getCache().getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
+			
+					List<TVBroadcast> tvBroadcastsPlayingOnChannel = tvChannelGuide.getBroadcastPlayingBetween(broadcastWithChannelInfo.getBeginTimeCalendarLocal(), broadcastWithChannelInfo.getEndTimeCalendarLocal());
+					
+					if(tvBroadcastsPlayingOnChannel.isEmpty() == false)
+					{
+						/* Only use the first of each channel */
+						TVBroadcast tvBroadcastPlayingOnChannel = tvBroadcastsPlayingOnChannel.get(0);
+						
+						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoPlayingNow = new TVBroadcastWithChannelInfo(tvBroadcastPlayingOnChannel);
+						tvBroadcastWithChannelInfoPlayingNow.setChannel(tvChannel);
+						
+						broadcastsPlayingNow.add(tvBroadcastWithChannelInfoPlayingNow);
+					}
+				}
+			}
+		}
+		
+		if(randomizeListElements)
+		{
+			Collections.shuffle(broadcastsPlayingNow);
+		}
+		
+		return broadcastsPlayingNow;
+	}
+	
+	
 	
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcasts() 
 	{
@@ -1898,19 +1970,27 @@ public class ContentManager
 	 */
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
 	{
-		//TODO NewArc check if null
-		String programId = broadcast.getProgram().getProgramId();
-		
 		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = null;
-		
-		if(getCache().containsRepeatingBroadcastsForBroadcast(programId)) 
+	
+		if(broadcast != null)
 		{
-			RepeatingBroadcastsForBroadcast repeatingBroadcastObject = getCache().getNonPersistentRepeatingBroadcasts();
+			String programId = broadcast.getProgram().getProgramId();
 			
-			if(repeatingBroadcastObject != null) 
+			
+			
+			if(getCache().containsRepeatingBroadcastsForBroadcast(programId)) 
 			{
-				repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcastsWithExclusions(broadcast);
+				RepeatingBroadcastsForBroadcast repeatingBroadcastObject = getCache().getNonPersistentRepeatingBroadcasts();
+				
+				if(repeatingBroadcastObject != null) 
+				{
+					repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcastsWithExclusions(broadcast);
+				}
 			}
+		}
+		else
+		{
+			Log.w(TAG, "Broadcast is null");
 		}
 		
 		return repeatingBroadcasts;
@@ -2128,7 +2208,7 @@ public class ContentManager
 		
 		clearUserCache();
 		
-		GATrackingManager.sharedInstance().setUserIdOnTrackerAndSendSignedOut();
+		TrackingGAManager.sharedInstance().setUserIdOnTrackerAndSendSignedOut();
 		
 		if(isSessionExpiredLogout == false)
 		{

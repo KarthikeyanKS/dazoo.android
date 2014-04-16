@@ -9,13 +9,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.util.Log;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.ActionBarDropDownDateListAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 
 
@@ -101,16 +101,22 @@ public abstract class TVDateSelectionActivity
 	
 	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 
 		int currentNavigationMode = actionBar.getNavigationMode();
 
-		switch (currentNavigationMode) {
-		case ActionBar.NAVIGATION_MODE_LIST: {
-			if (!SecondScreenApplication.isAppRestarting()) {
+		switch (currentNavigationMode) 
+		{
+		case ActionBar.NAVIGATION_MODE_LIST: 
+		{
+			if (SecondScreenApplication.isAppRestarting() == false) 
+			{
 				setSelectedDayInAdapter();
-			} else {
+			} 
+			else 
+			{
 				Log.e(TAG, "Not attaching fragment, since we are restarting the app");
 			}
 			break;
@@ -178,7 +184,7 @@ public abstract class TVDateSelectionActivity
 					
 					fetchGuideForSelectedDay(position);
 					
-					GATrackingManager.sharedInstance().sendUserDaySelectionEvent(this, position);
+					TrackingGAManager.sharedInstance().sendUserDaySelectionEvent(this, position);
 					break;
 				}
 				
@@ -198,7 +204,6 @@ public abstract class TVDateSelectionActivity
 	
 	private void fetchGuideForSelectedDay(int selectedDayIndex) 
 	{
-		//TODO NewArc this was added to enable loading indicator when choosing another day in homeactivity, is there a smarter way to do it?
 		removeActiveFragment();
 		
 		updateUI(UIStatusEnum.LOADING);

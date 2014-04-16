@@ -6,10 +6,8 @@ package com.mitv.activities;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,17 +23,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.FontManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.http.URLParameters;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.FontManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -64,11 +62,11 @@ public class BroadcastPageActivity
 	
 	private TVChannelId channelId;
 	private long beginTimeInMillis;
-	boolean isLiked = false;
 	private TVBroadcastWithChannelInfo broadcastWithChannelInfo;
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
-
+	private ArrayList<TVBroadcastWithChannelInfo> similarBroadcastsAiringNow;
+	
 	private ImageView posterIv;
 	private TextView seasonTv;
 	private TextView episodeTv;
@@ -94,7 +92,7 @@ public class BroadcastPageActivity
 	
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
-	
+	private RelativeLayout nowAiringContainer;
 	
 	
 	
@@ -110,7 +108,7 @@ public class BroadcastPageActivity
 		
 		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
 		
-		if(areDisqusCommentsEnabled == false && Constants.FORCE_ENABLE_DISQUS_COMMENTS == false)
+		if(areDisqusCommentsEnabled == false)
 		{
 			hideDisqusCommentsWebview();
 		}
@@ -136,10 +134,13 @@ public class BroadcastPageActivity
 			String channelIdAsString = intent.getStringExtra(Constants.INTENT_EXTRA_CHANNEL_ID);
 
 			channelId = new TVChannelId(channelIdAsString);
+			
 			broadcastWithChannelInfo = null;
 			
 			Log.d(TAG, String.format("needToDownloadBroadcastWithChannelInfo: channelId: %s, beginTimeMillis: %d", channelIdAsString, beginTimeInMillis));
-		} else {
+		} 
+		else 
+		{
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
@@ -204,8 +205,8 @@ public class BroadcastPageActivity
 			{
 				TVProgram programFromUpcomingBroadcast = upcomingBroadcast.getProgram();
 
-				if (programFromUpcomingBroadcast != null &&
-				    isProgramIrrelevantAndShouldBeDeleted(programFromUpcomingBroadcast)) 
+				if (programFromUpcomingBroadcast != null && 
+					programFromUpcomingBroadcast.hasZeroValueForSeasonOrEpisodeNumber()) 
 				{
 					upcomingBroadcastsToRemove.add(upcomingBroadcast);
 				}
@@ -214,7 +215,8 @@ public class BroadcastPageActivity
 
 		upcomingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(upcomingBroadcasts);
 
-		if (upcomingBroadcastsToRemove != null && !upcomingBroadcastsToRemove.isEmpty()) {
+		if (upcomingBroadcastsToRemove != null && !upcomingBroadcastsToRemove.isEmpty()) 
+		{
 			upcomingBroadcasts.removeAll(upcomingBroadcastsToRemove);
 		}
 
@@ -228,18 +230,25 @@ public class BroadcastPageActivity
 		broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 
 		repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
-		if (repeatingBroadcasts != null) {
+		
+		if (repeatingBroadcasts != null) 
+		{
 			repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(repeatingBroadcasts);
 
-			for (TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) {
+			for (TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
+			{
 				broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
 			}
 		}
 
 		upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
-		if (upcomingBroadcasts != null) {
+		
+		if (upcomingBroadcasts != null) 
+		{
 			upcomingBroadcasts = filterOutEpisodesWithBadData();
 		}
+		
+		similarBroadcastsAiringNow = ContentManager.sharedInstance().getFromCacheBroadcastsAiringOnDifferentChannels(broadcastWithChannelInfo, true);
 	}
 
 	
@@ -266,7 +275,7 @@ public class BroadcastPageActivity
 					
 					boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
 					
-					if(areDisqusCommentsEnabled || Constants.FORCE_ENABLE_DISQUS_COMMENTS && broadcastWithChannelInfo != null)
+					if(areDisqusCommentsEnabled && broadcastWithChannelInfo != null)
 					{
 						String contentID = broadcastWithChannelInfo.getShareUrl();
 						
@@ -369,6 +378,7 @@ public class BroadcastPageActivity
 		
 		upcomingContainer = (RelativeLayout) findViewById(R.id.broacastpage_upcoming);
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
+		nowAiringContainer = (RelativeLayout) findViewById(R.id.broacastpage_similar_airing_now);
 		
 		disqusCommentsLayout = (RelativeLayout) findViewById(R.id.disqus_comments_layout);
 		webViewDisqusComments = (WebView) findViewById(R.id.disqus_comments_webview);
@@ -418,42 +428,51 @@ public class BroadcastPageActivity
 	
 	
 	
-	private boolean isProgramIrrelevantAndShouldBeDeleted(TVProgram program) 
-	{
-		boolean isProgramIrrelevantAndShouldBeDeleted = (program.getSeason().getNumber() == 0 && program.getEpisodeNumber() == 0);
-
-		return isProgramIrrelevantAndShouldBeDeleted;
-	}
-
-	
-	
 	private void populateBlocks()
 	{
 		populateMainView();
 
 		/* Repetitions */
-		if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) {
+		if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) 
+		{
 			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(this, repetitionsContainer, broadcastWithChannelInfo);
 			repeatitionsBlock.createBlock(repeatingBroadcasts);
 			repetitionsContainer.setVisibility(View.VISIBLE);
 		}
-		else {
+		else 
+		{
 			repetitionsContainer.setVisibility(View.GONE);
 		}
 
 		/* upcoming episodes */
-		if (upcomingBroadcasts != null && !upcomingBroadcasts.isEmpty()) {
+		if (upcomingBroadcasts != null && !upcomingBroadcasts.isEmpty()) 
+		{
 			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(this, upcomingContainer, true, broadcastWithChannelInfo);
 			upcomingBlock.createBlock(upcomingBroadcasts);
 			upcomingContainer.setVisibility(View.VISIBLE);
-		} else {
+		} 
+		else 
+		{
 			upcomingContainer.setVisibility(View.GONE);
 		}
+		
+		// TODO: Uncomment to re-enable what is playing on different channels
+		/*
+		if (similarBroadcastsAiringNow != null && !similarBroadcastsAiringNow.isEmpty()) 
+		{
+			BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(this, nowAiringContainer, broadcastWithChannelInfo);
+			similarBroadcastsAiringNowBlock.createBlock(similarBroadcastsAiringNow);
+			nowAiringContainer.setVisibility(View.VISIBLE);
+		}
+		else
+		{*/
+			nowAiringContainer.setVisibility(View.GONE);
+		/*}*/
 	}
 
 
 	
-	private void populateMainView() 
+	private void populateMainView()
 	{
 		TVProgram program = broadcastWithChannelInfo.getProgram();
 
@@ -461,47 +480,70 @@ public class BroadcastPageActivity
 
 		int duration = broadcastWithChannelInfo.getBroadcastDurationInMinutes();
 
-		Resources res = getResources();
 		StringBuilder extrasStringBuilder = new StringBuilder();
 
 		String durationString = String.valueOf((duration == 0) ? "" : duration);
-		String minutesString = res.getString(R.string.minutes);
+		
+		String minutesString = getString(R.string.minutes);
 
-		String contentTitle = null;
+		String contentTitle = broadcastWithChannelInfo.getTitle();
+		
+		contentTitleTextView.setText(contentTitle);
+		
 		switch (programType) 
 		{
-		case TV_EPISODE: 
-		{
-			contentTitle = program.getSeries().getName();
-
-			contentTitleTextView.setText(contentTitle);
-
-			if (program.getSeason().getNumber() > 0) {
-				seasonTv.setText(res.getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
-				seasonTv.setVisibility(View.VISIBLE);
+			case TV_EPISODE:
+			{
+				if (program.getSeason().getNumber() > 0) 
+				{
+					seasonTv.setText(getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+					seasonTv.setVisibility(View.VISIBLE);
+				}
+				
+				if (program.getEpisodeNumber() > 0) 
+				{
+					episodeTv.setText(getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+					episodeTv.setVisibility(View.VISIBLE);
+				}
+				
+				if (program.getSeason().getNumber() == 0 && program.getEpisodeNumber() == 0) 
+				{
+					Typeface bold = FontManager.getFontBold(getApplicationContext());
+					episodeNameTv.setTypeface(bold);
+					episodeNameTv.setTextSize(16);
+				}
+	
+				episodeNameTv.setText(program.getTitle());
+	
+				String episodeName = program.getTitle();
+				
+				if (episodeName.length() > 0) 
+				{
+					episodeNameTv.setText(episodeName);
+					episodeNameTv.setVisibility(View.VISIBLE);
+				}
+	
+				String yearAsString = program.getYearAsString();
+				String genreAsString = program.getGenreAsString();
+				
+				extrasStringBuilder.append(getString(R.string.tv_series))
+						.append(" ")
+						.append(yearAsString)
+						.append(" ")
+						.append(durationString)
+						.append(minutesString)
+						.append(" ")
+						.append(genreAsString);
+	
+				break;
 			}
-			if (program.getEpisodeNumber() > 0) {
-				episodeTv.setText(res.getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
-				episodeTv.setVisibility(View.VISIBLE);
-			}
-			if (program.getSeason().getNumber() == 0 && program.getEpisodeNumber() == 0) {
-				Typeface bold = FontManager.getFontBold(getApplicationContext());
-				episodeNameTv.setTypeface(bold);
-				episodeNameTv.setTextSize(16);
-			}
-
-			episodeNameTv.setText(program.getTitle());
-
-			String episodeName = program.getTitle();
-			if (episodeName.length() > 0) {
-				episodeNameTv.setText(episodeName);
-				episodeNameTv.setVisibility(View.VISIBLE);
-			}
-
-			String yearAsString = program.getYearAsString();
-			String genreAsString = program.getGenreAsString();
 			
-			extrasStringBuilder.append(res.getString(R.string.tv_series))
+			case MOVIE: 
+			{
+				String yearAsString = program.getYearAsString();
+				String genreAsString = program.getGenreAsString();
+				
+				extrasStringBuilder.append(getString(R.string.movie))
 					.append(" ")
 					.append(yearAsString)
 					.append(" ")
@@ -509,91 +551,100 @@ public class BroadcastPageActivity
 					.append(minutesString)
 					.append(" ")
 					.append(genreAsString);
-
-			break;
-		}
-		
-		case MOVIE: 
-		{
-			contentTitle = program.getTitle();
-			contentTitleTextView.setText(contentTitle);
-
-			String yearAsString = program.getYearAsString();
-			String genreAsString = program.getGenreAsString();
-			
-			extrasStringBuilder.append(res.getString(R.string.movie))
-				.append(" ")
-				.append(yearAsString)
-				.append(" ")
-				.append(durationString)
-				.append(minutesString)
-				.append(" ")
-				.append(genreAsString);
-			
-			break;
-		}
-		
-		case SPORT: 
-		{
-			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
-
-			contentTitleTextView.setText(contentTitle);
-			episodeNameTv.setText(program.getTitle());
-
-			if (program.getTournament() != null) {
-				episodeNameTv.setText(program.getTournament());
-				episodeNameTv.setVisibility(View.VISIBLE);
-			} else {
-				episodeNameTv.setText(program.getSportType().getName());
-				episodeNameTv.setVisibility(View.VISIBLE);
+				
+				break;
 			}
-
-			extrasStringBuilder.append(res.getString(R.string.sport)).append(" ").append(durationString).append(minutesString).append(" ")
-					.append(program.getSportType().getName());
 			
-			break;
+			case SPORT: 
+			{
+				episodeNameTv.setText(program.getTitle());
+	
+				if (program.getTournament() != null) 
+				{
+					episodeNameTv.setText(program.getTournament());
+					episodeNameTv.setVisibility(View.VISIBLE);
+				} 
+				else 
+				{
+					episodeNameTv.setText(program.getSportType().getName());
+					episodeNameTv.setVisibility(View.VISIBLE);
+				}
+	
+				extrasStringBuilder.append(getString(R.string.sport)).append(" ").append(durationString).append(minutesString).append(" ")
+						.append(program.getSportType().getName());
+				
+				break;
+			}
+			
+			case OTHER: 
+			{
+				extrasStringBuilder.append(program.getCategory()).append(" ").append(durationString).append(minutesString);
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unhandled program type");
+				break;
+			}
 		}
-		
-		case OTHER: {
-			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
-
-			extrasStringBuilder.append(program.getCategory()).append(" ").append(durationString).append(minutesString);
-			break;
-		}
-		default: {
-			break;
-		}
-		}
-
-		contentTitleTextView.setText(contentTitle);
 
 		String extras = extrasStringBuilder.toString();
+		
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
 
-		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true) {
+		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true) 
+		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
 			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
 		}
 
-		if (broadcastWithChannelInfo.getChannel() != null) {
+		if (broadcastWithChannelInfo.getChannel() != null) 
+		{
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
 			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
 		}
 
+		StringBuilder timeSB = new StringBuilder();
+		
 		if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) /* Broadcast is currently on air: show progress */
 		{
 			LanguageUtils.setupProgressBar(this, broadcastWithChannelInfo, progressBar, progressTxt);
-			timeTv.setVisibility(View.GONE);
-		} else /* Broadcast is in the future: show time */
+
+			if(programType == ProgramTypeEnum.SPORT &&
+			   broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+			{
+				timeSB.append(getString(R.string.icon_live))
+				.append(" ");
+				
+				timeTv.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				timeTv.setVisibility(View.GONE);
+			}
+		} 
+		else /* Broadcast is in the future: show time */
 		{
-			timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() + " - "
-					+ broadcastWithChannelInfo.getEndTimeHourAndMinuteLocalAsString());
+			if(programType == ProgramTypeEnum.SPORT &&
+			   broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+			{
+				timeSB.append(getString(R.string.icon_live))
+				.append(" ");
+			}
+			
+			timeSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString())
+			.append(" - ")
+			.append(broadcastWithChannelInfo.getEndTimeHourAndMinuteLocalAsString());
+			
+			timeTv.setText(timeSB.toString());
 		}
 
 		String synopsis = program.getSynopsisShort();
 
-		if (TextUtils.isEmpty(synopsis) == false) {
+		if (TextUtils.isEmpty(synopsis) == false) 
+		{
 			synopsisTv.setText(program.getSynopsisShort());
 			synopsisTv.setVisibility(View.VISIBLE);
 		}

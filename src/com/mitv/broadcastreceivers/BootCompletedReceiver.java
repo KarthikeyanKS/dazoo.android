@@ -10,8 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.mitv.Constants;
-import com.mitv.GATrackingManager;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.utilities.FileUtils;
 
 
@@ -49,7 +49,7 @@ public class BootCompletedReceiver
         	if(!startedOnceBeforeSharedPrefs && !startedOnceBeforeExternalStorage && Constants.IS_PREINSTALLED_VERSION) 
         	{
         		/* Will only get here first time app boots */
-	        	GATrackingManager.sharedInstance().sendFirstBootEvent();
+	        	TrackingGAManager.sharedInstance().sendFirstBootEvent();
         	}
 	    }		
 	}	

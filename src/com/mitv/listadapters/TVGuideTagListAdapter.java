@@ -18,12 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -232,37 +232,53 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 	
 	
-	static class ViewHolder {
-		RelativeLayout mContainer;
-		ImageView mImageIv;
-		TextView mTitleTv;
-		TextView mTimeTv;
-		TextView mChannelTv;
-		TextView mDescTv;
-		TextView mTimeLeftTv;
-		ProgressBar mDurationPb;
+	static class ViewHolder 
+	{
+		private RelativeLayout mContainer;
+		private ImageView mImageIv;
+		private TextView mTitleTv;
+		private TextView mTimeTv;
+		private TextView mChannelTv;
+		private TextView mDescTv;
+		private TextView mTimeLeftTv;
+		private ProgressBar mDurationPb;
 	}
 
+	
+	
 	@Override
-	public int getCount() {
-		if (taggedBroadcasts != null) {
+	public int getCount() 
+	{
+		if (taggedBroadcasts != null) 
+		{
 			return taggedBroadcasts.size() - currentPosition;
-		} else {
+		} 
+		else 
+		{
 			return 0;
 		}
 	}
 
+	
+	
 	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) {
-		if (taggedBroadcasts != null) {
+	public TVBroadcastWithChannelInfo getItem(int position) 
+	{
+		if (taggedBroadcasts != null) 
+		{
 			return taggedBroadcasts.get(position);
-		} else {
+		} 
+		else 
+		{
 			return null;
 		}
 	}
 
+	
+	
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int arg0) 
+	{
 		return -1;
 	}
 }

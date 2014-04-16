@@ -5,6 +5,7 @@ package com.mitv.listadapters;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
@@ -34,6 +33,8 @@ import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVDate;
@@ -105,7 +106,7 @@ public class TVGuideListAdapter
 	}
 
 	
-	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) 
+	public View getViewForGuideCell(final int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
 
@@ -172,6 +173,7 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{
+				TrackingGAManager.sharedInstance().sendUserPressedChannelInHomeActivity(guide.getChannelId(), position);
 				Intent intent = new Intent(activity, ChannelPageActivity.class);
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
@@ -325,7 +327,6 @@ public class TVGuideListAdapter
 				holder.textView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 
 			}
-			//If there is no data, show message "No content is available". TODO: What to do here?
 			else 
 			{
 				holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
@@ -355,7 +356,7 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{	
-				GATrackingManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
+				TrackingGAManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
 				
 				/* WHEN LOGGED IN */
 				if (ContentManager.sharedInstance().isLoggedIn()) 
@@ -467,6 +468,7 @@ public class TVGuideListAdapter
 	}
 
 	
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{

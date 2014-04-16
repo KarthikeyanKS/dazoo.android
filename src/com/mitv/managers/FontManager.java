@@ -1,9 +1,11 @@
 
-package com.mitv;
+package com.mitv.managers;
 
 
 
 import java.util.HashMap;
+
+import com.mitv.utilities.FileUtils;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -17,14 +19,14 @@ public class FontManager
 	
 	
 	private static FontManager instance;
+	
+	
 	private HashMap<String, Typeface> fontMap;
 	
-	
-	
-	public static final String FONT_MEDIUM 		= "roboto_mitv_medium.ttf";
-	public static final String FONT_BOLD 		= "roboto_mitv_bold.ttf";
-	public static final String FONT_LIGHT 		= "roboto_mitv_light.ttf";
-	public static final String FONT_REGULAR 	= "roboto_mitv_regular.ttf";
+	public static final String FONT_MEDIUM = "roboto_mitv_medium.ttf";
+	public static final String FONT_BOLD = "roboto_mitv_bold.ttf";
+	public static final String FONT_LIGHT = "roboto_mitv_light.ttf";
+	public static final String FONT_REGULAR = "roboto_mitv_regular.ttf";
 
 	
 	
@@ -69,17 +71,22 @@ public class FontManager
 	
 	
 	
-	public Typeface getTypeface(Context ctx, String asset) 
+	public Typeface getTypeface(final Context context, final String asset) 
 	{
-		Typeface tf = fontMap.get(asset);
+		Typeface typeface = fontMap.get(asset);
 
-		if (tf == null) 
+		if(typeface == null)
 		{
-			try 
+			StringBuilder assetsPathSB = new StringBuilder();
+			
+			assetsPathSB.append(FileUtils.ANDROID_FONTS_PATH)
+			.append(asset);
+			
+			try
 			{
-				tf = Typeface.createFromAsset(ctx.getAssets(), "fonts/" + asset);
+				typeface = Typeface.createFromAsset(context.getAssets(), assetsPathSB.toString());
 				
-				fontMap.put(asset, tf);
+				fontMap.put(asset, typeface);
 			} 
 			catch (Exception e) 
 			{
@@ -87,6 +94,6 @@ public class FontManager
 			}
 		}
 
-		return tf;
+		return typeface;
 	}
 }

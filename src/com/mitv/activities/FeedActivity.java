@@ -19,8 +19,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
@@ -31,6 +29,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.FeedListAdapter;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
@@ -343,7 +343,7 @@ public class FeedActivity
 			{
 				if(fetchRequestResult.wasSuccessful() == false)
 				{
-					// TODO
+					// TODO - ?
 				}
 				break;
 			}
@@ -526,7 +526,7 @@ public class FeedActivity
 
 			if(visibleBottomRowIndex != lastVisibleBottomRowIndex) {
 				boolean scrollingDown = (visibleBottomRowIndex > lastVisibleBottomRowIndex);
-				GATrackingManager.sharedInstance().sendUserFeedListScrolledToItemAtIndexEvent(visibleBottomRowIndex, scrollingDown);
+				TrackingGAManager.sharedInstance().sendUserFeedListScrolledToItemAtIndexEvent(visibleBottomRowIndex, scrollingDown);
 			}
 				
 			/* Store the latest row index  */

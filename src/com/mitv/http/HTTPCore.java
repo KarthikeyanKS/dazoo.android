@@ -37,6 +37,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.ssl.HttpClientWraper;
+import com.mitv.managers.TrackingManager;
 
 
 
@@ -361,7 +362,8 @@ public class HTTPCore
 							}
 							catch (OutOfMemoryError ofmmex) 
 							{
-								// TODO: Add Analytics log here
+								TrackingManager.sharedInstance().sendHTTPCoreOutOfMemoryException();
+								
 								Log.e(TAG, ofmmex.getMessage(), ofmmex);
 							}
 	

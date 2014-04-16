@@ -1,5 +1,5 @@
 
-package com.mitv.activities;
+package com.mitv.activities.broadcast_list_more;
 
 
 
@@ -10,6 +10,6 @@ package com.mitv.activities;
  * @author consultant_hdme
  *
  */
-public class RepetitionsPageActivity 
-	extends RepetitionsOrUpcomingPage
+public class RepetitionsListMoreActivity 
+	extends RepetitionsOrUpcomingListMoreActivity
 {}

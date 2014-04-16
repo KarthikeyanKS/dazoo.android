@@ -56,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
+                android:paddingBottom="10dp"
                 android:text="@string/icon_search"
                 android:textColor="@color/blue1"
                 android:textSize="30sp"
@@ -75,6 +76,24 @@
                 android:textColorHint="@color/blue1"
                 android:textSize="14sp"
                 font:fontedittext="roboto_mitv_regular.ttf" />
+            
+            <com.mitv.ui.elements.FontTextView
+				android:id="@+id/searchbar_clear_x"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:paddingLeft="10dp"
+				android:paddingRight="5dp"
+				android:paddingTop="10dp"
+				android:paddingBottom="15dp"
+				android:background="@color/transparent"
+				android:textSize="20sp"
+				android:clickable="true"
+				android:text="@string/icon_clear_search"
+				android:textColor="@color/blue1"
+				android:visibility="invisible" 
+				font:fonttextview="roboto_mitv_medium.ttf" />
         </RelativeLayout>
     </RelativeLayout>
 

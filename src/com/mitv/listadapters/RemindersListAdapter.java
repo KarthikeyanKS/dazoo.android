@@ -16,12 +16,11 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVProgram;
@@ -313,7 +312,7 @@ public class RemindersListAdapter
 					TVBroadcastWithChannelInfo broadcastForReminderToDelete = broadcasts.get(currentPosition);
 					broadcasts.remove(currentPosition);
 					
-					GATrackingManager.sharedInstance().sendUserReminderEvent(activity, broadcastForReminderToDelete, true);
+					TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, broadcastForReminderToDelete, true);
 					
 					notifyDataSetChanged();
 				}

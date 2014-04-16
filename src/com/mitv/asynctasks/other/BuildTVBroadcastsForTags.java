@@ -11,11 +11,11 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.mitv.ContentManager;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.TVBroadcastComparatorByTime;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -103,7 +103,9 @@ public class BuildTVBroadcastsForTags
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>();
+		
 		double startTime = System.currentTimeMillis();
+		
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) 
 		{
 			TVChannelId tvChannelId = tvChannelGuide.getChannelId();

@@ -15,9 +15,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 
 
@@ -116,15 +116,13 @@ public abstract class DateUtils
 	 * 
 	 * @return
 	 */
-	public static Integer getTimeZoneOffsetInMinutes() {
+	public static Integer getTimeZoneOffsetInMinutes() 
+	{
 		Integer timeZoneOffsetInMinutes = 0;
 		
 		TimeZone timeZone = TimeZone.getDefault();
 		
 		Calendar cal = DateUtils.getNow();
-		
-		/* inDaylightTime, not in use, only for debugging */
-//		boolean inDaylightTime = timeZone.inDaylightTime(cal.getTime());
 		
 		int era = cal.get(Calendar.ERA);
 		int year = cal.get(Calendar.YEAR);
@@ -539,13 +537,6 @@ public abstract class DateUtils
 	}
 	
 	
-	
-//	private static boolean showTimeOn24HourFormat(Context context) 
-//	{
-//		boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
-//		
-//		return is24HourFormat;
-//	}
 	
 	/**
 	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.

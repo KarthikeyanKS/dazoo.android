@@ -1,5 +1,5 @@
 
-package com.mitv;
+package com.mitv.models;
 
 
 
@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 import android.content.Context;
 
+import com.mitv.Constants;
+import com.mitv.SecondScreenApplication;
 import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;

@@ -18,8 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
@@ -30,6 +28,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.models.objects.mitvapi.TVProgram;
@@ -630,7 +630,7 @@ public class FeedListAdapter
 	
 	private void popularBroadcastClicked(FeedItemTypeEnum feedItemType, TVBroadcastWithChannelInfo broadcastWithChannelInfo, int index) 
 	{
-		GATrackingManager.sharedInstance().sendUserFeedItemPressedEvent(feedItemType, broadcastWithChannelInfo, index);
+		TrackingGAManager.sharedInstance().sendUserFeedItemPressedEvent(feedItemType, broadcastWithChannelInfo, index);
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 		
 		Intent intent = new Intent(activity, BroadcastPageActivity.class);

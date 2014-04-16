@@ -65,7 +65,30 @@ public class TVChannelGuide
 		return currentAndUpcomingbroadcasts;
 	}
 	
+	
+	
+	public List<TVBroadcast> getBroadcastPlayingBetween(
+			final Calendar inputBegin,
+			final Calendar inputEnd)
+	{
+		ArrayList<TVBroadcast> airingBroadcasts = new ArrayList<TVBroadcast>();
 
+		for(TVBroadcast broadcast : broadcasts)
+		{
+			Calendar broadcastBegin = broadcast.getBeginTimeCalendarLocal();
+			Calendar broadcastEnd = broadcast.getEndTimeCalendarLocal();
+			
+			if(broadcastBegin.after(inputBegin) && broadcastEnd.before(inputEnd) && broadcast.hasEnded() == false)
+			{
+				airingBroadcasts.add(broadcast);
+			}
+		}
+		
+		return airingBroadcasts;
+	}
+	
+	
+	
 	public ArrayList<TVBroadcast> getBroadcastsFromPosition(
 			final int startIndex,
 			final int maximumBrodacasts) 

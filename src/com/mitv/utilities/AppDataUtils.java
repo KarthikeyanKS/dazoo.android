@@ -18,16 +18,22 @@ public class AppDataUtils
 	private static final String TAG = AppDataUtils.class.getName();
 	
 	
+	
 	private static AppDataUtils sharedInstance;
 	
-	private SharedPreferences sharedPreferences;
+	private SharedPreferences appSharedPreferences;
+	private SharedPreferences deviceSharedPreferences;
 	
 	
 	
 	private AppDataUtils(Context context)
 	{
-		sharedPreferences = context.getSharedPreferences(
+		appSharedPreferences = context.getSharedPreferences(
 				Constants.SHARED_PREFERENCES_NAME, 
+				Context.MODE_PRIVATE);
+		
+		deviceSharedPreferences = context.getSharedPreferences(
+				Constants.DEVICE_PREFERENCES_FILE, 
 				Context.MODE_PRIVATE);
 	}
 	
@@ -47,7 +53,7 @@ public class AppDataUtils
 			final String name,
 			final Set<String> defaultValue)
 	{		
-		return sharedPreferences.getStringSet(name, defaultValue);
+		return appSharedPreferences.getStringSet(name, defaultValue);
 	}
 
 	
@@ -57,7 +63,7 @@ public class AppDataUtils
 			final Set<String> value,
 			final Boolean immediate)
 	{
-		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+		SharedPreferences.Editor prefEditor = appSharedPreferences.edit();
 		
 		prefEditor.putStringSet(name, value);
 		
@@ -77,7 +83,7 @@ public class AppDataUtils
 			final String name, 
 			final String defaultValue)
 	{		
-		return sharedPreferences.getString(name, defaultValue);
+		return appSharedPreferences.getString(name, defaultValue);
 	}
 
 	
@@ -87,7 +93,7 @@ public class AppDataUtils
 			final String value,
 			final Boolean immediate)
 	{
-		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+		SharedPreferences.Editor prefEditor = appSharedPreferences.edit();
 		
 		prefEditor.putString(name, value);
 		
@@ -114,7 +120,7 @@ public class AppDataUtils
 	
 	public void clearAllPreferences(final boolean immediate)
 	{
-		SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+		SharedPreferences.Editor prefEditor = appSharedPreferences.edit();
 
 		prefEditor.clear();
 		
@@ -134,7 +140,7 @@ public class AppDataUtils
 			final String key, 
 			final Boolean defaultValue)
 	{
-		return sharedPreferences.getBoolean(key, defaultValue);
+		return appSharedPreferences.getBoolean(key, defaultValue);
 	}
 
 	
@@ -144,7 +150,7 @@ public class AppDataUtils
 			final Boolean value, 
 			final Boolean immediate)
 	{
-		final SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+		final SharedPreferences.Editor prefEditor = appSharedPreferences.edit();
 
 		prefEditor.putBoolean(key, value);
 
@@ -156,5 +162,14 @@ public class AppDataUtils
 		{
 			prefEditor.apply();
 		}
+	}
+	
+	
+	
+	public String getPreferenceFromDevice(
+			final String key, 
+			final String defaultValue)
+	{
+		return deviceSharedPreferences.getString(key, defaultValue);
 	}
 }

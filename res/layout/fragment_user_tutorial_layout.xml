@@ -5,15 +5,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    
+
     <!-- PAGE 1 -->
-	<RelativeLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:paddingBottom="70dp"
-        android:background="@color/transparent" >
+        android:background="@color/transparent"
+        android:paddingBottom="70dp" >
 
         <ImageView
             android:id="@+id/splash_screen_activity_logo_tutorial"
@@ -21,8 +22,8 @@
             android:layout_height="180dp"
             android:layout_centerHorizontal="true"
             android:background="@color/transparent"
-            android:visibility="gone"
-            android:src="@drawable/splash_logo" />
+            android:src="@drawable/splash_logo"
+            android:visibility="gone" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/splash_screen_activity_info_text_tutorial"
@@ -41,18 +42,21 @@
             android:textSize="14sp"
             android:visibility="gone"
             font:fonttextview="roboto_mitv_bold.ttf" />
-        
     </RelativeLayout>
-    
-	
-	<!-- HEADER -->
-	<com.mitv.ui.elements.FontTextView
+
+    <RelativeLayout
+        android:id="@+id/text_container"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" 
+        android:layout_marginTop="30dp" >
+
+        <!-- HEADER -->
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/tutorial_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
             android:background="@color/transparent"
             android:gravity="center"
             android:maxLines="1"
@@ -61,36 +65,38 @@
             android:textSize="22sp"
             android:visibility="gone"
             font:fonttextview="chunkfive.otf" />
-	
-	<!-- INFO -->
-	<com.mitv.ui.elements.FontTextView
+
+        <!-- INFO -->
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/tutorial_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/tutorial_header"
-            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
             android:background="@color/transparent"
             android:gravity="center"
-            android:maxLines="2"
             android:lineSpacingExtra="2dp"
+            android:maxLines="2"
             android:singleLine="false"
             android:textColor="@color/orange_light"
             android:textSize="13sp"
             android:visibility="gone"
             font:fonttextview="roboto_mitv_regular.ttf" />
-	
-	<ImageView
-	    android:id="@+id/image_mobile_tutorial"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_below="@id/tutorial_info"
-	    android:layout_centerHorizontal="true"
-	    android:layout_marginBottom="70dp"
-	    android:visibility="gone"
-	    android:scaleX="0.9"
-	    android:scaleY="0.9" />
-	
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/image_mobile_tutorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_container"
+        android:layout_marginBottom="70dp"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        android:visibility="gone" />
+
 </RelativeLayout>

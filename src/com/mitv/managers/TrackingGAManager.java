@@ -1,4 +1,4 @@
-package com.mitv;
+package com.mitv.managers;
 
 import java.io.File;
 import java.util.Calendar;
@@ -14,8 +14,13 @@ import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.google.android.gms.analytics.Logger.LogLevel;
 import com.google.android.gms.analytics.Tracker;
+import com.mitv.Constants;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
@@ -23,27 +28,26 @@ import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
 
-public class GATrackingManager 
+public class TrackingGAManager 
 {
-	@SuppressWarnings("unused")
-	private static final String TAG = GATrackingManager.class.getName();
+	private static final String TAG = TrackingGAManager.class.getName();
 
-	private static GATrackingManager instance;
+	private static TrackingGAManager instance;
 
 	private Tracker tracker;
 	private Context context;
 
-	public GATrackingManager(final Context context) {
+	public TrackingGAManager(final Context context) {
 		this.context = context;
 
 		updateConfiguration();
 	}
 
-	public static GATrackingManager sharedInstance() {
+	public static TrackingGAManager sharedInstance() {
 		if (instance == null) {
 			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 
-			instance = new GATrackingManager(context);
+			instance = new TrackingGAManager(context);
 		}
 
 		return instance;
@@ -146,15 +150,9 @@ public class GATrackingManager
 		tracker.set(Constants.GA_FIELD_USER_ID, userId);
 	}
 
-	public void sendUserSignUpSuccessfulUsingEmailEvent() {
-		sendUserSignUpSuccessfulEvent(false);
-	}
-
-	public void sendUserSignUpSuccessfulUsingFacebookEvent() {
-		sendUserSignUpSuccessfulEvent(true);
-	}
-
-	public void sendUserSignUpSuccessfulEvent(boolean facebook) {
+	
+	public void sendUserSignUpSuccessfulEvent(boolean facebook) 
+	{
 		String userId = ContentManager.sharedInstance().getFromCacheUserId();
 
 		String actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL;
@@ -164,6 +162,15 @@ public class GATrackingManager
 
 		sendUserEventWithLabel(actionString, userId);
 	}
+	
+	
+	
+	public void sendHTTPCoreOutOfMemoryException() 
+	{
+		sendSystemEvent(Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION);
+	}
+	
+	
 
 	private String actionByAppendingActivityName(String actionBase, Activity activity) {
 		String action = actionBase;
@@ -228,7 +235,6 @@ public class GATrackingManager
 
 	public void sendUserHourSelectionEvent(int lastSelectedHour) {
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
-		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
 			List<Integer> hours = SwipeClockBar.generate24Hours();
 			Integer lastSelectedHourAsInteger = Integer.valueOf(lastSelectedHour);
@@ -236,19 +242,39 @@ public class GATrackingManager
 			int indexOfLastSelectedHour = hours.indexOf(lastSelectedHourAsInteger);
 		
 			int timeDiff = Math.abs(indexOfSelectedHour - indexOfLastSelectedHour);
-			
-			StringBuilder sb = new StringBuilder();
-			if(indexOfSelectedHour < indexOfLastSelectedHour) {
-				sb.append(timeDiff).append("H_BACK_IN_TIME");
-			} else if(indexOfSelectedHour > indexOfLastSelectedHour) {
-				sb.append(timeDiff).append("H_FORWARD_IN_TIME");
-			} else {
-				sb.append("SAME_HOUR");
-			}
-			
-			String label = sb.toString();
-			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)selectedHour);
+						
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, selectedHour.toString(), (long)timeDiff);
 		}
+	}
+	
+	public void sendUserPressedChannelInHomeActivity(TVChannelId channelId, int position) {
+		TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+		String channelName = channel.getName();
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS, channelName, (long) position);
+	}
+	
+	public void sendUserPressedBroadcastInChannelActivity(TVChannel channel, TVBroadcast broadcast, int position) {
+		if(position == 0) {
+			/* The top most cell in the channel page activity is clickable, but it is not a cell */
+			return;
+		} else {
+			/* Subtract 1 from position value since this list does not start at index 0. */
+			position--;
+		}
+		
+		String channelName = channel.getName();
+		String broadcastTitle = broadcast.getTitle();
+		String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+		
+		StringBuilder sb = new StringBuilder(channelName);
+		sb.append(" - ");
+		sb.append(startTime);
+		sb.append(": ");
+		sb.append(broadcastTitle);
+		String label = sb.toString();
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS, label, (long) position);
 	}
 
 	public void sendUserDaySelectionEvent(Activity activity, int dayIndex) {
@@ -269,7 +295,21 @@ public class GATrackingManager
 			sendUserEventWithLabelAndValue(action, dateString, (long) dayIndex);
 		}
 	}
+	
+	
 
+	public void sendUserPressedRateInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_RATE_BUTTON_PRESS);
+	}
+	
+	public void sendUserPressedRemindLaterInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_REMIND_BUTTON_PRESS);
+	}
+	
+	public void sendUserPressedNoThanksInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_NO_BUTTON_PRESS);
+	}
+	
 	public void sendUserPressedMenuButtonEvent() {
 		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_HARDWARE_BUTTON_MENU_PRESS);
 	}
@@ -389,6 +429,16 @@ public class GATrackingManager
 	
 	public void sendUserSearchEvent(String searchQuery) {
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_SEARCH, searchQuery);
+	}
+	
+	public void sendUserTutorialExitEvent(int page) {
+		/* 5 pages of total between 0-4, therefore we add 1 */
+		page += 1;
+		
+		String labelPage = Integer.toString(page);
+		String label = "User left tutorial on page: " + labelPage;
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EXIT_TUTORIAL, label);
 	}
 	
 	public void sendUserMyChannelsPageSearchEvent(String searchedChannel) {

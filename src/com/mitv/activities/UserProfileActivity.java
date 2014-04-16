@@ -16,10 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.androidquery.auth.FacebookHandle;
-import com.mitv.AITrackingManager;
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
@@ -29,6 +26,9 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityWithTabs;
+import com.mitv.managers.TrackingAIManager;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.sql.NotificationDataSource;
@@ -92,7 +92,7 @@ public class UserProfileActivity
 		
 		if(Constants.ENABLE_AMAZON_INSIGHTS)
 		{
-			AITrackingManager.sharedInstance().recordCustomEvent();
+			TrackingAIManager.sharedInstance().recordTestEvent();
 		}
 		
 		populateViews();
@@ -147,6 +147,7 @@ public class UserProfileActivity
 				// Do nothing
 				break;
 			}
+			
 			case USER_LIKES:
 			case TV_GUIDE_STANDALONE:
 			{
@@ -160,6 +161,7 @@ public class UserProfileActivity
 				}
 				break;
 			}
+			
 			case TV_GUIDE_INITIAL_CALL:
 			{
 				if (fetchRequestResult.wasSuccessful()) 
@@ -367,6 +369,7 @@ public class UserProfileActivity
 			userLikesSB.append("(");
 			userLikesSB.append(userLikes.size());
 			userLikesSB.append(")");
+			
 			likesCountTv.setText(userLikesSB.toString());
 			likesCountTv.setVisibility(View.VISIBLE);
 		} 
@@ -384,16 +387,18 @@ public class UserProfileActivity
 		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
 		super.onClick(v);
 
-		int id = v.getId();
+		int viewID = v.getId();
 
 		Intent intent = null;
 
-		switch (id)
+		switch (viewID)
 		{
-			case R.id.myprofile_person_container_signed_in: {
-				GATrackingManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
+			case R.id.myprofile_person_container_signed_in: 
+			{
+				TrackingGAManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
 				break;
 			}
+			
 			case R.id.myprofile_likes_container: 
 			{
 				intent = new Intent(UserProfileActivity.this, LikesActivity.class);
@@ -438,11 +443,11 @@ public class UserProfileActivity
 	
 			case R.id.myprofile_logout_container: 
 			{
-				/* It is important to clear the internal cache of the facebook handle object */
+				/* It is important to clear the internal cache of the Facebook handle object */
 				FacebookHandle facebookHandle = LoginWithFacebookActivity.getDefaultFacebookHandle(this);
 				facebookHandle.unauth();
 				
-				/* Important that the user gets the direct feedback when logging out, assume that the logout to the BE succeeds */
+				/* Important that the user gets the direct feedback when logging out, assume that the logout to the backend succeeds */
 				ContentManager.sharedInstance().performLogout(this, false);
 				
 				populateViews();

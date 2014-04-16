@@ -3,6 +3,8 @@ package com.mitv.asynctasks.mitvapi;
 
 
 
+import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -17,6 +19,10 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 public class GetTVBroadcastDetails
 	extends AsyncTaskBase<TVBroadcastWithChannelInfo>
 {
+	private static final String TAG = GetTVBroadcastDetails.class.getName();
+	
+	
+	
 	private static String buildURL(
 			TVChannelId tvChannelId,
 			long beginTime)
@@ -24,7 +30,16 @@ public class GetTVBroadcastDetails
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_CHANNELS_ALL);
 		url.append(Constants.REQUEST_QUERY_SEPARATOR);
-		url.append(tvChannelId.getChannelId());
+		
+		if(tvChannelId != null)
+		{
+			url.append(tvChannelId.getChannelId());
+		}
+		else
+		{
+			Log.w(TAG, "TVChannel is null");
+		}
+		
 		url.append(Constants.API_BROADCASTS);
 		url.append(Constants.REQUEST_QUERY_SEPARATOR);
 		url.append(beginTime);

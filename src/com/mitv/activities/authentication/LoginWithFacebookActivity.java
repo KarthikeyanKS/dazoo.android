@@ -18,13 +18,13 @@ import com.androidquery.auth.FacebookHandle;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.managers.ContentManager;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 

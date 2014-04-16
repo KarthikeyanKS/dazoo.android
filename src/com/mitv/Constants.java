@@ -39,19 +39,19 @@ public abstract class Constants
 	public static final int CACHE_DATABASE_VERSION = 1;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
-	public static final boolean FORCE_ENABLE_DISQUS_COMMENTS = false;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
-	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
+	public static final boolean ENABLE_AMAZON_INSIGHTS = false;
+	public static final boolean ENABLE_RATE_APP_DIALOG = false;
 	
 	
-	/* AMAZON INSIGHTS DEMO */
+	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
 	public static final String AMAZON_INSIGHTS_PUBLIC_KEY = "f2a04686bcc24285a46a7823300fcf1b";
-	public static final String AMAZON_INSIGHTS_PRIVATE_KEY = "7GCv830tpJAbqSC5BsXYwJ2S1JGto2Ej29wD99BQK6M";
+	public static final String AMAZON_INSIGHTS_PRIVATE_KEY = "7GCv830tpJAbqSC5BsXYwJ2S1JGto2Ej29wD99BQK6M=";
 	
 	/* HockeyApp Settings */
 	public static final String TESTFLIGHT_TOKEN = "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
@@ -409,6 +409,9 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH			= "MY_CHANNELS_SEARCH_QUERY";
 	public static final String GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH_RESULT_PRESS	= "MY_CHANNELS_SEARCH_RESULT_CELL_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_HARDWARE_BUTTON_MENU_PRESS	= "HARDWARE_BUTTON_MENU_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_RATE_BUTTON_PRESS	= "RATE_DIALOG_RATE_BUTTON_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_REMIND_BUTTON_PRESS	= "RATE_DIALOG_REMIND_ME_LATER_BUTTON_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_NO_BUTTON_PRESS	= "RATE_DIALOG_NO_THANKS_BUTTON_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_PROFILE_TOP_VIEW_PRESS	= "USER_PROFILE_PAGE_TOP_VIEW_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_ADD_MORE_CHANNELS_CELL_PRESS	= "ADD_MORE_CHANNELS_CELL_IN_HOME_ACTIVITY_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_SEARCH_KEYBOARD_BUTTON_PRESS	= "SEARCH_KEYBOARD_BUTTON_PRESSED";
@@ -427,6 +430,11 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_IN					= "USER_SIGNED_IN";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_OUT				= "USER_SIGNED_OUT";
 	public static final String GA_EVENT_KEY_ACTION_FIRST_BOOT						= "OnBoot";
+	public static final String GA_EVENT_KEY_USER_EXIT_TUTORIAL						= "EXIT_TUTORIAL";
+	public static final String GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION		= "HTTP_CORE_OUT_OF_MEMORY_EXCEPTION";
+	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS = "CHANNEL_CELL_IN_HOME_ACTIVITY_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS = "BROADCAST_CELL_IN_CHANNEL_ACTIVITY_PRESSED";
+	
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
@@ -544,6 +552,7 @@ public abstract class Constants
 	public static final int	NOTIFY_MINUTES_BEFORE_THE_BROADCAST	= 15;
     
     /* Shared preferences for data storage */
+	public static final String DEVICE_PREFERENCES_FILE = "device_id.xml";
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
 	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
