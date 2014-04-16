@@ -565,15 +565,17 @@ public abstract class PersistentCache
 		
 		ArrayList<TVFeedItem> feedItemsToDelete = new ArrayList<TVFeedItem>();
 		
-		for(TVFeedItem feedItem : activityFeed) {
-			if(feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
-				TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
-				
-				TVProgram program = broadcast.getProgram();
-				String contentIdFromProgram = UserLike.getContentIdFromTVProgram(program);
-				
-				if(contentIdFromProgram.equals(like.getContentId())) {
-					feedItemsToDelete.add(feedItem);
+		if(activityFeed != null) {
+			for(TVFeedItem feedItem : activityFeed) {
+				if(feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+					TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
+					
+					TVProgram program = broadcast.getProgram();
+					String contentIdFromProgram = UserLike.getContentIdFromTVProgram(program);
+					
+					if(contentIdFromProgram.equals(like.getContentId())) {
+						feedItemsToDelete.add(feedItem);
+					}
 				}
 			}
 		}
