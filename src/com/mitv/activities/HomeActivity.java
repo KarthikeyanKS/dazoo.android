@@ -64,11 +64,12 @@ public class HomeActivity
 			hasShowWelcomeToast = false;			
 			
 			registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+			
+			RateAppManager.appLaunched(this);
+			
 		} else {
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
-		
-		RateAppManager.appLaunched(this);
 	}
 	
 	
