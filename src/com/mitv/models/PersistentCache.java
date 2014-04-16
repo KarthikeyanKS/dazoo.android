@@ -562,10 +562,8 @@ public abstract class PersistentCache
 	}
 	
 	private void deleteFeedItemUsingLike(UserLike like) {
-		
-		ArrayList<TVFeedItem> feedItemsToDelete = new ArrayList<TVFeedItem>();
-		
-		if(activityFeed != null) {
+		if(activityFeed != null) {	
+			ArrayList<TVFeedItem> feedItemsToDelete = new ArrayList<TVFeedItem>();
 			for(TVFeedItem feedItem : activityFeed) {
 				if(feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
 					TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
@@ -578,10 +576,8 @@ public abstract class PersistentCache
 					}
 				}
 			}
+			activityFeed.removeAll(feedItemsToDelete);
 		}
-		
-
-		activityFeed.removeAll(feedItemsToDelete);
 	}
 
 	

@@ -184,6 +184,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		viewCallbackListener.onResult(fetchRequestResult, requestIdentifier);
+		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		
 		if(fetchRequestResult.wasSuccessful()) {
 			switch (requestIdentifier) {
