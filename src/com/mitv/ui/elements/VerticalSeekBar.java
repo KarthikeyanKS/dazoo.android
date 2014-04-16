@@ -105,6 +105,7 @@ public class VerticalSeekBar
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			lastSelectedHour = getCurrentHourFromProgressBar();
 		case MotionEvent.ACTION_MOVE:
 			int max = getMax();
 			int height = getHeight();
@@ -126,7 +127,6 @@ public class VerticalSeekBar
 			swipeClockBar.dehighlightClockbar();
 
 			TrackingGAManager.sharedInstance().sendUserHourSelectionEvent(lastSelectedHour);
-			lastSelectedHour = getCurrentHourFromProgressBar();
 			break;
 		}
 		case MotionEvent.ACTION_CANCEL: {
