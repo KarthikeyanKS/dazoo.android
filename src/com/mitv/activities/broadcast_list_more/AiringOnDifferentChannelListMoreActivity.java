@@ -12,21 +12,21 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.listadapters.NowAiringListAdapter;
+import com.mitv.listadapters.AiringOnDifferentChannelListAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 
 
-public class NowAiringListMoreActivity 
+public class AiringOnDifferentChannelListMoreActivity 
 	extends BaseActivity
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = NowAiringListMoreActivity.class.getName();
+	private static final String TAG = AiringOnDifferentChannelListMoreActivity.class.getName();
 
 	
 	private ListView listView;
-	private NowAiringListAdapter listAdapter;
+	private AiringOnDifferentChannelListAdapter listAdapter;
 	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
 
 
@@ -40,7 +40,7 @@ public class NowAiringListMoreActivity
 		
 		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		
-		broadcasts = ContentManager.sharedInstance().getFromCacheBroadcastsAiringNowOnDifferentChannels(runningBroadcast, false);
+		broadcasts = ContentManager.sharedInstance().getFromCacheBroadcastsAiringOnDifferentChannels(runningBroadcast, false);
 			
 		initViews();
 		
@@ -115,7 +115,7 @@ public class NowAiringListMoreActivity
 		{	
 			case SUCCESS_WITH_CONTENT:
 			{
-				listAdapter = new NowAiringListAdapter(this, broadcasts);
+				listAdapter = new AiringOnDifferentChannelListAdapter(this, broadcasts);
 				listView.setAdapter(listAdapter);
 				listView.setVisibility(View.VISIBLE);
 				break;

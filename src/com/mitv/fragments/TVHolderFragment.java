@@ -32,6 +32,7 @@ public class TVHolderFragment
 	private static final String TAG = TVHolderFragment.class.getName();
 	
 	private static final String BUNDLE_INFO_STARTING_INDEX = "BUNDLE_INFO_STARTING_INDEX";
+	private static final int STARTING_TAB_INDEX = 0;
 
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
@@ -63,7 +64,7 @@ public class TVHolderFragment
 		fragment.setArguments(bundle);
 
 		fragment.setViewPagerIndexChangedListener(listener);
-		fragment.setSelectedTabIndex(0);
+		fragment.setSelectedTabIndex(STARTING_TAB_INDEX);
 		
 		return fragment;
 	}
@@ -120,20 +121,19 @@ public class TVHolderFragment
 	
 	
 	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) 
-	{}
+	public void onPageScrolled(int arg0, float arg1, int arg2){}
 
 	
 	
 	@Override
-	public void onPageScrollStateChanged(int arg0)
-	{}
+	public void onPageScrollStateChanged(int arg0){}
 
 	
 	
 	private void setAdapter(int selectedIndex) 
 	{
 		TVDate tvDate = ContentManager.sharedInstance().getFromCacheTVDateSelected();
+		
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 
 		pagerAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, tvDate);
@@ -159,26 +159,29 @@ public class TVHolderFragment
 
 
 
-	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() {
+	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
+	{
 		return viewPagerIndexChangedListener;
 	}
 
 
 
-	public void setViewPagerIndexChangedListener(
-			OnViewPagerIndexChangedListener viewPagerIndexChangedListener) {
+	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
+	{
 		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
 	}
 
 
 
-	public int getSelectedTabIndex() {
+	public int getSelectedTabIndex() 
+	{
 		return selectedTabIndex;
 	}
 
 
 
-	public void setSelectedTabIndex(int selectedTabIndex) {
+	public void setSelectedTabIndex(int selectedTabIndex) 
+	{
 		this.selectedTabIndex = selectedTabIndex;
 	}
 }

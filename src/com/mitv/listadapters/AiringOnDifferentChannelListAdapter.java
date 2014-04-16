@@ -30,11 +30,11 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class NowAiringListAdapter 
+public class AiringOnDifferentChannelListAdapter 
 	extends BaseAdapter
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = NowAiringListAdapter.class.getName();
+	private static final String TAG = AiringOnDifferentChannelListAdapter.class.getName();
 
 	
 	
@@ -44,7 +44,7 @@ public class NowAiringListAdapter
 
 	
 	
-	public NowAiringListAdapter(
+	public AiringOnDifferentChannelListAdapter(
 			final Activity activity, 
 			final ArrayList<TVBroadcastWithChannelInfo> broadcasts) 
 	{
@@ -126,7 +126,15 @@ public class NowAiringListAdapter
 
 		if (broadcastWithChannelInfo != null) 
 		{
-			LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
+			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) 
+			{
+				LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
+			} 
+			else 
+			{
+				holder.mDurationPb.setVisibility(View.GONE);
+				holder.mTimeLeftTv.setVisibility(View.GONE);
+			}
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
 			

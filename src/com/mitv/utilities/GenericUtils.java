@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -20,7 +21,6 @@ import android.content.pm.Signature;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.IBinder;
-import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -117,7 +117,7 @@ public abstract class GenericUtils
 	
 	
 	/*
-	 * IMPORTANT: Reenable permission on Manifest to use this function
+	 * IMPORTANT: Re-enable permission on Manifest to use this function
 	 */
 //	public static int getActivityCount()
 //	{
@@ -482,25 +482,32 @@ public abstract class GenericUtils
 	}
 
 	
-	
-	// TODO NewArc - Change this to a pseudo unique own generated ID instead: http://stackoverflow.com/a/17625641
-	public static String getDeviceId()
+
+	public static String getDeviceID()
 	{
-		String deviceId = null;
-
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-
-		TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-		if(mTelephonyMgr != null)
-    	{
-			deviceId = mTelephonyMgr.getDeviceId();
-    	}
-		else
-		{
-			Log.e(TAG, "TelephonyManager is null");
-		}
+		String uuidAsString;
 		
-		return deviceId;
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+	    String DEVICE_PREFERENCES_DEVICE_ID = "device_id";
+	    
+	    String id = AppDataUtils.sharedInstance(context).getPreferenceFromDevice(DEVICE_PREFERENCES_DEVICE_ID, null);
+		
+	    UUID uuid = null;
+	    
+	    if(id != null)
+	    {
+	    	uuid = UUID.fromString(id);
+	    	
+	    	uuidAsString = uuid.toString();
+	    }
+	    else
+	    {
+	    	Log.w(TAG, "UUID is empty!");
+	    	
+	    	uuidAsString = "";
+	    }
+	    
+		return uuidAsString;
 	}
 }

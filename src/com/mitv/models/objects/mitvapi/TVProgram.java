@@ -166,6 +166,19 @@ public class TVProgram
 	
 	
 	
+	public boolean hasZeroValueForSeasonOrEpisodeNumber()
+	{
+		boolean hasZeroOrNullValueForSeason = (season == null || season.getNumber() == null || season.getNumber() == 0);
+		
+		boolean hasZeroOrNullValueForEpisodeNumber = (episodeNumber == null || episodeNumber == 0);
+		
+		boolean hasZeroValueForSeasonOrEpisodeNumber = hasZeroOrNullValueForSeason || hasZeroOrNullValueForEpisodeNumber;
+
+		return hasZeroValueForSeasonOrEpisodeNumber;
+	}
+	
+	
+	
 	@Override
 	public boolean areDataFieldsValid() 
 	{	
