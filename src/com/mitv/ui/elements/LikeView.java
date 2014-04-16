@@ -93,13 +93,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	
 	private void removeLike() 
 	{
-		ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
-		
 		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), null);
-		
-		setImageToNotLiked();
-		
-		TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
 	}
 	
 	
@@ -164,6 +158,9 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 			public void run() {
 				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
 				setImageToNotLiked();
+				
+				setImageToNotLiked();
+				TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
 			}
 		};
 	}
