@@ -86,21 +86,6 @@
             android:visibility="gone"
             font:fonttextview="roboto_mitv_regular.ttf" />
 
-        <!-- INFO EXTRA AREA -->
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/tutorial_info_extra_area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tutorial_info"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/transparent"
-            android:lineSpacingExtra="2dp"
-            android:gravity="center"
-            android:textSize="13sp"
-            android:visibility="gone"
-            font:fonttextview="roboto_mitv_regular.ttf" />
     </RelativeLayout>
 
     <ImageView
