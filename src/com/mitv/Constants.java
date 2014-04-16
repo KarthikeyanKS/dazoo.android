@@ -46,6 +46,7 @@ public abstract class Constants
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
 	public static final boolean ENABLE_RATE_APP_DIALOG = true;
+	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = true;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
