@@ -235,7 +235,6 @@ public class TrackingGAManager
 
 	public void sendUserHourSelectionEvent(int lastSelectedHour) {
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
-		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
 			List<Integer> hours = SwipeClockBar.generate24Hours();
 			Integer lastSelectedHourAsInteger = Integer.valueOf(lastSelectedHour);
@@ -243,18 +242,8 @@ public class TrackingGAManager
 			int indexOfLastSelectedHour = hours.indexOf(lastSelectedHourAsInteger);
 		
 			int timeDiff = Math.abs(indexOfSelectedHour - indexOfLastSelectedHour);
-			
-			StringBuilder sb = new StringBuilder();
-			if(indexOfSelectedHour < indexOfLastSelectedHour) {
-				sb.append(timeDiff).append("H_BACK_IN_TIME");
-			} else if(indexOfSelectedHour > indexOfLastSelectedHour) {
-				sb.append(timeDiff).append("H_FORWARD_IN_TIME");
-			} else {
-				sb.append("SAME_HOUR");
-			}
-			
-			String label = sb.toString();
-			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)selectedHour);
+						
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, selectedHour.toString(), (long)timeDiff);
 		}
 	}
 	
