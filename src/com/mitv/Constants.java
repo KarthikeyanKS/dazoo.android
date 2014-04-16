@@ -432,6 +432,8 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_ACTION_FIRST_BOOT						= "OnBoot";
 	public static final String GA_EVENT_KEY_USER_EXIT_TUTORIAL						= "EXIT_TUTORIAL";
 	public static final String GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION		= "HTTP_CORE_OUT_OF_MEMORY_EXCEPTION";
+	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS = "CHANNEL_CELL_IN_HOME_ACTIVITY_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS = "BROADCAST_CELL_IN_CHANNEL_ACTIVITY_PRESSED";
 	
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";

@@ -19,6 +19,8 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
@@ -254,6 +256,36 @@ public class TrackingGAManager
 			String label = sb.toString();
 			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)selectedHour);
 		}
+	}
+	
+	public void sendUserPressedChannelInHomeActivity(TVChannelId channelId, int position) {
+		TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+		String channelName = channel.getName();
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS, channelName, (long) position);
+	}
+	
+	public void sendUserPressedBroadcastInChannelActivity(TVChannel channel, TVBroadcast broadcast, int position) {
+		if(position == 0) {
+			/* The top most cell in the channel page activity is clickable, but it is not a cell */
+			return;
+		} else {
+			/* Subtract 1 from position value since this list does not start at index 0. */
+			position--;
+		}
+		
+		String channelName = channel.getName();
+		String broadcastTitle = broadcast.getTitle();
+		String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+		
+		StringBuilder sb = new StringBuilder(channelName);
+		sb.append(" - ");
+		sb.append(startTime);
+		sb.append(": ");
+		sb.append(broadcastTitle);
+		String label = sb.toString();
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS, label, (long) position);
 	}
 
 	public void sendUserDaySelectionEvent(Activity activity, int dayIndex) {

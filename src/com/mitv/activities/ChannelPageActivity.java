@@ -20,6 +20,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.ChannelPageListAdapter;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -124,6 +125,8 @@ public class ChannelPageActivity
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
+				
+				TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
 
 				startActivity(intent);
 			}

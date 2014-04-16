@@ -5,6 +5,7 @@ package com.mitv.listadapters;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -105,7 +106,7 @@ public class TVGuideListAdapter
 	}
 
 	
-	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) 
+	public View getViewForGuideCell(final int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
 
@@ -172,6 +173,7 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{
+				TrackingGAManager.sharedInstance().sendUserPressedChannelInHomeActivity(guide.getChannelId(), position);
 				Intent intent = new Intent(activity, ChannelPageActivity.class);
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
@@ -466,6 +468,7 @@ public class TVGuideListAdapter
 	}
 
 	
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{
