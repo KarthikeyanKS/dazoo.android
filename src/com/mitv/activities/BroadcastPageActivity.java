@@ -379,8 +379,8 @@ public class BroadcastPageActivity
 
 		shareContainer = (RelativeLayout) findViewById(R.id.element_social_buttons_share_button_container);
 
+		progressTxt = (TextView) findViewById(R.id.block_broadcastpage_broadcast_progressbar_text);
 		progressBar = (ProgressBar) findViewById(R.id.block_broadcastpage_broadcast_progressbar);
-		progressTxt = (TextView) findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 		
 		upcomingContainer = (RelativeLayout) findViewById(R.id.broacastpage_upcoming);
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
@@ -622,17 +622,20 @@ public class BroadcastPageActivity
 			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
 		}
 
+		BroadcastTypeEnum broadcastType = broadcastWithChannelInfo.getBroadcastType();
+		
 		StringBuilder timeSB = new StringBuilder();
 		
-		if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) /* Broadcast is currently on air: show progress */
+		if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring())
 		{
 			LanguageUtils.setupProgressBar(this, broadcastWithChannelInfo, progressBar, progressTxt);
 
 			if(programType == ProgramTypeEnum.SPORT &&
-			   broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+			   broadcastType == BroadcastTypeEnum.LIVE) 
 			{
-				timeSB.append(getString(R.string.icon_live))
-				.append(" ");
+				timeSB.append(getString(R.string.icon_live));
+				
+				timeTv.setText(timeSB.toString());
 				
 				timeTv.setVisibility(View.VISIBLE);
 			}
@@ -644,7 +647,7 @@ public class BroadcastPageActivity
 		else /* Broadcast is in the future: show time */
 		{
 			if(programType == ProgramTypeEnum.SPORT &&
-			   broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+			   broadcastType == BroadcastTypeEnum.LIVE)
 			{
 				timeSB.append(getString(R.string.icon_live))
 				.append(" ");

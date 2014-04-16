@@ -137,17 +137,6 @@
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_channel_iv" >
 
                 <!-- TIME LEFT -->
-
-                <com.mitv.ui.elements.FontTextView
-                    android:id="@+id/block_broadcastpage_broadcast_timeleft_tv"
-                    style="@style/remaining"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:visibility="gone" />
-
-                <!-- TIME -->
-
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
                     style="@style/header2"
@@ -155,12 +144,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp" />
 
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_progressbar_text"
+                    style="@style/remaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_time_tv"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone" />
+                
                 <ProgressBar
                     android:id="@+id/block_broadcastpage_broadcast_progressbar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/block_broadcastpage_broadcast_timeleft_tv"
+                    android:layout_below="@id/block_broadcastpage_broadcast_progressbar_text"
+                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_time_tv"
                     android:layout_marginLeft="10dp"
                     android:progressDrawable="@drawable/progress_horizontal"
                     android:visibility="gone" />
