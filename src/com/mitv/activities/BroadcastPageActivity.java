@@ -40,7 +40,6 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
-import com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
@@ -457,6 +456,8 @@ public class BroadcastPageActivity
 			upcomingContainer.setVisibility(View.GONE);
 		}
 		
+		// TODO: Uncomment to re-enable what is playing on different channels
+		/*
 		if (similarBroadcastsAiringNow != null && !similarBroadcastsAiringNow.isEmpty()) 
 		{
 			BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(this, nowAiringContainer, broadcastWithChannelInfo);
@@ -464,9 +465,9 @@ public class BroadcastPageActivity
 			nowAiringContainer.setVisibility(View.VISIBLE);
 		}
 		else
-		{
+		{*/
 			nowAiringContainer.setVisibility(View.GONE);
-		}
+		/*}*/
 	}
 
 

@@ -110,7 +110,7 @@ public class TVBroadcast
 			{
 				seasonEpisodeSB.append(context.getString(R.string.episode))
 				.append(" ")
-				.append(season);
+				.append(episode);
 			}
 		}
 		
