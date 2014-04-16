@@ -34,8 +34,8 @@ public class TVBroadcastWithChannelInfo
 		this.endTime = broadcast.getEndTime();
 		this.broadcastType = broadcast.getBroadcastType();
 		this.shareUrl = broadcast.getShareUrl();
-		this.beginTimeCalendarLocal = broadcast.getBeginTimeCalendarLocal();
-		this.endTimeCalendarLocal = broadcast.getEndTimeCalendarLocal();
+		this.beginTimeCalendarLocal = broadcast.getBeginTimeCalendarLocalForTagGeneration();
+		this.endTimeCalendarLocal = broadcast.getEndTimeCalendarLocalForTagGeneration();
 	}
 	
 	
