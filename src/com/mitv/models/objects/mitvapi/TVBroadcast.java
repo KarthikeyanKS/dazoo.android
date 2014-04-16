@@ -178,6 +178,22 @@ public class TVBroadcast
 	}
 	
 	
+	/* Used when creating new TVBroadcast objects at tag generation */
+	public Calendar getBeginTimeCalendarLocalForTagGeneration() 
+	{
+		return beginTimeCalendarLocal;
+	}
+	
+	
+	
+	/* Used when creating new TVBroadcast objects at tag generation */
+	public Calendar getEndTimeCalendarLocalForTagGeneration() 
+	{
+		return endTimeCalendarLocal;
+	}
+	
+	
+	
 	public boolean isBroadcastCurrentlyAiring() 
 	{
 		Calendar now = DateUtils.getNow();
