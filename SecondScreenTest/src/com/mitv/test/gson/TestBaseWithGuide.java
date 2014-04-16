@@ -4,10 +4,10 @@ import java.util.List;
 
 import android.util.Log;
 
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVChannelId;
-import com.mitv.models.TVDate;
-import com.mitv.models.UserLoginData;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.UserLoginData;
 
 /**
  * 

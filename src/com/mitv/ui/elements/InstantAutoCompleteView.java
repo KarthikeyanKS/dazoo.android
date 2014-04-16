@@ -13,7 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.AutoCompleteTextView;
-import com.mitv.FontManager;
+
+import com.mitv.managers.FontManager;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -110,10 +111,11 @@ public class InstantAutoCompleteView
 	}
     
 	
+	
 	@Override
 	public void showDropDown() 
 	{
-		if(GenericUtils.isActivityNotNullAndNotFinishing(activity) && enoughToFilter() && searchComplete) 
+		if(GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(activity) && enoughToFilter() && searchComplete) 
 		{
 			super.showDropDown();
 		}

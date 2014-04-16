@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
@@ -29,9 +28,11 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVFeedItem;
-import com.mitv.models.TVProgram;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVFeedItem;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.GenericUtils;
@@ -55,7 +56,7 @@ public class FeedListAdapter
 	
 	public FeedListAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
 	{
-		super(Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
+		super(Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems, Constants.AD_UNIT_ID_FEED_ACTIVITY);
 		this.activity = activity;
 		this.feedItems = feedItems;
 
@@ -155,7 +156,7 @@ public class FeedListAdapter
 	public void populatePopularItemAtIndex(
 			PopularBroadcastsViewHolder viewHolder, 
 			ArrayList<TVBroadcastWithChannelInfo> broadcasts, 
-			int popularRowIndex) 
+			final int popularRowIndex) 
 	{
 		ImageView imageView = null;
 		TextView title = null;
@@ -306,7 +307,7 @@ public class FeedListAdapter
 					@Override
 					public void onClick(View v) 
 					{
-						popularBroadcastClicked(broadcast);
+						popularBroadcastClicked(FeedItemTypeEnum.POPULAR_BROADCASTS, broadcast, popularRowIndex);
 					}
 				});
 			}
@@ -500,7 +501,7 @@ public class FeedListAdapter
 				}
 			}
 			
-			FeedItemTypeEnum feedItemType = feedItem.getItemType();
+			final FeedItemTypeEnum feedItemType = feedItem.getItemType();
 			
 			switch (feedItemType) 
 			{
@@ -540,7 +541,7 @@ public class FeedListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					popularBroadcastClicked(broadcast);
+					popularBroadcastClicked(feedItemType, broadcast, 0);
 				}
 			});
 
@@ -627,8 +628,9 @@ public class FeedListAdapter
 	
 	
 	
-	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
+	private void popularBroadcastClicked(FeedItemTypeEnum feedItemType, TVBroadcastWithChannelInfo broadcastWithChannelInfo, int index) 
 	{
+		TrackingGAManager.sharedInstance().sendUserFeedItemPressedEvent(feedItemType, broadcastWithChannelInfo, index);
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 		
 		Intent intent = new Intent(activity, BroadcastPageActivity.class);

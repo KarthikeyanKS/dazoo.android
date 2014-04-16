@@ -37,6 +37,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.ssl.HttpClientWraper;
+import com.mitv.managers.TrackingManager;
 
 
 
@@ -358,6 +359,12 @@ public class HTTPCore
 							catch (IOException ioex) 
 							{
 								Log.e(TAG, ioex.getMessage(), ioex);
+							}
+							catch (OutOfMemoryError ofmmex) 
+							{
+								TrackingManager.sharedInstance().sendHTTPCoreOutOfMemoryException();
+								
+								Log.e(TAG, ofmmex.getMessage(), ofmmex);
 							}
 	
 							httpBodyContentResult = temp.toString();

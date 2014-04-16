@@ -5,6 +5,7 @@ package com.mitv.listadapters;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
@@ -33,10 +33,12 @@ import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVProgram;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.helpers.DialogHelper;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -48,8 +50,6 @@ public class TVGuideListAdapter
 {
 	private static final String TAG = TVGuideListAdapter.class.getName();
 
-	private static String ELLIPSIS_STRING = "...";
-	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private TVDate tvDate;
@@ -60,7 +60,7 @@ public class TVGuideListAdapter
 	
 	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
 	{
-		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide);
+		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
 		this.activity = activity;
 		this.tvDate = date;
 		this.currentHour = hour;
@@ -106,13 +106,18 @@ public class TVGuideListAdapter
 	}
 
 	
-	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) 
+	public View getViewForGuideCell(final int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
 
 		if (rowView == null) 
 		{
 			rowView = layoutInflater.inflate(R.layout.row_tvguide_list, null);
+			
+			int paddingPixel = 30;
+			float density = activity.getResources().getDisplayMetrics().density;
+			int paddingDp = (int)(paddingPixel * density);
+			rowView.setPadding(0, 0, paddingDp, 0);
 
 			ViewHolder viewHolder = new ViewHolder();
 
@@ -168,11 +173,11 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{
+				TrackingGAManager.sharedInstance().sendUserPressedChannelInHomeActivity(guide.getChannelId(), position);
 				Intent intent = new Intent(activity, ChannelPageActivity.class);
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
 				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
-				ContentManager.sharedInstance().setSelectedHour(currentHour);
 				activity.startActivity(intent);
 			}
 		});
@@ -275,7 +280,7 @@ public class TVGuideListAdapter
 							textWidth = testPaint.measureText(rowInfoSB.toString());
 						}
 
-						String ellipsisString = ELLIPSIS_STRING;
+						String ellipsisString = Constants.ELLIPSIS_STRING;
 
 						if (deletedChars) 
 						{
@@ -322,7 +327,6 @@ public class TVGuideListAdapter
 				holder.textView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 
 			}
-			//If there is no data, show message "No content is available". TODO: What to do here?
 			else 
 			{
 				holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
@@ -352,6 +356,8 @@ public class TVGuideListAdapter
 			@Override
 			public void onClick(View v) 
 			{	
+				TrackingGAManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
+				
 				/* WHEN LOGGED IN */
 				if (ContentManager.sharedInstance().isLoggedIn()) 
 				{
@@ -462,6 +468,7 @@ public class TVGuideListAdapter
 	}
 
 	
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{

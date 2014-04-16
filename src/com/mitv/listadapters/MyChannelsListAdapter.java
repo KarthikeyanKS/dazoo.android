@@ -11,20 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.interfaces.MyChannelsCountInterface;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelId;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -40,6 +37,7 @@ extends BaseAdapter
 	private LayoutInflater layoutInflater;
 	private ArrayList<TVChannel> channelsMatchingSearch;
 	private ArrayList<TVChannelId> checkedChannelIds;
+	private String searchQuery;
 
 	private MyChannelsCountInterface mCountInterface;
 
@@ -51,8 +49,9 @@ extends BaseAdapter
 		layoutInflater = (LayoutInflater) SecondScreenApplication.sharedInstance().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setChannelsMatchingSearchAndRefreshAdapter(ArrayList<TVChannel> channelsMatchingSearch) {
+	public void setChannelsMatchingSearchAndRefreshAdapter(String searchQuery, ArrayList<TVChannel> channelsMatchingSearch) {
 		this.channelsMatchingSearch = channelsMatchingSearch;
+		this.searchQuery = searchQuery;
 		notifyDataSetChanged();
 	}
 
@@ -138,6 +137,8 @@ extends BaseAdapter
 						holder.buttonTv.setText("✓ " + resources.getString(R.string.agregado)); //TODO: Update icon when it is in font.
 						holder.button.setBackgroundResource(R.drawable.layout_rounded_corners_blue0);
 					}
+
+					TrackingGAManager.sharedInstance().sendUserChannelSearchResultClickedEvent(searchQuery, channelByTag.getName(), checked);
 					int checkedChannelsCount = checkedChannelIds.size();
 					mCountInterface.setSelectedChannelCount(checkedChannelsCount);
 				}

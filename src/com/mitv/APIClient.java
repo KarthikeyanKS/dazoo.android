@@ -8,50 +8,52 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import com.mitv.asynctasks.CheckNetworkConnectivity;
-import com.mitv.asynctasks.GetAdsAdzerk;
-import com.mitv.asynctasks.GetAppConfigurationData;
-import com.mitv.asynctasks.GetAppVersionData;
-import com.mitv.asynctasks.GetTVBroadcastDetails;
-import com.mitv.asynctasks.GetTVBroadcastsFromProgram;
-import com.mitv.asynctasks.GetTVBroadcastsFromSeries;
-import com.mitv.asynctasks.GetTVBroadcastsPopular;
-import com.mitv.asynctasks.GetTVChannelGuides;
-import com.mitv.asynctasks.GetTVChannelIdsDefault;
-import com.mitv.asynctasks.GetTVChannelsAll;
-import com.mitv.asynctasks.GetTVDates;
-import com.mitv.asynctasks.GetTVSearchResults;
-import com.mitv.asynctasks.GetTVTags;
-import com.mitv.asynctasks.PerformInternalTracking;
-import com.mitv.asynctasks.PerformUserHasSeenAdAdzerk;
-import com.mitv.asynctasks.PerformUserLoginWithCredentials;
-import com.mitv.asynctasks.PerformUserLoginWithFacebookToken;
-import com.mitv.asynctasks.PerformUserPasswordResetConfirmation;
-import com.mitv.asynctasks.PerformUserPasswordResetSendEmail;
-import com.mitv.asynctasks.PerformUserSignUp;
-import com.mitv.asynctasks.SNTPAsyncTask;
-import com.mitv.asynctasks.usertoken.AddUserLike;
-import com.mitv.asynctasks.usertoken.GetUserLikes;
-import com.mitv.asynctasks.usertoken.GetUserTVChannelIds;
-import com.mitv.asynctasks.usertoken.GetUserTVFeedItems;
-import com.mitv.asynctasks.usertoken.PerformUserLogout;
-import com.mitv.asynctasks.usertoken.RemoveUserLike;
-import com.mitv.asynctasks.usertoken.SetUserTVChannelIds;
+import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
+import com.mitv.asynctasks.disqus.GetDisqusThreadPosts;
+import com.mitv.asynctasks.mitvapi.GetAdsAdzerk;
+import com.mitv.asynctasks.mitvapi.GetAppConfigurationData;
+import com.mitv.asynctasks.mitvapi.GetAppVersionData;
+import com.mitv.asynctasks.mitvapi.GetTVBroadcastDetails;
+import com.mitv.asynctasks.mitvapi.GetTVBroadcastsFromProgram;
+import com.mitv.asynctasks.mitvapi.GetTVBroadcastsFromSeries;
+import com.mitv.asynctasks.mitvapi.GetTVBroadcastsPopular;
+import com.mitv.asynctasks.mitvapi.GetTVChannelGuides;
+import com.mitv.asynctasks.mitvapi.GetTVChannelIdsDefault;
+import com.mitv.asynctasks.mitvapi.GetTVChannelsAll;
+import com.mitv.asynctasks.mitvapi.GetTVDates;
+import com.mitv.asynctasks.mitvapi.GetTVSearchResults;
+import com.mitv.asynctasks.mitvapi.GetTVTags;
+import com.mitv.asynctasks.mitvapi.PerformInternalTracking;
+import com.mitv.asynctasks.mitvapi.PerformUserHasSeenAdAdzerk;
+import com.mitv.asynctasks.mitvapi.PerformUserLoginWithCredentials;
+import com.mitv.asynctasks.mitvapi.PerformUserLoginWithFacebookToken;
+import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetConfirmation;
+import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetSendEmail;
+import com.mitv.asynctasks.mitvapi.PerformUserSignUp;
+import com.mitv.asynctasks.mitvapi.usertoken.AddUserLike;
+import com.mitv.asynctasks.mitvapi.usertoken.GetUserLikes;
+import com.mitv.asynctasks.mitvapi.usertoken.GetUserTVChannelIds;
+import com.mitv.asynctasks.mitvapi.usertoken.GetUserTVFeedItems;
+import com.mitv.asynctasks.mitvapi.usertoken.PerformUserLogout;
+import com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike;
+import com.mitv.asynctasks.mitvapi.usertoken.SetUserTVChannelIds;
+import com.mitv.asynctasks.other.CheckNetworkConnectivity;
+import com.mitv.asynctasks.other.SNTPAsyncTask;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.TVChannelId;
-import com.mitv.models.TVDate;
-import com.mitv.models.UserLike;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
+import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.UserLike;
 
 
 
 public class APIClient
 {	
-	private static final int  pool_executor_default_core_pool_size  = 7;
-	private static final int  pool_executor_default_max_pool_size   = 10;
+	private static final int  pool_executor_default_core_pool_size  = 15;
+	private static final int  pool_executor_default_max_pool_size   = 20;
 	private static final long pool_executor_default_keep_alive_time = 5000L;
 	
 	
@@ -388,5 +390,19 @@ public class APIClient
 	{
 		PerformInternalTracking performInternalTracking = new PerformInternalTracking(contentCallbackListener, activityCallbackListener, tvProgramId, deviceId);
 		performInternalTracking.execute();
+	}
+	
+	
+	public void getDisqusThreadPosts(ViewCallbackListener activityCallbackListener, String contentID)
+	{
+		GetDisqusThreadPosts getDisqusThreadPosts = new GetDisqusThreadPosts(contentCallbackListener, activityCallbackListener, contentID);
+		getDisqusThreadPosts.execute();
+	}
+	
+	
+	public void getDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID)
+	{
+		GetDisqusThreadDetails getDisqusThreadDetails = new GetDisqusThreadDetails(contentCallbackListener, activityCallbackListener, contentID);
+		getDisqusThreadDetails.execute();
 	}
 }

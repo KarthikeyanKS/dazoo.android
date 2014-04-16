@@ -18,12 +18,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -44,7 +45,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 	
 	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition) 
 	{
-		super(fragmentName, activity, taggedBroadcasts);
+		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
 		this.taggedBroadcasts = taggedBroadcasts;
 		this.activity = activity;
 		this.currentPosition = currentPosition;
@@ -78,17 +79,23 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 	
 	
-	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) {
+	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) 
+	{
 		View rowView = convertView;
 
-		// get the item with the displacement depending on the scheduled time on air
+		// Get the item with the displacement depending on the scheduled time on air
 		int indexForBroadcast = currentPosition + position;
+		
 		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
 
-		if (rowView == null) {
+		if (rowView == null) 
+		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
 			rowView = layoutInflater.inflate(R.layout.element_poster_broadcast, null);
+			
 			ViewHolder viewHolder = new ViewHolder();
+			
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
 			viewHolder.mImageIv = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
 			viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
@@ -103,16 +110,20 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (broadcastWithChannelInfo != null) {
-			// If on air
-			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) {
+		if (broadcastWithChannelInfo != null) 
+		{
+			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) 
+			{
 				LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
-			} else {
+			} 
+			else 
+			{
 				holder.mDurationPb.setVisibility(View.GONE);
 				holder.mTimeLeftTv.setVisibility(View.GONE);
 			}
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
+			
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 
 			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
@@ -120,91 +131,154 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
 
-			switch (programType) {
-			case MOVIE: {
-				holder.mTitleTv.setText(activity.getString(R.string.icon_movie) + " " + broadcastWithChannelInfo.getProgram().getTitle());
-				holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
-				break;
-			}
-			case TV_EPISODE: {
-				String season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().toString();
-				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
-				String seasonEpisode = "";
-				if (!season.equals("0")) {
-					seasonEpisode += activity.getString(R.string.season) + " " + season + " ";
+			switch (programType) 
+			{
+				case MOVIE: 
+				{
+					StringBuilder titleSB = new StringBuilder();
+					
+					titleSB.append(activity.getString(R.string.icon_movie))
+					.append(" ")
+					.append(broadcastWithChannelInfo.getTitle());
+					
+					holder.mTitleTv.setText(titleSB.toString());
+					
+					holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
+					
+					break;
 				}
-				if (episode > 0) {
-					seasonEpisode += activity.getString(R.string.episode) + " " + episode;
+				
+				case TV_EPISODE: 
+				{
+					holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+					
+					String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
+					holder.mDescTv.setText(seasonAndEpisodeString);
+					break;
 				}
-				holder.mDescTv.setText(seasonEpisode);
-				holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getSeries().getName());
-				break;
-			}
-			case SPORT: {
-				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastWithChannelInfo.getBroadcastType())) {
-					holder.mTitleTv.setText(activity.getString(R.string.icon_live) + " " + broadcastWithChannelInfo.getProgram().getTitle());
-				} else {
-					holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getTitle());
+				
+				case SPORT: 
+				{
+					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+					{
+						StringBuilder titleSB = new StringBuilder();
+						
+						titleSB.append(activity.getString(R.string.icon_live))
+						.append(" ")
+						.append(broadcastWithChannelInfo.getTitle());
+						
+						holder.mTitleTv.setText(titleSB.toString());
+					} 
+					else 
+					{
+						holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+					}
+	
+					StringBuilder descriptionSB = new StringBuilder();
+					
+					descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
+					.append(": ")
+					.append(broadcastWithChannelInfo.getProgram().getTournament());
+					
+					holder.mDescTv.setText(descriptionSB.toString());
+					break;
 				}
-
-				holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getSportType().getName() + ": " + broadcastWithChannelInfo.getProgram().getTournament());
-				break;
-			}
-			case OTHER: {
-				holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getTitle());
-				holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getCategory());
-				break;
-			}
-			default: {
-				holder.mDescTv.setText("");
-				break;
-			}
+				
+				case OTHER: 
+				{
+					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
+					{
+						StringBuilder titleSB = new StringBuilder();
+						
+						titleSB.append(activity.getString(R.string.icon_live))
+						.append(" ")
+						.append(broadcastWithChannelInfo.getTitle());
+						
+						holder.mTitleTv.setText(titleSB.toString());
+					} 
+					else 
+					{
+						holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+					}
+					
+					holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getCategory());
+					break;
+				}
+				
+				default: 
+				{
+					holder.mDescTv.setText("");
+					holder.mDescTv.setText("");
+					break;
+				}
 			}
 		}
 
-		holder.mContainer.setOnClickListener(new View.OnClickListener() {
-
+		holder.mContainer.setOnClickListener(new View.OnClickListener() 
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
+				
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				
 				activity.startActivity(intent);
 			}
 		});
+		
 		return rowView;
 	}
 
-	static class ViewHolder {
-		RelativeLayout mContainer;
-		ImageView mImageIv;
-		TextView mTitleTv;
-		TextView mTimeTv;
-		TextView mChannelTv;
-		TextView mDescTv;
-		TextView mTimeLeftTv;
-		ProgressBar mDurationPb;
+	
+	
+	static class ViewHolder 
+	{
+		private RelativeLayout mContainer;
+		private ImageView mImageIv;
+		private TextView mTitleTv;
+		private TextView mTimeTv;
+		private TextView mChannelTv;
+		private TextView mDescTv;
+		private TextView mTimeLeftTv;
+		private ProgressBar mDurationPb;
 	}
 
+	
+	
 	@Override
-	public int getCount() {
-		if (taggedBroadcasts != null) {
+	public int getCount() 
+	{
+		if (taggedBroadcasts != null) 
+		{
 			return taggedBroadcasts.size() - currentPosition;
-		} else {
+		} 
+		else 
+		{
 			return 0;
 		}
 	}
 
+	
+	
 	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) {
-		if (taggedBroadcasts != null) {
+	public TVBroadcastWithChannelInfo getItem(int position) 
+	{
+		if (taggedBroadcasts != null) 
+		{
 			return taggedBroadcasts.get(position);
-		} else {
+		} 
+		else 
+		{
 			return null;
 		}
 	}
 
+	
+	
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int arg0) 
+	{
 		return -1;
 	}
 }

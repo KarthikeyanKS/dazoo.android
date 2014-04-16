@@ -2,8 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
@@ -26,8 +26,5 @@
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_main_layout"/>
-
-     <!-- UNDO BAR -->
-    <include layout="@layout/layout_undo_bar"/>
     
 </RelativeLayout>

@@ -16,13 +16,14 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVProgram;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.ui.elements.FontTextView;
@@ -123,27 +124,23 @@ public class RemindersListAdapter
 		
 		if (broadcastWithChannelInfo != null)
 		{
-			// If first or the previous broadcast is not the same date, then show the header.
 			holder.mHeaderContainer.setVisibility(View.GONE);
 			
 			holder.mDividerView.setVisibility(View.VISIBLE);
+			
+			boolean isFirstposition = (position == 0);
+			
+			boolean isLastPosition = (position == (getCount() - 1));
 
-			int prevPos = Math.max(position - 1, 0);
+			int previousBroadcastPosition = Math.max(position - 1, 0);
 			
-			TVBroadcastWithChannelInfo broadcastPreviousPosition = getItem(prevPos);
+			TVBroadcastWithChannelInfo previousBroadcastInList = getItem(previousBroadcastPosition);
 			
-			int nextPos = Math.min(position + 1, (broadcasts.size() - 1));
-			
-			TVBroadcastWithChannelInfo broadcastNextPosition = getItem(nextPos);
+			boolean isCurrentBroadcastBeginTimeEqualToPreviousBroadcastBeginTime = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
 
-			String stringCurrent = broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString();
+			int nextBroadcastPosition = Math.min(position + 1, (broadcasts.size() - 1));
 			
-			String stringPrevious = broadcastPreviousPosition.getBeginTimeDayAndMonthAsString();
-			
-			String stringNext = broadcastNextPosition.getBeginTimeDayAndMonthAsString();
-
-			if ((position == 0) ||
-				stringCurrent.equals(stringPrevious) == false) 
+			if (isFirstposition || isCurrentBroadcastBeginTimeEqualToPreviousBroadcastBeginTime == false) 
 			{
 				StringBuilder headerSB = new StringBuilder();
 				headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
@@ -155,8 +152,11 @@ public class RemindersListAdapter
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			}
 
-			if (position != (getCount() - 1) && 
-				stringCurrent.equals(stringNext) == false) 
+			TVBroadcastWithChannelInfo nextBroacastPosition = getItem(nextBroadcastPosition);
+			
+			boolean isCurrentBroadcastBeginTimeEqualToNextBroadcastBeginTime = broadcastWithChannelInfo.isTheSameDayAs(nextBroacastPosition);
+			
+			if (isLastPosition && isCurrentBroadcastBeginTimeEqualToNextBroadcastBeginTime == false) 
 			{
 				holder.mDividerView.setVisibility(View.GONE);
 			}
@@ -309,7 +309,10 @@ public class RemindersListAdapter
 				if(currentPosition >= 0 && 
 				   currentPosition < broadcasts.size()) 
 				{
+					TVBroadcastWithChannelInfo broadcastForReminderToDelete = broadcasts.get(currentPosition);
 					broadcasts.remove(currentPosition);
+					
+					TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, broadcastForReminderToDelete, true);
 					
 					notifyDataSetChanged();
 				}

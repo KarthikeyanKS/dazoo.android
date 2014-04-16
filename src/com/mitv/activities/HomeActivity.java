@@ -4,18 +4,20 @@ package com.mitv.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.mitv.managers.RateAppManager;
+import com.mitv.managers.ContentManager;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -25,7 +27,6 @@ import com.mitv.utilities.NetworkUtils;
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
@@ -51,15 +52,24 @@ public class HomeActivity
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_home_activity);
-
-		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-		selectedTagIndex = 0;
-		hasShowWelcomeToast = false;
 		
 		initLayout();
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		boolean isConnected = NetworkUtils.isConnected();
+		
+		if (isConnected) {
+			getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+			selectedTagIndex = 0;
+			hasShowWelcomeToast = false;			
+			
+			registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+			
+			RateAppManager.appLaunched(this);
+			
+		} else {
+			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+		}
 	}
 	
 	
@@ -106,42 +116,37 @@ public class HomeActivity
 	@Override
 	protected void attachFragment() 
 	{
-		if (GenericUtils.isActivityNotNullAndNotFinishing(this)) 
+		if (GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this)) 
 		{
 			FragmentManager fm = getSupportFragmentManager();
 			
 			if (activeFragment == null) 
 			{
-				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
+				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, getOnViewPagerIndexChangedListener());
+
+				FragmentTransaction fragmentTransaction = fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null);
+				
+				try
 				{
-					@Override
-					public void onIndexSelected(int position) 
-					{
-						selectedTagIndex = position;
-						
-						boolean isConnected = NetworkUtils.isConnected();
-
-						if (hasEnoughDataToShowContent() && isConnected == false) 
-						{
-							ToastHelper.createAndShowNoInternetConnectionToast();
-							
-//							if (undoBarController != null)
-//							{
-//								undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-//							} 
-//							else
-//							{
-//								Log.w(TAG, "Undo bar component is null.");
-//							}
-						}
-					}
-				});
-
-				fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
+					fragmentTransaction.commitAllowingStateLoss();
+				}
+				catch(IllegalStateException ilstex)
+				{
+					Log.e(TAG, ilstex.getMessage());
+				}
 			} 
 			else 
 			{
-				fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
+				FragmentTransaction fragmentTransaction = fm.beginTransaction().attach(activeFragment);
+						
+				try
+				{
+					fragmentTransaction.commitAllowingStateLoss();
+				}
+				catch(IllegalStateException ilstex)
+				{
+					Log.e(TAG, ilstex.getMessage());
+				}
 			}
 		}
 	}
@@ -240,5 +245,28 @@ public class HomeActivity
 			
 			default:{/*Do nothing*/break;}
 		}
+	}
+	
+	
+	
+	private OnViewPagerIndexChangedListener getOnViewPagerIndexChangedListener()
+	{
+		OnViewPagerIndexChangedListener listener = new OnViewPagerIndexChangedListener() 
+		{
+			@Override
+			public void onIndexSelected(int position) 
+			{
+				selectedTagIndex = position;
+				
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (hasEnoughDataToShowContent() && isConnected == false) 
+				{
+					ToastHelper.createAndShowNoInternetConnectionToast();
+				}
+			}	
+		};
+		
+		return listener;
 	}
 }

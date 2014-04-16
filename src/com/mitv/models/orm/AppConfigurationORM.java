@@ -12,7 +12,7 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.mitv.models.AppConfiguration;
+import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 
@@ -32,6 +32,9 @@ public class AppConfigurationORM
 	
 	@DatabaseField()
 	private boolean adsEnabled;
+	
+	@DatabaseField()
+	private boolean preventRateAppDialog;
 	
 	@DatabaseField()
 	private int adzerkNetworkId;
@@ -84,6 +87,7 @@ public class AppConfigurationORM
 		 this.firstHourOfDay = appConfiguration.getFirstHourOfDay();
 		 this.welcomeToast = appConfiguration.getWelcomeToast();
 		 this.adsEnabled = appConfiguration.isAdsEnabled();
+		 this.preventRateAppDialog = appConfiguration.isPreventingRateAppDialog();
 		 this.adzerkNetworkId = appConfiguration.getAdzerkNetworkId();
 		 this.adzerkSiteId = appConfiguration.getAdzerkSiteId();
 		 this.adzerkLevel = appConfiguration.getAdzerkLevel();
@@ -215,6 +219,9 @@ public class AppConfigurationORM
 	}
 
 
+	public boolean isPreventingRateAppDialog() {
+		return preventRateAppDialog;
+	}
 
 	public int getAdzerkNetworkId() {
 		return adzerkNetworkId;

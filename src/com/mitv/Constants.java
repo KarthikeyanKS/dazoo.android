@@ -11,6 +11,48 @@ import com.mitv.activities.FeedActivity;
  */
 public abstract class Constants 
 {
+	/* HTTP and HTTPS schemas */
+	public static final String HTTP_SCHEME = "http://";
+	public static final String HTTPS_SCHEME	= "https://";
+	public static final String FORWARD_SLASH = "/";
+	
+	/* BACKEND API BASE URLs */
+	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com" + FORWARD_SLASH;
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv" + FORWARD_SLASH;
+	
+	/* FRONTEND API BASE URLs */
+	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
+	public static final String FRONTEND_PRODUCTION_ENVIRONMENT = "mi.tv";
+	
+		
+	/* CONFIGURATIONS FOR RELEASE */
+	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+	public static final String SUPPORTED_API_VERSION = "1.0.0";
+	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
+	public static final boolean FORCE_SPANISH_LOCALE = true;
+	public static final boolean IS_PREINSTALLED_VERSION = false;
+	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
+	public static final int CACHE_DATABASE_VERSION = 1;
+	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
+	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
+	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
+	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
+	public static final boolean ENABLE_STRICT_MODE = false;
+	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
+	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
+	public static final boolean ENABLE_AMAZON_INSIGHTS = false;
+	public static final boolean ENABLE_RATE_APP_DIALOG = false;
+	
+	
+	/* AMAZON INSIGHTS SETTINGS */
+	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
+	public static final String AMAZON_INSIGHTS_PUBLIC_KEY = "f2a04686bcc24285a46a7823300fcf1b";
+	public static final String AMAZON_INSIGHTS_PRIVATE_KEY = "7GCv830tpJAbqSC5BsXYwJ2S1JGto2Ej29wD99BQK6M=";
+	
 	/* HockeyApp Settings */
 	public static final String TESTFLIGHT_TOKEN = "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String HOCKEY_APP_TOKEN = "c90b5331b5a7086d88d98021508f2c16";
@@ -20,26 +62,17 @@ public abstract class Constants
 	public static final String HTTP_CORE_DEAFULT_ENCODING = "UTF-8";
 	public static final int HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT = 1000;
 	
-	/* HTTP and HTTPS schemas */
-	public static final String HTTP_SCHEME = "http://";
-	public static final String HTTPS_SCHEME	= "https://";
-	
-	/* BACKEND API BASE URLs */
-	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com/";
-	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv/";
-	
-	/* CURRENTLY USED BACKEND ENVIVONNEMT AND HTTP SCHEME */
-	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_PRODUCTION_ENVIRONMENT;
-	
+	/* Misc configurations */
+	public static final String ELLIPSIS_STRING = "...";
+		
 	/* "Static", don't need to change those */
 	public static final String URL_BACKEND_BASE_API					= "api.";
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
-	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;;
+	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
-	public static String URL_INTERNAL_TRACKING_SUFFIX				= "track/unique";
-	public static String URL_INTERNAL_TRACKING						= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
-	
+	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "track/unique";
+	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
+	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_ENVIRONMENT_USED;
 	
 	public static final String URL_GUIDE 							= URL_SERVER + "epg/guide";
 	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
@@ -152,31 +185,38 @@ public abstract class Constants
 	/* Notifications database */
 	public static final String	NOTIFICATION_DATABASE_NAME							= "notifications.db";
 	/* The database version must be updated after a change in the database schema */
-	public static final int		NOTIFICATION_DATABASE_VERSION						= 3;
-	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					= "notifications";
-	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				= "notification_id";
+	public static final int		NOTIFICATION_DATABASE_VERSION						 = 4;
+	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					 = "notifications";
+	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				 = "notification_id";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS = "begin_time_miliseconds";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME			= "begin_time";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME			= "end_time";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_TYPE				= "broadcast_type";
-	public static final String	NOTIFICATION_DB_COLUMN_SHARE_URL					= "share_url";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_SMALL			= "channel_logo_small";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_MEDIUM			= "channel_logo_medium";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_LARGE			= "channel_logo_large";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_ID					= "program_id";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TITLE				= "program_title";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TYPE					= "program_type";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_SHORT		= "program_synopsis_short";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_LONG		= "program_synopsis_long";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAGS					= "program_tags";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CREDITS				= "program_credits";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SEASON 				= "program_season";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE 				= "program_episode";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_YEAR 				= "program_year";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_GENRE 				= "program_genre";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY 			= "program_category";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME			 = "begin_time";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME			 = "end_time";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_TYPE				 = "broadcast_type";
+	public static final String	NOTIFICATION_DB_COLUMN_SHARE_URL					 = "share_url";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					 = "channel_id";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					 = "channel_name";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_SMALL			 = "channel_logo_small";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_MEDIUM			 = "channel_logo_medium";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_LARGE			 = "channel_logo_large";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_ID					 = "program_id";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TITLE				 = "program_title";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TYPE					 = "program_type";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_SHORT		 = "program_synopsis_short";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_LONG		 = "program_synopsis_long";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAGS					 = "program_tags";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CREDITS				 = "program_credits";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SEASON 				 = "program_season";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE 				 = "program_episode";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_YEAR 				 = "program_year";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_GENRE 				 = "program_genre";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY 			 = "program_category";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_SMALL 	 = "program_logo_portrait_small";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_MEDIUM  = "program_logo_portrait_medium";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_PORTRAIT_LARGE 	 = "program_logo_portrait_large";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_SMALL  = "program_logo_landscape_small";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_MEDIUM = "program_logo_landscape_medium";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_LOGO_LANDSCAPE_LARGE  = "program_logo_landscape_large";
+	
 	public static final String	NOTIFICATION_DB_COLUMN_SERIES_ID					= "series_id";
 	public static final String	NOTIFICATION_DB_COLUMN_SERIES_NAME					= "series_name";
 	public static final String	NOTIFICATION_DB_COLUMN_SPORT_TYPE_ID				= "sport_type_id";
@@ -227,11 +267,6 @@ public abstract class Constants
 	public static final String	BROADCAST_END_TIME							= "endTime";
 	public static final String	BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
 	public static final String	BROADCAST_SHARE_URL							= "shareUrl";
-
-	public static final String	BROADCAST_TYPE_RERUN							= "RERUN";
-	public static final String	BROADCAST_TYPE_LIVE							= "LIVE";
-	public static final String	BROADCAST_TYPE_OTHER							= "OTHER";
-	public static final String	BROADCAST_TYPE_RECORDED						= "RECORDED";
 
 	/* CHANNEL fields */
 	public static final String	CHANNEL_CHANNEL_ID							= "channelId";
@@ -351,21 +386,55 @@ public abstract class Constants
 	public static final String PREFS_KEY_APP_WAS_NOT_PREINSTALLED					= "APP_WAS_NOT_PREINSTALLED";
 	
 	/* GOOGLE ANALYTICS KEYS */
+	/* Fields */
+	public static final String GA_FIELD_USER_ID										= "&uid";
+	
 	/* Category keys */
 	public static final String GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT					= "SystemEvent";
 	public static final String GA_EVENT_CATEGORY_KEY_USER_EVENT						= "UserEvent";
+	
 	
 	/* Action keys */
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS				= "APP_WAS_PREINSTALLED_SHARED_PREFS";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE			= "APP_WAS_PREINSTALLED_EXTERNAL_STORAGE";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION		= "APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG			= "APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG";
+	public static final String GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED		= "DEVICE_LOCAL_TIME_UNSYNCED";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL		= "SIGN_UP_COMPLETED_EMAIL";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_FACEBOOK 	= "SIGN_UP_COMPLETED_FACEBOOK";
+	public static final String GA_EVENT_KEY_USER_EVENT_TAG_SELECTED					= "TAG_SELECTED";
+	public static final String GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED				= "HOUR_SELECTED";
+	public static final String GA_EVENT_KEY_USER_EVENT_SEARCH_RESULT_PRESS			= "SEARCH_RESULT_CELL_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_SEARCH						= "SEARCH_QUERY";
+	public static final String GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH			= "MY_CHANNELS_SEARCH_QUERY";
+	public static final String GA_EVENT_KEY_USER_EVENT_MY_CHANNELS_SEARCH_RESULT_PRESS	= "MY_CHANNELS_SEARCH_RESULT_CELL_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_HARDWARE_BUTTON_MENU_PRESS	= "HARDWARE_BUTTON_MENU_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_RATE_BUTTON_PRESS	= "RATE_DIALOG_RATE_BUTTON_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_REMIND_BUTTON_PRESS	= "RATE_DIALOG_REMIND_ME_LATER_BUTTON_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_NO_BUTTON_PRESS	= "RATE_DIALOG_NO_THANKS_BUTTON_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_PROFILE_TOP_VIEW_PRESS	= "USER_PROFILE_PAGE_TOP_VIEW_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_ADD_MORE_CHANNELS_CELL_PRESS	= "ADD_MORE_CHANNELS_CELL_IN_HOME_ACTIVITY_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_SEARCH_KEYBOARD_BUTTON_PRESS	= "SEARCH_KEYBOARD_BUTTON_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_LIKE_IN_LIKES_ACTIVITY_PRESS	= "LIKE_CELL_IN_LIKES_ACTIVITY_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_MY_CHANNELS_PRESS	= "CHANNEL_CELL_IN_MY_CHANNELS_ACTIVITY_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_DAY_SELECTED					= "DAY_SELECTED";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SHARE					= "SHARE";
+	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_POPULAR_SINGLE		= "FEED_ITEM_SELECTED_POPULAR_SINGLE";
+	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_POPULAR_MULTIPLE	= "FEED_ITEM_SELECTED_POPULAR_MULTIPLE";
+	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_TWITTER			= "FEED_ITEM_SELECTED_TWITTER";
+	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_RECOMMENDED		= "FEED_ITEM_SELECTED_RECOMMENDED";
+	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_YOU_LIKE			= "FEED_ITEM_SELECTED_YOU_LIKE";
+	public static final String GA_EVENT_KEY_USER_EVENT_FEED_LIST_SCROLLED			= "FEED_LIST_SCROLLED_TO_ITEM_AT_INDEX";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_LIKE					= "LIKE";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_REMINDER				= "REMINDER";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_IN					= "USER_SIGNED_IN";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_OUT				= "USER_SIGNED_OUT";
 	public static final String GA_EVENT_KEY_ACTION_FIRST_BOOT						= "OnBoot";
+	public static final String GA_EVENT_KEY_USER_EXIT_TUTORIAL						= "EXIT_TUTORIAL";
+	public static final String GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION		= "HTTP_CORE_OUT_OF_MEMORY_EXCEPTION";
+	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS = "CHANNEL_CELL_IN_HOME_ACTIVITY_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS = "BROADCAST_CELL_IN_CHANNEL_ACTIVITY_PRESSED";
+	
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
@@ -476,13 +545,14 @@ public abstract class Constants
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	
 	/* CONFIGURATIONS FOR SEARCH */
-	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
+	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 2;
 	public static final int DELAY_IN_MILLIS_UNTIL_SEARCH = 400;
 	
     /* CONFIGURATIONS FOR NOTIFICATIONS */
 	public static final int	NOTIFY_MINUTES_BEFORE_THE_BROADCAST	= 15;
     
     /* Shared preferences for data storage */
+	public static final String DEVICE_PREFERENCES_FILE = "device_id.xml";
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
 	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
@@ -494,21 +564,41 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";
 	public static final String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN = "com.mitv.app.tutorial.never.start.again";
 	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
+	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
-	/* CONFIGURATIONS FOR RELEASE */
-	public static final String SUPPORTED_API_VERSION = "1.0.0";
-	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
-	public static final boolean IS_PREINSTALLED_VERSION = false;
-	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
-	public static final int CACHE_DATABASE_VERSION = 1;
-	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
-	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
-	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
-	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
-	public static final boolean ENABLE_STRICT_MODE = false;
-	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
+	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */
+	public static final String DISQUS_COMMENTS_DOMAIN = HTTP_SCHEME_USED + BACKEND_ENVIRONMENT_USED;
+	public static final String DISQUS_COMMENTS_PAGE_URL = DISQUS_COMMENTS_DOMAIN + "/test/index.htm";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE = "title";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER = "identifier";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_LANGUAGE = "language";
+	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_URL = "url";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_ID = "id";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_NAME = "username";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_EMAIL = "email";
+	public static final String DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE = "avatar";
+	
+	/* CONFIGURATIONS FOR DISQUS COMMENTS API CALLS */
+	public static final String DISQUS_API_URL = "https://disqus.com/api";
+	public static final String DISQUS_API_VERSION = "3.0";
+	public static final String DISQUS_API_THREAD_POSTS = "/threads/listPosts";
+	public static final String DISQUS_API_THREAD_DETAILS = "/threads/details";
+	public static final String DISQUS_API_REQUESTS_OUTPUT_TYPE = "json";
+	public static final String DISQUS_API_FORUM_PARAMETER = "forum";
+	public static final String DISQUS_API_LIMIT_PARAMETER = "limit";
+	public static final int DISQUS_API_LIMIT_VALUE = 25;
+	public static final String DISQUS_API_THREAD_IDENT_PARAMETER = "thread:ident";
+	public static final String DISQUS_API_FORUM_SECRET_KEY_PARAMETER = "api_secret";
+	public static final String DISQUS_API_FORUM_NAME = "mitvexample";
+	public static final String DISQUS_API_FORUM_SECRET_KEY = "VdUJEM6UxNrvz8tvwbgpm2Q4EiupswNYMs57DoxMuTlzKTKonLnMEZEIdG3UoBL8";
+	
+	/* CONFIGURATIONS FOR FACEBOOK */
 	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
+	
+	/* Ad mob stuff */
+	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
+	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";
 }

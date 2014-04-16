@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -24,14 +23,16 @@ import com.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.TVGuideListAdapter;
 import com.mitv.listadapters.TVGuideTagListAdapter;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVDate;
-import com.mitv.models.TVGuide;
-import com.mitv.models.TVTag;
+import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.models.objects.mitvapi.TVGuide;
+import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.SwipeClockBar;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -80,19 +81,25 @@ public class TVGuideTableFragment
 	
 	
 	
-	private void updateSwipeClockBarWithDayAndTime() 
-	{
-		if(swipeClockBar != null) 
-		{
+	private void updateSwipeClockBarWithDayAndTime() {
+		if (swipeClockBar != null) {
 			isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
-			
-			if(isToday) 
-			{
-				hour = ContentManager.sharedInstance().getFromCacheSelectedHour();
-			} 
-			else 
-			{
-				hour = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+			int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+
+			if (isToday) {
+				/* If today, default to currentHour */
+				hour = currentHour;
+				if (selectedHour != null && selectedHour >= currentHour) {
+					hour = selectedHour;
+				}
+			} else {
+				if (selectedHour != null) {
+					hour = selectedHour;
+				} else {
+					hour = firstHourOfTVDay;
+				}
 			}
 
 			swipeClockBar.setHour(hour);
@@ -261,6 +268,10 @@ public class TVGuideTableFragment
 					TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
 					tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);
 				
+					if(!tvGuideListAdapter.isAdsEnabled()) {
+						swipeClockBar.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
+					}
+					
 					tvGuideListView.setAdapter(tvGuideListAdapter);
 					
 					tvGuideListAdapter.notifyDataSetChanged();
@@ -268,15 +279,12 @@ public class TVGuideTableFragment
 				}
 				else 
 				{
-					int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
-
-					RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(startIndex);
-					removeAlreadyEndedBroadcastsTask.run();
-					
-					tvTagListAdapter = new TVGuideTagListAdapter(activity, tvTagDisplayName, taggedBroadcasts, startIndex);
-						
-					tvGuideListView.setAdapter(tvTagListAdapter);
+					clearContentOnTagAndReload();
 				}
+				break;
+			}
+			case SUCCESS_WITH_NO_CONTENT: {
+				clearContentOnTagAndReload();
 				break;
 			}
 			
@@ -288,6 +296,17 @@ public class TVGuideTableFragment
 		}		
 	}
 	
+	
+	private void clearContentOnTagAndReload() {
+		int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
+
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(startIndex);
+		removeAlreadyEndedBroadcastsTask.run();
+		
+		tvTagListAdapter = new TVGuideTagListAdapter(activity, tvTagDisplayName, taggedBroadcasts, startIndex);
+			
+		tvGuideListView.setAdapter(tvTagListAdapter);
+	}
 	
 	
 	private class RemoveAlreadyEndedBroadcastsTask

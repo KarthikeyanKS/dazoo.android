@@ -33,6 +33,8 @@ public enum FetchRequestResultEnum
 
    INTERNET_CONNECTION_NOT_AVAILABLE(1003, "Internet connection available"),
    
+   JSON_PARSING_ERROR(1009, "Error parsing json"),
+   
    /** 
     * DO NOT change the string on these request enumerations. Those are NOT real errors returned by the server.
     * The string is used in comparison to the response string.
@@ -48,7 +50,7 @@ public enum FetchRequestResultEnum
    
    USER_SIGN_UP_EMAIL_NOT_FOUND(1007, "Email not found"), 
    
-   USER_RESET_PASSWORD_UNKNOWN_ERROR(1008, "Error unknown, probably wrong email address entered"); // TODO NewArc Should we add specific error enums for reset password? Requires: support for this from backend.
+   USER_RESET_PASSWORD_UNKNOWN_ERROR(1008, "Error unknown, probably wrong email address entered");
 
 
    

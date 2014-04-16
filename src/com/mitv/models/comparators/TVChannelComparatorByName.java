@@ -3,7 +3,7 @@ package com.mitv.models.comparators;
 
 
 
-import com.mitv.models.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannel;
 
 
 

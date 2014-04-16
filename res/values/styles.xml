@@ -233,15 +233,5 @@
         <item name="android:textColor">@color/grey5</item>
         <item name="fontedittext">roboto_mitv_regular.ttf</item>
     </style>
-    
-    <style name="UndoBarMessageModified" parent="UndoBarMessageKitKat">
-    	<item name="android:textSize">16sp</item>
-    </style>
-    
-    <style name="UndoBarButtonModified" parent="UndoBarButtonKitKat">
-    	<item name="android:text">@string/dialog_prompt_check_internet_connection_button</item>
-    	<item name="android:drawableLeft">@null</item>
-    	<item name="android:textSize">16sp</item>
-    </style>
 
 </resources>

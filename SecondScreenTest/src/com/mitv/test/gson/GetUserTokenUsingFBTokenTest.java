@@ -14,8 +14,8 @@ import com.google.gson.JsonSyntaxException;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.http.HTTPCoreResponse;
-import com.mitv.models.UserLoginData;
 import com.mitv.models.gson.serialization.UserFacebookTokenData;
+import com.mitv.models.objects.mitvapi.UserLoginData;
 
 
 

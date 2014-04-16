@@ -13,9 +13,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.models.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
 
 
 
@@ -37,14 +38,26 @@ public abstract class LanguageUtils
 	
 	
 	
-	public static Locale getCurrentLocale() {
+	public static Locale getCurrentLocale() 
+	{
 		Locale locale = null;
-		if (SecondScreenApplication.sharedInstance() != null && SecondScreenApplication.sharedInstance().getApplicationContext() != null) {
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		if (SecondScreenApplication.sharedInstance() != null && SecondScreenApplication.sharedInstance().getApplicationContext() != null) 
+		{
+			if(Constants.FORCE_SPANISH_LOCALE)
+			{
+				locale = new Locale("es");
+			}
+			else
+			{
+				Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 
-			locale = context.getResources().getConfiguration().locale;
+				locale = context.getResources().getConfiguration().locale;
+			}
 		}
-		if (locale == null) {
+		
+		if (locale == null) 
+		{
 			locale = Locale.getDefault();
 
 			Log.w(TAG, "Using default locale.");

@@ -1,6 +1,6 @@
 package com.mitv.models.comparators;
 
-import com.mitv.models.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 
 public class TVChannelIdComparatorById extends BaseComparator<TVChannelId> 
 {

@@ -6,24 +6,15 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <!-- DOTS -->
-    <LinearLayout
-        android:id="@+id/image_count"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:visibility="gone" >
-    </LinearLayout>
-    
     <!-- PAGE 1 -->
-	<RelativeLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:background="@color/transparent" >
+        android:layout_centerVertical="true"
+        android:background="@color/transparent"
+        android:paddingBottom="70dp" >
 
         <ImageView
             android:id="@+id/splash_screen_activity_logo_tutorial"
@@ -31,8 +22,8 @@
             android:layout_height="180dp"
             android:layout_centerHorizontal="true"
             android:background="@color/transparent"
-            android:visibility="gone"
-            android:src="@drawable/splash_logo" />
+            android:src="@drawable/splash_logo"
+            android:visibility="gone" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/splash_screen_activity_info_text_tutorial"
@@ -51,125 +42,61 @@
             android:textSize="14sp"
             android:visibility="gone"
             font:fonttextview="roboto_mitv_bold.ttf" />
-        
     </RelativeLayout>
-    
-	<com.mitv.ui.elements.FontTextView
-            android:id="@+id/button_splash_tutorial"
-            style="@style/whitetextbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:background="@drawable/background_color_selector_signup_login_box"
-            android:visibility="gone"
-            android:text="@string/tutorial_learn_more_button" />
-    
-	<!-- PAGE 2, 3 & 4 -->
-	<RelativeLayout
+
+    <RelativeLayout
+        android:id="@+id/text_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
-        
-		<com.mitv.ui.elements.FontTextView
-	            android:id="@+id/button_tutorial_skip"
-	            style="@style/whitetextbutton"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:paddingLeft="50dp"
-	            android:paddingRight="50dp"
-	            android:paddingTop="10dp"
-	            android:paddingBottom="10dp"
-	            android:layout_alignParentBottom="true"
-	            android:layout_marginBottom="10dp"
-	            android:clickable="true"
-	            android:onClick="onClick"
-	            android:background="@drawable/background_color_selector_orange_box"
-	            android:visibility="gone"
-	            android:text="@string/tutorial_skip_button" />
-		
-		<com.mitv.ui.elements.FontTextView
-	            android:id="@+id/button_tutorial_next"
-	            style="@style/whitetextbutton"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:paddingLeft="50dp"
-	            android:paddingRight="50dp"
-	            android:paddingTop="10dp"
-	            android:paddingBottom="10dp"
-	            android:layout_alignParentBottom="true"
-	            android:layout_toRightOf="@id/button_tutorial_skip"
-	            android:layout_marginBottom="10dp"
-	            android:layout_marginLeft="10dp"
-	            android:clickable="true"
-	            android:onClick="onClick"
-	            android:background="@drawable/background_color_selector_signup_login_box"
-	            android:visibility="gone"
-	            android:text="@string/tutorial_next_button" />
-		</RelativeLayout>
-	
-	<!-- HEADER -->
-	<com.mitv.ui.elements.FontTextView
+        android:layout_height="70dp" 
+        android:layout_marginTop="30dp" >
+
+        <!-- HEADER -->
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/tutorial_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
             android:background="@color/transparent"
             android:gravity="center"
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:visibility="gone"
-            font:fonttextview="roboto_mitv_bold.ttf" />
-	
-	<!-- INFO -->
-	<com.mitv.ui.elements.FontTextView
+            font:fonttextview="chunkfive.otf" />
+
+        <!-- INFO -->
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/tutorial_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/tutorial_header"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
             android:gravity="center"
+            android:lineSpacingExtra="2dp"
             android:maxLines="2"
             android:singleLine="false"
-            android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textColor="@color/orange_light"
+            android:textSize="13sp"
             android:visibility="gone"
-            font:fonttextview="roboto_mitv_bold.ttf" />
-	
-	<!-- PAGE 5 -->
-	<com.mitv.ui.elements.FontTextView
-            android:id="@+id/button_tutorial_start_primary_activity"
-            style="@style/whitetextbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-	        android:onClick="onClick"
-            android:background="@drawable/background_color_selector_signup_login_box"
-            android:visibility="gone"
-            android:text="@string/tutorial_start_button" />
+            font:fonttextview="roboto_mitv_regular.ttf" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/image_mobile_tutorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_container"
+        android:layout_marginBottom="70dp"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -26,26 +26,28 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SearchRunnable;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.ContentTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.SearchPageListAdapter;
-import com.mitv.models.SearchResultsForQuery;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannelId;
-import com.mitv.models.TVSearchResult;
-import com.mitv.models.TVSearchResults;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVSearchResult;
+import com.mitv.models.objects.mitvapi.TVSearchResults;
 import com.mitv.ui.elements.InstantAutoCompleteView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
@@ -56,36 +58,6 @@ public class SearchPageActivity
 	extends BaseActivity 
 	implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher 
 {
-	private class SearchRunnable implements Runnable 
-	{
-		private boolean cancelled = false;
-		
-		@Override
-		public void run() 
-		{
-			if(!cancelled) 
-			{
-				String searchQuery = editTextSearch.getText().toString();
-				
-				setLoading();
-				
-				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
-				
-				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, searchQuery);
-			} 
-			else 
-			{
-				Log.d(TAG, "Search runnable was cancelled");
-			}
-		}
-
-		public void cancel() 
-		{
-			cancelled = true;
-		}
-	}
-	
-
 	private static final String TAG = SearchPageActivity.class.getName();
 
 	
@@ -93,7 +65,7 @@ public class SearchPageActivity
 
 	private Menu menu;
 	private InstantAutoCompleteView editTextSearch;
-	private ImageView editTextClearBtn;
+	private TextView editTextClearBtn;
 	private ProgressBar progressBar;
 	private String lastSearchQuery;
 	
@@ -102,6 +74,7 @@ public class SearchPageActivity
 	private Handler keyboardHandler;
 	private LinearLayout searchInstructionsView;
 
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -121,6 +94,7 @@ public class SearchPageActivity
 	}
 
 	
+	
 	@Override
 	public void onResume()
 	{
@@ -136,6 +110,7 @@ public class SearchPageActivity
 	public void onPause()
 	{
 		super.onPause();
+		TrackingGAManager.sharedInstance().sendUserSearchEvent(lastSearchQuery);
 		GenericUtils.hideKeyboard(this);
 	}
 	
@@ -188,7 +163,7 @@ public class SearchPageActivity
 
 		progressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
 
-		editTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
+		editTextClearBtn = (TextView) searchFieldView.findViewById(R.id.searchbar_clear);
 
 		editTextSearch = (InstantAutoCompleteView) searchFieldView.findViewById(R.id.searchbar_edittext);
 		editTextSearch.setActivity(this);
@@ -255,11 +230,16 @@ public class SearchPageActivity
 
 		ContentTypeEnum resultResultType = result.getEntityType();
 
+		String hitName;
+		
 		switch (resultResultType) 
 		{
 			case CHANNEL: 
 			{
-				TVChannelId channelId = result.getEntity().getChannel().getChannelId();
+				TVChannel tvChannel = result.getEntity().getChannel();
+				TVChannelId channelId = tvChannel.getChannelId();
+				
+				hitName = tvChannel.getName();
 				
 				Intent intent;
 				
@@ -292,12 +272,16 @@ public class SearchPageActivity
 				
 				if (nextBroadcast != null) 
 				{
+					hitName = nextBroadcast.getTitle();
+					
 					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
 					startActivity(intent);
 				} 
 				else 
 				{
+					hitName = "";
+					
 					String message = getString(R.string.search_no_upcoming_broadcasts);
 					
 					ToastHelper.createAndShowShortToast(message);
@@ -306,6 +290,8 @@ public class SearchPageActivity
 			}
 		}
 
+		TrackingGAManager.sharedInstance().sendUserSearchResultPressedEvent(lastSearchQuery, hitName, position);
+		
 		GenericUtils.hideKeyboard(this);
 	}
 
@@ -321,6 +307,7 @@ public class SearchPageActivity
 			{
 				editTextSearch.setText("");
 				editTextSearch.dismissDropDown();
+				editTextClearBtn.setVisibility(View.GONE);
 				break;
 			}
 			
@@ -338,6 +325,7 @@ public class SearchPageActivity
 	{
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) 
 		{
+			TrackingGAManager.sharedInstance().sendUserPressedSearchButtonOnKeyBoard();
 			performSearchAndTriggerAutocomplete();
 			return true;
 		}
@@ -351,7 +339,7 @@ public class SearchPageActivity
 		if (editTextSearch != null)
 		{
 			Log.d(TAG, "Creating new searchRunnable and starting count down");
-			lastSearchRunnable = new SearchRunnable();
+			lastSearchRunnable = new SearchRunnable(this, editTextSearch);
 			delayedSearchHandler.postDelayed(lastSearchRunnable, Constants.DELAY_IN_MILLIS_UNTIL_SEARCH);
 		}
 	}
@@ -370,7 +358,7 @@ public class SearchPageActivity
 	}
 	
 	
-	private void setLoading() 
+	public void setLoading() 
 	{
 		changeLoadingStatus(true);
 	}
@@ -392,7 +380,7 @@ public class SearchPageActivity
 	@Override
 	protected void loadData() 
 	{
-		// Do nothing
+		/* Do nothing */
 	}
 	
 	
@@ -424,6 +412,7 @@ public class SearchPageActivity
 				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
 				
 				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
+				
 				editTextSearch.setSearchComplete(true);
 				
 				this.lastSearchQuery = searchQuery;
@@ -434,6 +423,7 @@ public class SearchPageActivity
 		else if(fetchRequestResult == FetchRequestResultEnum.SEARCH_CANCELED_BY_USER) 
 		{
 			Log.d(TAG, "Search canceled by user");
+			
 			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 		else 
@@ -443,6 +433,7 @@ public class SearchPageActivity
 	}
 
 	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
@@ -450,13 +441,16 @@ public class SearchPageActivity
 	}
 
 	
+	
 	@Override
 	public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
 	
+	
 	@Override
 	public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
+	
 	
 	@Override
 	public void afterTextChanged(Editable editable) 

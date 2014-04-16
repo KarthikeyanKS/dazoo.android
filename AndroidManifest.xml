@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="113"
-    android:versionName="1.0.113" >
+    android:versionCode="125"
+    android:versionName="1.0.125" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -19,13 +19,39 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
+	<!-- Re-enable this permission when accessing the system tasks -->
+	<!-- <uses-permission android:name="android.permission.GET_TASKS" />-->
+    
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true" />
+    
+    <compatible-screens>
+       <!-- all small size screens -->
+       <screen android:screenSize="small" android:screenDensity="ldpi" />
+       <screen android:screenSize="small" android:screenDensity="mdpi" />
+       <screen android:screenSize="small" android:screenDensity="hdpi" />
+       <screen android:screenSize="small" android:screenDensity="xhdpi" />
+       <screen android:screenSize="small" android:screenDensity="480" />
+       
+       <!-- all normal size screens -->
+       <screen android:screenSize="normal" android:screenDensity="ldpi" />
+       <screen android:screenSize="normal" android:screenDensity="mdpi" />
+       <screen android:screenSize="normal" android:screenDensity="hdpi" />
+       <screen android:screenSize="normal" android:screenDensity="xhdpi" />
+       <screen android:screenSize="normal" android:screenDensity="480" />
+       
+       <!-- all large size screens -->
+       <screen android:screenSize="large" android:screenDensity="ldpi" />
+       <screen android:screenSize="large" android:screenDensity="mdpi" />
+       <screen android:screenSize="large" android:screenDensity="hdpi" />
+       <screen android:screenSize="large" android:screenDensity="xhdpi" />
+       <screen android:screenSize="large" android:screenDensity="480" />
+   
+   </compatible-screens>
     
     <application
         android:name="com.mitv.SecondScreenApplication"
@@ -43,7 +69,7 @@
             android:value="@string/app_id" />
         
         <meta-data android:name="com.google.android.gms.version"
-               android:value="@integer/google_play_services_version"/>
+               	   android:value="@integer/google_play_services_version"/>
         
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
@@ -73,7 +99,8 @@
             android:name="com.mitv.activities.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/HomePage" >
+            android:theme="@style/HomePage"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- ACTIVITY PAGE -->
@@ -90,7 +117,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBarNoUp" />
+            android:theme="@style/WhiteTitleActionBarNoUp"
+            android:windowSoftInputMode="adjustPan" />
         
         <!-- POPULAR CONTENT PAGE -->
         <activity
@@ -98,7 +126,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- SEARCH PAGE -->
@@ -125,7 +154,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- REMINDERS -->
@@ -143,7 +173,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- About -->
@@ -152,7 +183,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- BROADCAST PAGE -->
@@ -161,34 +193,48 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
-        <!-- UPCOMING EPISODES PAGE -->
+        <!-- LIST MORE UPCOMING EPISODES PAGE -->
         <activity
-            android:name="com.mitv.activities.UpcomingEpisodesPageActivity"
+            android:name="com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
-        <!-- REPEATITIONS PAGE -->
+        <!-- LIST MORE BROADCASTS REPEATITIONS PAGE -->
         <activity
-            android:name="com.mitv.activities.RepetitionsPageActivity"
+            android:name="com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivityreActivity"
             android:launchMode="standard"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
-
+        
+        <!-- LIST MORE BROADCASTS NOW AIRING PAGE -->
+        <activity
+            android:name="com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity"
+            android:launchMode="standard"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        
         <!-- CHANNEL PAGE -->
         <activity
             android:name="com.mitv.activities.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/ChannelPage" >
+            android:theme="@style/ChannelPage"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <!-- SIGN IN -->
@@ -254,6 +300,11 @@
         <!-- HOCKEY APP ACTIVITIES -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
+        
+         <!-- GOOGLE ADMOB -->
+         <activity android:name="com.google.android.gms.ads.AdActivity"
+             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+ 
 
         <receiver
             android:name="com.mitv.broadcastreceivers.AlarmReceiver"
@@ -281,16 +332,15 @@
             </intent-filter>
         </receiver>
         
-        
-        <!-- Used for Google Play Store Campaign Measurement-->;
+        <!-- Used for Google Play Store Campaign Measurement-->
 		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-		<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+		<receiver android:name="com.mitv.broadcastreceivers.CustomGoogleCampaignReceiver"
 		          android:exported="true">
 		  <intent-filter>
-		    <action android:name="com.android.vending.INSTALL_REFERRER" />
+		  	<action android:name="com.android.vending.INSTALL_REFERRER" />
 		  </intent-filter>
 		</receiver>
-        
+
     </application>
     
 </manifest>

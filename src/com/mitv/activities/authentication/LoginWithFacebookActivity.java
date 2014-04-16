@@ -18,12 +18,13 @@ import com.androidquery.auth.FacebookHandle;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.activities.HomeActivity;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.managers.ContentManager;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 
@@ -158,8 +159,20 @@ public class LoginWithFacebookActivity
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) 
 				{
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
-					Intent intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
+					
+					Intent intent;
+					
+					if(mostRecentTabActivity != null)
+					{
+						intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
+					}
+					else
+					{
+						intent = new Intent(LoginWithFacebookActivity.this, HomeActivity.class);
+					}
+					
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+					
 					startActivity(intent);
 				}
 				

@@ -7,7 +7,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
+import java.util.UUID;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -20,17 +21,18 @@ import android.content.pm.Signature;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.IBinder;
-import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
 import com.mitv.Constants;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.models.TVBroadcast;
+import com.mitv.managers.RateAppManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
 
 
 
@@ -43,37 +45,12 @@ public abstract class GenericUtils
 	
 	
 	
-	public static int getRandomNumberBetween() 
-	{
-		return getRandomNumberBetween(0, Integer.MAX_VALUE);
-	}
-	
-	
-	
-	public static int getRandomNumberBetween(
-			final int min,
-			final int max) 
-	{
-        Random foo = new Random();
-        
-        int randomNumber = foo.nextInt(max - min) + min;
-        
-        if(randomNumber == min) 
-        {
-            return min + 1;
-        }
-        else 
-        {
-            return randomNumber;
-        }
-    }
-	
-	
-	
 	public static void startShareActivity(
 			final Activity activity, 
 			final TVBroadcast broadcast) 
 	{
+		RateAppManager.significantEvent(activity);
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append(activity.getString(R.string.share_comment));
 		sb.append(" ");
@@ -92,7 +69,7 @@ public abstract class GenericUtils
 		activity.startActivity(chooserIntent);
 		
 		/* Send sharing event to Google Analytics */
-		GATrackingManager.sharedInstance().sendUserSharedEvent(broadcast);
+		TrackingGAManager.sharedInstance().sendUserSharedEvent(activity, broadcast);
 	}
 	
 
@@ -117,15 +94,45 @@ public abstract class GenericUtils
 	
 	
 	
-	public static boolean isActivityNotNullAndNotFinishing(Activity activity)
+	@SuppressLint("NewApi")
+	public static boolean isActivityNotNullAndNotFinishingAndNotDestroyed(Activity activity)
 	{
-		boolean activityNotNullAndNotFinishing = (activity != null && 
-											  activity.isFinishing() == false);
+		boolean isActivityNotNullAndNotFinishingAndNotDestroyed;
+	
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+		{
+			isActivityNotNullAndNotFinishingAndNotDestroyed = (activity != null && 
+											      activity.isDestroyed() == false &&
+											      activity.isFinishing() == false);
+		}
+		else
+		{
+			isActivityNotNullAndNotFinishingAndNotDestroyed = (activity != null && 
+					                                           activity.isFinishing() == false);
+		}
 		
-		return activityNotNullAndNotFinishing;
+		return isActivityNotNullAndNotFinishingAndNotDestroyed;
 	}
 	
 	
+	
+	/*
+	 * IMPORTANT: Re-enable permission on Manifest to use this function
+	 */
+//	public static int getActivityCount()
+//	{
+//		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+//
+//		ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+//
+//		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(3);
+//
+//		int activityCount = tasks.get(0).numActivities;
+//
+//		return activityCount;
+//	}
+
+
 	
     public static PackageInfo getPackageInfo()
 	{
@@ -410,11 +417,26 @@ public abstract class GenericUtils
 		return densityDpi;
 	}
 	
+
 	
-	
-	/* Only use when adding a new computer to Facebook */
-	public static void logFacebookKeyHash(final Context context)
+	public static int convertDPToPixels(final int valueInDP) 
 	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+	    float scale = context.getResources().getDisplayMetrics().density;
+	  
+	    int valueInPixels = (int) (valueInDP * scale + 0.5f);
+	    
+	    return valueInPixels;
+	}
+	
+	
+	
+	/* Only used when adding a new computer to Facebook */
+	public static void logFacebookKeyHash()
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		PackageInfo info;
 		
 		try 
@@ -460,25 +482,32 @@ public abstract class GenericUtils
 	}
 
 	
-	
-	// TODO NewArc - Change this to a pseudo unique own generated ID instead: http://stackoverflow.com/a/17625641
-	public static String getDeviceId()
+
+	public static String getDeviceID()
 	{
-		String deviceId = null;
-
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-
-		TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-		if(mTelephonyMgr != null)
-    	{
-			deviceId = mTelephonyMgr.getDeviceId();
-    	}
-		else
-		{
-			Log.e(TAG, "TelephonyManager is null");
-		}
+		String uuidAsString;
 		
-		return deviceId;
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+	    String DEVICE_PREFERENCES_DEVICE_ID = "device_id";
+	    
+	    String id = AppDataUtils.sharedInstance(context).getPreferenceFromDevice(DEVICE_PREFERENCES_DEVICE_ID, null);
+		
+	    UUID uuid = null;
+	    
+	    if(id != null)
+	    {
+	    	uuid = UUID.fromString(id);
+	    	
+	    	uuidAsString = uuid.toString();
+	    }
+	    else
+	    {
+	    	Log.w(TAG, "UUID is empty!");
+	    	
+	    	uuidAsString = "";
+	    }
+	    
+		return uuidAsString;
 	}
 }

@@ -16,12 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
-import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.activities.HomeActivity;
 import com.mitv.activities.base.BaseActivityWithoutSearchOption;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.managers.RateAppManager;
+import com.mitv.managers.ContentManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
@@ -106,6 +108,7 @@ public class SignUpWithEmailActivity
 
 		if (isConnected) 
 		{
+			RateAppManager.significantEvent(this);
 			ContentManager.sharedInstance().performSignUp(this, email, password, firstname, lastname);
 		}
 		else
@@ -211,7 +214,18 @@ public class SignUpWithEmailActivity
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) 
 				{
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
-					Intent intent = new Intent(SignUpWithEmailActivity.this, mostRecentTabActivity.getClass());
+					
+					Intent intent;
+					
+					if(mostRecentTabActivity != null)
+					{
+						intent = new Intent(SignUpWithEmailActivity.this, mostRecentTabActivity.getClass());
+					}
+					else
+					{
+						intent = new Intent(SignUpWithEmailActivity.this, HomeActivity.class);
+					}
+					
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 					startActivity(intent);
 				}

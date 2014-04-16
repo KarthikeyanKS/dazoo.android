@@ -7,26 +7,28 @@ import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.util.Log;
-import android.view.View.OnClickListener;
 import android.widget.ListView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.LikesListAdapter;
-import com.mitv.models.UserLike;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.UserLikeComparatorByTitle;
+import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.utilities.NetworkUtils;
 
 
 
 public class LikesActivity 
-	extends BaseActivityLoginRequired 
-	implements OnClickListener
+	extends BaseActivityLoginRequired
 {
 	private static final String TAG = LikesActivity.class.getName();
 	
@@ -53,6 +55,13 @@ public class LikesActivity
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	
 		listView = (ListView) findViewById(R.id.listview);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				TrackingGAManager.sharedInstance().sendUserPressedLikeInLikesActivity();
+			}
+		});
+
 		
 		setEmptyLayoutDetailsMessage(getString(R.string.no_likes));
 	}

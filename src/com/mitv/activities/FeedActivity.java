@@ -19,7 +19,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
@@ -30,7 +29,9 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.FeedListAdapter;
-import com.mitv.models.TVFeedItem;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.HyperLinkUtils;
@@ -56,6 +57,7 @@ public class FeedActivity
 //	private TextView greetingTv;
 	private boolean reachedEnd;
 	private boolean isEndReachedNoConnectionToastShowing;
+	private int lastVisibleBottomRowIndex = 1;
 
 	
 	@Override
@@ -341,7 +343,7 @@ public class FeedActivity
 			{
 				if(fetchRequestResult.wasSuccessful() == false)
 				{
-					// TODO
+					// TODO - ?
 				}
 				break;
 			}
@@ -506,8 +508,9 @@ public class FeedActivity
 
 	
 	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {/* Do nothing */}
-
+	public void onScrollStateChanged(AbsListView view, int scrollState) {/* Do nothing */
+		
+	}
 
 	
 	@Override
@@ -518,8 +521,18 @@ public class FeedActivity
 		if (totalItemCount > 0) 
 		{
 			// If scrolling past bottom and there is a next page of products to fetch
-			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
+			int visibleBottomRowIndex = firstVisibleItem + visibleItemCount;
+			boolean pastTotalCount = (visibleBottomRowIndex >= totalItemCount);
 
+			if(visibleBottomRowIndex != lastVisibleBottomRowIndex) {
+				boolean scrollingDown = (visibleBottomRowIndex > lastVisibleBottomRowIndex);
+				TrackingGAManager.sharedInstance().sendUserFeedListScrolledToItemAtIndexEvent(visibleBottomRowIndex, scrollingDown);
+			}
+				
+			/* Store the latest row index  */
+			lastVisibleBottomRowIndex = visibleBottomRowIndex;
+			
+			
 			if (pastTotalCount && !reachedEnd)
 			{
 				boolean isConnected = NetworkUtils.isConnected();

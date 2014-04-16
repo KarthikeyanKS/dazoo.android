@@ -9,12 +9,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.MapBuilder;
-import com.google.analytics.tracking.android.Tracker;
 import com.mitv.Constants;
-import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.utilities.FileUtils;
 
 
@@ -52,18 +49,7 @@ public class BootCompletedReceiver
         	if(!startedOnceBeforeSharedPrefs && !startedOnceBeforeExternalStorage && Constants.IS_PREINSTALLED_VERSION) 
         	{
         		/* Will only get here first time app boots */
-	        	String hardCodedTrackingId = context.getString(R.string.ga_trackingId_mitv_hardcoded);
-	        	
-	        	GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
-	    		
-	        	Tracker tracker = googleAnalyticsInstance.getTracker(hardCodedTrackingId);
-	    		
-	    		String gaValue = Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
-
-	    		tracker.send(MapBuilder
-	    				  .createEvent(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_EVENT_KEY_ACTION_FIRST_BOOT, gaValue, null) 	// Set any additional fields for this hit.
-	    				  .build()                                   			// Build and return the Map to the send method.
-	    				);
+	        	TrackingGAManager.sharedInstance().sendFirstBootEvent();
         	}
 	    }		
 	}	

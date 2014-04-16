@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,14 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.activities.RepetitionsPageActivity;
-import com.mitv.activities.UpcomingEpisodesPageActivity;
+import com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity;
+import com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVProgram;
+import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.ReminderView;
 
 
@@ -32,6 +31,9 @@ public class TrippleBroadcastBlockPopulator
 {
 	private static String TAG = TrippleBroadcastBlockPopulator.class.getName();
 
+	
+	private static final int TOTAL_SHOWS_IN_INITIAL_LIST = 3;
+	
 	private static final int POSITION_ONE = 0;
 	private static final int POSITION_TWO = 1;
 	private static final int POSITION_THREE = 2;
@@ -95,6 +97,8 @@ public class TrippleBroadcastBlockPopulator
 		}
 	}
 
+	
+	
 	public void populatePartOfBlock(
 			final int position, 
 			final ArrayList<TVBroadcastWithChannelInfo> broadcastList) 
@@ -104,6 +108,7 @@ public class TrippleBroadcastBlockPopulator
 			final TVBroadcastWithChannelInfo broadcastWithChannelInfo = broadcastList.get(position);
 
 			LinearLayout container = null;
+			
 			boolean setSmallIcon = true;
 
 			switch (position) 
@@ -185,17 +190,17 @@ public class TrippleBroadcastBlockPopulator
 	
 						if (season > 0) 
 						{
-							seasonEpisodeSB.append(activity.getString(R.string.season));
-							seasonEpisodeSB.append(" ");
-							seasonEpisodeSB.append(season);
-							seasonEpisodeSB.append(" ");
+							seasonEpisodeSB.append(activity.getString(R.string.season))
+							.append(" ")
+							.append(season)
+							.append(" ");
 						}
 	
-						if (episode > 0) 
+						if (episode > 0)
 						{
-							seasonEpisodeSB.append(activity.getString(R.string.episode));
-							seasonEpisodeSB.append(" ");
-							seasonEpisodeSB.append(episode);
+							seasonEpisodeSB.append(activity.getString(R.string.episode))
+							.append(" ")
+							.append(episode);
 						}
 	
 						seasonEpisodeTv.setText(seasonEpisodeSB.toString());
@@ -226,8 +231,6 @@ public class TrippleBroadcastBlockPopulator
 	
 		TextView title = (TextView) containerView.findViewById(R.id.block_tripple_broadcast_title_textview);
 
-		Resources res = activity.getResources();
-
 		String titleString;
 
 		String showMoreString;
@@ -240,25 +243,25 @@ public class TrippleBroadcastBlockPopulator
 			{
 				case TV_EPISODE: 
 				{
-					titleString = res.getString(R.string.repetitions_episode);
+					titleString = activity.getString(R.string.repetitions_episode);
 					break;
 				}
 				
 				case MOVIE: 
 				{
-					titleString = res.getString(R.string.repetitions_movie);
+					titleString = activity.getString(R.string.repetitions_movie);
 					break;
 				}
 				
 				case SPORT: 
 				{
-					titleString = res.getString(R.string.repetitions_sport_event);
+					titleString = activity.getString(R.string.repetitions_sport_event);
 					break;
 				}
 				
 				case OTHER:
 				{
-					titleString = res.getString(R.string.repetitions_other);
+					titleString = activity.getString(R.string.repetitions_other);
 					break;
 				}
 				
@@ -281,11 +284,11 @@ public class TrippleBroadcastBlockPopulator
 
 		title.setText(titleString);
 
-		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts);
-		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts);
-		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_ONE, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_TWO, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_THREE, repeatingOrUpcomingBroadcasts);
 
-		if(repeatingOrUpcomingBroadcasts.size() > 3) 
+		if(repeatingOrUpcomingBroadcasts.size() > TOTAL_SHOWS_IN_INITIAL_LIST) 
 		{
 			View divider = (View) containerView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
 
@@ -323,7 +326,7 @@ public class TrippleBroadcastBlockPopulator
 
 				if (usedForRepetitions) 
 				{
-					Intent intent = new Intent(activity, RepetitionsPageActivity.class);
+					Intent intent = new Intent(activity, RepetitionsListMoreActivity.class);
 
 					ContentManager.sharedInstance().setRepeatingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 
@@ -331,7 +334,7 @@ public class TrippleBroadcastBlockPopulator
 				} 
 				else
 				{
-					Intent intent = new Intent(activity, UpcomingEpisodesPageActivity.class);
+					Intent intent = new Intent(activity, UpcomingListMoreActivity.class);
 
 					ContentManager.sharedInstance().setUpcomingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 

@@ -3,8 +3,8 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
 
+import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,18 +13,19 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.ChannelPageListAdapter;
-import com.mitv.models.TVBroadcast;
-import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
-import com.mitv.models.TVChannelGuide;
-import com.mitv.models.TVChannelId;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelGuide;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -42,7 +43,7 @@ public class ChannelPageActivity
 	private ChannelPageListAdapter listAdapter;
 	
 	private TVChannel channel;
-	private ArrayList<TVBroadcast> currentAndUpcomingbroadcasts;
+	private List<TVBroadcast> currentAndUpcomingbroadcasts;
 
 
 	
@@ -61,7 +62,7 @@ public class ChannelPageActivity
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
-		initViews();
+		initLayout();
 	}
 	
 	
@@ -79,7 +80,7 @@ public class ChannelPageActivity
 
 
 	
-	private void initViews() 
+	private void initLayout() 
 	{
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -94,7 +95,7 @@ public class ChannelPageActivity
 
 	
 	
-	private void setFollowingBroadcasts(final ArrayList<TVBroadcast> currentAndUpcomingbroadcasts) 
+	private void setFollowingBroadcasts(final List<TVBroadcast> currentAndUpcomingbroadcasts) 
 	{
 		listAdapter = new ChannelPageListAdapter(this, currentAndUpcomingbroadcasts);
 		
@@ -124,6 +125,8 @@ public class ChannelPageActivity
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
+				
+				TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
 
 				startActivity(intent);
 			}
@@ -166,11 +169,12 @@ public class ChannelPageActivity
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		
-		if(channelGuide != null) {
+		if(channelGuide != null) 
+		{
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
+			
 			currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
 		}
-		
 		
 		if(currentAndUpcomingbroadcasts != null) 
 		{

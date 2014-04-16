@@ -15,9 +15,10 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
-import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.managers.RateAppManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.ui.helpers.DialogHelper;
@@ -126,20 +127,33 @@ public class ReminderView
 		}
 	}
 	
-	public void setSizeOfIcon(boolean small) {
-		if(small) {
-			int smallSize = 28; /* The size is in sp */
-			iconView.setTextSize(smallSize);
-		} else {
-			int smallSize = 30; /* The is the default size is in sp */
-			iconView.setTextSize(smallSize);
+	
+	
+	public void setSizeOfIcon(boolean useSmallSize) 
+	{
+		int size;
+		
+		if(useSmallSize) 
+		{
+			size = 28; /* The size is in sp */
+		} 
+		else 
+		{
+			size = 30; /* The is the default size is in sp */
 		}
+		
+		iconView.setTextSize(size);
 	}
 
+	
+	
 	@Override
 	public void onClick(View v) 
 	{
-		GATrackingManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, isSet);
+		TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, tvBroadcastWithChannelInfo, isSet);
+		
+		RateAppManager.significantEvent(activity);
+		
 		if (isSet == false) 
 		{
 			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);

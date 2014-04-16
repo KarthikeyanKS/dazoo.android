@@ -23,7 +23,6 @@ public abstract class NetworkUtils
 	
 	
 	
-	
 	public static String getActiveNetworkTypeAsString()
 	{
 		String activeNetworkTypeAsString = "Unknown";
@@ -67,7 +66,7 @@ public abstract class NetworkUtils
 	
 	
 	/* 
-	 * Please note: This method will block the interface if invoked on the UI thread
+	 * IMPORTANT: This method will block the interface if invoked on the UI thread
 	 *  
 	 */
 	public static Boolean isConnectedAndHostIsReachable()

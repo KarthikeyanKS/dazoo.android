@@ -9,8 +9,6 @@ import java.util.Stack;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -20,6 +18,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,11 +27,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.Constants;
-import com.mitv.ContentManager;
-import com.mitv.FontManager;
-import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
@@ -44,7 +39,12 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.TVDate;
+import com.mitv.managers.TrackingManager;
+import com.mitv.managers.ContentManager;
+import com.mitv.managers.FontManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.ImageLoaderManager;
+import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
@@ -131,19 +131,18 @@ public abstract class BaseActivity
 			
 			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
 				
-				restartTheApp();
+				boolean isConnected = NetworkUtils.isConnected();
+				
+				if (isConnected) {
+					restartTheApp();
+				}
 				
 			} else {
 				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
 			}
 		}
 
-		/* Google Analytics Tracking */
-		EasyTracker.getInstance(this).activityStart(this);
-
-		String className = this.getClass().getName();
-
-		GATrackingManager.sendView(className);
+		TrackingManager.sharedInstance().reportActivityStart(this);
 	}
 	
 	public void restartTheApp() {
@@ -165,6 +164,17 @@ public abstract class BaseActivity
 		}
 	}
 	
+	@Override
+	public boolean onKeyDown(int keycode, KeyEvent e) {
+	    switch(keycode) {
+	        case KeyEvent.KEYCODE_MENU:
+	        	TrackingGAManager.sharedInstance().sendUserPressedMenuButtonEvent();
+	            return true;
+	    }
+
+	    return super.onKeyDown(keycode, e);
+	}
+		
 
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
@@ -211,6 +221,10 @@ public abstract class BaseActivity
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		ImageLoaderManager.sharedInstance(this).resume();
+		
+		TrackingManager.sharedInstance().onResume(this);
 		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
 		{
@@ -280,11 +294,6 @@ public abstract class BaseActivity
 	
 	private void handleTimeAndDayOnResume() 
 	{
-		/* Handle time */
-		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
-		
-		ContentManager.sharedInstance().setSelectedHour(currentHour);
-
 		/* Handle day */
 		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
 		
@@ -301,18 +310,15 @@ public abstract class BaseActivity
 		} 
 	}
 	
-	/* TODO REMOVE ME*/
-	private void sendToastMessageWhenRestart(String message) {
-		ToastHelper.createAndShowLongToast(message);
-	}
-
 	
-	private void killAllActivitiesIncludingThis() {
+	private void killAllActivitiesIncludingThis() 
+	{
 		for(Activity activity : activityStack) {
 			activity.finish();
 		}
 	}
 
+	
 	private int getIndexOfTodayFromTVDates() {
 		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
 
@@ -364,26 +370,17 @@ public abstract class BaseActivity
 		}
 	}
 
-	/* Remove activity from activitStack */
-//	private static void removeFromStack(Activity activity) 
-//	{
-//		if (activityStack.contains(activity)) 
-//		{
-//			if (activityStack.peek() == activity) 
-//			{
-//				int positionToRemove = activityStack.size() - 1;
-//				activityStack.removeElementAt(positionToRemove);
-//			}
-//		}
-//	}
 
+	
 	/**
-	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurences in the activity stack
+	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurrences in the activity stack
 	 */
-	private static void removeFromStackOnDestroy(Activity activity) {
-
-		for (int i = 0; i < activityStack.size(); ++i) {
-			if (activityStack.contains(activity)) {
+	private static void removeFromStackOnDestroy(Activity activity) 
+	{
+		for (int i = 0; i < activityStack.size(); ++i) 
+		{
+			if (activityStack.contains(activity)) 
+			{
 				activityStack.remove(activity);
 			}
 		}
@@ -397,28 +394,27 @@ public abstract class BaseActivity
 		}
 	}
 
-	public static Activity getMostRecentTabActivity() {
+	
+	
+	public static Activity getMostRecentTabActivity() 
+	{
 		Activity mostRecentTabActivity = null;
 
 		/* Iterate through stack, start at top of stack */
-		for (int i = activityStack.size() - 1; i >= 0; --i) {
+		for (int i = activityStack.size() - 1; i >= 0; --i) 
+		{
 			Activity activityInStack = activityStack.get(i);
 
 			/* Check if activityInStack is any of the three TabActivities */
-			if (isTabActivity(activityInStack)) {
+			if (isTabActivity(activityInStack)) 
+			{
 				mostRecentTabActivity = activityInStack;
+				
 				break;
 			}
 		}
 
 		return mostRecentTabActivity;
-	}
-
-	
-	
-	private boolean isTabActivity() 
-	{
-		return isTabActivity(this);
 	}
 
 	
@@ -437,7 +433,8 @@ public abstract class BaseActivity
 		tabTvGuideIcon = (FontTextView) findViewById(R.id.element_tab_icon_guide);
 		tabTvGuideText = (FontTextView) findViewById(R.id.element_tab_text_guide);
 
-		if (tabTvGuide != null) {
+		if (tabTvGuide != null) 
+		{
 			tabTvGuide.setOnClickListener(this);
 		}
 
@@ -445,7 +442,8 @@ public abstract class BaseActivity
 		tabActivityIcon = (FontTextView) findViewById(R.id.element_tab_icon_activity);
 		tabActivityText = (FontTextView) findViewById(R.id.element_tab_text_activity);
 
-		if (tabActivity != null) {
+		if (tabActivity != null) 
+		{
 			tabActivity.setOnClickListener(this);
 		}
 
@@ -453,19 +451,49 @@ public abstract class BaseActivity
 		tabProfileIcon = (FontTextView) findViewById(R.id.element_tab_icon_me);
 		tabProfileText = (FontTextView) findViewById(R.id.element_tab_text_me);
 
-		if (tabProfile != null) {
+		if (tabProfile != null) 
+		{
 			tabProfile.setOnClickListener(this);
+		}
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if(tabProfileText != null)
+		{
+			if(isLoggedIn)
+			{
+				String username = ContentManager.sharedInstance().getFromCacheUserFirstname();
+			
+				tabProfileText.setText(username);
+			}
+			else
+			{
+				String defaultTabText = getString(R.string.tab_me);
+				
+				tabProfileText.setText(defaultTabText);
+			}
 		}
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
-		if (mostRecentTabActivity instanceof HomeActivity) {
+		if(mostRecentTabActivity == null)
+		{
 			setSelectedTabAsTVGuide();
-		} else if (mostRecentTabActivity instanceof FeedActivity) {
+		}
+		else if (mostRecentTabActivity instanceof HomeActivity) 
+		{
+			setSelectedTabAsTVGuide();
+		} 
+		else if (mostRecentTabActivity instanceof FeedActivity) 
+		{
 			setSelectedTabAsActivityFeed();
-		} else if (mostRecentTabActivity instanceof UserProfileActivity) {
+		} 
+		else if (mostRecentTabActivity instanceof UserProfileActivity) 
+		{
 			setSelectedTabAsUserProfile();
-		} else {
+		} 
+		else 
+		{
 			Log.w(TAG, "Unknown activity tab");
 		}
 	}
@@ -685,26 +713,37 @@ public abstract class BaseActivity
 			return true;
 		}
 
-		default: {
+		default: 
+		{
 			return super.onOptionsItemSelected(item);
 		}
 		}
 	}
 
+	
 	@Override
-	protected void onStop() {
+	protected void onPause() 
+	{
+		super.onPause();
+ 
+		TrackingManager.sharedInstance().onPause(this);
+		
+		ImageLoaderManager.sharedInstance(this).pause();
+	}
+	
+	
+	@Override
+	protected void onStop() 
+	{
 		super.onStop();
 
-		String className = this.getClass().getName();
-
-		GATrackingManager.stopTrackingView(className);
-
-		EasyTracker.getInstance(this).activityStop(this);
+		TrackingManager.sharedInstance().reportActivityStop(this);
 	}
 
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy() 
+	{
 		removeFromStackOnDestroy(this);
 
 		super.onDestroy();
@@ -715,17 +754,21 @@ public abstract class BaseActivity
 	@Override
 	public void onBackPressed() 
 	{
-		if(activityStack.size() <= 2 && isTabActivity())
-		{
-		    Intent intent = new Intent(Intent.ACTION_MAIN);
-		    intent.addCategory(Intent.CATEGORY_HOME);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		    startActivity(intent);
-		}
-		else
-		{
-			super.onBackPressed();
-		}
+		//int activityCount = GenericUtils.getActivityCount();
+
+//		if(activityCount <= 1 && isTabActivity())
+//		{
+//			Intent intent = new Intent(Intent.ACTION_MAIN);
+//			intent.addCategory(Intent.CATEGORY_HOME);
+//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			startActivity(intent);
+//		}
+//		else
+//		{
+//			super.onBackPressed();
+//		}
+		
+		super.onBackPressed();
 	}
 	
 
@@ -878,7 +921,7 @@ public abstract class BaseActivity
 	{
 		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
 
-		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishing(this);
+		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this);
 
 		if (activityNotNullAndNotFinishing) 
 		{
@@ -998,12 +1041,14 @@ public abstract class BaseActivity
 	protected void setEmptyLayoutDetailsMessage(String message) {
 		if (requestEmptyLayoutDetails != null) {
 			requestEmptyLayoutDetails.setText(message);
+			requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 		}
 	}
 	
 	protected void setLoadingLayoutDetailsMessage(String message) {
 		if (requestLoadingLayoutDetails != null) {
 			requestLoadingLayoutDetails.setText(message);
+			requestLoadingLayoutDetails.setVisibility(View.VISIBLE);
 		}
 	}
 }

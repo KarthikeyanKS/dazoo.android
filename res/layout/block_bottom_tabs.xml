@@ -61,13 +61,6 @@
             android:text="@string/tab_activity" />
     </RelativeLayout>
 
-    <!--
-        View
-        android:id="@+id/tab_right_divider_container"
-        android:layout_width="1dp"
-        android:layout_height="@dimen/bottom_tabs_height" /
-    -->
-
     <RelativeLayout
         android:id="@+id/tab_me"
         android:layout_width="match_parent"
@@ -88,7 +81,8 @@
             style="@style/TabsText"
             android:layout_below="@id/element_tab_icon_me"
             android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
-            android:text="@string/tab_me" />
+            android:lines="1"
+            android:ellipsize="end"/>
     </RelativeLayout>
 
 </LinearLayout>
