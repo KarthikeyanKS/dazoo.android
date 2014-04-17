@@ -542,9 +542,8 @@ public abstract class DateUtils
 	 * 
 	 */
 	public static String getHourAndMinuteCompositionAsString(final Calendar inputCalendar)
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		String hourAndMinuteCompositionAsString = getHourAndMinuteCompositionAsString(inputCalendar, true, context);
+	{ 
+		String hourAndMinuteCompositionAsString = getHourAndMinuteCompositionAsString(inputCalendar, true);
 		return hourAndMinuteCompositionAsString;
 	}
 	
@@ -562,6 +561,13 @@ public abstract class DateUtils
 	}
 	
 	
+	public static String getHourAndMinuteAsStringUsingHour(int hour) {
+		Calendar now = getNow();
+		now.set(Calendar.HOUR_OF_DAY, hour);
+		now.set(Calendar.MINUTE, 0);
+		String hourMinuteString = getHourAndMinuteCompositionAsString(now, false);
+		return hourMinuteString;
+	}
 	
 	/**
 	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
@@ -570,8 +576,8 @@ public abstract class DateUtils
 	 */
 	private static String getHourAndMinuteCompositionAsString(
 			final Calendar inputCalendar,
-			final boolean use24HourSettingsSetOnDevice,
-			final Context context)
+			final boolean use24HourSettingsSetOnDevice
+			)
 	{
 		String pattern;
 		
@@ -601,27 +607,13 @@ public abstract class DateUtils
 	}
 	
 	
+	
 	/**
 	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
 	 * 
 	 */
 	public static String buildDayAndMonthCompositionAsString(
 			final Calendar inputCalendar,
-			final boolean useFirstHourOfTheDay)
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-		return buildDayAndMonthCompositionAsString(inputCalendar, context, useFirstHourOfTheDay);
-	}
-	
-	
-	/**
-	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
-	 * 
-	 */
-	private static String buildDayAndMonthCompositionAsString(
-			final Calendar inputCalendar,
-			final Context context,
 			final boolean useFirstHourOfTheDay)
 	{
 		String pattern = Constants.DATE_FORMAT_DAY_AND_MONTH;

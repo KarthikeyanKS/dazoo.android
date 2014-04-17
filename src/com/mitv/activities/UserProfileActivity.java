@@ -26,8 +26,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityWithTabs;
-import com.mitv.managers.TrackingAIManager;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingAIManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.UserLike;
@@ -71,7 +71,7 @@ public class UserProfileActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.layout_my_profile);
+		setContentView(R.layout.layout_user_profile);
 
 		initLayout();
 		
@@ -395,7 +395,11 @@ public class UserProfileActivity
 		{
 			case R.id.myprofile_person_container_signed_in: 
 			{
+				
 				TrackingGAManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
+				if(Constants.ENABLE_USER_PROFILE_CONFIGURATION) {
+					intent = new Intent(UserProfileActivity.this, UserProfileConfigurationActivity.class);
+				}
 				break;
 			}
 			

@@ -251,7 +251,7 @@ public class RemindersListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
@@ -312,7 +312,7 @@ public class RemindersListAdapter
 					TVBroadcastWithChannelInfo broadcastForReminderToDelete = broadcasts.get(currentPosition);
 					broadcasts.remove(currentPosition);
 					
-					TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, broadcastForReminderToDelete, true);
+					TrackingGAManager.sharedInstance().sendUserReminderEvent(broadcastForReminderToDelete, true);
 					
 					notifyDataSetChanged();
 				}

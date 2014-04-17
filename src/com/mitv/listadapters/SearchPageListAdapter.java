@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.text.Spannable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,7 +187,14 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 
 		String seriesString = sb.toString();
 
-		String title = series.getName();
+		String title;
+		if(series != null) {
+			title = series.getName();
+		} else {
+			title = searchResultEntity.getName();
+		}
+		
+		 
 		boolean titleMatched = setTitleString(viewHolder, title);
 		if (titleMatched) {
 			viewHolder.type.setText(seriesString);

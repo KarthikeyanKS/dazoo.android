@@ -27,10 +27,10 @@ public abstract class Constants
 		
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
@@ -44,10 +44,11 @@ public abstract class Constants
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
-	public static final boolean ENABLE_AMAZON_INSIGHTS = false;
-	public static final boolean ENABLE_RATE_APP_DIALOG = false;
+	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
+	public static final boolean ENABLE_RATE_APP_DIALOG = true;
+	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = true;
+	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = true;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
-	
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
@@ -115,9 +116,6 @@ public abstract class Constants
 	public static final String	API_PROFILEIMAGE					= "profileImage";
 	public static final String	API_URL								= "url";
 	public static final String	API_USER							= "user";
-	public static final String	REQUEST_QUERY_AND					= "&";
-	public static final String	REQUEST_QUERY_SEPARATOR				= "/";
-	public static final String	REQUEST_PARAMETER_SEPARATOR			= "?";
 	public static final String	API_ENTITY_ID						= "entityId";
 	public static final String	API_LIKETYPE						= "likeType";
 	public static final String	API_UPCOMING						= "upcoming";
@@ -128,8 +126,6 @@ public abstract class Constants
 	public static final String	API_SKIP							= "skip";
 	public static final String	API_LIMIT							= "limit";
 
-	public static final String	EMPTY_STRING						= "";
-	public static final String	ERROR_STRING						= "error";
 
 	/* restrictions */
 	public static final int TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL		= 3;
@@ -228,12 +224,6 @@ public abstract class Constants
 	// =========================== CONTENT ================================
 
 	/* PROGRAM fields */
-	public static final String	PROGRAM_ID									= "programId";
-	public static final String	PROGRAM_TYPE									= "programType";
-	public static final String	PROGRAM_TITLE									= "title";
-	public static final String	PROGRAM_SYNOPSIS_SHORT						= "synopsisShort";
-	public static final String	PROGRAM_SYNOPSISS_LONG						= "synopsisLong";
-
 	public static final String	PROGRAM_IMAGES								= "images";
 	public static final String	PROGRAM_TAGS									= "tags";
 	public static final String	PROGRAM_CREDITS								= "credits";
@@ -251,133 +241,11 @@ public abstract class Constants
 	public static final String	PROGRAM_TYPE_SPORT							= "SPORT";
 	public static final String	PROGRAM_TYPE_SPORTTYPE						= "sportType";
 
-	public static final String	LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
-	public static final String	LIKE_ENTITY_TYPE_SERIES						= "SERIES";
-	public static final String 	SERIES_DISPLAY_STRING							= "Series";
-	public static final String 	CHANNEL_DISPLAY_STRING						= "Channel";
-	public static final String 	PROGRAM_DISPLAY_STRING_TV_EPISODE				= "TV Episode";
-	public static final String 	PROGRAM_DISPLAY_STRING_MOVIE					= "Movie";
-	public static final String 	PROGRAM_DISPLAY_STRING_OTHER					= "Other";
-	public static final String 	PROGRAM_DISPLAY_STRING_SPORT					= "Sport";
-
-	/* BROADCAST fields */
-	public static final String	BROADCAST_PROGRAM								= "program";
-	public static final String	BROADCAST_CHANNEL								= "channel";
-	public static final String	BROADCAST_BROADCAST_TYPE						= "broadcastType";
-	public static final String	BROADCAST_BEGIN_TIME							= "beginTime";
-	public static final String	BROADCAST_END_TIME							= "endTime";
-	public static final String	BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
-	public static final String	BROADCAST_SHARE_URL							= "shareUrl";
-
-	/* CHANNEL fields */
-	public static final String	CHANNEL_CHANNEL_ID							= "channelId";
-	public static final String	CHANNEL_NAME									= "name";
-	public static final String	CHANNEL_LOGO									= "logo";
-
-	/* SEASON fields */
-	public static final String	SEASON_NUMBER									= "number";
-
-	/* IMAGE fields */
-	public static final String	IMAGE_TYPE_LANDSCAPE							= "landscape";
-	public static final String	IMAGE_TYPE_PORTRAIT							= "portrait";
-	public static final String	IMAGE_SMALL									= "small";
-	public static final String	IMAGE_MEDIUM									= "medium";
-	public static final String	IMAGE_LARGE									= "large";
-
-	/* TAG fields */
-	public static final String	TAG_ID										= "id";
-	public static final String	TAG_NAME										= "displayName";
-	public static final String	TAG_ALIAS										= "alias";
-
-	/* DATE fields */
-	public static final String	DATE_ID										= "id";
-	public static final String	DATE_NAME										= "displayName";
-	public static final String	DATE_DATE										= "date";
-
-	/* GUIDE fields */
-	public static final String	GUIDE_CHANNEL_ID								= "channelId";
-	public static final String	GUIDE_LOGO									= "logo";
-	public static final String	GUIDE_BROADCASTS								= "broadcasts";
-
-	/* LIKE fields */
-	public static final String	LIKE_ENTITYID									= "entityId";
-	public static final String	LIKE_LIKETYPE									= "likeType";
-	public static final String	LIKE_TYPE_SERIES								= "SERIES";
-	public static final String	LIKE_TYPE_PROGRAM								= "PROGRAM";
-	public static final String	LIKE_TYPE_SPORT_TYPE							= "SPORT_TYPE";
-	public static final String	LIKE_SERIES_SERIES_ID							= "seriesId";
-	public static final String	LIKE_SERIES_TITLE								= "title";
-	public static final String	LIKE_PROGRAM_PROGRAMID						= "programId";
-	public static final String	LIKE_PROGRAM_PROGRAMTYPE						= "programType";
-	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_OTHER				= "OTHER";
-	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_MOVIE				= "MOVIE";
-	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_OTHER_TITLE			= "title";
-	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_OTHER_CATEGORY		= "category";
-	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_TITLE			= "title";
-	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_GENRE			= "genre";
-	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_YEAR			= "year";
-	public static final String	LIKE_SPORT_TYPE_SPORTTYPEID					= "sportTypeId";
-	public static final String	LIKE_SPORT_TYPE_TITLE							= "title";
-	
+	/* LIKE fields */	
 	public static final String 	LIKE_NEXT_BROADCAST 							= "nextBroadcast";
 	public static final String 	LIKE_NEXT_BROADCAST_COUNT 						= "broadcastCount";
 	public static final String	LIKE_NEXT_BROADCAST_CHANNELID					= "channelId";
 	public static final String	LIKE_NEXT_BROADCAST_BEGINTIMEMILLIS			= "beginTimeMillis";
-
-	/* LIKE ENTITY fields */
-	public static final String	LIKE_ENTITY_ENTITY_ID						= "entity_id";
-	public static final String	LIKE_ENTITY_ENTITY_TYPE						= "entityType";
-	public static final String	LIKE_ENTITY_TITLE							= "title";
-	public static final String	LIKE_ENTITY_SYNOPSIS_SHORT					= "synopsisShort";
-	public static final String	LIKE_ENTITY_SYNOPSIS_LONG					= "synopsisLong";
-	public static final String	LIKE_ENTITY_POSTER							= "poster";
-	public static final String	LIKE_ENTITY_TAGS							= "tags";
-	public static final String	LIKE_ENTITY_CREDITS							= "credits";
-	public static final String	LIKE_ENTITY_EPISODE_NUMBER					= "episodeNumber";
-	public static final String	LIKE_ENTITY_SEASON							= "season";
-	public static final String	LIKE_ENTITY_SERIES							= "series";
-	public static final String	LIKE_ENTITY_YEAR							= "year";
-	public static final String	LIKE_ENTITY_GENRE							= "genre";
-
-	/* CREDIT fields */
-	public static final String	CREDIT_NAME									= "name";
-	public static final String	CREDIT_TYPE									= "type";
-
-	/* SERIES fields */
-	public static final String	SERIES_NAME									= "name";
-	public static final String	SERIES_SERIES_ID							= "seriesId";
-
-	/* SPORT TYPE fields */
-	public static final String	SPORTTYPE_SPORTTYPEID						= "sportTypeId";
-	public static final String	SPORTTYPE_NAME								= "name";
-
-	/* FEED fields */
-	public static final String	FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
-	public static final String	FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
-	public static final String	FEED_ITEM_TYPE_POPULAR_BROADCASTS				= "POPULAR_BROADCASTS";
-	public static final String	FEED_ITEM_TYPE_POPULAR_BROADCAST					= "POPULAR_BROADCAST";
-	public static final String	FEED_ITEM_TYPE_POPULAR_TWITTER				= "POPULAR_TWITTER";
-	public static final String	FEED_ITEM_ITEM_TYPE							= "itemType";
-	public static final String	FEED_ITEM_TITLE								= "title";
-	public static final String	FEED_ITEM_BROADCAST							= "broadcast";
-	public static final String	FEED_ITEM_BROADCASTS							= "broadcasts";
-	
-	/* JSON KEYS FOR CONFIGURATION */
-	public static final String JSON_KEY_CONFIGURATION_FIRST_HOUR_OF_TV_DAY			= "firstHourOfDay";
-	public static final String JSON_KEY_CONFIGURATION_ADZERK_NETWORK_ID				= "adzerkNetworkId";
-	public static final String JSON_KEY_CONFIGURATION_ADZERK_SITE_ID				= "adzerkSiteId";
-	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_ENABLED		= "android.googleAnalyticsEnabled";
-	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_TRACKING_ID	= "android.googleAnalyticsTrackingId";
-	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_SAMPLE_RATE	= "android.googleAnalyticsSampleRate";
-	public static final String JSON_KEY_CONFIGURATION_ADS_ENABLED					= "android.adsEnabled";
-	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_BASE	= "android.%s.cellCountBetweenAdCells";
-	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_BASE		= "android.%s.adzerkFormats";
-	public static final String JSON_KEY_CONFIGURATION_WELCOME_TOAST					= "android.welcometoast";
-	
-	/* JSON KEYS FOR API VERSION*/
-	public static final String JSON_KEY_API											= "api";
-	public static final String JSON_KEY_API_VERSION_NAME							= "name";
-	public static final String JSON_KEY_API_VERSION_VALUE 							= "value";
 	
 	/* This CANNOT be changed since they are used as part of JSON_KEY, should be: guide, activity */
 	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= FeedActivity.class.getName();
@@ -393,7 +261,6 @@ public abstract class Constants
 	/* Category keys */
 	public static final String GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT					= "SystemEvent";
 	public static final String GA_EVENT_CATEGORY_KEY_USER_EVENT						= "UserEvent";
-	
 	
 	/* Action keys */
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS				= "APP_WAS_PREINSTALLED_SHARED_PREFS";
@@ -436,7 +303,6 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS = "CHANNEL_CELL_IN_HOME_ACTIVITY_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS = "BROADCAST_CELL_IN_CHANNEL_ACTIVITY_PRESSED";
 	
-
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT		= "DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT";

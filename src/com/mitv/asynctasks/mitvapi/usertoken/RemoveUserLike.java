@@ -24,9 +24,9 @@ public class RemoveUserLike
 	{
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_LIKES);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(userLike.getLikeTypeForRequest());
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(userLike.getContentId());
 		
 		return url.toString();

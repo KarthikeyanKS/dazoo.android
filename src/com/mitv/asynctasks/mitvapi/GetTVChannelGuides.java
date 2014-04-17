@@ -35,7 +35,7 @@ public class GetTVChannelGuides
 	{
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_GUIDE);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(tvDate.getId());
 		
 		return url.toString();
