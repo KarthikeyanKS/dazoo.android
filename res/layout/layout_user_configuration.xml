@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,10 +17,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:orientation="vertical"
-            android:paddingBottom="40dp" >
+            android:paddingBottom="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
             <ImageView
                 android:id="@+id/user_config_avatar_image"
@@ -33,9 +32,9 @@
                 android:src="@drawable/loading_placeholder_horizontal" />
 
             <LinearLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
@@ -111,7 +110,7 @@
                     android:layout_centerVertical="true"
                     android:background="@color/grey1"
                     android:padding="5dp"
-                    android:text="SOCIAL" />
+                    android:text="@string/user_profile_config_separator_bar_share_text" />
             </RelativeLayout>
 
             <LinearLayout
@@ -127,7 +126,7 @@
                     style="@style/header3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Share my activity in mi.tv" />
+                    android:text="@string/user_profile_config_share_title" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -140,18 +139,17 @@
                         style="@style/meta1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.95"
+                        android:layout_weight="0.65"
                         android:paddingBottom="10dp"
                         android:singleLine="false"
-                        android:text="Your friends in mi.tv will automatically see what programs you like and waht reminders you have set" />
+                        android:text="@string/user_profile_config_share_message" />
 
-                    <include
+                    <org.jraf.android.backport.switchwidget.Switch
                         android:id="@+id/user_config_share_switch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="0.05"
-                        layout="@layout/compound_button" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.35" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -179,7 +177,7 @@
                     android:layout_centerVertical="true"
                     android:background="@color/grey1"
                     android:padding="5dp"
-                    android:text="NOTIFICACIONES" />
+                    android:text="@string/user_profile_config_separator_bar_notifications_text" />
             </RelativeLayout>
 
             <LinearLayout
@@ -195,7 +193,7 @@
                     style="@style/header3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Novedades" />
+                    android:text="@string/user_profile_config_notifications_title" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -208,18 +206,17 @@
                         style="@style/meta1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.95"
+                        android:layout_weight="0.65"
                         android:paddingBottom="10dp"
                         android:singleLine="false"
-                        android:text="Recibir un correo electronico cuando hay noticias importantes sobre mi.tv" />
+                        android:text="@string/user_profile_config_notifications_message" />
 
-                    <include
+                    <org.jraf.android.backport.switchwidget.Switch
                         android:id="@+id/user_config_notifications_switch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="0.05"
-                        layout="@layout/compound_button" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.35" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

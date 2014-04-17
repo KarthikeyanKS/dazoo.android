@@ -1,8 +1,12 @@
 package com.mitv.activities;
 
+import org.jraf.android.backport.switchwidget.Switch;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,13 +23,15 @@ import com.mitv.ui.elements.FontTextView;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class UserProfileConfigurationActivity extends BaseActivity implements ActivityWithTabs, OnClickListener {
+public class UserProfileConfigurationActivity extends BaseActivity implements ActivityWithTabs, OnCheckedChangeListener {
 
+	private static final String TAG = UserProfileConfigurationActivity.class.getName();
+	
 	private ImageView avatarImageView;
 	private FontTextView nameText;
 	private FontTextView emailText;
-	private View socialSwitchView;
-	private View notificationsSwitchView;
+	private Switch socialSwitchView;
+	private Switch notificationsSwitchView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,17 +46,17 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 
 	private void initLayout() {
 		actionBar.setTitle(getString(R.string.user_profile_config_title));
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		avatarImageView = (ImageView) findViewById(R.id.user_config_avatar_image);
 		nameText = (FontTextView) findViewById(R.id.user_config_edit_name);
 		emailText = (FontTextView) findViewById(R.id.user_config_edit_email);
 		
-		socialSwitchView = findViewById(R.id.user_config_share_switch);
-		notificationsSwitchView = findViewById(R.id.user_config_notifications_switch);
+		socialSwitchView = (Switch) findViewById(R.id.user_config_share_switch);
+		socialSwitchView.setOnCheckedChangeListener(this);
+		notificationsSwitchView = (Switch) findViewById(R.id.user_config_notifications_switch);
+		notificationsSwitchView.setOnCheckedChangeListener(this);
 	}
 
 	private void populateViews() {
@@ -115,5 +121,28 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		int viewId = buttonView.getId();
+		switch (viewId) {
+		case R.id.user_config_notifications_switch: {
+			//TODO store settings to Backend
+			Log.d(TAG, String.format("Notifications - checked: %s", isChecked ? "TRUE" : "FALSE"));
+			break;
+		}
+		case R.id.user_config_share_switch: {
+			//TODO store settings to Backend
+			Log.d(TAG, String.format("Share - checked: %s", isChecked ? "TRUE" : "FALSE"));
+			break;
+		}
+		default: {
+			break;
+		}
+		}
+		
 	}
 }
