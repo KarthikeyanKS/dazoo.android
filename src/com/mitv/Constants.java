@@ -47,7 +47,8 @@ public abstract class Constants
 	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
 	public static final boolean ENABLE_RATE_APP_DIALOG = true;
 	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = true;
-	
+	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = true;
+	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";

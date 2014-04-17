@@ -297,7 +297,7 @@ public class RemindersListAdapter
 					TVBroadcastWithChannelInfo broadcastForReminderToDelete = broadcasts.get(currentPosition);
 					broadcasts.remove(currentPosition);
 					
-					TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, broadcastForReminderToDelete, true);
+					TrackingGAManager.sharedInstance().sendUserReminderEvent(broadcastForReminderToDelete, true);
 					
 					notifyDataSetChanged();
 				}
