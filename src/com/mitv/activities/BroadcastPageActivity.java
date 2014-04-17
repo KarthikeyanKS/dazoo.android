@@ -502,9 +502,17 @@ public class BroadcastPageActivity
 		
 		String minutesString = getString(R.string.minutes);
 
-		String contentTitle = broadcastWithChannelInfo.getTitle();
+		StringBuilder titleSB = new StringBuilder();
+
+		if(broadcastWithChannelInfo.isPopular())
+		{
+			titleSB.append(getString(R.string.icon_trending))
+				.append(" ");
+		}
 		
-		contentTitleTextView.setText(contentTitle);
+		titleSB.append(broadcastWithChannelInfo.getTitle());
+		
+		contentTitleTextView.setText(titleSB);
 		
 		switch (programType) 
 		{
@@ -586,15 +594,23 @@ public class BroadcastPageActivity
 					episodeNameTv.setVisibility(View.VISIBLE);
 				}
 	
-				extrasStringBuilder.append(getString(R.string.sport)).append(" ").append(durationString).append(minutesString).append(" ")
-						.append(program.getSportType().getName());
+				extrasStringBuilder.append(getString(R.string.sport))
+					.append(" ")
+					.append(durationString)
+					.append(minutesString)
+					.append(" ")
+					.append(program.getSportType().getName());
 				
 				break;
 			}
 			
 			case OTHER: 
 			{
-				extrasStringBuilder.append(program.getCategory()).append(" ").append(durationString).append(minutesString);
+				extrasStringBuilder
+					.append(program.getCategory())
+					.append(" ")
+					.append(durationString)
+					.append(minutesString);
 				break;
 			}
 			
@@ -613,12 +629,14 @@ public class BroadcastPageActivity
 		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true) 
 		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
+			
 			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.getChannel() != null) 
 		{
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
+			
 			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
 		}
 
@@ -626,7 +644,7 @@ public class BroadcastPageActivity
 		
 		StringBuilder timeSB = new StringBuilder();
 		
-		if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring())
+		if(broadcastWithChannelInfo.isBroadcastCurrentlyAiring())
 		{
 			LanguageUtils.setupProgressBar(this, broadcastWithChannelInfo, progressBar, progressTxt);
 
@@ -634,6 +652,8 @@ public class BroadcastPageActivity
 			   broadcastType == BroadcastTypeEnum.LIVE) 
 			{
 				timeSB.append(getString(R.string.icon_live));
+				
+				timeTv.setTextColor(getResources().getColor(R.color.red));
 				
 				timeTv.setText(timeSB.toString());
 				
@@ -644,7 +664,7 @@ public class BroadcastPageActivity
 				timeTv.setVisibility(View.GONE);
 			}
 		} 
-		else /* Broadcast is in the future: show time */
+		else /* Broadcast is in the future: only show time */
 		{
 			if(programType == ProgramTypeEnum.SPORT &&
 			   broadcastType == BroadcastTypeEnum.LIVE)

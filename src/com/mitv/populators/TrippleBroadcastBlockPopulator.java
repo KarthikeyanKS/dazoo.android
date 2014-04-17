@@ -21,7 +21,6 @@ import com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.ReminderView;
 
 
@@ -174,42 +173,21 @@ public class TrippleBroadcastBlockPopulator
 
 			if(usedForRepetitions == false)
 			{
-				TVProgram programLocal = broadcastWithChannelInfo.getProgram();
-
-				ProgramTypeEnum programTypeEnum = programLocal.getProgramType();
+				ProgramTypeEnum programTypeEnum = broadcastWithChannelInfo.getProgram().getProgramType();
 
 				switch (programTypeEnum) 
 				{
 					case TV_EPISODE: 
 					{
-						int season = programLocal.getSeason().getNumber().intValue();
+						String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
 	
-						int episode = programLocal.getEpisodeNumber();
-	
-						StringBuilder seasonEpisodeSB = new StringBuilder();
-	
-						if (season > 0) 
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.season))
-							.append(" ")
-							.append(season)
-							.append(" ");
-						}
-	
-						if (episode > 0)
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.episode))
-							.append(" ")
-							.append(episode);
-						}
-	
-						seasonEpisodeTv.setText(seasonEpisodeSB.toString());
+						seasonEpisodeTv.setText(seasonAndEpisodeString);
 						break;
 					}
 				
 					default: 
 					{
-						seasonEpisodeTv.setText(programLocal.getTitle());
+						seasonEpisodeTv.setText(broadcastWithChannelInfo.getTitle());
 						break;
 					}
 				}

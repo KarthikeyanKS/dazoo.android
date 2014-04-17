@@ -27,11 +27,31 @@ public class GetTVBroadcastsPopular
 	private static final String URL_SUFFIX = Constants.URL_POPULAR;
 
 	
+	
+	private static RequestIdentifierEnum getRequestIdentifier(boolean standalone)
+	{
+		RequestIdentifierEnum requestIdentifier;
+		
+		if(standalone)
+		{
+			requestIdentifier = RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE;
+		}
+		else
+		{
+			requestIdentifier = RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL;
+		}
+		
+		return requestIdentifier;
+	}
+	
+	
+	
 	public GetTVBroadcastsPopular(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener) 
+			ViewCallbackListener activityCallbackListener,
+			boolean standalone)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.POPULAR_ITEMS, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 	
 	

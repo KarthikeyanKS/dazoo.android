@@ -44,6 +44,16 @@ public class TVBroadcast
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
 	private String title = null;
+
+	protected boolean isPopular;
+	
+	
+	
+	public TVBroadcast()
+	{
+		this.isPopular = false;
+	}
+	
 	
 	
 	
@@ -71,7 +81,7 @@ public class TVBroadcast
 					case MOVIE:
 					case SPORT:
 					case OTHER:
-					default: 
+					default:
 					{
 						title = program.getTitle();
 						break;
@@ -494,6 +504,20 @@ public class TVBroadcast
 	
 	
 	
+	public boolean isPopular() {
+		return isPopular;
+	}
+
+
+
+
+	public void setPopular(boolean isPopular) {
+		this.isPopular = isPopular;
+	}
+
+
+
+
 	@Override
 	public int hashCode() 
 	{

@@ -301,7 +301,6 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 		private TextView timeTv;
 		private TextView channelTv;
 		private ReminderView reminderView;
-
 		private View divider;
 	}
 }
