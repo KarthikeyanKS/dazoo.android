@@ -165,7 +165,11 @@ public class RateAppManager {
 	}
 
 	public static void tryShowRateDialog(Context context) {
-		boolean preventRateAppDialogBackend = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
+		boolean preventRateAppDialogBackend = false;
+		if(ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
+			preventRateAppDialogBackend = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
+		}
+		
 		boolean preventRateAppDialogLocal = !Constants.ENABLE_RATE_APP_DIALOG;
 		if (preventRateAppDialogBackend || preventRateAppDialogLocal) {
 			return;
