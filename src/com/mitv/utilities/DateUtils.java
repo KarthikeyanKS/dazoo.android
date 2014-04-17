@@ -141,6 +141,31 @@ public abstract class DateUtils
 	}
 	
 	
+	/**
+	 * This calculation of timezone offset takes in daylight time in consideration.
+	 * 
+	 * @return
+	 */
+	public static Long getTimeZoneOffsetInMillis() {
+		Long offsetInMillis = 0L;
+		
+		TimeZone timeZone = TimeZone.getDefault();
+		
+		Calendar cal = DateUtils.getNow();
+		
+		int era = cal.get(Calendar.ERA);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		int timeOfDayMillis = cal.get(Calendar.MILLISECOND);
+		
+		offsetInMillis = (long) timeZone.getOffset(era, year, month, day, dayOfWeek, timeOfDayMillis);
+		
+		return offsetInMillis;
+	}
+	
+	
 	
 	private static Calendar convertFromStringToCalendarWithFormat(
 			final String dateFormatString,
@@ -663,6 +688,14 @@ public abstract class DateUtils
 	
 	
 	
+	/**
+	 * This method does not take daylight time in consideration.
+	 * Just returns the UTC + 0 time.
+	 * 
+	 * BE CAREFUL!
+	 * 
+	 * @return
+	 */
 	public static Calendar getNow()
 	{
 		Locale locale = LanguageUtils.getISO8601Locale();
