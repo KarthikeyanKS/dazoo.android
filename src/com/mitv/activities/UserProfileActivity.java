@@ -395,8 +395,11 @@ public class UserProfileActivity
 		{
 			case R.id.myprofile_person_container_signed_in: 
 			{
+				
 				TrackingGAManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
-				intent = new Intent(UserProfileActivity.this, UserProfileConfigurationActivity.class);
+				if(Constants.ENABLE_USER_PROFILE_CONFIGURATION) {
+					intent = new Intent(UserProfileActivity.this, UserProfileConfigurationActivity.class);
+				}
 				break;
 			}
 			
