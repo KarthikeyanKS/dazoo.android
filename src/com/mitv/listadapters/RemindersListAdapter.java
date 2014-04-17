@@ -251,7 +251,7 @@ public class RemindersListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					

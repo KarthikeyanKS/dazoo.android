@@ -29,7 +29,7 @@ public class GetTVBroadcastDetails
 	{
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_CHANNELS_ALL);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		
 		if(tvChannelId != null)
 		{
@@ -41,7 +41,7 @@ public class GetTVBroadcastDetails
 		}
 		
 		url.append(Constants.API_BROADCASTS);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(beginTime);
 		
 		return url.toString();

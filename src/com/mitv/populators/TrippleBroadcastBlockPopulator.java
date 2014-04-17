@@ -80,7 +80,7 @@ public class TrippleBroadcastBlockPopulator
 			{
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) view.getTag();
 				
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
@@ -305,7 +305,7 @@ public class TrippleBroadcastBlockPopulator
 				@Override
 				public void onClick(View v) 
 				{
-					Runnable procedure = getConfirmRemovalProcedure(repeatingOrUpcomingBroadcasts);
+					Runnable procedure = getProcedure(repeatingOrUpcomingBroadcasts);
 					procedure.run();
 				}
 			});
@@ -316,13 +316,13 @@ public class TrippleBroadcastBlockPopulator
 		
 	
 	
-	private Runnable getConfirmRemovalProcedure(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) 
+	private Runnable getProcedure(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) 
 	{
 		return new Runnable() 
 		{
 			public void run() 
 			{
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(runningBroadcast);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(runningBroadcast);
 
 				if (usedForRepetitions) 
 				{

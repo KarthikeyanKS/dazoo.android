@@ -77,7 +77,6 @@ public abstract class LanguageUtils
 	
 	
 	
-	
 	public static String capitalize(
 			final String input,
 			final Locale locale)
@@ -102,22 +101,17 @@ public abstract class LanguageUtils
 	
 	
 	public static void setupProgressBar(
-			Activity activity, 
-			TVBroadcast broadcast, 
-			ProgressBar progressBar, 
-			TextView progressTxt)
+			final Activity activity, 
+			final TVBroadcast broadcast, 
+			final ProgressBar progressBar, 
+			final TextView progressTxt)
 	{
 		int durationInMinutes = broadcast.getBroadcastDurationInMinutes();
 		
-		progressBar.setMax(durationInMinutes + 1);
-
 		int minutesLeft = broadcast.getRemainingMinutesUntilBroadcastEnds();
 		
 		int progress = durationInMinutes - minutesLeft;
 
-		// different representation of "X min left" for Spanish and all other languages
-		
-		String progressBarText;
 		StringBuilder sb = new StringBuilder();
 		
 		Resources res = activity.getResources();
@@ -125,17 +119,17 @@ public abstract class LanguageUtils
 		String and = res.getString(R.string.and);
 		String minutesWord = res.getString(R.string.minutes);
 		String leftWordSingular = res.getString(R.string.left);
-		String hourWordQuantified;
 		
 		boolean isCurrentLocaleSpanish = isCurrentLocaleSpanish();
-			
+
+		// Different representation of "X min left" for Spanish and all other languages
 		if (minutesLeft > DateUtils.TOTAL_MINUTES_IN_ONE_HOUR) 
 		{
 			int hours = minutesLeft / DateUtils.TOTAL_MINUTES_IN_ONE_HOUR;
 			
 			int minutesComponent = minutesLeft % DateUtils.TOTAL_MINUTES_IN_ONE_HOUR;
 			
-			hourWordQuantified = res.getQuantityString(R.plurals.hour, hours);
+			String hourWordQuantified = res.getQuantityString(R.plurals.hour, hours);
 			
 			if(isCurrentLocaleSpanish) 
 			{
@@ -193,9 +187,8 @@ public abstract class LanguageUtils
 			}
 		}
 		
-		progressBarText = sb.toString();
-		progressTxt.setText(progressBarText);
-	
+		progressTxt.setText(sb.toString());
+		progressBar.setMax(durationInMinutes + 1);
 		progressBar.setProgress(progress + 1);
 		
 		progressTxt.setVisibility(View.VISIBLE);
