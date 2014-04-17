@@ -19,7 +19,7 @@
 
     <style name="ChannelPage" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionDropDownStyle" tools:ignore="NewApi">@style/ActionBarDropDown</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_up_indicator</item>
+        <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/WhiteActionBar</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:icon">@drawable/ic_nav_bar</item>
@@ -177,10 +177,16 @@
         <item name="android:textColor">@color/grey5</item>
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
-    
+
     <style name="text2">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/grey4</item>
+        <item name="fonttextview">roboto_mitv_medium.ttf</item>
+    </style>
+
+    <style name="separator_bar">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/grey2</item>
         <item name="fonttextview">roboto_mitv_medium.ttf</item>
     </style>
 
@@ -195,7 +201,7 @@
         <item name="android:textColor">@color/grey2</item>
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
-    
+
     <style name="loading">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/grey3</item>
