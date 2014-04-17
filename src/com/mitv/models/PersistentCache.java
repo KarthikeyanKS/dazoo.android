@@ -540,9 +540,11 @@ public abstract class PersistentCache
 	
 	public synchronized ArrayList<TVFeedItem> getActivityFeed() 
 	{
-		activityFeed = filterOldBroadcasts(activityFeed);
-		
-		activityFeed = filterSimilarBroadcasts(activityFeed);
+		if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY) {
+			activityFeed = filterOldBroadcasts(activityFeed);
+			
+			activityFeed = filterSimilarBroadcasts(activityFeed);
+		}
 		
 		return activityFeed;
 	}
@@ -562,9 +564,11 @@ public abstract class PersistentCache
 			activityFeed = new ArrayList<TVFeedItem>();
 		}
 		
-		activityFeed = filterOldBroadcasts(activityFeed);
-		
-		activityFeed = filterSimilarBroadcasts(activityFeed);
+		if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY) {
+			activityFeed = filterOldBroadcasts(activityFeed);
+			
+			activityFeed = filterSimilarBroadcasts(activityFeed);
+		}
 		
 		activityFeed.addAll(additionalActivityFeedItems);
 	}
