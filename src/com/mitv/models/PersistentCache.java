@@ -66,6 +66,7 @@ public abstract class PersistentCache
 	private List<TVChannelId> tvChannelIdsUser;
 	
 	private ArrayList<TVFeedItem> activityFeed;
+	private ArrayList<TVFeedItem> feedItemsToDelete;
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 	
 	
@@ -78,6 +79,8 @@ public abstract class PersistentCache
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
 		AbstractOrmLiteClass.initDB(context, Constants.CACHE_DATABASE_NAME, Constants.CACHE_DATABASE_VERSION, null);
+		
+		feedItemsToDelete = new ArrayList<TVFeedItem>();
 		
 		this.appVersionData = null; //AppVersionORM.getAppVersion();
 		this.appConfigurationData = null; //AppConfigurationORM.getAppConfiguration();
@@ -293,7 +296,7 @@ public abstract class PersistentCache
 		{
 			userLikes.remove(userLikeToRemove);
 			
-			deleteFeedItemUsingLike(userLikeToRemove);
+			deleteFeedItemUsingLike(userLikeToRemove, activityFeed);
 		}
 		else
 		{
@@ -544,6 +547,10 @@ public abstract class PersistentCache
 			activityFeed = filterOldBroadcasts(activityFeed);
 			
 			activityFeed = filterSimilarBroadcasts(activityFeed);
+			
+			if (!feedItemsToDelete.isEmpty()) {
+				activityFeed.removeAll(feedItemsToDelete);
+			}
 		}
 		
 		return activityFeed;
@@ -564,20 +571,36 @@ public abstract class PersistentCache
 			activityFeed = new ArrayList<TVFeedItem>();
 		}
 		
+		activityFeed.addAll(additionalActivityFeedItems);
+		
 		if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY) {
 			activityFeed = filterOldBroadcasts(activityFeed);
 			
 			activityFeed = filterSimilarBroadcasts(activityFeed);
+			
+			if (!feedItemsToDelete.isEmpty()) {
+				activityFeed.removeAll(feedItemsToDelete);
+			}
 		}
-		
-		activityFeed.addAll(additionalActivityFeedItems);
 	}
 	
-	private void deleteFeedItemUsingLike(UserLike like) {
-		if(activityFeed != null) {	
-			ArrayList<TVFeedItem> feedItemsToDelete = new ArrayList<TVFeedItem>();
-			for(TVFeedItem feedItem : activityFeed) {
-				if(feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+	
+	
+	/**
+	 * This method does not work properly. Generate an error in the feedlistadapter.
+	 * 
+	 * @param like
+	 * @param activityFeed
+	 */
+	private void deleteFeedItemUsingLike(UserLike like, ArrayList<TVFeedItem> activityFeed) {
+		if (!activityFeed.isEmpty() && activityFeed != null) {
+
+			/* Making a copy of the array list, we can not modify the list in the for-loop */
+			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
+			
+			for (TVFeedItem feedItem : activityFeedCopy) {
+				
+				if (feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
 					TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
 					
 					TVProgram program = broadcast.getProgram();
@@ -585,10 +608,10 @@ public abstract class PersistentCache
 					
 					if(contentIdFromProgram.equals(like.getContentId())) {
 						feedItemsToDelete.add(feedItem);
+						Log.d(TAG, "Removing liked broadcasts from list!! Item: " + program.getTitle());
 					}
 				}
 			}
-			activityFeed.removeAll(feedItemsToDelete);
 		}
 	}
 	
@@ -604,12 +627,12 @@ public abstract class PersistentCache
 		TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
 		boolean hasItemBeenShownBefore;
 		
-		if (!activityFeed.isEmpty() && activityFeed != null) {
+		if (!activityFeed.isEmpty() && activityFeed != null && activityFeed.size() >= 3) {
 		
 			/* Making a copy of the array list, we can not modify the list in the for-loop */
 			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
 			
-			for (int i = 2; i < activityFeedCopy.size(); i++) {
+			for (int i = activityFeedCopy.size()-1; i > 2; i--) {
 				
 				TVFeedItem item = activityFeedCopy.get(i);
 				
@@ -628,7 +651,7 @@ public abstract class PersistentCache
 						/* If item is too old or if it has shown before the item will be removed */
 						if (hasItemBeenShownBefore) {
 							Log.d(TAG, "Removing broadcasts from list!! More than 2 times, Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle());
-							activityFeed.remove(i);
+							activityFeed.remove(activityFeedCopy.get(i));
 						}
 						
 						break;
@@ -688,7 +711,7 @@ public abstract class PersistentCache
 						if (isItemTooOld) {
 							Log.d(TAG, "Removing old broadcasts from list!! Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle() +
 									" Starttime: " + tvBroadcastWithChannelInfo.getBeginTime());
-							activityFeed.remove(i);
+							activityFeed.remove(activityFeedCopy.get(i));
 						}
 						
 						break;
