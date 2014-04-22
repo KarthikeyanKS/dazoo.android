@@ -104,7 +104,6 @@ public class PopularListAdapter
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_header_container);
 			viewHolder.headerTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_header_tv);
 			viewHolder.dividerView = (View) rowView.findViewById(R.id.element_poster_broadcast_divider);
 			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
@@ -126,7 +125,7 @@ public class PopularListAdapter
 		
 		if (broadcastWithChannelInfo != null) 
 		{
-			holder.headerContainer.setVisibility(View.GONE);
+			holder.headerTv.setVisibility(View.GONE);
 			holder.dividerView.setVisibility(View.VISIBLE);
 			
 			boolean isFirstposition = (position == 0);
@@ -166,7 +165,7 @@ public class PopularListAdapter
 
 				holder.headerTv.setText(headerSB.toString());
 				
-				holder.headerContainer.setVisibility(View.VISIBLE);
+				holder.headerTv.setVisibility(View.VISIBLE);
 			}
 
 			int nextPos = Math.min(position + 1, (getCount() - 1));
@@ -287,7 +286,6 @@ public class PopularListAdapter
 	
 	private static class ViewHolder 
 	{
-		private RelativeLayout headerContainer;
 		private TextView headerTv;
 		private View dividerView;
 		private RelativeLayout container;
