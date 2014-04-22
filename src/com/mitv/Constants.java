@@ -44,11 +44,11 @@ public abstract class Constants
 	public static final boolean ENABLE_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
-	public static final boolean ENABLE_AMAZON_INSIGHTS = true;
-	public static final boolean ENABLE_RATE_APP_DIALOG = true;
-	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = true;
-	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = true;
-	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
+	public static final boolean ENABLE_AMAZON_INSIGHTS = false;
+	public static final boolean ENABLE_RATE_APP_DIALOG = false;
+	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
+	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
+	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
