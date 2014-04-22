@@ -604,43 +604,46 @@ public abstract class PersistentCache
 		TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
 		boolean hasItemBeenShownBefore;
 		
-		/* Making a copy of the array list, we can not modify the list in the for-loop */
-		ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
+		if (!activityFeed.isEmpty() && activityFeed != null) {
 		
-		for (int i = 2; i < activityFeedCopy.size(); i++) {
+			/* Making a copy of the array list, we can not modify the list in the for-loop */
+			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
 			
-			TVFeedItem item = activityFeedCopy.get(i);
-			
-			FeedItemTypeEnum feedType = item.getItemType();
-			
-			switch (feedType) {
-				case BROADCAST:
-				case POPULAR_BROADCAST:
-				case POPULAR_TWITTER:
-				case RECOMMENDED_BROADCAST: {
-					
-					tvBroadcastWithChannelInfo = item.getBroadcast();
-					
-					hasItemBeenShownBefore = checkIfTVFeedItemHasShownBefore(activityFeed, tvBroadcastWithChannelInfo);
-					
-					/* If item is too old or if it has shown before the item will be removed */
-					if (hasItemBeenShownBefore) {
-						Log.d(TAG, "Removing broadcasts from list!! More than 2 times, Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle());
-						activityFeed.remove(i);
+			for (int i = 2; i < activityFeedCopy.size(); i++) {
+				
+				TVFeedItem item = activityFeedCopy.get(i);
+				
+				FeedItemTypeEnum feedType = item.getItemType();
+				
+				switch (feedType) {
+					case BROADCAST:
+					case POPULAR_BROADCAST:
+					case POPULAR_TWITTER:
+					case RECOMMENDED_BROADCAST: {
+						
+						tvBroadcastWithChannelInfo = item.getBroadcast();
+						
+						hasItemBeenShownBefore = checkIfTVFeedItemHasShownBefore(activityFeed, tvBroadcastWithChannelInfo);
+						
+						/* If item is too old or if it has shown before the item will be removed */
+						if (hasItemBeenShownBefore) {
+							Log.d(TAG, "Removing broadcasts from list!! More than 2 times, Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle());
+							activityFeed.remove(i);
+						}
+						
+						break;
 					}
-					
-					break;
-				}
-		
-				case POPULAR_BROADCASTS: {
-					/* Do nothing! */
-					break;
-				}
-		
-				default:
-				case UNKNOWN: {
-					Log.w(TAG, "Unknown feed type.");
-					break;
+			
+					case POPULAR_BROADCASTS: {
+						/* Do nothing! */
+						break;
+					}
+			
+					default:
+					case UNKNOWN: {
+						Log.w(TAG, "Unknown feed type.");
+						break;
+					}
 				}
 			}
 		}
@@ -660,76 +663,79 @@ public abstract class PersistentCache
 		TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
 		boolean isItemTooOld;
 		
-		/* Making a copy of the array list, we can not modify the list in the for-loop */
-		ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
+		if (!activityFeed.isEmpty() && activityFeed != null) {
 		
-		for (int i = 0; i < activityFeedCopy.size(); i++) {
+			/* Making a copy of the array list, we can not modify the list in the for-loop */
+			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
 			
-			TVFeedItem item = activityFeedCopy.get(i);
-			
-			FeedItemTypeEnum feedType = item.getItemType();
-			
-			switch (feedType) {
-				case BROADCAST:
-				case POPULAR_BROADCAST:
-				case POPULAR_TWITTER:
-				case RECOMMENDED_BROADCAST: {
-					
-					tvBroadcastWithChannelInfo = item.getBroadcast();
-					
-					isItemTooOld = checkIfTVFeedItemIsOld(tvBroadcastWithChannelInfo);
-					
-					/* If item is too old or if it has shown before the item will be removed */
-					if (isItemTooOld) {
-						Log.d(TAG, "Removing old broadcasts from list!! Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle() +
-								" Starttime: " + tvBroadcastWithChannelInfo.getBeginTime());
-						activityFeed.remove(i);
+			for (int i = 0; i < activityFeedCopy.size(); i++) {
+				
+				TVFeedItem item = activityFeedCopy.get(i);
+				
+				FeedItemTypeEnum feedType = item.getItemType();
+				
+				switch (feedType) {
+					case BROADCAST:
+					case POPULAR_BROADCAST:
+					case POPULAR_TWITTER:
+					case RECOMMENDED_BROADCAST: {
+						
+						tvBroadcastWithChannelInfo = item.getBroadcast();
+						
+						isItemTooOld = checkIfTVFeedItemIsOld(tvBroadcastWithChannelInfo);
+						
+						/* If item is too old or if it has shown before the item will be removed */
+						if (isItemTooOld) {
+							Log.d(TAG, "Removing old broadcasts from list!! Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle() +
+									" Starttime: " + tvBroadcastWithChannelInfo.getBeginTime());
+							activityFeed.remove(i);
+						}
+						
+						break;
 					}
+			
 					
-					break;
-				}
-		
-				
-				/*
-				 *  THIS OUTCOMMENTED CODE BELOW IS NOT IN USE
-				 *  
-				 *  It is used for filtering in the popular broadcasts
-				 *  (block of three) in activity feed.
-				 *  
-				 */
-				
-				case POPULAR_BROADCASTS: {
-//					ArrayList<TVBroadcastWithChannelInfo> broadcasts = item.getBroadcasts();
-//		
-//					if (broadcasts != null && broadcasts.size() > 0) {
-//						
-//						for (int j = 0; j < broadcasts.size(); j++) {
-//							
-//							tvBroadcastWithChannelInfo = broadcasts.get(j);
-//							
-//							removeItem = checkIfTVFeedItemIsOld(tvBroadcastWithChannelInfo);
-//							if (removeItem) {
-//								Log.d(TAG, "Should remove popular broadcasts!!");
-//								
-////								activityFeed.remove(i);
-//								
-//								/* Ask Foteini how we should solve this, every broadcasts comes in three.
-//								 * we can not just remove one. Remove the whole block? */
-//								
-//								/* Also check why the feed only updates when I scroll for more....???? */
-//							}
-//						}
-//						
-//					}
+					/*
+					 *  THIS OUTCOMMENTED CODE BELOW IS NOT IN USE
+					 *  
+					 *  It is used for filtering in the popular broadcasts
+					 *  (block of three) in activity feed.
+					 *  
+					 */
 					
-					/* Do nothing! */
-					break;
-				}
-		
-				default:
-				case UNKNOWN: {
-					Log.w(TAG, "Unknown feed type.");
-					break;
+					case POPULAR_BROADCASTS: {
+	//					ArrayList<TVBroadcastWithChannelInfo> broadcasts = item.getBroadcasts();
+	//		
+	//					if (broadcasts != null && broadcasts.size() > 0) {
+	//						
+	//						for (int j = 0; j < broadcasts.size(); j++) {
+	//							
+	//							tvBroadcastWithChannelInfo = broadcasts.get(j);
+	//							
+	//							removeItem = checkIfTVFeedItemIsOld(tvBroadcastWithChannelInfo);
+	//							if (removeItem) {
+	//								Log.d(TAG, "Should remove popular broadcasts!!");
+	//								
+	////								activityFeed.remove(i);
+	//								
+	//								/* Ask Foteini how we should solve this, every broadcasts comes in three.
+	//								 * we can not just remove one. Remove the whole block? */
+	//								
+	//								/* Also check why the feed only updates when I scroll for more....???? */
+	//							}
+	//						}
+	//						
+	//					}
+						
+						/* Do nothing! */
+						break;
+					}
+			
+					default:
+					case UNKNOWN: {
+						Log.w(TAG, "Unknown feed type.");
+						break;
+					}
 				}
 			}
 		}
