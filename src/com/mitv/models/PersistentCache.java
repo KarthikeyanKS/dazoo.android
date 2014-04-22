@@ -587,7 +587,7 @@ public abstract class PersistentCache
 	
 	
 	/**
-	 * This method does not work properly. Generate an error in the feedlistadapter.
+	 * Stores all the likes which will be deleted when user scroll in the activity list.
 	 * 
 	 * @param like
 	 * @param activityFeed
