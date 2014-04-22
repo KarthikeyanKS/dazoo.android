@@ -185,7 +185,8 @@ public class PopularListAdapter
 				public void onClick(View v) 
 				{
 					/* Go to the corresponding Broadcast page */
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 
 					// coloring
@@ -269,7 +270,7 @@ public class PopularListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					

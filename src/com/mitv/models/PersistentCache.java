@@ -4,6 +4,7 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
-import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
@@ -26,12 +26,12 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.TVProgram;
-import com.mitv.models.objects.mitvapi.TVSeries;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -540,6 +540,12 @@ public abstract class PersistentCache
 	
 	public synchronized ArrayList<TVFeedItem> getActivityFeed() 
 	{
+		if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY) {
+			activityFeed = filterOldBroadcasts(activityFeed);
+			
+			activityFeed = filterSimilarBroadcasts(activityFeed);
+		}
+		
 		return activityFeed;
 	}
 
@@ -556,6 +562,12 @@ public abstract class PersistentCache
 		if(this.activityFeed == null)
 		{
 			activityFeed = new ArrayList<TVFeedItem>();
+		}
+		
+		if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY) {
+			activityFeed = filterOldBroadcasts(activityFeed);
+			
+			activityFeed = filterSimilarBroadcasts(activityFeed);
 		}
 		
 		activityFeed.addAll(additionalActivityFeedItems);
@@ -579,7 +591,224 @@ public abstract class PersistentCache
 			activityFeed.removeAll(feedItemsToDelete);
 		}
 	}
-
+	
+	
+	
+	/**
+	 * Filter out broadcasts that has been shown for more than two times.
+	 * 
+	 * @param activityFeed
+	 * @return
+	 */
+	private ArrayList<TVFeedItem> filterSimilarBroadcasts(ArrayList<TVFeedItem> activityFeed) {
+		TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
+		boolean hasItemBeenShownBefore;
+		
+		if (!activityFeed.isEmpty() && activityFeed != null) {
+		
+			/* Making a copy of the array list, we can not modify the list in the for-loop */
+			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
+			
+			for (int i = 2; i < activityFeedCopy.size(); i++) {
+				
+				TVFeedItem item = activityFeedCopy.get(i);
+				
+				FeedItemTypeEnum feedType = item.getItemType();
+				
+				switch (feedType) {
+					case BROADCAST:
+					case POPULAR_BROADCAST:
+					case POPULAR_TWITTER:
+					case RECOMMENDED_BROADCAST: {
+						
+						tvBroadcastWithChannelInfo = item.getBroadcast();
+						
+						hasItemBeenShownBefore = checkIfTVFeedItemHasShownBefore(activityFeed, tvBroadcastWithChannelInfo);
+						
+						/* If item is too old or if it has shown before the item will be removed */
+						if (hasItemBeenShownBefore) {
+							Log.d(TAG, "Removing broadcasts from list!! More than 2 times, Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle());
+							activityFeed.remove(i);
+						}
+						
+						break;
+					}
+			
+					case POPULAR_BROADCASTS: {
+						/* Do nothing! */
+						break;
+					}
+			
+					default:
+					case UNKNOWN: {
+						Log.w(TAG, "Unknown feed type.");
+						break;
+					}
+				}
+			}
+		}
+		
+		return activityFeed;
+	}
+	
+	
+	
+	/**
+	 * Filter out broadcast with a beginTime that has passed.
+	 * 
+	 * @param activityFeed
+	 * @return
+	 */
+	private ArrayList<TVFeedItem> filterOldBroadcasts(ArrayList<TVFeedItem> activityFeed) {
+		TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
+		boolean isItemTooOld;
+		
+		if (!activityFeed.isEmpty() && activityFeed != null) {
+		
+			/* Making a copy of the array list, we can not modify the list in the for-loop */
+			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed.clone();
+			
+			for (int i = 0; i < activityFeedCopy.size(); i++) {
+				
+				TVFeedItem item = activityFeedCopy.get(i);
+				
+				FeedItemTypeEnum feedType = item.getItemType();
+				
+				switch (feedType) {
+					case BROADCAST:
+					case POPULAR_BROADCAST:
+					case POPULAR_TWITTER:
+					case RECOMMENDED_BROADCAST: {
+						
+						tvBroadcastWithChannelInfo = item.getBroadcast();
+						
+						isItemTooOld = checkIfTVFeedItemIsOld(tvBroadcastWithChannelInfo);
+						
+						/* If item is too old or if it has shown before the item will be removed */
+						if (isItemTooOld) {
+							Log.d(TAG, "Removing old broadcasts from list!! Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle() +
+									" Starttime: " + tvBroadcastWithChannelInfo.getBeginTime());
+							activityFeed.remove(i);
+						}
+						
+						break;
+					}
+			
+					
+					/*
+					 *  THIS OUTCOMMENTED CODE BELOW IS NOT IN USE
+					 *  
+					 *  It is used for filtering in the popular broadcasts
+					 *  (block of three) in activity feed.
+					 *  
+					 */
+					
+					case POPULAR_BROADCASTS: {
+	//					ArrayList<TVBroadcastWithChannelInfo> broadcasts = item.getBroadcasts();
+	//		
+	//					if (broadcasts != null && broadcasts.size() > 0) {
+	//						
+	//						for (int j = 0; j < broadcasts.size(); j++) {
+	//							
+	//							tvBroadcastWithChannelInfo = broadcasts.get(j);
+	//							
+	//							removeItem = checkIfTVFeedItemIsOld(tvBroadcastWithChannelInfo);
+	//							if (removeItem) {
+	//								Log.d(TAG, "Should remove popular broadcasts!!");
+	//								
+	////								activityFeed.remove(i);
+	//								
+	//								/* Ask Foteini how we should solve this, every broadcasts comes in three.
+	//								 * we can not just remove one. Remove the whole block? */
+	//								
+	//								/* Also check why the feed only updates when I scroll for more....???? */
+	//							}
+	//						}
+	//						
+	//					}
+						
+						/* Do nothing! */
+						break;
+					}
+			
+					default:
+					case UNKNOWN: {
+						Log.w(TAG, "Unknown feed type.");
+						break;
+					}
+				}
+			}
+		}
+		
+		return activityFeed;
+	}
+	
+	
+	
+	/**
+	 * Check if TVFeedItem is too old and needs to be removed from the activityFeed.
+	 * 
+	 * @param item
+	 * @return true: Item will be removed
+	 * @return false: Item will NOT be removed
+	 */
+	private boolean checkIfTVFeedItemIsOld(TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) {
+		boolean removeItem = false;
+		
+		Long timeZoneOffsetInMillis = DateUtils.getTimeZoneOffsetInMillis();
+		
+		Calendar now = DateUtils.getNow();
+		
+		Long nowLong = now.getTimeInMillis() + timeZoneOffsetInMillis;
+		
+		Long beginTime = tvBroadcastWithChannelInfo.getBeginTimeMillis();
+		
+		int difference = beginTime.compareTo(nowLong);
+		
+		/* beginTime is less than nowLong: Item should NOT be included in the feed activity. Items is old */
+		if (difference < 0) {
+			removeItem = true;
+		}		
+		
+		return removeItem;
+	}
+	
+	
+	
+	/**
+	 * Start checking from item nr 3 in the list if it is a repetition or not.
+	 * 
+	 * @param activityFeed
+	 * @param tvBroadcastWithChannelInfo
+	 * @return TRUE: If repetition
+	 * @return FALSE: If NOT repetition
+	 */
+	private boolean checkIfTVFeedItemHasShownBefore(ArrayList<TVFeedItem> activityFeed, TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) {
+		int counterHowManyTimesItemAppearsInList = 0;
+		String nameOfItem = tvBroadcastWithChannelInfo.getTitle();
+		
+		for (int i = 0; i < activityFeed.size(); i++) {
+			
+			TVFeedItem item = activityFeed.get(i);
+			TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoFromList = item.getBroadcast();
+			
+			if (tvBroadcastWithChannelInfoFromList != null) {
+				String nameOfItemInList = tvBroadcastWithChannelInfoFromList.getTitle();
+				
+				if (nameOfItemInList.equals(nameOfItem)) {
+					counterHowManyTimesItemAppearsInList++;
+				}
+				
+				if (counterHowManyTimesItemAppearsInList > 2) {
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+	
 	
 	
 	/* TV BROADCASTS */

@@ -21,7 +21,6 @@ import com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.ReminderView;
 
 
@@ -80,7 +79,7 @@ public class TrippleBroadcastBlockPopulator
 			{
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) view.getTag();
 				
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
@@ -174,42 +173,21 @@ public class TrippleBroadcastBlockPopulator
 
 			if(usedForRepetitions == false)
 			{
-				TVProgram programLocal = broadcastWithChannelInfo.getProgram();
-
-				ProgramTypeEnum programTypeEnum = programLocal.getProgramType();
+				ProgramTypeEnum programTypeEnum = broadcastWithChannelInfo.getProgram().getProgramType();
 
 				switch (programTypeEnum) 
 				{
 					case TV_EPISODE: 
 					{
-						int season = programLocal.getSeason().getNumber().intValue();
+						String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
 	
-						int episode = programLocal.getEpisodeNumber();
-	
-						StringBuilder seasonEpisodeSB = new StringBuilder();
-	
-						if (season > 0) 
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.season))
-							.append(" ")
-							.append(season)
-							.append(" ");
-						}
-	
-						if (episode > 0)
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.episode))
-							.append(" ")
-							.append(episode);
-						}
-	
-						seasonEpisodeTv.setText(seasonEpisodeSB.toString());
+						seasonEpisodeTv.setText(seasonAndEpisodeString);
 						break;
 					}
 				
 					default: 
 					{
-						seasonEpisodeTv.setText(programLocal.getTitle());
+						seasonEpisodeTv.setText(broadcastWithChannelInfo.getTitle());
 						break;
 					}
 				}
@@ -305,7 +283,7 @@ public class TrippleBroadcastBlockPopulator
 				@Override
 				public void onClick(View v) 
 				{
-					Runnable procedure = getConfirmRemovalProcedure(repeatingOrUpcomingBroadcasts);
+					Runnable procedure = getProcedure(repeatingOrUpcomingBroadcasts);
 					procedure.run();
 				}
 			});
@@ -316,13 +294,13 @@ public class TrippleBroadcastBlockPopulator
 		
 	
 	
-	private Runnable getConfirmRemovalProcedure(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) 
+	private Runnable getProcedure(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) 
 	{
 		return new Runnable() 
 		{
 			public void run() 
 			{
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(runningBroadcast);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(runningBroadcast);
 
 				if (usedForRepetitions) 
 				{

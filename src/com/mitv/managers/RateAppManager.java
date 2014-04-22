@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +51,8 @@ public class RateAppManager {
 	 */
 	private static final String PREFS_HAS_SHOW_DIALOG_VALUE_BEEN_SET = "has_show_dialog_value_been_set";
 	private static final String PREFS_SHOW_DIALOG_VALUE = "show_dialog_value";
+	
+	private static final String TAG = RateAppManager.class.getName();
 
 	private static SharedPreferences getSharedPrefs(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + PREFS_NAME, 0);
@@ -58,52 +61,59 @@ public class RateAppManager {
 
 	
 	public static void appLaunched(Context context) {
-		boolean testMode = context.getResources().getBoolean(R.bool.appirator_test_mode);
-		if (testMode) {
-			showRateDialog(context);
-			return;
-		}
-
-		SharedPreferences prefs = getSharedPrefs(context);
-		
-		boolean dontShowDialog = prefs.getBoolean(PREF_DONT_SHOW, false) || prefs.getBoolean(PREF_RATE_CLICKED, false);
-		if (dontShowDialog) {
-			return;
-		}
-
-		SharedPreferences.Editor editor = prefs.edit();
-
-		// Increment launch counter
-		long launchCount = prefs.getLong(PREF_LAUNCH_COUNT, 0);
-		
-		try {
-			int appVersionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
-			if (prefs.getInt(PREF_APP_VERSION_CODE, 0) != appVersionCode) {
-				// Reset the launch, reminder and event counters to help assure users are rating based on the latest version.
-				// launchCount = 0;
-				// editor.putLong(PREF_EVENT_COUNT, 0);
-				// editor.putLong(PREF_LAUNCH_COUNT, launchCount);
-				// editor.putLong(PREF_REMINDER_COUNT, 0);
+		if (context != null) {
+			
+			boolean testMode = context.getResources().getBoolean(R.bool.appirator_test_mode);
+			if (testMode) {
+				showRateDialog(context);
+				return;
 			}
-			editor.putInt(PREF_APP_VERSION_CODE, appVersionCode);
-		} catch (Exception e) {
-			// do nothing
+	
+			SharedPreferences prefs = getSharedPrefs(context);
+			
+			boolean dontShowDialog = prefs.getBoolean(PREF_DONT_SHOW, false) || prefs.getBoolean(PREF_RATE_CLICKED, false);
+			if (dontShowDialog) {
+				return;
+			}
+	
+			SharedPreferences.Editor editor = prefs.edit();
+	
+			// Increment launch counter
+			long launchCount = prefs.getLong(PREF_LAUNCH_COUNT, 0);
+			
+			try {
+				int appVersionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+				if (prefs.getInt(PREF_APP_VERSION_CODE, 0) != appVersionCode) {
+					// Reset the launch, reminder and event counters to help assure users are rating based on the latest version.
+					// launchCount = 0;
+					// editor.putLong(PREF_EVENT_COUNT, 0);
+					// editor.putLong(PREF_LAUNCH_COUNT, launchCount);
+					// editor.putLong(PREF_REMINDER_COUNT, 0);
+				}
+				editor.putInt(PREF_APP_VERSION_CODE, appVersionCode);
+			} catch (Exception e) {
+				// do nothing
+			}
+	
+			launchCount++;
+			editor.putLong(PREF_LAUNCH_COUNT, launchCount);
+	
+			// Get date of first launch
+			long dateFirstLaunch = prefs.getLong(PREF_DATE_FIRST_LAUNCHED, 0);
+			if (dateFirstLaunch == 0) {
+				dateFirstLaunch = System.currentTimeMillis();
+				editor.putLong(PREF_DATE_FIRST_LAUNCHED, dateFirstLaunch);
+			}
+	
+			editor.apply();
+	
+			/* Show dialog if criteria is met */
+			tryShowRateDialog(context);
+			
+		} else {
+			/* Context is null */
+			Log.e(TAG, "RateAppManager: Context is null! Will not tryShowRateDialog.");
 		}
-
-		launchCount++;
-		editor.putLong(PREF_LAUNCH_COUNT, launchCount);
-
-		// Get date of first launch
-		long dateFirstLaunch = prefs.getLong(PREF_DATE_FIRST_LAUNCHED, 0);
-		if (dateFirstLaunch == 0) {
-			dateFirstLaunch = System.currentTimeMillis();
-			editor.putLong(PREF_DATE_FIRST_LAUNCHED, dateFirstLaunch);
-		}
-
-		editor.apply();
-
-		/* Show dialog if criteria is met */
-		tryShowRateDialog(context);
 	}
 
 	private static boolean hasEnoughDaysPassed(Context context) {
@@ -165,7 +175,11 @@ public class RateAppManager {
 	}
 
 	public static void tryShowRateDialog(Context context) {
-		boolean preventRateAppDialogBackend = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
+		boolean preventRateAppDialogBackend = false;
+		if(ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
+			preventRateAppDialogBackend = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
+		}
+		
 		boolean preventRateAppDialogLocal = !Constants.ENABLE_RATE_APP_DIALOG;
 		if (preventRateAppDialogBackend || preventRateAppDialogLocal) {
 			return;
@@ -181,6 +195,7 @@ public class RateAppManager {
 		if (persistentShowDialogValueHasBeenSet) {
 			/* Read value from preferences */
 			showDialog = prefs.getBoolean(PREFS_SHOW_DIALOG_VALUE, false);
+			
 		} else {
 			/* Show dialog value has not yet been set */
 			
@@ -200,6 +215,7 @@ public class RateAppManager {
 		}
 
 		if (showDialog && hasBeenRemindedOnceAlready(context)) {
+			
 			if (hasEnoughTimePassedSinceLastReminder(context)) {
 				boolean capNumberOfReminders = context.getResources().getBoolean(R.bool.appirator_cap_number_of_reminders);
 
@@ -210,14 +226,13 @@ public class RateAppManager {
 				} else {
 					showDialog = true;
 				}
+				
 			} else {
 				/* Not enough time has passed... */
 				showDialog = false;
 			}
 		}
 
-
-		
 		if (showDialog) {
 			showRateDialog(context);
 		}

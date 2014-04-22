@@ -206,7 +206,7 @@ public class BlockPopularListViewAdapter
 			{
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				activity.startActivity(intent);
 			}

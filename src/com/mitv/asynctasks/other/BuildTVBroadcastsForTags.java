@@ -98,7 +98,7 @@ public class BuildTVBroadcastsForTags
 	 * @param tvChannelGuides
 	 * @return
 	 */
-	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) 
+	private HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) 
 	{
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 

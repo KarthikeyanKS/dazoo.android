@@ -272,7 +272,7 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				{
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 
 					activity.startActivity(intent);
 
@@ -301,7 +301,6 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 		private TextView timeTv;
 		private TextView channelTv;
 		private ReminderView reminderView;
-
 		private View divider;
 	}
 }

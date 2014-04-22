@@ -9,12 +9,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mitv.APIClient;
 import com.mitv.ListenerHolder;
 import com.mitv.R;
@@ -90,17 +88,20 @@ public class ContentManager
 	/*
 	 * The total completed data fetch count needed for the initial data loading
 	 */
-	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN = 7;
-	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_LOGGED_IN = 8;
+	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN = 8;
+	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_LOGGED_IN = 9;
 
 	private boolean completedTVDatesRequest;
 	private boolean completedTVChannelIdsDefaultRequest;
 	private boolean completedTVChannelIdsUserRequest;
+	private boolean completedTVGuideRequest;
+	private boolean completedTVPopularRequest;
 	private boolean isFetchingTVGuide;
 	private boolean isAPIVersionTooOld;
 	
 	private boolean isUpdatingGuide;
 	private boolean isBuildingTaggedBroadcasts;
+	private boolean isProcessingPopularBroadcasts;
 	private boolean isFetchingFeedItems;
 	private boolean isGoingToMyChannelsFromSearch;
 	private Boolean isLocalDeviceCalendarOffSync;
@@ -135,23 +136,35 @@ public class ContentManager
 		return SecondScreenApplication.sharedInstance().getContentManager();
 	}
 	
-	private Cache getCache() {
-		if(cache == null) {
+	
+	
+	private Cache getCache() 
+	{
+		if(cache == null) 
+		{
 			Log.w(TAG, "!!! WARNING !!! Cache in ContentManager is null, this should not be happening => reinitializing it");
 			cache = new Cache();
 		}
+		
 		return cache;
 	}
 	
 	
-	public void setGoingToMyChannelsFromSearch(boolean isGoingToMyChannelsFromSearch) {
+	
+	public void setGoingToMyChannelsFromSearch(boolean isGoingToMyChannelsFromSearch) 
+	{
 		this.isGoingToMyChannelsFromSearch = isGoingToMyChannelsFromSearch;
 	}
 	
-	public boolean isGoingToMyChannelsFromSearch() {
+	
+	
+	public boolean isGoingToMyChannelsFromSearch() 
+	{
 		return isGoingToMyChannelsFromSearch;
 	}
 
+	
+	
 	/**
      * This enum is only used by the method "useRequestToCallBackListenerMap"
      * @author Alexander Cyon
@@ -298,6 +311,8 @@ public class ContentManager
 			this.completedTVDatesRequest = false;
 			this.completedTVChannelIdsDefaultRequest = false;
 			this.completedTVChannelIdsUserRequest = false;
+			this.completedTVGuideRequest = false;
+			this.completedTVPopularRequest = false;
 			this.isFetchingTVGuide = false;
 			this.isAPIVersionTooOld = false;
 			
@@ -507,8 +522,45 @@ public class ContentManager
 					
 					Log.d(TAG, "PROFILING: handleInitialDataResponse: addNewTVChannelGuidesForSelectedDayUsingTvGuide");
 					getCache().addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
+					
+					completedTVGuideRequest = true;
+					
+					if(!isProcessingPopularBroadcasts && completedTVPopularRequest)
+					{
+						isProcessingPopularBroadcasts = true;
+						
+						apiClient.setPopularVariablesWithPopularBroadcastsOnPoolExecutor(activityCallbackListener);
+					}
 				}
 				break;
+			}
+			
+			case POPULAR_ITEMS_INITIAL_CALL:
+			{
+				if(result.wasSuccessful() && content != null) 
+				{
+					@SuppressWarnings("unchecked")
+					ArrayList<TVBroadcastWithChannelInfo> broadcastsWithChannelInfo = (ArrayList<TVBroadcastWithChannelInfo>) content;
+					
+					getCache().setPopularBroadcasts(broadcastsWithChannelInfo);
+					
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_pouplar_broadcasts));
+					
+					completedTVPopularRequest = true;
+					
+					if(!isProcessingPopularBroadcasts && completedTVGuideRequest)
+					{
+						isProcessingPopularBroadcasts = true;
+						
+						apiClient.setPopularVariablesWithPopularBroadcastsOnPoolExecutor(activityCallbackListener);
+					}
+				}
+				break;
+			}
+			
+			case TV_BROADCASTS_POUPULAR_PROCESSING:
+			{
+				// Do nothing
 			}
 			
 			case SNTP_CALL:
@@ -643,10 +695,11 @@ public class ContentManager
 	}
 	
 	
-	private void fetchFromServicePopularBroadcasts(ViewCallbackListener activityCallbackListener) 
+	private void fetchFromServicePopularBroadcasts(ViewCallbackListener activityCallbackListener, boolean standalone) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.POPULAR_ITEMS, activityCallbackListener);
-		apiClient.getTVBroadcastsPopular(activityCallbackListener);
+		registerListenerForRequest(RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE, activityCallbackListener);
+		
+		apiClient.getTVBroadcastsPopular(activityCallbackListener, standalone);
 	}
 	
 	
@@ -790,6 +843,7 @@ public class ContentManager
 		if (containsTaggedBroadcastsForTVDate) 
 		{
 			Log.d(TAG, String.format("PROFILING: getElseFetchFromServiceTaggedBroadcastsUsingTVDate: cache contains tagged, tagName: %s", tagName));
+			
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
 		} 
 		else
@@ -803,11 +857,11 @@ public class ContentManager
 	{
 		if (!forceDownload && getCache().containsPopularBroadcasts()) 
 		{
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.POPULAR_ITEMS);
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE);
 		} 
 		else 
 		{
-			fetchFromServicePopularBroadcasts(activityCallbackListener);
+			fetchFromServicePopularBroadcasts(activityCallbackListener, true);
 		}
 	}
 	
@@ -842,7 +896,7 @@ public class ContentManager
 		{
 			if(broadcastWithChannelInfo == null) 
 			{
-				broadcastWithChannelInfo = getCache().getNonPersistentSelectedBroadcastWithChannelInfo();
+				broadcastWithChannelInfo = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
 			}
 			
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfo);
@@ -866,6 +920,7 @@ public class ContentManager
 				getCache().containsUpcomingBroadcastsForBroadcast(broadcastKey.getProgram().getSeries().getSeriesId())) 
 		{
 			UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = getCache().getNonPersistentUpcomingBroadcasts();
+			
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, FetchRequestResultEnum.SUCCESS, upcomingBroadcastsForBroadcast);
 		} 
 		else 
@@ -880,6 +935,7 @@ public class ContentManager
 		if (!forceDownload && broadcastKey.getProgram() != null && getCache().containsRepeatingBroadcastsForBroadcast(broadcastKey.getProgram().getProgramId())) 
 		{
 			RepeatingBroadcastsForBroadcast repeatingBroadcastsForBroadcast = getCache().getNonPersistentRepeatingBroadcasts();
+			
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.REPEATING_BROADCASTS_FOR_PROGRAMS, FetchRequestResultEnum.SUCCESS, repeatingBroadcastsForBroadcast);
 		} 
 		else 
@@ -914,6 +970,8 @@ public class ContentManager
 			case TV_CHANNEL_IDS_USER_INITIAL_CALL:
 			case TV_GUIDE_INITIAL_CALL:
 			case SNTP_CALL:
+			case POPULAR_ITEMS_INITIAL_CALL:
+			case TV_BROADCASTS_POUPULAR_PROCESSING:
 			{
 				handleInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
@@ -1004,7 +1062,7 @@ public class ContentManager
 				break;
 			}
 			
-			case POPULAR_ITEMS: 
+			case POPULAR_ITEMS_STANDALONE: 
 			{
 				handleTVBroadcastsPopularBroadcastsResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
@@ -1267,50 +1325,65 @@ public class ContentManager
 	 * @param result
 	 * @param content
 	 */
-	public void handleBroadcastPageDataResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
-		if ((result == FetchRequestResultEnum.SUCCESS && content != null) || result == FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT) {
+	public void handleBroadcastPageDataResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
+	{
+		if ((result == FetchRequestResultEnum.SUCCESS && content != null) || result == FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT) 
+		{
 			completedCountBroadcastPageData++;
 			
-			switch (requestIdentifier) {
-			case BROADCAST_DETAILS: {
-				if(content != null) {
-					TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
-					
-					getCache().setNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-					
-					/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
-					if(broadcastWithChannelInfo.getProgram() != null && broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
-						completedCountBroadcastPageDataThresholdUsed = COMPLETED_COUNT_BROADCAST_PAGE_WAIT_FOR_UPCOMING_BROADCAST_THRESHOLD;
-						getElseFetchFromServiceUpcomingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
-					}
-					
-					/* Always fetch repeating, even though response can be empty */
-					getElseFetchFromServiceRepeatingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
-				} 
-				else 
+			switch (requestIdentifier) 
+			{
+				case BROADCAST_DETAILS: 
 				{
-					//TODO NewArc retry here instead?
-					activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
+					if(content != null) 
+					{
+						TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
+						
+						// TODO - Evaluate if this is really needed
+						//getCache().pushToNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+						
+						/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
+						if(broadcastWithChannelInfo.getProgram() != null && broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) 
+						{
+							completedCountBroadcastPageDataThresholdUsed = COMPLETED_COUNT_BROADCAST_PAGE_WAIT_FOR_UPCOMING_BROADCAST_THRESHOLD;
+							
+							getElseFetchFromServiceUpcomingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
+						}
+						
+						/* Always fetch repeating, even though response can be empty */
+						getElseFetchFromServiceRepeatingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
+					} 
+					else 
+					{
+						//TODO NewArc retry here instead?
+						activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
+					}
+					break;
 				}
-				break;
-			}
-			case REPEATING_BROADCASTS_FOR_PROGRAMS: {
-				if(content != null) {
-					RepeatingBroadcastsForBroadcast repeatingBroadcasts = (RepeatingBroadcastsForBroadcast) content;
 				
-					getCache().setNonPersistentRepeatingBroadcasts(repeatingBroadcasts);
+				case REPEATING_BROADCASTS_FOR_PROGRAMS: 
+				{
+					if(content != null) 
+					{
+						RepeatingBroadcastsForBroadcast repeatingBroadcasts = (RepeatingBroadcastsForBroadcast) content;
+					
+						getCache().setNonPersistentRepeatingBroadcasts(repeatingBroadcasts);
+					}
+					break;
 				}
-				break;
-			}
-			case UPCOMING_BROADCASTS_FOR_SERIES: {
-				if(content != null) {
-					UpcomingBroadcastsForBroadcast upcomingBroadcast = (UpcomingBroadcastsForBroadcast) content;
 				
-					getCache().setNonPersistentUpcomingBroadcasts(upcomingBroadcast);
+				case UPCOMING_BROADCASTS_FOR_SERIES: 
+				{
+					if(content != null) 
+					{
+						UpcomingBroadcastsForBroadcast upcomingBroadcast = (UpcomingBroadcastsForBroadcast) content;
+					
+						getCache().setNonPersistentUpcomingBroadcasts(upcomingBroadcast);
+					}
+					break;
 				}
-				break;
-			}
-			default:{/* do nothing */break;}
+				
+				default:{/* do nothing */break;}
 			}
 			
 			if (completedCountBroadcastPageData >= completedCountBroadcastPageDataThresholdUsed) 
@@ -1671,7 +1744,7 @@ public class ContentManager
 	{
 		boolean hasBroadcastPageData = false;
 		
-		TVBroadcastWithChannelInfo broadcastWithChannelInfo = getCache().getNonPersistentSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo broadcastWithChannelInfo = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
 
 		if(broadcastWithChannelInfo != null)
 		{
@@ -1923,17 +1996,17 @@ public class ContentManager
 				{
 					TVChannelGuide tvChannelGuide = getCache().getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
 			
-					List<TVBroadcast> tvBroadcastsPlayingOnChannel = tvChannelGuide.getBroadcastPlayingBetween(broadcastWithChannelInfo.getBeginTimeCalendarLocal(), broadcastWithChannelInfo.getEndTimeCalendarLocal());
+					List<TVBroadcast> tvBroadcastsPlayingOnChannel = tvChannelGuide.getBroadcastPlayingAtSimilarTimeAs(broadcastWithChannelInfo);
 					
 					if(tvBroadcastsPlayingOnChannel.isEmpty() == false)
 					{
 						/* Only use the first of each channel */
 						TVBroadcast tvBroadcastPlayingOnChannel = tvBroadcastsPlayingOnChannel.get(0);
+
+						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoPlayingOnChannel = new TVBroadcastWithChannelInfo(tvBroadcastPlayingOnChannel);
+						tvBroadcastWithChannelInfoPlayingOnChannel.setChannel(tvChannel);
 						
-						TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoPlayingNow = new TVBroadcastWithChannelInfo(tvBroadcastPlayingOnChannel);
-						tvBroadcastWithChannelInfoPlayingNow.setChannel(tvChannel);
-						
-						broadcastsPlayingNow.add(tvBroadcastWithChannelInfoPlayingNow);
+						broadcastsPlayingNow.add(tvBroadcastWithChannelInfoPlayingOnChannel);
 					}
 				}
 			}
@@ -2011,14 +2084,24 @@ public class ContentManager
 	}
 	
 	
-	public void setSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo selectedBroadcast) {
-		getCache().setNonPersistentSelectedBroadcastWithChannelInfo(selectedBroadcast);
+	public void pushToSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo selectedBroadcast) 
+	{
+		getCache().pushToNonPersistentSelectedBroadcastWithChannelInfo(selectedBroadcast);
 	}
 	
-	public TVBroadcastWithChannelInfo getFromCacheSelectedBroadcastWithChannelInfo() {
-		TVBroadcastWithChannelInfo runningBroadcast = getCache().getNonPersistentSelectedBroadcastWithChannelInfo();
+	
+	public void popFromSelectedBroadcastWithChannelInfo() 
+	{
+		getCache().popFromNonPersistentSelectedBroadcastWithChannelInfo();
+	}
+	
+	
+	public TVBroadcastWithChannelInfo getFromCacheLastSelectedBroadcastWithChannelInfo() 
+	{
+		TVBroadcastWithChannelInfo runningBroadcast = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
 		return runningBroadcast;
 	}
+	
 	
 	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromCacheTaggedBroadcastsForSelectedTVDate() {
 		TVDate tvDate = getFromCacheTVDateSelected();

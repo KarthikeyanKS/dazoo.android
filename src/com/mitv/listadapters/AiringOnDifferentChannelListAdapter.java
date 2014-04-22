@@ -48,14 +48,14 @@ public class AiringOnDifferentChannelListAdapter
 			final Activity activity, 
 			final ArrayList<TVBroadcastWithChannelInfo> broadcasts) 
 	{
-		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		this.broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(broadcasts);
 		
 		this.activity = activity;
 	}
-
 	
+		
 	
 	@Override
 	public int getCount()
@@ -143,31 +143,40 @@ public class AiringOnDifferentChannelListAdapter
 			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holder.mChannelTv.setText(broadcastWithChannelInfo.getChannel().getName());
 
+			StringBuilder titleSB = new StringBuilder();
+			
+			StringBuilder descriptionSB = new StringBuilder();
+			
+			if(broadcastWithChannelInfo.isPopular())
+			{
+				String stringIconTrending = activity.getString(R.string.icon_trending);
+				
+				titleSB.append(stringIconTrending)
+				.append(" ");
+			}
+			
 			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
 
 			switch (programType) 
 			{
 				case MOVIE: 
 				{
-					StringBuilder titleSB = new StringBuilder();
-					
 					titleSB.append(activity.getString(R.string.icon_movie))
+					.append(" ");
+					
+					descriptionSB.append(broadcastWithChannelInfo.getProgram().getGenre())
 					.append(" ")
-					.append(broadcastWithChannelInfo.getTitle());
-					
-					holder.mTitleTv.setText(titleSB.toString());
-					
-					holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
+					.append(broadcastWithChannelInfo.getProgram().getYear());
 					
 					break;
 				}
 				
 				case TV_EPISODE: 
 				{
-					holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
-					
 					String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
-					holder.mDescTv.setText(seasonAndEpisodeString);
+					
+					descriptionSB.append(seasonAndEpisodeString);
+					
 					break;
 				}
 				
@@ -175,26 +184,14 @@ public class AiringOnDifferentChannelListAdapter
 				{
 					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
 					{
-						StringBuilder titleSB = new StringBuilder();
-						
 						titleSB.append(activity.getString(R.string.icon_live))
-						.append(" ")
-						.append(broadcastWithChannelInfo.getTitle());
-						
-						holder.mTitleTv.setText(titleSB.toString());
-					} 
-					else 
-					{
-						holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+						.append(" ");
 					}
 	
-					StringBuilder descriptionSB = new StringBuilder();
-					
 					descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
 					.append(": ")
 					.append(broadcastWithChannelInfo.getProgram().getTournament());
 					
-					holder.mDescTv.setText(descriptionSB.toString());
 					break;
 				}
 				
@@ -202,30 +199,26 @@ public class AiringOnDifferentChannelListAdapter
 				{
 					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
 					{
-						StringBuilder titleSB = new StringBuilder();
-						
 						titleSB.append(activity.getString(R.string.icon_live))
-						.append(" ")
-						.append(broadcastWithChannelInfo.getTitle());
-						
-						holder.mTitleTv.setText(titleSB.toString());
-					} 
-					else 
-					{
-						holder.mTitleTv.setText(broadcastWithChannelInfo.getTitle());
+						.append(" ");
 					}
 					
-					holder.mDescTv.setText(broadcastWithChannelInfo.getProgram().getCategory());
+					descriptionSB.append(broadcastWithChannelInfo.getProgram().getCategory());
+					
 					break;
 				}
 				
 				default: 
 				{
-					holder.mTitleTv.setText("");
-					holder.mDescTv.setText("");
+					// Do nothing
 					break;
 				}
 			}
+			
+			titleSB.append(broadcastWithChannelInfo.getTitle());
+			
+			holder.mTitleTv.setText(titleSB.toString());
+			holder.mDescTv.setText(descriptionSB.toString());
 		}
 
 		holder.mContainer.setOnClickListener(new View.OnClickListener() 
@@ -235,7 +228,7 @@ public class AiringOnDifferentChannelListAdapter
 			{
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				activity.startActivity(intent);
 			}

@@ -105,9 +105,6 @@ public class ChannelPageActivity
 		{
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
 			{
-				// Open the detail view for the individual broadcast
-				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-
 				// We take one position less as we have a header view
 				int adjustedPosition = position - 1;
 				
@@ -122,7 +119,9 @@ public class ChannelPageActivity
 				
 				broadcastWithChannelInfo.setChannel(channel);
 
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+				
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
 				

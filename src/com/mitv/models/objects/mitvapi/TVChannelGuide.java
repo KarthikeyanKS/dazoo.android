@@ -67,20 +67,41 @@ public class TVChannelGuide
 	
 	
 	
-	public List<TVBroadcast> getBroadcastPlayingBetween(
-			final Calendar inputBegin,
-			final Calendar inputEnd)
+	public List<TVBroadcast> getBroadcastPlayingAtSimilarTimeAs(final TVBroadcast inputBroadcast)
 	{
+		final Calendar inputBegin = inputBroadcast.getBeginTimeCalendarLocal();
+		
 		ArrayList<TVBroadcast> airingBroadcasts = new ArrayList<TVBroadcast>();
 
 		for(TVBroadcast broadcast : broadcasts)
 		{
 			Calendar broadcastBegin = broadcast.getBeginTimeCalendarLocal();
 			Calendar broadcastEnd = broadcast.getEndTimeCalendarLocal();
+	
+			Calendar now = DateUtils.getNow();
 			
-			if(broadcastBegin.after(inputBegin) && broadcastEnd.before(inputEnd) && broadcast.hasEnded() == false)
-			{
-				airingBroadcasts.add(broadcast);
+			Calendar broadcastBeginWithMinutesSubtracted = (Calendar) broadcastBegin.clone();
+			broadcastBeginWithMinutesSubtracted.add(Calendar.MINUTE, -30);
+			
+			Calendar broadcastBeginWithMinutesAdded = (Calendar) broadcastBegin.clone();
+			broadcastBeginWithMinutesAdded.add(Calendar.MINUTE, 30);
+					
+			if(inputBegin.before(now))
+			{	
+				if(broadcastBeginWithMinutesSubtracted.before(inputBegin) && 
+				   broadcastEnd.after(inputBegin))
+				{
+					airingBroadcasts.add(broadcast);
+				}
+			}
+			else
+			{	
+				if(broadcastEnd.after(now) &&
+				   broadcastBeginWithMinutesAdded.after(inputBegin) && 
+				   broadcastBeginWithMinutesSubtracted.before(inputBegin))
+				{
+					airingBroadcasts.add(broadcast);
+				}
 			}
 		}
 		

@@ -74,7 +74,7 @@ public class BroadcastAiringOnDifferentChannelBlockPopulator
 			{
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) view.getTag();
 				
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
@@ -313,7 +313,7 @@ public class BroadcastAiringOnDifferentChannelBlockPopulator
 		{
 			public void run() 
 			{
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(runningBroadcast);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(runningBroadcast);
 				
 				Intent intent = new Intent(activity, AiringOnDifferentChannelListMoreActivity.class);
 

@@ -275,7 +275,9 @@ public class SearchPageActivity
 					hitName = nextBroadcast.getTitle();
 					
 					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
+					
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+					
 					startActivity(intent);
 				} 
 				else 

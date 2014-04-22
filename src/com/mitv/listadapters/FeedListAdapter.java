@@ -631,7 +631,8 @@ public class FeedListAdapter
 	private void popularBroadcastClicked(FeedItemTypeEnum feedItemType, TVBroadcastWithChannelInfo broadcastWithChannelInfo, int index) 
 	{
 		TrackingGAManager.sharedInstance().sendUserFeedItemPressedEvent(feedItemType, broadcastWithChannelInfo, index);
-		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+		
+		ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 		
 		Intent intent = new Intent(activity, BroadcastPageActivity.class);
 		

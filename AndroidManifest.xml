@@ -111,7 +111,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBarNoUp" />
 
-        <!-- MYPROFILE ACTIVITY -->
+        <!-- USER PROFILE ACTIVITY -->
         <activity
             android:name="com.mitv.activities.UserProfileActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -119,6 +119,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBarNoUp"
             android:windowSoftInputMode="adjustPan" />
+        
+        <!-- USER PROFILE CONFIGURATION ACTIVITY -->
+        <activity
+            android:name="com.mitv.activities.UserProfileConfigurationActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBarNoUp"
+            android:windowSoftInputMode="adjustPan" />
+        
+        
         
         <!-- POPULAR CONTENT PAGE -->
         <activity

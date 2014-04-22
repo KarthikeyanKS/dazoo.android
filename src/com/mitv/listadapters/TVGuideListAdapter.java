@@ -4,7 +4,6 @@ package com.mitv.listadapters;
 
 
 import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +23,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -58,14 +56,20 @@ public class TVGuideListAdapter
 
 	
 	
-	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
+	public TVGuideListAdapter(
+			final Activity activity, 
+			final ArrayList<TVChannelGuide> guide, 
+			final TVDate date, 
+			final int hour, 
+			final boolean isToday) 
 	{
 		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
+		
 		this.activity = activity;
 		this.tvDate = date;
 		this.currentHour = hour;
 
-		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	
@@ -85,12 +89,14 @@ public class TVGuideListAdapter
 	}
 
 	
+	
 	private boolean isAddMoreChannelsCellPosition(int position) 
 	{
 		boolean isAddMoreChannelsCellPosition = (position == getCount() - 1);
 		
 		return isAddMoreChannelsCellPosition;
 	}
+	
 	
 	
 	@Override
@@ -102,9 +108,11 @@ public class TVGuideListAdapter
 		{
 			itemViewType = VIEW_TYPE_CUSTOM;
 		}
+		
 		return itemViewType;
 	}
 
+	
 	
 	public View getViewForGuideCell(final int position, View convertView, ViewGroup parent) 
 	{
@@ -115,8 +123,11 @@ public class TVGuideListAdapter
 			rowView = layoutInflater.inflate(R.layout.row_tvguide_list, null);
 			
 			int paddingPixel = 30;
+			
 			float density = activity.getResources().getDisplayMetrics().density;
+			
 			int paddingDp = (int)(paddingPixel * density);
+			
 			rowView.setPadding(0, 0, paddingDp, 0);
 
 			ViewHolder viewHolder = new ViewHolder();
@@ -136,9 +147,12 @@ public class TVGuideListAdapter
 			 * Start the view as invisible, when the height is known, update the height of each row and change visibility to visible
 			 */
 			holder.textView.setVisibility(View.INVISIBLE);
-			holder.textView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			
+			holder.textView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() 
+			{
 				@Override
-				public void onGlobalLayout() {
+				public void onGlobalLayout() 
+				{
 					// gets called after layout has been done but before it gets displayed, so we can get the height of the view
 					int width = holder.textView.getWidth();
 					
@@ -151,7 +165,6 @@ public class TVGuideListAdapter
 
 					holder.textView.setVisibility(View.VISIBLE);
 				}
-
 			});
 		}
 
@@ -174,17 +187,16 @@ public class TVGuideListAdapter
 			public void onClick(View v) 
 			{
 				TrackingGAManager.sharedInstance().sendUserPressedChannelInHomeActivity(guide.getChannelId(), position);
+				
 				Intent intent = new Intent(activity, ChannelPageActivity.class);
+				
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
 				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
+				
 				activity.startActivity(intent);
 			}
 		});
-
-		String stringIconMovie = activity.getString(R.string.icon_movie) + " ";
-
-		String stringIconLive = activity.getString(R.string.icon_live) + " ";
 
 		StringBuilder textForThreeBroadcastsSB = new StringBuilder();
 
@@ -215,12 +227,23 @@ public class TVGuideListAdapter
 					rowInfoSB.append("   ");
 
 					String showName = program.getTitle();
-
+					
+					if(broadcast.isPopular())
+					{
+						String stringIconTrending = activity.getString(R.string.icon_trending);
+						
+						rowInfoSB.append(stringIconTrending);
+						rowInfoSB.append(" ");
+					}
+					
 					switch (programType) 
 					{
 						case MOVIE: 
 						{
+							String stringIconMovie = activity.getString(R.string.icon_movie);
+							
 							rowInfoSB.append(stringIconMovie);
+							rowInfoSB.append(" ");
 							break;
 						}
 						case TV_EPISODE: 
@@ -233,7 +256,10 @@ public class TVGuideListAdapter
 						{
 							if (broadcastType == BroadcastTypeEnum.LIVE) 
 							{
+								String stringIconLive = activity.getString(R.string.icon_live);
+								
 								rowInfoSB.append(stringIconLive);
+								rowInfoSB.append(" ");
 							}
 							break;
 						}
@@ -329,15 +355,25 @@ public class TVGuideListAdapter
 			}
 			else 
 			{
-				holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
+				StringBuilder sb = new StringBuilder();
+				sb.append(activity.getString(R.string.general_no_content_available))
+				.append("\n\n");
+				
+				holder.textView.setText(sb.toString());
 			}
 		}
-		else {
-			holder.textView.setText(activity.getString(R.string.general_no_content_available) + "\n\n");
+		else 
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(activity.getString(R.string.general_no_content_available))
+			.append("\n\n");
+			
+			holder.textView.setText(sb.toString());
 		}
 
 		return rowView;
 	}
+	
 	
 	
 	/**
@@ -358,13 +394,11 @@ public class TVGuideListAdapter
 			{	
 				TrackingGAManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
 				
-				/* WHEN LOGGED IN */
 				if (ContentManager.sharedInstance().isLoggedIn()) 
 				{
 					Intent intentMyChannels = new Intent(activity, MyChannelsActivity.class);
+					
 					activity.startActivity(intentMyChannels);
-
-				/* WHEN NOT LOGGED IN */
 				} 
 				else 
 				{
@@ -375,6 +409,7 @@ public class TVGuideListAdapter
 		
 		return rowView;
 	}
+
 
 	
 	public Runnable yesSigninOrSignUpBlock() 
@@ -418,11 +453,18 @@ public class TVGuideListAdapter
 					rowView = createAddChannelsCell();
 					break;
 				}
+				
+				default:
+				{
+					Log.w(TAG, "Unhandled view type");
+					break;
+				}
 			}
 		}
 
 		return rowView;
 	}
+	
 	
 	
 	@Override
@@ -437,24 +479,10 @@ public class TVGuideListAdapter
 	}
 
 	
-	static class ViewHolder 
-	{
-		public RelativeLayout container;
-		public ImageView channelLogo;
-		public TextView textView;
-	}
-	
-	
-	static class ViewHolderAddChannelCell 
-	{
-		public RelativeLayout	mContainer;
-		public TextView			mTextView;
-	}
-
 	
 	public void refreshList(int selectedHour) 
 	{
-		currentHour = selectedHour;
+		this.currentHour = selectedHour;
 
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 		
@@ -462,23 +490,34 @@ public class TVGuideListAdapter
 	}
 
 	
+	
 	public void setRowWidth(int width) 
 	{
 		this.rowWidth = width;
 	}
 
 	
+	
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
-	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
+	public static void removeOnGlobalLayoutListener(View view, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) 
 		{
-			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+			view.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
 		} 
 		else 
 		{
-			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+			view.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
+	}
+	
+	
+	
+	private static class ViewHolder 
+	{
+		private RelativeLayout container;
+		private ImageView channelLogo;
+		private TextView textView;
 	}
 }
