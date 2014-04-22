@@ -101,16 +101,16 @@ public class BlockPopularListViewAdapter
 		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
-			rowView = layoutInflater.inflate(R.layout.block_feed_popular_listitem, null);
+			rowView = layoutInflater.inflate(R.layout.element_poster_broadcast, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.block_popular_feed_container);
-			viewHolder.mPoster = (ImageView) rowView.findViewById(R.id.block_feed_popular_listitem_iv);
-			viewHolder.mTitle = (TextView) rowView.findViewById(R.id.block_popular_feed_details_title_tv);
-			viewHolder.mTime = (TextView) rowView.findViewById(R.id.block_popular_feed_details_time_tv);
-			viewHolder.mChannelName = (TextView) rowView.findViewById(R.id.block_popular_feed_details_channel_tv);
-			viewHolder.mDetails = (TextView) rowView.findViewById(R.id.block_popular_feed_details_extra_tv);
+			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
+			viewHolder.mPoster = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
+			viewHolder.mTitle = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
+			viewHolder.mTime = (TextView) rowView.findViewById(R.id.element_poster_broadcast_time_tv);
+			viewHolder.mChannelName = (TextView) rowView.findViewById(R.id.element_poster_broadcast_channel_tv);
+			viewHolder.mDetails = (TextView) rowView.findViewById(R.id.element_poster_broadcast_type_tv);
 			
 			rowView.setTag(viewHolder);
 		}

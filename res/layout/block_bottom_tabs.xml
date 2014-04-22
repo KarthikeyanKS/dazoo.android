@@ -3,17 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_tabs_height"
     android:layout_alignParentBottom="true"
+    android:background="@color/yellow"
     android:baselineAligned="false"
-    android:gravity="center"
     android:orientation="horizontal"
     android:weightSum="3" >
 
     <RelativeLayout
         android:id="@+id/tab_tv_guide"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/yellow"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -31,19 +30,11 @@
             android:text="@string/tab_tv_guide" />
     </RelativeLayout>
 
-    <!--
-        View
-        android:id="@+id/tab_left_divider_container"
-        android:layout_width="1dp"
-        android:layout_height="@dimen/bottom_tabs_height" /
-    -->
-
     <RelativeLayout
         android:id="@+id/tab_activity"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/yellow"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -63,10 +54,9 @@
 
     <RelativeLayout
         android:id="@+id/tab_me"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/yellow"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -81,8 +71,8 @@
             style="@style/TabsText"
             android:layout_below="@id/element_tab_icon_me"
             android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
-            android:lines="1"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:lines="1" />
     </RelativeLayout>
 
 </LinearLayout>
