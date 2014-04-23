@@ -33,6 +33,8 @@ public abstract class Constants
 	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
+	public static final String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME = "59b039d2c0c0a7fbe173";
+	public static final String USER_HAS_SEEN_TUTORIAL_TWICE_FILE_NAME = "59b039d2c0c0a7fbe183";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
