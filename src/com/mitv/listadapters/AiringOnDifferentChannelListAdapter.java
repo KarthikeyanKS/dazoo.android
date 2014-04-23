@@ -106,7 +106,7 @@ public class AiringOnDifferentChannelListAdapter
 		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
-			rowView = layoutInflater.inflate(R.layout.element_poster_broadcast_also_airing_now, null);
+			rowView = layoutInflater.inflate(R.layout.element_poster_broadcast, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			

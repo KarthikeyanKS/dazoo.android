@@ -12,7 +12,6 @@
         android:id="@+id/block_broadcastpage_poster_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:padding="@dimen/image_padding" >
 
         <ImageView
