@@ -20,8 +20,6 @@ public class UserTutorialFragment extends Fragment {
 
 	private int currentPage;
 	private View rootView;
-	private LayoutInflater inflater;
-	private ViewGroup container;
 	
 	private static final int PAGE1 = 0;
 	private static final int PAGE2 = 1;
@@ -33,9 +31,8 @@ public class UserTutorialFragment extends Fragment {
 	private TextView splashText;
 	private TextView headerText;
 	private TextView infoText;
-	private TextView tutorialInfoExtraArea;
 
-	private ImageView image_mobile_tutorial;
+	private ImageView imageMobileTutorial;
 
 	public static final String ARG_OBJECT = "object";
 	
@@ -45,10 +42,7 @@ public class UserTutorialFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		this.inflater = inflater;
-		this.container = container;
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
 		rootView = inflater.inflate(R.layout.fragment_user_tutorial_layout, container, false);
 		
 		initViews();
@@ -68,8 +62,8 @@ public class UserTutorialFragment extends Fragment {
 				break;
 			}
 			case PAGE2: {
-				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile1);
-				image_mobile_tutorial.setVisibility(View.VISIBLE);
+				imageMobileTutorial.setImageResource(R.drawable.tutorial_mobile1);
+				imageMobileTutorial.setVisibility(View.VISIBLE);
 				headerText.setText(R.string.tutorial_header_page1);
 				headerText.setVisibility(View.VISIBLE);
 				infoText.setText(R.string.tutorial_info_page1);
@@ -77,19 +71,17 @@ public class UserTutorialFragment extends Fragment {
 				break;
 			}
 			case PAGE3: {
-				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile2);
-				image_mobile_tutorial.setVisibility(View.VISIBLE);
+				imageMobileTutorial.setImageResource(R.drawable.tutorial_mobile2);
+				imageMobileTutorial.setVisibility(View.VISIBLE);
 				headerText.setText(R.string.tutorial_header_page2);
 				headerText.setVisibility(View.VISIBLE);
 				infoText.setText(R.string.tutorial_info_page2);
-//				tutorialInfoExtraArea.setText("                 ");
-//				tutorialInfoExtraArea.setVisibility(View.VISIBLE);
 				infoText.setVisibility(View.VISIBLE);
 				break;
 			}
 			case PAGE4: {
-				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile3);
-				image_mobile_tutorial.setVisibility(View.VISIBLE);
+				imageMobileTutorial.setImageResource(R.drawable.tutorial_mobile3);
+				imageMobileTutorial.setVisibility(View.VISIBLE);
 				headerText.setText(R.string.tutorial_header_page3);
 				headerText.setVisibility(View.VISIBLE);
 				infoText.setText(R.string.tutorial_info_page3);
@@ -97,13 +89,11 @@ public class UserTutorialFragment extends Fragment {
 				break;
 			}
 			case PAGE5: {
-				image_mobile_tutorial.setImageResource(R.drawable.tutorial_mobile4);
-				image_mobile_tutorial.setVisibility(View.VISIBLE);
+				imageMobileTutorial.setImageResource(R.drawable.tutorial_mobile4);
+				imageMobileTutorial.setVisibility(View.VISIBLE);
 				headerText.setText(R.string.tutorial_header_page4);
 				headerText.setVisibility(View.VISIBLE);
 				infoText.setText(R.string.tutorial_info_page4);
-//				tutorialInfoExtraArea.setText("                 ");
-//				tutorialInfoExtraArea.setVisibility(View.VISIBLE);
 				infoText.setVisibility(View.VISIBLE);
 				break;
 			}
@@ -125,9 +115,8 @@ public class UserTutorialFragment extends Fragment {
 		/* HEADER & INFO */
 		headerText = (TextView) rootView.findViewById(R.id.tutorial_header);
 		infoText = (TextView) rootView.findViewById(R.id.tutorial_info);
-		tutorialInfoExtraArea = (TextView) rootView.findViewById(R.id.tutorial_info_extra_area);
 		
-		image_mobile_tutorial = (ImageView) rootView.findViewById(R.id.image_mobile_tutorial);
+		imageMobileTutorial = (ImageView) rootView.findViewById(R.id.image_mobile_tutorial);
 	}
 
 }

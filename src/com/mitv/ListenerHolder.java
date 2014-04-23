@@ -2,6 +2,7 @@ package com.mitv;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.utilities.GenericUtils;
@@ -24,6 +25,8 @@ public class ListenerHolder {
 				isListenerAlive = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(((Activity)listener));
 			} else if (listener instanceof Fragment) {
 				isListenerAlive = !((Fragment)listener).isRemoving();
+			} else if (listener instanceof View) {
+				isListenerAlive = true;
 			}
 		}
 		return isListenerAlive;

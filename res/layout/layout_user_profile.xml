@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:id="@+id/activity_container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey1"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        android:fillViewport="false"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp" >
+
+            <LinearLayout
+                android:id="@+id/myprofile_header_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/myprofile_sign_in_or_sign_up_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:weightSum="1.0" >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.6"
+                        android:baselineAligned="false"
+                        android:orientation="vertical" >
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/myprofile_have_an_account"
+                            style="@style/header2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="@string/myprofile_have_account" />
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/myprofile_signup_info"
+                            style="@style/meta1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="3"
+                            android:text="@string/myprofile_info" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="0.4"
+                        android:baselineAligned="false"
+                        android:orientation="vertical"
+                        android:weightSum="1.0" >
+
+                        <RelativeLayout
+                            android:id="@+id/myprofile_signup_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:background="@drawable/background_color_selector_signup_login_box"
+                            android:orientation="horizontal" >
+
+                            <com.mitv.ui.elements.FontTextView
+                                android:id="@+id/myprofile_signup_text"
+                                style="@style/whitetextbutton"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="@string/sign_up" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/myprofile_login_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/background_color_selector_login_link"
+                            android:orientation="horizontal" >
+
+                            <com.mitv.ui.elements.FontTextView
+                                android:id="@+id/myprofile_login_container_text"
+                                style="@style/bluetextbutton"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="@string/login" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/myprofile_person_container_signed_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="visible" >
+
+                    <ImageView
+                        android:id="@+id/myprofile_avatar_iv"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/loading_placeholder_horizontal" />
+
+                    <RelativeLayout
+                        android:id="@+id/myprofile_logged_in_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/myprofile_avatar_iv" >
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/myprofile_logged_in_as"
+                            style="@style/meta2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="@string/myprofile_logged_in_as" />
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/myprofile_name_tv"
+                            style="@style/header3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/myprofile_logged_in_as"
+                            android:gravity="center_vertical"
+                            android:maxLines="1" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!-- LIKES -->
+
+            <RelativeLayout
+                android:id="@+id/myprofile_likes_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/myprofile_items_height"
+                android:layout_below="@id/myprofile_header_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_color_selector_white"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_likes_icon_tv"
+                    android:layout_width="@dimen/myprofile_items_width_of_logo"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/icon_heart"
+                    android:textColor="@color/grey3"
+                    android:textSize="26sp"
+                    font:fonttextview="roboto_mitv_medium.ttf" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_likes_title_tv"
+                    style="@style/header3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/myprofile_likes_icon_tv"
+                    android:text="@string/likes" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_likes_count_tv"
+                    style="@style/meta2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp" />
+            </RelativeLayout>
+
+            <!-- CHANNELS -->
+
+            <RelativeLayout
+                android:id="@+id/myprofile_channels_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/myprofile_items_height"
+                android:layout_below="@id/myprofile_likes_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_color_selector_white"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_channels_icon_tv"
+                    android:layout_width="@dimen/myprofile_items_width_of_logo"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/icon_blocks"
+                    android:textColor="@color/grey3"
+                    android:textSize="26sp"
+                    font:fonttextview="roboto_mitv_medium.ttf" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_channels_title_tv"
+                    style="@style/header3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/myprofile_channels_icon_tv"
+                    android:text="@string/myprofile_my_channels" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_channels_count_tv"
+                    style="@style/meta2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp" />
+            </RelativeLayout>
+
+            <!-- REMINDERS -->
+
+            <RelativeLayout
+                android:id="@+id/myprofile_reminders_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/myprofile_items_height"
+                android:layout_below="@id/myprofile_channels_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_color_selector_white"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_reminders_icon_tv"
+                    android:layout_width="@dimen/myprofile_items_width_of_logo"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/icon_reminder"
+                    android:textColor="@color/grey3"
+                    android:textSize="26sp"
+                    font:fonttextview="roboto_mitv_medium.ttf" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_reminders_title_tv"
+                    style="@style/header3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/myprofile_reminders_icon_tv"
+                    android:text="@string/reminders" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_reminders_count_tv"
+                    style="@style/meta2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp" />
+            </RelativeLayout>
+
+            <!-- "SUPPORT" BAR -->
+
+            <RelativeLayout
+                android:id="@+id/myprofile_support_bar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/myprofile_reminders_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey2" />
+
+                <com.mitv.ui.elements.FontTextView
+                    style="@style/separator_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey1"
+                    android:padding="5dp"
+                    android:text="@string/myprofile_support_bar" />
+            </RelativeLayout>
+
+            <!-- ABOUT US -->
+
+            <RelativeLayout
+                android:id="@+id/myprofile_about_us_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/myprofile_items_height"
+                android:layout_below="@id/myprofile_support_bar_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_color_selector_white"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_about_us_title_tv"
+                    style="@style/header3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/myprofile_about_us" />
+            </RelativeLayout>
+
+            <!-- TERMS & CONDITIONS -->
+
+            <RelativeLayout
+                android:id="@+id/myprofile_terms_of_use_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/myprofile_items_height"
+                android:layout_below="@id/myprofile_about_us_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_color_selector_white"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_terms_of_use_title_tv"
+                    style="@style/header3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/myprofile_terms_of_use" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/myprofile_logout_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/myprofile_terms_of_use_container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_color_selector_logout_box"
+                android:orientation="horizontal" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/myprofile_logout_container_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:padding="10dp"
+                    android:text="@string/logout_from_mitv"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    font:fonttextview="roboto_mitv_bold.ttf" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- NAVIGATION TABS -->
+
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout" />
+
+</RelativeLayout>

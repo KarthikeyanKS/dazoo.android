@@ -202,7 +202,7 @@ public class LikesListAdapter
 				{
 					UserLike userLike = getItem(currentPosition);
 					
-					TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, userLike, true);
+					TrackingGAManager.sharedInstance().sendUserLikesEvent(userLike, true);
 					
 					ContentManager.sharedInstance().removeUserLike(activity, userLike);
 

@@ -19,6 +19,8 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
@@ -160,26 +162,20 @@ public class TrackingGAManager
 
 		sendUserEventWithLabel(actionString, userId);
 	}
-
-	private String actionByAppendingActivityName(String actionBase, Activity activity) {
-		String action = actionBase;
-		if (actionBase != null && activity != null) {
-			String activityName = activity.getClass().getSimpleName();
-			StringBuilder sb = new StringBuilder(actionBase);
-			sb.append("_").append(activityName);
-			action = sb.toString();
-		}
-		return action;
+	
+	
+	
+	public void sendHTTPCoreOutOfMemoryException() 
+	{
+		sendSystemEvent(Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION);
 	}
-
-	public void sendUserSharedEvent(Activity activity, TVBroadcast broadcast) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, activity);
+	
+	public void sendUserSharedEvent(TVBroadcast broadcast) {
 		String broadcastTitle = broadcast.getTitle();
-		sendUserEventWithLabel(action, broadcastTitle);
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
 
-	public void sendUserLikesEvent(Activity activity, UserLike userLike, boolean didJustUnlike) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, activity);
+	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) {
 		String broadcastTitle = userLike.getTitle();
 
 		Long addedLike = 1L;
@@ -187,12 +183,11 @@ public class TrackingGAManager
 			addedLike = 0L;
 		}
 
-		sendUserEventWithLabelAndValue(action, broadcastTitle, addedLike);
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
 
 	}
 
-	public void sendUserReminderEvent(Activity activity, TVBroadcast broadcast, boolean didJustRemoveReminder) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, activity);
+	public void sendUserReminderEvent(TVBroadcast broadcast, boolean didJustRemoveReminder) {
 		String broadcastTitle = broadcast.getTitle();
 
 		Long addedReminder = 1L;
@@ -200,7 +195,7 @@ public class TrackingGAManager
 			addedReminder = 0L;
 		}
 
-		sendUserEventWithLabelAndValue(action, broadcastTitle, addedReminder);
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder);
 	}
 
 	public void sendTimeOffSyncEvent() {
@@ -231,24 +226,48 @@ public class TrackingGAManager
 			int indexOfSelectedHour = hours.indexOf(selectedHour);
 			int indexOfLastSelectedHour = hours.indexOf(lastSelectedHourAsInteger);
 		
-			int timeDiff = Math.abs(indexOfSelectedHour - indexOfLastSelectedHour);
-			
-			StringBuilder sb = new StringBuilder();
-			if(indexOfSelectedHour < indexOfLastSelectedHour) {
-				sb.append(timeDiff).append("H_BACK_IN_TIME");
-			} else if(indexOfSelectedHour > indexOfLastSelectedHour) {
-				sb.append(timeDiff).append("H_FORWARD_IN_TIME");
-			} else {
-				sb.append("SAME_HOUR");
-			}
-			
+			int timeDiff = (indexOfSelectedHour - indexOfLastSelectedHour); 
+						
+			String hourString = DateUtils.getHourAndMinuteAsStringUsingHour(selectedHour);
+			StringBuilder sb = new StringBuilder("SELECTED HOUR: ");
+			sb.append(hourString);
 			String label = sb.toString();
-			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)selectedHour);
+			
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)timeDiff);
 		}
 	}
+	
+	public void sendUserPressedChannelInHomeActivity(TVChannelId channelId, int position) {
+		TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+		String channelName = channel.getName();
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS, channelName, (long) position);
+	}
+	
+	public void sendUserPressedBroadcastInChannelActivity(TVChannel channel, TVBroadcast broadcast, int position) {
+		if(position == 0) {
+			/* The top most cell in the channel page activity is clickable, but it is not a cell */
+			return;
+		} else {
+			/* Subtract 1 from position value since this list does not start at index 0. */
+			position--;
+		}
+		
+		String channelName = channel.getName();
+		String broadcastTitle = broadcast.getTitle();
+		String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+		
+		StringBuilder sb = new StringBuilder(channelName);
+		sb.append(" - ");
+		sb.append(startTime);
+		sb.append(": ");
+		sb.append(broadcastTitle);
+		String label = sb.toString();
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS, label, (long) position);
+	}
 
-	public void sendUserDaySelectionEvent(Activity activity, int dayIndex) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_DAY_SELECTED, activity);
+	public void sendUserDaySelectionEvent(int dayIndex) {
 
 		List<TVDate> dates = ContentManager.sharedInstance().getFromCacheTVDates();
 		if (dates != null && !dates.isEmpty() && dayIndex < dates.size()) {
@@ -262,10 +281,24 @@ public class TrackingGAManager
 			sb.append(" ");
 			sb.append(dayMonth);
 			String dateString = sb.toString();
-			sendUserEventWithLabelAndValue(action, dateString, (long) dayIndex);
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_DAY_SELECTED, dateString, (long) dayIndex);
 		}
 	}
+	
+	
 
+	public void sendUserPressedRateInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_RATE_BUTTON_PRESS);
+	}
+	
+	public void sendUserPressedRemindLaterInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_REMIND_BUTTON_PRESS);
+	}
+	
+	public void sendUserPressedNoThanksInRateDialogEvent() {
+		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_RATE_DIALOG_NO_BUTTON_PRESS);
+	}
+	
 	public void sendUserPressedMenuButtonEvent() {
 		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_HARDWARE_BUTTON_MENU_PRESS);
 	}

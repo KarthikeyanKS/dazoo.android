@@ -65,7 +65,51 @@ public class TVChannelGuide
 		return currentAndUpcomingbroadcasts;
 	}
 	
+	
+	
+	public List<TVBroadcast> getBroadcastPlayingAtSimilarTimeAs(final TVBroadcast inputBroadcast)
+	{
+		final Calendar inputBegin = inputBroadcast.getBeginTimeCalendarLocal();
+		
+		ArrayList<TVBroadcast> airingBroadcasts = new ArrayList<TVBroadcast>();
 
+		for(TVBroadcast broadcast : broadcasts)
+		{
+			Calendar broadcastBegin = broadcast.getBeginTimeCalendarLocal();
+			Calendar broadcastEnd = broadcast.getEndTimeCalendarLocal();
+	
+			Calendar now = DateUtils.getNow();
+			
+			Calendar broadcastBeginWithMinutesSubtracted = (Calendar) broadcastBegin.clone();
+			broadcastBeginWithMinutesSubtracted.add(Calendar.MINUTE, -30);
+			
+			Calendar broadcastBeginWithMinutesAdded = (Calendar) broadcastBegin.clone();
+			broadcastBeginWithMinutesAdded.add(Calendar.MINUTE, 30);
+					
+			if(inputBegin.before(now))
+			{	
+				if(broadcastBeginWithMinutesSubtracted.before(inputBegin) && 
+				   broadcastEnd.after(inputBegin))
+				{
+					airingBroadcasts.add(broadcast);
+				}
+			}
+			else
+			{	
+				if(broadcastEnd.after(now) &&
+				   broadcastBeginWithMinutesAdded.after(inputBegin) && 
+				   broadcastBeginWithMinutesSubtracted.before(inputBegin))
+				{
+					airingBroadcasts.add(broadcast);
+				}
+			}
+		}
+		
+		return airingBroadcasts;
+	}
+	
+	
+	
 	public ArrayList<TVBroadcast> getBroadcastsFromPosition(
 			final int startIndex,
 			final int maximumBrodacasts) 

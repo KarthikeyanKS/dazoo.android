@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey1"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        android:fillViewport="false"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/user_config_avatar_image"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:contentDescription=""
+                android:src="@drawable/loading_placeholder_horizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:weightSum="1.0" >
+
+                <com.mitv.ui.elements.FontTextView
+                    style="@style/header3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="@string/hint_firstname" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/user_config_edit_name"
+                    style="@style/edittext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:gravity="right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:weightSum="1.0" >
+
+                <com.mitv.ui.elements.FontTextView
+                    style="@style/header3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="@string/hint_email" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/user_config_edit_email"
+                    style="@style/edittext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:gravity="right" />
+            </LinearLayout>
+
+            <!-- "SOCIAL" SEPARATOR BAR -->
+
+            <RelativeLayout
+                android:id="@+id/user_config_share_bar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey2" />
+
+                <com.mitv.ui.elements.FontTextView
+                    style="@style/separator_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey1"
+                    android:padding="5dp"
+                    android:text="@string/user_profile_config_separator_bar_share_text" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/user_config_share_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/user_config_share_title"
+                    style="@style/header3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_profile_config_share_title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1.0" >
+
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/user_config_share_text"
+                        style="@style/meta1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65"
+                        android:paddingBottom="10dp"
+                        android:singleLine="false"
+                        android:text="@string/user_profile_config_share_message" />
+
+                    <org.jraf.android.backport.switchwidget.Switch
+                        android:id="@+id/user_config_share_switch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.35" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- "NOTIFICACIONES" SEPARATOR BAR -->
+
+            <RelativeLayout
+                android:id="@+id/user_config_notifications_bar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey2" />
+
+                <com.mitv.ui.elements.FontTextView
+                    style="@style/separator_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey1"
+                    android:padding="5dp"
+                    android:text="@string/user_profile_config_separator_bar_notifications_text" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/user_config_notifications_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/user_config_notifications_title"
+                    style="@style/header3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_profile_config_notifications_title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1.0" >
+
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/user_config_notifications_text"
+                        style="@style/meta1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65"
+                        android:paddingBottom="10dp"
+                        android:singleLine="false"
+                        android:text="@string/user_profile_config_notifications_message" />
+
+                    <org.jraf.android.backport.switchwidget.Switch
+                        android:id="@+id/user_config_notifications_switch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.35" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- NAVIGATION TABS -->
+
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout" />
+
+</RelativeLayout>

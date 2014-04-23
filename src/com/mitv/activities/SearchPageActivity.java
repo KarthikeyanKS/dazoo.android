@@ -33,6 +33,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.SearchRunnable;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.ContentTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -57,36 +58,6 @@ public class SearchPageActivity
 	extends BaseActivity 
 	implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher 
 {
-	private class SearchRunnable implements Runnable 
-	{
-		private boolean cancelled = false;
-		
-		@Override
-		public void run() 
-		{
-			if(!cancelled) 
-			{
-				String searchQuery = editTextSearch.getText().toString();
-				
-				setLoading();
-				
-				Log.d(TAG, "Search was not cancelled, calling ContentManager search!!!");
-				
-				ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(SearchPageActivity.this, false, searchQuery);
-			} 
-			else 
-			{
-				Log.d(TAG, "Search runnable was cancelled");
-			}
-		}
-
-		public void cancel() 
-		{
-			cancelled = true;
-		}
-	}
-	
-
 	private static final String TAG = SearchPageActivity.class.getName();
 
 	
@@ -103,6 +74,7 @@ public class SearchPageActivity
 	private Handler keyboardHandler;
 	private LinearLayout searchInstructionsView;
 
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -121,6 +93,7 @@ public class SearchPageActivity
 		delayedSearchHandler = new Handler();
 	}
 
+	
 	
 	@Override
 	public void onResume()
@@ -302,7 +275,9 @@ public class SearchPageActivity
 					hitName = nextBroadcast.getTitle();
 					
 					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
+					
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+					
 					startActivity(intent);
 				} 
 				else 
@@ -366,7 +341,7 @@ public class SearchPageActivity
 		if (editTextSearch != null)
 		{
 			Log.d(TAG, "Creating new searchRunnable and starting count down");
-			lastSearchRunnable = new SearchRunnable();
+			lastSearchRunnable = new SearchRunnable(this, editTextSearch);
 			delayedSearchHandler.postDelayed(lastSearchRunnable, Constants.DELAY_IN_MILLIS_UNTIL_SEARCH);
 		}
 	}
@@ -385,7 +360,7 @@ public class SearchPageActivity
 	}
 	
 	
-	private void setLoading() 
+	public void setLoading() 
 	{
 		changeLoadingStatus(true);
 	}
@@ -407,7 +382,7 @@ public class SearchPageActivity
 	@Override
 	protected void loadData() 
 	{
-		// Do nothing
+		/* Do nothing */
 	}
 	
 	
@@ -439,6 +414,7 @@ public class SearchPageActivity
 				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
 				
 				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
+				
 				editTextSearch.setSearchComplete(true);
 				
 				this.lastSearchQuery = searchQuery;
@@ -449,6 +425,7 @@ public class SearchPageActivity
 		else if(fetchRequestResult == FetchRequestResultEnum.SEARCH_CANCELED_BY_USER) 
 		{
 			Log.d(TAG, "Search canceled by user");
+			
 			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 		else 
@@ -458,6 +435,7 @@ public class SearchPageActivity
 	}
 
 	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
@@ -465,13 +443,16 @@ public class SearchPageActivity
 	}
 
 	
+	
 	@Override
 	public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
 	
+	
 	@Override
 	public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
+	
 	
 	@Override
 	public void afterTextChanged(Editable editable) 

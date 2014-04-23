@@ -116,10 +116,12 @@ public class TVProgram
 
 		this.images = new ImageSetOrientation(item);
 		
-		// TODO - Using empty tags representation as no data is available from the notification item.
+		// TODO Local Storage Support 
+		// Using empty tags representation as no data is available from the notification item.
 		this.tags = new ArrayList<String>();
 		
-		// TODO - Using empty TVCredit representation as no data is available from the notification item.
+		// TODO Local Storage Support 
+		// Using empty TVCredit representation as no data is available from the notification item.
 		this.credits = new ArrayList<TVCredit>();
 	}
 
@@ -160,6 +162,19 @@ public class TVProgram
 		}
 		
 		return genreString;
+	}
+	
+	
+	
+	public boolean hasZeroValueForSeasonOrEpisodeNumber()
+	{
+		boolean hasZeroOrNullValueForSeason = (season == null || season.getNumber() == null || season.getNumber() == 0);
+		
+		boolean hasZeroOrNullValueForEpisodeNumber = (episodeNumber == null || episodeNumber == 0);
+		
+		boolean hasZeroValueForSeasonOrEpisodeNumber = hasZeroOrNullValueForSeason || hasZeroOrNullValueForEpisodeNumber;
+
+		return hasZeroValueForSeasonOrEpisodeNumber;
 	}
 	
 	

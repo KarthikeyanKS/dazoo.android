@@ -1,10 +1,14 @@
+
 package com.mitv.listadapters;
+
+
 
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,31 +19,34 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.enums.BroadcastListAdapterTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.ui.elements.ReminderView;
 
-public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 
-	@SuppressWarnings("unused")
+
+public class UpcomingOrRepeatingBroadcastsListAdapter 
+	extends BaseAdapter
+{
 	private static final String TAG = UpcomingOrRepeatingBroadcastsListAdapter.class.getName();
 
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private final ArrayList<TVBroadcastWithChannelInfo> broadcasts;
-	private boolean usedForUpcomingEpisodes; /* else used for repeating... */
+	private BroadcastListAdapterTypeEnum broadcastListAdapterType;
 
 	
 	
 	public UpcomingOrRepeatingBroadcastsListAdapter(
 			final Activity activity, 
 			final ArrayList<TVBroadcastWithChannelInfo> broadcasts, 
-			final boolean usedForUpcomingEpisodes) 
+			final BroadcastListAdapterTypeEnum broadcastListAdapterType) 
 	{
 		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		this.usedForUpcomingEpisodes = usedForUpcomingEpisodes;
+		this.broadcastListAdapterType = broadcastListAdapterType;
 		
 		boolean foundRunningBroadcast = false;
 		
@@ -206,34 +213,46 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 				holder.divider.setVisibility(View.GONE);
 			}
 
-			if (usedForUpcomingEpisodes) 
+			switch(broadcastListAdapterType)
 			{
-				int season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().intValue();
-				
-				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
-				
-				StringBuilder seasonEpisodeSB = new StringBuilder();
-				
-				if (season != 0) 
+				case PROGRAM_REPETITIONS:
 				{
-					seasonEpisodeSB.append(activity.getString(R.string.season));
-					seasonEpisodeSB.append(" ");
-					seasonEpisodeSB.append(season);
-					seasonEpisodeSB.append(" ");
+					holder.seasonEpisodeTv.setVisibility(View.GONE);
+					break;
 				}
 				
-				if (episode > 0) 
+				case UPCOMING_BROADCASTS:
 				{
-					seasonEpisodeSB.append(activity.getString(R.string.episode));
-					seasonEpisodeSB.append(" ");
-					seasonEpisodeSB.append(episode);
+					int season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().intValue();
+					
+					int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
+					
+					StringBuilder seasonEpisodeSB = new StringBuilder();
+					
+					if (season != 0) 
+					{
+						seasonEpisodeSB.append(activity.getString(R.string.season));
+						seasonEpisodeSB.append(" ");
+						seasonEpisodeSB.append(season);
+						seasonEpisodeSB.append(" ");
+					}
+					
+					if (episode > 0) 
+					{
+						seasonEpisodeSB.append(activity.getString(R.string.episode));
+						seasonEpisodeSB.append(" ");
+						seasonEpisodeSB.append(episode);
+					}
+					
+					holder.seasonEpisodeTv.setText(seasonEpisodeSB.toString());
+					break;
 				}
-				
-				holder.seasonEpisodeTv.setText(seasonEpisodeSB.toString());
-			} 
-			else 
-			{
-				holder.seasonEpisodeTv.setVisibility(View.GONE);
+								
+				default:
+				{
+					Log.w(TAG, "Unhnadled broadcast type enum");
+					break;
+				}
 			}
 			
 			holder.timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
@@ -253,7 +272,7 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 				{
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 
 					activity.startActivity(intent);
 
@@ -282,7 +301,6 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 		private TextView timeTv;
 		private TextView channelTv;
 		private ReminderView reminderView;
-
 		private View divider;
 	}
 }

@@ -34,6 +34,9 @@ public class AppConfigurationORM
 	private boolean adsEnabled;
 	
 	@DatabaseField()
+	private boolean preventRateAppDialog;
+	
+	@DatabaseField()
 	private int adzerkNetworkId;
 	
 	@DatabaseField()
@@ -84,6 +87,7 @@ public class AppConfigurationORM
 		 this.firstHourOfDay = appConfiguration.getFirstHourOfDay();
 		 this.welcomeToast = appConfiguration.getWelcomeToast();
 		 this.adsEnabled = appConfiguration.isAdsEnabled();
+		 this.preventRateAppDialog = appConfiguration.isPreventingRateAppDialog();
 		 this.adzerkNetworkId = appConfiguration.getAdzerkNetworkId();
 		 this.adzerkSiteId = appConfiguration.getAdzerkSiteId();
 		 this.adzerkLevel = appConfiguration.getAdzerkLevel();
@@ -215,6 +219,9 @@ public class AppConfigurationORM
 	}
 
 
+	public boolean isPreventingRateAppDialog() {
+		return preventRateAppDialog;
+	}
 
 	public int getAdzerkNetworkId() {
 		return adzerkNetworkId;

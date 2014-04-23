@@ -22,13 +22,13 @@ import com.mitv.activities.base.BaseActivityWithoutSearchOption;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 import com.mitv.utilities.RegularExpressionUtils;
-import com.sbstrm.appirater.Appirater;
 
 
 
@@ -108,7 +108,7 @@ public class SignUpWithEmailActivity
 
 		if (isConnected) 
 		{
-			Appirater.significantEvent(this);
+			RateAppManager.significantEvent(this);
 			ContentManager.sharedInstance().performSignUp(this, email, password, firstname, lastname);
 		}
 		else

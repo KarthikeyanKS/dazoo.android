@@ -18,6 +18,7 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -26,7 +27,6 @@ import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
 import com.mitv.utilities.NetworkUtils;
-import com.sbstrm.appirater.Appirater;
 
 
 
@@ -93,13 +93,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	
 	private void removeLike() 
 	{
-		ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
-		
 		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), null);
-		
-		setImageToNotLiked();
-		
-		TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, true);
 	}
 	
 	
@@ -111,14 +105,14 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		
 		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
 
-		TrackingGAManager.sharedInstance().sendUserLikesEvent(activity, likeFromBroadcast, false);
+		TrackingGAManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, false);
 	}
 
 	
 	@Override
 	public void onClick(View v) 
 	{
-		Appirater.significantEvent(activity);
+		RateAppManager.significantEvent(activity);
 		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
@@ -164,6 +158,9 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 			public void run() {
 				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
 				setImageToNotLiked();
+				
+				setImageToNotLiked();
+				TrackingGAManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, true);
 			}
 		};
 	}
@@ -187,6 +184,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		viewCallbackListener.onResult(fetchRequestResult, requestIdentifier);
+		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		
 		if(fetchRequestResult.wasSuccessful()) {
 			switch (requestIdentifier) {

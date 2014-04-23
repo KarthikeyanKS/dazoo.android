@@ -1,45 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/item_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/background_color_selector" >
 
-    <LinearLayout
-        android:id="@+id/tvguide_list_container"
+    <ImageView
+        android:id="@+id/tvguide_channel_iv"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/guide_image_margin"
+        android:adjustViewBounds="true"
+        android:clickable="false"
+        android:focusableInTouchMode="false" />
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/tvguide_program_line_live"
+        style="@style/text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/tvguide_channel_iv"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="@dimen/guide_image_margin"
-            android:adjustViewBounds="true"
-            android:clickable="false"
-            android:focusableInTouchMode="false" />
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/tvguide_program_line_live"
-            style="@style/text2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="5dp"
-            android:maxLines="3"
-            android:padding="5dp"
-            android:singleLine="false" />
-    </LinearLayout>
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tvguide_channel_iv"
+        android:ellipsize="none"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="5dp"
+        android:maxLines="3"
+        android:padding="5dp"
+        android:singleLine="false" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_below="@id/tvguide_list_container"
+        android:layout_alignParentBottom="true"
         android:background="@color/grey1" />
 
 </RelativeLayout>

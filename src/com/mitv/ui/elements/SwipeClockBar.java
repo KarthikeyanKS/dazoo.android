@@ -21,6 +21,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -34,7 +35,7 @@ import com.mitv.utilities.LanguageUtils;
 
 
 public class SwipeClockBar 
-	extends LinearLayout 
+	extends RelativeLayout 
 	implements OnSeekBarChangeListener 
 {
 	@SuppressWarnings("unused")
@@ -61,7 +62,7 @@ public class SwipeClockBar
 	private boolean isToday;
 	private boolean smallScreenMode;
 
-	private LinearLayout clockbarContainer;
+	private RelativeLayout clockbarContainer;
 	private int screenHeight;
 
 	private boolean isHighlighted = false;
@@ -140,7 +141,7 @@ public class SwipeClockBar
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.swipe_clock_bar, this);
 
-		clockbarContainer = (LinearLayout) this.findViewById(R.id.swipe_clock_bar_container);
+		clockbarContainer = (RelativeLayout) this.findViewById(R.id.swipe_clock_bar_container);
 
 		this.clockIconTextView = (FontTextView) this.findViewById(R.id.swipe_clock_bar_clock_icon_textview);
 		this.clockIconTextView.setOnClickListener(new OnClickListener() {

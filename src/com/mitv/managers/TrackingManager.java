@@ -83,6 +83,18 @@ public class TrackingManager
 	
 	
 	
+	public void sendHTTPCoreOutOfMemoryException() 
+	{
+		TrackingGAManager.sharedInstance().sendHTTPCoreOutOfMemoryException();
+		
+		if(Constants.ENABLE_AMAZON_INSIGHTS)
+		{
+			TrackingAIManager.sharedInstance().reportHTTPCoreOutOfMemoryException();
+		}
+	}
+	
+	
+	
 	public void onPause(Activity activity)
 	{
 		if(Constants.ENABLE_AMAZON_INSIGHTS)

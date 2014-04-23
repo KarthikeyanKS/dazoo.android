@@ -116,15 +116,13 @@ public abstract class DateUtils
 	 * 
 	 * @return
 	 */
-	public static Integer getTimeZoneOffsetInMinutes() {
+	public static Integer getTimeZoneOffsetInMinutes() 
+	{
 		Integer timeZoneOffsetInMinutes = 0;
 		
 		TimeZone timeZone = TimeZone.getDefault();
 		
 		Calendar cal = DateUtils.getNow();
-		
-		/* inDaylightTime, not in use, only for debugging */
-//		boolean inDaylightTime = timeZone.inDaylightTime(cal.getTime());
 		
 		int era = cal.get(Calendar.ERA);
 		int year = cal.get(Calendar.YEAR);
@@ -140,6 +138,31 @@ public abstract class DateUtils
 		timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAlternative);
 
 		return timeZoneOffsetInMinutes;
+	}
+	
+	
+	/**
+	 * This calculation of timezone offset takes in daylight time in consideration.
+	 * 
+	 * @return
+	 */
+	public static Long getTimeZoneOffsetInMillis() {
+		Long offsetInMillis = 0L;
+		
+		TimeZone timeZone = TimeZone.getDefault();
+		
+		Calendar cal = DateUtils.getNow();
+		
+		int era = cal.get(Calendar.ERA);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		int timeOfDayMillis = cal.get(Calendar.MILLISECOND);
+		
+		offsetInMillis = (long) timeZone.getOffset(era, year, month, day, dayOfWeek, timeOfDayMillis);
+		
+		return offsetInMillis;
 	}
 	
 	
@@ -519,9 +542,8 @@ public abstract class DateUtils
 	 * 
 	 */
 	public static String getHourAndMinuteCompositionAsString(final Calendar inputCalendar)
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		String hourAndMinuteCompositionAsString = getHourAndMinuteCompositionAsString(inputCalendar, true, context);
+	{ 
+		String hourAndMinuteCompositionAsString = getHourAndMinuteCompositionAsString(inputCalendar, true);
 		return hourAndMinuteCompositionAsString;
 	}
 	
@@ -539,13 +561,13 @@ public abstract class DateUtils
 	}
 	
 	
-	
-//	private static boolean showTimeOn24HourFormat(Context context) 
-//	{
-//		boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
-//		
-//		return is24HourFormat;
-//	}
+	public static String getHourAndMinuteAsStringUsingHour(int hour) {
+		Calendar now = getNow();
+		now.set(Calendar.HOUR_OF_DAY, hour);
+		now.set(Calendar.MINUTE, 0);
+		String hourMinuteString = getHourAndMinuteCompositionAsString(now, false);
+		return hourMinuteString;
+	}
 	
 	/**
 	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
@@ -554,8 +576,8 @@ public abstract class DateUtils
 	 */
 	private static String getHourAndMinuteCompositionAsString(
 			final Calendar inputCalendar,
-			final boolean use24HourSettingsSetOnDevice,
-			final Context context)
+			final boolean use24HourSettingsSetOnDevice
+			)
 	{
 		String pattern;
 		
@@ -585,27 +607,13 @@ public abstract class DateUtils
 	}
 	
 	
+	
 	/**
 	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
 	 * 
 	 */
 	public static String buildDayAndMonthCompositionAsString(
 			final Calendar inputCalendar,
-			final boolean useFirstHourOfTheDay)
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-		return buildDayAndMonthCompositionAsString(inputCalendar, context, useFirstHourOfTheDay);
-	}
-	
-	
-	/**
-	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
-	 * 
-	 */
-	private static String buildDayAndMonthCompositionAsString(
-			final Calendar inputCalendar,
-			final Context context,
 			final boolean useFirstHourOfTheDay)
 	{
 		String pattern = Constants.DATE_FORMAT_DAY_AND_MONTH;
@@ -672,6 +680,14 @@ public abstract class DateUtils
 	
 	
 	
+	/**
+	 * This method does not take daylight time in consideration.
+	 * Just returns the UTC + 0 time.
+	 * 
+	 * BE CAREFUL!
+	 * 
+	 * @return
+	 */
 	public static Calendar getNow()
 	{
 		Locale locale = LanguageUtils.getISO8601Locale();

@@ -98,12 +98,14 @@ public class BuildTVBroadcastsForTags
 	 * @param tvChannelGuides
 	 * @return
 	 */
-	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) 
+	private HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) 
 	{
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>();
+		
 		double startTime = System.currentTimeMillis();
+		
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) 
 		{
 			TVChannelId tvChannelId = tvChannelGuide.getChannelId();

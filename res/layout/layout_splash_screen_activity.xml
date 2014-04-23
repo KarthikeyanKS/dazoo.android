@@ -11,9 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:background="@color/transparent" >
+        android:layout_centerInParent="true" >
 
         <ImageView
             android:id="@+id/splash_screen_activity_logo"
@@ -25,13 +23,11 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/splash_screen_activity_info_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/splash_screen_activity_logo"
-            android:layout_centerHorizontal="true"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
-            android:background="@color/transparent"
             android:gravity="center"
             android:maxLines="3"
             android:singleLine="false"
@@ -51,10 +47,9 @@
         
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/splash_screen_activity_progress_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/splash_screen_activity_progressbar"
-            android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:gravity="center"
             android:singleLine="true"

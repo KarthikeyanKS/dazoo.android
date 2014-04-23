@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,12 +16,11 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.activities.RepetitionsPageActivity;
-import com.mitv.activities.UpcomingEpisodesPageActivity;
+import com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity;
+import com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.ReminderView;
 
 
@@ -32,6 +30,9 @@ public class TrippleBroadcastBlockPopulator
 {
 	private static String TAG = TrippleBroadcastBlockPopulator.class.getName();
 
+	
+	private static final int TOTAL_SHOWS_IN_INITIAL_LIST = 3;
+	
 	private static final int POSITION_ONE = 0;
 	private static final int POSITION_TWO = 1;
 	private static final int POSITION_THREE = 2;
@@ -78,7 +79,7 @@ public class TrippleBroadcastBlockPopulator
 			{
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) view.getTag();
 				
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
@@ -172,42 +173,21 @@ public class TrippleBroadcastBlockPopulator
 
 			if(usedForRepetitions == false)
 			{
-				TVProgram programLocal = broadcastWithChannelInfo.getProgram();
-
-				ProgramTypeEnum programTypeEnum = programLocal.getProgramType();
+				ProgramTypeEnum programTypeEnum = broadcastWithChannelInfo.getProgram().getProgramType();
 
 				switch (programTypeEnum) 
 				{
 					case TV_EPISODE: 
 					{
-						int season = programLocal.getSeason().getNumber().intValue();
+						String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
 	
-						int episode = programLocal.getEpisodeNumber();
-	
-						StringBuilder seasonEpisodeSB = new StringBuilder();
-	
-						if (season > 0) 
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.season))
-							.append(" ")
-							.append(season)
-							.append(" ");
-						}
-	
-						if (episode > 0)
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.episode))
-							.append(" ")
-							.append(episode);
-						}
-	
-						seasonEpisodeTv.setText(seasonEpisodeSB.toString());
+						seasonEpisodeTv.setText(seasonAndEpisodeString);
 						break;
 					}
 				
 					default: 
 					{
-						seasonEpisodeTv.setText(programLocal.getTitle());
+						seasonEpisodeTv.setText(broadcastWithChannelInfo.getTitle());
 						break;
 					}
 				}
@@ -229,8 +209,6 @@ public class TrippleBroadcastBlockPopulator
 	
 		TextView title = (TextView) containerView.findViewById(R.id.block_tripple_broadcast_title_textview);
 
-		Resources res = activity.getResources();
-
 		String titleString;
 
 		String showMoreString;
@@ -243,25 +221,25 @@ public class TrippleBroadcastBlockPopulator
 			{
 				case TV_EPISODE: 
 				{
-					titleString = res.getString(R.string.repetitions_episode);
+					titleString = activity.getString(R.string.repetitions_episode);
 					break;
 				}
 				
 				case MOVIE: 
 				{
-					titleString = res.getString(R.string.repetitions_movie);
+					titleString = activity.getString(R.string.repetitions_movie);
 					break;
 				}
 				
 				case SPORT: 
 				{
-					titleString = res.getString(R.string.repetitions_sport_event);
+					titleString = activity.getString(R.string.repetitions_sport_event);
 					break;
 				}
 				
 				case OTHER:
 				{
-					titleString = res.getString(R.string.repetitions_other);
+					titleString = activity.getString(R.string.repetitions_other);
 					break;
 				}
 				
@@ -284,11 +262,11 @@ public class TrippleBroadcastBlockPopulator
 
 		title.setText(titleString);
 
-		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts);
-		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts);
-		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_ONE, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_TWO, repeatingOrUpcomingBroadcasts);
+		populatePartOfBlock(POSITION_THREE, repeatingOrUpcomingBroadcasts);
 
-		if(repeatingOrUpcomingBroadcasts.size() > 3) 
+		if(repeatingOrUpcomingBroadcasts.size() > TOTAL_SHOWS_IN_INITIAL_LIST) 
 		{
 			View divider = (View) containerView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
 
@@ -305,7 +283,7 @@ public class TrippleBroadcastBlockPopulator
 				@Override
 				public void onClick(View v) 
 				{
-					Runnable procedure = getConfirmRemovalProcedure(repeatingOrUpcomingBroadcasts);
+					Runnable procedure = getProcedure(repeatingOrUpcomingBroadcasts);
 					procedure.run();
 				}
 			});
@@ -316,17 +294,17 @@ public class TrippleBroadcastBlockPopulator
 		
 	
 	
-	private Runnable getConfirmRemovalProcedure(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) 
+	private Runnable getProcedure(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) 
 	{
 		return new Runnable() 
 		{
 			public void run() 
 			{
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(runningBroadcast);
+				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(runningBroadcast);
 
 				if (usedForRepetitions) 
 				{
-					Intent intent = new Intent(activity, RepetitionsPageActivity.class);
+					Intent intent = new Intent(activity, RepetitionsListMoreActivity.class);
 
 					ContentManager.sharedInstance().setRepeatingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 
@@ -334,7 +312,7 @@ public class TrippleBroadcastBlockPopulator
 				} 
 				else
 				{
-					Intent intent = new Intent(activity, UpcomingEpisodesPageActivity.class);
+					Intent intent = new Intent(activity, UpcomingListMoreActivity.class);
 
 					ContentManager.sharedInstance().setUpcomingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 

@@ -16,11 +16,11 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
-import com.sbstrm.appirater.Appirater;
 
 
 
@@ -52,17 +52,24 @@ public class HomeActivity
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_home_activity);
-
-		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-		selectedTagIndex = 0;
-		hasShowWelcomeToast = false;
 		
 		initLayout();
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		boolean isConnected = NetworkUtils.isConnected();
 		
-		Appirater.appLaunched(this);
+		if (isConnected) {
+			getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+			selectedTagIndex = 0;
+			hasShowWelcomeToast = false;			
+			
+			registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+			
+			RateAppManager.appLaunched(this);
+			
+		} else {
+			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+		}
 	}
 	
 	

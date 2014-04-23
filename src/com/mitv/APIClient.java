@@ -39,6 +39,7 @@ import com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike;
 import com.mitv.asynctasks.mitvapi.usertoken.SetUserTVChannelIds;
 import com.mitv.asynctasks.other.CheckNetworkConnectivity;
 import com.mitv.asynctasks.other.SNTPAsyncTask;
+import com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
@@ -84,6 +85,7 @@ public class APIClient
 		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
 		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
 		SNTPAsyncTask sntpAsyncTask = new SNTPAsyncTask(contentCallbackListener, activityCallbackListener);
+		GetTVBroadcastsPopular getTVBroadcastsPopular = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false);
 		
 		poolExecutor.addAndExecuteTask(sntpAsyncTask);
 		poolExecutor.addAndExecuteTask(getAppConfigurationData);
@@ -92,6 +94,7 @@ public class APIClient
 		poolExecutor.addAndExecuteTask(getTVDates);
 		poolExecutor.addAndExecuteTask(getTVChannelsAll);
 		poolExecutor.addAndExecuteTask(getTVChannelIdsDefault);
+		poolExecutor.addAndExecuteTask(getTVBroadcastsPopular);
 		
 		if(isUserLoggedIn)
 		{
@@ -120,6 +123,15 @@ public class APIClient
 		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, false, tvDate, tvChannelIds);
 		
 		poolExecutor.addAndExecuteTask(getTvChannelGuides);
+	}
+	
+	
+	
+	public void setPopularVariablesWithPopularBroadcastsOnPoolExecutor(ViewCallbackListener activityCallbackListener)
+	{
+		SetPopularVariablesWithPopularBroadcasts setPopularVariablesWithPopularBroadcasts = new SetPopularVariablesWithPopularBroadcasts(contentCallbackListener, activityCallbackListener);
+		
+		poolExecutor.addAndExecuteTask(setPopularVariablesWithPopularBroadcasts);
 	}
 	
 	
@@ -282,9 +294,9 @@ public class APIClient
 	}
 	
 	
-	public void getTVBroadcastsPopular(ViewCallbackListener activityCallbackListener) 
+	public void getTVBroadcastsPopular(ViewCallbackListener activityCallbackListener, boolean standalone) 
 	{
-		GetTVBroadcastsPopular getTVBroadcastsPopular = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener);
+		GetTVBroadcastsPopular getTVBroadcastsPopular = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, standalone);
 		getTVBroadcastsPopular.execute();
 	}
 	
@@ -320,11 +332,14 @@ public class APIClient
 	}
 	
 	
+	
 	public void getTVChannelGuides(ViewCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
 		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIds);
 		getTvChannelGuides.execute();
 	}
+	
+	
 	
 	public void getTVSearchResults(ViewCallbackListener activityCallbackListener, String searchQuery) {
 		if(lastSearch != null) {

@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
@@ -24,7 +25,6 @@ import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.NotificationHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
-import com.sbstrm.appirater.Appirater;
 
 
 
@@ -150,12 +150,13 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
-		TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, tvBroadcastWithChannelInfo, isSet);
 		
-		Appirater.significantEvent(activity);
+		
+		RateAppManager.significantEvent(activity);
 		
 		if (isSet == false) 
 		{
+			TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, false);
 			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
 
 			StringBuilder sb = new StringBuilder();
@@ -200,6 +201,7 @@ public class ReminderView
 		{
 			public void run()
 			{
+				TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, true);
 				iconView.setTextColor(getResources().getColor(R.color.grey3));
 				
 				isSet = false;

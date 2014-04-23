@@ -21,17 +21,22 @@ import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 
 
-public class PopularPageActivity extends BaseContentActivity implements
-		OnClickListener {
+public class PopularPageActivity 
+	extends BaseContentActivity 
+	implements OnClickListener 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = PopularPageActivity.class.getName();
 
+	
 	private ListView listView;
 	private PopularListAdapter adapter;
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_popular_list_activity);
@@ -39,6 +44,8 @@ public class PopularPageActivity extends BaseContentActivity implements
 		initViews();
 	}
 
+	
+	
 	private void initViews() 
 	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -52,8 +59,9 @@ public class PopularPageActivity extends BaseContentActivity implements
 	}
 
 	
+	
 	@Override
-	public void onBackPressed() 
+	public void onBackPressed()
 	{
 		super.onBackPressed();
 		
@@ -61,12 +69,16 @@ public class PopularPageActivity extends BaseContentActivity implements
 	}
 
 	
+	
 	@Override
 	protected void loadData() 
 	{
 		updateUI(UIStatusEnum.LOADING);
+		
 		String loadingMessage = getString(R.string.loading_message_popular);
+		
 		setLoadingLayoutDetailsMessage(loadingMessage);
+		
 		ContentManager.sharedInstance().getElseFetchFromServicePopularBroadcasts(this, false);
 	}
 	
@@ -107,6 +119,8 @@ public class PopularPageActivity extends BaseContentActivity implements
 		}
 	}
 
+	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{

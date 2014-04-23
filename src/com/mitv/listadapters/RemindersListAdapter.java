@@ -47,7 +47,9 @@ public class RemindersListAdapter
 	public RemindersListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> mBroadcasts) 
 	{
 		this.broadcasts = mBroadcasts;
-		this.activity = activity;		
+		
+		this.activity = activity;
+		
 		this.currentPosition = -1;
 	}
 
@@ -103,6 +105,7 @@ public class RemindersListAdapter
 			rowView = layoutInflater.inflate(R.layout.row_reminders, null);
 
 			ViewHolder viewHolder = new ViewHolder();
+			
 			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_header_container);
 			viewHolder.mInformationContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_text_container);
 			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_reminders_header_textview);
@@ -165,7 +168,7 @@ public class RemindersListAdapter
 			
 			if (tvProgram != null)
 			{
-				holder.mBroadcastTitleTv.setText(tvProgram.getTitle());
+				holder.mBroadcastTitleTv.setText(broadcastWithChannelInfo.getTitle());
 				
 				holder.mBroadcastDetailsTv.setVisibility(View.VISIBLE);
 
@@ -175,36 +178,17 @@ public class RemindersListAdapter
 				{
 					case TV_EPISODE:
 					{
-						StringBuilder seasonEpisodeSB = new StringBuilder();
+						String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
 						
-						int season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().intValue();
+						holder.mBroadcastDetailsTv.setText(seasonAndEpisodeString);
 						
-						if (season > 0) 
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.season));
-							seasonEpisodeSB.append(" ");
-							seasonEpisodeSB.append(season);
-							seasonEpisodeSB.append(" ");
-						}
-						
-						int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
-						
-						if (episode > 0) 
-						{
-							seasonEpisodeSB.append(activity.getString(R.string.episode));
-							seasonEpisodeSB.append(" ");
-							seasonEpisodeSB.append(episode);
-							seasonEpisodeSB.append(" ");
-						}
-						
-						holder.mBroadcastDetailsTv.setText(seasonEpisodeSB.toString());
-						holder.mBroadcastTitleTv.setText(tvProgram.getSeries().getName());
 						break;
 					}
 					
 					case MOVIE:
 					{
 						holder.mBroadcastDetailsTv.setText(tvProgram.getGenre() + " " + tvProgram.getYear());
+						
 						break;
 					}
 					
@@ -226,6 +210,7 @@ public class RemindersListAdapter
 						String category = tvProgram.getCategory();
 						
 						holder.mBroadcastDetailsTv.setText(category);
+						
 						break;
 					}
 					
@@ -251,7 +236,7 @@ public class RemindersListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
@@ -287,20 +272,20 @@ public class RemindersListAdapter
 
 	private static class ViewHolder 
 	{
-		public RelativeLayout mHeaderContainer;
-		public RelativeLayout mInformationContainer;
-		public TextView	mHeaderTv;
-		public TextView	mBroadcastTitleTv;
-		public TextView	mBroadcastDetailsTv;
-		public TextView	mBroadcastTimeTv;
-		public TextView	mChannelTv;
-		public FontTextView mReminderIconIv;
-		public View	mDividerView;
+		private RelativeLayout mHeaderContainer;
+		private RelativeLayout mInformationContainer;
+		private TextView mHeaderTv;
+		private TextView mBroadcastTitleTv;
+		private TextView mBroadcastDetailsTv;
+		private TextView mBroadcastTimeTv;
+		private TextView mChannelTv;
+		private FontTextView mReminderIconIv;
+		private View mDividerView;
 	}
 	
 	
 
-	public Runnable confirmRemoval() 
+	private Runnable confirmRemoval() 
 	{
 		return new Runnable() 
 		{
@@ -312,7 +297,7 @@ public class RemindersListAdapter
 					TVBroadcastWithChannelInfo broadcastForReminderToDelete = broadcasts.get(currentPosition);
 					broadcasts.remove(currentPosition);
 					
-					TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, broadcastForReminderToDelete, true);
+					TrackingGAManager.sharedInstance().sendUserReminderEvent(broadcastForReminderToDelete, true);
 					
 					notifyDataSetChanged();
 				}
