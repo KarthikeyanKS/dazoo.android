@@ -33,7 +33,7 @@ public class GetUserTVFeedItems
 	
 	private ArrayList<TVFeedItem> oldFeedItemsToDelete = new ArrayList<TVFeedItem>();
 	private ArrayList<TVFeedItem> similarFeedItemsToDelete = new ArrayList<TVFeedItem>();
-	ArrayList<TVFeedItem> activityFeed = new ArrayList<TVFeedItem>();;
+	ArrayList<TVFeedItem> activityFeed = new ArrayList<TVFeedItem>();
 	
 	private static RequestIdentifierEnum getRequestIdentifier(int itemStartIndex)
 	{
@@ -97,12 +97,12 @@ public class GetUserTVFeedItems
 	{
 		super.doInBackground(params);
 		
-		Log.d(TAG, "Removing FETCHING DATA WE SHOULD UPDATE FEEDACTIVITY!!!!!!!!!!!!!! ");
+//		Log.d(TAG, "Removing FETCHING DATA WE SHOULD UPDATE FEEDACTIVITY!!!!!!!!!!!!!! ");
 		 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-			Log.d(TAG, "Removing FETCHING DATA WAS SUCCESSFUL!!!!!!!!!!!!!! ");
+//			Log.d(TAG, "Removing FETCHING DATA WAS SUCCESSFUL!!!!!!!!!!!!!! ");
 			
 			TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
 		
@@ -113,9 +113,9 @@ public class GetUserTVFeedItems
 			if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY) {
 				
 				if (ContentManager.sharedInstance().getFromCacheActivityFeedData() != null) {
-					activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
-					activityFeed.addAll(contentAsArrayList);
-					contentAsArrayList = filterOldBroadcasts(activityFeed, contentAsArrayList);
+//					activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+//					activityFeed.addAll(contentAsArrayList);
+//					contentAsArrayList = filterOldBroadcasts(activityFeed, contentAsArrayList);
 //					contentAsArrayList = filterSimilarBroadcasts(activityFeed, contentAsArrayList);
 					
 				} else {
