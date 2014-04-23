@@ -135,10 +135,10 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 			
 			if(broadcastWithChannelInfo.isPopular())
 			{
-				String stringIconTrending = activity.getString(R.string.icon_trending);
-				
-				titleSB.append(stringIconTrending)
-				.append(" ");
+//				String stringIconTrending = activity.getString(R.string.icon_trending);
+//				
+//				titleSB.append(stringIconTrending)
+//				.append(" ");
 			}
 			
 			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();

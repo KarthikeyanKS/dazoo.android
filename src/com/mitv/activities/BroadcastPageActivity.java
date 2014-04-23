@@ -506,8 +506,8 @@ public class BroadcastPageActivity
 
 		if(broadcastWithChannelInfo.isPopular())
 		{
-			titleSB.append(getString(R.string.icon_trending))
-				.append(" ");
+//			titleSB.append(getString(R.string.icon_trending))
+//				.append(" ");
 		}
 		
 		titleSB.append(broadcastWithChannelInfo.getTitle());

@@ -31621,6 +31621,8 @@ com.mitv.Constants -> com.mitv.Constants:
     java.lang.String FRONTEND_ENVIRONMENT_USED -> FRONTEND_ENVIRONMENT_USED
     java.lang.String SUPPORTED_API_VERSION -> SUPPORTED_API_VERSION
     java.lang.String APP_WAS_PREINSTALLED_FILE_NAME -> APP_WAS_PREINSTALLED_FILE_NAME
+    java.lang.String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME -> USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME
+    java.lang.String USER_HAS_SEEN_TUTORIAL_TWICE_FILE_NAME -> USER_HAS_SEEN_TUTORIAL_TWICE_FILE_NAME
     boolean FORCE_SPANISH_LOCALE -> FORCE_SPANISH_LOCALE
     boolean IS_PREINSTALLED_VERSION -> IS_PREINSTALLED_VERSION
     java.lang.String CACHE_DATABASE_NAME -> CACHE_DATABASE_NAME
@@ -33964,31 +33966,31 @@ com.mitv.SecondScreenApplication -> com.mitv.SecondScreenApplication:
     java.lang.String TAG -> TAG
     com.mitv.SecondScreenApplication sharedInstance -> sharedInstance
     com.mitv.managers.ContentManager contentManager -> contentManager
-    49:54:com.mitv.SecondScreenApplication sharedInstance() -> sharedInstance
-    60:64:boolean isContentManagerNull() -> isContentManagerNull
-    72:167:void onCreate() -> onCreate
-    174:177:void onLowMemory() -> onLowMemory
-    184:185:void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    191:209:boolean isApplicationSystemApp() -> isApplicationSystemApp
-    216:230:boolean isApplicationSystemAppUsingFlag() -> isApplicationSystemAppUsingFlag
-    236:236:com.mitv.managers.ImageLoaderManager getImageLoaderManager() -> getImageLoaderManager
-    242:243:void setAppAsPreinstalled() -> setAppAsPreinstalled
-    248:248:boolean isAppPreinstalled() -> isAppPreinstalled
-    254:255:void setAppIsRestarting(boolean) -> setAppIsRestarting
-    260:260:boolean isAppRestarting() -> isAppRestarting
-    265:265:java.lang.String getCurrentAppVersion() -> getCurrentAppVersion
-    271:271:java.lang.String getInstalledAppVersion() -> getInstalledAppVersion
-    277:280:void setInstalledAppVersionToCurrentVersion() -> setInstalledAppVersionToCurrentVersion
-    287:300:boolean isCurrentVersionAnUpgradeFromInstalledVersion() -> isCurrentVersionAnUpgradeFromInstalledVersion
-    314:350:boolean hasUserSeenTutorial() -> hasUserSeenTutorial
-    358:369:boolean checkIfUserOpenedAppLastTwoWeeks(java.util.Calendar,java.util.Calendar) -> checkIfUserOpenedAppLastTwoWeeks
-    375:385:java.util.Calendar getDateUserLastOpenApp(java.lang.String) -> getDateUserLastOpenApp
-    391:392:void setIsViewingTutorial(boolean) -> setIsViewingTutorial
-    397:399:boolean getIsViewingTutorial() -> getIsViewingTutorial
-    405:406:void setUserSeenTutorial() -> setUserSeenTutorial
-    411:412:void setDateUserLastOpenedApp(java.lang.String) -> setDateUserLastOpenedApp
-    417:419:void setTutorialToNeverShowAgain() -> setTutorialToNeverShowAgain
-    425:428:com.mitv.managers.ContentManager getContentManager() -> getContentManager
+    51:56:com.mitv.SecondScreenApplication sharedInstance() -> sharedInstance
+    62:66:boolean isContentManagerNull() -> isContentManagerNull
+    74:169:void onCreate() -> onCreate
+    176:179:void onLowMemory() -> onLowMemory
+    186:187:void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
+    193:211:boolean isApplicationSystemApp() -> isApplicationSystemApp
+    218:232:boolean isApplicationSystemAppUsingFlag() -> isApplicationSystemAppUsingFlag
+    238:238:com.mitv.managers.ImageLoaderManager getImageLoaderManager() -> getImageLoaderManager
+    244:245:void setAppAsPreinstalled() -> setAppAsPreinstalled
+    250:250:boolean isAppPreinstalled() -> isAppPreinstalled
+    256:257:void setAppIsRestarting(boolean) -> setAppIsRestarting
+    262:262:boolean isAppRestarting() -> isAppRestarting
+    267:267:java.lang.String getCurrentAppVersion() -> getCurrentAppVersion
+    273:273:java.lang.String getInstalledAppVersion() -> getInstalledAppVersion
+    279:282:void setInstalledAppVersionToCurrentVersion() -> setInstalledAppVersionToCurrentVersion
+    289:302:boolean isCurrentVersionAnUpgradeFromInstalledVersion() -> isCurrentVersionAnUpgradeFromInstalledVersion
+    317:361:boolean hasUserSeenTutorial() -> hasUserSeenTutorial
+    369:380:boolean checkIfUserOpenedAppLastTwoWeeks(java.util.Calendar,java.util.Calendar) -> checkIfUserOpenedAppLastTwoWeeks
+    386:396:java.util.Calendar getDateUserLastOpenApp(java.lang.String) -> getDateUserLastOpenApp
+    402:403:void setIsViewingTutorial(boolean) -> setIsViewingTutorial
+    408:410:boolean getIsViewingTutorial() -> getIsViewingTutorial
+    416:417:void setUserSeenTutorial() -> setUserSeenTutorial
+    422:423:void setDateUserLastOpenedApp(java.lang.String) -> setDateUserLastOpenedApp
+    428:430:void setTutorialToNeverShowAgain() -> setTutorialToNeverShowAgain
+    436:439:com.mitv.managers.ContentManager getContentManager() -> getContentManager
 com.mitv.activities.AboutOrTermsActivity -> com.mitv.activities.AboutOrTermsActivity:
     java.lang.String TAG -> o
     boolean isAboutView -> p
@@ -34763,9 +34765,14 @@ com.mitv.asynctasks.mitvapi.usertoken.GetUserTVChannelIds -> com.mitv.asynctasks
     42:51:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
     57:73:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
 com.mitv.asynctasks.mitvapi.usertoken.GetUserTVFeedItems -> com.mitv.asynctasks.mitvapi.usertoken.GetUserTVFeedItems:
-    java.lang.String TAG -> a
-    33:39:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(int) -> a
-    91:109:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    java.lang.String TAG -> b
+    java.util.ArrayList oldFeedItemsToDelete -> c
+    java.util.ArrayList similarFeedItemsToDelete -> d
+    java.util.ArrayList activityFeed -> a
+    40:46:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(int) -> a
+    98:134:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    146:180:java.util.ArrayList filterOldBroadcasts(java.util.ArrayList,java.util.ArrayList) -> filterOldBroadcasts
+    193:210:boolean checkIfTVFeedItemIsOld(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> a
 com.mitv.asynctasks.mitvapi.usertoken.PerformUserLogout -> com.mitv.asynctasks.mitvapi.usertoken.PerformUserLogout:
     22:28:java.lang.String buildURL() -> a
 com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike -> com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike:
@@ -36227,43 +36234,42 @@ com.mitv.models.PersistentCache -> com.mitv.models.PersistentCache:
     java.util.ArrayList feedItemsToDelete -> feedItemsToDelete
     java.util.ArrayList popularBroadcasts -> popularBroadcasts
     int[] $SWITCH_TABLE$com$mitv$models$PersistentCache$TVChannelsAccessIdentifier -> $SWITCH_TABLE$com$mitv$models$PersistentCache$TVChannelsAccessIdentifier
-    int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum -> $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum
-    97:99:boolean containsActivityFeedData() -> containsActivityFeedData
-    105:107:boolean containsPopularBroadcasts() -> containsPopularBroadcasts
-    113:115:boolean containsUserLikes() -> containsUserLikes
-    121:123:boolean containsAppConfigData() -> containsAppConfigData
-    129:131:boolean containsAppVersionData() -> containsAppVersionData
-    137:139:boolean containsApiVersionData() -> containsApiVersionData
-    145:147:boolean containsTVDates() -> containsTVDates
-    153:155:boolean containsTVTags() -> containsTVTags
-    160:162:boolean containsTVChannelIdsUser() -> containsTVChannelIdsUser
-    171:178:java.lang.String getUserToken() -> getUserToken
-    184:186:boolean isLoggedIn() -> isLoggedIn
-    192:192:java.lang.String getUserLastname() -> getUserLastname
-    198:198:java.lang.String getUserFirstname() -> getUserFirstname
-    204:204:java.lang.String getUserEmail() -> getUserEmail
-    210:210:java.lang.String getUserId() -> getUserId
-    216:216:java.lang.String getUserProfileImageUrl() -> getUserProfileImageUrl
-    222:229:void setUserData(com.mitv.models.objects.mitvapi.UserLoginData) -> setUserData
-    234:241:void clearUserData() -> clearUserData
-    249:249:java.util.List getUserLikes() -> getUserLikes
-    255:256:void setUserLikes(java.util.List) -> setUserLikes
-    259:260:void clearUserLikes() -> clearUserLikes
-    265:281:void addUserLike(com.mitv.models.objects.mitvapi.UserLike) -> addUserLike
-    284:291:void removeManuallyAddedUserLikes() -> removeManuallyAddedUserLikes
-    295:305:void removeUserLike(com.mitv.models.objects.mitvapi.UserLike) -> removeUserLike
-    311:318:boolean isInUserLikes(com.mitv.models.objects.mitvapi.UserLike) -> isInUserLikes
-    327:331:void setAppVersionData(com.mitv.models.objects.mitvapi.AppVersion) -> setAppVersionData
-    336:336:com.mitv.models.objects.mitvapi.AppConfiguration getAppConfigData() -> getAppConfigData
-    342:349:boolean isAPIVersionSupported() -> isAPIVersionSupported
-    355:362:java.lang.String getWelcomeMessage() -> getWelcomeMessage
-    371:375:void setAppConfigData(com.mitv.models.objects.mitvapi.AppConfiguration) -> setAppConfigData
-    381:388:int getFirstHourOfTVDay() -> getFirstHourOfTVDay
-    397:397:java.util.List getTvTags() -> getTvTags
-    403:407:void setTvTags(java.util.List) -> setTvTags
-    415:415:java.util.List getTvDates() -> getTvDates
-    421:425:void setTvDates(java.util.List) -> setTvDates
-    430:436:com.mitv.models.objects.mitvapi.TVDate getTvDateAtIndex(int) -> getTvDateAtIndex
+    95:97:boolean containsActivityFeedData() -> containsActivityFeedData
+    103:105:boolean containsPopularBroadcasts() -> containsPopularBroadcasts
+    111:113:boolean containsUserLikes() -> containsUserLikes
+    119:121:boolean containsAppConfigData() -> containsAppConfigData
+    127:129:boolean containsAppVersionData() -> containsAppVersionData
+    135:137:boolean containsApiVersionData() -> containsApiVersionData
+    143:145:boolean containsTVDates() -> containsTVDates
+    151:153:boolean containsTVTags() -> containsTVTags
+    158:160:boolean containsTVChannelIdsUser() -> containsTVChannelIdsUser
+    169:176:java.lang.String getUserToken() -> getUserToken
+    182:184:boolean isLoggedIn() -> isLoggedIn
+    190:190:java.lang.String getUserLastname() -> getUserLastname
+    196:196:java.lang.String getUserFirstname() -> getUserFirstname
+    202:202:java.lang.String getUserEmail() -> getUserEmail
+    208:208:java.lang.String getUserId() -> getUserId
+    214:214:java.lang.String getUserProfileImageUrl() -> getUserProfileImageUrl
+    220:227:void setUserData(com.mitv.models.objects.mitvapi.UserLoginData) -> setUserData
+    232:239:void clearUserData() -> clearUserData
+    247:247:java.util.List getUserLikes() -> getUserLikes
+    253:254:void setUserLikes(java.util.List) -> setUserLikes
+    257:258:void clearUserLikes() -> clearUserLikes
+    263:279:void addUserLike(com.mitv.models.objects.mitvapi.UserLike) -> addUserLike
+    282:289:void removeManuallyAddedUserLikes() -> removeManuallyAddedUserLikes
+    293:303:void removeUserLike(com.mitv.models.objects.mitvapi.UserLike) -> removeUserLike
+    309:316:boolean isInUserLikes(com.mitv.models.objects.mitvapi.UserLike) -> isInUserLikes
+    325:329:void setAppVersionData(com.mitv.models.objects.mitvapi.AppVersion) -> setAppVersionData
+    334:334:com.mitv.models.objects.mitvapi.AppConfiguration getAppConfigData() -> getAppConfigData
+    340:347:boolean isAPIVersionSupported() -> isAPIVersionSupported
+    353:360:java.lang.String getWelcomeMessage() -> getWelcomeMessage
+    369:373:void setAppConfigData(com.mitv.models.objects.mitvapi.AppConfiguration) -> setAppConfigData
+    379:386:int getFirstHourOfTVDay() -> getFirstHourOfTVDay
+    395:395:java.util.List getTvTags() -> getTvTags
+    401:405:void setTvTags(java.util.List) -> setTvTags
+    413:413:java.util.List getTvDates() -> getTvDates
+    419:423:void setTvDates(java.util.List) -> setTvDates
+    428:434:com.mitv.models.objects.mitvapi.TVDate getTvDateAtIndex(int) -> getTvDateAtIndex
     463:480:java.lang.Object useTVChannels(com.mitv.models.PersistentCache$TVChannelsAccessIdentifier,java.util.List,com.mitv.models.objects.mitvapi.TVChannelId) -> useTVChannels
     484:484:boolean containsTVChannels() -> containsTVChannels
     489:491:boolean containsTVChannelsHelper() -> containsTVChannelsHelper
@@ -36273,29 +36279,24 @@ com.mitv.models.PersistentCache -> com.mitv.models.PersistentCache:
     517:518:void setTvChannelsHelper(java.util.List) -> setTvChannelsHelper
     521:521:com.mitv.models.objects.mitvapi.TVChannel getTVChannelById(com.mitv.models.objects.mitvapi.TVChannelId) -> getTVChannelById
     527:535:com.mitv.models.objects.mitvapi.TVChannel getTVChannelByIdHelper(com.mitv.models.objects.mitvapi.TVChannelId) -> getTVChannelByIdHelper
-    556:556:java.util.ArrayList getActivityFeed() -> getActivityFeed
-    562:563:void setActivityFeed(java.util.ArrayList) -> setActivityFeed
-    569:585:void addMoreActivityFeedItems(java.util.ArrayList) -> addMoreActivityFeedItems
-    596:616:void deleteFeedItemUsingLike(com.mitv.models.objects.mitvapi.UserLike,java.util.ArrayList) -> deleteFeedItemUsingLike
-    630:674:java.util.ArrayList filterSimilarBroadcasts(java.util.ArrayList) -> filterSimilarBroadcasts
-    689:766:java.util.ArrayList filterOldBroadcasts(java.util.ArrayList) -> filterOldBroadcasts
-    779:796:boolean checkIfTVFeedItemIsOld(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> checkIfTVFeedItemIsOld
-    810:832:boolean checkIfTVFeedItemHasShownBefore(java.util.ArrayList,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> checkIfTVFeedItemHasShownBefore
-    841:841:java.util.ArrayList getPopularBroadcasts() -> getPopularBroadcasts
-    847:848:void setPopularBroadcasts(java.util.ArrayList) -> setPopularBroadcasts
-    856:871:java.util.List getTvChannelIdsUsed() -> getTvChannelIdsUsed
-    877:882:void setTvChannelIdsUsed(java.util.List) -> setTvChannelIdsUsed
-    887:898:boolean isInUsedChannelIds(com.mitv.models.objects.mitvapi.TVChannelId) -> isInUsedChannelIds
-    904:908:void clearTVChannelIdsUser() -> clearTVChannelIdsUser
-    916:917:void useDefaultChannelIds() -> useDefaultChannelIds
-    922:929:void setTvChannelIdsDefault(java.util.List) -> setTvChannelIdsDefault
-    937:940:void setTvChannelIdsUser(java.util.ArrayList) -> setTvChannelIdsUser
-    948:949:void clearTVGuidesMy() -> clearTVGuidesMy
-    960:996:com.mitv.models.objects.mitvapi.TVGuide getTVGuideUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> getTVGuideUsingTVDate
-    1005:1009:com.mitv.models.objects.mitvapi.TVGuide getTVGuideUsingTVDateNonFiltered(com.mitv.models.objects.mitvapi.TVDate) -> getTVGuideUsingTVDateNonFiltered
-    1015:1057:void addNewTVChannelGuidesUsingDayAndTvGuide(com.mitv.models.objects.mitvapi.TVDate,com.mitv.models.objects.mitvapi.TVGuide) -> addNewTVChannelGuidesUsingDayAndTvGuide
-    38:38:int[] $SWITCH_TABLE$com$mitv$models$PersistentCache$TVChannelsAccessIdentifier() -> $SWITCH_TABLE$com$mitv$models$PersistentCache$TVChannelsAccessIdentifier
-    38:38:int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum
+    546:550:java.util.ArrayList getActivityFeed() -> getActivityFeed
+    557:558:void setActivityFeed(java.util.ArrayList) -> setActivityFeed
+    563:575:void addMoreActivityFeedItems(java.util.ArrayList) -> addMoreActivityFeedItems
+    585:606:void deleteFeedItemUsingLike(com.mitv.models.objects.mitvapi.UserLike) -> deleteFeedItemUsingLike
+    614:614:java.util.ArrayList getPopularBroadcasts() -> getPopularBroadcasts
+    620:621:void setPopularBroadcasts(java.util.ArrayList) -> setPopularBroadcasts
+    629:644:java.util.List getTvChannelIdsUsed() -> getTvChannelIdsUsed
+    650:655:void setTvChannelIdsUsed(java.util.List) -> setTvChannelIdsUsed
+    660:671:boolean isInUsedChannelIds(com.mitv.models.objects.mitvapi.TVChannelId) -> isInUsedChannelIds
+    677:681:void clearTVChannelIdsUser() -> clearTVChannelIdsUser
+    689:690:void useDefaultChannelIds() -> useDefaultChannelIds
+    695:702:void setTvChannelIdsDefault(java.util.List) -> setTvChannelIdsDefault
+    710:713:void setTvChannelIdsUser(java.util.ArrayList) -> setTvChannelIdsUser
+    721:722:void clearTVGuidesMy() -> clearTVGuidesMy
+    733:769:com.mitv.models.objects.mitvapi.TVGuide getTVGuideUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> getTVGuideUsingTVDate
+    778:782:com.mitv.models.objects.mitvapi.TVGuide getTVGuideUsingTVDateNonFiltered(com.mitv.models.objects.mitvapi.TVDate) -> getTVGuideUsingTVDateNonFiltered
+    788:830:void addNewTVChannelGuidesUsingDayAndTvGuide(com.mitv.models.objects.mitvapi.TVDate,com.mitv.models.objects.mitvapi.TVGuide) -> addNewTVChannelGuidesUsingDayAndTvGuide
+    36:36:int[] $SWITCH_TABLE$com$mitv$models$PersistentCache$TVChannelsAccessIdentifier() -> $SWITCH_TABLE$com$mitv$models$PersistentCache$TVChannelsAccessIdentifier
 com.mitv.models.PersistentCache$TVChannelsAccessIdentifier -> com.mitv.models.PersistentCache$TVChannelsAccessIdentifier:
     com.mitv.models.PersistentCache$TVChannelsAccessIdentifier SET -> SET
     com.mitv.models.PersistentCache$TVChannelsAccessIdentifier CONTAINS -> CONTAINS

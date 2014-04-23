@@ -230,10 +230,10 @@ public class TVGuideListAdapter
 					
 					if(broadcast.isPopular())
 					{
-						String stringIconTrending = activity.getString(R.string.icon_trending);
-						
-						rowInfoSB.append(stringIconTrending);
-						rowInfoSB.append(" ");
+//						String stringIconTrending = activity.getString(R.string.icon_trending);
+//						
+//						rowInfoSB.append(stringIconTrending);
+//						rowInfoSB.append(" ");
 					}
 					
 					switch (programType) 
