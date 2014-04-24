@@ -39,6 +39,7 @@ import com.mitv.managers.FontManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.TVCredit;
 import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
@@ -84,6 +85,7 @@ public class BroadcastPageActivity
 	private TextView episodeNameTv;
 	private ImageView channelIv;
 	private TextView synopsisTv;
+	private TextView castInfo;
 	
 	private RelativeLayout disqusCommentsLayout;
 	private RelativeLayout disqusLoginToCommentButtonContainer;
@@ -371,6 +373,7 @@ public class BroadcastPageActivity
 		timeTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_time_tv);
 		channelIv = (ImageView) findViewById(R.id.block_broadcastpage_broadcast_channel_iv);
 		synopsisTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_synopsis_tv);
+		castInfo = (TextView) findViewById(R.id.block_broadcastpage_broadcast_cast_info);
 		extraTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_extra_tv);
 
 		reminderView = (ReminderView) findViewById(R.id.element_social_buttons_reminder);
@@ -546,6 +549,10 @@ public class BroadcastPageActivity
 					episodeNameTv.setText(episodeName);
 					episodeNameTv.setVisibility(View.VISIBLE);
 				}
+				
+				/* TV Credits */
+				String castTitle = getResources().getString(R.string.cast_and_crew);
+				setTVCreditInfo(program, castTitle);
 	
 				String yearAsString = program.getYearAsString();
 				String genreAsString = program.getGenreAsString();
@@ -576,6 +583,10 @@ public class BroadcastPageActivity
 					.append(" ")
 					.append(genreAsString);
 				
+				/* TV Credits */
+				String castTitle = getResources().getString(R.string.cast_and_crew);
+				setTVCreditInfo(program, castTitle);
+				
 				break;
 			}
 			
@@ -601,6 +612,10 @@ public class BroadcastPageActivity
 					.append(" ")
 					.append(program.getSportType().getName());
 				
+				/* TV Credits */
+				String castTitle = getResources().getString(R.string.cast_info_sport);
+				setTVCreditInfo(program, castTitle);
+				
 				break;
 			}
 			
@@ -611,6 +626,10 @@ public class BroadcastPageActivity
 					.append(" ")
 					.append(durationString)
 					.append(minutesString);
+				
+				/* TV Credits */
+				String castTitle = getResources().getString(R.string.cast_info_other);
+				setTVCreditInfo(program, castTitle);
 				break;
 			}
 			
@@ -707,6 +726,45 @@ public class BroadcastPageActivity
 		shareContainer.setTag(broadcastWithChannelInfo);
 
 		shareContainer.setOnClickListener(this);
+	}
+	
+	
+	
+	/**
+	 * Appends cast info to a broadcast page with program details.
+	 * 
+	 * @param program
+	 */
+	private void setTVCreditInfo(TVProgram program, String title) {
+		StringBuilder extrasStringBuilder = new StringBuilder();
+		
+		final String castType = "ACTOR";
+		
+		ArrayList<TVCredit> tvCredit = program.getCredits();
+		
+		extrasStringBuilder.append(title)
+		.append(": ");
+		
+		for (int i = 0; i < tvCredit.size(); i++) {
+			
+			String type = tvCredit.get(i).getType();
+			
+			if (type.equals(castType)) {
+				extrasStringBuilder.append(tvCredit.get(i).getName());
+				
+				if (tvCredit.size()-1 > i) {
+					extrasStringBuilder.append(", ");
+				}
+			}
+		}
+		
+		if (tvCredit != null && tvCredit.size() > 0) {
+			castInfo.setText(extrasStringBuilder.toString());
+			castInfo.setVisibility(View.VISIBLE);
+			
+		} else {
+			castInfo.setVisibility(View.GONE);
+		}
 	}
 
 	
