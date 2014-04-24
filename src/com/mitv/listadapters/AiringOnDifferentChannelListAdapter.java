@@ -149,10 +149,10 @@ public class AiringOnDifferentChannelListAdapter
 			
 			if(broadcastWithChannelInfo.isPopular())
 			{
-				String stringIconTrending = activity.getString(R.string.icon_trending);
-				
-				titleSB.append(stringIconTrending)
-				.append(" ");
+//				String stringIconTrending = activity.getString(R.string.icon_trending);
+//				
+//				titleSB.append(stringIconTrending)
+//				.append(" ");
 			}
 			
 			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();

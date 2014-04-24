@@ -187,13 +187,24 @@
             android:layout_marginBottom="10dp"
             android:lineSpacingExtra="2sp"
             android:visibility="gone" />
+        
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/block_broadcastpage_broadcast_cast_info"
+            style="@style/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
+            android:layout_gravity="left"
+            android:visibility="gone"
+            android:lineSpacingExtra="2sp"
+            android:paddingBottom="10dp" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_broadcastpage_broadcast_extra_tv"
             style="@style/meta2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
+            android:layout_below="@id/block_broadcastpage_broadcast_cast_info"
             android:layout_gravity="left"
             android:paddingBottom="10dp"
             android:visibility="gone" />

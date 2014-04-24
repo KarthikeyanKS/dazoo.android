@@ -3,6 +3,7 @@ package com.mitv;
 
 
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.ImageLoaderManager;
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.FileUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -311,15 +313,22 @@ public class SecondScreenApplication
 	 */
 	public boolean hasUserSeenTutorial() {
 		
+		/* Checking if user has seen tutorial before from file, needed to not show the tutorial every time the app updates to a new version */
+		File fileOnce = FileUtils.getFile(Constants.USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME);
+		File fileTwice = FileUtils.getFile(Constants.USER_HAS_SEEN_TUTORIAL_TWICE_FILE_NAME);
+		
+		boolean hasUserSeenTutorialOnceFromFile = FileUtils.fileExists(fileOnce);
+		boolean hasUserSeenTutorialTwiceFromFile = FileUtils.fileExists(fileTwice);
+		
 		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
 		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
 		
 		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
 		Calendar now = DateUtils.getNow();
 		
-		if (hasUserSeenTutorial) {
+		if (hasUserSeenTutorial && hasUserSeenTutorialOnceFromFile) {
 			
-			if (!neverShowTutorialAgain) {
+			if (!neverShowTutorialAgain && !hasUserSeenTutorialTwiceFromFile) {
 				
 				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
 					
@@ -336,6 +345,7 @@ public class SecondScreenApplication
 					if (!openLastTwoWeeks) {
 						setTutorialToNeverShowAgain();
 						setIsViewingTutorial(true);
+						FileUtils.saveFile(fileTwice);
 					}
 					
 					return openLastTwoWeeks;
@@ -343,8 +353,9 @@ public class SecondScreenApplication
 			}
 		}
 		
-		if (!hasUserSeenTutorial) {
+		if (!hasUserSeenTutorial && !hasUserSeenTutorialOnceFromFile) {
 			setIsViewingTutorial(true);
+			FileUtils.saveFile(fileOnce);
 		}
 		
 		return hasUserSeenTutorial;
