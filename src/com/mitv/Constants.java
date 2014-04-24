@@ -242,6 +242,7 @@ public abstract class Constants
 	public static final String	PROGRAM_TYPE_OTHER							= "OTHER";
 	public static final String	PROGRAM_TYPE_SPORT							= "SPORT";
 	public static final String	PROGRAM_TYPE_SPORTTYPE						= "sportType";
+	public static final String	PROGRAM_CAST_ACTORS							= "ACTOR";
 
 	/* LIKE fields */	
 	public static final String 	LIKE_NEXT_BROADCAST 							= "nextBroadcast";

@@ -738,8 +738,6 @@ public class BroadcastPageActivity
 	private void setTVCreditInfo(TVProgram program, String title) {
 		StringBuilder extrasStringBuilder = new StringBuilder();
 		
-		final String castType = "ACTOR";
-		
 		ArrayList<TVCredit> tvCredit = program.getCredits();
 		
 		extrasStringBuilder.append(title)
@@ -749,7 +747,7 @@ public class BroadcastPageActivity
 			
 			String type = tvCredit.get(i).getType();
 			
-			if (type.equals(castType)) {
+			if (type.equals(Constants.PROGRAM_CAST_ACTORS)) {
 				extrasStringBuilder.append(tvCredit.get(i).getName());
 				
 				if (tvCredit.size()-1 > i) {
