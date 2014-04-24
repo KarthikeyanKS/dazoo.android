@@ -543,7 +543,7 @@ public abstract class PersistentCache
 	
 	public synchronized ArrayList<TVFeedItem> getActivityFeed() 
 	{
-		if (feedItemsToDelete.size() > 0 && !feedItemsToDelete.isEmpty() && feedItemsToDelete != null) {
+		if (feedItemsToDelete != null && !feedItemsToDelete.isEmpty()) {
 			activityFeed.removeAll(feedItemsToDelete);
 		}
 		
@@ -568,7 +568,7 @@ public abstract class PersistentCache
 			
 			activityFeed.addAll(additionalActivityFeedItems);
 			
-			if (feedItemsToDelete.size() > 0 && !feedItemsToDelete.isEmpty() && feedItemsToDelete != null) {
+			if (feedItemsToDelete != null && !feedItemsToDelete.isEmpty()) {
 				activityFeed.removeAll(feedItemsToDelete);
 			}
 		}
