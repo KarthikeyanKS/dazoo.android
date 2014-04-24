@@ -106,6 +106,10 @@ public class BroadcastPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		if (super.isRestartNeeded()) {
+			return;
+		}
 
 		setContentView(R.layout.layout_broadcastpage_activity);
 

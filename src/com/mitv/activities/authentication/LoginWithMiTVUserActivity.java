@@ -60,6 +60,10 @@ public class LoginWithMiTVUserActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		if (super.isRestartNeeded()) {
+			return;
+		}
+		
 		setContentView(R.layout.layout_mitvlogin_activity);
 		
 		isInvalidEmail = true;
