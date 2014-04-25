@@ -3,14 +3,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_color_selector"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <!-- BROADCAST ON AIR POSTER -->
 
     <RelativeLayout
         android:id="@+id/channelpage_broadcast_image_frame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white" >
 
@@ -20,6 +20,8 @@
             android:layout_height="180dp"
             android:adjustViewBounds="true"
             android:paddingLeft="2dp"
+            android:background="@color/white"
+            android:clickable="false"
             android:paddingRight="2dp"
             android:scaleType="centerCrop"
             android:src="@drawable/loading_placeholder_horizontal" />
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/channelpage_broadcast_image_frame"
+        android:background="@drawable/background_color_selector_white"
         android:orientation="vertical" >
 
         <com.mitv.ui.elements.FontTextView
