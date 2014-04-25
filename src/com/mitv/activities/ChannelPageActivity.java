@@ -95,6 +95,10 @@ public class ChannelPageActivity
 		listView.addHeaderView(header);
 
 		channelIconIv = (ImageView) header.findViewById(R.id.channelpage_channel_icon_iv);
+		
+		/* If there are no content to show, this message will appear */
+		String message = getString(R.string.general_no_content_available);
+		setEmptyLayoutDetailsMessage(message);
 	}
 
 	

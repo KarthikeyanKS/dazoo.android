@@ -33,7 +33,6 @@ public class GetUserTVFeedItems
 	
 	private ArrayList<TVFeedItem> oldFeedItemsToDelete = new ArrayList<TVFeedItem>();
 	private ArrayList<TVFeedItem> similarFeedItemsToDelete = new ArrayList<TVFeedItem>();
-	ArrayList<TVFeedItem> activityFeed = new ArrayList<TVFeedItem>();
 	
 	private static RequestIdentifierEnum getRequestIdentifier(int itemStartIndex)
 	{
@@ -97,40 +96,29 @@ public class GetUserTVFeedItems
 	{
 		super.doInBackground(params);
 		
-//		Log.d(TAG, "Removing FETCHING DATA WE SHOULD UPDATE FEEDACTIVITY!!!!!!!!!!!!!! ");
+		Log.d(TAG, "MMM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ");
 		 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-//			Log.d(TAG, "Removing FETCHING DATA WAS SUCCESSFUL!!!!!!!!!!!!!! ");
-			
 			TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
 		
 			ArrayList<TVFeedItem> contentAsArrayList = new ArrayList<TVFeedItem>(Arrays.asList(contentAsArray));
 			
 			Collections.sort(contentAsArrayList, new TVFeedItemComparatorByTime());
 			
-			if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY) {
-				
-				if (ContentManager.sharedInstance().getFromCacheActivityFeedData() != null) {
-//					activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
-//					activityFeed.addAll(contentAsArrayList);
-//					contentAsArrayList = filterOldBroadcasts(activityFeed, contentAsArrayList);
-//					contentAsArrayList = filterSimilarBroadcasts(activityFeed, contentAsArrayList);
-					
-				} else {
-					contentAsArrayList = filterOldBroadcasts(contentAsArrayList, null);
-//					contentAsArrayList = filterSimilarBroadcasts(contentAsArrayList, null);
-				}
+			if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && ContentManager.sharedInstance().getFromCacheActivityFeedData() == null) {
+				contentAsArrayList = filterOldBroadcasts(contentAsArrayList, null);
 			}
-		
+			
 			requestResultObjectContent = contentAsArrayList;
 		}
+		
 		else
 		{
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
-		 
+		
 		return null;
 	}
 	
@@ -157,7 +145,7 @@ public class GetUserTVFeedItems
 
 					/* If item is too old or if it has shown before the item will be removed */
 					if (isItemTooOld) {
-						Log.d(TAG, "Removing old broadcasts from list!! Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle() + " Starttime: "
+						Log.d(TAG, "MMM, Adding old broadcasts to list!! Broadcast: " + tvBroadcastWithChannelInfo.getTitle() + " Starttime: "
 								+ tvBroadcastWithChannelInfo.getBeginTime());
 						
 						oldFeedItemsToDelete.add(item);
@@ -208,85 +196,5 @@ public class GetUserTVFeedItems
 		}		
 		
 		return removeItem;
-	}
-	
-	
-	
-	/**
-	 * Filter out broadcasts that has been shown for more than two times.
-	 * 
-	 * @param activityFeed
-	 */
-	private ArrayList<TVFeedItem> filterSimilarBroadcasts(ArrayList<TVFeedItem> activityFeed, ArrayList<TVFeedItem> contentAsArrayList) {
-		if (!activityFeed.isEmpty() && activityFeed != null) {
-
-			for (int i = activityFeed.size() - 1; i > 2; i--) {
-
-				TVFeedItem item = activityFeed.get(i);
-
-				if (item.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
-
-					TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo = item.getBroadcast();
-
-					boolean hasItemBeenShownBefore = checkIfTVFeedItemHasShownBefore(activityFeed, tvBroadcastWithChannelInfo);
-
-					/* If item is too old or if it has shown before the item will be removed */
-					if (hasItemBeenShownBefore) {
-						Log.d(TAG, "Removing broadcasts from list!! More than 2 times, Broadcast removed: " + tvBroadcastWithChannelInfo.getTitle());
-
-						similarFeedItemsToDelete.add(item);
-					}
-				}
-			}
-
-			if (similarFeedItemsToDelete.size() > 0 && !similarFeedItemsToDelete.isEmpty() && similarFeedItemsToDelete != null) {
-
-				if (contentAsArrayList != null) {
-					contentAsArrayList.removeAll(similarFeedItemsToDelete);
-
-				} else {
-					activityFeed.removeAll(similarFeedItemsToDelete);
-					contentAsArrayList = activityFeed;
-				}
-			}
-		}
-		
-		return contentAsArrayList;
-	}
-	
-	
-	
-	/**
-	 * Start checking from item number 3 in the list if it is a repetition or not.
-	 * 
-	 * @param activityFeed
-	 * @param tvBroadcastWithChannelInfo
-	 * @return TRUE: If repetition
-	 * @return FALSE: If NOT repetition
-	 */
-	private boolean checkIfTVFeedItemHasShownBefore(ArrayList<TVFeedItem> activityFeed, TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) {
-		int counterHowManyTimesItemAppearsInList = 0;
-		String nameOfItem = tvBroadcastWithChannelInfo.getTitle();
-		
-		for (int i = 0; i < activityFeed.size(); i++) {
-			
-			TVFeedItem item = activityFeed.get(i);
-			TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoFromList = item.getBroadcast();
-			
-			if (tvBroadcastWithChannelInfoFromList != null) {
-				String nameOfItemInList = tvBroadcastWithChannelInfoFromList.getTitle();
-				
-				if (nameOfItemInList.equals(nameOfItem)) {
-					counterHowManyTimesItemAppearsInList++;
-				}
-				
-				if (counterHowManyTimesItemAppearsInList > 2) {
-					return true;
-				}
-			}
-			
-		}
-		
-		return false;
 	}
 }

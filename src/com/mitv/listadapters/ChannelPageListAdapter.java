@@ -207,12 +207,6 @@ public class ChannelPageListAdapter
 				
 				case OTHER: 
 				{
-					if (broadcast.getBroadcastType() == BroadcastTypeEnum.LIVE) 
-					{
-						titleSB.append(activity.getString(R.string.icon_live))
-							.append(" ");
-					}
-					
 					descriptionSB.append(broadcast.getProgram().getCategory());
 					
 					break;
