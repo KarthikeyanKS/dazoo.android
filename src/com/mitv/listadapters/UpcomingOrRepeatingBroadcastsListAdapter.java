@@ -199,6 +199,8 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				else
 				{
 					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(" ");
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
 				}
 
 				/* Capitalized letters in header */

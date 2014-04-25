@@ -73,6 +73,10 @@ public class MyChannelsActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		if (super.isRestartNeeded()) {
+			return;
+		}
+		
 		setContentView(R.layout.layout_mychannels_activity);
 		
 		initLayout();

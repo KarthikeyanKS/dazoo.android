@@ -39,7 +39,7 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
 		solo.waitForView(solo.getView(R.id.tab_tv_guide));
 		solo.clickOnView(solo.getView(R.id.tab_tv_guide));
 		
-		solo.waitForView(solo.getView(R.id.tvguide_list_container));
+		solo.waitForView(solo.getView(R.id.tvguide_table_listview));
 		
 		
 		solo.scrollToSide(solo.RIGHT, (float) 0.9);

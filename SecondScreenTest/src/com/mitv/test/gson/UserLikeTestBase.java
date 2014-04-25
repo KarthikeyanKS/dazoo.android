@@ -46,14 +46,14 @@ public class UserLikeTestBase
 		int broadcastIndex = 0;
 		
 		if(useRandomIndexes) {
-			guideIndex = RandomNumberUtils.randomIntegerInRange(0, tvChannelGuides.size());
+			guideIndex = RandomNumberUtils.getRandomIntegerInRange(0, tvChannelGuides.size());
 		}
 		
 		TVChannelGuide someGuide = tvChannelGuides.get(guideIndex);	
 		ArrayList<TVBroadcast> broadcasts = someGuide.getBroadcasts();
 		
 		if(useRandomIndexes) {
-			broadcastIndex = RandomNumberUtils.randomIntegerInRange(0, broadcasts.size());
+			broadcastIndex = RandomNumberUtils.getRandomIntegerInRange(0, broadcasts.size());
 		}
 		
 		TVBroadcast broadcast = broadcasts.get(broadcastIndex);
@@ -72,7 +72,7 @@ public class UserLikeTestBase
 	
 	public static int randomIndexForList(List<Object> list) {
 		int size = list.size() - 1; //zero indexed;
-		int randomIndex = RandomNumberUtils.randomIntegerInRange(0, size);
+		int randomIndex = RandomNumberUtils.getRandomIntegerInRange(0, size);
 		return randomIndex;
 	}
 			

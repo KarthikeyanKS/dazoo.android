@@ -97,6 +97,8 @@ public class RemindersListAdapter
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
+		
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
 
 		if (rowView == null) 
 		{
@@ -122,8 +124,6 @@ public class RemindersListAdapter
 		}
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
-
-		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
 		
 		if (broadcastWithChannelInfo != null)
 		{
@@ -134,32 +134,58 @@ public class RemindersListAdapter
 			boolean isFirstposition = (position == 0);
 			
 			boolean isLastPosition = (position == (getCount() - 1));
-
-			int previousBroadcastPosition = Math.max(position - 1, 0);
 			
-			TVBroadcastWithChannelInfo previousBroadcastInList = getItem(previousBroadcastPosition);
+			boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
 			
-			boolean isCurrentBroadcastBeginTimeEqualToPreviousBroadcastBeginTime = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
-
-			int nextBroadcastPosition = Math.min(position + 1, (broadcasts.size() - 1));
+			if(isFirstposition == false)
+			{
+				TVBroadcastWithChannelInfo previousBroadcastInList = getItem(position - 1);
+				
+				isCurrentBroadcastDayEqualToPreviousBroadcastDay = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
+			}
+			else
+			{
+				isCurrentBroadcastDayEqualToPreviousBroadcastDay = true;
+			}
 			
-			if (isFirstposition || isCurrentBroadcastBeginTimeEqualToPreviousBroadcastBeginTime == false) 
+			boolean isBeginTimeEqualToNextItem;
+			
+			if(isLastPosition == false)
+			{
+				TVBroadcastWithChannelInfo nextBroadcastInList = getItem(position + 1);
+				
+				isBeginTimeEqualToNextItem = broadcastWithChannelInfo.isTheSameDayAs(nextBroadcastInList);
+			}
+			else
+			{
+				isBeginTimeEqualToNextItem = false;
+			}
+			
+			if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false) 
 			{
 				StringBuilder headerSB = new StringBuilder();
-				headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
-				headerSB.append(" ");
-				headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
 				
-				holder.mHeaderTv.setText(headerSB.toString());
+				boolean isBeginTimeTodayOrTomorrow = broadcastWithChannelInfo.isBeginTimeTodayOrTomorrow();
+				
+				if(isBeginTimeTodayOrTomorrow)
+				{
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+				}
+				else
+				{
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(" ");
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
+				}
+				
+				/* Capitalized letters in header */
+				String headerText = headerSB.toString();
+				holder.mHeaderTv.setText(headerText.toUpperCase());
 				
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			}
 
-			TVBroadcastWithChannelInfo nextBroacastPosition = getItem(nextBroadcastPosition);
-			
-			boolean isCurrentBroadcastBeginTimeEqualToNextBroadcastBeginTime = broadcastWithChannelInfo.isTheSameDayAs(nextBroacastPosition);
-			
-			if (isLastPosition && isCurrentBroadcastBeginTimeEqualToNextBroadcastBeginTime == false) 
+			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
 			{
 				holder.mDividerView.setVisibility(View.GONE);
 			}
