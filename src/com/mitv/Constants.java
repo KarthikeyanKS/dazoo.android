@@ -127,6 +127,8 @@ public abstract class Constants
 	
 	public static final String	API_SKIP							= "skip";
 	public static final String	API_LIMIT							= "limit";
+	
+	public static final String    REQUEST_QUERY_SEPARATOR                = "/";
 
 
 	/* restrictions */
