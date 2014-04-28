@@ -124,25 +124,36 @@ public abstract class BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		/* If ContentManager is not null, and cache is not null and we have no initial data, then this activity got recreated due to
-		 * low memory and then we need to restart the app */
-		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) { 
+		TrackingManager.sharedInstance().reportActivityStart(this);
+	}
+	
+	
+	
+	/**
+	 * If ContentManager is not null, and cache is not null and we have no initial data, then this activity got
+	 * recreated due to low memory and then we need to restart the app.
+	 * @return 
+	 * 
+	 */
+	protected boolean isRestartNeeded() {
+		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) {
 			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
-			
-			if(!ContentManager.sharedInstance().isUpdatingGuide()) {
-				
+
+			if (!ContentManager.sharedInstance().isUpdatingGuide()) {
+
 				boolean isConnected = NetworkUtils.isConnected();
-				
+
 				if (isConnected) {
 					restartTheApp();
+					return true;
 				}
-				
+
 			} else {
 				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
 			}
 		}
-
-		TrackingManager.sharedInstance().reportActivityStart(this);
+		
+		return false;
 	}
 	
 	public void restartTheApp() {
@@ -155,6 +166,7 @@ public abstract class BaseActivity
 
 			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
 			Context context = app.getApplicationContext();
+			
 			context.startActivity(intent);
 
 			killAllActivitiesIncludingThis();

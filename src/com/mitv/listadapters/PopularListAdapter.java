@@ -106,7 +106,7 @@ public class PopularListAdapter
 			
 			viewHolder.headerTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_header_tv);
 			viewHolder.dividerView = (View) rowView.findViewById(R.id.element_poster_broadcast_divider);
-			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_info_container);
 			viewHolder.posterIv = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
 			viewHolder.titleTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
 			viewHolder.timeTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_time_tv);

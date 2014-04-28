@@ -48,6 +48,10 @@ public class ResetPasswordSendEmailActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		if (super.isRestartNeeded()) {
+			return;
+		}
 
 		setContentView(R.layout.layout_resetpassword_activity);
 

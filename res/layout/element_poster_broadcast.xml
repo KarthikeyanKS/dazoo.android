@@ -4,7 +4,6 @@
     android:id="@+id/element_poster_broadcast_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
     <com.mitv.ui.elements.FontTextView
@@ -13,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/grey0"
+        android:clickable="false"
         android:gravity="left"
         android:paddingBottom="15dp"
         android:paddingLeft="10dp"
@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/element_poster_broadcast_header_tv"
         android:layout_gravity="left"
+        android:background="@drawable/background_color_selector"
         android:orientation="vertical" >
 
         <!-- IMAGE -->

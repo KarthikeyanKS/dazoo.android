@@ -60,6 +60,10 @@ public class ChannelPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		if (super.isRestartNeeded()) {
+			return;
+		}
+		
 		setContentView(R.layout.layout_channelpage_activity);
 
 		initLayout();
@@ -91,6 +95,10 @@ public class ChannelPageActivity
 		listView.addHeaderView(header);
 
 		channelIconIv = (ImageView) header.findViewById(R.id.channelpage_channel_icon_iv);
+		
+		/* If there are no content to show, this message will appear */
+		String message = getString(R.string.general_no_content_available);
+		setEmptyLayoutDetailsMessage(message);
 	}
 
 	
@@ -112,22 +120,28 @@ public class ChannelPageActivity
 				{
 					adjustedPosition = 0;
 				}
+				
+				if (position == 0) {
+					/* The first item in the list should not be clickable, it is just the channel logo */
+					
+				} else {
 
-				TVBroadcast broadcastSelected = currentAndUpcomingbroadcasts.get(adjustedPosition);
-				
-				TVBroadcastWithChannelInfo broadcastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcastSelected);
-				
-				broadcastWithChannelInfo.setChannel(channel);
-
-				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-				
-				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-				
-				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
-				
-				TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
-
-				startActivity(intent);
+					TVBroadcast broadcastSelected = currentAndUpcomingbroadcasts.get(adjustedPosition);
+					
+					TVBroadcastWithChannelInfo broadcastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcastSelected);
+					
+					broadcastWithChannelInfo.setChannel(channel);
+	
+					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+					
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					
+					ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
+					
+					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
+	
+					startActivity(intent);
+				}
 			}
 		});
 	}

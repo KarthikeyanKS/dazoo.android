@@ -11,7 +11,6 @@
         android:id="@+id/channelpage_broadcast_iv"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="2dp"
         android:adjustViewBounds="true"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"

@@ -26,6 +26,7 @@
         android:layout_alignParentTop="true"
         android:cacheColorHint="@null"
         android:divider="@null"
-        android:fadingEdge="none" />
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent" />
 
 </RelativeLayout>

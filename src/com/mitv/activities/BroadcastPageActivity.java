@@ -106,6 +106,10 @@ public class BroadcastPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		if (super.isRestartNeeded()) {
+			return;
+		}
 
 		setContentView(R.layout.layout_broadcastpage_activity);
 
@@ -737,6 +741,7 @@ public class BroadcastPageActivity
 	 */
 	private void setTVCreditInfo(TVProgram program, String title) {
 		StringBuilder extrasStringBuilder = new StringBuilder();
+		int howManyActorsInCast = 0;
 		
 		ArrayList<TVCredit> tvCredit = program.getCredits();
 		
@@ -749,6 +754,7 @@ public class BroadcastPageActivity
 			
 			if (type.equals(Constants.PROGRAM_CAST_ACTORS)) {
 				extrasStringBuilder.append(tvCredit.get(i).getName());
+				howManyActorsInCast++;
 				
 				if (tvCredit.size()-1 > i) {
 					extrasStringBuilder.append(", ");
@@ -756,7 +762,7 @@ public class BroadcastPageActivity
 			}
 		}
 		
-		if (tvCredit != null && tvCredit.size() > 0) {
+		if (tvCredit != null && tvCredit.size() > 0 && howManyActorsInCast != 0) {
 			castInfo.setText(extrasStringBuilder.toString());
 			castInfo.setVisibility(View.VISIBLE);
 			

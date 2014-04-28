@@ -66,6 +66,10 @@ public class SignUpWithEmailActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		if (super.isRestartNeeded()) {
+			return;
+		}
+		
 		setContentView(R.layout.layout_signup_activity);
 		
 		isInvalidFirstname = true;

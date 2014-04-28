@@ -70,6 +70,10 @@ public class UserProfileActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		if (super.isRestartNeeded()) {
+			return;
+		}
 
 		setContentView(R.layout.layout_user_profile);
 
