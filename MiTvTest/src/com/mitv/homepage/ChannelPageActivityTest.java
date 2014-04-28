@@ -49,7 +49,7 @@ public class ChannelPageActivityTest extends ActivityInstrumentationTestCase2<Ho
 			
 		gotoChannelPage();
 		//TODO Loop through all programs
-		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(2)); 	//Go to program nr2 (3rd item in the list)
+		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(3)); 	//Go to program nr2 (3rd item in the list)
 		solo.waitForView(solo.getView(R.id.broadcast_scroll));
 
 		solo.clickOnView(solo.getView(R.id.element_social_buttons_reminder));
@@ -84,7 +84,7 @@ public class ChannelPageActivityTest extends ActivityInstrumentationTestCase2<Ho
 		
 		gotoChannelPage();
 		//TODO Loop through all programs
-		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(2)); 	//Go to program nr2 (3rd item in the list)
+		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(3)); 	//Go to program nr2 (3rd item in the list)
 		solo.waitForView(solo.getView(R.id.broadcast_scroll));
 
 		solo.clickOnView(solo.getView(R.id.element_social_buttons_share_button_container));
@@ -105,7 +105,7 @@ public class ChannelPageActivityTest extends ActivityInstrumentationTestCase2<Ho
 
 		gotoChannelPage();
 		//TODO Loop through all programs
-		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(2)); 	//Go to program nr2 (3rd item in the list)
+		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(3)); 	//Go to program nr2 (3rd item in the list)
 		solo.waitForView(solo.getView(R.id.broadcast_scroll));
 
 		String title = (String)((TextView)solo.getView(R.id.block_broadcastpage_broadcast_details_title_tv)).getText(); //Get the title of the program
