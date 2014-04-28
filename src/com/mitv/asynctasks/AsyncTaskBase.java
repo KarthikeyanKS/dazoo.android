@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.mitv.Constants;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -18,11 +19,11 @@ import com.mitv.http.HTTPCore;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.FileUtils;
 import com.mitv.utilities.LanguageUtils;
-import com.mitv.Constants;
 
 
 
@@ -195,8 +196,26 @@ public abstract class AsyncTaskBase<T>
 
 	@Override
 	protected Void doInBackground(String... params) 
-	{
-		response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+	{	
+		if(Constants.FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE)
+		{
+			String responseString = FileUtils.getMockJSONString(getClass().getSimpleName());
+			
+			if(responseString != null)
+			{
+				int statusCode = FetchRequestResultEnum.SUCCESS.getStatusCode();
+				
+				response = new HTTPCoreResponse(url, statusCode, responseString);
+			}
+			else
+			{
+				response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+			}
+		}
+		else
+		{
+			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+		}
 		
 		requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
 		

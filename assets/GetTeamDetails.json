@@ -1,0 +1,35 @@
+{
+	teamID: "TEAM_SWEDEN",
+
+	displayName: "Sweden",
+
+    phaseID: "PHASE02",
+
+	flagID: "FLAG_SWEDEN",
+
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+
+    teamBanner:
+    {
+        small: "http://img.exampleT1_small.jpg",
+
+        medium: "http://img.exampleT1_medum.jpg",
+
+        large: "http://img.exampleT1_large.jpg",
+    },
+
+    socialLinks:
+    {
+        shareURL: "http://mi.tv/channels/co_ef2c5255-a3bb-46d8-b8fb-33b6e43a8f68/broadcasts/1397660400000",
+
+        twitterURL: "http://twitter_team2",
+
+        facebookURL: "http://facebook_team2"
+    },
+
+	coachIDs: ["COACH01", "COACH02"],
+
+    managerIDs: ["MANAGER01", "MANAGER02"],
+
+    playerIDs: ["PLAYER01", "PLAYER02", "PLAYER03"]
+}

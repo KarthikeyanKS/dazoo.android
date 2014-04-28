@@ -1,0 +1,16 @@
+[
+	{
+		phaseID: "PHASE01",
+        stage: "Group Play",
+		name: "Group A",
+		type: "TOURNAMENT",
+        teamIDs: ["TEAM01", "TEAM02"]
+	},
+	{
+		id: "PHASE02",
+		stage: "Group Play",
+		name: "Group B",
+		type: "TOURNAMENT",
+		teamIDs: ["TEAM03", "TEAM04"]
+	}
+]

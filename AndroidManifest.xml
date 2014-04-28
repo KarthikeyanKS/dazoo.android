@@ -24,10 +24,11 @@
     
     <supports-screens
         android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
         android:resizeable="true"
-        android:smallScreens="true" />
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="false" />
     
     <compatible-screens>
        <!-- all small size screens -->
