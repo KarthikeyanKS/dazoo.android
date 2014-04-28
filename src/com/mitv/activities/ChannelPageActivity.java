@@ -120,22 +120,28 @@ public class ChannelPageActivity
 				{
 					adjustedPosition = 0;
 				}
+				
+				if (position == 0) {
+					/* The first item in the list should not be clickable, it is just the channel logo */
+					
+				} else {
 
-				TVBroadcast broadcastSelected = currentAndUpcomingbroadcasts.get(adjustedPosition);
-				
-				TVBroadcastWithChannelInfo broadcastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcastSelected);
-				
-				broadcastWithChannelInfo.setChannel(channel);
-
-				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-				
-				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-				
-				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
-				
-				TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
-
-				startActivity(intent);
+					TVBroadcast broadcastSelected = currentAndUpcomingbroadcasts.get(adjustedPosition);
+					
+					TVBroadcastWithChannelInfo broadcastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcastSelected);
+					
+					broadcastWithChannelInfo.setChannel(channel);
+	
+					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+					
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					
+					ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
+					
+					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
+	
+					startActivity(intent);
+				}
 			}
 		});
 	}
