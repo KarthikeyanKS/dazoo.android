@@ -1,98 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
     <!-- BROADCAST ON AIR POSTER -->
 
-    <RelativeLayout
-        android:id="@+id/channelpage_broadcast_image_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white" >
-
-        <ImageView
-            android:id="@+id/channelpage_broadcast_iv"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:adjustViewBounds="true"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/loading_placeholder_horizontal" />
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/channelpage_broadcast_iv"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="2dp"
+        android:adjustViewBounds="true"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/loading_placeholder_horizontal" />
 
     <!-- BROADCAST ON AIR DETAILS -->
 
-    <RelativeLayout
-        android:id="@+id/channelpage_broadcast_details_container"
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/channelpage_broadcast_details_time_tv"
+        style="@style/header2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/channelpage_broadcast_iv"
+        android:layout_margin="10dp"
+        android:singleLine="true" />
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/channelpage_broadcast_details_title_tv"
+        style="@style/header2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/channelpage_broadcast_iv"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
+        android:singleLine="true" />
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/channelpage_broadcast_timeleft"
+        style="@style/remaining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/channelpage_broadcast_image_frame"
-        android:orientation="vertical" >
+        android:layout_below="@id/channelpage_broadcast_details_title_tv"
+        android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
+        android:lineSpacingExtra="-2sp" />
 
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/channelpage_broadcast_details_time_tv"
-            style="@style/header2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="10dp"
-            android:singleLine="true" />
+    <ProgressBar
+        android:id="@+id/channelpage_broadcast_details_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/channelpage_broadcast_timeleft"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
+        android:progressDrawable="@drawable/progress_horizontal"
+        android:visibility="visible" />
 
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/channelpage_broadcast_details_title_tv"
-            style="@style/header2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
-            android:singleLine="true" />
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/channelpage_broadcast_details_text_tv"
+        style="@style/meta1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/channelpage_broadcast_details_progressbar"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
+        android:maxLines="3" />
 
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/channelpage_broadcast_timeleft"
-            style="@style/remaining"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/channelpage_broadcast_details_title_tv"
-            android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
-            android:lineSpacingExtra="-2sp" />
-
-        <ProgressBar
-            android:id="@+id/channelpage_broadcast_details_progressbar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/channelpage_broadcast_timeleft"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
-            android:progressDrawable="@drawable/progress_horizontal"
-            android:visibility="visible" />
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/channelpage_broadcast_details_text_tv"
-            style="@style/meta1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/channelpage_broadcast_details_progressbar"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
-            android:maxLines="3" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:layout_below="@id/channelpage_broadcast_details_text_tv"
-            android:background="@color/grey1" />
-    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_below="@id/channelpage_broadcast_details_text_tv"
+        android:background="@color/grey1" />
 
 </RelativeLayout>

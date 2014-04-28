@@ -2,128 +2,93 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent" >
 
     <!-- HEADER -->
 
-    <RelativeLayout
-        android:id="@+id/row_reminders_header_container"
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/row_reminders_header_textview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/grey0"
-        android:visibility="gone" >
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_reminders_header_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:gravity="left"
-            android:textAllCaps="true"
-            android:textColor="@color/grey3"
-            android:textSize="20sp"
-            font:fonttextview="roboto_mitv_light.ttf" />
-    </RelativeLayout>
+        android:gravity="left"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:textAllCaps="true"
+        android:textColor="@color/grey3"
+        android:textSize="20sp"
+        android:visibility="gone"
+        font:fonttextview="roboto_mitv_light.ttf" />
 
     <!-- REMINDERS CONTAINER -->
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/row_reminders_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:layout_below="@id/row_reminders_header_container"
-        android:orientation="horizontal" >
+        android:layout_below="@id/row_reminders_header_textview"
+        android:background="@drawable/background_color_selector"
+        android:padding="10dp">
 
-        <RelativeLayout
-            android:id="@+id/row_reminders_text_container"
-            android:layout_width="0dp"
+        <!-- TITLE -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_reminders_text_title_tv"
+            style="@style/header2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.85"
-            android:background="@drawable/background_color_selector_white"
-            android:orientation="vertical"
-            android:padding="10dp" >
+            android:layout_marginBottom="5dp"
+            android:lines="1" />
 
-            <!-- TITLE -->
+        <!-- TIME AND DATE -->
 
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/row_reminders_text_title_tv"
-                style="@style/header2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="left"
-                android:lines="1" />
-
-            <!-- TIME AND DATE -->
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/row_reminders_text_time_tv"
-                style="@style/text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/row_reminders_text_title_tv"
-                android:lineSpacingExtra="-1sp" />
-
-            <!-- CHANNEL -->
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/row_reminders_text_channel_tv"
-                style="@style/text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/row_reminders_text_time_tv"
-                android:layout_marginBottom="5dp" />
-
-            <!-- DETAILS - SEASON - EPISODE -->
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/row_reminders_text_details_tv"
-                style="@style/meta1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/row_reminders_text_channel_tv"
-                android:gravity="left"
-                android:lines="1"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-        <!--View
-            android:layout_width="1dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="@color/grey1" /-->
-
-        <!-- BUTTON CONTAINER -->
-
-        <RelativeLayout
-            android:id="@+id/row_reminders_button_container"
-            android:layout_width="0dp"
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_reminders_text_time_tv"
+            style="@style/text1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.15"
-            android:addStatesFromChildren="true"
-            android:background="@drawable/background_color_selector_white"
-            android:orientation="horizontal" >
+            android:layout_below="@id/row_reminders_text_title_tv"
+            android:lineSpacingExtra="-1sp" />
 
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/row_reminders_notification_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/icon_reminder"
-                android:textColor="@color/grey3"
-                android:textSize="28sp"
-                android:lines="1"
-                android:layout_margin="10dp"
-                font:fonttextview="roboto_mitv_regular.ttf" />
-        </RelativeLayout>
-    </LinearLayout>
+        <!-- CHANNEL -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_reminders_text_channel_tv"
+            style="@style/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/row_reminders_text_time_tv"
+            android:layout_marginBottom="5dp" />
+
+        <!-- DETAILS - SEASON - EPISODE -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_reminders_text_details_tv"
+            style="@style/meta1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/row_reminders_text_channel_tv"
+            android:lines="1"
+            android:visibility="gone" />
+
+        <!-- BUTTON -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_reminders_notification_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/background_color_selector"
+            android:lines="1"
+            android:padding="10dp"
+            android:text="@string/icon_reminder"
+            android:textColor="@color/grey3"
+            android:textSize="28sp"
+            font:fonttextview="roboto_mitv_regular.ttf" />
+    </RelativeLayout>
 
     <View
         android:id="@+id/row_reminders_header_divider"

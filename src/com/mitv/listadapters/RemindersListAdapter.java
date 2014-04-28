@@ -106,8 +106,7 @@ public class RemindersListAdapter
 
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_header_container);
-			viewHolder.mInformationContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_text_container);
+			viewHolder.mInformationContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_container);
 			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_reminders_header_textview);
 			viewHolder.mBroadcastTitleTv = (TextView) rowView.findViewById(R.id.row_reminders_text_title_tv);
 			viewHolder.mBroadcastDetailsTv = (TextView) rowView.findViewById(R.id.row_reminders_text_details_tv);
@@ -127,7 +126,7 @@ public class RemindersListAdapter
 		
 		if (broadcastWithChannelInfo != null)
 		{
-			holder.mHeaderContainer.setVisibility(View.GONE);
+			holder.mHeaderTv.setVisibility(View.GONE);
 			
 			holder.mDividerView.setVisibility(View.VISIBLE);
 			
@@ -152,14 +151,14 @@ public class RemindersListAdapter
 				
 				holder.mHeaderTv.setText(headerSB.toString());
 				
-				holder.mHeaderContainer.setVisibility(View.VISIBLE);
+				holder.mHeaderTv.setVisibility(View.VISIBLE);
 			}
 
 			TVBroadcastWithChannelInfo nextBroacastPosition = getItem(nextBroadcastPosition);
 			
 			boolean isCurrentBroadcastBeginTimeEqualToNextBroadcastBeginTime = broadcastWithChannelInfo.isTheSameDayAs(nextBroacastPosition);
 			
-			if (isLastPosition && isCurrentBroadcastBeginTimeEqualToNextBroadcastBeginTime == false) 
+			if (isLastPosition == false && isCurrentBroadcastBeginTimeEqualToNextBroadcastBeginTime == false) 
 			{
 				holder.mDividerView.setVisibility(View.GONE);
 			}
@@ -272,7 +271,6 @@ public class RemindersListAdapter
 
 	private static class ViewHolder 
 	{
-		private RelativeLayout mHeaderContainer;
 		private RelativeLayout mInformationContainer;
 		private TextView mHeaderTv;
 		private TextView mBroadcastTitleTv;

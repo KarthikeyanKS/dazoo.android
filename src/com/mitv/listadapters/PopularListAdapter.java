@@ -174,7 +174,7 @@ public class PopularListAdapter
 			
 			boolean isBeginTimeEqualToNextItem = broadcastWithChannelInfo.isTheSameDayAs(broadcastNextPosition);
 			
-			if (isLastPosition && isBeginTimeEqualToNextItem == false) 
+			if (isLastPosition == false && isBeginTimeEqualToNextItem == false) 
 			{
 				holder.dividerView.setVisibility(View.GONE);
 			}

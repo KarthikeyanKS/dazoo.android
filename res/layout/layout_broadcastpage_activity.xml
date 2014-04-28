@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/broacastpage_similar_airing_now"
                 android:layout_marginTop="10dp"
-        		layout="@layout/layout_disqus_comments" />
+        		layout="@layout/block_broadcastpage_disqus_comments" />
     		
         </RelativeLayout>
     </ScrollView>

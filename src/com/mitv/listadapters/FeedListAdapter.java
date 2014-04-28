@@ -610,7 +610,7 @@ public class FeedListAdapter
 		populatePopularItemAtIndex(popularBroadcastsViewHolder, broadcasts, 1);
 		populatePopularItemAtIndex(popularBroadcastsViewHolder, broadcasts, 2);
 
-		RelativeLayout footer = (RelativeLayout) rowView.findViewById(R.id.block_popular_show_more_container);
+		TextView footer = (TextView) rowView.findViewById(R.id.block_popular_show_more_btn);
 		
 		footer.setOnClickListener(new View.OnClickListener() 
 		{

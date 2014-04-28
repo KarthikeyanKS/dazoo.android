@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:font="http://schemas.android.com/apk/res/com.mitv"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -8,28 +7,15 @@
 
     <!-- BROADCAST POSTER IMAGE -->
 
-    <RelativeLayout
-        android:id="@+id/block_broadcastpage_poster_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/image_padding" >
-
-        <ImageView
-            android:id="@+id/block_broadcastpage_poster_iv"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginRight="2dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/loading_placeholder_horizontal" />
-
-        <ProgressBar
-            android:id="@+id/block_broadcastpage_poster_progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/block_broadcastpage_poster_iv"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="2dp"
+        android:adjustViewBounds="true"
+        android:padding="@dimen/image_padding"
+        android:scaleType="centerCrop"
+        android:src="@drawable/loading_placeholder_horizontal" />
 
     <!-- INFO ABOUT BROADCAST -->
 
@@ -40,41 +26,19 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp" >
 
-        <!-- TRENDING ICON TODO: SPECIFY SOURCE -->
-
-        <ImageView
-            android:id="@+id/block_broadcastpage_broadcast_details_trending_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
-            android:visibility="gone" />
-
-        <!-- MOVIE ICON -->
-
-        <ImageView
-            android:id="@+id/block_broadcastpage_broadcast_details_movie_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_trending_iv"
-            android:visibility="gone" />
-
         <!-- TITLE -->
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
             style="@style/headercard1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv" />
+            android:layout_marginTop="10dp" />
 
         <RelativeLayout
             android:id="@+id/block_broadcastpage_broadcast_details_seasonepisode_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv" >
 
@@ -104,7 +68,7 @@
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_broadcastpage_broadcast_details_episode_name_tv"
             style="@style/text1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_broadcastpage_broadcast_details_seasonepisode_container"
             android:layout_gravity="left"
@@ -136,6 +100,7 @@
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_channel_iv" >
 
                 <!-- TIME LEFT -->
+
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
                     style="@style/header2"
@@ -148,18 +113,18 @@
                     style="@style/remaining"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_time_tv"
                     android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_time_tv"
                     android:visibility="gone" />
-                
+
                 <ProgressBar
                     android:id="@+id/block_broadcastpage_broadcast_progressbar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/block_broadcastpage_broadcast_progressbar_text"
-                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_time_tv"
                     android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_time_tv"
                     android:progressDrawable="@drawable/progress_horizontal"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -170,9 +135,10 @@
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/divider_height"
             android:layout_below="@id/block_broadcastpage_broadcast_channel_time_container"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/grey1" />
 
         <!-- SYNOPSIS -->
@@ -180,45 +146,34 @@
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_broadcastpage_broadcast_synopsis_tv"
             style="@style/text1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider"
             android:layout_gravity="left"
             android:layout_marginBottom="10dp"
             android:lineSpacingExtra="2sp"
             android:visibility="gone" />
-        
+
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_broadcastpage_broadcast_cast_info"
             style="@style/text1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
             android:layout_gravity="left"
-            android:visibility="gone"
             android:lineSpacingExtra="2sp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:visibility="gone" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_broadcastpage_broadcast_extra_tv"
             style="@style/meta2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_broadcastpage_broadcast_cast_info"
             android:layout_gravity="left"
             android:paddingBottom="10dp"
             android:visibility="gone" />
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/block_broadcastpage_broadcast_tags_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/block_broadcastpage_broadcast_extra_tv"
-            android:layout_gravity="left"
-            android:textColor="@color/grey2"
-            android:textSize="@dimen/paragraph"
-            android:visibility="gone"
-            font:fonttextview="roboto_mitv_medium.ttf" />
     </RelativeLayout>
 
     <!-- BOTTOM DIVIDER -->
@@ -226,7 +181,7 @@
     <View
         android:id="@+id/block_broadcastpage_broadcast_details_bottom_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/divider_height"
         android:background="@color/grey1" />
 
     <!-- SOCIAL INTERACTION PANEL -->

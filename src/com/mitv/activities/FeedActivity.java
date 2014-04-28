@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -74,6 +75,14 @@ public class FeedActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
+	}
+	
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+//		Debug.stopMethodTracing();
 	}
 	
 	
@@ -201,7 +210,8 @@ public class FeedActivity
 		listView.setOnScrollListener(this);
 		
 		listAdapter = new FeedListAdapter(this, activityFeed);
-		
+
+//		Debug.startMethodTracing("FeedActivityAfterOptimizationWithScrollFromDataLoaded", 100000000);
 		listView.setAdapter(listAdapter);
 		
 		listView.setVisibility(View.VISIBLE);

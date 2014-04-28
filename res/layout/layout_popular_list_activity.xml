@@ -20,31 +20,16 @@
         layout="@layout/layout_request_callbacks_holder_main_layout"
         android:background="@color/white" />
 
-    <RelativeLayout
-        android:id="@+id/populart_listview_footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/tab_selector_container"
-        android:visibility="gone" >
-
-        <ProgressBar
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="12dp" />
-    </RelativeLayout>
-
     <ListView
         android:id="@+id/popular_list_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentTop="true"
-        android:background="@drawable/background_color_selector_white"
         android:cacheColorHint="@null"
         android:divider="@null"
         android:dividerHeight="0dp"
+        android:fadingEdge="none"
         android:visibility="gone" />
 
 </RelativeLayout>

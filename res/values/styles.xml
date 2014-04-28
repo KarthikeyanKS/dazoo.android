@@ -17,12 +17,17 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="SplashScreen" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@null</item>
+    </style>
+
     <style name="ChannelPage" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionDropDownStyle" tools:ignore="NewApi">@style/ActionBarDropDown</item>
         <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/WhiteActionBar</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:icon">@drawable/ic_nav_bar</item>
+        <item name="android:windowBackground">@null</item>
 
         <!-- Support library compatibility -->
         <item name="icon">@drawable/ic_nav_bar_drawable</item>
@@ -54,6 +59,7 @@
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/WhiteActionBar</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:icon">@drawable/ic_nav_bar</item>
+        <item name="android:windowBackground">@null</item>
 
         <!-- Support library compatibility -->
         <item name="icon">@drawable/ic_nav_bar_drawable</item>
@@ -63,7 +69,6 @@
 
     <style name="ActionBarDropDown" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:popupBackground">@color/grey1</item>
-        <item name="android:dropDownSelector">@color/grey1</item>
         <item name="android:actionBarSize" tools:ignore="NewApi">45dp</item>
         <item name="actionBarSize">45dp</item>
         <item name="android:background">@drawable/actionbar_spinner_arrow_selector</item>
@@ -79,6 +84,7 @@
         <item name="android:src">@drawable/ic_nav_bar_drawable</item>
         <item name="switchStyle">@style/Widget.Holo.Light.CompoundButton.Switch</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@null</item>
 
         <!-- Support library compatibility -->
         <item name="icon">@drawable/ic_nav_bar_drawable</item>
@@ -117,9 +123,9 @@
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:textColor">@drawable/custom_tab_indicator_text_color</item>
     </style>
-    
-        <!-- Switch Widget 3rd party -->
-     <style name="SwitchWidget" parent="@android:style/Theme">
+
+    <!-- Switch Widget 3rd party -->
+    <style name="SwitchWidget" parent="@android:style/Theme">
         <item name="switchStyle">@style/Widget.Holo.CompoundButton.Switch</item>
     </style>
 

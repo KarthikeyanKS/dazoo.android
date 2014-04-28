@@ -25,6 +25,7 @@
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentTop="true"
         android:cacheColorHint="@null"
-        android:divider="@null" />
+        android:divider="@null"
+        android:fadingEdge="none" />
 
 </RelativeLayout>
