@@ -89,15 +89,12 @@ public class ChannelPageActivityTest extends ActivityInstrumentationTestCase2<Ho
 
 		solo.clickOnView(solo.getView(R.id.element_social_buttons_share_button_container));
 
-		solo.waitForText("Bluetooth");
-		solo.waitForText("Email");
-		solo.waitForText("Facebook");
-		solo.waitForText("Gmail");
-		solo.waitForText("Google+");
-		solo.waitForText("Hangouts");
-		solo.waitForText("Messaging");
-		solo.waitForText("Twitter");
-
+		assertTrue(solo.waitForText("Bluetooth"));
+		assertTrue(solo.waitForText("Facebook"));
+		assertTrue(solo.waitForText("Gmail"));
+		assertTrue(solo.waitForText("Twitter"));
+		assertTrue(solo.waitForText("Messaging"));
+		
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.block_broadcastpage_poster_container));
 				
