@@ -147,6 +147,7 @@ public class BroadcastAiringOnDifferentChannelBlockPopulator
 			TextView descriptionTv = (TextView) container.findViewById(R.id.element_poster_broadcast_type_tv);
 			TextView timeLeftTv = (TextView) container.findViewById(R.id.element_poster_broadcast_timeleft_tv);
 			ProgressBar durationPb = (ProgressBar) container.findViewById(R.id.element_poster_broadcast_progressbar);
+			View divider = container.findViewById(R.id.element_poster_broadcast_divider);
 			
 			if (broadcastWithChannelInfo != null) 
 			{
@@ -159,6 +160,8 @@ public class BroadcastAiringOnDifferentChannelBlockPopulator
 					durationPb.setVisibility(View.GONE);
 					timeLeftTv.setVisibility(View.GONE);
 				}
+				
+				divider.setVisibility(View.GONE);
 
 				ImageAware imageAware = new ImageViewAware(imageIv, false);
 				

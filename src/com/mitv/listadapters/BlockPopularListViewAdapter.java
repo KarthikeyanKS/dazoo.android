@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
@@ -105,7 +106,7 @@ public class BlockPopularListViewAdapter
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
+			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
 			viewHolder.mPoster = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
 			viewHolder.mTitle = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
 			viewHolder.mTime = (TextView) rowView.findViewById(R.id.element_poster_broadcast_time_tv);
@@ -219,7 +220,7 @@ public class BlockPopularListViewAdapter
 	
 	private static class ViewHolder 
 	{
-		private LinearLayout mContainer;
+		private RelativeLayout mContainer;
 		private ImageView mPoster;
 		private TextView mTitle;
 		private TextView mTime;

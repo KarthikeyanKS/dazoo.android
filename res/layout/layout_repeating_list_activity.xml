@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/repeating_list_container"
     android:layout_width="match_parent"
@@ -17,9 +16,9 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_request_callbacks_holder_main_layout" />
+        layout="@layout/layout_request_callbacks_holder_main_layout"
+        android:background="@color/white" />
 
     <ListView
         android:id="@+id/repeating_list_listview"
@@ -27,10 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentTop="true"
-        android:background="@color/white"
         android:cacheColorHint="@null"
-        android:dividerHeight="0dp"
         android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
         android:visibility="gone" />
 
 </RelativeLayout>

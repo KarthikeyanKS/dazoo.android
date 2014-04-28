@@ -88,6 +88,7 @@ extends BaseAdapter
 			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.row_mychannels_channel_iv);
 			viewHolder.button = (RelativeLayout) rowView.findViewById(R.id.row_mychannels_channel_button);
 			viewHolder.buttonTv = (TextView) rowView.findViewById(R.id.row_mychannels_channel_button_tv);
+			viewHolder.divider = rowView.findViewById(R.id.row_mychannels_divider);
 			viewHolder.channelName.setTag(Integer.valueOf(position));
 			rowView.setTag(viewHolder);
 		}
@@ -95,6 +96,13 @@ extends BaseAdapter
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		final TVChannel channel = getItem(position);
+		
+		if (position == (getCount() - 1)) {
+			holder.divider.setVisibility(View.GONE);
+		}
+		else {
+			holder.divider.setVisibility(View.VISIBLE);
+		}
 
 		holder.channelName.setText(channel.getName());
 
@@ -148,29 +156,12 @@ extends BaseAdapter
 		return rowView;
 	}
 
-	//	@Override
-	//	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-	//		CheckBox checkBox = (CheckBox) buttonView;
-	//		if (checkBox.isPressed()) {
-	//			TVChannel channelByTag = (TVChannel) checkBox.getTag();
-	//			if (channelByTag != null) {
-	//				TVChannelId channelId = channelByTag.getChannelId();
-	//				if (isChecked) {
-	//					checkedChannelIds.add(channelId);
-	//				} else {
-	//					checkedChannelIds.remove(channelId);
-	//				}
-	//				int checkedChannelsCount = checkedChannelIds.size();
-	//				mCountInterface.setSelectedChannelCount(checkedChannelsCount);
-	//			}
-	//		}
-	//	}
-
 	private static class ViewHolder {
 		public TextView channelName;
 		public ImageView channelLogo;
 		public RelativeLayout button;
 		public TextView buttonTv;
+		public View divider;
 	}
 
 }

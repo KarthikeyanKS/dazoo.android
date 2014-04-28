@@ -3,52 +3,41 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
     <!-- HEADER -->
 
-    <RelativeLayout
-        android:id="@+id/row_upcoming_or_repeating_header_container"
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/row_upcoming_or_repeating_header_tv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/grey0"
-        android:visibility="gone" >
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_upcoming_or_repeating_header_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:gravity="left"
-            android:textAllCaps="true"
-            android:capitalize="words"
-            android:textColor="@color/grey3"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            font:fonttextview="roboto_mitv_light.ttf" />
-    </RelativeLayout>
+        android:gravity="left"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:textAllCaps="true"
+        android:textColor="@color/grey3"
+        android:textSize="20sp"
+        android:visibility="gone"
+        font:fonttextview="roboto_mitv_light.ttf" />
 
     <!-- ITEM -->
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/row_upcoming_or_repeating_listitem_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_upcoming_or_repeating_header_container"
+        android:layout_below="@id/row_upcoming_or_repeating_header_tv"
         android:background="@drawable/background_color_selector"
         android:orientation="horizontal"
         android:padding="10dp" >
 
         <RelativeLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.8"
+            android:layout_centerVertical="true"
             android:orientation="vertical" >
 
             <com.mitv.ui.elements.FontTextView
@@ -75,22 +64,16 @@
                 android:layout_below="@id/row_upcoming_or_repeating_listitem_title_time" />
         </RelativeLayout>
 
-        <!--View
-            android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/grey1" /-->
-
         <!-- REMIND BUTTON -->
 
         <com.mitv.ui.elements.ReminderView
             android:id="@+id/row_upcoming_or_repeating_reminder_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.2" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp" />
+    </RelativeLayout>
 
     <View
         android:id="@+id/row_upcoming_or_repeating_listitem_bottom_divider"

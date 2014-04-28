@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey1"
     android:orientation="vertical" >
 
     <!-- LAYOUT STATE CALLBACKS -->
@@ -14,9 +14,13 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentTop="true"
-        android:background="@color/grey1"
         android:cacheColorHint="@null"
+        android:clipToPadding="false"
         android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:fadingEdge="none"
+        android:padding="10dp"
+        android:scrollbarStyle="outsideOverlay"
         android:visibility="gone" />
 
     <!-- NAVIGATION TABS -->
