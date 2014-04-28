@@ -81,7 +81,7 @@ public class URLParameters
 			final String header,
 			final int value)
 	{
-		Integer valueAsInteger = new Integer(value);
+		Integer valueAsInteger = Integer.valueOf(value);
 		
 		add(header, valueAsInteger.toString());
 	}

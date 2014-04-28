@@ -3,6 +3,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey1"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -41,6 +42,7 @@
         android:id="@+id/search_page_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fadingEdge="none"
         android:visibility="gone" />
 
 </LinearLayout>

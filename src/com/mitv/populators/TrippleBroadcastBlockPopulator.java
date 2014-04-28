@@ -106,7 +106,7 @@ public class TrippleBroadcastBlockPopulator
 		{
 			final TVBroadcastWithChannelInfo broadcastWithChannelInfo = broadcastList.get(position);
 
-			LinearLayout container = null;
+			RelativeLayout container = null;
 			
 			boolean setSmallIcon = true;
 
@@ -114,7 +114,7 @@ public class TrippleBroadcastBlockPopulator
 			{
 				case POSITION_ONE: 
 				{
-					container = (LinearLayout) containerView.findViewById(R.id.block_broadcast_upcoming_one);
+					container = (RelativeLayout) containerView.findViewById(R.id.block_broadcast_upcoming_one);
 	
 					reminderViewOne = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewOne.setBroadcast(broadcastWithChannelInfo);
@@ -126,7 +126,7 @@ public class TrippleBroadcastBlockPopulator
 	
 				case POSITION_TWO: 
 				{
-					container = (LinearLayout) containerView.findViewById(R.id.block_broadcast_upcoming_two);
+					container = (RelativeLayout) containerView.findViewById(R.id.block_broadcast_upcoming_two);
 	
 					reminderViewTwo = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewTwo.setBroadcast(broadcastWithChannelInfo);
@@ -141,7 +141,7 @@ public class TrippleBroadcastBlockPopulator
 	
 				case POSITION_THREE: 
 				{
-					container = (LinearLayout) containerView.findViewById(R.id.block_broadcast_upcoming_three);
+					container = (RelativeLayout) containerView.findViewById(R.id.block_broadcast_upcoming_three);
 	
 					reminderViewThree = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 					reminderViewThree.setBroadcast(broadcastWithChannelInfo);

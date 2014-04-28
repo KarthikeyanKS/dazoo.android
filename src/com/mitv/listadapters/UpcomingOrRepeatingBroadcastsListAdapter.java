@@ -129,13 +129,12 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_or_repeating_header_container);
 			viewHolder.header = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_header_tv);
 			viewHolder.seasonEpisodeTv = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_season_episode);
 			viewHolder.timeTv = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_title_time);
 			viewHolder.channelTv = (TextView) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_channel);
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.row_upcoming_or_repeating_reminder_view);
-			viewHolder.container = (LinearLayout) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_info_container);
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_info_container);
 			viewHolder.divider = (View) rowView.findViewById(R.id.row_upcoming_or_repeating_listitem_bottom_divider);
 			
 			rowView.setTag(viewHolder);
@@ -152,7 +151,7 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 			
 			holder.reminderView.setSizeOfIcon(iconSizeSmall);
 
-			holder.headerContainer.setVisibility(View.GONE);
+			holder.header.setVisibility(View.GONE);
 			
 			holder.divider.setVisibility(View.VISIBLE);
 			
@@ -207,7 +206,7 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				String headerText = headerSB.toString();
 				holder.header.setText(headerText.toUpperCase());
 				
-				holder.headerContainer.setVisibility(View.VISIBLE);
+				holder.header.setVisibility(View.VISIBLE);
 			}
 					
 			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
@@ -296,9 +295,8 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 	
 	private static class ViewHolder 
 	{
-		private RelativeLayout headerContainer;
 		private TextView header;
-		private LinearLayout container;
+		private RelativeLayout container;
 		private TextView seasonEpisodeTv;
 		private TextView timeTv;
 		private TextView channelTv;
