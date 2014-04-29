@@ -48,6 +48,7 @@ public class GetTVBroadcastDetails
 	}
 	
 	
+	
 	public GetTVBroadcastDetails(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,

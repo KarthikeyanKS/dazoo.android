@@ -1,0 +1,20 @@
+[
+	{
+		teamID: "TEAM_SWEDEN",
+
+		displayName: "Sweden",
+
+		phaseID: "PHASE01",
+
+		flagID: "FLAG_SWEDEN"
+	},
+	{
+		teamID: "TEAM_COLOMBIA",
+
+		displayName: "Colombia",
+
+		phaseID: "PHASE01",
+
+		flagID: "FLAG_COLOMBIA"
+	}
+]

@@ -1,0 +1,44 @@
+[
+	{
+		eventID: "EVENT01",
+
+		team1ID: "TEAM01",
+
+		team2ID: "TEAM02",
+
+        phaseID : "PHASE01",
+
+		score:
+		{
+		    team1MainScore: 1,
+
+		    team1ExtraScore: 0,
+                    
+            team2MainScore: 1,
+
+            team2ExtraScore: 0
+		},
+
+		broadcastDetails:
+		[
+            {
+			    channelID: "0524ecb4-aac9-42a5-aa71-23fe6eb777d8",
+			        
+                date: "2013-10-07",
+			        
+                broadcastID: "1380962800000"
+            },
+            {
+			    channelID: "0524ecb4-aac9-42a5-aa71-23fe6eb777d9",
+			        
+                date: "2013-10-07",
+			        
+                broadcastID: "5480962608032"
+            }
+        ],
+
+		startDate: "2014-06-10T15:46:20Z",
+
+		isOngoing: true
+	}
+]
