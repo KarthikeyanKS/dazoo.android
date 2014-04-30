@@ -13,6 +13,10 @@ import com.mitv.utilities.DateUtils;
 public class Event
 	extends EventJSON
 {
+	@SuppressWarnings("unused")
+	private static final String TAG = Event.class.getName();
+	
+	
 	protected Calendar startCalendar;
 	
 	
@@ -47,5 +51,56 @@ public class Event
 		}
 		
 		return startCalendar;
+	}
+	
+	
+	
+	@Override
+	public int hashCode() 
+	{
+		final int prime = 31;
+		
+		int result = 1;
+		
+		result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
+		
+		return result;
+	}
+
+	
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		
+		if (obj == null)
+		{
+			return false;
+		}
+		
+		if (getClass() != obj.getClass())
+		{
+			return false;
+		}
+		
+		Event other = (Event) obj;
+		
+		if (eventId == null) 
+		{
+			if (other.eventId != null) 
+			{
+				return false;
+			}
+		} 
+		else if (!eventId.equals(other.eventId)) 
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }

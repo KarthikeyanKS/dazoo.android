@@ -23,6 +23,7 @@ public class CompetitionCacheData
 	private List<Event> events;
 	private List<Team> teams;
 	private List<Phase> phases;
+	
 	private Map<String, TeamDetails> teamDetailsForTeam;
 	
 	
@@ -53,6 +54,15 @@ public class CompetitionCacheData
 		this.phases = new ArrayList<Phase>();
 		
 		this.teamDetailsForTeam = new HashMap<String, TeamDetails>();
+	}
+	
+	
+	
+	public boolean hasCompetitionInitialData()
+	{
+		boolean hasCompetitionInitialData = (events != null && teams != null && phases != null);
+		
+		return hasCompetitionInitialData;
 	}
 
 

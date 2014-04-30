@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,6 +35,10 @@ import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
@@ -901,6 +906,132 @@ public abstract class ContentManagerBase
 		int disqusTotalPostsForLatestBroadcast = getCache().getDisqusTotalPostsForLatestBroadcast();
 		
 		return disqusTotalPostsForLatestBroadcast;
+	}
+	
+	
+	
+	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */
+	
+	public Team getFromCacheTeamByID(String teamID)
+	{
+		Team matchingTeam = null;
+		
+		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
+		
+		for(Team team : teams)
+		{
+			if(team.getTeamId().equals(teamID))
+			{
+				matchingTeam = team;
+				break;
+			}
+		}
+		
+		return matchingTeam;
+	}
+	
+	
+	
+	public Event getFromCacheNextUpcomingEventForSelectedCompetition()
+	{
+		Event matchingEvent = null;
+		
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		for(Event event : events)
+		{
+			Calendar eventStartTimeCalendar = event.getStartTimeCalendarLocal();
+			
+			if(matchingEvent != null && matchingEvent.getStartTimeCalendarLocal().after(eventStartTimeCalendar))
+			{
+				matchingEvent = event;
+			}
+		}
+		
+		return matchingEvent;
+	}
+
+	
+	
+	public Map<String, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition()
+	{
+		Map<String, List<Event>> eventsByPhaseID = new HashMap<String, List<Event>>();
+		
+		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
+		
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		for(Phase phase : phases)
+		{
+			List<Event> eventsForPhase = new ArrayList<Event>();
+			
+			for(Event event : events)
+			{
+				if(event.getPhaseId().equals(phase.getPhaseId()))
+				{
+					eventsForPhase.add(event);
+				}
+			}
+			
+			eventsByPhaseID.put(phase.getPhaseId(), eventsForPhase);
+		}
+		
+		return eventsByPhaseID;
+	}
+	
+	
+	
+	public Map<String, List<Team>> getFromCacheAllTeamsGroupedByPhaseForSelectedCompetition()
+	{
+		Map<String, List<Team>> teamsByPhaseID = new HashMap<String, List<Team>>();
+		
+		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
+		
+		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
+		
+		for(Phase phase : phases)
+		{
+			List<Team> teamsForPhase = new ArrayList<Team>();
+			
+			for(Team team : teams)
+			{
+				if(team.getPhaseId().equals(phase.getPhaseId()))
+				{
+					teamsForPhase.add(team);
+				}
+			}
+			
+			teamsByPhaseID.put(phase.getPhaseId(), teamsForPhase);
+		}
+		
+		return teamsByPhaseID;
+	}
+	
+	
+	
+	public Calendar getSelectedCompetitionBeginTime()
+	{
+		Calendar cal;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		if(selectedCompetition != null)
+		{
+			cal = selectedCompetition.getBeginTimeCalendarLocal();
+		}
+		else
+		{
+			cal = DateUtils.getNow();
+		}
+		
+		return cal;
+	}
+
+	
+	
+	public List<Competition> getFromCacheAllCompetitions()
+	{
+		return getCache().getCompetitionsData().getAllCompetitions();
 	}
 	
 	

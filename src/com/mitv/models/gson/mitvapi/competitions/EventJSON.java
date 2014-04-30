@@ -9,10 +9,10 @@ import java.util.List;
 
 public class EventJSON 
 {
-	protected String eventID;
-	protected String team1ID;
-	protected String team2ID;
-	protected String phaseID;
+	protected String eventId;
+	protected String team1Id;
+	protected String team2Id;
+	protected String phaseId;
 	protected EventScoreJSON score;
 	protected List<EventBroadcastDetailsJSON> broadcastDetails;
 	protected String startDate;
@@ -24,26 +24,26 @@ public class EventJSON
 
 
 
-	public String getEventID() {
-		return eventID;
+	public String getEventId() {
+		return eventId;
 	}
 
 
 
-	public String getTeam1ID() {
-		return team1ID;
+	public String getTeam1Id() {
+		return team1Id;
 	}
 
 
 
-	public String getTeam2ID() {
-		return team2ID;
+	public String getTeam2Id() {
+		return team2Id;
 	}
 
 
 
-	public String getPhaseID() {
-		return phaseID;
+	public String getPhaseId() {
+		return phaseId;
 	}
 
 

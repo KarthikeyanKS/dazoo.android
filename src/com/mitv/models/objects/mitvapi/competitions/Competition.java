@@ -13,6 +13,10 @@ import com.mitv.utilities.DateUtils;
 public class Competition 
 	extends CompetitionJSON
 {
+	@SuppressWarnings("unused")
+	private static final String TAG = Competition.class.getName();
+	
+	
 	protected Calendar beginCalendar;
 	protected Calendar endCalendar;
 	

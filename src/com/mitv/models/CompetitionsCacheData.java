@@ -39,7 +39,7 @@ public class CompetitionsCacheData
 	
 	
 	
-	public List<Competition> getAllCompetitions()
+	public synchronized List<Competition> getAllCompetitions()
 	{
 		List<Competition> competitions = new ArrayList<Competition>();
 		
@@ -53,18 +53,30 @@ public class CompetitionsCacheData
 	
 	
 	
-	public Competition getSelectedCompetition() 
+	public synchronized void setAllCompetitions(List<Competition> competitions)
+	{
+		for(Competition competition : competitions)
+		{
+			CompetitionCacheData competitionCacheData = new CompetitionCacheData(competition);
+			
+			allCompetitions.add(competitionCacheData);
+		}
+	}
+	
+	
+	
+	public synchronized Competition getSelectedCompetition() 
 	{
 		return selectedCompetition.getCompetition();
 	}
 
 
 
-	public void setSelectedCompetition(String competitionID)
+	public synchronized void setSelectedCompetition(String competitionID)
 	{
 		for(CompetitionCacheData competitionCacheData : allCompetitions)
 		{
-			String competitionCacheID = competitionCacheData.getCompetition().get_id();
+			String competitionCacheID = competitionCacheData.getCompetition().getCompetitionId();
 			
 			if(competitionCacheID.equals(competitionID))
 			{
@@ -76,7 +88,7 @@ public class CompetitionsCacheData
 	
 	
 	
-	public List<Event> getEventsForSelectedCompetition() 
+	public synchronized List<Event> getEventsForSelectedCompetition() 
 	{
 		if(selectedCompetition != null)
 		{
@@ -92,7 +104,7 @@ public class CompetitionsCacheData
 
 
 
-	public void setEventsForSelectedCompetition(List<Event> events) 
+	public synchronized void setEventsForSelectedCompetition(List<Event> events) 
 	{
 		if(selectedCompetition != null)
 		{
@@ -106,7 +118,7 @@ public class CompetitionsCacheData
 
 
 
-	public List<Team> getTeamsForSelectedCompetition() 
+	public synchronized List<Team> getTeamsForSelectedCompetition() 
 	{
 		if(selectedCompetition != null)
 		{
@@ -122,7 +134,7 @@ public class CompetitionsCacheData
 
 
 
-	public void setTeamsForSelectedCompetition(List<Team> teams) 
+	public synchronized void setTeamsForSelectedCompetition(List<Team> teams) 
 	{
 		if(selectedCompetition != null)
 		{
@@ -137,7 +149,7 @@ public class CompetitionsCacheData
 	
 	
 	
-	public List<Phase> getPhasesForSelectedCompetition() 
+	public synchronized List<Phase> getPhasesForSelectedCompetition() 
 	{
 		if(selectedCompetition != null)
 		{
@@ -153,7 +165,7 @@ public class CompetitionsCacheData
 
 
 
-	public void setPhasesForSelectedCompetition(List<Phase> phases) 
+	public synchronized void setPhasesForSelectedCompetition(List<Phase> phases) 
 	{
 		if(selectedCompetition != null)
 		{
@@ -167,7 +179,7 @@ public class CompetitionsCacheData
 
 
 
-	public TeamDetails getTeamDetailsForTeamInSelectedCompetition(String teamID) 
+	public synchronized TeamDetails getTeamDetailsForTeamInSelectedCompetition(String teamID) 
 	{
 		if(selectedCompetition != null)
 		{
@@ -187,7 +199,7 @@ public class CompetitionsCacheData
 
 
 
-	public void setTeamDetailsForTeam(String teamID, TeamDetails teamDetails) 
+	public synchronized void setTeamDetailsForTeam(String teamID, TeamDetails teamDetails) 
 	{
 		if(selectedCompetition != null)
 		{
@@ -199,5 +211,25 @@ public class CompetitionsCacheData
 		{
 			Log.w(TAG, "Selected competition is null");
 		}
+	}
+	
+	
+	
+	public synchronized boolean containsCompetitionData(String competitionID) 
+	{
+		boolean containsCompetitionData = false;
+		
+		for(CompetitionCacheData competitionCacheData : allCompetitions)
+		{
+			boolean matchesCompetitionID = competitionCacheData.getCompetition().getCompetitionId().equals(competitionID);
+			
+			if(matchesCompetitionID)
+			{
+				containsCompetitionData = competitionCacheData.hasCompetitionInitialData();
+				break;
+			}
+		}
+		
+		return containsCompetitionData;
 	}
 }

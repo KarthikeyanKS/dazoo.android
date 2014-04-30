@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
 import android.os.AsyncTask;
-
 import com.mitv.asynctasks.CustomThreadedPoolExecutor;
 import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
 import com.mitv.asynctasks.disqus.GetDisqusThreadPosts;
@@ -128,6 +126,7 @@ public class APIClient
 		tasks.add(new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener));
 		tasks.add(new SNTPAsyncTask(contentCallbackListener, activityCallbackListener));
 		tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false));
+		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener));
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
 		{
@@ -205,13 +204,14 @@ public class APIClient
 	
 	/* THREAD POLL EXECUTOR METHODS FOR COMPETITIONS INITIAL CALL */
 	
-	public void getCompetitionsInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, boolean isUserLoggedIn)
+	public void getCompetitionInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, String competitionID)
 	{
 		resetPoolExecutor(competitionsInitialCallPoolExecutor);
 		
 		List<AsyncTask<String, Void, Void>> tasks = new ArrayList<AsyncTask<String,Void,Void>>();
 		
-		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetTeams(contentCallbackListener, activityCallbackListener, competitionID));
+		tasks.add(new GetPhases(contentCallbackListener, activityCallbackListener, competitionID));
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
 		{
@@ -219,50 +219,37 @@ public class APIClient
 		}
 	}
 	
+
 	
-	public void getTeamsAndPhasesOnCompetitionsOnInitialPoolExecutor(ViewCallbackListener activityCallbackListener, String competitionID) 
+	public void cancelAllCompetitionInitialCallPendingRequests()
 	{
-		resetPoolExecutor(tvGuideInitialCallPoolExecutor);
-		
-		GetTeams getTeams = new GetTeams(contentCallbackListener, activityCallbackListener, competitionID);
-		GetPhases getPhases = new GetPhases(contentCallbackListener, activityCallbackListener, competitionID);
-		
-		tvGuideInitialCallPoolExecutor.addAndExecuteTask(getTeams);
-		tvGuideInitialCallPoolExecutor.addAndExecuteTask(getPhases);
+		competitionsInitialCallPoolExecutor.shutdown();
 	}
 	
 	
 	
-	public void cancelAllCompetitionsInitialCallPendingRequests()
+	public boolean areInitialCallCompetitionPendingRequestsCanceled()
 	{
-		tvGuideInitialCallPoolExecutor.shutdown();
+		return (competitionsInitialCallPoolExecutor.isShutdown() || competitionsInitialCallPoolExecutor.isTerminated() || competitionsInitialCallPoolExecutor.isTerminating());
 	}
 	
 	
 	
-	public boolean areInitialCallCompetitionsPendingRequestsCanceled()
+	public void incrementCompletedTasksForCompetitionInitialCall()
 	{
-		return (tvGuideInitialCallPoolExecutor.isShutdown() || tvGuideInitialCallPoolExecutor.isTerminated() || tvGuideInitialCallPoolExecutor.isTerminating());
+		competitionsInitialCallPoolExecutor.incrementCompletedTasks();
 	}
 	
 	
 	
-	public void incrementCompletedTasksForCompetitionsInitialCall()
+	public boolean areAllTasksCompletedForCompetitionInitialCall()
 	{
-		tvGuideInitialCallPoolExecutor.incrementCompletedTasks();
+		return competitionsInitialCallPoolExecutor.areAllTasksCompleted();
 	}
 	
 	
 	
-	public boolean areAllTasksCompletedForCompetitionsInitialCall()
-	{
-		return tvGuideInitialCallPoolExecutor.areAllTasksCompleted();
-	}
-	
-	
-	
-	
-	
+	/* TASK EXECUTION METHODS */
 	
 	public void getNetworkConnectivityIsAvailable(ViewCallbackListener activityCallbackListener) 
 	{

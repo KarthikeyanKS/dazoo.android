@@ -1,14 +1,18 @@
 
 package com.mitv.models.gson.mitvapi.competitions;
 
+import com.mitv.models.gson.mitvapi.ImageSetSizeJSON;
+
 
 
 public class TeamJSON 
 {
-	protected String teamID;
+	protected String teamId;
+	protected String phaseId;
 	protected String displayName;
-	protected String phaseID;
-	protected String flagID;
+	protected String nation;
+	protected String nationCode;
+	protected ImageSetSizeJSON images;
 	
 	
 	
@@ -16,8 +20,8 @@ public class TeamJSON
 
 
 	
-	public String getTeamID() {
-		return teamID;
+	public String getTeamId() {
+		return teamId;
 	}
 
 
@@ -26,12 +30,7 @@ public class TeamJSON
 	}
 
 
-	public String getPhaseID() {
-		return phaseID;
-	}
-
-
-	public String getFlagID() {
-		return flagID;
+	public String getPhaseId() {
+		return phaseId;
 	}
 }
