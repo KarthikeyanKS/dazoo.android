@@ -1,7 +1,7 @@
 {
-	phaseID: "PHASE01",
+	phaseId: "PHASE01",
     stage: "Group Play",
 	name: "Group A",
 	type: "TOURNAMENT",
-    teamIDs: ["TEAM01", "TEAM02"]
+    teamIds: ["TEAM01", "TEAM02"]
 }

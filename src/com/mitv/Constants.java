@@ -24,7 +24,7 @@ public abstract class Constants
 	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
 	public static final String FRONTEND_PRODUCTION_ENVIRONMENT = "mi.tv";
 	
-		
+	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
 	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
@@ -111,6 +111,8 @@ public abstract class Constants
 	public static final String URL_TEAMS 					 		= "/teams";
 	public static final String URL_PHASES 					 		= "/phases";
 	public static final String URL_EVENTS 					 		= "/events";
+	public static final String URL_STANDINGS 					 	= "/standings";
+	public static final String URL_POLLS 					 		= "/polls";
 	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";

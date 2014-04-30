@@ -1,15 +1,17 @@
 {
-	teamID: "TEAM_SWEDEN",
+	teamId: "TEAM_SWEDEN",
 
 	displayName: "Sweden",
 
-    phaseID: "PHASE02",
+    phaseId: "PHASE02",
 
-	flagID: "FLAG_SWEDEN",
+	nation: "Sweden",
+
+    nationCode: "SWE",
 
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
 
-    teamBanner:
+    images:
     {
         small: "http://img.exampleT1_small.jpg",
 
@@ -27,9 +29,9 @@
         facebookURL: "http://facebook_team2"
     },
 
-	coachIDs: ["COACH01", "COACH02"],
+	coachIds: ["COACH01", "COACH02"],
 
-    managerIDs: ["MANAGER01", "MANAGER02"],
+    managerIds: ["MANAGER01", "MANAGER02"],
 
-    playerIDs: ["PLAYER01", "PLAYER02", "PLAYER03"]
+    playerIds: ["PLAYER01", "PLAYER02", "PLAYER03"]
 }

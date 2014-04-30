@@ -14,13 +14,17 @@ import com.mitv.models.gson.mitvapi.competitions.TeamJSON;
 public class Team 
 	extends TeamJSON
 {
+	private static final String FLAG_FILE_PREFIX = "flag_";
+	
+	
+	
 	public Team(){}
 	
 	
 	
 	public Drawable getLocalFlagDrawableResource()
 	{
-		String resourceName = nationCode;
+		String resourceName = FLAG_FILE_PREFIX + nationCode.toLowerCase();
 		
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 	
