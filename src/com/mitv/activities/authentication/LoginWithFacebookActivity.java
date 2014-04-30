@@ -44,6 +44,7 @@ public class LoginWithFacebookActivity
 	private boolean loginResponseHandled;
 
 	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{

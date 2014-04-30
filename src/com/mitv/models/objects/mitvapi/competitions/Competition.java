@@ -13,7 +13,7 @@ import com.mitv.utilities.DateUtils;
 public class Competition 
 	extends CompetitionJSON
 {
-	protected Calendar startCalendar;
+	protected Calendar beginCalendar;
 	protected Calendar endCalendar;
 	
 	
@@ -51,17 +51,17 @@ public class Competition
 	 * Lazy instantiated variable
 	 * @return The start time of the competition, if available. Otherwise, the current time
 	 */
-	public Calendar getStartTimeCalendarLocal() 
+	public Calendar getBeginTimeCalendarLocal() 
 	{
-		if(startCalendar == null) 
+		if(beginCalendar == null) 
 		{	
-			startCalendar = getBeginTimeCalendarGMT();
+			beginCalendar = getBeginTimeCalendarGMT();
 			
 			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			startCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			beginCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
 		}
 		
-		return startCalendar;
+		return beginCalendar;
 	}
 	
 	

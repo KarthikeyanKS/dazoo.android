@@ -28,7 +28,6 @@ import com.mitv.models.objects.mitvapi.UserLike;
 public class Cache 
 	extends PersistentCache
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = Cache.class.getName();
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
@@ -60,6 +59,7 @@ public class Cache
 	private Class<?> nonPersistentReturnActivity;
 	private UserLike nonPersistentLikeToAddAfterLogin;
 	private Calendar initialCallSNTPCalendar;
+	private CompetitionsCacheData competitionsData;
 	
 	private int disqusTotalPostsForLatestBroadcast;
 	
@@ -78,6 +78,8 @@ public class Cache
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
+		
+		this.competitionsData = new CompetitionsCacheData();
 	}
 	
 	
@@ -456,5 +458,11 @@ public class Cache
 	public void setDisqusTotalPostsForLatestBroadcast(
 			int disqusTotalPostsForLatestBroadcast) {
 		this.disqusTotalPostsForLatestBroadcast = disqusTotalPostsForLatestBroadcast;
+	}
+
+
+
+	public CompetitionsCacheData getCompetitionsData() {
+		return competitionsData;
 	}
 }

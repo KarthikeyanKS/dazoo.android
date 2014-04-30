@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import android.os.AsyncTask;
+
+import com.mitv.asynctasks.CustomThreadedPoolExecutor;
 import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
 import com.mitv.asynctasks.disqus.GetDisqusThreadPosts;
 import com.mitv.asynctasks.mitvapi.GetAdsAdzerk;
@@ -30,6 +33,13 @@ import com.mitv.asynctasks.mitvapi.PerformUserLoginWithFacebookToken;
 import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetConfirmation;
 import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetSendEmail;
 import com.mitv.asynctasks.mitvapi.PerformUserSignUp;
+import com.mitv.asynctasks.mitvapi.competitions.GetCompetitionByID;
+import com.mitv.asynctasks.mitvapi.competitions.GetCompetitions;
+import com.mitv.asynctasks.mitvapi.competitions.GetEvents;
+import com.mitv.asynctasks.mitvapi.competitions.GetPhaseByID;
+import com.mitv.asynctasks.mitvapi.competitions.GetPhases;
+import com.mitv.asynctasks.mitvapi.competitions.GetTeamDetails;
+import com.mitv.asynctasks.mitvapi.competitions.GetTeams;
 import com.mitv.asynctasks.mitvapi.usertoken.AddUserLike;
 import com.mitv.asynctasks.mitvapi.usertoken.GetUserLikes;
 import com.mitv.asynctasks.mitvapi.usertoken.GetUserTVChannelIds;
@@ -53,15 +63,16 @@ import com.mitv.models.objects.mitvapi.UserLike;
 
 public class APIClient
 {	
-	private static final int  pool_executor_default_core_pool_size  = 15;
-	private static final int  pool_executor_default_max_pool_size   = 20;
-	private static final long pool_executor_default_keep_alive_time = 5000L;
+	private static final int POOL_EXECUTOR_DEFAULT_CORE_POOL_SIZE = 15;
+	private static final int POOL_EXECUTOR_DEFAULT_MAXIMUM_POOL_SIZE = 20;
+	private static final long POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME = 5000L;
 	
 	
 	
-	private GetTVSearchResults lastSearch;
+	private GetTVSearchResults lastSearchTask;
 	private ContentCallbackListener contentCallbackListener;
-	private CustomThreadedPoolExecutor poolExecutor;
+	private CustomThreadedPoolExecutor tvGuideInitialCallPoolExecutor;
+	private CustomThreadedPoolExecutor competitionsInitialCallPoolExecutor;
 	
 	
 	
@@ -69,156 +80,222 @@ public class APIClient
 	{
 		this.contentCallbackListener = contentCallbackListener;
 
-		resetPoolExecutor();
+		resetPoolExecutor(this.tvGuideInitialCallPoolExecutor);
+		
+		resetPoolExecutor(this.competitionsInitialCallPoolExecutor);
 	}
 	
-
 	
-	public void getInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, boolean isUserLoggedIn)
+	
+	/* THREAD POLL EXECUTOR METHODS */
+	
+	private static void resetPoolExecutor(CustomThreadedPoolExecutor executor)
 	{
-		resetPoolExecutor();
-		
-		GetAppConfigurationData getAppConfigurationData = new GetAppConfigurationData(contentCallbackListener, activityCallbackListener);
-		GetAppVersionData getAppVersionData = new GetAppVersionData(contentCallbackListener, activityCallbackListener);
-		GetTVTags getTVTags = new GetTVTags(contentCallbackListener, activityCallbackListener);
-		GetTVDates getTVDates = new GetTVDates(contentCallbackListener, activityCallbackListener);
-		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
-		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
-		SNTPAsyncTask sntpAsyncTask = new SNTPAsyncTask(contentCallbackListener, activityCallbackListener);
-		GetTVBroadcastsPopular getTVBroadcastsPopular = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false);
-		
-		poolExecutor.addAndExecuteTask(sntpAsyncTask);
-		poolExecutor.addAndExecuteTask(getAppConfigurationData);
-		poolExecutor.addAndExecuteTask(getAppVersionData);
-		poolExecutor.addAndExecuteTask(getTVTags);
-		poolExecutor.addAndExecuteTask(getTVDates);
-		poolExecutor.addAndExecuteTask(getTVChannelsAll);
-		poolExecutor.addAndExecuteTask(getTVChannelIdsDefault);
-		poolExecutor.addAndExecuteTask(getTVBroadcastsPopular);
-		
-		if(isUserLoggedIn)
+		if(executor != null)
 		{
-			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, false);
-			
-			poolExecutor.addAndExecuteTask(getUserTVChannelIds);
-		}
-	}
-	
-	
-	
-	public void setNewTVChannelIdsAndFetchGuide(ViewCallbackListener activityCallbackListener, TVDate tvDate, ArrayList<TVChannelId> tvChannelIdsOnlyNewOnes, ArrayList<TVChannelId> tvChannelIdsAll) {
-		resetPoolExecutor();
-		
-		GetTVChannelGuides getNewGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIdsOnlyNewOnes);
-		SetUserTVChannelIds setUserTVChanelIds = new SetUserTVChannelIds(contentCallbackListener, null, tvChannelIdsAll);
-		
-		poolExecutor.addAndExecuteTask(getNewGuides);
-		poolExecutor.addAndExecuteTask(setUserTVChanelIds);
-	}
-	
-	
-	
-	public void getTVChannelGuideOnPoolExecutor(ViewCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
-	{
-		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, false, tvDate, tvChannelIds);
-		
-		poolExecutor.addAndExecuteTask(getTvChannelGuides);
-	}
-	
-	
-	
-	public void setPopularVariablesWithPopularBroadcastsOnPoolExecutor(ViewCallbackListener activityCallbackListener)
-	{
-		SetPopularVariablesWithPopularBroadcasts setPopularVariablesWithPopularBroadcasts = new SetPopularVariablesWithPopularBroadcasts(contentCallbackListener, activityCallbackListener);
-		
-		poolExecutor.addAndExecuteTask(setPopularVariablesWithPopularBroadcasts);
-	}
-	
-	
-	
-	private void resetPoolExecutor()
-	{
-		if(poolExecutor != null)
-		{
-			if(poolExecutor.isShutdown() == false)
+			if(executor.isShutdown() == false)
 			{
-				poolExecutor.shutdownNow();
+				executor.shutdownNow();
 			}
 
-			poolExecutor.purge();
-			poolExecutor.resetTaskCount();
+			executor.purge();
+			executor.resetTaskCount();
 		}
 		
-		this.poolExecutor = new CustomThreadedPoolExecutor(
-				pool_executor_default_core_pool_size,
-				pool_executor_default_max_pool_size,
-				pool_executor_default_keep_alive_time,
+		executor = new CustomThreadedPoolExecutor(
+				POOL_EXECUTOR_DEFAULT_CORE_POOL_SIZE,
+				POOL_EXECUTOR_DEFAULT_MAXIMUM_POOL_SIZE,
+				POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME,
                 TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>());
 	}
 	
 	
 	
-	public void cancelAllPendingRequests()
+	/* THREAD POLL EXECUTOR METHODS FOR TV GUIDE INITIAL CALL */
+	
+	public void getTVGuideInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, boolean isUserLoggedIn)
 	{
-		poolExecutor.shutdown();
+		resetPoolExecutor(tvGuideInitialCallPoolExecutor);
+		
+		List<AsyncTask<String, Void, Void>> tasks = new ArrayList<AsyncTask<String,Void,Void>>();
+		
+		tasks.add(new GetAppConfigurationData(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetAppVersionData(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetTVTags(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetTVDates(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetTVChannelsAll(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener));
+		tasks.add(new SNTPAsyncTask(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false));
+		
+		for(AsyncTask<String, Void, Void> task : tasks)
+		{
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(task);
+		}
+		
+		if(isUserLoggedIn)
+		{
+			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, false);
+			
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(getUserTVChannelIds);
+		}
 	}
 	
 	
 	
-	public boolean arePendingRequestsCanceled()
+	public void setNewTVChannelIdsAndFetchGuide(ViewCallbackListener activityCallbackListener, TVDate tvDate, ArrayList<TVChannelId> tvChannelIdsOnlyNewOnes, ArrayList<TVChannelId> tvChannelIdsAll) 
 	{
-		return (poolExecutor.isShutdown() || poolExecutor.isTerminated() || poolExecutor.isTerminating());
+		resetPoolExecutor(tvGuideInitialCallPoolExecutor);
+		
+		GetTVChannelGuides getNewGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIdsOnlyNewOnes);
+		SetUserTVChannelIds setUserTVChanelIds = new SetUserTVChannelIds(contentCallbackListener, null, tvChannelIdsAll);
+		
+		tvGuideInitialCallPoolExecutor.addAndExecuteTask(getNewGuides);
+		tvGuideInitialCallPoolExecutor.addAndExecuteTask(setUserTVChanelIds);
 	}
 	
 	
 	
-	public void incrementCompletedTasks()
+	public void getTVChannelGuideOnPoolExecutor(ViewCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
-		poolExecutor.incrementCompletedTasks();
+		GetTVChannelGuides task = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, false, tvDate, tvChannelIds);
+		
+		tvGuideInitialCallPoolExecutor.addAndExecuteTask(task);
 	}
 	
 	
 	
-	public boolean areAllTasksCompleted()
+	public void setPopularVariablesWithPopularBroadcastsOnPoolExecutor(ViewCallbackListener activityCallbackListener)
 	{
-		return poolExecutor.areAllTasksCompleted();
+		SetPopularVariablesWithPopularBroadcasts task = new SetPopularVariablesWithPopularBroadcasts(contentCallbackListener, activityCallbackListener);
+		
+		tvGuideInitialCallPoolExecutor.addAndExecuteTask(task);
 	}
+	
+	
+	
+	public void cancelAllTVGuideInitialCallPendingRequests()
+	{
+		tvGuideInitialCallPoolExecutor.shutdown();
+	}
+	
+	
+	
+	public boolean areInitialCallPendingRequestsCanceled()
+	{
+		return (tvGuideInitialCallPoolExecutor.isShutdown() || tvGuideInitialCallPoolExecutor.isTerminated() || tvGuideInitialCallPoolExecutor.isTerminating());
+	}
+	
+	
+	
+	public void incrementCompletedTasksForTVGuideInitialCall()
+	{
+		tvGuideInitialCallPoolExecutor.incrementCompletedTasks();
+	}
+	
+	
+	
+	public boolean areAllTasksCompletedForTVGuideInitialCall()
+	{
+		return tvGuideInitialCallPoolExecutor.areAllTasksCompleted();
+	}
+	
+
+	
+	/* THREAD POLL EXECUTOR METHODS FOR COMPETITIONS INITIAL CALL */
+	
+	public void getCompetitionsInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, boolean isUserLoggedIn)
+	{
+		resetPoolExecutor(competitionsInitialCallPoolExecutor);
+		
+		List<AsyncTask<String, Void, Void>> tasks = new ArrayList<AsyncTask<String,Void,Void>>();
+		
+		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener));
+		
+		for(AsyncTask<String, Void, Void> task : tasks)
+		{
+			competitionsInitialCallPoolExecutor.addAndExecuteTask(task);
+		}
+	}
+	
+	
+	public void getTeamsAndPhasesOnCompetitionsOnInitialPoolExecutor(ViewCallbackListener activityCallbackListener, String competitionID) 
+	{
+		resetPoolExecutor(tvGuideInitialCallPoolExecutor);
+		
+		GetTeams getTeams = new GetTeams(contentCallbackListener, activityCallbackListener, competitionID);
+		GetPhases getPhases = new GetPhases(contentCallbackListener, activityCallbackListener, competitionID);
+		
+		tvGuideInitialCallPoolExecutor.addAndExecuteTask(getTeams);
+		tvGuideInitialCallPoolExecutor.addAndExecuteTask(getPhases);
+	}
+	
+	
+	
+	public void cancelAllCompetitionsInitialCallPendingRequests()
+	{
+		tvGuideInitialCallPoolExecutor.shutdown();
+	}
+	
+	
+	
+	public boolean areInitialCallCompetitionsPendingRequestsCanceled()
+	{
+		return (tvGuideInitialCallPoolExecutor.isShutdown() || tvGuideInitialCallPoolExecutor.isTerminated() || tvGuideInitialCallPoolExecutor.isTerminating());
+	}
+	
+	
+	
+	public void incrementCompletedTasksForCompetitionsInitialCall()
+	{
+		tvGuideInitialCallPoolExecutor.incrementCompletedTasks();
+	}
+	
+	
+	
+	public boolean areAllTasksCompletedForCompetitionsInitialCall()
+	{
+		return tvGuideInitialCallPoolExecutor.areAllTasksCompleted();
+	}
+	
+	
+	
 	
 	
 	
 	public void getNetworkConnectivityIsAvailable(ViewCallbackListener activityCallbackListener) 
 	{
-		CheckNetworkConnectivity checkNetworkConnectivity = new CheckNetworkConnectivity(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY);
-		checkNetworkConnectivity.execute();
+		CheckNetworkConnectivity task = new CheckNetworkConnectivity(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY);
+		task.execute();
 	}
 	
 	
 	public void getAppConfiguration(ViewCallbackListener activityCallbackListener) 
 	{
-		GetAppConfigurationData getAppConfigurationData = new GetAppConfigurationData(contentCallbackListener, activityCallbackListener);
-		getAppConfigurationData.execute();
+		GetAppConfigurationData task = new GetAppConfigurationData(contentCallbackListener, activityCallbackListener);
+		task.execute();
 	}
 	
 	
 	public void getAppVersion(ViewCallbackListener activityCallbackListener) 
 	{
-		GetAppVersionData getAppVersionData = new GetAppVersionData(contentCallbackListener, activityCallbackListener);
-		getAppVersionData.execute();
+		GetAppVersionData task = new GetAppVersionData(contentCallbackListener, activityCallbackListener);
+		task.execute();
 	}
 	
 	
 	public void getAds(ViewCallbackListener activityCallbackListener)
 	{
-		GetAdsAdzerk getAds = new GetAdsAdzerk(contentCallbackListener, activityCallbackListener);
-		getAds.execute();
+		GetAdsAdzerk task = new GetAdsAdzerk(contentCallbackListener, activityCallbackListener);
+		task.execute();
 	}
 	
 	
 	public void getTVTags(ViewCallbackListener activityCallbackListener)
 	{
-		GetTVTags getTVTags = new GetTVTags(contentCallbackListener, activityCallbackListener);
-		getTVTags.execute();
+		GetTVTags task = new GetTVTags(contentCallbackListener, activityCallbackListener);
+		task.execute();
 	}
 	
 	
@@ -233,16 +310,16 @@ public class APIClient
 	
 	public void getTVChannelsAll(ViewCallbackListener activityCallbackListener)
 	{
-		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
-		getTVChannelsAll.execute();
+		GetTVChannelsAll task = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
+		task.execute();
 	}
 	
 	
 	
 	public void getDefaultTVChannelIds(ViewCallbackListener activityCallbackListener) 
 	{
-		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
-		getTVChannelIdsDefault.execute();
+		GetTVChannelIdsDefault task = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
+		task.execute();
 	}
 	
 	
@@ -253,115 +330,119 @@ public class APIClient
 	 */
 	public void getUserTVChannelIds(ViewCallbackListener activityCallbackListener, boolean standalone) 
 	{
-		GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, standalone);
-		getUserTVChannelIds.execute();
+		GetUserTVChannelIds task = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, standalone);
+		task.execute();
 	}
 	
 	
 	
 	public void performSetUserTVChannelIds(ViewCallbackListener activityCallbackListener, List<TVChannelId> tvChannelIds) 
 	{
-		SetUserTVChannelIds setUserTVChannelIds = new SetUserTVChannelIds(contentCallbackListener, activityCallbackListener, tvChannelIds);
-		setUserTVChannelIds.execute();
+		SetUserTVChannelIds task = new SetUserTVChannelIds(contentCallbackListener, activityCallbackListener, tvChannelIds);
+		task.execute();
 	}
 	
 	
 	public void getUserTVFeedItemsInitial(ViewCallbackListener activityCallbackListener) 
 	{
-		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, 0, Constants.FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT);
-		getFeedItems.execute();
+		GetUserTVFeedItems task = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, 0, Constants.FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT);
+		task.execute();
 	}
 	
 	public void getUserTVFeedItemsWithOffsetAndLimit(ViewCallbackListener activityCallbackListener, int offset)
 	{
-		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, offset, Constants.FEED_ACTIVITY_FEED_ITEM_MORE_COUNT);
-		getFeedItems.execute();
+		GetUserTVFeedItems task = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, offset, Constants.FEED_ACTIVITY_FEED_ITEM_MORE_COUNT);
+		task.execute();
 	}
 	
 	
 	public void getTVBroadcastDetails(ViewCallbackListener activityCallbackListener, TVChannelId tvChannelId, long beginTime)
 	{
-		GetTVBroadcastDetails getTVBroadcastDetails = new GetTVBroadcastDetails(contentCallbackListener, activityCallbackListener, tvChannelId, beginTime);
-		getTVBroadcastDetails.execute();
+		GetTVBroadcastDetails task = new GetTVBroadcastDetails(contentCallbackListener, activityCallbackListener, tvChannelId, beginTime);
+		task.execute();
 	}
 	
 	
 	
 	public void getTVBroadcastsFromSeries(ViewCallbackListener activityCallbackListener, String tvSeriesId)
 	{
-		GetTVBroadcastsFromSeries getTVBroadcastsFromSeries = new GetTVBroadcastsFromSeries(contentCallbackListener, activityCallbackListener, tvSeriesId);
-		getTVBroadcastsFromSeries.execute();
+		GetTVBroadcastsFromSeries task = new GetTVBroadcastsFromSeries(contentCallbackListener, activityCallbackListener, tvSeriesId);
+		task.execute();
 	}
 	
 	
 	public void getTVBroadcastsPopular(ViewCallbackListener activityCallbackListener, boolean standalone) 
 	{
-		GetTVBroadcastsPopular getTVBroadcastsPopular = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, standalone);
-		getTVBroadcastsPopular.execute();
+		GetTVBroadcastsPopular task = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, standalone);
+		task.execute();
 	}
 	
 	
 	
 	public void getTVBroadcastsFromProgram(ViewCallbackListener activityCallbackListener, String tvProgramId)
 	{
-		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = new GetTVBroadcastsFromProgram(contentCallbackListener, activityCallbackListener, tvProgramId);
-		getTVBroadcastsFromProgram.execute();
+		GetTVBroadcastsFromProgram task = new GetTVBroadcastsFromProgram(contentCallbackListener, activityCallbackListener, tvProgramId);
+		task.execute();
 	}
 	
 	
 	public void getUserLikes(ViewCallbackListener activityCallbackListener, boolean standaLone)
 	{
-		GetUserLikes getUserLikes = new GetUserLikes(contentCallbackListener, activityCallbackListener, standaLone);
-		getUserLikes.execute();
+		GetUserLikes task = new GetUserLikes(contentCallbackListener, activityCallbackListener, standaLone);
+		task.execute();
 	}
 	
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
 	public void addUserLike(ViewCallbackListener activityCallbackListener, UserLike userLike) 
 	{
-		AddUserLike addUserLikes = new AddUserLike(contentCallbackListener, activityCallbackListener, userLike);
-		addUserLikes.execute();
+		AddUserLike task = new AddUserLike(contentCallbackListener, activityCallbackListener, userLike);
+		task.execute();
 	}
 
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
 	public void removeUserLike(ViewCallbackListener activityCallbackListener, UserLike userLike) 
 	{
-		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallbackListener, userLike);
-		removeUserLike.execute();
+		RemoveUserLike task = new RemoveUserLike(contentCallbackListener, activityCallbackListener, userLike);
+		task.execute();
 	}
 	
 	
 	
 	public void getTVChannelGuides(ViewCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
-		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIds);
-		getTvChannelGuides.execute();
+		GetTVChannelGuides task = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIds);
+		task.execute();
 	}
 	
 	
 	
-	public void getTVSearchResults(ViewCallbackListener activityCallbackListener, String searchQuery) {
-		if(lastSearch != null) {
-			lastSearch.cancel(true);
+	public void getTVSearchResults(ViewCallbackListener activityCallbackListener, String searchQuery)
+	{
+		if(lastSearchTask != null)
+		{
+			lastSearchTask.cancel(true);
 		}
-		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(contentCallbackListener, activityCallbackListener, searchQuery);
-		getTVSearchResults.execute();
-		lastSearch = getTVSearchResults;
 		
+		GetTVSearchResults task = new GetTVSearchResults(contentCallbackListener, activityCallbackListener, searchQuery);
+		task.execute();
+		
+		lastSearchTask = task;
 	}
+	
 	
 	public void performUserHasSeenAd(ViewCallbackListener activityCallbackListener)
 	{		
-		PerformUserHasSeenAdAdzerk performUserHasSeenAd = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, "");
-		performUserHasSeenAd.execute();
+		PerformUserHasSeenAdAdzerk task = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, "");
+		task.execute();
 	}
 	
 	
 	public void performUserLoginWithFacebookToken(ViewCallbackListener activityCallbackListener, String facebookToken) 
 	{
-		PerformUserLoginWithFacebookToken performUserLoginWithFacebookToken = new PerformUserLoginWithFacebookToken(contentCallbackListener, activityCallbackListener, facebookToken);
-		performUserLoginWithFacebookToken.execute();
+		PerformUserLoginWithFacebookToken task = new PerformUserLoginWithFacebookToken(contentCallbackListener, activityCallbackListener, facebookToken);
+		task.execute();
 	}
 	
 	
@@ -375,49 +456,111 @@ public class APIClient
 	
 	public void performUserSignUp(ViewCallbackListener activityCallbackListener, UserRegistrationData userRegistrationData, boolean usingHashedPassword)
 	{
-		PerformUserSignUp PerformUserSignUp = new PerformUserSignUp(contentCallbackListener, activityCallbackListener, userRegistrationData, usingHashedPassword);
-		PerformUserSignUp.execute();
+		PerformUserSignUp task = new PerformUserSignUp(contentCallbackListener, activityCallbackListener, userRegistrationData, usingHashedPassword);
+		task.execute();
 	}
 	
 	
 	public void performUserPasswordResetSendEmail(ViewCallbackListener activityCallbackListener, String email)
 	{
-		PerformUserPasswordResetSendEmail performUserPasswordResetSendEmail = new PerformUserPasswordResetSendEmail(contentCallbackListener, activityCallbackListener, email);
-		performUserPasswordResetSendEmail.execute();
+		PerformUserPasswordResetSendEmail task = new PerformUserPasswordResetSendEmail(contentCallbackListener, activityCallbackListener, email);
+		task.execute();
 	}
 	
 	
 	public void performUserPasswordResetConfirmPassword(ViewCallbackListener activityCallbackListener, String email, String newPassword, String resetPasswordToken)
 	{
-		PerformUserPasswordResetConfirmation performUserPasswordConfirmation = new PerformUserPasswordResetConfirmation(contentCallbackListener, activityCallbackListener, email, newPassword, resetPasswordToken);
-		performUserPasswordConfirmation.execute();
+		PerformUserPasswordResetConfirmation task = new PerformUserPasswordResetConfirmation(contentCallbackListener, activityCallbackListener, email, newPassword, resetPasswordToken);
+		task.execute();
 	}
 	
 	
 	public void performUserLogout(ViewCallbackListener activityCallbackListener) 
 	{
-		PerformUserLogout performuserLogout = new PerformUserLogout(contentCallbackListener, activityCallbackListener);
-		performuserLogout.execute();
+		PerformUserLogout task = new PerformUserLogout(contentCallbackListener, activityCallbackListener);
+		task.execute();
 	}
 	
 
 	public void performInternalTracking(ViewCallbackListener activityCallbackListener, String tvProgramId, String deviceId)
 	{
-		PerformInternalTracking performInternalTracking = new PerformInternalTracking(contentCallbackListener, activityCallbackListener, tvProgramId, deviceId);
-		performInternalTracking.execute();
+		PerformInternalTracking task = new PerformInternalTracking(contentCallbackListener, activityCallbackListener, tvProgramId, deviceId);
+		task.execute();
 	}
 	
 	
+	
+	/* METHODS FOR DISCUS COMMENTS */
+	
 	public void getDisqusThreadPosts(ViewCallbackListener activityCallbackListener, String contentID)
 	{
-		GetDisqusThreadPosts getDisqusThreadPosts = new GetDisqusThreadPosts(contentCallbackListener, activityCallbackListener, contentID);
-		getDisqusThreadPosts.execute();
+		GetDisqusThreadPosts task = new GetDisqusThreadPosts(contentCallbackListener, activityCallbackListener, contentID);
+		task.execute();
 	}
 	
 	
 	public void getDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID)
 	{
-		GetDisqusThreadDetails getDisqusThreadDetails = new GetDisqusThreadDetails(contentCallbackListener, activityCallbackListener, contentID);
-		getDisqusThreadDetails.execute();
+		GetDisqusThreadDetails task = new GetDisqusThreadDetails(contentCallbackListener, activityCallbackListener, contentID);
+		task.execute();
+	}
+	
+	
+	
+	/* METHODS FOR COMPETITIONS */
+	
+	public void getCompetitions(ViewCallbackListener activityCallbackListener)
+	{
+		GetCompetitions task = new GetCompetitions(contentCallbackListener, activityCallbackListener);
+		task.execute();
+	}
+	
+	
+	public void getCompetitionsByID(ViewCallbackListener activityCallbackListener, String competitionID)
+	{
+		GetCompetitionByID task = new GetCompetitionByID(contentCallbackListener, activityCallbackListener, competitionID);
+		task.execute();
+	}
+	
+	
+	public void getTeams(ViewCallbackListener activityCallbackListener, String competitionID)
+	{
+		GetTeams task = new GetTeams(contentCallbackListener, activityCallbackListener, competitionID);
+		task.execute();
+	}
+	
+	
+	public void getTeamDetails(ViewCallbackListener activityCallbackListener, String competitionID, String teamID)
+	{
+		GetTeamDetails task = new GetTeamDetails(contentCallbackListener, activityCallbackListener, competitionID, teamID);
+		task.execute();
+	}
+	
+	
+	public void getPhases(ViewCallbackListener activityCallbackListener, String competitionID)
+	{
+		GetPhases task = new GetPhases(contentCallbackListener, activityCallbackListener, competitionID);
+		task.execute();
+	}
+	
+	
+	public void getPhaseByID(ViewCallbackListener activityCallbackListener, String competitionID, String phaseID)
+	{
+		GetPhaseByID task = new GetPhaseByID(contentCallbackListener, activityCallbackListener, competitionID, phaseID);
+		task.execute();
+	}
+	
+	
+	public void getEventsForPhase(ViewCallbackListener activityCallbackListener, String competitionID, String phaseID)
+	{
+		GetEvents task = new GetEvents(contentCallbackListener, activityCallbackListener, competitionID, null, phaseID);
+		task.execute();
+	}
+	
+	
+	public void getEventsForTeam(ViewCallbackListener activityCallbackListener, String competitionID, String teamID)
+	{
+		GetEvents task = new GetEvents(contentCallbackListener, activityCallbackListener, competitionID, teamID, null);
+		task.execute();
 	}
 }
