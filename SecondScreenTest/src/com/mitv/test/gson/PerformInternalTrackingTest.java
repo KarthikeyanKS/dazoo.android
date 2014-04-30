@@ -38,7 +38,7 @@ public class PerformInternalTrackingTest
 		TVProgram tvProgram = broadcast.getProgram();
 		String tvProgramId = tvProgram.getProgramId();
 		
-		String deviceId = GenericUtils.getDeviceId();
+		String deviceId = GenericUtils.getDeviceID();
 		
 		String url = Constants.URL_INTERNAL_TRACKING;
 		

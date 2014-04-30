@@ -14,7 +14,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
-import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
@@ -26,7 +26,6 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.TVProgram;
-import com.mitv.models.objects.mitvapi.TVSeries;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
@@ -66,6 +65,7 @@ public abstract class PersistentCache
 	private List<TVChannelId> tvChannelIdsUser;
 	
 	private ArrayList<TVFeedItem> activityFeed;
+	private ArrayList<TVFeedItem> feedItemsToDelete;
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 	
 	
@@ -78,6 +78,8 @@ public abstract class PersistentCache
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
 		AbstractOrmLiteClass.initDB(context, Constants.CACHE_DATABASE_NAME, Constants.CACHE_DATABASE_VERSION, null);
+		
+		feedItemsToDelete = new ArrayList<TVFeedItem>();
 		
 		this.appVersionData = null; //AppVersionORM.getAppVersion();
 		this.appConfigurationData = null; //AppConfigurationORM.getAppConfiguration();
@@ -438,6 +440,7 @@ public abstract class PersistentCache
 	
 	/**
      * This enum is only used by the method "useTVChannels"
+     * 
      * @author Alexander Cyon
      *
      */
@@ -451,6 +454,7 @@ public abstract class PersistentCache
     /**
      * This method works as a synchronization wrapper for the tvChannels variable, so that two
      * different thread never access or modify that variable simultaneously.
+     * 
      * @param accessIdentifier
      * @param tvChannels
      * @param tvChannelId
@@ -539,33 +543,148 @@ public abstract class PersistentCache
 	/* TV FEED ITEMS */
 	
 	public synchronized ArrayList<TVFeedItem> getActivityFeed() 
-	{
+	{			
+		if (feedItemsToDelete != null && !feedItemsToDelete.isEmpty()) {
+			activityFeed.removeAll(feedItemsToDelete);
+		}
+		
 		return activityFeed;
 	}
-
+	
+	
 	
 	public synchronized void setActivityFeed(ArrayList<TVFeedItem> activityFeed) 
 	{
 		this.activityFeed = activityFeed;
+//		filterSimilarBroadcasts();
 	}
 	
 	
+	private int feedItemsDeletedLastTime = 0;
 	
-	public synchronized void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) 
-	{
-		if(this.activityFeed == null)
-		{
+	public synchronized void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) {
+		
+		if (this.activityFeed == null) {
 			activityFeed = new ArrayList<TVFeedItem>();
 		}
 		
-		activityFeed.addAll(additionalActivityFeedItems);
+		if (additionalActivityFeedItems != null && !additionalActivityFeedItems.isEmpty()) {
+			
+//			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed;
+//			Log.d(TAG, "MMM activityFeedCopy: " + activityFeedCopy.size());
+			
+			activityFeed.addAll(additionalActivityFeedItems);
+//			Log.d(TAG, "MMM activityFeed: " + activityFeed.size());
+			
+			int additionalActivityFeedItemsssss = additionalActivityFeedItems.size();
+//			Log.d(TAG, "MMM items deleted last time: " + additionalActivityFeedItemsssss);
+			
+			if (feedItemsDeletedLastTime < additionalActivityFeedItemsssss) {
+//				filterSimilarBroadcasts();
+				
+			} else {
+//				Log.d(TAG, "MMM WE SHOULD STOP HERE!!!!!!!!!!!!!!!!!!!!");
+			}
+
+//			Log.d(TAG, "MMM TOTAL activityFeed (after adding all the new items): " + activityFeed.size());
+			
+			if (feedItemsToDelete != null && !feedItemsToDelete.isEmpty()) {
+				activityFeed.removeAll(feedItemsToDelete);
+			}
+		}
 	}
 	
+	
+	
+	/**
+	 * Filter out broadcasts that has been shown for more than two times.
+	 * 
+	 */
+	private ArrayList<TVFeedItem> filterSimilarBroadcasts() {
+		feedItemsDeletedLastTime = 0;
+		
+		if (activityFeed != null && !activityFeed.isEmpty()) {
+			
+			/* Making a copy of the array list, we can not modify the list in the for-loop */
+			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed;
+
+			for (int i = activityFeedCopy.size() - 1; i > 2; i--) {
+
+				TVFeedItem item = activityFeedCopy.get(i);
+
+				if (item.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+
+					TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo = item.getBroadcast();
+
+					boolean hasItemBeenShownBefore = checkIfTVFeedItemHasShownBefore(tvBroadcastWithChannelInfo);
+
+					/* If item is too old or if it has shown before the item will be removed */
+					if (hasItemBeenShownBefore) {
+//						Log.d(TAG, "MMM, Adding broadcasts to list!! Shows more than 2 times, Broadcast: " + tvBroadcastWithChannelInfo.getTitle());
+						
+						feedItemsDeletedLastTime++;
+						
+						activityFeed.remove(item);
+					}
+				}
+			}
+		}
+		
+		return activityFeed;
+	}
+	
+	
+	
+	/**
+	 * Start checking from item number 3 in the list if it is a repetition or not.
+	 * 
+	 * @param tvBroadcastWithChannelInfo
+	 * @return TRUE: If repetition
+	 * @return FALSE: If NOT repetition
+	 */
+	private boolean checkIfTVFeedItemHasShownBefore(TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) {
+		int counterHowManyTimesItemAppearsInList = 0;
+		
+		String nameOfItem = tvBroadcastWithChannelInfo.getTitle();
+		
+		for (int i = 0; i < activityFeed.size(); i++) {
+			
+			TVFeedItem item = activityFeed.get(i);
+			TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoFromList = item.getBroadcast();
+			
+			if (tvBroadcastWithChannelInfoFromList != null) {
+				String nameOfItemInList = tvBroadcastWithChannelInfoFromList.getTitle();
+				
+				if (nameOfItemInList.equals(nameOfItem)) {
+					counterHowManyTimesItemAppearsInList++;
+				}
+				
+				if (counterHowManyTimesItemAppearsInList > 2) {
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	
+	
+	/**
+	 * Stores all the likes which will be deleted when user scroll in the activity list.
+	 * 
+	 * @param like
+	 */
 	private void deleteFeedItemUsingLike(UserLike like) {
-		if(activityFeed != null) {	
-			ArrayList<TVFeedItem> feedItemsToDelete = new ArrayList<TVFeedItem>();
-			for(TVFeedItem feedItem : activityFeed) {
-				if(feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+		if (activityFeed != null && !activityFeed.isEmpty()) {
+
+			/* Making a copy of the array list, we can not modify the list in the for-loop */
+			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed;
+			
+			for (TVFeedItem feedItem : activityFeedCopy) {
+				
+				if (feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
 					TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
 					
 					TVProgram program = broadcast.getProgram();
@@ -573,13 +692,14 @@ public abstract class PersistentCache
 					
 					if(contentIdFromProgram.equals(like.getContentId())) {
 						feedItemsToDelete.add(feedItem);
+						
+						Log.d(TAG, "Removing liked broadcasts from list!! Item: " + program.getTitle());
 					}
 				}
 			}
-			activityFeed.removeAll(feedItemsToDelete);
 		}
 	}
-
+	
 	
 	
 	/* TV BROADCASTS */

@@ -36,37 +36,48 @@ public class ChannelPageListAdapter
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
+	private ViewHolder holder;
 	
 	private List<TVBroadcast> currentAndUpcomingbroadcasts;
-	private ViewHolder holder;
-	private boolean isAiring = false;
-
 	
 	
-	public ChannelPageListAdapter(Activity activity, List<TVBroadcast> currentAndUpcomingbroadcasts) 
+	
+	public ChannelPageListAdapter(final Activity activity, final List<TVBroadcast> broadcasts) 
 	{
-		this.currentAndUpcomingbroadcasts = currentAndUpcomingbroadcasts;
+		this.currentAndUpcomingbroadcasts = broadcasts;
+		
 		this.activity = activity;
 
-		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
+	
+	
 	@Override
 	public int getCount() 
 	{
 		int count = 0;
-		if (currentAndUpcomingbroadcasts != null) {
+		
+		if (currentAndUpcomingbroadcasts != null) 
+		{
 			count = currentAndUpcomingbroadcasts.size();
 		}
+		
 		return count;
 	}
 
+	
+	
 	@Override
-	public TVBroadcast getItem(int position) {
+	public TVBroadcast getItem(int position) 
+	{
 		TVBroadcast broadcast = null;
-		if (currentAndUpcomingbroadcasts != null) {
+		
+		if (currentAndUpcomingbroadcasts != null)
+		{
 			broadcast = currentAndUpcomingbroadcasts.get(position);
 		}
+		
 		return broadcast;
 	}
 
@@ -126,7 +137,9 @@ public class ChannelPageListAdapter
 		holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) 
-		{			
+		{	
+			boolean isAiring = false;
+			
 			if (getItemViewType(position) == 0) 
 			{
 				ImageAware imageAware = new ImageViewAware(holder.logo, false);
@@ -140,31 +153,40 @@ public class ChannelPageListAdapter
 
 			holder.startTime.setText(broadcast.getBeginTimeHourAndMinuteLocalAsString());
 			
+			StringBuilder titleSB = new StringBuilder();
+			
+			StringBuilder descriptionSB = new StringBuilder();
+			
+			if(broadcast.isPopular())
+			{
+//				String stringIconTrending = activity.getString(R.string.icon_trending);
+//				
+//				titleSB.append(stringIconTrending)
+//					.append(" ");
+			}
+			
 			ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
 			
 			switch (programType) 
 			{
 				case MOVIE: 
 				{
-					StringBuilder titleSB = new StringBuilder();
-					
 					titleSB.append(activity.getString(R.string.icon_movie))
-					.append(" ")
-					.append(broadcast.getTitle());
+						.append(" ");
 					
-					holder.title.setText(titleSB.toString());
+					descriptionSB.append(broadcast.getProgram().getGenre())
+						.append(" ")
+						.append(broadcast.getProgram().getYear());
 					
-					holder.description.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 					break;
 				}
 				
 				case TV_EPISODE: 
 				{
-					holder.title.setText(broadcast.getTitle());
-					
 					String seasonAndEpisodeString = broadcast.buildSeasonAndEpisodeString();
 					
-					holder.description.setText(seasonAndEpisodeString);
+					descriptionSB.append(seasonAndEpisodeString);
+
 					break;
 				}
 				
@@ -172,60 +194,40 @@ public class ChannelPageListAdapter
 				{
 					if (broadcast.getBroadcastType() == BroadcastTypeEnum.LIVE) 
 					{
-						StringBuilder titleSB = new StringBuilder();
-						
 						titleSB.append(activity.getString(R.string.icon_live))
-						.append(" ")
-						.append(broadcast.getTitle());
-						
-						holder.title.setText(titleSB.toString());
+						.append(" ");
 					}
-					else 
-					{
-						holder.title.setText(broadcast.getTitle());
-					}
-					
-					StringBuilder descriptionSB = new StringBuilder();
 					
 					descriptionSB.append(broadcast.getProgram().getSportType().getName())
 					.append(": ")
 					.append(broadcast.getProgram().getTournament());
-	
-					holder.description.setText(descriptionSB.toString());
+
 					break;
 				}
 				
 				case OTHER: 
 				{
-					if (broadcast.getBroadcastType() == BroadcastTypeEnum.LIVE) 
-					{
-						StringBuilder titleSB = new StringBuilder();
-						
-						titleSB.append(activity.getString(R.string.icon_live))
-						.append(" ")
-						.append(broadcast.getTitle());
-						
-						holder.title.setText(titleSB.toString());
-					}
-					else 
-					{
-						holder.title.setText(broadcast.getTitle());
-					}
+					descriptionSB.append(broadcast.getProgram().getCategory());
 					
-					holder.description.setText(broadcast.getProgram().getCategory());
 					break;
 				}
 				
 				default: 
 				{
-					holder.startTime.setText("");
-					holder.title.setText("");
-					holder.description.setText("");
+					// Do nothing
 					break;
 				}
 			}
 			
-			setOnGoingElementRed();
+			titleSB.append(broadcast.getTitle());
+			
+			holder.title.setText(titleSB.toString());
+			holder.description.setText(descriptionSB.toString());
+			
+			if(isAiring)
+			{
+				setOnGoingElementsRed();
+			}
 		}
 		else
 		{
@@ -235,40 +237,51 @@ public class ChannelPageListAdapter
 		return rowView;
 	}
 	
-	/* If a show is airing, we set it to be red */
-	private void setOnGoingElementRed() {
-		if (isAiring) {
-			holder.title.setTextColor(activity.getResources().getColor(R.color.red));
-			holder.startTime.setTextColor(activity.getResources().getColor(R.color.red));
-			isAiring = false;
-		}
-	}
 
+	
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount()
+	{
 		int viewTypeCount = ChannelRowTypeEnum.class.getEnumConstants().length;
+		
 		return viewTypeCount;
 	}
 
+	
+	
 	@Override
-	public int getItemViewType(int position) {
+	public int getItemViewType(int position)
+	{
 		ChannelRowTypeEnum rowType = ChannelRowTypeEnum.UP_COMING;
 		
 		TVBroadcast broadcast = getItem(position);
-		if (broadcast.isBroadcastCurrentlyAiring()) {
+		
+		if (broadcast.isBroadcastCurrentlyAiring())
+		{
 			rowType = ChannelRowTypeEnum.ON_AIR;
 		}
+		
 		return rowType.getId();
 	}
 	
-	static class ViewHolder {
-		TextView	title;
-		TextView	description;
-		TextView	startTime;
-		TextView	timeLeft;
-		
-		ImageView	logo;
-
-		ProgressBar	durationProgressBar;
+	
+	
+	private void setOnGoingElementsRed()
+	{
+		holder.title.setTextColor(activity.getResources().getColor(R.color.red));
+			
+		holder.startTime.setTextColor(activity.getResources().getColor(R.color.red));
+	}
+	
+	
+	
+	private static class ViewHolder 
+	{
+		private TextView title;
+		private TextView description;
+		private TextView startTime;
+		private TextView timeLeft;
+		private ImageView logo;
+		private ProgressBar	durationProgressBar;
 	}
 }

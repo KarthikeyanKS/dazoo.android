@@ -38,9 +38,13 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		if (super.isRestartNeeded()) {
+			return;
+		}
+		
 		setContentView(R.layout.layout_repeating_list_activity);
 		
-		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
 		
 		if(this instanceof RepetitionsListMoreActivity) 
 		{
@@ -132,6 +136,8 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 	@Override
 	public void onBackPressed() 
 	{
+		ContentManager.sharedInstance().popFromSelectedBroadcastWithChannelInfo();
+		
 		super.onBackPressed();
 		
 		finish();

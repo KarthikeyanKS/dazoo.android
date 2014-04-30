@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="125"
-    android:versionName="1.0.125" >
+    android:versionCode="129"
+    android:versionName="1.0.129" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -111,7 +111,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBarNoUp" />
 
-        <!-- MYPROFILE ACTIVITY -->
+        <!-- USER PROFILE ACTIVITY -->
         <activity
             android:name="com.mitv.activities.UserProfileActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -119,6 +119,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBarNoUp"
             android:windowSoftInputMode="adjustPan" />
+        
+        <!-- USER PROFILE CONFIGURATION ACTIVITY -->
+        <activity
+            android:name="com.mitv.activities.UserProfileConfigurationActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBarNoUp"
+            android:windowSoftInputMode="adjustPan" />
+        
+        
         
         <!-- POPULAR CONTENT PAGE -->
         <activity
@@ -200,6 +211,16 @@
         <!-- LIST MORE UPCOMING EPISODES PAGE -->
         <activity
             android:name="com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        
+        <!-- LIST MORE BROADCASTS REPEATITIONS PAGE -->
+        <activity
+            android:name="com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"

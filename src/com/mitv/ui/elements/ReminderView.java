@@ -150,12 +150,13 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
-		TrackingGAManager.sharedInstance().sendUserReminderEvent(activity, tvBroadcastWithChannelInfo, isSet);
+		
 		
 		RateAppManager.significantEvent(activity);
 		
 		if (isSet == false) 
 		{
+			TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, false);
 			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
 
 			StringBuilder sb = new StringBuilder();
@@ -200,6 +201,7 @@ public class ReminderView
 		{
 			public void run()
 			{
+				TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, true);
 				iconView.setTextColor(getResources().getColor(R.color.grey3));
 				
 				isSet = false;

@@ -199,6 +199,8 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				else
 				{
 					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(" ");
+					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
 				}
 
 				/* Capitalized letters in header */
@@ -272,7 +274,7 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				{
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 
 					activity.startActivity(intent);
 
@@ -301,7 +303,6 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 		private TextView timeTv;
 		private TextView channelTv;
 		private ReminderView reminderView;
-
 		private View divider;
 	}
 }

@@ -6,8 +6,10 @@ package com.mitv.models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Stack;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
@@ -49,7 +51,7 @@ public class Cache
 	
 	private int nonPersistentTVDateSelectedIndex;
 	private boolean nonPersistentFlagUpdatingGuide;
-	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
+	private Stack<TVBroadcastWithChannelInfo> nonPersistentSelectedBroadcastsWithChannelInfo;
 	private UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts;
 	private RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts;
 	private SearchResultsForQuery nonPersistentSearchResultsForQuery;
@@ -67,6 +69,8 @@ public class Cache
 	public Cache()
 	{
 		super();
+		
+		this.nonPersistentSelectedBroadcastsWithChannelInfo = new Stack<TVBroadcastWithChannelInfo>();
 		
 		this.nonPersistentFlagUpdatingGuide = false;
 		
@@ -136,11 +140,16 @@ public class Cache
 		return containsSearchResultForQuery;
 	}
 	
-	public synchronized boolean containsTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeMillis) {
+	
+	public synchronized boolean containsTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeMillis) 
+	{
 		boolean containsTVBroadcastWithChannelInfo = false;
-		if(nonPersistentSelectedBroadcastWithChannelInfo != null && nonPersistentSelectedBroadcastWithChannelInfo.getChannel().getChannelId().equals(channelId.getChannelId()) && beginTimeMillis == nonPersistentSelectedBroadcastWithChannelInfo.getBeginTimeMillis().longValue()) {
+		
+		if(nonPersistentSelectedBroadcastsWithChannelInfo.isEmpty() == false && getNonPersistentLastSelectedBroadcastWithChannelInfo().getChannel().getChannelId().equals(channelId.getChannelId()) && beginTimeMillis == getNonPersistentLastSelectedBroadcastWithChannelInfo().getBeginTimeMillis().longValue())
+		{
 			containsTVBroadcastWithChannelInfo = true;
 		}
+		
 		return containsTVBroadcastWithChannelInfo;
 	}
 	
@@ -348,8 +357,21 @@ public class Cache
 		this.nonPersistentSelectedHour = seletectedHour;
 	}
 			
-	public synchronized void setNonPersistentSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo) {
-		this.nonPersistentSelectedBroadcastWithChannelInfo = nonPersistentSelectedBroadcastWithChannelInfo;
+	public synchronized void pushToNonPersistentSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo) 
+	{
+		this.nonPersistentSelectedBroadcastsWithChannelInfo.add(nonPersistentSelectedBroadcastWithChannelInfo);
+	}
+	
+	public synchronized void popFromNonPersistentSelectedBroadcastWithChannelInfo() 
+	{
+		if(nonPersistentSelectedBroadcastsWithChannelInfo.isEmpty() == false)
+		{
+			this.nonPersistentSelectedBroadcastsWithChannelInfo.pop();
+		}
+		else
+		{
+			Log.w(TAG, "Stack is empty. Nothing to pop");
+		}
 	}
 	
 	public synchronized UpcomingBroadcastsForBroadcast getNonPersistentUpcomingBroadcasts() {
@@ -390,8 +412,16 @@ public class Cache
 		return containsRepeatingBroadcastsForBroadcast;
 	}
 
-	public synchronized TVBroadcastWithChannelInfo getNonPersistentSelectedBroadcastWithChannelInfo() {
-		return nonPersistentSelectedBroadcastWithChannelInfo;
+	public synchronized TVBroadcastWithChannelInfo getNonPersistentLastSelectedBroadcastWithChannelInfo() 
+	{
+		if(nonPersistentSelectedBroadcastsWithChannelInfo.isEmpty() == false)
+		{
+			return nonPersistentSelectedBroadcastsWithChannelInfo.peek();
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	public synchronized void setNonPersistentTVChannelId(TVChannelId tvChannelId) {

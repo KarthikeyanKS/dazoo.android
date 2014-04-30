@@ -36,9 +36,13 @@ public class AiringOnDifferentChannelListMoreActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		if (super.isRestartNeeded()) {
+			return;
+		}
+		
 		setContentView(R.layout.layout_now_airing_more_list);
 		
-		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
 		
 		broadcasts = ContentManager.sharedInstance().getFromCacheBroadcastsAiringOnDifferentChannels(runningBroadcast, false);
 			
@@ -99,6 +103,8 @@ public class AiringOnDifferentChannelListMoreActivity
 	@Override
 	public void onBackPressed() 
 	{
+		ContentManager.sharedInstance().popFromSelectedBroadcastWithChannelInfo();
+		
 		super.onBackPressed();
 		
 		finish();

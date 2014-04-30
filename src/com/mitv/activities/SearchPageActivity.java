@@ -80,6 +80,10 @@ public class SearchPageActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		if (super.isRestartNeeded()) {
+			return;
+		}
 
 		setContentView(R.layout.layout_searchpage_activity);
 
@@ -275,7 +279,9 @@ public class SearchPageActivity
 					hitName = nextBroadcast.getTitle();
 					
 					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
+					
+					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+					
 					startActivity(intent);
 				} 
 				else 

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,7 +20,7 @@
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_popular_header_tv"
             style="@style/headercard2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
@@ -36,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_popular_header_tv"
-            layout="@layout/element_popular_list_item" />
+            layout="@layout/element_poster_broadcast" />
 
         <!-- ITEM 2 -->
 
@@ -45,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_popular_element_one"
-            layout="@layout/element_popular_list_item" />
+            layout="@layout/element_poster_broadcast" />
 
         <!-- ITEM 3 -->
 
@@ -54,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_popular_element_two"
-            layout="@layout/element_popular_list_item" />
+            layout="@layout/element_poster_broadcast" />
 
         <!-- FOOTER -->
 

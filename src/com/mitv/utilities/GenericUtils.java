@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
 
 import android.annotation.SuppressLint;
@@ -43,7 +44,30 @@ public abstract class GenericUtils
 	
 	private static final String TEXT_PLAIN = "text/plain";
 	
-	
+	public static int getRandomNumberBetween()
+    {
+        return getRandomNumberBetween(0, Integer.MAX_VALUE);
+    }
+
+
+
+    public static int getRandomNumberBetween(
+            final int min,
+            final int max)
+    {
+        Random foo = new Random();
+
+        int randomNumber = foo.nextInt(max - min) + min;
+
+        if(randomNumber == min)
+        {
+            return min + 1;
+        }
+        else
+        {
+            return randomNumber;
+        }
+    }
 	
 	public static void startShareActivity(
 			final Activity activity, 
@@ -69,7 +93,7 @@ public abstract class GenericUtils
 		activity.startActivity(chooserIntent);
 		
 		/* Send sharing event to Google Analytics */
-		TrackingGAManager.sharedInstance().sendUserSharedEvent(activity, broadcast);
+		TrackingGAManager.sharedInstance().sendUserSharedEvent(broadcast);
 	}
 	
 

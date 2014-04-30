@@ -170,27 +170,12 @@ public class TrackingGAManager
 		sendSystemEvent(Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION);
 	}
 	
-	
-
-	private String actionByAppendingActivityName(String actionBase, Activity activity) {
-		String action = actionBase;
-		if (actionBase != null && activity != null) {
-			String activityName = activity.getClass().getSimpleName();
-			StringBuilder sb = new StringBuilder(actionBase);
-			sb.append("_").append(activityName);
-			action = sb.toString();
-		}
-		return action;
-	}
-
-	public void sendUserSharedEvent(Activity activity, TVBroadcast broadcast) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, activity);
+	public void sendUserSharedEvent(TVBroadcast broadcast) {
 		String broadcastTitle = broadcast.getTitle();
-		sendUserEventWithLabel(action, broadcastTitle);
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
 
-	public void sendUserLikesEvent(Activity activity, UserLike userLike, boolean didJustUnlike) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, activity);
+	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) {
 		String broadcastTitle = userLike.getTitle();
 
 		Long addedLike = 1L;
@@ -198,12 +183,11 @@ public class TrackingGAManager
 			addedLike = 0L;
 		}
 
-		sendUserEventWithLabelAndValue(action, broadcastTitle, addedLike);
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
 
 	}
 
-	public void sendUserReminderEvent(Activity activity, TVBroadcast broadcast, boolean didJustRemoveReminder) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, activity);
+	public void sendUserReminderEvent(TVBroadcast broadcast, boolean didJustRemoveReminder) {
 		String broadcastTitle = broadcast.getTitle();
 
 		Long addedReminder = 1L;
@@ -211,7 +195,7 @@ public class TrackingGAManager
 			addedReminder = 0L;
 		}
 
-		sendUserEventWithLabelAndValue(action, broadcastTitle, addedReminder);
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder);
 	}
 
 	public void sendTimeOffSyncEvent() {
@@ -235,15 +219,21 @@ public class TrackingGAManager
 
 	public void sendUserHourSelectionEvent(int lastSelectedHour) {
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
 			List<Integer> hours = SwipeClockBar.generate24Hours();
 			Integer lastSelectedHourAsInteger = Integer.valueOf(lastSelectedHour);
 			int indexOfSelectedHour = hours.indexOf(selectedHour);
 			int indexOfLastSelectedHour = hours.indexOf(lastSelectedHourAsInteger);
 		
-			int timeDiff = Math.abs(indexOfSelectedHour - indexOfLastSelectedHour);
+			int timeDiff = (indexOfSelectedHour - indexOfLastSelectedHour); 
 						
-			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, selectedHour.toString(), (long)timeDiff);
+			String hourString = DateUtils.getHourAndMinuteAsStringUsingHour(selectedHour);
+			StringBuilder sb = new StringBuilder("SELECTED HOUR: ");
+			sb.append(hourString);
+			String label = sb.toString();
+			
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_HOUR_SELECTED, label, (long)timeDiff);
 		}
 	}
 	
@@ -277,8 +267,7 @@ public class TrackingGAManager
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS, label, (long) position);
 	}
 
-	public void sendUserDaySelectionEvent(Activity activity, int dayIndex) {
-		String action = actionByAppendingActivityName(Constants.GA_EVENT_KEY_USER_EVENT_DAY_SELECTED, activity);
+	public void sendUserDaySelectionEvent(int dayIndex) {
 
 		List<TVDate> dates = ContentManager.sharedInstance().getFromCacheTVDates();
 		if (dates != null && !dates.isEmpty() && dayIndex < dates.size()) {
@@ -292,7 +281,7 @@ public class TrackingGAManager
 			sb.append(" ");
 			sb.append(dayMonth);
 			String dateString = sb.toString();
-			sendUserEventWithLabelAndValue(action, dateString, (long) dayIndex);
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_DAY_SELECTED, dateString, (long) dayIndex);
 		}
 	}
 	

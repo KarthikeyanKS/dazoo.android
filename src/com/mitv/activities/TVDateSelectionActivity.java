@@ -46,6 +46,10 @@ public abstract class TVDateSelectionActivity
 	public void setContentView(int layoutResID) 
 	{
 		super.setContentView(layoutResID);
+		
+		if (super.isRestartNeeded()) {
+			return;
+		}
 
 		initDaySelection(ActionBar.NAVIGATION_MODE_STANDARD);
 		
@@ -184,7 +188,7 @@ public abstract class TVDateSelectionActivity
 					
 					fetchGuideForSelectedDay(position);
 					
-					TrackingGAManager.sharedInstance().sendUserDaySelectionEvent(this, position);
+					TrackingGAManager.sharedInstance().sendUserDaySelectionEvent(position);
 					break;
 				}
 				

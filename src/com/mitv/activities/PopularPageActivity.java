@@ -38,6 +38,10 @@ public class PopularPageActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		if (super.isRestartNeeded()) {
+			return;
+		}
 
 		setContentView(R.layout.layout_popular_list_activity);
 
@@ -61,7 +65,7 @@ public class PopularPageActivity
 	
 	
 	@Override
-	public void onBackPressed() 
+	public void onBackPressed()
 	{
 		super.onBackPressed();
 		
