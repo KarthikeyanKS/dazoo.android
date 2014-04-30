@@ -262,6 +262,24 @@ public abstract class ContentManagerCallback
 				break;
 			}
 			
+			case COMPETITIONS_ALL:
+			case COMPETITION_TEAMS:
+			case COMPETITION_PHASES:
+			case COMPETITION_EVENTS:
+			{
+				handleCompetitionsInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
+			case COMPETITION_BY_ID:
+			case COMPETITION_TEAM_DETAILS:
+			case COMPETITION_PHASE_BY_ID:
+			case COMPETITION_EVENT_BY_ID:
+			{
+				// TOOD Competitions - Not yet implemented 
+				break;
+			}
+			
 			case TV_CHANNEL_IDS_USER_STANDALONE: 
 			{
 				handleTVChannelIdsUserResponse(activityCallbackListener, requestIdentifier, result, content);
@@ -420,18 +438,29 @@ public abstract class ContentManagerCallback
 	
 	/* HANDLES */
 	
+	private void handleCompetitionsInitialDataResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content) 
+	{
+		// TODO - Implement me
+	}
+	
+	
+	
 	private void handleInitialDataResponse(
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			FetchRequestResultEnum result,
 			Object content) 
 	{
-		if(getAPIClient().arePendingRequestsCanceled())
+		if(getAPIClient().areInitialCallPendingRequestsCanceled())
 		{
 			return;
 		}
 		
-		getAPIClient().incrementCompletedTasks();
+		getAPIClient().incrementCompletedTasksForTVGuideInitialCall();
 		
 		int totalStepsCount;
 		
@@ -673,19 +702,19 @@ public abstract class ContentManagerCallback
 		
 		if(isAPIVersionTooOld)
 		{
-			getAPIClient().cancelAllPendingRequests();
+			getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 			
 			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
 		}
 		
 		
-		if(getAPIClient().areAllTasksCompleted())
+		if(getAPIClient().areAllTasksCompletedForTVGuideInitialCall())
 		{
 			isUpdatingGuide = false;
 			
 			notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
 						
-			getAPIClient().cancelAllPendingRequests();
+			getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 		}
 		else
 		{
@@ -693,7 +722,7 @@ public abstract class ContentManagerCallback
 			{
 				isUpdatingGuide = false;
 				
-				getAPIClient().cancelAllPendingRequests();
+				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 				
 				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
 			}

@@ -1,15 +1,12 @@
+
 package com.mitv.managers;
 
-import java.util.List;
-import java.util.Map;
+
 
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.objects.mitvapi.TVDate;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
-import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.Team;
 
 
 

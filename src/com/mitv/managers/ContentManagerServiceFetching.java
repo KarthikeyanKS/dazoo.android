@@ -5,6 +5,7 @@ package com.mitv.managers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -92,22 +94,76 @@ public abstract class ContentManagerServiceFetching
 	
 	public Map<String, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition()
 	{
-//		Map<String, List<Event>>
-//		
-//		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
-//		
-//		getCache().getCompetitionsData().get
+		Map<String, List<Event>> eventsByPhaseID = new HashMap<String, List<Event>>();
 		
-		// TODO Not Implemented
-		return null;
+		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
+		
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		for(Phase phase : phases)
+		{
+			List<Event> eventsForPhase = new ArrayList<Event>();
+			
+			for(Event event : events)
+			{
+				if(event.getPhaseID().equals(phase.getPhaseID()))
+				{
+					eventsForPhase.add(event);
+				}
+			}
+			
+			eventsByPhaseID.put(phase.getPhaseID(), eventsForPhase);
+		}
+		
+		return eventsByPhaseID;
 	}
 	
 	
 	
 	public Map<String, List<Team>> getFromCacheAllTeamsGroupedByPhaseForSelectedCompetition()
 	{
-		// TODO Not Implemented
-		return null;
+		Map<String, List<Team>> teamsByPhaseID = new HashMap<String, List<Team>>();
+		
+		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
+		
+		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
+		
+		for(Phase phase : phases)
+		{
+			List<Team> teamsForPhase = new ArrayList<Team>();
+			
+			for(Team team : teams)
+			{
+				if(team.getPhaseID().equals(phase.getPhaseID()))
+				{
+					teamsForPhase.add(team);
+				}
+			}
+			
+			teamsByPhaseID.put(phase.getPhaseID(), teamsForPhase);
+		}
+		
+		return teamsByPhaseID;
+	}
+	
+	
+	
+	public Calendar getSelectedCompetitionBeginTime()
+	{
+		Calendar cal;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		if(selectedCompetition != null)
+		{
+			cal = selectedCompetition.getBeginTimeCalendarLocal();
+		}
+		else
+		{
+			cal = DateUtils.getNow();
+		}
+		
+		return cal;
 	}
 
 	
@@ -152,7 +208,7 @@ public abstract class ContentManagerServiceFetching
 			
 			boolean isUserLoggedIn = getCache().isLoggedIn();
 			
-			getAPIClient().getInitialDataOnPoolExecutor(activityCallbackListener, isUserLoggedIn);
+			getAPIClient().getTVGuideInitialDataOnPoolExecutor(activityCallbackListener, isUserLoggedIn);
 		}
 	}
 	

@@ -71,6 +71,18 @@ public class GetEvents
 			final ViewCallbackListener activityCallbackListener,
 			final String competitionID,
 			final String teamID,
+			final String phaseID)
+	{
+		this(contentCallbackListener, activityCallbackListener, competitionID, teamID, phaseID, false, false, null, false, null);
+	}
+	
+	
+	
+	public GetEvents(
+			final ContentCallbackListener contentCallbackListener,
+			final ViewCallbackListener activityCallbackListener,
+			final String competitionID,
+			final String teamID,
 			final String phaseID,
 			final boolean useOnlyOngoing,
 			final boolean useBroadcastBeginTimeAfter,
