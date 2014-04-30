@@ -37,6 +37,10 @@ import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Team;
 
 
 
@@ -63,8 +67,8 @@ public abstract class ContentManagerCallback
 	/*
 	 * The total completed data fetch count needed for the initial data loading
 	 */
-	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN = 8;
-	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_LOGGED_IN = 9;
+	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN = 9;
+	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN = 10;
 	
 	/*
 	 * The total completed data fetch count needed in order to proceed with
@@ -81,7 +85,7 @@ public abstract class ContentManagerCallback
 	private int completedCountTVActivityFeed = 0;
 	
 	private boolean isProcessingPopularBroadcasts;
-	
+
 	
 	
 	public ContentManagerCallback()
@@ -92,7 +96,7 @@ public abstract class ContentManagerCallback
 		
 		/* 1 for guide and parsing of tagged broadcasts */
 		completedCountTVDataForProgressMessage = 1;
-		
+			
 		if (getCache().isLoggedIn())
 		{
 			/* Increase global threshold by 1 since we are logged in */
@@ -257,17 +261,17 @@ public abstract class ContentManagerCallback
 			case SNTP_CALL:
 			case POPULAR_ITEMS_INITIAL_CALL:
 			case TV_BROADCASTS_POUPULAR_PROCESSING:
+			case COMPETITIONS_ALL:
 			{
 				handleInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			
-			case COMPETITIONS_ALL:
 			case COMPETITION_TEAMS:
 			case COMPETITION_PHASES:
 			case COMPETITION_EVENTS:
 			{
-				handleCompetitionsInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
+				handleCompetitionInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			
@@ -438,13 +442,80 @@ public abstract class ContentManagerCallback
 	
 	/* HANDLES */
 	
-	private void handleCompetitionsInitialDataResponse(
+	private void handleCompetitionInitialDataResponse(
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			FetchRequestResultEnum result,
 			Object content) 
 	{
-		// TODO - Implement me
+		if(getAPIClient().areInitialCallCompetitionPendingRequestsCanceled())
+		{
+			return;
+		}
+		
+		getAPIClient().incrementCompletedTasksForCompetitionInitialCall();
+		
+		switch (requestIdentifier) 
+		{
+			case COMPETITION_TEAMS:
+			{
+				if(result.wasSuccessful() && content != null) 
+				{
+					@SuppressWarnings("unchecked")
+					ArrayList<Team> teams = (ArrayList<Team>) content;
+					getCache().getCompetitionsData().setTeamsForSelectedCompetition(teams);
+				}
+				break;
+			}
+
+			case COMPETITION_PHASES:
+			{
+				if(result.wasSuccessful() && content != null) 
+				{
+					@SuppressWarnings("unchecked")
+					ArrayList<Phase> phases = (ArrayList<Phase>) content;
+					getCache().getCompetitionsData().setPhasesForSelectedCompetition(phases);
+				}
+				break;
+			}
+
+			case COMPETITION_EVENTS:
+			{
+				if(result.wasSuccessful() && content != null) 
+				{
+					@SuppressWarnings("unchecked")
+					ArrayList<Event> events = (ArrayList<Event>) content;
+					getCache().getCompetitionsData().setEventsForSelectedCompetition(events);
+				}
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unhandled request identifier.");
+				break;
+			}
+		}
+				
+		if(getAPIClient().areAllTasksCompletedForCompetitionInitialCall())
+		{
+			notifyListenersOfRequestResult(RequestIdentifierEnum.COMPETITION_INITIAL_DATA, result);
+						
+			getAPIClient().cancelAllCompetitionInitialCallPendingRequests();
+		}
+		else
+		{
+			if(!result.wasSuccessful() || content == null)
+			{
+				getAPIClient().cancelAllCompetitionInitialCallPendingRequests();
+				
+				notifyListenersOfRequestResult(RequestIdentifierEnum.COMPETITION_INITIAL_DATA, FetchRequestResultEnum.UNKNOWN_ERROR);
+			}
+			else
+			{
+				Log.d(TAG, "There are pending tasks still running.");
+			}
+		}
 	}
 	
 	
@@ -466,14 +537,14 @@ public abstract class ContentManagerCallback
 		
 		if(getCache().isLoggedIn())
 		{
-			totalStepsCount = COMPLETED_COUNT_FOR_INITIAL_CALL_LOGGED_IN;
+			totalStepsCount = COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN;
 		}
 		else
 		{
-			totalStepsCount = COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN;
+			totalStepsCount = COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN;
 		}
 		
-		switch (requestIdentifier) 
+		switch (requestIdentifier)
 		{			
 			case APP_CONFIGURATION: 
 			{
@@ -589,7 +660,7 @@ public abstract class ContentManagerCallback
 				}
 				else if(result.hasUserTokenExpired())
 				{
-					totalStepsCount = COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN;
+					totalStepsCount = COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN;
 					
 					clearUserCache();
 					
@@ -690,6 +761,25 @@ public abstract class ContentManagerCallback
 			{
 				Calendar calendar = (Calendar) content;
 				getCache().setInitialCallSNTPCalendar(calendar);
+				break;
+			}
+			
+			case COMPETITIONS_ALL:
+			{
+				if(result.wasSuccessful() && content != null) 
+				{
+					@SuppressWarnings("unchecked")
+					ArrayList<Competition> competitions = (ArrayList<Competition>) content;
+					getCache().getCompetitionsData().setAllCompetitions(competitions);
+					
+					/* Setting the initially selected competition as the first competition in the list */
+					if(competitions.isEmpty() == false)
+					{
+						String competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+						
+						getCache().getCompetitionsData().setSelectedCompetition(competitionID);
+					}
+				}
 				break;
 			}
 			

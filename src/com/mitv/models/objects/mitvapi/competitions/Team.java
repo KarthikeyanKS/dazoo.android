@@ -3,6 +3,10 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
+import com.mitv.SecondScreenApplication;
 import com.mitv.models.gson.mitvapi.competitions.TeamJSON;
 
 
@@ -14,6 +18,37 @@ public class Team
 	
 	
 	
+	public Drawable getLocalFlagDrawableResource()
+	{
+		String resourceName = nationCode;
+		
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+	
+		Drawable drawable = null;
+		
+		try
+		{
+			drawable = context.getResources().getDrawable(context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName()));
+		}
+		catch(Exception e)
+		{
+			// Do nothing
+		}
+		
+		return drawable;
+	}
+	
+	
+	
+	public boolean isLocalFlagDrawableResourceAvailable()
+	{
+		Drawable drawableResource = getLocalFlagDrawableResource();
+		
+		return (drawableResource != null);
+	}
+	
+	
+	
 	@Override
 	public int hashCode() 
 	{
@@ -21,7 +56,7 @@ public class Team
 		
 		int result = 1;
 		
-		result = prime * result + ((teamID == null) ? 0 : teamID.hashCode());
+		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
 		
 		return result;
 	}
@@ -48,14 +83,14 @@ public class Team
 		
 		Team other = (Team) obj;
 		
-		if (teamID == null) 
+		if (teamId == null) 
 		{
-			if (other.teamID != null) 
+			if (other.teamId != null) 
 			{
 				return false;
 			}
 		} 
-		else if (!teamID.equals(other.teamID)) 
+		else if (!teamId.equals(other.teamId)) 
 		{
 			return false;
 		}

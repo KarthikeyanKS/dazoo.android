@@ -9,11 +9,11 @@ import java.util.List;
 
 public class PhaseJSON 
 {
-	protected String phaseID;
+	protected String phaseId;
 	protected String stage;
 	protected String name;
 	protected String type;
-	protected List<String> teamIDs;
+	protected List<String> teamIds;
 	
 	
 	
@@ -21,8 +21,8 @@ public class PhaseJSON
 
 
 
-	public String getPhaseID() {
-		return phaseID;
+	public String getPhaseId() {
+		return phaseId;
 	}
 
 
@@ -46,6 +46,6 @@ public class PhaseJSON
 
 
 	public List<String> getTeamIDs() {
-		return teamIDs;
+		return teamIds;
 	}
 }

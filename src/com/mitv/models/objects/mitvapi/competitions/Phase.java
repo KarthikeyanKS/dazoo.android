@@ -10,6 +10,10 @@ import com.mitv.models.gson.mitvapi.competitions.PhaseJSON;
 public class Phase 
 	extends PhaseJSON
 {
+	@SuppressWarnings("unused")
+	private static final String TAG = Phase.class.getName();
+	
+	
 	public Phase(){}
 	
 	
@@ -21,7 +25,7 @@ public class Phase
 		
 		int result = 1;
 		
-		result = prime * result + ((phaseID == null) ? 0 : phaseID.hashCode());
+		result = prime * result + ((phaseId == null) ? 0 : phaseId.hashCode());
 		
 		return result;
 	}
@@ -48,14 +52,14 @@ public class Phase
 		
 		Phase other = (Phase) obj;
 		
-		if (phaseID == null) 
+		if (phaseId == null) 
 		{
-			if (other.phaseID != null) 
+			if (other.phaseId != null) 
 			{
 				return false;
 			}
 		} 
-		else if (!phaseID.equals(other.phaseID)) 
+		else if (!phaseId.equals(other.phaseId)) 
 		{
 			return false;
 		}

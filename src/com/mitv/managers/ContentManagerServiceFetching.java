@@ -4,10 +4,7 @@ package com.mitv.managers;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.util.Log;
 
@@ -27,11 +24,6 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
-import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
-import com.mitv.models.objects.mitvapi.competitions.Team;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -46,132 +38,6 @@ public abstract class ContentManagerServiceFetching
 	protected abstract void handleBroadcastPageDataResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content);
 	protected abstract void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener);
 	
-	
-	
-	
-	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */
-	
-	public Team getFromCacheTeamByID(String teamID)
-	{
-		Team matchingTeam = null;
-		
-		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
-		
-		for(Team team : teams)
-		{
-			if(team.getTeamID().equals(teamID))
-			{
-				matchingTeam = team;
-				break;
-			}
-		}
-		
-		return matchingTeam;
-	}
-	
-	
-	
-	public Event getFromCacheNextUpcomingEventForSelectedCompetition()
-	{
-		Event matchingEvent = null;
-		
-		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
-		
-		for(Event event : events)
-		{
-			Calendar eventStartTimeCalendar = event.getStartTimeCalendarLocal();
-			
-			if(matchingEvent != null && matchingEvent.getStartTimeCalendarLocal().after(eventStartTimeCalendar))
-			{
-				matchingEvent = event;
-			}
-		}
-		
-		return matchingEvent;
-	}
-
-	
-	
-	public Map<String, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition()
-	{
-		Map<String, List<Event>> eventsByPhaseID = new HashMap<String, List<Event>>();
-		
-		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
-		
-		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
-		
-		for(Phase phase : phases)
-		{
-			List<Event> eventsForPhase = new ArrayList<Event>();
-			
-			for(Event event : events)
-			{
-				if(event.getPhaseID().equals(phase.getPhaseID()))
-				{
-					eventsForPhase.add(event);
-				}
-			}
-			
-			eventsByPhaseID.put(phase.getPhaseID(), eventsForPhase);
-		}
-		
-		return eventsByPhaseID;
-	}
-	
-	
-	
-	public Map<String, List<Team>> getFromCacheAllTeamsGroupedByPhaseForSelectedCompetition()
-	{
-		Map<String, List<Team>> teamsByPhaseID = new HashMap<String, List<Team>>();
-		
-		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
-		
-		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
-		
-		for(Phase phase : phases)
-		{
-			List<Team> teamsForPhase = new ArrayList<Team>();
-			
-			for(Team team : teams)
-			{
-				if(team.getPhaseID().equals(phase.getPhaseID()))
-				{
-					teamsForPhase.add(team);
-				}
-			}
-			
-			teamsByPhaseID.put(phase.getPhaseID(), teamsForPhase);
-		}
-		
-		return teamsByPhaseID;
-	}
-	
-	
-	
-	public Calendar getSelectedCompetitionBeginTime()
-	{
-		Calendar cal;
-		
-		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
-		
-		if(selectedCompetition != null)
-		{
-			cal = selectedCompetition.getBeginTimeCalendarLocal();
-		}
-		else
-		{
-			cal = DateUtils.getNow();
-		}
-		
-		return cal;
-	}
-
-	
-	
-	public List<Competition> getFromCacheAllCompetitions()
-	{
-		return getCache().getCompetitionsData().getAllCompetitions();
-	}
 	
 	
 	
@@ -643,6 +509,20 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
+	public void getElseFetchFromServiceCompetitionInitialData(ViewCallbackListener activityCallbackListener, boolean forceDownload, String competitionID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsCompetitionData(competitionID)) 
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+		} 
+		else 
+		{
+			getAPIClient().getCompetitionInitialDataOnPoolExecutor(activityCallbackListener, competitionID);
+		}
+	}
+	
+	
+	
 	/* PRIVATE METHODS - TO BE USED ONLY IN THIS SCOPE */
 	
 	
@@ -703,5 +583,5 @@ public abstract class ContentManagerServiceFetching
 				buildTVBroadcastsForTags.execute();
 			}
 		}
-	}
+	}	
 }

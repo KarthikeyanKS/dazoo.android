@@ -6,7 +6,7 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 public class CompetitionJSON 
 {
-	protected String _id;
+	protected String competitionId;
 	protected String url;
 	protected String displayName;
 	protected String startDate;
@@ -20,8 +20,9 @@ public class CompetitionJSON
 
 
 
-	public String get_id() {
-		return _id;
+	public String getCompetitionId() 
+	{
+		return competitionId;
 	}
 
 

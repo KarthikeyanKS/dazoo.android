@@ -9,16 +9,17 @@ import com.mitv.models.gson.mitvapi.ImageSetSizeJSON;
 
 public class TeamDetailsJSON 
 {
-	protected String teamID;
+	protected String teamId;
+	protected String phaseId;
 	protected String displayName;
-	protected String phaseID;
-	protected String flagID;
+	protected String nation;
+	protected String nationCode;
 	protected String description;
-	protected ImageSetSizeJSON teamBanner;
+	protected ImageSetSizeJSON images;
 	protected TeamSocialLinksJSON socialLinks;
-	protected List<String> coachIDs;
-	protected List<String> managerIDs;
-	protected List<String> playerIDs;
+	protected List<String> coachIds;
+	protected List<String> managerIds;
+	protected List<String> playerIds;
 	
 	
 	

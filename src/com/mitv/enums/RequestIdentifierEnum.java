@@ -42,13 +42,14 @@ public enum RequestIdentifierEnum {
 	POPULAR_ITEMS_STANDALONE(39, "Popular items standalone"),
 	TV_BROADCASTS_POUPULAR_PROCESSING(40, "TV Broadcasts popular processing"),
 	COMPETITIONS_ALL(41, "All available competitions"),
-	COMPETITION_BY_ID(42, "Specific Competition by ID"),
-	COMPETITION_TEAMS(43, "All teams present in a specific competition"),
-	COMPETITION_TEAM_DETAILS(44, "Details for a team present in a specific competition"),
-	COMPETITION_PHASES(45, "All phases for a specific competition"),
-	COMPETITION_PHASE_BY_ID(46, "A phase for a specific competition"),
-	COMPETITION_EVENTS(47, "All events for a specific competition"),
-	COMPETITION_EVENT_BY_ID(48, "An event for a specific competition");
+	COMPETITION_INITIAL_DATA(42, "Competition initial data agregation"),
+	COMPETITION_BY_ID(43, "Specific Competition by ID"),
+	COMPETITION_TEAMS(44, "All teams present in a specific competition"),
+	COMPETITION_TEAM_DETAILS(45, "Details for a team present in a specific competition"),
+	COMPETITION_PHASES(46, "All phases for a specific competition"),
+	COMPETITION_PHASE_BY_ID(47, "A phase for a specific competition"),
+	COMPETITION_EVENTS(48, "All events for a specific competition"),
+	COMPETITION_EVENT_BY_ID(49, "An event for a specific competition");
 	
 	
 	private final int id;
