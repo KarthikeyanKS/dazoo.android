@@ -5,6 +5,7 @@ package com.mitv.fragments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.listadapters.CompetitionTagListAdapter;
 import com.mitv.listadapters.TVGuideListAdapter;
 import com.mitv.listadapters.TVGuideTagListAdapter;
 import com.mitv.managers.ContentManager;
@@ -30,6 +32,7 @@ import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.TVTag;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
@@ -52,6 +55,10 @@ public class TVGuideTableFragment
 	private SwipeClockBar swipeClockBar;
 	private TVGuideListAdapter tvGuideListAdapter;
 	
+	private CompetitionTagListAdapter competitionTagListAdapter;
+	private List<Competition> competitions;
+	private Competition competition;
+	private ListView competitionListView;
 	
 	private String tvTagDisplayName;
 	private String tvTagIdAsString;
@@ -130,7 +137,14 @@ public class TVGuideTableFragment
 			swipeClockBar.setSelectedHourTextView(selectedHourTextView);
 			swipeClockBar.setTimeSelectedListener(this);
 			updateSwipeClockBarWithDayAndTime();
-		} 
+			
+		} else if (isCategoryTagCompetition()) {
+			// use layout main for competition
+			
+			// use CompetitionPageFragment
+				// use layout listview
+		}
+		
 		else
 		{
 			rootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
@@ -178,6 +192,9 @@ public class TVGuideTableFragment
 
 		tvChannelGuides = null;
 		taggedBroadcasts = null;
+		
+		competitions = null;
+		competition = null;
 
 		if (isAllCategoriesTag())
 		{
@@ -216,7 +233,11 @@ public class TVGuideTableFragment
 				if(tvChannelGuides != null && !tvChannelGuides.isEmpty()) {
 					noContent = false;
 				}
-			} 
+				
+			} else if (isCategoryTagCompetition()) {
+				
+			}
+			
 			else
 			{
 				HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
@@ -254,15 +275,22 @@ public class TVGuideTableFragment
 	}
 	
 	
+	private boolean isCategoryTagCompetition() {
+		boolean isCategoryTagCompetition = tvTagIdAsString.equals(Constants.COMPETITION_FIFA_WORLD_CUP_TAG);
+		
+		return isCategoryTagCompetition;
+	}
+	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
 
 		switch (status) 
-		{	
+		{
 			case SUCCESS_WITH_CONTENT:
-			{	
+			{
 				if(isAllCategoriesTag()) 
 				{
 					TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
@@ -276,6 +304,7 @@ public class TVGuideTableFragment
 					
 					tvGuideListAdapter.notifyDataSetChanged();
 					Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
+					
 				}
 				else 
 				{
@@ -307,6 +336,7 @@ public class TVGuideTableFragment
 			
 		tvGuideListView.setAdapter(tvTagListAdapter);
 	}
+	
 	
 	
 	private class RemoveAlreadyEndedBroadcastsTask
