@@ -439,7 +439,7 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */
-	public static final String DISQUS_COMMENTS_DOMAIN = HTTP_SCHEME_USED + BACKEND_ENVIRONMENT_USED;
+	public static final String DISQUS_COMMENTS_DOMAIN = HTTP_SCHEME_USED + FRONTEND_ENVIRONMENT_USED;
 	public static final String DISQUS_COMMENTS_PAGE_URL = DISQUS_COMMENTS_DOMAIN + "/test/index.htm";
 	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE = "title";
 	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER = "identifier";
