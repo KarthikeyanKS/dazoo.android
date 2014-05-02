@@ -16,20 +16,21 @@ import android.view.ViewGroup;
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
+import com.mitv.adapters.pager.TVGuideTagFragmentStatePagerAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.viewpagerindicator.TabPageIndicator;
 
 
 
-public class TVHolderFragment 
+public class TVGuideHolderFragment 
 	extends Fragment 
 	implements OnPageChangeListener
 {
-	private static final String TAG = TVHolderFragment.class.getName();
+	private static final String TAG = TVGuideHolderFragment.class.getName();
 	
 	private static final String BUNDLE_INFO_STARTING_INDEX = "BUNDLE_INFO_STARTING_INDEX";
 	private static final int STARTING_TAB_INDEX = 0;
@@ -37,7 +38,7 @@ public class TVHolderFragment
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
 	
-	private TagTypeFragmentStatePagerAdapter pagerAdapter;
+	private TVGuideTagFragmentStatePagerAdapter pagerAdapter;
 	
 	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
 	private int selectedTabIndex;
@@ -51,11 +52,11 @@ public class TVHolderFragment
 
 	
 	
-	public static TVHolderFragment newInstance(
+	public static TVGuideHolderFragment newInstance(
 			final int startingIndex, 
 			final OnViewPagerIndexChangedListener listener)
 	{
-		TVHolderFragment fragment = new TVHolderFragment();
+		TVGuideHolderFragment fragment = new TVGuideHolderFragment();
 		
 		Bundle bundle = new Bundle();
 		
@@ -64,6 +65,7 @@ public class TVHolderFragment
 		fragment.setArguments(bundle);
 
 		fragment.setViewPagerIndexChangedListener(listener);
+		
 		fragment.setSelectedTabIndex(STARTING_TAB_INDEX);
 		
 		return fragment;
@@ -110,6 +112,7 @@ public class TVHolderFragment
 		if(viewPagerIndexChangedListener != null)
 		{
 			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+			
 			TrackingGAManager.sharedInstance().sendUserTagSelectionEvent(pos);
 		}
 		else
@@ -135,8 +138,10 @@ public class TVHolderFragment
 		TVDate tvDate = ContentManager.sharedInstance().getFromCacheTVDateSelected();
 		
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
-
-		pagerAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, tvDate);
+		
+		List<Competition> competitions = ContentManager.sharedInstance().getFromCacheAllCompetitions(false);
+		
+		pagerAdapter = new TVGuideTagFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, competitions, tvDate);
 
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(1);

@@ -1029,9 +1029,28 @@ public abstract class ContentManagerBase
 
 	
 	
-	public List<Competition> getFromCacheAllCompetitions()
+	public List<Competition> getFromCacheAllCompetitions(boolean inludeInvisible)
 	{
-		return getCache().getCompetitionsData().getAllCompetitions();
+		List<Competition> allCompetitions = getCache().getCompetitionsData().getAllCompetitions();
+		
+		if(inludeInvisible)
+		{
+			return allCompetitions;
+		}
+		else
+		{
+			List<Competition> onlyVisibleCompetitions = new ArrayList<Competition>();
+			
+			for(Competition competition : allCompetitions)
+			{
+				if(competition.isVisible())
+				{
+					onlyVisibleCompetitions.add(competition);
+				}
+			}
+			
+			return onlyVisibleCompetitions;
+		}
 	}
 	
 	

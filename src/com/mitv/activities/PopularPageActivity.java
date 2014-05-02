@@ -12,10 +12,10 @@ import android.widget.ListView;
 
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.adapters.list.PopularListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.listadapters.PopularListAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 

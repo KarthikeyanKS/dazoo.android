@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/competition_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:id="@+id/row_competition_page_begin_time_broadcast_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:padding="5dp"
+        android:background="@color/white" >
+
+        <!-- Start time of game -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_page_begin_time_broadcast"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/competition_page_begin_time_broadcast"
+            android:textColor="@color/black" />
+
+        <!-- Channels airing on channels: -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_airing_channels_for_broadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/row_competition_page_begin_time_broadcast"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/competition_page_airing_on_channel"
+            android:textColor="@color/grey1"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <!-- TEAM ONE -->
+
+    <RelativeLayout
+        android:id="@+id/row_competition_page_team_one_flag_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/row_competition_page_begin_time_broadcast_container"
+        android:background="@color/white" >
+
+        <!-- Flag team one -->
+
+        <ImageView
+            android:id="@+id/row_competition_team_one_flag"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+			android:layout_centerVertical="true"
+			android:layout_marginRight="5dp"
+            android:background="@color/orange"
+            android:src="@drawable/ic_launcher" />
+
+        <!-- Team one name -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_team_one_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/row_competition_team_one_flag"
+            android:layout_centerVertical="true"
+            android:text="@string/competition_page_team_one_name"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <!-- TEAM TWO -->
+
+    <RelativeLayout
+        android:id="@+id/row_competition_page_team_two_flag_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true"
+        android:padding="5dp"
+        android:layout_toRightOf="@id/row_competition_page_begin_time_broadcast_container"
+        android:background="@color/white" >
+        
+        <!-- Team two name -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_team_two_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/competition_page_team_two_name"
+            android:textSize="12sp" />
+
+        <!-- Flag team two -->
+
+        <ImageView
+            android:id="@+id/row_competition_team_two_flag"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/row_competition_team_two_name"
+			android:layout_marginRight="5dp"
+            android:background="@color/orange"
+            android:src="@drawable/ic_launcher" />
+    </RelativeLayout>
+
+</RelativeLayout>

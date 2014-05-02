@@ -1,62 +1,56 @@
 
-package com.mitv.listadapters;
+package com.mitv.adapters.pager;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
-import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.enums.BroadcastTypeEnum;
-import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.utilities.LanguageUtils;
+import com.mitv.adapters.list.AdListAdapter;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> 
+public class CompetitionTabEventsListAdapter
+	extends AdListAdapter<Event> 
 {
-	private static final String TAG = CompetitionTagListAdapter.class.getName();
+	private static final String TAG = CompetitionTabEventsListAdapter.class.getName();
 
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
 	private int currentPosition;
+	
+	private List<Event> events;
+	
+	
 
 	
 	
-	public CompetitionTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition)
+	public CompetitionTabEventsListAdapter(
+			final Activity activity, 
+			final String fragmentName, 
+			final List<Event> events, 
+			final int currentPosition)
 	{
-		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
-		this.taggedBroadcasts = taggedBroadcasts;
+		super(fragmentName, activity, events, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
+		
+		this.events = events;
 		this.activity = activity;
 		this.currentPosition = currentPosition;
-	}
-
-	
-	
-	@Override
-	public int getViewTypeCount() 
-	{
-		return super.getViewTypeCount() + 1;
 	}
 
 	
@@ -86,13 +80,13 @@ public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChan
 		// Get the item with the displacement depending on the scheduled time on air
 		int indexForBroadcast = currentPosition + position;
 		
-		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
+		final Event event = getItem(indexForBroadcast);
 
 		if (rowView == null) 
 		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
-			rowView = layoutInflater.inflate(R.layout.row_competition_list, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_event_list_item, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
@@ -121,18 +115,8 @@ public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChan
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (broadcastWithChannelInfo != null) 
+		if (event != null) 
 		{
-			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) 
-			{
-//				LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
-			} 
-			else 
-			{
-//				holder.mDurationPb.setVisibility(View.GONE);
-//				holder.mTimeLeftTv.setVisibility(View.GONE);
-			}
-
 			ImageAware imageAwareOne = new ImageViewAware(holder.teamOneFlag, false);
 			ImageAware imageAwareTwo = new ImageViewAware(holder.teamTwoFlag, false);
 			
@@ -146,32 +130,6 @@ public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChan
 			
 			StringBuilder descriptionSB = new StringBuilder();
 			
-			if(broadcastWithChannelInfo.isPopular())
-			{
-//				String stringIconTrending = activity.getString(R.string.icon_trending);
-//				
-//				titleSB.append(stringIconTrending)
-//				.append(" ");
-			}
-			
-			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
-			
-			if (programType.equals(ProgramTypeEnum.SPORT)) {
-				
-				if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
-				{
-					titleSB.append(activity.getString(R.string.icon_live))
-					.append(" ");
-				}
-
-				descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
-				.append(": ")
-				.append(broadcastWithChannelInfo.getProgram().getTournament());
-			}
-
-			
-			titleSB.append(broadcastWithChannelInfo.getTitle());
-			
 //			holder.mTitleTv.setText(titleSB.toString());
 //			holder.mDescTv.setText(descriptionSB.toString());
 		}
@@ -181,13 +139,7 @@ public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChan
 			@Override
 			public void onClick(View v) 
 			{
-				/* Items in list will not be clickable at frist stage */
-				
-//				Intent intent = new Intent(activity, BroadcastPageActivity.class);
-//				
-//				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-//				
-//				activity.startActivity(intent);
+				// TODO: Unimplemented at this stage
 			}
 		});
 		
@@ -196,25 +148,12 @@ public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChan
 
 	
 	
-	static class ViewHolder 
-	{
-		private RelativeLayout mContainer;
-		private TextView startTime;
-		private TextView channelInfo;
-		private ImageView teamOneFlag;
-		private ImageView teamTwoFlag;
-		private TextView teamOneName;
-		private TextView teamTwoName;
-	}
-
-	
-	
 	@Override
 	public int getCount() 
 	{
-		if (taggedBroadcasts != null) 
+		if (events != null) 
 		{
-			return taggedBroadcasts.size() - currentPosition;
+			return events.size();
 		} 
 		else 
 		{
@@ -225,11 +164,11 @@ public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChan
 	
 	
 	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) 
+	public Event getItem(int position) 
 	{
-		if (taggedBroadcasts != null) 
+		if (events != null) 
 		{
-			return taggedBroadcasts.get(position);
+			return events.get(position);
 		} 
 		else 
 		{
@@ -243,5 +182,18 @@ public class CompetitionTagListAdapter extends AdListAdapter<TVBroadcastWithChan
 	public long getItemId(int arg0) 
 	{
 		return -1;
+	}
+	
+	
+	
+	private static class ViewHolder 
+	{
+		private RelativeLayout mContainer;
+		private TextView startTime;
+		private TextView channelInfo;
+		private ImageView teamOneFlag;
+		private ImageView teamTwoFlag;
+		private TextView teamOneName;
+		private TextView teamTwoName;
 	}
 }

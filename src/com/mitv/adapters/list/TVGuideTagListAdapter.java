@@ -1,5 +1,5 @@
 
-package com.mitv.listadapters;
+package com.mitv.adapters.list;
 
 
 
@@ -8,15 +8,16 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
@@ -30,79 +31,64 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class AiringOnDifferentChannelListAdapter 
-	extends BaseAdapter
+public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> 
 {
-	@SuppressWarnings("unused")
-	private static final String TAG = AiringOnDifferentChannelListAdapter.class.getName();
+	private static final String TAG = TVGuideTagListAdapter.class.getName();
 
-	
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	private final ArrayList<TVBroadcastWithChannelInfo> broadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
+	private int currentPosition;
 
 	
 	
-	public AiringOnDifferentChannelListAdapter(
-			final Activity activity, 
-			final ArrayList<TVBroadcastWithChannelInfo> broadcasts) 
+	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition) 
 	{
-		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		this.broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(broadcasts);
-		
+		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
+		this.taggedBroadcasts = taggedBroadcasts;
 		this.activity = activity;
-	}
-	
-		
-	
-	@Override
-	public int getCount()
-	{
-		if (broadcasts != null)
-		{
-			return broadcasts.size();
-		} 
-		else
-		{
-			return 0;
-		}
-	}
-	
-	
-	
-	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) 
-	{
-		if (broadcasts != null) 
-		{
-			return broadcasts.get(position);
-		} 
-		else 
-		{
-			return null;
-		}
-	}
-
-		
-	
-	@Override
-	public long getItemId(int arg0) 
-	{
-		return -1;
+		this.currentPosition = currentPosition;
 	}
 
 	
 	
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent)
+	public int getViewTypeCount() 
+	{
+		return super.getViewTypeCount() + 1;
+	}
+
+	
+	
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
+		Log.d(TAG, "Fetching index " + position);
+		
+		/* Superclass AdListAdapter will create view if this is a position of an ad. */
+		View rowView = super.getView(position, convertView, parent);
+
+		if (rowView == null)
+		{
+			rowView = getViewForBroadCastCell(position, convertView, parent);
+		}
+
+		return rowView;
+	}
+
+	
+	
+	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
 
-		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) getItem(position);
+		// Get the item with the displacement depending on the scheduled time on air
+		int indexForBroadcast = currentPosition + position;
+		
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
 
-		if (rowView == null)
+		if (rowView == null) 
 		{
 			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
@@ -163,6 +149,8 @@ public class AiringOnDifferentChannelListAdapter
 				{
 					titleSB.append(activity.getString(R.string.icon_movie))
 					.append(" ");
+					
+					holder.mTitleTv.setText(titleSB.toString());
 					
 					descriptionSB.append(broadcastWithChannelInfo.getProgram().getGenre())
 					.append(" ")
@@ -239,7 +227,7 @@ public class AiringOnDifferentChannelListAdapter
 
 	
 	
-	private static class ViewHolder 
+	static class ViewHolder 
 	{
 		private RelativeLayout mContainer;
 		private ImageView mImageIv;
@@ -249,5 +237,43 @@ public class AiringOnDifferentChannelListAdapter
 		private TextView mDescTv;
 		private TextView mTimeLeftTv;
 		private ProgressBar mDurationPb;
+	}
+
+	
+	
+	@Override
+	public int getCount() 
+	{
+		if (taggedBroadcasts != null) 
+		{
+			return taggedBroadcasts.size() - currentPosition;
+		} 
+		else 
+		{
+			return 0;
+		}
+	}
+
+	
+	
+	@Override
+	public TVBroadcastWithChannelInfo getItem(int position) 
+	{
+		if (taggedBroadcasts != null) 
+		{
+			return taggedBroadcasts.get(position);
+		} 
+		else 
+		{
+			return null;
+		}
+	}
+
+	
+	
+	@Override
+	public long getItemId(int arg0) 
+	{
+		return -1;
 	}
 }

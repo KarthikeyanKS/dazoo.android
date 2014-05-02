@@ -1,5 +1,5 @@
 
-package com.mitv.listadapters;
+package com.mitv.adapters.list;
 
 
 

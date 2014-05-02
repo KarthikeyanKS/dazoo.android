@@ -1,4 +1,4 @@
-package com.mitv.listadapters;
+package com.mitv.adapters.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

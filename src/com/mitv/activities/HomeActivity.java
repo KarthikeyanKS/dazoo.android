@@ -14,8 +14,8 @@ import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.fragments.TVHolderFragment;
-import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.mitv.fragments.TVGuideHolderFragment;
+import com.mitv.fragments.TVGuideHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.ui.helpers.ToastHelper;
@@ -32,7 +32,7 @@ public class HomeActivity
 	
 	private LinearLayout fragmentContainer;
 	
-	private TVHolderFragment activeFragment;
+	private TVGuideHolderFragment activeFragment;
 	private int selectedTagIndex;
 	private boolean hasShowWelcomeToast;
 
@@ -51,7 +51,8 @@ public class HomeActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
+		if (super.isRestartNeeded()) 
+		{
 			return;
 		}
 		
@@ -61,17 +62,21 @@ public class HomeActivity
 		
 		boolean isConnected = NetworkUtils.isConnected();
 		
-		if (isConnected) {
+		if (isConnected)
+		{
 			getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 			selectedTagIndex = 0;
+			
 			hasShowWelcomeToast = false;			
 			
 			registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 			
 			RateAppManager.appLaunched(this);
 			
-		} else {
+		} 
+		else 
+		{
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
 	}
@@ -124,9 +129,9 @@ public class HomeActivity
 		{
 			FragmentManager fm = getSupportFragmentManager();
 			
-			if (activeFragment == null) 
+			if (activeFragment == null)
 			{
-				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, getOnViewPagerIndexChangedListener());
+				activeFragment = TVGuideHolderFragment.newInstance(selectedTagIndex, getOnViewPagerIndexChangedListener());
 
 				FragmentTransaction fragmentTransaction = fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null);
 				
@@ -191,21 +196,28 @@ public class HomeActivity
 	}
 	
 	
+	
 	private void setGUIToLoading() 
 	{
 		updateUI(UIStatusEnum.LOADING);
+		
 		String loadingMessage = getString(R.string.loading_message_guide_new_day);
+		
 		setLoadingLayoutDetailsMessage(loadingMessage);
 	}
+	
 	
 	
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
 		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasTVTagsAndGuideForSelectedTVDate();
-		if(!hasEnoughDataToShowContent) {
+		
+		if(hasEnoughDataToShowContent == false)
+		{
 			Log.w(TAG, "Not enough data to show content");
 		}
+		
 		return hasEnoughDataToShowContent;
 	}
 	

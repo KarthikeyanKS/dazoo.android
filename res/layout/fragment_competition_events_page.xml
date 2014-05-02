@@ -31,18 +31,34 @@
 	            android:layout_marginTop="10dp"
 	            android:background="@color/grey2" />
 	        
-	        <!-- include tag pages -->
-	        
-	        <RelativeLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:background="@color/white" >
-	            
-	            <!-- Group stage -->
-		        <!-- Second stage -->
-		        <!-- Teams -->
-	        </RelativeLayout>
-	        
+	        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:orientation="vertical"
+			    android:background="@color/white" >
+			
+			    <com.viewpagerindicator.TabPageIndicator
+			        android:id="@+id/tab_event_indicator"
+			        android:layout_width="match_parent"
+			        android:layout_height="44dp"
+			        android:layout_alignParentTop="true" />
+			
+			    <View
+			        android:id="@+id/tab_event_divider"
+			        android:layout_width="match_parent"
+			        android:layout_height="1dp"
+			        android:layout_below="@id/tab_event_indicator"
+			        android:background="@color/home_divider" />
+			
+			    <com.imbryk.viewPager.LoopViewPager
+			        android:id="@+id/tab_event_pager"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:layout_below="@id/tab_event_divider"
+			        android:visibility="gone" />
+			
+			</RelativeLayout>
+				        
         </RelativeLayout>
             
     </ScrollView>
