@@ -29,6 +29,7 @@ public abstract class FileUtils
 	public static final String ANDROID_FONTS_PATH = "fonts/";
 	public static final String ANDROID_DATA_PATH = "/Android/data/";
 	public static final String MOCK_JSON_PATH = "/mock_json";
+	public static final String JSON_FILE_SUFFIX = ".json";
 	
 	
 			
@@ -156,7 +157,9 @@ public abstract class FileUtils
         {
         	resultsSB = new StringBuilder();
         	
-            InputStream input = am.open(filename);
+        	String filenameWithExtension = filename + JSON_FILE_SUFFIX;
+        	
+            InputStream input = am.open(filenameWithExtension);
 
             InputStreamReader inputStreamReader = new InputStreamReader(input);
 
@@ -175,8 +178,6 @@ public abstract class FileUtils
         {
         	resultsSB = null;
         }
-        
-        am.close();
         
         if(resultsSB != null)
         {

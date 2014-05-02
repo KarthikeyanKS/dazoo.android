@@ -33,14 +33,14 @@ public class ContentManager
 	
 	public void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) 
     {
-		registerListenerForRequest(requestIdentifier, listener);
+		setListenerForRequest(requestIdentifier, listener);
     }
     
     
     
 	public void unregisterListenerFromAllRequests(ViewCallbackListener listener) 
     {
-		unregisterListenerFromAllRequests(listener);
+		unsetListenerFromAllRequests(listener);
     }
 	
 	

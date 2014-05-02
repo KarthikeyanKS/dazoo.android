@@ -36,7 +36,7 @@ public abstract class ContentManagerServiceFetching
 	
 	// Forward declaration. Reusing handle method and avoiding code duplication
 	protected abstract void handleBroadcastPageDataResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content);
-	protected abstract void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener);
+	protected abstract void setListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener);
 	
 	
 	
@@ -45,7 +45,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void checkNetworkConnectivity(ViewCallbackListener activityCallbackListener) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.INTERNET_CONNECTIVITY, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.INTERNET_CONNECTIVITY, activityCallbackListener);
 		
 		getAPIClient().getNetworkConnectivityIsAvailable(activityCallbackListener);
 	}
@@ -54,7 +54,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void fetchFromServiceInitialCall(ViewCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener)
 	{	
-		registerListenerForRequest(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, activityCallbackListener);
 		
 		if(!isUpdatingGuide) 
 		{
@@ -82,7 +82,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void fetchFromServiceMoreActivityData(ViewCallbackListener activityCallbackListener, int offset) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM_MORE, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM_MORE, activityCallbackListener);
 		
 		if (!isFetchingFeedItems) 
 		{
@@ -98,7 +98,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void fetchFromServiceDisqusComments(ViewCallbackListener activityCallbackListener, String contentID) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_COMMENTS, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_COMMENTS, activityCallbackListener);
 		
 		getAPIClient().getDisqusThreadPosts(activityCallbackListener, contentID);
 	}
@@ -106,7 +106,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void fetchFromServiceDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_DETAILS, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.DISQUS_THREAD_DETAILS, activityCallbackListener);
 		
 		getAPIClient().getDisqusThreadDetails(activityCallbackListener, contentID);
 	}
@@ -120,7 +120,7 @@ public abstract class ContentManagerServiceFetching
 	{
 		Log.d(TAG, "PROFILING: fetchFromServiceTVDataOnUserStatusChange");
 		
-		registerListenerForRequest(RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE, activityCallbackListener);
 		
 		/* Handle TV Channel & Guide data, after login */
 		getAPIClient().getUserTVChannelIds(activityCallbackListener, true);
@@ -134,7 +134,7 @@ public abstract class ContentManagerServiceFetching
 			 * According to the current architecture we MUST not allow the method onDataAvailable to be called in LoginViews,
 			 * since pattern with returnActivity and method tryStartReturnActivity will break */
 			
-			registerListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE, activityCallbackListener);
+			setListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE, activityCallbackListener);
 			
 			addUserLike(null, likeToAddAfterLogin);
 		}
@@ -153,7 +153,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(ViewCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
-		registerListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE, activityCallbackListener);
 		
 		if(!isUpdatingGuide) 
 		{
@@ -189,9 +189,9 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceActivityFeedData(ViewCallbackListener activityCallbackListener) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.USER_LIKES, activityCallbackListener);
-		registerListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, activityCallbackListener);
-		registerListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_LIKES, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA, activityCallbackListener);
 		
 		getAPIClient().getUserTVFeedItemsInitial(activityCallbackListener);
 		getAPIClient().getUserLikes(activityCallbackListener, false);
@@ -201,7 +201,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceSearchResults(ViewCallbackListener activityCallbackListener, String searchQuery) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.SEARCH, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.SEARCH, activityCallbackListener);
 		
 		getAPIClient().getTVSearchResults(activityCallbackListener, searchQuery);
 	}
@@ -210,7 +210,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceUserLikes(ViewCallbackListener activityCallbackListener) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.USER_LIKES, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_LIKES, activityCallbackListener);
 		
 		getAPIClient().getUserLikes(activityCallbackListener, true);
 	}
@@ -219,7 +219,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServicePopularBroadcasts(ViewCallbackListener activityCallbackListener, boolean standalone) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE, activityCallbackListener);
 		
 		getAPIClient().getTVBroadcastsPopular(activityCallbackListener, standalone);
 	}
@@ -228,7 +228,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceIndividualBroadcast(ViewCallbackListener activityCallbackListener, TVChannelId channelId, long beginTimeInMillis) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.BROADCAST_DETAILS, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.BROADCAST_DETAILS, activityCallbackListener);
 		
 		getAPIClient().getTVBroadcastDetails(activityCallbackListener, channelId, beginTimeInMillis);
 	}
@@ -237,7 +237,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceUpcomingBroadcasts(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, TVBroadcastWithChannelInfo broadcast) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, activityCallbackListener);
 		
 		if (broadcast.getProgram() != null && broadcast.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) 
 		{
@@ -325,7 +325,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void addUserLike(ViewCallbackListener activityCallbackListener, UserLike userLike) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE, activityCallbackListener);
 		
 		/* Manually add like to cache, so that GUI gets updated directly, here we assume that the request was successful, if it was not,
 		 * then this manually added like is removed from the cache */
@@ -528,7 +528,7 @@ public abstract class ContentManagerServiceFetching
 	
 	private void fetchFromServiceRepeatingBroadcasts(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, TVBroadcastWithChannelInfo broadcast) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.REPEATING_BROADCASTS_FOR_PROGRAMS, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.REPEATING_BROADCASTS_FOR_PROGRAMS, activityCallbackListener);
 		
 		if (broadcast.getProgram() != null) 
 		{
@@ -564,7 +564,7 @@ public abstract class ContentManagerServiceFetching
 	
 	private void buildTVBroadcastsForTags(ViewCallbackListener activityCallbackListener, String tagName) 
 	{
-		registerListenerForRequest(RequestIdentifierEnum.TV_BROADCASTS_FOR_TAGS, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.TV_BROADCASTS_FOR_TAGS, activityCallbackListener);
 		
 		if(!isBuildingTaggedBroadcasts) 
 		{

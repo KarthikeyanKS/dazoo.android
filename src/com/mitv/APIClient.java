@@ -78,29 +78,52 @@ public class APIClient
 	{
 		this.contentCallbackListener = contentCallbackListener;
 
-		resetPoolExecutor(this.tvGuideInitialCallPoolExecutor);
+		resetTVGuideInitialCallPoolExecutor();
 		
-		resetPoolExecutor(this.competitionsInitialCallPoolExecutor);
+		resetCompetitionsInitialCallPoolExecutor();
 	}
 	
 	
 	
 	/* THREAD POLL EXECUTOR METHODS */
 	
-	private static void resetPoolExecutor(CustomThreadedPoolExecutor executor)
+	private void resetTVGuideInitialCallPoolExecutor()
 	{
-		if(executor != null)
+		if(tvGuideInitialCallPoolExecutor != null)
 		{
-			if(executor.isShutdown() == false)
+			if(tvGuideInitialCallPoolExecutor.isShutdown() == false)
 			{
-				executor.shutdownNow();
+				tvGuideInitialCallPoolExecutor.shutdownNow();
 			}
 
-			executor.purge();
-			executor.resetTaskCount();
+			tvGuideInitialCallPoolExecutor.purge();
+			tvGuideInitialCallPoolExecutor.resetTaskCount();
 		}
 		
-		executor = new CustomThreadedPoolExecutor(
+		tvGuideInitialCallPoolExecutor = new CustomThreadedPoolExecutor(
+				POOL_EXECUTOR_DEFAULT_CORE_POOL_SIZE,
+				POOL_EXECUTOR_DEFAULT_MAXIMUM_POOL_SIZE,
+				POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
+	}
+	
+	
+	
+	private void resetCompetitionsInitialCallPoolExecutor()
+	{
+		if(competitionsInitialCallPoolExecutor != null)
+		{
+			if(competitionsInitialCallPoolExecutor.isShutdown() == false)
+			{
+				competitionsInitialCallPoolExecutor.shutdownNow();
+			}
+
+			competitionsInitialCallPoolExecutor.purge();
+			competitionsInitialCallPoolExecutor.resetTaskCount();
+		}
+		
+		competitionsInitialCallPoolExecutor = new CustomThreadedPoolExecutor(
 				POOL_EXECUTOR_DEFAULT_CORE_POOL_SIZE,
 				POOL_EXECUTOR_DEFAULT_MAXIMUM_POOL_SIZE,
 				POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME,
@@ -114,7 +137,7 @@ public class APIClient
 	
 	public void getTVGuideInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, boolean isUserLoggedIn)
 	{
-		resetPoolExecutor(tvGuideInitialCallPoolExecutor);
+		resetTVGuideInitialCallPoolExecutor();
 		
 		List<AsyncTask<String, Void, Void>> tasks = new ArrayList<AsyncTask<String,Void,Void>>();
 		
@@ -145,7 +168,7 @@ public class APIClient
 	
 	public void setNewTVChannelIdsAndFetchGuide(ViewCallbackListener activityCallbackListener, TVDate tvDate, ArrayList<TVChannelId> tvChannelIdsOnlyNewOnes, ArrayList<TVChannelId> tvChannelIdsAll) 
 	{
-		resetPoolExecutor(tvGuideInitialCallPoolExecutor);
+		resetTVGuideInitialCallPoolExecutor();
 		
 		GetTVChannelGuides getNewGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIdsOnlyNewOnes);
 		SetUserTVChannelIds setUserTVChanelIds = new SetUserTVChannelIds(contentCallbackListener, null, tvChannelIdsAll);
@@ -206,7 +229,7 @@ public class APIClient
 	
 	public void getCompetitionInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, String competitionID)
 	{
-		resetPoolExecutor(competitionsInitialCallPoolExecutor);
+		resetCompetitionsInitialCallPoolExecutor();
 		
 		List<AsyncTask<String, Void, Void>> tasks = new ArrayList<AsyncTask<String,Void,Void>>();
 		

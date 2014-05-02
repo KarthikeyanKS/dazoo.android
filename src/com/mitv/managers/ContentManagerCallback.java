@@ -156,14 +156,14 @@ public abstract class ContentManagerCallback
     
     
     
-    protected void registerListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) 
+    protected void setListenerForRequest(RequestIdentifierEnum requestIdentifier, ViewCallbackListener listener) 
     {
         useRequestToCallBackListenerMap(RequestToCallBackMapAccessIdentifier.REGISTER_LISTENER, requestIdentifier, listener, null);
     }
     
     
     
-    protected void unregisterListenerFromAllRequests(ViewCallbackListener listener) 
+    protected void unsetListenerFromAllRequests(ViewCallbackListener listener) 
     {
         useRequestToCallBackListenerMap(RequestToCallBackMapAccessIdentifier.UNREGISTER_LISTENER, null, listener, null);
     }

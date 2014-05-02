@@ -57,14 +57,16 @@ public class TVGuideTagFragmentStatePagerAdapter
 		/* This instance will only be created when needed by the pager adapter */
 		Fragment fragment;
 		
-		TVTag tvTag = tvTags.get(realPosition);
-		
 		if(realPosition == 0)
 		{
+			TVTag tvTag = tvTags.get(realPosition);
+			
 			fragment = new TVGuideTabFragmentAllPrograms(tvTag);
 		}
 		else if(realPosition < tvTags.size())
 		{
+			TVTag tvTag = tvTags.get(realPosition);
+			
 			fragment = new TVGuideTabFragmentBroadcast(tvTag);
 		}
 		else
