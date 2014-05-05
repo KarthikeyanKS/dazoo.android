@@ -511,7 +511,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void getElseFetchFromServiceCompetitionInitialData(ViewCallbackListener activityCallbackListener, boolean forceDownload, String competitionID)
 	{
-		if (!forceDownload && getCache().getCompetitionsData().containsCompetitionData(competitionID)) 
+		if (!forceDownload && getFromCacheHasCompetitionData(competitionID)) 
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 		} 

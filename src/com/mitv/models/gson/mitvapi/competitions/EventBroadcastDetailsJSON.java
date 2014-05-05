@@ -4,9 +4,9 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 public class EventBroadcastDetailsJSON 
 {
-	protected String channelID;
+	protected String channelId;
 	protected String date;
-	protected String broadcastID;
+	protected String broadcastId;
 	
 	
 	
@@ -14,8 +14,8 @@ public class EventBroadcastDetailsJSON
 
 
 
-	public String getChannelID() {
-		return channelID;
+	public String getChannelId() {
+		return channelId;
 	}
 
 
@@ -26,7 +26,7 @@ public class EventBroadcastDetailsJSON
 
 
 
-	public String getBroadcastID() {
-		return broadcastID;
+	public String getBroadcastId() {
+		return broadcastId;
 	}
 }

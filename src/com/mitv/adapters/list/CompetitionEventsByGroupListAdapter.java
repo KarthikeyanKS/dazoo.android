@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -153,8 +154,9 @@ public class CompetitionEventsByGroupListAdapter
 			{
 				ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
 				
-				// TODO
-				//SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1.g, imageAware);
+				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
 			}
 			
 			String team2ID = event.getTeam2Id();
@@ -169,10 +171,11 @@ public class CompetitionEventsByGroupListAdapter
 			}
 			else
 			{
-				ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
+				ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
 				
-				// TODO
-				//SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2.g, imageAware);
+				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
 			}
 			
 			holder.team1name.setText(team1.getDisplayName());

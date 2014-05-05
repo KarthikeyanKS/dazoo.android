@@ -42,7 +42,7 @@ public class Event
 	 */
 	public Calendar getStartTimeCalendarLocal() 
 	{
-		if(startCalendar == null) 
+		if(startCalendar == null)
 		{	
 			startCalendar = getStartTimeCalendarGMT();
 			

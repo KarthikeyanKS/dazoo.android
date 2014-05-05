@@ -324,6 +324,13 @@ public abstract class ContentManagerBase
 	{
 		return getCache().containsPopularBroadcasts();
 	}
+	
+	
+	
+	public boolean getFromCacheHasCompetitionData(String competitionID)
+	{
+		return getCache().getCompetitionsData().containsCompetitionData(competitionID);
+	}
 
 	
 	
