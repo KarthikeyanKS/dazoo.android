@@ -28,7 +28,10 @@ public class EventTabFragmentStatePagerAdapter
 	
 	
 	private List<String> tabs;
-
+	
+	private static final int GROUP_STAGE_POSITION = 0;
+	private static final int SECOND_STAGE_POSITION = 1;
+	private static final int TEAM_POSITION = 2;
 	
 	
 	public EventTabFragmentStatePagerAdapter(final FragmentManager fm) 
@@ -58,19 +61,19 @@ public class EventTabFragmentStatePagerAdapter
 		
 		switch(realPosition)
 		{
-			case 0:	
-			{		
+			case GROUP_STAGE_POSITION:
+			{
 				fragment = new EventTabFragmentGroupStage(tab, tab, EventTabTypeEnum.GROUP_STAGE);
 				break;
 			}
 			
-			case 1:
+			case SECOND_STAGE_POSITION:
 			{
 				fragment = new EventTabFragmentGroupStage(tab, tab, EventTabTypeEnum.SECOND_STAGE);
 				break;
 			}
 			
-			case 2:
+			case TEAM_POSITION:
 			{
 				fragment = new EventTabFragmentTeams(tab, tab, EventTabTypeEnum.TEAM);
 				break;

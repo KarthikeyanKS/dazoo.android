@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
 
     <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/competition_broadcast_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:fillViewport="true"
         android:orientation="vertical" >
         
-        <RelativeLayout
-            android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
 	        android:orientation="vertical" >
 	        
 	        <include
@@ -27,13 +24,13 @@
 	            android:layout_width="match_parent"
 	            android:layout_height="@dimen/divider_height"
 	            android:layout_below="@id/competition_broacastpage_block_container_layout"
-	            android:layout_marginBottom="10dp"
 	            android:layout_marginTop="10dp"
 	            android:background="@color/grey2" />
 	        
 	        <RelativeLayout
 			    android:layout_width="match_parent"
-			    android:layout_height="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_below="@id/divider"
 			    android:orientation="vertical"
 			    android:background="@color/white" >
 			
@@ -53,14 +50,12 @@
 			    <com.imbryk.viewPager.LoopViewPager
 			        android:id="@+id/tab_event_pager"
 			        android:layout_width="match_parent"
-			        android:layout_height="match_parent"
+			        android:layout_height="wrap_content"
 			        android:layout_below="@id/tab_event_divider"
 			        android:visibility="gone" />
 			
 			</RelativeLayout>
 				        
-        </RelativeLayout>
+        </LinearLayout>
             
     </ScrollView>
-
-</RelativeLayout>

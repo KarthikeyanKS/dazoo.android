@@ -32,7 +32,7 @@ import com.mitv.ui.helpers.DialogHelper;
 
 
 public class RemindersListAdapter 
-extends BaseAdapter
+	extends BaseAdapter
 {
 	private static final String TAG = RemindersListAdapter.class.getName();
 

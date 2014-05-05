@@ -14,7 +14,6 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
-import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
@@ -460,20 +459,26 @@ public abstract class PersistentCache
      * @param tvChannelId
      * @return
      */
-    private synchronized Object useTVChannels(TVChannelsAccessIdentifier accessIdentifier, final List<TVChannel> tvChannels, TVChannelId tvChannelId) {
+    private synchronized Object useTVChannels(TVChannelsAccessIdentifier accessIdentifier, final List<TVChannel> tvChannels, TVChannelId tvChannelId) 
+    {
         switch (accessIdentifier) {
 
         case SET: {
             setTvChannelsHelper(tvChannels);
             break;
         }
-        case GET_ALL: {
+        case GET_ALL: 
+        {
             return getTvChannelsHelper();
         }
-        case GET_BY_ID: {
+        
+        case GET_BY_ID: 
+        {
             return getTVChannelByIdHelper(tvChannelId);
         }
-        case CONTAINS: {
+        
+        case CONTAINS: 
+        {
             return containsTVChannelsHelper();
         }
 
@@ -518,10 +523,15 @@ public abstract class PersistentCache
         this.tvChannels = tvChannels;
     }
 
-    public TVChannel getTVChannelById(TVChannelId tvChannelId) {
+    
+    
+    public TVChannel getTVChannelById(TVChannelId tvChannelId) 
+    {
         return (TVChannel) useTVChannels(TVChannelsAccessIdentifier.GET_BY_ID, null, tvChannelId);
     }
 
+    
+    
     //TODO dont iterate through a list, change tvChannels to a Map instead?
     private  TVChannel getTVChannelByIdHelper(TVChannelId tvChannelId)
     {

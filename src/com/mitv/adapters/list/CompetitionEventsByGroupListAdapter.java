@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -48,6 +49,8 @@ public class CompetitionEventsByGroupListAdapter
 			final Activity activity,
 			final Map<String, List<Event>> eventsByGroup)
 	{
+		super();
+		
 		this.eventsByGroup = eventsByGroup;
 		
 		this.events = new ArrayList<Event>();
@@ -67,7 +70,7 @@ public class CompetitionEventsByGroupListAdapter
 
 	
 	@Override
-	public int getCount() 
+	public int getCount()
 	{
 		int count = 0;
 		
@@ -215,8 +218,9 @@ public class CompetitionEventsByGroupListAdapter
 			{
 				ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
 				
-				// TODO
-				//SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1.g, imageAware);
+				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
 			}
 			
 			String team2ID = event.getTeam2Id();
@@ -231,10 +235,11 @@ public class CompetitionEventsByGroupListAdapter
 			}
 			else
 			{
-				ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
+				ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
 				
-				// TODO
-				//SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2.g, imageAware);
+				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
 			}
 			
 			holder.team1name.setText(team1.getDisplayName());

@@ -1,9 +1,9 @@
 
 package com.mitv.models.gson.mitvapi.competitions;
 
-import java.util.List;
 
-import com.mitv.models.gson.mitvapi.ImageSetSizeJSON;
+
+import java.util.List;
 
 
 
@@ -15,7 +15,7 @@ public class TeamDetailsJSON
 	protected String nation;
 	protected String nationCode;
 	protected String description;
-	protected ImageSetSizeJSON images;
+	protected TeamImageSetJSON images;
 	protected TeamSocialLinksJSON socialLinks;
 	protected List<String> coachIds;
 	protected List<String> managerIds;

@@ -3,12 +3,16 @@ package com.mitv.fragments;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -19,9 +23,17 @@ import com.mitv.enums.TVGuideTabTypeEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.ui.elements.EventCountDownTimer;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
 
 
@@ -33,6 +45,7 @@ public class TVGuideTabFragmentCompetition
 	private static final String TAG = TVGuideTabFragmentCompetition.class.getName();
 	
 	
+	private static final int MAXIMUM_CHANNELS_TO_SHOW = 2;
 	private static final int STARTING_TAB_INDEX = 0;
 	
 	
@@ -45,7 +58,26 @@ public class TVGuideTabFragmentCompetition
 	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
 	private int selectedTabIndex;
 	
+	private TextView remainingTimeInDays;
+	private TextView remainingTimeInHours;
+	private TextView remainingTimeInMinutes;
+	private TextView eventStartTime;
+	private TextView tvBroadcastChannels;
+	private TextView team1Name;
+	private ImageView team1Flag;
+	private TextView team2Name;
+	private ImageView team2Flag;
 	
+	private EventCountDownTimer eventCountDownTimer;
+	
+	
+	
+	
+	/* An empty constructor is required by the Fragment Manager */
+	public TVGuideTabFragmentCompetition()
+	{
+		super();
+	}
 	
 	
 	
@@ -63,6 +95,8 @@ public class TVGuideTabFragmentCompetition
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_events_page, null);
 
+		initLayout();
+		
 		pageTabIndicator = (TabPageIndicator) rootView.findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (LoopViewPager) rootView.findViewById(R.id.tab_event_pager);
@@ -87,6 +121,19 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	@Override
+	public void onPause()
+	{
+		super.onPause();
+		
+		if(eventCountDownTimer != null)
+		{
+			eventCountDownTimer.cancel();
+		}
+	}
+	
+	
+	
+	@Override
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
@@ -105,8 +152,9 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO - Implement this
-		return true;
+		String competitionID = competition.getCompetitionId();
+		
+		return ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
 	}
 	
 	
@@ -122,7 +170,7 @@ public class TVGuideTabFragmentCompetition
 			{
 				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 			} 
-			else 
+			else
 			{
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			}
@@ -144,10 +192,7 @@ public class TVGuideTabFragmentCompetition
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
-					
-				// TODO - Fill in the missing fields
-				
+				setData();
 				break;
 			}
 			
@@ -229,6 +274,131 @@ public class TVGuideTabFragmentCompetition
 	public void setSelectedTabIndex(int selectedTabIndex) 
 	{
 		this.selectedTabIndex = selectedTabIndex;
+	}
+	
+	
+	
+	private void setData()
+	{
+		String competitionName = competition.getDisplayName();
+		
+		long eventStartTimeInMiliseconds = event.getStartTimeCalendarLocal().getTimeInMillis();
+		
+		long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+		
+		eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
+		
+		eventCountDownTimer.start();
+		
+		String team1ID = event.getTeam1Id();
+		
+		Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+		
+		team1Name.setText(team1.getDisplayName());
+		
+		String team2ID = event.getTeam2Id();
+		
+		Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+		
+		team2Name.setText(team2.getDisplayName());
+		
+		boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+		
+		if(isLocalFlagDrawableResourceAvailableForTeam1)
+		{
+			team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+		}
+		else
+		{
+			ImageAware imageAware = new ImageViewAware(team1Flag, false);
+			
+			String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+			
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+		}
+		
+		boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+		
+		if(isLocalFlagDrawableResourceAvailableForTeam2)
+		{
+			team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
+		}
+		else
+		{
+			ImageAware imageAware = new ImageViewAware(team2Flag, false);
+			
+			String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+			
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+		}
+		
+		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
+		
+		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
+		
+		StringBuilder channelsSB = new StringBuilder();
+				
+		List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+		
+		int totalChannelCount = eventBroadcastDetailsList.size();
+		
+		List<String> channelNames = new ArrayList<String>(totalChannelCount);
+		
+		for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+		{
+			String channelID = eventBroadcastDetails.getChannelId();
+			
+			TVChannelId tvChannelId = new TVChannelId(channelID);
+			
+			TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+			
+			if(tvChannel != null)
+			{
+				channelNames.add(tvChannel.getName());
+			}
+			else
+			{
+				Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
+			}
+		}
+		
+		for(int i=0; i<channelNames.size(); i++)
+		{
+			if(i >= MAXIMUM_CHANNELS_TO_SHOW)
+			{
+				int remainingChannels = totalChannelCount-MAXIMUM_CHANNELS_TO_SHOW;
+						
+				channelsSB.append("+ ");
+				channelsSB.append(remainingChannels);
+				channelsSB.append(" ");
+				channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
+				break;
+			}
+			
+			channelsSB.append(channelNames.get(i));
+			
+			if(i != channelNames.size()-1)
+			{
+				channelsSB.append(", ");
+			}
+		}
+
+		tvBroadcastChannels.setText(channelsSB);
+	}
+	
+	
+	
+	private void initLayout()
+	{
+		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_page_time_left_to_fifa_days);
+		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_page_time_left_to_fifa_hours);
+		remainingTimeInMinutes = (TextView) rootView.findViewById(R.id.competition_page_time_left_to_fifa_minutes);
+		eventStartTime = (TextView) rootView.findViewById(R.id.competition_page_begin_time_broadcast);
+		tvBroadcastChannels = (TextView) rootView.findViewById(R.id.competition_airing_channels_for_broadcast);
+		team1Name = (TextView) rootView.findViewById(R.id.competition_team_one_name);
+		team1Flag = (ImageView) rootView.findViewById(R.id.competition_team_one_flag);
+		team2Name = (TextView) rootView.findViewById(R.id.competition_team_two_name);
+		team2Flag = (ImageView) rootView.findViewById(R.id.competition_team_two_flag);
 	}
 	
 	
