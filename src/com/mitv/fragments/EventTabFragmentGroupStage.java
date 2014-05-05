@@ -33,7 +33,15 @@ public class EventTabFragmentGroupStage
 	private ListView listView;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
+	
+	
+	/* An empty constructor is required by the Fragment Manager */
+	public EventTabFragmentGroupStage()
+	{
+		super();
+	}
 
+	
 	
 	public EventTabFragmentGroupStage(String tabId, String tabTitle, EventTabTypeEnum tabType)
 	{
@@ -64,9 +72,7 @@ public class EventTabFragmentGroupStage
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.LOADING);
-
-		// TODO - Implement me
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	}
 	
 	
@@ -74,8 +80,7 @@ public class EventTabFragmentGroupStage
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO - Implement me
-		return true;
+		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
 	}
 	
 	
@@ -83,16 +88,7 @@ public class EventTabFragmentGroupStage
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if(fetchRequestResult.wasSuccessful())
-		{
-			// TODO - Implement me
-			
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		}
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		/* Do nothing (no data to load on this activity) */
 	}
 	
 	

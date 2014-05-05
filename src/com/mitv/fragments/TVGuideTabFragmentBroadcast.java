@@ -42,6 +42,14 @@ public class TVGuideTabFragmentBroadcast
 	
 	
 	
+	/* An empty constructor is required by the Fragment Manager */
+	public TVGuideTabFragmentBroadcast()
+	{
+		super();
+	}
+	
+	
+	
 	public TVGuideTabFragmentBroadcast(TVTag tag)
 	{
 		super(tag.getId(), tag.getDisplayName(), TVGuideTabTypeEnum.PROGRAM_CATEGORY);

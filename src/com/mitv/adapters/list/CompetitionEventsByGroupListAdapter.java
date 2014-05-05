@@ -47,6 +47,8 @@ public class CompetitionEventsByGroupListAdapter
 			final Activity activity,
 			final Map<String, List<Event>> eventsByGroup)
 	{
+		super();
+		
 		this.eventsByGroup = eventsByGroup;
 		
 		this.events = new ArrayList<Event>();
@@ -66,13 +68,13 @@ public class CompetitionEventsByGroupListAdapter
 
 	
 	@Override
-	public int getCount() 
+	public int getCount()
 	{
 		int count = 0;
 		
 		if (events != null) 
 		{
-			events.size();
+			count = events.size();
 		}
 		
 		return count;

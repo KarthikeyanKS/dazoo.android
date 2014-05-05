@@ -35,6 +35,16 @@ public abstract class TVGuideTabFragment
 	
 	
 	
+	/* An empty constructor is required by the Fragment Manager */
+	public TVGuideTabFragment()
+	{
+		this.tabId = "";
+		this.tabTitle = "";
+		this.tabType = TVGuideTabTypeEnum.PROGRAM_CATEGORY;
+	}
+	
+	
+	
 	public TVGuideTabFragment(String tabId, String tabTitle, TVGuideTabTypeEnum tabType)
 	{
 		this.tabId = tabId;

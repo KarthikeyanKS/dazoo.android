@@ -73,6 +73,14 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	
+	/* An empty constructor is required by the Fragment Manager */
+	public TVGuideTabFragmentCompetition()
+	{
+		super();
+	}
+	
+	
+	
 	public TVGuideTabFragmentCompetition(Competition competition)
 	{
 		super(competition.getCompetitionId(), competition.getDisplayName(), TVGuideTabTypeEnum.COMPETITION);
@@ -184,109 +192,7 @@ public class TVGuideTabFragmentCompetition
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				long eventStartTimeInMiliseconds = event.getStartTimeCalendarLocal().getTimeInMillis();
-				
-				long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
-				
-				eventCountDownTimer = new EventCountDownTimer(millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
-				
-				eventCountDownTimer.start();
-				
-				String team1ID = event.getTeam1Id();
-				
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
-				
-				team1Name.setText(team1.getDisplayName());
-				
-				String team2ID = event.getTeam2Id();
-				
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-				
-				team2Name.setText(team2.getDisplayName());
-				
-				boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
-				
-				if(isLocalFlagDrawableResourceAvailableForTeam1)
-				{
-					team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
-				}
-				else
-				{
-					ImageAware imageAware = new ImageViewAware(team1Flag, false);
-					
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-					
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
-				}
-				
-				boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
-				
-				if(isLocalFlagDrawableResourceAvailableForTeam2)
-				{
-					team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
-				}
-				else
-				{
-					ImageAware imageAware = new ImageViewAware(team2Flag, false);
-					
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-					
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
-				}
-				
-				String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
-				
-				eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
-				
-				StringBuilder channelsSB = new StringBuilder();
-						
-				List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
-				
-				int totalChannelCount = eventBroadcastDetailsList.size();
-				
-				List<String> channelNames = new ArrayList<String>(totalChannelCount);
-				
-				for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
-				{
-					String channelID = eventBroadcastDetails.getChannelId();
-					
-					TVChannelId tvChannelId = new TVChannelId(channelID);
-					
-					TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-					
-					if(tvChannel != null)
-					{
-						channelNames.add(tvChannel.getName());
-					}
-					else
-					{
-						Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
-					}
-				}
-				
-				for(int i=0; i<channelNames.size(); i++)
-				{
-					if(i >= MAXIMUM_CHANNELS_TO_SHOW)
-					{
-						int remainingChannels = totalChannelCount-MAXIMUM_CHANNELS_TO_SHOW;
-								
-						channelsSB.append("+ ");
-						channelsSB.append(remainingChannels);
-						channelsSB.append(" ");
-						channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
-						break;
-					}
-					
-					channelsSB.append(channelNames.get(i));
-					
-					if(i != channelNames.size()-1)
-					{
-						channelsSB.append(", ");
-					}
-				}
-
-				tvBroadcastChannels.setText(channelsSB);
-
+				setData();
 				break;
 			}
 			
@@ -368,6 +274,116 @@ public class TVGuideTabFragmentCompetition
 	public void setSelectedTabIndex(int selectedTabIndex) 
 	{
 		this.selectedTabIndex = selectedTabIndex;
+	}
+	
+	
+	
+	private void setData()
+	{
+		String competitionName = competition.getDisplayName();
+		
+		long eventStartTimeInMiliseconds = event.getStartTimeCalendarLocal().getTimeInMillis();
+		
+		long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+		
+		eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
+		
+		eventCountDownTimer.start();
+		
+		String team1ID = event.getTeam1Id();
+		
+		Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+		
+		team1Name.setText(team1.getDisplayName());
+		
+		String team2ID = event.getTeam2Id();
+		
+		Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+		
+		team2Name.setText(team2.getDisplayName());
+		
+		boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+		
+		if(isLocalFlagDrawableResourceAvailableForTeam1)
+		{
+			team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+		}
+		else
+		{
+			ImageAware imageAware = new ImageViewAware(team1Flag, false);
+			
+			String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+			
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+		}
+		
+		boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+		
+		if(isLocalFlagDrawableResourceAvailableForTeam2)
+		{
+			team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
+		}
+		else
+		{
+			ImageAware imageAware = new ImageViewAware(team2Flag, false);
+			
+			String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+			
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+		}
+		
+		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
+		
+		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
+		
+		StringBuilder channelsSB = new StringBuilder();
+				
+		List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+		
+		int totalChannelCount = eventBroadcastDetailsList.size();
+		
+		List<String> channelNames = new ArrayList<String>(totalChannelCount);
+		
+		for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+		{
+			String channelID = eventBroadcastDetails.getChannelId();
+			
+			TVChannelId tvChannelId = new TVChannelId(channelID);
+			
+			TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+			
+			if(tvChannel != null)
+			{
+				channelNames.add(tvChannel.getName());
+			}
+			else
+			{
+				Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
+			}
+		}
+		
+		for(int i=0; i<channelNames.size(); i++)
+		{
+			if(i >= MAXIMUM_CHANNELS_TO_SHOW)
+			{
+				int remainingChannels = totalChannelCount-MAXIMUM_CHANNELS_TO_SHOW;
+						
+				channelsSB.append("+ ");
+				channelsSB.append(remainingChannels);
+				channelsSB.append(" ");
+				channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
+				break;
+			}
+			
+			channelsSB.append(channelNames.get(i));
+			
+			if(i != channelNames.size()-1)
+			{
+				channelsSB.append(", ");
+			}
+		}
+
+		tvBroadcastChannels.setText(channelsSB);
 	}
 	
 	

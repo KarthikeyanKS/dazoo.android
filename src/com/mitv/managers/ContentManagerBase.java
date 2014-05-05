@@ -331,7 +331,29 @@ public abstract class ContentManagerBase
 	{
 		return getCache().getCompetitionsData().containsCompetitionData(competitionID);
 	}
+	
+	
+	
+	public boolean getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition()
+	{
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		String competitionID = selectedCompetition.getCompetitionId();
+		
+		return getFromCacheHasCompetitionData(competitionID);
+	}
 
+	
+	
+	public boolean getFromCacheHasEventsGroupedByPhaseForSelectedCompetition()
+	{
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		String competitionID = selectedCompetition.getCompetitionId();
+		
+		return getFromCacheHasCompetitionData(competitionID);
+	}
+	
 	
 	
 	/* GETTERS & SETTERS */

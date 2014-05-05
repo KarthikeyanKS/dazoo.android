@@ -28,6 +28,16 @@ public abstract class EventTabFragment
 	
 	
 	
+	/* An empty constructor is required by the Fragment Manager */
+	public EventTabFragment()
+	{
+		this.tabId = "";
+		this.tabTitle = "";
+		this.tabType = EventTabTypeEnum.GROUP_STAGE;
+	}
+	
+	
+	
 	public EventTabFragment(
 			final String tabId, 
 			final String tabTitle, 
