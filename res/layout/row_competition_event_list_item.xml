@@ -44,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/competition_page_begin_time_broadcast"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:visibility="visible" />
@@ -94,7 +93,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/row_competition_team_one_flag"
-                android:text="@string/competition_page_team_one_name"
                 android:textSize="12sp"
                 android:visibility="visible" />
         </RelativeLayout>
@@ -120,7 +118,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/competition_page_team_two_name"
                 android:textSize="12sp"
                 android:visibility="visible" />
 
