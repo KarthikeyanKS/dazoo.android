@@ -55,6 +55,70 @@ public class Event
 	
 	
 	
+	public boolean isTheSameDayAs(Event other)
+	{
+		Calendar beginTime1 = this.getStartTimeCalendarLocal();
+		Calendar beginTime2 = other.getStartTimeCalendarLocal();
+		
+		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
+	}
+	
+	
+	
+	public boolean isBeginTimeTodayOrTomorrow()
+	{
+		Calendar now = DateUtils.getNow();
+		
+		Calendar beginTime = this.getStartTimeCalendarLocal();
+		
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) <= 1;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) <= 1;
+    	boolean isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, now);
+    	
+		boolean isAiringToday = isCorrectYear && isCorrectMonth && isSameDay;
+		boolean isAiringTomorrow = false;
+		
+		if (isAiringToday == false)
+		{
+			Calendar tomorrow = (Calendar) now.clone();
+	 		
+			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+			isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, tomorrow);
+	 		
+			isAiringTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
+		}
+		
+		boolean isBeginTimeTodayOrTomorrow = (isAiringToday || isAiringTomorrow);
+		
+		return isBeginTimeTodayOrTomorrow;
+	}
+	
+	
+	
+	/**
+	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
+	 * is today or tomorrow (per comparison with the current time)
+	 */
+	public String getBeginTimeDayOfTheWeekAsString() 
+	{	
+		return DateUtils.buildDayOfTheWeekAsString(getStartTimeCalendarLocal());
+	}
+	
+	
+	
+	/**
+	 * Returns a string representation of the begin time calendar in the format "dd/MM"
+	 */
+	public String getBeginTimeDayAndMonthAsString() 
+	{
+		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getStartTimeCalendarLocal(), false);
+		
+		return beginTimeDayAndMonthRepresentation;
+	}
+	
+	
+	
 	@Override
 	public int hashCode() 
 	{

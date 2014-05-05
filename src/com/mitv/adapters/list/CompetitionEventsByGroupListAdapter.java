@@ -20,8 +20,11 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
+import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -35,7 +38,6 @@ public class CompetitionEventsByGroupListAdapter
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	private ViewHolder holder;
 	
 	private Map<String, List<Event>> eventsByGroup;
 	private List<Event> events;
@@ -71,7 +73,7 @@ public class CompetitionEventsByGroupListAdapter
 		
 		if (events != null) 
 		{
-			events.size();
+			count = events.size();
 		}
 		
 		return count;
@@ -110,14 +112,17 @@ public class CompetitionEventsByGroupListAdapter
 		final Event event = getItem(position);
 
 		if (rowView == null) 
-		{
+		{			
+			
+			rowView = layoutInflater.inflate(R.layout.row_competition_event_list_item, null);
+			
 			ViewHolder viewHolder = new ViewHolder();
 
-			rowView = layoutInflater.inflate(R.layout.row_competition_event_list_item, null);
-
 			// TODO - Fix this
-			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
-			viewHolder.startWeekDay = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
+//			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
+			
+			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
+			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_header_divider);
 			
 			viewHolder.team1name = (TextView) rowView.findViewById(R.id.row_competition_team_one_name);
 			viewHolder.team1flag = (ImageView) rowView.findViewById(R.id.row_competition_team_one_flag);
@@ -127,18 +132,75 @@ public class CompetitionEventsByGroupListAdapter
 			viewHolder.startTime = (TextView) rowView.findViewById(R.id.row_competition_page_begin_time_broadcast);
 			
 			// TODO - Fix this
-			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
-			viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
+//			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
+//			viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 			
 			viewHolder.broadcastChannels = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 			
 			rowView.setTag(viewHolder);
 		}
 
-		holder = (ViewHolder) rowView.getTag();
+		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (event != null) 
-		{	
+		{
+			holder.startWeekDayHeader.setVisibility(View.GONE);
+			holder.dividerView.setVisibility(View.VISIBLE);
+			
+			boolean isFirstposition = (position == 0);
+
+			boolean isLastPosition = (position == (getCount() - 1));
+
+			boolean isCurrentEventDayEqualToPreviousEventDay;
+
+			if(isFirstposition == false)
+			{
+				Event prevEvent = getItem(position - 1);
+
+				isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
+			}
+			else
+			{
+				isCurrentEventDayEqualToPreviousEventDay = true;
+			}
+
+			boolean isBeginTimeEqualToNextItem;
+
+			if(isLastPosition == false)
+			{
+				Event nextEvent = getItem(position + 1);
+
+				isBeginTimeEqualToNextItem = event.isTheSameDayAs(nextEvent);
+			}
+			else
+			{
+				isBeginTimeEqualToNextItem = false;
+			}
+
+			if (isFirstposition || isCurrentEventDayEqualToPreviousEventDay == false) 
+			{
+				StringBuilder sb = new StringBuilder();
+
+				boolean isBeginTimeTodayOrTomorrow = event.isBeginTimeTodayOrTomorrow();
+
+				if(isBeginTimeTodayOrTomorrow)
+				{
+					sb.append(event.getBeginTimeDayOfTheWeekAsString());
+				}
+				else
+				{
+					sb.append(event.getBeginTimeDayOfTheWeekAsString());
+					sb.append(" ");
+					sb.append(event.getBeginTimeDayAndMonthAsString());
+				}
+
+				/* Capitalized letters in header */
+				String headerText = sb.toString();
+				holder.startWeekDayHeader.setText(headerText.toUpperCase());
+
+				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
+			}
+			
 			String team1ID = event.getTeam1Id();
 			
 			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
@@ -179,7 +241,42 @@ public class CompetitionEventsByGroupListAdapter
 			
 			holder.team2name.setText(team2.getDisplayName());
 			
-			// TODO - Set remaining variables
+			// TODO
+			// Set remaining variables: group, score and timeLeft
+			
+			/* Start time */
+			String start = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
+			holder.startTime.setText(start);
+			
+			StringBuilder sb = new StringBuilder();
+			
+			/* Broadcast details - airing channel names */
+			List<EventBroadcastDetailsJSON> broadcastDetails = event.getBroadcastDetails();
+			List<TVChannel> channels = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
+			int howManyChannels = broadcastDetails.size();
+			
+			if (howManyChannels >= 1) {
+				String cid = broadcastDetails.get(0).getChannelID();
+				
+				for (TVChannel tvChannel: channels) {
+					
+					if (tvChannel.getChannelId().getChannelId().equals(cid)) {
+						
+						if (howManyChannels == 1) {
+							sb.append(tvChannel.getName());
+							
+						} else {
+							sb.append(tvChannel.getName());
+							sb.append(" + ");
+							sb.append(howManyChannels - 1);
+							sb.append(" more");
+						}
+					}
+				}				
+			}
+			
+			holder.broadcastChannels.setText(sb.toString());
+			
 		}
 		else
 		{
@@ -194,7 +291,7 @@ public class CompetitionEventsByGroupListAdapter
 	private static class ViewHolder 
 	{
 		private TextView group;
-		private TextView startWeekDay;
+		private TextView startWeekDayHeader;
 		private TextView team1name;
 		private ImageView team1flag;
 		private TextView team2name;
@@ -203,5 +300,6 @@ public class CompetitionEventsByGroupListAdapter
 		private TextView score;
 		private TextView timeLeft;
 		private TextView broadcastChannels;
+		private View dividerView;
 	}
 }

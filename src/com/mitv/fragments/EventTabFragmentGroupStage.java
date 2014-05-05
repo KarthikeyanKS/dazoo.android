@@ -64,7 +64,9 @@ public class EventTabFragmentGroupStage
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.LOADING);
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		
+		// updateUI(UIStatusEnum.LOADING);
 
 		// TODO - Implement me
 	}
