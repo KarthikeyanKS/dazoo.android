@@ -261,7 +261,7 @@ public class CompetitionEventsByGroupListAdapter
 			int howManyChannels = broadcastDetails.size();
 			
 			if (howManyChannels >= 1) {
-				String cid = broadcastDetails.get(0).getChannelID();
+				String cid = broadcastDetails.get(0).getChannelId();
 				
 				for (TVChannel tvChannel: channels) {
 					
