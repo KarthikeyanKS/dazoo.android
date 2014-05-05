@@ -4,13 +4,6 @@
         stage: "Group Play",
 		name: "Group A",
 		type: "TOURNAMENT",
-        teamIds: ["TEAM01", "TEAM02"]
-	},
-	{
-		phaseId: "PHASE02",
-		stage: "Group Play",
-		name: "Group B",
-		type: "TOURNAMENT",
-		teamIds: ["TEAM03", "TEAM04"]
+        teamIds: ["SPAIN", "COLOMBIA","BRASIL", "GERMANY"]
 	}
 ]

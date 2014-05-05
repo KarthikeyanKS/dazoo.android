@@ -8,7 +8,6 @@ package com.mitv.asynctasks.mitvapi.competitions;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import android.provider.CalendarContract.Events;
 import android.util.Log;
 
 import com.mitv.Constants;
@@ -17,12 +16,12 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 
 
 
 public class GetEvents 
-	extends AsyncTaskBase<Events[]>
+	extends AsyncTaskBase<Event[]>
 {
 	private static final String TAG = GetEvents.class.getName();
 	
@@ -90,7 +89,7 @@ public class GetEvents
 			final boolean useBroadcastBeginTimeBefore,
 			final String broadcastBeginTimeBefore)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITIONS_ALL, Events[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENTS, Event[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID));
 		
 		if(useOnlyOngoing)
 		{
@@ -118,9 +117,9 @@ public class GetEvents
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
 			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-			Competition[] contentAsArray = (Competition[]) requestResultObjectContent;
+			Event[] contentAsArray = (Event[]) requestResultObjectContent;
 			
-			ArrayList<Competition> contentAsArrayList = new ArrayList<Competition>(Arrays.asList(contentAsArray));
+			ArrayList<Event> contentAsArrayList = new ArrayList<Event>(Arrays.asList(contentAsArray));
 			
 			requestResultObjectContent = contentAsArrayList;
 		}

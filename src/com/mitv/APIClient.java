@@ -235,6 +235,7 @@ public class APIClient
 		
 		tasks.add(new GetTeams(contentCallbackListener, activityCallbackListener, competitionID));
 		tasks.add(new GetPhases(contentCallbackListener, activityCallbackListener, competitionID));
+		tasks.add(new GetEvents(contentCallbackListener, activityCallbackListener, competitionID, null, null));
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
 		{

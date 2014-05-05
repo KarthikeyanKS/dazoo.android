@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.pager.EventTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -67,6 +68,11 @@ public class TVGuideTabFragmentCompetition
 		viewPager = (LoopViewPager) rootView.findViewById(R.id.tab_event_pager);
 		
 		selectedTabIndex = STARTING_TAB_INDEX;
+		
+		if(!SecondScreenApplication.isAppRestarting()) 
+		{
+			setAdapter(selectedTabIndex);
+		}
 		
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -141,8 +147,6 @@ public class TVGuideTabFragmentCompetition
 				Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
 					
 				// TODO - Fill in the missing fields
-				
-				setTabs(selectedTabIndex);
 				
 				break;
 			}
@@ -229,7 +233,7 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	
-	private void setTabs(int selectedIndex) 
+	private void setAdapter(int selectedIndex) 
 	{
 		pagerAdapter = new EventTabFragmentStatePagerAdapter(getChildFragmentManager());
 

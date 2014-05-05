@@ -1,23 +1,45 @@
 [
 	{
-		teamId: "3041",
+		teamId: "SPAIN",
 
-		displayName: "Sweden",
+		displayName: "Spain",
 
-		nation: "Sweden",
+		nation: "Spain",
 
-		nationCode: "SWE",
+		nationCode: "ESP",
 
 		phaseId: "PHASE01"
 	},
 	{
-		teamId: "3042",
+		teamId: "COLOMBIA",
 
 		displayName: "Colombia",
 
 		nation: "Colombia",
 
 		nationCode: "COL",
+
+		phaseId: "PHASE01"
+	},
+	{
+		teamId: "BRASIL",
+
+		displayName: "Brasil",
+
+		nation: "Brasil",
+
+		nationCode: "BRA",
+
+		phaseId: "PHASE01"
+	},
+	{
+		teamId: "GERMANY",
+
+		displayName: "Germany",
+
+		nation: "Germany",
+
+		nationCode: "GER",
 
 		phaseId: "PHASE01"
 	}

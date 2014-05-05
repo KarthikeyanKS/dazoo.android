@@ -60,7 +60,7 @@ public class CompetitionCacheData
 	
 	public boolean hasCompetitionInitialData()
 	{
-		boolean hasCompetitionInitialData = (events != null && teams != null && phases != null);
+		boolean hasCompetitionInitialData = (events.isEmpty() == false && teams.isEmpty() == false && phases.isEmpty() == false);
 		
 		return hasCompetitionInitialData;
 	}

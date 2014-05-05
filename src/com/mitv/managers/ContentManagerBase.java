@@ -201,12 +201,26 @@ public abstract class ContentManagerBase
 	
 	public boolean getFromCacheHasInitialData()
 	{
-		boolean hasInitialData = getCache().containsAppConfigData() && 
-								 getCache().containsAppVersionData() &&
-								 getCache().containsTVDates() && 
-								 getCache().containsTVTags() &&
-								 getCache().containsTVChannels() &&
-								 getCache().containsTVGuideForSelectedDay();
+		boolean containsAppConfigData = getCache().containsAppConfigData();
+		boolean containsAppVersionData = getCache().containsAppVersionData();
+		boolean containsTVDates = getCache().containsTVDates();
+		boolean containsTVTags = getCache().containsTVTags();
+		boolean containsTVChannels = getCache().containsTVChannels();
+		boolean containsTVGuideForSelectedDay = getCache().containsTVGuideForSelectedDay();
+		
+		Log.d(TAG, "Contains AppConfigData " + containsAppConfigData);
+		Log.d(TAG, "Contains AppVersionData " + containsAppVersionData);
+		Log.d(TAG, "Contains TVDates " + containsTVDates);
+		Log.d(TAG, "Contains TVTags " + containsTVTags);
+		Log.d(TAG, "Contains containsTVChannels " + containsTVChannels);
+		Log.d(TAG, "Contains TVGuideForSelectedDay " + containsTVGuideForSelectedDay);
+		
+		boolean hasInitialData = containsAppConfigData && 
+								 containsAppVersionData &&
+								 containsTVDates && 
+								 containsTVTags &&
+								 containsTVChannels &&
+								 containsTVGuideForSelectedDay;
 		
 		return hasInitialData;
 	}
@@ -938,11 +952,16 @@ public abstract class ContentManagerBase
 		
 		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
 		
+		if(events.isEmpty() == false)
+		{
+			matchingEvent = events.get(0);
+		}
+		
 		for(Event event : events)
 		{
 			Calendar eventStartTimeCalendar = event.getStartTimeCalendarLocal();
 			
-			if(matchingEvent != null && matchingEvent.getStartTimeCalendarLocal().after(eventStartTimeCalendar))
+			if(matchingEvent.getStartTimeCalendarLocal().after(eventStartTimeCalendar))
 			{
 				matchingEvent = event;
 			}
