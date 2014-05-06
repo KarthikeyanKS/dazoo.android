@@ -100,8 +100,8 @@ public class LikesListAdapter
 			
 			viewHolder.programTitleTv = (TextView) rowView.findViewById(R.id.row_likes_text_title_tv);
 			viewHolder.programTypeTv = (TextView) rowView.findViewById(R.id.row_likes_text_details_tv);
-			viewHolder.buttonContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_button_container);
-			viewHolder.buttonContainer.setTag(Integer.valueOf(position));
+			viewHolder.button = (TextView) rowView.findViewById(R.id.row_likes_button_tv);
+			viewHolder.button.setTag(Integer.valueOf(position));
 			
 			rowView.setTag(viewHolder);
 		}
@@ -174,7 +174,7 @@ public class LikesListAdapter
 				}
 			}
 			
-			holder.buttonContainer.setOnClickListener(new View.OnClickListener() 
+			holder.button.setOnClickListener(new View.OnClickListener() 
 			{
 				@Override
 				public void onClick(View v)
@@ -222,6 +222,6 @@ public class LikesListAdapter
 	{
 		public TextView programTitleTv;
 		public TextView programTypeTv;
-		public RelativeLayout buttonContainer;
+		public TextView button;
 	}
 }

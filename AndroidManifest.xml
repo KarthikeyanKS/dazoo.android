@@ -4,12 +4,12 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="129"
-    android:versionName="1.0.129" >
+    android:versionCode="130"
+    android:versionName="1.0.130" >
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="19"/>
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -19,40 +19,70 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
-	<!-- Re-enable this permission when accessing the system tasks -->
-	<!-- <uses-permission android:name="android.permission.GET_TASKS" />-->
-    
+    <!-- Re-enable this permission when accessing the system tasks -->
+    <!-- <uses-permission android:name="android.permission.GET_TASKS" /> -->
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true" />
-    
+
     <compatible-screens>
-       <!-- all small size screens -->
-       <screen android:screenSize="small" android:screenDensity="ldpi" />
-       <screen android:screenSize="small" android:screenDensity="mdpi" />
-       <screen android:screenSize="small" android:screenDensity="hdpi" />
-       <screen android:screenSize="small" android:screenDensity="xhdpi" />
-       <screen android:screenSize="small" android:screenDensity="480" />
-       
-       <!-- all normal size screens -->
-       <screen android:screenSize="normal" android:screenDensity="ldpi" />
-       <screen android:screenSize="normal" android:screenDensity="mdpi" />
-       <screen android:screenSize="normal" android:screenDensity="hdpi" />
-       <screen android:screenSize="normal" android:screenDensity="xhdpi" />
-       <screen android:screenSize="normal" android:screenDensity="480" />
-       
-       <!-- all large size screens -->
-       <screen android:screenSize="large" android:screenDensity="ldpi" />
-       <screen android:screenSize="large" android:screenDensity="mdpi" />
-       <screen android:screenSize="large" android:screenDensity="hdpi" />
-       <screen android:screenSize="large" android:screenDensity="xhdpi" />
-       <screen android:screenSize="large" android:screenDensity="480" />
-   
-   </compatible-screens>
-    
+
+        <!-- all small size screens -->
+        <screen
+            android:screenDensity="ldpi"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="mdpi"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="hdpi"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="small" />
+        <screen
+            android:screenDensity="480"
+            android:screenSize="small" />
+
+        <!-- all normal size screens -->
+        <screen
+            android:screenDensity="ldpi"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="mdpi"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="hdpi"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="normal" />
+        <screen
+            android:screenDensity="480"
+            android:screenSize="normal" />
+
+        <!-- all large size screens -->
+        <screen
+            android:screenDensity="ldpi"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="mdpi"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="hdpi"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="large" />
+        <screen
+            android:screenDensity="480"
+            android:screenSize="large" />
+    </compatible-screens>
+
     <application
         android:name="com.mitv.SecondScreenApplication"
         android:allowBackup="true"
@@ -60,39 +90,28 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@android:style/Theme.Light.NoTitleBar" 
-        android:logo="@drawable/ic_nav_bar">
-        
-        
+        android:logo="@drawable/ic_nav_bar"
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
-        
-        <meta-data android:name="com.google.android.gms.version"
-               	   android:value="@integer/google_play_services_version"/>
-        
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
             android:name="com.mitv.activities.SplashScreenActivity"
             android:label="@string/app_name"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@style/SplashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <!-- USER TUTORIAL -->
-        <activity
-            android:name="com.mitv.activities.TutorialScreenSliderActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="standard"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-
 
         <!-- HOME ACTIVITY -->
         <activity
@@ -119,7 +138,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBarNoUp"
             android:windowSoftInputMode="adjustPan" />
-        
+
         <!-- USER PROFILE CONFIGURATION ACTIVITY -->
         <activity
             android:name="com.mitv.activities.UserProfileConfigurationActivity"
@@ -128,9 +147,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBarNoUp"
             android:windowSoftInputMode="adjustPan" />
-        
-        
-        
+
         <!-- POPULAR CONTENT PAGE -->
         <activity
             android:name="com.mitv.activities.PopularPageActivity"
@@ -217,7 +234,7 @@
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-        
+
         <!-- LIST MORE BROADCASTS REPEATITIONS PAGE -->
         <activity
             android:name="com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity"
@@ -228,26 +245,16 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
 
-        <!-- LIST MORE BROADCASTS REPEATITIONS PAGE -->
-        <activity
-            android:name="com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivityreActivity"
-            android:launchMode="standard"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
-        
         <!-- LIST MORE BROADCASTS NOW AIRING PAGE -->
         <activity
             android:name="com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity"
-            android:launchMode="standard"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-        
+
         <!-- CHANNEL PAGE -->
         <activity
             android:name="com.mitv.activities.ChannelPageActivity"
@@ -282,8 +289,8 @@
         <activity
             android:name="com.mitv.activities.authentication.LoginWithMiTVUserActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
@@ -293,8 +300,8 @@
             android:name="com.mitv.activities.authentication.LoginWithFacebookActivity"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@drawable/ic_nav_bar"
-            android:screenOrientation="portrait"
             android:launchMode="standard"
+            android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBarNoUp"
             android:windowSoftInputMode="stateHidden" />
 
@@ -302,8 +309,8 @@
         <activity
             android:name="com.mitv.activities.authentication.ResetPasswordSendEmailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
@@ -312,20 +319,20 @@
         <activity
             android:name="com.mitv.activities.authentication.ResetPasswordConfirmationActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        
+
         <!-- HOCKEY APP ACTIVITIES -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
-        
-         <!-- GOOGLE ADMOB -->
-         <activity android:name="com.google.android.gms.ads.AdActivity"
-             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
- 
+
+        <!-- GOOGLE ADMOB -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <receiver
             android:name="com.mitv.broadcastreceivers.AlarmReceiver"
@@ -352,16 +359,17 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        
-        <!-- Used for Google Play Store Campaign Measurement-->
-		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-		<receiver android:name="com.mitv.broadcastreceivers.CustomGoogleCampaignReceiver"
-		          android:exported="true">
-		  <intent-filter>
-		  	<action android:name="com.android.vending.INSTALL_REFERRER" />
-		  </intent-filter>
-		</receiver>
 
+        <!-- Used for Google Play Store Campaign Measurement -->
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+
+        <receiver
+            android:name="com.mitv.broadcastreceivers.CustomGoogleCampaignReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
     </application>
-    
+
 </manifest>

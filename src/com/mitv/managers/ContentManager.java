@@ -14,10 +14,12 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import com.mitv.APIClient;
+import com.mitv.Constants;
 import com.mitv.ListenerHolder;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.asynctasks.other.BuildTVBroadcastsForTags;
+import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -878,6 +880,8 @@ public class ContentManager
 		}
 	}
 	
+	
+	
 	/**
 	 * This should only be used from the BroadcastPageActivity
 	 * @param activityCallbackListener
@@ -886,30 +890,41 @@ public class ContentManager
 	 * @param beginTimeInMillis
 	 */
 	public void getElseFetchFromServiceBroadcastPageData(
-			ViewCallbackListener activityCallbackListener, 
+			final ViewCallbackListener activityCallbackListener, 
 			final boolean forceDownload, 
-			TVBroadcastWithChannelInfo broadcastWithChannelInfo, 
+			final TVBroadcastWithChannelInfo broadcastWithChannelInfo, 
 			final TVChannelId channelId, 
 			final long beginTimeInMillis) 
 	{
 		if (!forceDownload && (broadcastWithChannelInfo != null || getCache().containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis))) 
 		{
+			TVBroadcastWithChannelInfo broadcastWithChannelInfoUsed;
+			
 			if(broadcastWithChannelInfo == null) 
 			{
-				broadcastWithChannelInfo = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
+				broadcastWithChannelInfoUsed = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
+			}
+			else
+			{
+				broadcastWithChannelInfoUsed = broadcastWithChannelInfo;
 			}
 			
-			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfo);
+			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfoUsed);
 		} 
 		else 
 		{
-			if(channelId != null) {
+			if(channelId != null)
+			{
 				fetchFromServiceIndividualBroadcast(activityCallbackListener, channelId, beginTimeInMillis);
-			} else {
+			} 
+			else 
+			{
 				activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, RequestIdentifierEnum.BROADCAST_DETAILS);
 			}
 		}
 	}
+	
+	
 	
 	public void getElseFetchFromServiceUpcomingBroadcasts(ViewCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey) 
 	{
@@ -1179,8 +1194,21 @@ public class ContentManager
 			{
 				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
 			} 
+			
 			else 
 			{
+				/* NOT IN USE */
+				/* Filter the feed items */
+//				if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null && getFromCacheHasActivityFeed()) {
+//					Log.d(TAG, "MMM Starting filtering MORE old broadcasts");
+//					
+//					ArrayList<TVFeedItem> activityFeed = getFromCacheActivityFeedData();
+//					
+//					activityFeed.addAll(feedItems);
+//					
+//					feedItems = filterSimilarBroadcasts(activityFeed, feedItems);
+//				}
+				
 				getCache().addMoreActivityFeedItems(feedItems);
 				
 				isFetchingFeedItems = false;
@@ -1211,15 +1239,28 @@ public class ContentManager
 				{
 					@SuppressWarnings("unchecked")
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
+					
+					/* Filter the feed items */
+					if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) {
+						Log.d(TAG, "MMM Starting filtering old broadcasts");
+						
+						feedItems = filterOldBroadcasts(feedItems, null);
+						
+						/* NOT IN USE */
+//						feedItems = filterSimilarBroadcasts(feedItems, null);
+					}
+					
 					getCache().setActivityFeed(feedItems);
+					
 					isFetchingFeedItems = false;
 					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getString(R.string.response_activityfeed));
+					
 					break;
 				}
 				case USER_ACTIVITY_FEED_LIKES:
 				{
 					@SuppressWarnings("unchecked")
-					ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
+					ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;					
 					getCache().setUserLikes(userLikes);
 					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getString(R.string.response_user_likes));
 					break;
@@ -1325,7 +1366,11 @@ public class ContentManager
 	 * @param result
 	 * @param content
 	 */
-	public void handleBroadcastPageDataResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
+	public void handleBroadcastPageDataResponse(
+			final ViewCallbackListener activityCallbackListener, 
+			final RequestIdentifierEnum requestIdentifier, 
+			final FetchRequestResultEnum result, 
+			final Object content) 
 	{
 		if ((result == FetchRequestResultEnum.SUCCESS && content != null) || result == FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT) 
 		{
@@ -2307,4 +2352,163 @@ public class ContentManager
 		
 		return disqusTotalPostsForLatestBroadcast;
 	}
+	
+	
+	
+	/**
+	 * Filter out broadcast with a beginTime that has passed.
+	 * 
+	 * @param activityFeed
+	 */
+	public static ArrayList<TVFeedItem> filterOldBroadcasts(ArrayList<TVFeedItem> activityFeed, ArrayList<TVFeedItem> contentAsArrayList) {
+		if (activityFeed != null && !activityFeed.isEmpty()) {
+			
+			ArrayList<TVFeedItem> oldFeedItemsToDelete = new ArrayList<TVFeedItem>();
+			
+			if (contentAsArrayList == null) {
+				contentAsArrayList = activityFeed;
+			}
+
+			for (int i = 0; i < activityFeed.size(); i++) {
+
+				TVFeedItem item = activityFeed.get(i);
+
+				if (item.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+
+					TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo = item.getBroadcast();
+
+					boolean isItemTooOld = checkIfTVFeedItemIsOld(tvBroadcastWithChannelInfo);
+
+					/* If item is too old or if it has shown before the item will be removed */
+					if (isItemTooOld) {
+						
+						Log.d(TAG, "MMM, Removing broadcast: " + tvBroadcastWithChannelInfo.getTitle() + " Starttime: "
+								+ tvBroadcastWithChannelInfo.getBeginTime());
+						
+						oldFeedItemsToDelete.add(item);
+					}
+				}
+			}
+			
+			if (oldFeedItemsToDelete != null && !oldFeedItemsToDelete.isEmpty()) {
+				contentAsArrayList.removeAll(oldFeedItemsToDelete);
+			}
+		}
+		
+		return contentAsArrayList;
+	}
+	
+	
+	
+	/**
+	 * Check if TVFeedItem is too old and needs to be removed from the activityFeed.
+	 * 
+	 * @param item
+	 * @return true: Item will be removed
+	 * @return false: Item will NOT be removed
+	 */
+	private static boolean checkIfTVFeedItemIsOld(TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) {
+		boolean removeItem = false;
+		
+		Long timeZoneOffsetInMillis = DateUtils.getTimeZoneOffsetInMillis();
+		
+		Calendar now = DateUtils.getNow();
+		
+		Long nowLong = now.getTimeInMillis() + timeZoneOffsetInMillis;
+		
+		Long beginTime = tvBroadcastWithChannelInfo.getBeginTimeMillis();
+		
+		int difference = beginTime.compareTo(nowLong);
+		
+		/* beginTime is less than nowLong: Item should NOT be included in the feed activity. Items is old */
+		if (difference < 0) {
+			removeItem = true;
+		}		
+		
+		return removeItem;
+	}
+	
+	
+	
+	/**
+	 * Filter out broadcasts that has been shown for more than two times.
+	 * 
+	 * @param activityFeed
+	 * @param contentAsArrayList
+	 * @return
+	 */
+	private static ArrayList<TVFeedItem> filterSimilarBroadcasts(ArrayList<TVFeedItem> activityFeed, ArrayList<TVFeedItem> contentAsArrayList) {
+		if (activityFeed != null && !activityFeed.isEmpty()) {
+			
+			ArrayList<TVFeedItem> similarFeedItemsToDelete = new ArrayList<TVFeedItem>();
+			
+			if (contentAsArrayList == null) {
+				contentAsArrayList = activityFeed;
+			}
+
+//			for (int i = contentAsArrayList.size() - 1; i > 2; i--) {
+			for (int i = contentAsArrayList.size() - 1; i >= 0; i--) {
+
+				TVFeedItem item = contentAsArrayList.get(i);
+
+				if (item.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+
+					TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo = item.getBroadcast();
+
+					boolean hasItemBeenShownBefore = checkIfTVFeedItemHasShownBefore(activityFeed, tvBroadcastWithChannelInfo);
+
+					/* If item is too old or if it has shown before the item will be removed */
+					if (hasItemBeenShownBefore) {
+						Log.d(TAG, "MMM, Removing shows more than 2 times, Broadcast: " + tvBroadcastWithChannelInfo.getTitle());
+						
+						similarFeedItemsToDelete.add(item);
+					}
+				}
+			}
+			
+			if (similarFeedItemsToDelete != null && !similarFeedItemsToDelete.isEmpty()) {
+				contentAsArrayList.removeAll(similarFeedItemsToDelete);
+			}
+		}
+		
+		return contentAsArrayList;
+	}
+	
+	
+	
+	/**
+	 * Start checking from item number 3 in the list if it is a repetition or not.
+	 * 
+	 * @param activityFeed
+	 * @param tvBroadcastWithChannelInfo
+	 * @return TRUE: If repetition
+	 * @return FALSE: If NOT repetition
+	 */
+	private static boolean checkIfTVFeedItemHasShownBefore(ArrayList<TVFeedItem> activityFeed, TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) {
+		int counterHowManyTimesItemAppearsInList = 0;
+		
+		String nameOfItem = tvBroadcastWithChannelInfo.getTitle();
+		
+		for (int i = 0; i < activityFeed.size(); i++) {
+			
+			TVFeedItem item = activityFeed.get(i);
+			TVBroadcastWithChannelInfo tvBroadcastWithChannelInfoFromList = item.getBroadcast();
+			
+			if (tvBroadcastWithChannelInfoFromList != null) {
+				String nameOfItemInList = tvBroadcastWithChannelInfoFromList.getTitle();
+				
+				if (nameOfItemInList.equals(nameOfItem)) {
+					counterHowManyTimesItemAppearsInList++;
+				}
+				
+				if (counterHowManyTimesItemAppearsInList > 2) {
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+	
 }

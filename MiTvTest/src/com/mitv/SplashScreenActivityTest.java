@@ -1,8 +1,6 @@
 package com.mitv;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.EditText;
-
 import com.mitv.R;
 import com.mitv.activities.SplashScreenActivity;
 import com.robotium.solo.Solo;
@@ -47,10 +45,18 @@ public class SplashScreenActivityTest extends ActivityInstrumentationTestCase2<S
   
     
     public void test_startup() throws Exception {
-    	solo.sleep(TIMEOUT_SMALL);
-    	solo.waitForView(solo.getView(R.id.home_container));
-    	solo.sleep(TIMEOUT_SMALL);
-    	
+    	solo.sleep(TIMEOUT_LARGE);
+    	solo.waitForView(solo.getView(R.id.splash_screen_activity_logo_tutorial));
+    	solo.clickOnView(solo.getView(R.id.button_splash_tutorial));
+    	solo.waitForView(solo.getView(R.id.image_mobile_tutorial));
+    	solo.clickOnView(solo.getView(R.id.button_tutorial_next));
+    	solo.waitForView(solo.getView(R.id.image_mobile_tutorial));
+    	solo.clickOnView(solo.getView(R.id.button_tutorial_next));
+    	solo.waitForView(solo.getView(R.id.image_mobile_tutorial));
+    	solo.clickOnView(solo.getView(R.id.button_tutorial_next));
+    	solo.waitForView(solo.getView(R.id.image_mobile_tutorial));
+    	solo.clickOnView(solo.getView(R.id.start_primary_button_container));
+    	assertTrue(solo.waitForView(solo.getView(R.id.home_container)));
     }
     
 }

@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:paddingBottom="5dp" >
+        android:orientation="vertical" >
 
         <RelativeLayout
             android:id="@+id/mychannels_header_selected_container"
@@ -49,7 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mychannels_header_selected_container"
-            android:layout_margin="10dp" >
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" >
 
             <com.mitv.ui.elements.FontTextView
                 android:layout_width="wrap_content"
@@ -76,24 +76,24 @@
                 android:textColorHint="@color/blue1"
                 android:textSize="14sp"
                 font:fontedittext="roboto_mitv_regular.ttf" />
-            
+
             <com.mitv.ui.elements.FontTextView
-				android:id="@+id/searchbar_clear_x"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:paddingLeft="10dp"
-				android:paddingRight="5dp"
-				android:paddingTop="10dp"
-				android:paddingBottom="15dp"
-				android:background="@color/transparent"
-				android:textSize="20sp"
-				android:clickable="true"
-				android:text="@string/icon_clear_search"
-				android:textColor="@color/blue1"
-				android:visibility="invisible" 
-				font:fonttextview="roboto_mitv_medium.ttf" />
+                android:id="@+id/searchbar_clear_x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@color/transparent"
+                android:clickable="true"
+                android:paddingBottom="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
+                android:text="@string/icon_clear_search"
+                android:textColor="@color/blue1"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                font:fonttextview="roboto_mitv_medium.ttf" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -118,11 +118,13 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_below="@id/mychannels_header_container"
-        android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
         android:cacheColorHint="@null"
+        android:clipToPadding="false"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:isScrollContainer="false" />
+        android:fadingEdge="none"
+        android:isScrollContainer="false"
+        android:padding="10dp"
+        android:scrollbarStyle="outsideOverlay" />
 
 </RelativeLayout>
