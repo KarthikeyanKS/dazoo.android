@@ -50,26 +50,9 @@ public abstract class TVGuideTabFragment
 		this.tabId = tabId;
 		this.tabTitle = tabTitle;
 		this.tabType = tabType;
-		
-		//Bundle bundle = new Bundle();
-		
-		//bundle.putString(Constants.FRAGMENT_EXTRA_TAG_DISPLAY_NAME, tvTagName);
-		//bundle.putString(Constants.FRAGMENT_EXTRA_TAG_ID, tvTagId);
-		
-		//setArguments(bundle);
 	}
-	
-//	public static TVGuideTabFragment newInstance(TVTag tag, TVDate date)
-//	{
-//		TVGuideTabFragment fragment = new TVGuideTabFragment();
-//		
-//		
-//		
-//		return fragment;
-//	}
-//	
-	
-	
+
+
 	
 	protected void setSwipeClockBar()
 	{

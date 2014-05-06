@@ -2,6 +2,8 @@
 
 package com.mitv.models.gson.mitvapi.competitions;
 
+import com.mitv.models.gson.mitvapi.ImageSetSizeJSON;
+
 
 
 public class CompetitionJSON 
@@ -12,6 +14,7 @@ public class CompetitionJSON
 	protected String startDate;
 	protected String endDate;
 	protected boolean visible;
+	protected ImageSetSizeJSON banner;
 	
 	
 	
@@ -53,5 +56,11 @@ public class CompetitionJSON
 
 	public boolean isVisible() {
 		return visible;
+	}
+
+
+
+	public ImageSetSizeJSON getBanner() {
+		return banner;
 	}
 }

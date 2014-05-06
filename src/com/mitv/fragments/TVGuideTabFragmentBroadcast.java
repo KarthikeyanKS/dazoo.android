@@ -33,6 +33,9 @@ public class TVGuideTabFragmentBroadcast
 	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTabFragmentBroadcast.class.getName();
 
+	// TODO - Hardcoded
+	private static final String SPORTS_TAG_ID = "SPORT";
+			
 		
 	private ListView listView;
 	private TVGuideListAdapter listAdapter;
@@ -178,7 +181,16 @@ public class TVGuideTabFragmentBroadcast
 		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex);
 		removeAlreadyEndedBroadcastsTask.run();
 		
-		tvTagListAdapter = new TVGuideTagListAdapter(activity, getTabTitle(), taggedBroadcasts, startIndex);
+		boolean enableCompetitionBanners = false;
+		
+		boolean isSportsTag = getTabId().equalsIgnoreCase(SPORTS_TAG_ID);
+		
+		if(isSportsTag)
+		{
+			enableCompetitionBanners = true;
+		}
+		
+		tvTagListAdapter = new TVGuideTagListAdapter(activity, getTabTitle(), taggedBroadcasts, startIndex, enableCompetitionBanners);
 			
 		listView.setAdapter(tvTagListAdapter);
 	}

@@ -12,10 +12,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.fragments.TVGuideTabFragmentAllPrograms;
 import com.mitv.fragments.TVGuideTabFragmentBroadcast;
 import com.mitv.fragments.TVGuideTabFragmentCompetition;
-import com.mitv.fragments.TVGuideTabFragmentAllPrograms;
-import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 
@@ -28,7 +27,6 @@ public class TVGuideTagFragmentStatePagerAdapter
 	private static final String TAG = TVGuideTagFragmentStatePagerAdapter.class.getName();
 	
 	
-	private TVDate tvDate;
 	private List<TVTag> tvTags;
 	private List<Competition> competitions;
 
@@ -37,14 +35,12 @@ public class TVGuideTagFragmentStatePagerAdapter
 	public TVGuideTagFragmentStatePagerAdapter(
 			final FragmentManager fm, 
 			final List<TVTag> tags, 
-			final List<Competition> competitions,
-			final TVDate tvDate) 
+			final List<Competition> competitions) 
 	{
 		super(fm);
 		
 		this.tvTags = tags;
 		this.competitions = competitions;
-		this.tvDate = tvDate;
 	}
 	
 	

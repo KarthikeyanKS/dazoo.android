@@ -51,8 +51,9 @@ public abstract class Constants
 	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
-	public static final boolean FORCE_ENABLE_COMPETITIONS_FIFA_WORLD_CUP_2014_MODULE = true;
+	public static final boolean FORCE_DISABLE_COMPETITIONS = false;
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
+	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = false;
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
@@ -107,7 +108,7 @@ public abstract class Constants
 	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
 	
 	/* API request strings for competitions module */
-	public static final String URL_COMPETITIONS 					= URL_SERVER + "competitions";
+	public static final String URL_COMPETITIONS 					= URL_SERVER + "api/sports/competitions";
 	public static final String URL_TEAMS 					 		= "/teams";
 	public static final String URL_PHASES 					 		= "/phases";
 	public static final String URL_EVENTS 					 		= "/events";

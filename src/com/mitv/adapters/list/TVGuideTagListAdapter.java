@@ -21,6 +21,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
@@ -31,7 +32,8 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> 
+public class TVGuideTagListAdapter 
+	extends BannerListAdapter<TVBroadcastWithChannelInfo> 
 {
 	private static final String TAG = TVGuideTagListAdapter.class.getName();
 
@@ -43,20 +45,20 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 	
 	
-	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition) 
+	public TVGuideTagListAdapter(
+			final Activity activity, 
+			final String fragmentName, 
+			final ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, 
+			final int currentPosition,
+			final boolean showCompetitionsBanner) 
 	{
-		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
+		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY, showCompetitionsBanner);
+		
 		this.taggedBroadcasts = taggedBroadcasts;
+		
 		this.activity = activity;
+		
 		this.currentPosition = currentPosition;
-	}
-
-	
-	
-	@Override
-	public int getViewTypeCount() 
-	{
-		return super.getViewTypeCount() + 1;
 	}
 
 	
@@ -71,7 +73,22 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 		if (rowView == null)
 		{
-			rowView = getViewForBroadCastCell(position, convertView, parent);
+			BannerViewType viewType = getBannerViewType(position);
+			
+			switch (viewType) 
+			{
+				case BANNER_VIEW_TYPE_STANDARD: 
+				{
+					rowView = getViewForBroadCastCell(position, convertView, parent);
+					break;
+				}
+				
+				default:
+				{
+					// Do nothing
+					break;
+				}
+			}
 		}
 
 		return rowView;
@@ -79,7 +96,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 	
 	
-	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) 
+	private View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
 
@@ -227,7 +244,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 	
 	
-	static class ViewHolder 
+	private static class ViewHolder 
 	{
 		private RelativeLayout mContainer;
 		private ImageView mImageIv;

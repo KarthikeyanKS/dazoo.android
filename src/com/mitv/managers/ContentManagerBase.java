@@ -41,6 +41,7 @@ import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.RandomNumberUtils;
 
 
 
@@ -1075,6 +1076,26 @@ public abstract class ContentManagerBase
 		return cal;
 	}
 
+	
+	
+	public List<Competition> getFromCacheVisibleCompetitions()
+	{
+		return getFromCacheAllCompetitions(false);
+	}
+	
+	
+	
+	public Competition getFromCacheVisibleRandomCompetition()
+	{
+		List<Competition> competitions = getFromCacheVisibleCompetitions();
+		
+		int randomCompetitionIndex = RandomNumberUtils.getRandomIntegerInRange(0, competitions.size());
+		
+		Competition competition = competitions.get(randomCompetitionIndex);
+		
+		return competition;
+	}
+	
 	
 	
 	public List<Competition> getFromCacheAllCompetitions(boolean inludeInvisible)

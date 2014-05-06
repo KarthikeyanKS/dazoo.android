@@ -29,6 +29,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
 import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SignUpSelectionActivity;
+import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
@@ -44,7 +45,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class TVGuideListAdapter 
-	extends AdListAdapter<TVChannelGuide>
+	extends BannerListAdapter<TVChannelGuide>
 {
 	private static final String TAG = TVGuideListAdapter.class.getName();
 
@@ -63,31 +64,17 @@ public class TVGuideListAdapter
 			final int hour, 
 			final boolean isToday) 
 	{
-		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide, Constants.AD_UNIT_ID_GUIDE_ACTIVITY);
+		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide, Constants.AD_UNIT_ID_GUIDE_ACTIVITY, true);
 		
 		this.activity = activity;
+		
 		this.tvDate = date;
+		
 		this.currentHour = hour;
 
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
-	
-
-	@Override
-	public int getViewTypeCount() 
-	{
-		int viewTypeCount = super.getViewTypeCount();
-		
-		/* TVGuide view */
-		viewTypeCount++;
-		
-		/* "Add more channels" view */
-		viewTypeCount++;
-		
-		return viewTypeCount;
-	}
-
 	
 	
 	private boolean isAddMoreChannelsCellPosition(int position) 
@@ -104,12 +91,27 @@ public class TVGuideListAdapter
 	{
 		int itemViewType = super.getItemViewType(position);
 		
-		if(itemViewType == VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) 
+		if(itemViewType == BannerViewType.BANNER_VIEW_TYPE_STANDARD.getId() && isAddMoreChannelsCellPosition(position)) 
 		{
-			itemViewType = VIEW_TYPE_CUSTOM;
+			itemViewType = BannerViewType.BANNER_VIEW_TYPE_CUSTOM.getId();
 		}
 		
 		return itemViewType;
+	}
+	
+	
+	
+	@Override
+	public BannerViewType getBannerViewType(int position)
+	{
+		BannerViewType viewType = super.getBannerViewType(position);
+		
+		if(viewType == BannerViewType.BANNER_VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) 
+		{
+			viewType = BannerViewType.BANNER_VIEW_TYPE_CUSTOM;
+		}
+		
+		return viewType;
 	}
 
 	
@@ -438,17 +440,17 @@ public class TVGuideListAdapter
 
 		if(rowView == null) 
 		{
-			int cellType = getItemViewType(position);
+			BannerViewType viewType = getBannerViewType(position);
 			
-			switch (cellType) 
+			switch (viewType) 
 			{
-				case VIEW_TYPE_STANDARD: 
+				case BANNER_VIEW_TYPE_STANDARD: 
 				{
 					rowView = getViewForGuideCell(position, convertView, parent);
 					break;
 				}
 				
-				case VIEW_TYPE_CUSTOM: 
+				case BANNER_VIEW_TYPE_CUSTOM: 
 				{
 					rowView = createAddChannelsCell();
 					break;
@@ -456,7 +458,7 @@ public class TVGuideListAdapter
 				
 				default:
 				{
-					Log.w(TAG, "Unhandled view type");
+					// Do nothing
 					break;
 				}
 			}
@@ -465,17 +467,17 @@ public class TVGuideListAdapter
 		return rowView;
 	}
 	
-	
+
 	
 	@Override
 	public int getCount() 
 	{
-		int finalCount = super.getCount();
+		int count = super.getCount();
 		
 		/* Add one extra cell for: "Add channels" cell */
-		finalCount += 1;
+		count += 1;
 
-		return finalCount;
+		return count;
 	}
 
 	

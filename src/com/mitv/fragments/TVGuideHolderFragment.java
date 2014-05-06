@@ -3,7 +3,9 @@ package com.mitv.fragments;
 
 
 
+import java.util.Collections;
 import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -11,13 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.imbryk.viewPager.LoopViewPager;
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.pager.TVGuideTagFragmentStatePagerAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.viewpagerindicator.TabPageIndicator;
@@ -133,13 +136,20 @@ public class TVGuideHolderFragment
 	
 	private void setAdapter(int selectedIndex) 
 	{
-		TVDate tvDate = ContentManager.sharedInstance().getFromCacheTVDateSelected();
-		
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 		
-		List<Competition> competitions = ContentManager.sharedInstance().getFromCacheAllCompetitions(false);
+		List<Competition> competitions;
 		
-		pagerAdapter = new TVGuideTagFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, competitions, tvDate);
+		if(Constants.FORCE_DISABLE_COMPETITIONS)
+		{
+			competitions = Collections.emptyList();
+		}
+		else
+		{
+			competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
+		}
+		
+		pagerAdapter = new TVGuideTagFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, competitions);
 
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(1);

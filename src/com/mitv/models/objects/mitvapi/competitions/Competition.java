@@ -26,6 +26,15 @@ public class Competition
 	
 	
 	
+	public boolean hasBegun()
+	{
+		Calendar now = DateUtils.getNow();
+		
+		boolean hasBegun = getBeginTimeCalendarLocal().after(now);
+		
+		return hasBegun;
+	}
+	
 	
 	
 	/**

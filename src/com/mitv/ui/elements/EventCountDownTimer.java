@@ -91,5 +91,9 @@ public class EventCountDownTimer
     public void onFinish() 
     {
     	Log.d(TAG, "Event " + eventName + " is now starting.");
+    	
+    	daysTextView.setText("00");
+		hoursTextView.setText("00");
+		minutesTextView.setText("00");
     }
 }

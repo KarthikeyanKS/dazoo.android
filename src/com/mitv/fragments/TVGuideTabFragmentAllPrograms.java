@@ -147,7 +147,7 @@ public class TVGuideTabFragmentAllPrograms
 				
 				listAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, selectedHour, isToday);
 				
-				if(listAdapter.isAdsEnabled() == false) 
+				if(listAdapter.areAdsEnabled() == false) 
 				{
 					setSwipeCLockbackground();
 				}

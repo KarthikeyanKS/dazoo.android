@@ -43,7 +43,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class FeedListAdapter 
-	extends AdListAdapter<TVFeedItem>
+	extends BannerListAdapter<TVFeedItem>
 	implements ViewCallbackListener
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
@@ -54,9 +54,12 @@ public class FeedListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	
+	
+	
 	public FeedListAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
 	{
-		super(Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems, Constants.AD_UNIT_ID_FEED_ACTIVITY);
+		super(Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems, Constants.AD_UNIT_ID_FEED_ACTIVITY, true);
+		
 		this.activity = activity;
 		this.feedItems = feedItems;
 
@@ -64,8 +67,11 @@ public class FeedListAdapter
 	}
 
 	
-	public void setFeedItems(ArrayList<TVFeedItem> feedItems) {
+	
+	public void setFeedItems(ArrayList<TVFeedItem> feedItems) 
+	{
 		super.setItems(feedItems);
+		
 		this.feedItems = feedItems;
 	}
 
