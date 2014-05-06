@@ -183,19 +183,6 @@ public class CompetitionTeamsByGroupListAdapter
 //					holder.teamInfoPts.setTypeface(null, Typeface.BOLD);
 				}
 
-				boolean isBeginTimeEqualToNextItem;
-
-				if(isLastPosition == false)
-				{
-					Team nextTeam = getItem(position + 1);
-
-					isBeginTimeEqualToNextItem = team.isSameGroup(nextTeam);
-				}
-				else
-				{
-					isBeginTimeEqualToNextItem = false;
-				}
-
 				if (isFirstposition || isCurrentTeamGroupEqualToPreviousTeamGroup == false) 
 				{
 					/* Capitalized letters in header */
