@@ -4,17 +4,40 @@
     android:layout_height="wrap_content"
     android:background="@color/white" >
 
-    <!-- HEADER -->
+    <!-- HEADER BY GROUP -->
+    
+    <RelativeLayout
+        android:id="@+id/row_competition_group_header_container_event"
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:paddingTop="15dp"
+        android:paddingBottom="5dp"
+	    android:background="@color/grey1" >
+	    
+        <!-- GROUP -->
+    
+	    <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_header_group_event"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:textAllCaps="true"
+	        android:textColor="@color/grey3"
+	        android:textSize="20sp" />
+    </RelativeLayout>
+    
+    <!-- HEADER DAY -->
     
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_competition_start_day_of_week"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/row_competition_group_header_container_event"
         android:background="@color/grey1"
         android:gravity="center_horizontal"
-        android:paddingTop="5dp"
         android:paddingBottom="5dp"
+        android:paddingTop="5dp"
         android:textAllCaps="true"
         android:textColor="@color/grey3"
         android:textSize="12sp" />

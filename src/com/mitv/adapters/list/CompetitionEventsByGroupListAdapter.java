@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
@@ -121,8 +122,8 @@ public class CompetitionEventsByGroupListAdapter
 			
 			ViewHolder viewHolder = new ViewHolder();
 
-			// TODO - Fix this
-//			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
+			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event);
+			viewHolder.groupContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container_event);
 			
 			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
 			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_header_divider);
@@ -148,139 +149,164 @@ public class CompetitionEventsByGroupListAdapter
 		if (event != null) 
 		{
 			holder.startWeekDayHeader.setVisibility(View.GONE);
-			holder.dividerView.setVisibility(View.VISIBLE);
+			holder.dividerView.setVisibility(View.GONE);
+			holder.groupContainer.setVisibility(View.GONE);
+			holder.group.setVisibility(View.GONE);
 			
-			boolean isFirstposition = (position == 0);
-
-			boolean isLastPosition = (position == (getCount() - 1));
-
-			boolean isCurrentEventDayEqualToPreviousEventDay;
-
-			if(isFirstposition == false)
-			{
-				Event prevEvent = getItem(position - 1);
-
-				isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
-			}
-			else
-			{
-				isCurrentEventDayEqualToPreviousEventDay = true;
-			}
-
-			boolean isBeginTimeEqualToNextItem;
-
-			if(isLastPosition == false)
-			{
-				Event nextEvent = getItem(position + 1);
-
-				isBeginTimeEqualToNextItem = event.isTheSameDayAs(nextEvent);
-			}
-			else
-			{
-				isBeginTimeEqualToNextItem = false;
-			}
-
-			if (isFirstposition || isCurrentEventDayEqualToPreviousEventDay == false) 
-			{
-				StringBuilder sb = new StringBuilder();
-
-				boolean isBeginTimeTodayOrTomorrow = event.isBeginTimeTodayOrTomorrow();
-
-				if(isBeginTimeTodayOrTomorrow)
+			for (int i = 0; i < eventsByGroup.size(); i++) {
+			
+				boolean isFirstposition = (position == 0);
+	
+				boolean isLastPosition = (position == (getCount() - 1));
+	
+				boolean isCurrentEventDayEqualToPreviousEventDay;
+				boolean isCurrentEventGroupEqualToPreviousEventGroup;
+	
+				if(isFirstposition == false)
 				{
-					sb.append(event.getBeginTimeDayOfTheWeekAsString());
+					Event prevEvent = getItem(position - 1);
+	
+					isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
+					
+					isCurrentEventGroupEqualToPreviousEventGroup = event.isSameGroup(prevEvent);
 				}
 				else
 				{
-					sb.append(event.getBeginTimeDayOfTheWeekAsString());
-					sb.append(" ");
-					sb.append(event.getBeginTimeDayAndMonthAsString());
+					isCurrentEventDayEqualToPreviousEventDay = true;
+					isCurrentEventGroupEqualToPreviousEventGroup = true;
 				}
-
-				/* Capitalized letters in header */
-				String headerText = sb.toString();
-				holder.startWeekDayHeader.setText(headerText.toUpperCase());
-
-				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
-			}
-			
-			String team1ID = event.getTeam1Id();
-			
-			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
-			
-			boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
-			
-			if(isLocalFlagDrawableResourceAvailableForTeam1)
-			{
-				holder.team1flag.setImageDrawable(team1.getLocalFlagDrawableResource());
-			}
-			else
-			{
-				ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
-				
-				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
-			}
-			
-			String team2ID = event.getTeam2Id();
-			
-			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-			
-			boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
-			
-			if(isLocalFlagDrawableResourceAvailableForTeam2)
-			{
-				holder.team2flag.setImageDrawable(team2.getLocalFlagDrawableResource());
-			}
-			else
-			{
-				ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
-				
-				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
-			}
-			
-			holder.team1name.setText(team1.getDisplayName());
-			
-			holder.team2name.setText(team2.getDisplayName());
-			
-			// TODO
-			// Set remaining variables: group, score and timeLeft
-			
-			/* Start time */
-			String start = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
-			holder.startTime.setText(start);
-			
-			StringBuilder sb = new StringBuilder();
-			
-			/* Broadcast details - airing channel names */
-			List<EventBroadcastDetailsJSON> broadcastDetails = event.getBroadcastDetails();
-			List<TVChannel> channels = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
-			int howManyChannels = broadcastDetails.size();
-			
-			if (howManyChannels >= 1) {
-				String cid = broadcastDetails.get(0).getChannelId();
-				
-				for (TVChannel tvChannel: channels) {
-					
-					if (tvChannel.getChannelId().getChannelId().equals(cid)) {
-						
-						if (howManyChannels == 1) {
-							sb.append(tvChannel.getName());
-							
-						} else {
-							sb.append(tvChannel.getName());
-							sb.append(" + ");
-							sb.append(howManyChannels - 1);
-							sb.append(" more");
-						}
+	
+				boolean isBeginTimeEqualToNextItem;
+	
+				if(isLastPosition == false)
+				{
+					Event nextEvent = getItem(position + 1);
+	
+					isBeginTimeEqualToNextItem = event.isTheSameDayAs(nextEvent);
+				}
+				else
+				{
+					isBeginTimeEqualToNextItem = false;
+				}
+	
+				if (isFirstposition || isCurrentEventDayEqualToPreviousEventDay == false) 
+				{
+					StringBuilder sb = new StringBuilder();
+	
+					boolean isBeginTimeTodayOrTomorrow = event.isBeginTimeTodayOrTomorrow();
+	
+					if(isBeginTimeTodayOrTomorrow)
+					{
+						sb.append(event.getBeginTimeDayOfTheWeekAsString());
 					}
-				}				
+					else
+					{
+						sb.append(event.getBeginTimeDayOfTheWeekAsString());
+						sb.append(" ");
+						sb.append(event.getBeginTimeDayAndMonthAsString());
+					}
+					
+					/* Capitalized letters in header */
+					String headerText = sb.toString();
+					holder.startWeekDayHeader.setText(headerText.toUpperCase());
+	
+					holder.startWeekDayHeader.setVisibility(View.VISIBLE);
+				}
+				
+				if (isFirstposition || isCurrentEventGroupEqualToPreviousEventGroup == false)
+				{
+					/* Group ID */
+					// TODO Change from phaseID to group name...
+					String headerGroup = event.getPhaseId();
+					holder.group.setText(headerGroup);
+
+					holder.groupContainer.setVisibility(View.VISIBLE);
+					holder.group.setVisibility(View.VISIBLE);
+				}
+				
+				if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
+				{
+					holder.dividerView.setVisibility(View.GONE);
+				}
+				
+				String team1ID = event.getTeam1Id();
+				
+				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+				
+				boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+				
+				if(isLocalFlagDrawableResourceAvailableForTeam1)
+				{
+					holder.team1flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+				}
+				else
+				{
+					ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
+					
+					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+				}
+				
+				String team2ID = event.getTeam2Id();
+				
+				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+				
+				boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+				
+				if(isLocalFlagDrawableResourceAvailableForTeam2)
+				{
+					holder.team2flag.setImageDrawable(team2.getLocalFlagDrawableResource());
+				}
+				else
+				{
+					ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
+					
+					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+				}
+				
+				holder.team1name.setText(team1.getDisplayName());
+				
+				holder.team2name.setText(team2.getDisplayName());
+				
+				// TODO
+				// Set remaining variables: group, score and timeLeft
+				
+				/* Start time */
+				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
+				holder.startTime.setText(start);
+				
+				StringBuilder sb = new StringBuilder();
+				
+				/* Broadcast details - airing channel names */
+				List<EventBroadcastDetailsJSON> broadcastDetails = event.getBroadcastDetails();
+				List<TVChannel> channels = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
+				int howManyChannels = broadcastDetails.size();
+				
+				if (howManyChannels >= 1) {
+					String cid = broadcastDetails.get(0).getChannelId();
+					
+					for (TVChannel tvChannel: channels) {
+						
+						if (tvChannel.getChannelId().getChannelId().equals(cid)) {
+							
+							if (howManyChannels == 1) {
+								sb.append(tvChannel.getName());
+								
+							} else {
+								sb.append(tvChannel.getName());
+								sb.append(" + ");
+								sb.append(howManyChannels - 1);
+								sb.append(" more");
+							}
+						}
+					}				
+				}
+				
+				holder.broadcastChannels.setText(sb.toString());
 			}
-			
-			holder.broadcastChannels.setText(sb.toString());
 			
 		}
 		else
@@ -296,6 +322,7 @@ public class CompetitionEventsByGroupListAdapter
 	private static class ViewHolder 
 	{
 		private TextView group;
+		private RelativeLayout groupContainer;
 		private TextView startWeekDayHeader;
 		private TextView team1name;
 		private ImageView team1flag;

@@ -167,4 +167,21 @@ public class Event
 		
 		return true;
 	}
+	
+	/**
+	 * Compares previous or next team with current team to check if they belongs to the same group or not.
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public boolean isSameGroup(Event other) {
+		boolean isSameGroup = false;
+		String currentEventPhaseID = this.phaseId;
+		
+		if (other.phaseId.equals(currentEventPhaseID)) {
+			isSameGroup = true;
+		}
+		
+		return isSameGroup;
+	}
 }
