@@ -20,13 +20,15 @@ public class AddUserLike
 {
 	private static final String TAG = AddUserLike.class.getName();
 	
+	
 	private static final String URL_SUFFIX = Constants.URL_LIKES;
 	
 	
+	
 	public AddUserLike(
-			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener,
-			UserLike userLike) 
+			final ContentCallbackListener contentCallbackListener,
+			final ViewCallbackListener activityCallbackListener,
+			final UserLike userLike) 
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
@@ -40,14 +42,14 @@ public class AddUserLike
 	}
 
 
+	
 	@Override
-	protected Void doInBackground(String... params) {
+	protected Void doInBackground(String... params) 
+	{
 		super.doInBackground(params);
 		
 		Log.d(TAG, "addUserLike do in background");
 		
 		return null;
 	}
-	
-	
 }

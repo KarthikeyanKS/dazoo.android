@@ -880,6 +880,8 @@ public class ContentManager
 		}
 	}
 	
+	
+	
 	/**
 	 * This should only be used from the BroadcastPageActivity
 	 * @param activityCallbackListener
@@ -888,30 +890,41 @@ public class ContentManager
 	 * @param beginTimeInMillis
 	 */
 	public void getElseFetchFromServiceBroadcastPageData(
-			ViewCallbackListener activityCallbackListener, 
+			final ViewCallbackListener activityCallbackListener, 
 			final boolean forceDownload, 
-			TVBroadcastWithChannelInfo broadcastWithChannelInfo, 
+			final TVBroadcastWithChannelInfo broadcastWithChannelInfo, 
 			final TVChannelId channelId, 
 			final long beginTimeInMillis) 
 	{
 		if (!forceDownload && (broadcastWithChannelInfo != null || getCache().containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis))) 
 		{
+			TVBroadcastWithChannelInfo broadcastWithChannelInfoUsed;
+			
 			if(broadcastWithChannelInfo == null) 
 			{
-				broadcastWithChannelInfo = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
+				broadcastWithChannelInfoUsed = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
+			}
+			else
+			{
+				broadcastWithChannelInfoUsed = broadcastWithChannelInfo;
 			}
 			
-			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfo);
+			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfoUsed);
 		} 
 		else 
 		{
-			if(channelId != null) {
+			if(channelId != null)
+			{
 				fetchFromServiceIndividualBroadcast(activityCallbackListener, channelId, beginTimeInMillis);
-			} else {
+			} 
+			else 
+			{
 				activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, RequestIdentifierEnum.BROADCAST_DETAILS);
 			}
 		}
 	}
+	
+	
 	
 	public void getElseFetchFromServiceUpcomingBroadcasts(ViewCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey) 
 	{
@@ -1353,7 +1366,11 @@ public class ContentManager
 	 * @param result
 	 * @param content
 	 */
-	public void handleBroadcastPageDataResponse(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
+	public void handleBroadcastPageDataResponse(
+			final ViewCallbackListener activityCallbackListener, 
+			final RequestIdentifierEnum requestIdentifier, 
+			final FetchRequestResultEnum result, 
+			final Object content) 
 	{
 		if ((result == FetchRequestResultEnum.SUCCESS && content != null) || result == FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT) 
 		{
