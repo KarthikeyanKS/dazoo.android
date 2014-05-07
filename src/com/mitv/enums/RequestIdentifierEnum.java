@@ -49,7 +49,8 @@ public enum RequestIdentifierEnum {
 	COMPETITION_PHASES(46, "All phases for a specific competition"),
 	COMPETITION_PHASE_BY_ID(47, "A phase for a specific competition"),
 	COMPETITION_EVENTS(48, "All events for a specific competition"),
-	COMPETITION_EVENT_BY_ID(49, "An event for a specific competition");
+	COMPETITION_EVENT_BY_ID(49, "An event for a specific competition"),
+	COMPETITION_STANDINGS_BY_PHASE_ID(50, "All standings for a specific phase");
 	
 	
 	private final int id;

@@ -12,10 +12,12 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.APIClient;
+import com.mitv.Constants;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
@@ -38,6 +40,7 @@ import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
@@ -956,7 +959,7 @@ public abstract class ContentManagerBase
 	
 	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */
 	
-	public Team getFromCacheTeamByID(String teamID)
+	public Team getFromCacheTeamByID(long teamID)
 	{
 		Team matchingTeam = null;
 		
@@ -964,7 +967,7 @@ public abstract class ContentManagerBase
 		
 		for(Team team : teams)
 		{
-			if(team.getTeamId().equals(teamID))
+			if(team.getTeamId() == teamID)
 			{
 				matchingTeam = team;
 				break;
@@ -989,9 +992,9 @@ public abstract class ContentManagerBase
 		
 		for(Event event : events)
 		{
-			Calendar eventStartTimeCalendar = event.getStartTimeCalendarLocal();
+			Calendar eventStartTimeCalendar = event.getEventDateCalendarLocal();
 			
-			if(matchingEvent.getStartTimeCalendarLocal().after(eventStartTimeCalendar))
+			if(matchingEvent.getEventDateCalendarLocal().after(eventStartTimeCalendar))
 			{
 				matchingEvent = event;
 			}
@@ -1001,10 +1004,12 @@ public abstract class ContentManagerBase
 	}
 
 	
-	
-	public Map<String, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition()
+
+	private Map<Long, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition(
+			final String stage,
+			final boolean reverseComparisson)
 	{
-		Map<String, List<Event>> eventsByPhaseID = new HashMap<String, List<Event>>();
+		Map<Long, List<Event>> eventsByPhaseID = new HashMap<Long, List<Event>>();
 		
 		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
 		
@@ -1012,48 +1017,51 @@ public abstract class ContentManagerBase
 		
 		for(Phase phase : phases)
 		{
-			List<Event> eventsForPhase = new ArrayList<Event>();
+			boolean isSameStage = (phase.getStage() == stage);
 			
-			for(Event event : events)
+			if(reverseComparisson)
 			{
-				if(event.getPhaseId().equals(phase.getPhaseId()))
-				{
-					eventsForPhase.add(event);
-				}
+				isSameStage = !isSameStage;
 			}
 			
-			eventsByPhaseID.put(phase.getPhaseId(), eventsForPhase);
+			if(isSameStage)
+			{
+				List<Event> eventsForPhase = new ArrayList<Event>();
+				
+				for(Event event : events)
+				{
+					if(event.getPhaseId() == phase.getPhaseId())
+					{
+						eventsForPhase.add(event);
+					}
+				}
+				
+				eventsByPhaseID.put(phase.getPhaseId(), eventsForPhase);
+			}
 		}
 		
 		return eventsByPhaseID;
 	}
 	
+		
 	
-	
-	public Map<String, List<Team>> getFromCacheAllTeamsGroupedByPhaseForSelectedCompetition()
+	public Map<Long, List<Event>> getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition()
 	{
-		Map<String, List<Team>> teamsByPhaseID = new HashMap<String, List<Team>>();
-		
-		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
-		
-		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
-		
-		for(Phase phase : phases)
-		{
-			List<Team> teamsForPhase = new ArrayList<Team>();
-			
-			for(Team team : teams)
-			{
-				if(team.getPhaseId().equals(phase.getPhaseId()))
-				{
-					teamsForPhase.add(team);
-				}
-			}
-			
-			teamsByPhaseID.put(phase.getPhaseId(), teamsForPhase);
-		}
-		
-		return teamsByPhaseID;
+		return getFromCacheAllEventsGroupedByPhaseForSelectedCompetition(Constants.GROUP_STAGE, false);
+	}
+	
+	
+	
+	public Map<Long, List<Event>> getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition()
+	{
+		return getFromCacheAllEventsGroupedByPhaseForSelectedCompetition(Constants.GROUP_STAGE, true);
+	}
+	
+	
+	
+	public Map<Long, List<Standings>> getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition()
+	{
+		return getCache().getCompetitionsData().getStandingsByPhaseForSelectedCompetition();
 	}
 	
 	

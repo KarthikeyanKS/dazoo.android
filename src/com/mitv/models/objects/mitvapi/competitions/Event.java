@@ -3,8 +3,10 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
 import com.mitv.utilities.DateUtils;
 
@@ -20,16 +22,45 @@ public class Event
 	protected Calendar startCalendar;
 	
 	
-	public Event(){}
+	public Event()
+	{
+		// TODO - Remove this
+		if(this.broadcastDetails == null)
+		{
+			this.broadcastDetails = new ArrayList<EventBroadcastDetailsJSON>();
+			
+			EventBroadcastDetailsJSON eventBroadcastDetailsJSON1 = new EventBroadcastDetailsJSON("co_5184009a-0871-43bd-a99f-1dacc55215f4", "2014-05-07", "1380962800000");
+			EventBroadcastDetailsJSON eventBroadcastDetailsJSON2 = new EventBroadcastDetailsJSON("co_892f1538-aac8-46cb-a8dc-44f4b0668d57", "2014-05-09", "5480962608032");
+			EventBroadcastDetailsJSON eventBroadcastDetailsJSON3 = new EventBroadcastDetailsJSON("co_34b84cce-de14-4db8-abb6-06b09c51233a", "2014-05-10", "1380962800000");
+			
+			this.broadcastDetails.add(eventBroadcastDetailsJSON1);
+			this.broadcastDetails.add(eventBroadcastDetailsJSON2);
+			this.broadcastDetails.add(eventBroadcastDetailsJSON3);
+		}
+	}
+	
+	
+	
+	public boolean containsTeamInfo()
+	{
+		if(homeTeamId == 0 || awayTeamId == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
 	
 	
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */
-	public Calendar getStartTimeCalendarGMT() 
+	public Calendar getEventDateCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(startDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(eventDate);
 		
 		return beginTimeCalendarGMT;
 	}
@@ -40,11 +71,11 @@ public class Event
 	 * Lazy instantiated variable
 	 * @return The start time of the competition, if available. Otherwise, the current time
 	 */
-	public Calendar getStartTimeCalendarLocal() 
+	public Calendar getEventDateCalendarLocal() 
 	{
 		if(startCalendar == null)
 		{	
-			startCalendar = getStartTimeCalendarGMT();
+			startCalendar = getEventDateCalendarGMT();
 			
 			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
 			startCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
@@ -57,19 +88,19 @@ public class Event
 	
 	public boolean isTheSameDayAs(Event other)
 	{
-		Calendar beginTime1 = this.getStartTimeCalendarLocal();
-		Calendar beginTime2 = other.getStartTimeCalendarLocal();
+		Calendar beginTime1 = this.getEventDateCalendarLocal();
+		Calendar beginTime2 = other.getEventDateCalendarLocal();
 		
 		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
 	}
 	
 	
 	
-	public boolean isBeginTimeTodayOrTomorrow()
+	public boolean isEventTimeTodayOrTomorrow()
 	{
 		Calendar now = DateUtils.getNow();
 		
-		Calendar beginTime = this.getStartTimeCalendarLocal();
+		Calendar beginTime = this.getEventDateCalendarLocal();
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) <= 1;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) <= 1;
@@ -100,9 +131,9 @@ public class Event
 	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
 	 * is today or tomorrow (per comparison with the current time)
 	 */
-	public String getBeginTimeDayOfTheWeekAsString() 
+	public String getEventTimeDayOfTheWeekAsString() 
 	{	
-		return DateUtils.buildDayOfTheWeekAsString(getStartTimeCalendarLocal());
+		return DateUtils.buildDayOfTheWeekAsString(getEventDateCalendarLocal());
 	}
 	
 	
@@ -110,9 +141,9 @@ public class Event
 	/**
 	 * Returns a string representation of the begin time calendar in the format "dd/MM"
 	 */
-	public String getBeginTimeDayAndMonthAsString() 
+	public String getEventTimeDayAndMonthAsString() 
 	{
-		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getStartTimeCalendarLocal(), false);
+		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getEventDateCalendarLocal(), false);
 		
 		return beginTimeDayAndMonthRepresentation;
 	}
@@ -126,7 +157,7 @@ public class Event
 		
 		int result = 1;
 		
-		result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
+		result = prime * result + (int) eventId;
 		
 		return result;
 	}
@@ -153,14 +184,7 @@ public class Event
 		
 		Event other = (Event) obj;
 		
-		if (eventId == null) 
-		{
-			if (other.eventId != null) 
-			{
-				return false;
-			}
-		} 
-		else if (!eventId.equals(other.eventId)) 
+		if (eventId != other.eventId) 
 		{
 			return false;
 		}
@@ -168,20 +192,23 @@ public class Event
 		return true;
 	}
 	
+	
+	
 	/**
-	 * Compares previous or next team with current team to check if they belongs to the same group or not.
+	 * Compares previous or next team with current team to check if they belongs to the same phase or not.
 	 * 
 	 * @param other
 	 * @return
 	 */
-	public boolean isSameGroup(Event other) {
-		boolean isSameGroup = false;
-		String currentEventPhaseID = this.phaseId;
+	public boolean isSamePhase(Event other) 
+	{
+		boolean isSamePhase = false;
 		
-		if (other.phaseId.equals(currentEventPhaseID)) {
-			isSameGroup = true;
+		if (this.phaseId == other.getPhaseId()) 
+		{
+			isSamePhase = true;
 		}
 		
-		return isSameGroup;
+		return isSamePhase;
 	}
 }

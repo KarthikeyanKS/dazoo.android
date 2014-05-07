@@ -3,17 +3,17 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
-import java.util.List;
-
-
-
 public class PhaseJSON 
 {
-	protected String phaseId;
+	protected long competitionId;
+	protected long phaseId;
 	protected String stage;
-	protected String name;
-	protected String type;
-	protected List<String> teamIds;
+	protected String phase;
+	protected boolean table; 
+	protected boolean current;
+	protected boolean currents;
+	protected String dateStart;
+	protected String dateEnd;
 	
 	
 	
@@ -21,31 +21,57 @@ public class PhaseJSON
 
 
 
-	public String getPhaseId() {
+	public long getPhaseId() 
+	{
 		return phaseId;
 	}
 
 
 
-	public String getStage() {
+	public String getStage() 
+	{
 		return stage;
 	}
 
 
 
-	public String getName() {
-		return name;
+	public long getCompetitionId() {
+		return competitionId;
 	}
 
 
 
-	public String getType() {
-		return type;
+	public String getPhase() {
+		return phase;
 	}
 
 
 
-	public List<String> getTeamIDs() {
-		return teamIds;
+	public boolean isTable() {
+		return table;
+	}
+
+
+
+	public boolean isCurrent() {
+		return current;
+	}
+
+
+
+	public boolean isCurrents() {
+		return currents;
+	}
+
+
+
+	public String getStartDate() {
+		return dateStart;
+	}
+
+
+
+	public String getEndDate() {
+		return dateEnd;
 	}
 }

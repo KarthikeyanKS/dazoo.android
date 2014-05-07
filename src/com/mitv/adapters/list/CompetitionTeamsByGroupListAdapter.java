@@ -10,7 +10,6 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,7 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -39,8 +37,8 @@ public class CompetitionTeamsByGroupListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	
-	private Map<String, List<Team>> teamsByGroup;
-	private List<Team> teams;
+	private Map<Long, List<Standings>> standingsByPhase;
+	private List<Standings> standings;
 	
 	private static final String PHASE01 = "PHASE01";
 	private static final String PHASE02 = "PHASE02";
@@ -53,17 +51,17 @@ public class CompetitionTeamsByGroupListAdapter
 	
 	public CompetitionTeamsByGroupListAdapter(
 			final Activity activity,
-			final Map<String, List<Team>> teamsByGroup)
+			final Map<Long, List<Standings>> standingsByPhase)
 	{
-		this.teamsByGroup = teamsByGroup;
+		this.standingsByPhase = standingsByPhase;
 		
-		this.teams = new ArrayList<Team>();
+		this.standings = new ArrayList<Standings>();
 		
-		Collection<List<Team>> values = teamsByGroup.values();
+		Collection<List<Standings>> values = standingsByPhase.values();
 		
-		for(List<Team> value : values)
+		for(List<Standings> value : values)
 		{
-			teams.addAll(value);
+			standings.addAll(value);
 		}
 		
 		this.activity = activity;
@@ -78,9 +76,9 @@ public class CompetitionTeamsByGroupListAdapter
 	{
 		int count = 0;
 		
-		if (teams != null) 
+		if (standings != null) 
 		{
-			count = teams.size();
+			count = standings.size();
 		}
 		
 		return count;
@@ -89,16 +87,16 @@ public class CompetitionTeamsByGroupListAdapter
 	
 	
 	@Override
-	public Team getItem(int position) 
+	public Standings getItem(int position) 
 	{
-		Team team = null;
+		Standings standingsElement = null;
 		
-		if (teams != null)
+		if (standings != null)
 		{
-			team = teams.get(position);
+			standingsElement = standings.get(position);
 		}
 		
-		return team;
+		return standingsElement;
 	}
 
 	
@@ -116,7 +114,7 @@ public class CompetitionTeamsByGroupListAdapter
 	{
 		View rowView = convertView;
 
-		final Team team = getItem(position);
+		final Standings standingsElement = getItem(position);
 
 		if (rowView == null) 
 		{
@@ -148,7 +146,7 @@ public class CompetitionTeamsByGroupListAdapter
 		
 		// TODO Sort the teams in each group accordingly to highest Pts.
 
-		if (team != null) 
+		if (standingsElement != null) 
 		{
 			holder.headerContainer.setVisibility(View.GONE);
 			holder.group.setVisibility(View.GONE);
@@ -157,7 +155,7 @@ public class CompetitionTeamsByGroupListAdapter
 			holder.headerPlusMinus.setVisibility(View.GONE);
 			holder.headerPts.setVisibility(View.GONE);
 			
-			for (int i = 0; i < teamsByGroup.size(); i++) {
+			for (int i = 0; i < standingsByPhase.size(); i++) {
 				
 				boolean isFirstposition = (position == 0);
 
@@ -167,9 +165,10 @@ public class CompetitionTeamsByGroupListAdapter
 
 				if(isFirstposition == false)
 				{
-					Team prevTeam = getItem(position - 1);
+					Standings prevStandingsElement = getItem(position - 1);
 
-					isCurrentTeamGroupEqualToPreviousTeamGroup = team.isSameGroup(prevTeam);
+					// TODO
+					isCurrentTeamGroupEqualToPreviousTeamGroup = false;
 				}
 				else
 				{
@@ -186,7 +185,7 @@ public class CompetitionTeamsByGroupListAdapter
 				if (isFirstposition || isCurrentTeamGroupEqualToPreviousTeamGroup == false) 
 				{
 					/* Capitalized letters in header */
-					String headerText = team.getPhaseId();
+					String headerText = "TODO";
 					holder.group.setText(headerText.toUpperCase());
 
 					holder.headerContainer.setVisibility(View.VISIBLE);
@@ -197,22 +196,32 @@ public class CompetitionTeamsByGroupListAdapter
 					holder.headerPts.setVisibility(View.VISIBLE);
 				}
 				
-				boolean isLocalFlagDrawableResourceAvailableForTeam1 = team.isLocalFlagDrawableResourceAvailable();
+				long teamID = standingsElement.getTeamId();
+					
+				Team team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
 				
-				if(isLocalFlagDrawableResourceAvailableForTeam1)
+				if(team != null)
 				{
-					holder.teamFlag.setImageDrawable(team.getLocalFlagDrawableResource());
+					boolean isLocalFlagDrawableResourceAvailableForTeam1 = team.isLocalFlagDrawableResourceAvailable();
+					
+					if(isLocalFlagDrawableResourceAvailableForTeam1)
+					{
+						holder.teamFlag.setImageDrawable(team.getLocalFlagDrawableResource());
+					}
+					else
+					{
+						ImageAware imageAware = new ImageViewAware(holder.teamFlag, false);
+						
+						// TODO
+						//SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1.g, imageAware);
+					}
+					
+					holder.teamName.setText(team.getDisplayName());
 				}
 				else
 				{
-					ImageAware imageAware = new ImageViewAware(holder.teamFlag, false);
-					
-					// TODO
-					//SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1.g, imageAware);
+					// TODO - Do something
 				}
-				
-				holder.teamName.setText(team.getDisplayName());
-				
 			}
 				
 		}
