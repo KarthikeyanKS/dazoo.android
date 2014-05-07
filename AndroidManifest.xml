@@ -325,6 +325,15 @@
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
+        
+        <!-- COMPETITION PAGE -->
+        <activity
+            android:name="com.mitv.activities.competition.CompetitionPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar" >
+        </activity>
 
         <!-- HOCKEY APP ACTIVITIES -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />

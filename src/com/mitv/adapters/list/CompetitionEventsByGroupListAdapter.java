@@ -271,8 +271,7 @@ public class CompetitionEventsByGroupListAdapter
 				
 				holder.team2name.setText(team2.getDisplayName());
 				
-				// TODO
-				// Set remaining variables: group, score and timeLeft
+				// TODO Set remaining variables: score and timeLeft
 				
 				/* Start time */
 				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());

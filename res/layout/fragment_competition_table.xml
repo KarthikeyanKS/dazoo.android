@@ -17,7 +17,7 @@
         android:fadingEdge="none"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical"
         android:visibility="visible" />
 

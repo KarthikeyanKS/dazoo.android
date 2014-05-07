@@ -29,6 +29,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 	
 	private List<TVTag> tvTags;
 	private List<Competition> competitions;
+	private Competition competition;
 
 	
 	
@@ -69,9 +70,9 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{
 			int competitionPosition = (realPosition-tvTags.size());
 			
-			Competition competition = competitions.get(competitionPosition);
+			competition = competitions.get(competitionPosition);
 			
-			fragment = new TVGuideTabFragmentCompetition(competition);
+			fragment = new TVGuideTabFragmentCompetition(competition, competitionPosition);
 		}
 		
 		return fragment;
@@ -98,7 +99,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 			{
 				int competitionPosition = (realPosition-tvTags.size());
 				
-				Competition competition = competitions.get(competitionPosition);
+				competition = competitions.get(competitionPosition);
 				
 				displayName = competition.getDisplayName();
 			}
