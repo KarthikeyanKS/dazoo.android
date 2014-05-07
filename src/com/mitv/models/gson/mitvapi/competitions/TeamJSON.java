@@ -13,7 +13,14 @@ public class TeamJSON
 	
 	
 	
-	public TeamJSON(){}
+	public TeamJSON()
+	{
+		// TODO - Remove this
+		if(images == null)
+		{
+			images = new TeamImageSetJSON();
+		}
+	}
 
 
 	

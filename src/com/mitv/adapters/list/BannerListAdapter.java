@@ -25,6 +25,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.SignUpSelectionActivity;
+import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -291,10 +292,10 @@ public abstract class BannerListAdapter<T>
 			
 				viewHolder.competitionBannerView.setVisibility(View.VISIBLE);
 			
+				final Competition competition = ContentManager.sharedInstance().getFromCacheVisibleRandomCompetition();
+				
 				if(Constants.FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER == false)
-				{
-					Competition competition = ContentManager.sharedInstance().getFromCacheVisibleRandomCompetition();
-					
+				{	
 					String imageUrl = competition.getBanner().getImageURLForDeviceDensityDPI();
 					
 					ImageAware imageAware = new ImageViewAware(viewHolder.competitionBannerView, false);
@@ -307,9 +308,10 @@ public abstract class BannerListAdapter<T>
 					@Override
 					public void onClick(View v) 
 					{
-						// TODO - Replace with proper target class
-						Intent intent = new Intent(activity, SignUpSelectionActivity.class);
-						
+						Intent intent = new Intent(activity, CompetitionPageActivity.class);
+		                
+		                intent.putExtra("competitionID", competition.getCompetitionId());
+		                
 						activity.startActivity(intent);
 					}
 				});

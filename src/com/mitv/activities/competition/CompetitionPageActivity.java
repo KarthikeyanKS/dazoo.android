@@ -93,10 +93,13 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setCompetition() {
+	private void setCompetition() 
+	{
 		competitions = ContentManager.sharedInstance().getFromCacheAllCompetitions(false);
 		
 		this.competition = competitions.get(competitionPosition);
+		
+		ContentManager.sharedInstance().setSelectedCompetition(competition);
 	}
 	
 	
@@ -253,47 +256,56 @@ public class CompetitionPageActivity
 			eventCountDownTimer.start();
 //		}
 		
-		long team1ID = event.getHomeTeamId();
-		
-		Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
-		
-		team1Name.setText(team1.getDisplayName());
-		
-		long team2ID = event.getAwayTeamId();
-		
-		Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-		
-		team2Name.setText(team2.getDisplayName());
-		
-		boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
-		
-		if(isLocalFlagDrawableResourceAvailableForTeam1)
-		{
-			team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
-		}
-		else
-		{
-			ImageAware imageAware = new ImageViewAware(team1Flag, false);
+		String homeTeamName = event.getHomeTeam();
 			
-			String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+		String awayTeamName = event.getAwayTeam();
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+		boolean containsTeamInfo = event.containsTeamInfo();
+			
+		if(containsTeamInfo)
+		{	
+			long team1ID = event.getHomeTeamId();
+			
+			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+			
+			long team2ID = event.getAwayTeamId();
+			
+			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+			
+			boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+			
+			if(isLocalFlagDrawableResourceAvailableForTeam1)
+			{
+				team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+			}
+			else
+			{
+				ImageAware imageAware = new ImageViewAware(team1Flag, false);
+				
+				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+			}
+			
+			boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+			
+			if(isLocalFlagDrawableResourceAvailableForTeam2)
+			{
+				team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
+			}
+			else
+			{
+				ImageAware imageAware = new ImageViewAware(team2Flag, false);
+				
+				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+			}
 		}
 		
-		boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+		team1Name.setText(homeTeamName);
 		
-		if(isLocalFlagDrawableResourceAvailableForTeam2)
-		{
-			team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
-		}
-		else
-		{
-			ImageAware imageAware = new ImageViewAware(team2Flag, false);
-			
-			String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
-		}
+		team2Name.setText(awayTeamName);
 		
 		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 		
@@ -357,7 +369,6 @@ public class CompetitionPageActivity
 		{
 			tvBroadcastChannels.setVisibility(View.GONE);
 		}
-		
 	}
 	
 	

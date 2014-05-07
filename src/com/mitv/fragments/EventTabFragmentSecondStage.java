@@ -5,51 +5,49 @@ package com.mitv.fragments;
 
 import java.util.List;
 import java.util.Map;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.mitv.R;
-import com.mitv.adapters.list.CompetitionTeamsByGroupListAdapter;
+import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.competitions.Standings;
-import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 
 
 
-public class EventTabFragmentTeams 
+public class EventTabFragmentSecondStage 
 	extends EventTabFragment
 	implements ViewCallbackListener
 {
-	private static final String TAG = EventTabFragmentGroupStage.class.getName();
+	private static final String TAG = EventTabFragmentSecondStage.class.getName();
 	
 	
 	private ListView listView;
-	private CompetitionTeamsByGroupListAdapter listAdapter;
+	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	
 	
 	/* An empty constructor is required by the Fragment Manager */
-	public EventTabFragmentTeams()
+	public EventTabFragmentSecondStage()
 	{
 		super();
 	}
+
 	
 	
-	
-	public EventTabFragmentTeams(String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public EventTabFragmentSecondStage(String tabId, String tabTitle, EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
 	}
+	
 	
 	
 	@Override
@@ -75,6 +73,10 @@ public class EventTabFragmentTeams
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		
+		// updateUI(UIStatusEnum.LOADING);
+
+		// TODO - Implement me
 	}
 	
 	
@@ -82,7 +84,7 @@ public class EventTabFragmentTeams
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition();
+		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
 	}
 	
 	
@@ -104,9 +106,9 @@ public class EventTabFragmentTeams
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition();
+				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
 
-				listAdapter = new CompetitionTeamsByGroupListAdapter(activity, standingsByPhase);
+				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
 				
 				listView.setAdapter(listAdapter);
 					

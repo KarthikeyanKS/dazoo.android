@@ -17,7 +17,8 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.fragments.EventTabFragmentGroupStage;
-import com.mitv.fragments.EventTabFragmentTeams;
+import com.mitv.fragments.EventTabFragmentSecondStage;
+import com.mitv.fragments.EventTabFragmentTeamStandings;
 
 
 
@@ -69,13 +70,13 @@ public class EventTabFragmentStatePagerAdapter
 			
 			case SECOND_STAGE_POSITION:
 			{
-				fragment = new EventTabFragmentGroupStage(tab, tab, EventTabTypeEnum.SECOND_STAGE);
+				fragment = new EventTabFragmentSecondStage(tab, tab, EventTabTypeEnum.SECOND_STAGE);
 				break;
 			}
 			
 			case TEAM_POSITION:
 			{
-				fragment = new EventTabFragmentTeams(tab, tab, EventTabTypeEnum.TEAM);
+				fragment = new EventTabFragmentTeamStandings(tab, tab, EventTabTypeEnum.TEAM_STANDINGS);
 				break;
 			}
 			
