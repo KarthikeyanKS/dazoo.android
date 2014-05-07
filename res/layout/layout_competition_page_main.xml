@@ -28,6 +28,7 @@
         <!-- Time left fields -->
 
         <RelativeLayout
+            android:id="@+id/time_left_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/competition_in_tag_header"
@@ -99,28 +100,29 @@
                 android:text="@string/competition_page_time_left_to_fifa_min"
                 android:textColor="@color/black"
                 android:textSize="25sp" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/competition_learn_more_button_container"
+        <RelativeLayout
+            android:id="@+id/competition_learn_more_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/time_left_area"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_color_selector_signup_login_box"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:orientation="horizontal" >
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_learn_more_button_text"
+                style="@style/whitetextbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/background_color_selector_signup_login_box"
-                android:clickable="true"
-                android:onClick="onClick"
-                android:orientation="horizontal" >
-
-                <com.mitv.ui.elements.FontTextView
-                    android:id="@+id/competition_learn_more_button_text"
-                    style="@style/whitetextbutton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:padding="10dp"
-                    android:text="@string/competition_learn_more_about_fifa" />
-            </RelativeLayout>
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                android:text="@string/competition_learn_more_about_fifa" />
         </RelativeLayout>
     </RelativeLayout>
 
