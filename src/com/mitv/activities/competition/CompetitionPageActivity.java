@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imbryk.viewPager.LoopViewPager;
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
@@ -51,6 +50,7 @@ public class CompetitionPageActivity
 	private Competition competition;
 	private Event event;
 	private int competitionPosition;
+	private String competitionID;
 	
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
@@ -84,6 +84,7 @@ public class CompetitionPageActivity
 		Intent intent = getIntent();
 		
 		competitionPosition = intent.getIntExtra("fifa", 0);
+		competitionID = intent.getStringExtra("competitionID");
 		
 		initView();
 		
@@ -243,7 +244,7 @@ public class CompetitionPageActivity
 //		{
 			countDownArea.setVisibility(View.VISIBLE);
 			
-			long eventStartTimeInMiliseconds = event.getStartTimeCalendarLocal().getTimeInMillis();
+			long eventStartTimeInMiliseconds = event.getEventDateCalendarLocal().getTimeInMillis();
 			
 			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
 			
@@ -252,13 +253,13 @@ public class CompetitionPageActivity
 			eventCountDownTimer.start();
 //		}
 		
-		String team1ID = event.getTeam1Id();
+		long team1ID = event.getHomeTeamId();
 		
 		Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 		
 		team1Name.setText(team1.getDisplayName());
 		
-		String team2ID = event.getTeam2Id();
+		long team2ID = event.getAwayTeamId();
 		
 		Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
 		
@@ -294,7 +295,7 @@ public class CompetitionPageActivity
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
 		}
 		
-		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
+		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 		
 		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
 		
@@ -415,7 +416,7 @@ public class CompetitionPageActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, Constants.COMPETITION_FIFA_WORLD_CUP_URL);
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
 	}
 
 
@@ -423,7 +424,7 @@ public class CompetitionPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(Constants.COMPETITION_FIFA_WORLD_CUP_ID);
+		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
 		
 		return hasData;
 	}

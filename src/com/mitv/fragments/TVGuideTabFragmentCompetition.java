@@ -90,6 +90,7 @@ public class TVGuideTabFragmentCompetition
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
                 intent.putExtra("fifa", competitionPosition);
+                intent.putExtra("competitionID", competition.getCompetitionId());
                 
                 startActivity(intent);
             }
