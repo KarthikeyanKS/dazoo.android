@@ -1017,7 +1017,7 @@ public abstract class ContentManagerBase
 		
 		for(Phase phase : phases)
 		{
-			boolean isSameStage = (phase.getStage() == stage);
+			boolean isSameStage = phase.getStage().equals(stage);
 			
 			if(reverseComparisson)
 			{
@@ -1130,6 +1130,13 @@ public abstract class ContentManagerBase
 		}
 	}
 	
+	
+	public void setSelectedCompetition(Competition competition)
+	{
+		String competitionID = competition.getCompetitionId();
+		
+		getCache().getCompetitionsData().setSelectedCompetition(competitionID);
+	}
 	
 	
 	protected void clearUserCache() 

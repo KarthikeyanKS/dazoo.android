@@ -105,7 +105,7 @@
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/competitions_contry_flag_default"
                 android:visibility="visible" />
 
             <!-- Team one name -->
@@ -153,7 +153,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginRight="5dp"
                 android:layout_toRightOf="@id/row_competition_team_two_name"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/competitions_contry_flag_default"
                 android:visibility="visible" />
         </RelativeLayout>
         

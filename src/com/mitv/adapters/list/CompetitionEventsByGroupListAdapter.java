@@ -229,47 +229,75 @@ public class CompetitionEventsByGroupListAdapter
 					holder.dividerView.setVisibility(View.GONE);
 				}
 				
-				long team1ID = event.getHomeTeamId();
+				String homeTeamName = event.getHomeTeam();
 				
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+				String awayTeamName = event.getAwayTeam();
 				
-				boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+				boolean containsTeamInfo = event.containsTeamInfo();
 				
-				if(isLocalFlagDrawableResourceAvailableForTeam1)
+				if(containsTeamInfo)
 				{
-					holder.team1flag.setImageDrawable(team1.getLocalFlagDrawableResource());
-				}
-				else
-				{
-					ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
+					long team1ID = event.getHomeTeamId();
 					
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 					
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+					if(team1 != null)
+					{
+						boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+						
+						if(isLocalFlagDrawableResourceAvailableForTeam1)
+						{
+							holder.team1flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+						}
+						else
+						{
+							Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
+							
+							ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
+							
+							String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+							
+							SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+						}
+					}
+					else
+					{
+						Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+					}
+						
+					
+					long team2ID = event.getAwayTeamId();
+					
+					Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+					
+					if(team2 != null)
+					{
+						boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+						
+						if(isLocalFlagDrawableResourceAvailableForTeam2)
+						{
+							holder.team2flag.setImageDrawable(team2.getLocalFlagDrawableResource());
+						}
+						else
+						{
+							Log.w(TAG, "Local flag for team: " + team2.getNationCode() + " not found in cache");
+							
+							ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
+							
+							String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+							
+							SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+						}
+					}
+					else
+					{
+						Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
+					}
 				}
 				
-				long team2ID = event.getAwayTeamId();
+				holder.team1name.setText(homeTeamName);
 				
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-				
-				boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
-				
-				if(isLocalFlagDrawableResourceAvailableForTeam2)
-				{
-					holder.team2flag.setImageDrawable(team2.getLocalFlagDrawableResource());
-				}
-				else
-				{
-					ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
-					
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-					
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
-				}
-				
-				holder.team1name.setText(team1.getDisplayName());
-				
-				holder.team2name.setText(team2.getDisplayName());
+				holder.team2name.setText(awayTeamName);
 				
 				// TODO Set remaining variables: score and timeLeft
 				

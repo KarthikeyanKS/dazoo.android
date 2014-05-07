@@ -45,11 +45,11 @@ public class Event
 	{
 		if(homeTeamId == 0 || awayTeamId == 0)
 		{
-			return true;
+			return false;
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 	}
 	

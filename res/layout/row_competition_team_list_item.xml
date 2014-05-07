@@ -101,7 +101,7 @@
             android:layout_height="35dp"
 			android:layout_centerVertical="true"
 			android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/competitions_contry_flag_default" />
 
         <!-- Team name -->
 

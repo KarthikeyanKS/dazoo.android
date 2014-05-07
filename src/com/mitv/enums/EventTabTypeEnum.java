@@ -7,7 +7,7 @@ public enum EventTabTypeEnum
 {
 	GROUP_STAGE(0),
 	SECOND_STAGE(1),
-	TEAM(2);
+	TEAM_STANDINGS(2);
 	
 	
 	private final int id;
