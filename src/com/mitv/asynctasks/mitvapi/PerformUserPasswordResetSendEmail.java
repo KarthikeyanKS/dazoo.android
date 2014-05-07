@@ -30,7 +30,7 @@ public class PerformUserPasswordResetSendEmail
 			ViewCallbackListener activityCallbackListener,
 			String email)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false);
 		
 		UserPasswordResetPasswordData postData = new UserPasswordResetPasswordData();
 		postData.setEmail(email);

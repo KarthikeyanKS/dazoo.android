@@ -39,7 +39,7 @@ public class RemoveUserLike
 			ViewCallbackListener activityCallbackListener,
 			UserLike userLike)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(userLike));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(userLike), false);
 		
 		this.userLike = userLike;
 	}

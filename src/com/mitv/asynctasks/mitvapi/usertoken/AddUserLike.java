@@ -30,7 +30,7 @@ public class AddUserLike
 			final ViewCallbackListener activityCallbackListener,
 			final UserLike userLike) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false);
 		
 		UserLikeData postData = new UserLikeData();
 		postData.setLikeType(userLike.getLikeTypeForRequest());

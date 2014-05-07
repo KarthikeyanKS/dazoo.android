@@ -31801,6 +31801,7 @@ com.mitv.Constants -> com.mitv.Constants:
     java.lang.String GA_FIELD_USER_ID -> GA_FIELD_USER_ID
     java.lang.String GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT -> GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT
     java.lang.String GA_EVENT_CATEGORY_KEY_USER_EVENT -> GA_EVENT_CATEGORY_KEY_USER_EVENT
+    java.lang.String GA_EVENT_CATEGORY_KEY_INTERNAL_SPEED_MEASUARE_EVENT -> GA_EVENT_CATEGORY_KEY_INTERNAL_SPEED_MEASUARE_EVENT
     java.lang.String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS -> GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS
     java.lang.String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE -> GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE
     java.lang.String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION -> GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION
@@ -34278,29 +34279,29 @@ com.mitv.activities.SplashScreenActivity -> com.mitv.activities.SplashScreenActi
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> D
     81:106:void onCreate(android.os.Bundle) -> onCreate
     113:116:void onStop() -> onStop
-    123:137:void onResume() -> onResume
-    144:162:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
-    168:169:void loadData() -> loadData
-    176:192:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
-    198:237:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    243:258:void startPrimaryActivity() -> d
-    264:274:void showSplashScreen() -> e
-    280:285:void showUserTutorial() -> f
-    291:329:void initTutorialView() -> g
-    336:351:void onBackPressed() -> onBackPressed
-    358:415:void onClick(android.view.View) -> onClick
-    421:438:void finishTutorial() -> h
-    444:483:void updateViewForSelectedPage() -> i
+    123:139:void onResume() -> onResume
+    146:164:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    170:171:void loadData() -> loadData
+    178:196:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    202:244:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    250:266:void startPrimaryActivity() -> d
+    272:282:void showSplashScreen() -> e
+    288:293:void showUserTutorial() -> f
+    299:337:void initTutorialView() -> g
+    344:359:void onBackPressed() -> onBackPressed
+    366:423:void onClick(android.view.View) -> onClick
+    429:446:void finishTutorial() -> h
+    452:491:void updateViewForSelectedPage() -> i
     42:42:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> b
     42:42:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
     74:74:com.viewpagerindicator.CirclePageIndicator access$2(com.mitv.activities.SplashScreenActivity) -> a
     63:63:android.support.v4.view.ViewPager access$3(com.mitv.activities.SplashScreenActivity) -> b
-    442:442:void access$4(com.mitv.activities.SplashScreenActivity) -> c
+    450:450:void access$4(com.mitv.activities.SplashScreenActivity) -> c
 com.mitv.activities.SplashScreenActivity$1 -> ayh:
     com.mitv.activities.SplashScreenActivity this$0 -> a
-    316:316:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
-    319:319:void onPageScrolled(int,float,int) -> onPageScrolled
-    324:326:void onPageSelected(int) -> onPageSelected
+    324:324:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
+    327:327:void onPageScrolled(int,float,int) -> onPageScrolled
+    332:334:void onPageSelected(int) -> onPageSelected
 com.mitv.activities.TVDateSelectionActivity -> com.mitv.activities.TVDateSelectionActivity:
     java.lang.String TAG -> o
     com.mitv.listadapters.ActionBarDropDownDateListAdapter dayAdapter -> p
@@ -34621,9 +34622,11 @@ com.mitv.asynctasks.AsyncTaskBase -> com.mitv.asynctasks.AsyncTaskBase:
     java.lang.Object requestResultObjectContent -> requestResultObjectContent
     com.mitv.http.HTTPCoreResponse response -> response
     boolean isMiTVAPICall -> isMiTVAPICall
-    189:192:void onPreExecute() -> onPreExecute
-    199:251:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
-    259:269:void onPostExecute(java.lang.Void) -> onPostExecute
+    boolean reportMetricsToTracker -> h
+    198:201:void onPreExecute() -> onPreExecute
+    208:282:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    290:300:void onPostExecute(java.lang.Void) -> onPostExecute
+    306:306:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier() -> getRequestIdentifier
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.mitv.asynctasks.disqus.GetDisqusThreadDetails -> com.mitv.asynctasks.disqus.GetDisqusThreadDetails:
@@ -34636,9 +34639,12 @@ com.mitv.asynctasks.disqus.GetDisqusThreadPosts -> com.mitv.asynctasks.disqus.Ge
     61:104:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
 com.mitv.asynctasks.mitvapi.GetAdsAdzerk -> com.mitv.asynctasks.mitvapi.GetAdsAdzerk:
 com.mitv.asynctasks.mitvapi.GetAppConfigurationData -> com.mitv.asynctasks.mitvapi.GetAppConfigurationData:
+    36:42:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    50:55:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetAppVersionData -> com.mitv.asynctasks.mitvapi.GetAppVersionData:
     java.lang.String TAG -> a
-    39:54:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    40:59:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    67:72:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetTVBroadcastDetails -> com.mitv.asynctasks.mitvapi.GetTVBroadcastDetails:
     java.lang.String TAG -> a
     30:47:java.lang.String buildURL(com.mitv.models.objects.mitvapi.TVChannelId,long) -> a
@@ -34654,23 +34660,28 @@ com.mitv.asynctasks.mitvapi.GetTVBroadcastsFromSeries -> com.mitv.asynctasks.mit
     62:80:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
 com.mitv.asynctasks.mitvapi.GetTVBroadcastsPopular -> com.mitv.asynctasks.mitvapi.GetTVBroadcastsPopular:
     java.lang.String TAG -> a
-    35:44:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
-    62:92:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    36:45:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
+    63:103:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    111:122:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetTVChannelGuides -> com.mitv.asynctasks.mitvapi.GetTVChannelGuides:
     java.lang.String TAG -> a
     com.mitv.models.objects.mitvapi.TVDate tvDate -> b
-    36:41:java.lang.String buildURL(com.mitv.models.objects.mitvapi.TVDate) -> a
-    50:59:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
-    88:106:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    37:42:java.lang.String buildURL(com.mitv.models.objects.mitvapi.TVDate) -> a
+    51:60:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
+    89:111:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    119:124:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetTVChannelIdsDefault -> com.mitv.asynctasks.mitvapi.GetTVChannelIdsDefault:
     java.lang.String TAG -> a
-    48:71:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    49:76:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    84:89:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetTVChannelsAll -> com.mitv.asynctasks.mitvapi.GetTVChannelsAll:
     java.lang.String TAG -> a
-    42:58:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    43:63:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    71:76:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetTVDates -> com.mitv.asynctasks.mitvapi.GetTVDates:
     java.lang.String TAG -> a
-    39:55:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    41:61:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    69:74:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetTVSearchResults -> com.mitv.asynctasks.mitvapi.GetTVSearchResults:
     java.lang.String TAG -> a
     java.lang.String searchQuery -> b
@@ -34678,7 +34689,8 @@ com.mitv.asynctasks.mitvapi.GetTVSearchResults -> com.mitv.asynctasks.mitvapi.Ge
     72:86:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.GetTVTags -> com.mitv.asynctasks.mitvapi.GetTVTags:
     java.lang.String TAG -> a
-    41:62:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    42:67:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    75:80:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.PerformInternalTracking -> com.mitv.asynctasks.mitvapi.PerformInternalTracking:
 com.mitv.asynctasks.mitvapi.PerformUserHasSeenAdAdzerk -> com.mitv.asynctasks.mitvapi.PerformUserHasSeenAdAdzerk:
 com.mitv.asynctasks.mitvapi.PerformUserLoginWithCredentials -> com.mitv.asynctasks.mitvapi.PerformUserLoginWithCredentials:
@@ -34700,16 +34712,17 @@ com.mitv.asynctasks.mitvapi.usertoken.AddUserLike -> com.mitv.asynctasks.mitvapi
 com.mitv.asynctasks.mitvapi.usertoken.AsyncTaskWithUserToken -> com.mitv.asynctasks.mitvapi.usertoken.AsyncTaskWithUserToken:
     java.lang.String TAG -> a
     java.lang.String userToken -> b
-    56:58:void onPreExecute() -> onPreExecute
-    65:81:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    58:60:void onPreExecute() -> onPreExecute
+    67:83:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
 com.mitv.asynctasks.mitvapi.usertoken.GetUserLikes -> com.mitv.asynctasks.mitvapi.usertoken.GetUserLikes:
     java.lang.String TAG -> a
     30:36:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
     55:71:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
 com.mitv.asynctasks.mitvapi.usertoken.GetUserTVChannelIds -> com.mitv.asynctasks.mitvapi.usertoken.GetUserTVChannelIds:
     java.lang.String TAG -> a
-    42:51:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
-    57:73:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    43:52:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(boolean) -> a
+    60:86:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    94:105:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.usertoken.GetUserTVFeedItems -> com.mitv.asynctasks.mitvapi.usertoken.GetUserTVFeedItems:
     java.lang.String TAG -> a
     31:37:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier(int) -> a
@@ -34722,6 +34735,8 @@ com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike -> com.mitv.asynctasks.mitv
     53:59:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.mitvapi.usertoken.SetUserTVChannelIds -> com.mitv.asynctasks.mitvapi.usertoken.SetUserTVChannelIds:
     java.lang.String TAG -> a
+    48:54:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    62:67:void onPostExecute(java.lang.Void) -> onPostExecute
 com.mitv.asynctasks.other.BuildTVBroadcastsForTags -> com.mitv.asynctasks.other.BuildTVBroadcastsForTags:
     java.lang.String TAG -> a
     java.util.ArrayList tvChannelGuides -> b
@@ -34751,8 +34766,8 @@ com.mitv.asynctasks.other.SNTPAsyncTask -> com.mitv.asynctasks.other.SNTPAsyncTa
     com.mitv.interfaces.ContentCallbackListener contentCallbackListener -> b
     com.mitv.interfaces.ViewCallbackListener activityCallbackListener -> c
     java.lang.Object requestResultObjectContent -> requestResultObjectContent
-    48:80:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
-    87:95:void onPostExecute(java.lang.Void) -> onPostExecute
+    49:85:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    92:104:void onPostExecute(java.lang.Void) -> onPostExecute
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts -> com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts:
@@ -34760,10 +34775,10 @@ com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts -> com.mitv.a
     com.mitv.interfaces.ContentCallbackListener contentCallbackListener -> b
     com.mitv.interfaces.ViewCallbackListener activityCallbackListener -> c
     java.lang.Object requestResultObjectContent -> d
-    50:51:void onPreExecute() -> onPreExecute
-    58:60:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
-    68:76:void onPostExecute(java.lang.Void) -> onPostExecute
-    82:113:void setPopularBroadcastVariables() -> a
+    51:52:void onPreExecute() -> onPreExecute
+    59:65:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    73:87:void onPostExecute(java.lang.Void) -> onPostExecute
+    93:124:void setPopularBroadcastVariables() -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.mitv.broadcastreceivers.AlarmReceiver -> com.mitv.broadcastreceivers.AlarmReceiver:
@@ -36026,73 +36041,89 @@ com.mitv.managers.TrackingGAManager -> com.mitv.managers.TrackingGAManager:
     com.google.android.gms.analytics.Tracker tracker -> c
     android.content.Context context -> d
     int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum -> e
-    47:53:com.mitv.managers.TrackingGAManager sharedInstance() -> sharedInstance
-    59:59:com.google.android.gms.analytics.Tracker getTrackerInstance() -> getTrackerInstance
-    65:65:com.google.android.gms.analytics.Tracker getTracker() -> getTracker
-    72:74:com.google.android.gms.analytics.GoogleAnalytics getGoogleAnalyticsInstance() -> b
-    80:129:void updateConfiguration() -> updateConfiguration
-    132:134:void sendUserSignedInEventAndSetUserIdOnTracker(java.lang.String) -> sendUserSignedInEventAndSetUserIdOnTracker
-    138:139:void setUserIdOnTrackerAndSendSignedOut() -> setUserIdOnTrackerAndSendSignedOut
-    142:143:void sendUserSignedInEvent() -> c
-    146:147:void sendUserSignedOutEvent() -> d
-    150:151:void setUserIdOnTracker(java.lang.String) -> setUserIdOnTracker
-    156:164:void sendUserSignUpSuccessfulEvent(boolean) -> sendUserSignUpSuccessfulEvent
-    170:171:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
-    174:176:void sendUserSharedEvent(com.mitv.models.objects.mitvapi.TVBroadcast) -> sendUserSharedEvent
-    179:188:void sendUserLikesEvent(com.mitv.models.objects.mitvapi.UserLike,boolean) -> sendUserLikesEvent
-    191:199:void sendUserReminderEvent(com.mitv.models.objects.mitvapi.TVBroadcast,boolean) -> sendUserReminderEvent
-    202:203:void sendTimeOffSyncEvent() -> sendTimeOffSyncEvent
-    206:207:void sendFirstBootEvent() -> sendFirstBootEvent
-    210:218:void sendUserTagSelectionEvent(int) -> sendUserTagSelectionEvent
-    221:238:void sendUserHourSelectionEvent(int) -> sendUserHourSelectionEvent
-    241:245:void sendUserPressedChannelInHomeActivity(com.mitv.models.objects.mitvapi.TVChannelId,int) -> sendUserPressedChannelInHomeActivity
-    248:268:void sendUserPressedBroadcastInChannelActivity(com.mitv.models.objects.mitvapi.TVChannel,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserPressedBroadcastInChannelActivity
-    272:286:void sendUserDaySelectionEvent(int) -> sendUserDaySelectionEvent
-    291:292:void sendUserPressedRateInRateDialogEvent() -> sendUserPressedRateInRateDialogEvent
-    295:296:void sendUserPressedRemindLaterInRateDialogEvent() -> sendUserPressedRemindLaterInRateDialogEvent
-    299:300:void sendUserPressedNoThanksInRateDialogEvent() -> sendUserPressedNoThanksInRateDialogEvent
-    303:304:void sendUserPressedMenuButtonEvent() -> sendUserPressedMenuButtonEvent
-    307:308:void sendUserPressedUserProfilePageTopViewEvent() -> sendUserPressedUserProfilePageTopViewEvent
-    311:312:void sendUserPressedAddMoreChannelsCell() -> sendUserPressedAddMoreChannelsCell
-    315:316:void sendUserPressedSearchButtonOnKeyBoard() -> sendUserPressedSearchButtonOnKeyBoard
-    319:320:void sendUserPressedLikeInLikesActivity() -> sendUserPressedLikeInLikesActivity
-    323:324:void sendUserPressedChannelInMyChannelsActivity() -> sendUserPressedChannelInMyChannelsActivity
-    328:335:void sendUserFeedListScrolledToItemAtIndexEvent(int,boolean) -> sendUserFeedListScrolledToItemAtIndexEvent
-    338:367:void sendUserFeedItemPressedEvent(com.mitv.enums.FeedItemTypeEnum,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserFeedItemPressedEvent
-    370:371:void sendUserFeedItemPopularBroadcastPressedEvent(java.lang.String) -> a
-    374:375:void sendUserFeedItemPopularBroadcastsPressedEvent(java.lang.String,int) -> a
-    378:379:void sendUserFeedItemTwitterPressedEvent(java.lang.String) -> b
-    382:383:void sendUserFeedItemRecommendedPressedEvent(java.lang.String) -> c
-    386:387:void sendUserFeedItemYouLikePressedEvent(java.lang.String) -> d
-    390:400:void sendUserSearchResultPressedEvent(java.lang.String,java.lang.String,int) -> sendUserSearchResultPressedEvent
-    403:417:void sendUserChannelSearchResultClickedEvent(java.lang.String,java.lang.String,boolean) -> sendUserChannelSearchResultClickedEvent
-    420:421:void sendUserSearchEvent(java.lang.String) -> sendUserSearchEvent
-    425:431:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
-    434:435:void sendUserMyChannelsPageSearchEvent(java.lang.String) -> sendUserMyChannelsPageSearchEvent
-    439:440:void sendSystemEvent(java.lang.String) -> e
-    443:444:void sendSystemEventWithLabel(java.lang.String,java.lang.String) -> a
-    447:448:void sendUserEvent(java.lang.String) -> f
-    451:452:void sendUserEventWithLabel(java.lang.String,java.lang.String) -> b
-    455:456:void sendUserEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> a
-    459:460:void sendEventWithLabel(java.lang.String,java.lang.String,java.lang.String) -> a
-    463:464:void sendEventWithLabelAndValue(java.lang.String,java.lang.String,java.lang.String,long) -> a
-    467:480:void sendEventBase(java.lang.String,java.lang.String,boolean,java.lang.String,boolean,long) -> a
-    484:486:void reportActivityStart(android.app.Activity) -> reportActivityStart
-    489:491:void reportActivityStop(android.app.Activity) -> reportActivityStop
-    500:554:void sendGooglePlayCampaignToAnalytics(java.lang.String) -> sendGooglePlayCampaignToAnalytics
+    53:60:com.mitv.managers.TrackingGAManager sharedInstance() -> sharedInstance
+    67:67:com.google.android.gms.analytics.Tracker getTrackerInstance() -> getTrackerInstance
+    74:74:com.google.android.gms.analytics.Tracker getTracker() -> getTracker
+    81:83:com.google.android.gms.analytics.GoogleAnalytics getGoogleAnalyticsInstance() -> b
+    90:141:void updateConfiguration() -> updateConfiguration
+    144:146:void sendUserSignedInEventAndSetUserIdOnTracker(java.lang.String) -> sendUserSignedInEventAndSetUserIdOnTracker
+    150:151:void setUserIdOnTrackerAndSendSignedOut() -> setUserIdOnTrackerAndSendSignedOut
+    154:155:void sendUserSignedInEvent() -> c
+    158:159:void sendUserSignedOutEvent() -> d
+    162:163:void setUserIdOnTracker(java.lang.String) -> setUserIdOnTracker
+    168:176:void sendUserSignUpSuccessfulEvent(boolean) -> sendUserSignUpSuccessfulEvent
+    182:183:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
+    186:188:void sendUserSharedEvent(com.mitv.models.objects.mitvapi.TVBroadcast) -> sendUserSharedEvent
+    191:200:void sendUserLikesEvent(com.mitv.models.objects.mitvapi.UserLike,boolean) -> sendUserLikesEvent
+    203:211:void sendUserReminderEvent(com.mitv.models.objects.mitvapi.TVBroadcast,boolean) -> sendUserReminderEvent
+    214:215:void sendTimeOffSyncEvent() -> sendTimeOffSyncEvent
+    218:219:void sendFirstBootEvent() -> sendFirstBootEvent
+    222:230:void sendUserTagSelectionEvent(int) -> sendUserTagSelectionEvent
+    233:250:void sendUserHourSelectionEvent(int) -> sendUserHourSelectionEvent
+    253:257:void sendUserPressedChannelInHomeActivity(com.mitv.models.objects.mitvapi.TVChannelId,int) -> sendUserPressedChannelInHomeActivity
+    260:280:void sendUserPressedBroadcastInChannelActivity(com.mitv.models.objects.mitvapi.TVChannel,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserPressedBroadcastInChannelActivity
+    284:298:void sendUserDaySelectionEvent(int) -> sendUserDaySelectionEvent
+    303:304:void sendUserPressedRateInRateDialogEvent() -> sendUserPressedRateInRateDialogEvent
+    307:308:void sendUserPressedRemindLaterInRateDialogEvent() -> sendUserPressedRemindLaterInRateDialogEvent
+    311:312:void sendUserPressedNoThanksInRateDialogEvent() -> sendUserPressedNoThanksInRateDialogEvent
+    315:316:void sendUserPressedMenuButtonEvent() -> sendUserPressedMenuButtonEvent
+    319:320:void sendUserPressedUserProfilePageTopViewEvent() -> sendUserPressedUserProfilePageTopViewEvent
+    323:324:void sendUserPressedAddMoreChannelsCell() -> sendUserPressedAddMoreChannelsCell
+    327:328:void sendUserPressedSearchButtonOnKeyBoard() -> sendUserPressedSearchButtonOnKeyBoard
+    331:332:void sendUserPressedLikeInLikesActivity() -> sendUserPressedLikeInLikesActivity
+    335:336:void sendUserPressedChannelInMyChannelsActivity() -> sendUserPressedChannelInMyChannelsActivity
+    340:347:void sendUserFeedListScrolledToItemAtIndexEvent(int,boolean) -> sendUserFeedListScrolledToItemAtIndexEvent
+    350:379:void sendUserFeedItemPressedEvent(com.mitv.enums.FeedItemTypeEnum,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserFeedItemPressedEvent
+    382:383:void sendUserFeedItemPopularBroadcastPressedEvent(java.lang.String) -> a
+    386:387:void sendUserFeedItemPopularBroadcastsPressedEvent(java.lang.String,int) -> a
+    390:391:void sendUserFeedItemTwitterPressedEvent(java.lang.String) -> b
+    394:395:void sendUserFeedItemRecommendedPressedEvent(java.lang.String) -> c
+    398:399:void sendUserFeedItemYouLikePressedEvent(java.lang.String) -> d
+    402:412:void sendUserSearchResultPressedEvent(java.lang.String,java.lang.String,int) -> sendUserSearchResultPressedEvent
+    415:429:void sendUserChannelSearchResultClickedEvent(java.lang.String,java.lang.String,boolean) -> sendUserChannelSearchResultClickedEvent
+    432:433:void sendUserSearchEvent(java.lang.String) -> sendUserSearchEvent
+    437:443:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
+    446:447:void sendUserMyChannelsPageSearchEvent(java.lang.String) -> sendUserMyChannelsPageSearchEvent
+    451:452:void sendSystemEvent(java.lang.String) -> e
+    455:456:void sendSystemEventWithLabel(java.lang.String,java.lang.String) -> a
+    459:460:void sendUserEvent(java.lang.String) -> f
+    463:464:void sendUserEventWithLabel(java.lang.String,java.lang.String) -> b
+    467:468:void sendUserEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> a
+    473:474:void sendInternalSpeedMeasureEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendInternalSpeedMeasureEventWithLabelAndValue
+    478:479:void sendEventWithLabel(java.lang.String,java.lang.String,java.lang.String) -> a
+    482:483:void sendEventWithLabelAndValue(java.lang.String,java.lang.String,java.lang.String,long) -> a
+    486:499:void sendEventBase(java.lang.String,java.lang.String,boolean,java.lang.String,boolean,long) -> a
+    503:505:void reportActivityStart(android.app.Activity) -> reportActivityStart
+    508:510:void reportActivityStop(android.app.Activity) -> reportActivityStop
+    519:573:void sendGooglePlayCampaignToAnalytics(java.lang.String) -> sendGooglePlayCampaignToAnalytics
     31:31:int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum() -> a
 com.mitv.managers.TrackingManager -> com.mitv.managers.TrackingManager:
     java.lang.String TAG -> a
     com.mitv.managers.TrackingManager instance -> b
-    28:33:com.mitv.managers.TrackingManager sharedInstance() -> sharedInstance
-    40:46:void reportActivityStart(android.app.Activity) -> reportActivityStart
-    52:58:void reportActivityStop(android.app.Activity) -> reportActivityStop
-    64:70:void sendUserSignUpSuccessfulUsingEmailEvent() -> sendUserSignUpSuccessfulUsingEmailEvent
-    76:82:void sendUserSignUpSuccessfulUsingFacebookEvent() -> sendUserSignUpSuccessfulUsingFacebookEvent
-    88:94:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
-    109:109:void onPause(android.app.Activity) -> onPause
-    119:119:void onResume(android.app.Activity) -> onResume
-    125:131:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
+    java.util.Map measureEventStartTimes -> c
+    35:42:com.mitv.managers.TrackingManager sharedInstance() -> sharedInstance
+    49:55:void reportActivityStart(android.app.Activity) -> reportActivityStart
+    61:67:void reportActivityStop(android.app.Activity) -> reportActivityStop
+    73:79:void sendUserSignUpSuccessfulUsingEmailEvent() -> sendUserSignUpSuccessfulUsingEmailEvent
+    85:91:void sendUserSignUpSuccessfulUsingFacebookEvent() -> sendUserSignUpSuccessfulUsingFacebookEvent
+    97:103:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
+    118:118:void onPause(android.app.Activity) -> onPause
+    128:128:void onResume(android.app.Activity) -> onResume
+    134:140:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
+    145:146:void clearEventStartValues() -> a
+    152:155:void setStartValue(java.lang.String) -> a
+    161:176:long calculateValueSincePrevious(java.lang.String) -> b
+    182:187:void sendTestMeasureInitialLoadingScreenStarted(java.lang.String) -> sendTestMeasureInitialLoadingScreenStarted
+    193:198:void sendTestMeasureInitialLoadingScreenOnResultReached(java.lang.String) -> sendTestMeasureInitialLoadingScreenOnResultReached
+    205:210:void sendTestMeasureInitialLoadingScreenEnded(java.lang.String) -> sendTestMeasureInitialLoadingScreenEnded
+    216:227:void sendTestMeasureAsycTaskBackgroundStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundStart
+    233:240:void sendTestMeasureAsycTaskBackgroundEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundEnd
+    246:257:void sendTestMeasureAsycTaskPostExecutionStart(java.lang.String) -> sendTestMeasureAsycTaskPostExecutionStart
+    263:270:void sendTestMeasureAsycTaskPostExecutionEnd(java.lang.String) -> sendTestMeasureAsycTaskPostExecutionEnd
+    276:287:void sendTestMeasureAsycTaskBackgroundNetworkRequestStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundNetworkRequestStart
+    293:300:void sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundNetworkRequestEnd
+    306:317:void sendTestMeasureAsycTaskBackgroundJSONParsingStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundJSONParsingStart
+    323:330:void sendTestMeasureAsycTaskBackgroundJSONParsingEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundJSONParsingEnd
 com.mitv.models.Cache -> com.mitv.models.Cache:
     java.lang.String TAG -> TAG
     java.util.HashMap nonPersistentTaggedBroadcastsForAllDays -> nonPersistentTaggedBroadcastsForAllDays

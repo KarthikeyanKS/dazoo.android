@@ -50,7 +50,7 @@ public abstract class Constants
 	public static final boolean ENABLE_RATE_APP_DIALOG = false;
 	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
-	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
+	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
@@ -266,6 +266,7 @@ public abstract class Constants
 	/* Category keys */
 	public static final String GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT					= "SystemEvent";
 	public static final String GA_EVENT_CATEGORY_KEY_USER_EVENT						= "UserEvent";
+	public static final String GA_EVENT_CATEGORY_KEY_INTERNAL_SPEED_MEASUARE_EVENT  = "InternalSpeedMeasureEvent";
 	
 	/* Action keys */
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS				= "APP_WAS_PREINSTALLED_SHARED_PREFS";

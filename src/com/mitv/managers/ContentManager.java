@@ -304,7 +304,7 @@ public class ContentManager
 	{	
 		registerListenerForRequest(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, activityCallbackListener);
 		
-		if(!isUpdatingGuide) 
+		if(!isUpdatingGuide)
 		{
 			isUpdatingGuide = true;
 			
