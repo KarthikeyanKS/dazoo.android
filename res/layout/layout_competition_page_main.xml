@@ -2,140 +2,126 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
+
     <!-- COUNTDOWN AREA -->
 
     <RelativeLayout
         android:id="@+id/competition_count_down_area"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:visibility="visible"
-        android:background="@color/blue0"
+        android:background="@color/orange_background"
         android:orientation="vertical" >
 
-        <!-- Hours -->
-        
-        <RelativeLayout
-            android:id="@+id/competition_hours_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="15dp" >
-
-	        <com.mitv.ui.elements.FontTextView
-	            android:id="@+id/competition_page_time_left_to_fifa_hours"
-	            style="@style/header1"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_centerHorizontal="true"
-	            android:textColor="@color/white"
-	            android:textSize="50sp" />
-	
-	        <com.mitv.ui.elements.FontTextView
-	            android:id="@+id/competition_string_hours"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_centerHorizontal="true"
-	            android:layout_below="@id/competition_page_time_left_to_fifa_hours"
-	            android:textColor="@color/white"
-	            android:text="@string/competition_page_time_left_to_fifa_hours"
-	            android:textSize="12sp"
-	            android:textStyle="bold" />
-	        </RelativeLayout>
-
-        <!-- Days -->
-        
-        <RelativeLayout
-            android:id="@+id/competition_days_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_centerHorizontal="true"
-            android:layout_toLeftOf="@id/competition_hours_container" >
-
-	        <com.mitv.ui.elements.FontTextView
-	            android:id="@+id/competition_page_time_left_to_fifa_days"
-	            style="@style/header1"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textColor="@color/white"
-	            android:textSize="50sp" />
-	
-	        <com.mitv.ui.elements.FontTextView
-	            android:id="@+id/competition_string_days"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textColor="@color/white"
-	            android:text="@string/competition_page_time_left_to_fifa_days"
-	            android:layout_below="@id/competition_page_time_left_to_fifa_days"
-	            android:textSize="12sp"
-            	android:layout_centerHorizontal="true"
-	            android:textStyle="bold" />
-        </RelativeLayout>
-
-        <!-- Minutes -->
-        
-        <RelativeLayout
-            android:id="@+id/competition_minutes_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@id/competition_hours_container" >
+        <!-- Header -->
 
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/competition_page_time_left_to_fifa_minutes"
+            android:id="@+id/competition_in_tag_header"
             style="@style/header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="50sp" />
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/competition_string_minutes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/competition_page_time_left_to_fifa_minutes"
-            android:textColor="@color/white"
-            android:textSize="12sp"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/competition_page_time_left_to_fifa_minutes"
-            android:textStyle="bold" />
-        </RelativeLayout>
+            android:text="@string/competition_in_tag_header"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
-        <!-- Time left information -->
+        <!-- Time left fields -->
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/competition_hours_container"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:background="@color/red" >
+            android:layout_below="@id/competition_in_tag_header"
+            android:layout_centerHorizontal="true" >
+
+            <!-- Days -->
 
             <com.mitv.ui.elements.FontTextView
-                android:id="@+id/competition_page_time_left_to_fifa"
-                style="@style/header3"
+                android:id="@+id/competition_tab_time_left_days"
+                style="@style/header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_tab_time_left_days_numbers"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/competition_tab_time_left_days"
+                android:text="@string/competition_page_time_left_to_fifa_days"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <!-- Hours -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_tab_time_left_hours"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/competition_tab_time_left_days_numbers"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_tab_time_left_hours_numbers"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/competition_tab_time_left_hours"
+                android:text="@string/competition_page_time_left_to_fifa_hours"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <!-- Minutes -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_tab_time_left_minutes"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/competition_tab_time_left_hours_numbers"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_tab_time_left_minutes_numbers"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/competition_tab_time_left_minutes"
+                android:text="@string/competition_page_time_left_to_fifa_min"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <RelativeLayout
+                android:id="@+id/competition_learn_more_button_container"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
-                android:padding="10dp"
-                android:text="@string/competition_page_time_left_to_fifa"
-                android:textColor="@color/white" />
+                android:layout_marginTop="5dp"
+                android:background="@drawable/background_color_selector_signup_login_box"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:orientation="horizontal" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_learn_more_button_text"
+                    style="@style/whitetextbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:padding="10dp"
+                    android:text="@string/competition_learn_more_about_fifa" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/competition_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:clickable="true"
-        android:layout_below="@id/competition_count_down_area"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="Click me"
-        android:padding="10dp" />
 
 </RelativeLayout>

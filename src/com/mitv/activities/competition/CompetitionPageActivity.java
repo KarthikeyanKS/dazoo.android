@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imbryk.viewPager.LoopViewPager;
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
@@ -83,8 +84,8 @@ public class CompetitionPageActivity
 		
 		Intent intent = getIntent();
 		
-		competitionPosition = intent.getIntExtra("fifa", 0);
-		competitionID = intent.getStringExtra("competitionID");
+		competitionPosition = intent.getIntExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_POSITION, 0);
+		competitionID = intent.getStringExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_ID);
 		
 		initView();
 		

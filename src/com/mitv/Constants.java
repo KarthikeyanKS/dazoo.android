@@ -483,6 +483,10 @@ public abstract class Constants
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 	
+	/* Competition FIFA */
+	public static final String COMPETITION_TAG_INTENT_EXTRA_POSITION = "fifaworldcup2014_position";
+	public static final String COMPETITION_TAG_INTENT_EXTRA_ID = "fifaworldcup2014_id";
+	
 	/* Ad mob stuff */
 	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
 	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";
