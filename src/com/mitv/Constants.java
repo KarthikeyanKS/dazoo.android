@@ -111,6 +111,7 @@ public abstract class Constants
 	public static final String URL_COMPETITIONS 					= URL_SERVER + "api/sports/competitions";
 	public static final String URL_TEAMS 					 		= "/teams";
 	public static final String URL_PHASES 					 		= "/phases";
+	public static final String URL_PHASES_FULL 					 	= "/api/sports/phases";
 	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_POLLS 					 		= "/polls";

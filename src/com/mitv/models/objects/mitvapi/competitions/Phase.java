@@ -25,7 +25,7 @@ public class Phase
 		
 		int result = 1;
 		
-		result = prime * result + ((phaseId == null) ? 0 : phaseId.hashCode());
+		result = prime * result + (int) phaseId;
 		
 		return result;
 	}
@@ -52,14 +52,7 @@ public class Phase
 		
 		Phase other = (Phase) obj;
 		
-		if (phaseId == null) 
-		{
-			if (other.phaseId != null) 
-			{
-				return false;
-			}
-		} 
-		else if (!phaseId.equals(other.phaseId)) 
+		if (this.phaseId != other.phaseId) 
 		{
 			return false;
 		}

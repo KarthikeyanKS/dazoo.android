@@ -38,6 +38,7 @@ import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
@@ -956,7 +957,7 @@ public abstract class ContentManagerBase
 	
 	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */
 	
-	public Team getFromCacheTeamByID(String teamID)
+	public Team getFromCacheTeamByID(long teamID)
 	{
 		Team matchingTeam = null;
 		
@@ -964,7 +965,7 @@ public abstract class ContentManagerBase
 		
 		for(Team team : teams)
 		{
-			if(team.getTeamId().equals(teamID))
+			if(team.getTeamId() == teamID)
 			{
 				matchingTeam = team;
 				break;
@@ -989,9 +990,9 @@ public abstract class ContentManagerBase
 		
 		for(Event event : events)
 		{
-			Calendar eventStartTimeCalendar = event.getStartTimeCalendarLocal();
+			Calendar eventStartTimeCalendar = event.getEventDateCalendarLocal();
 			
-			if(matchingEvent.getStartTimeCalendarLocal().after(eventStartTimeCalendar))
+			if(matchingEvent.getEventDateCalendarLocal().after(eventStartTimeCalendar))
 			{
 				matchingEvent = event;
 			}
@@ -1002,9 +1003,9 @@ public abstract class ContentManagerBase
 
 	
 	
-	public Map<String, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition()
+	public Map<Long, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition()
 	{
-		Map<String, List<Event>> eventsByPhaseID = new HashMap<String, List<Event>>();
+		Map<Long, List<Event>> eventsByPhaseID = new HashMap<Long, List<Event>>();
 		
 		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
 		
@@ -1016,7 +1017,7 @@ public abstract class ContentManagerBase
 			
 			for(Event event : events)
 			{
-				if(event.getPhaseId().equals(phase.getPhaseId()))
+				if(event.getPhaseId() == phase.getPhaseId())
 				{
 					eventsForPhase.add(event);
 				}
@@ -1030,30 +1031,9 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public Map<String, List<Team>> getFromCacheAllTeamsGroupedByPhaseForSelectedCompetition()
+	public Map<Long, List<Standings>> getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition()
 	{
-		Map<String, List<Team>> teamsByPhaseID = new HashMap<String, List<Team>>();
-		
-		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
-		
-		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
-		
-		for(Phase phase : phases)
-		{
-			List<Team> teamsForPhase = new ArrayList<Team>();
-			
-			for(Team team : teams)
-			{
-				if(team.getPhaseId().equals(phase.getPhaseId()))
-				{
-					teamsForPhase.add(team);
-				}
-			}
-			
-			teamsByPhaseID.put(phase.getPhaseId(), teamsForPhase);
-		}
-		
-		return teamsByPhaseID;
+		return getCache().getCompetitionsData().getStandingsByPhaseForSelectedCompetition();
 	}
 	
 	

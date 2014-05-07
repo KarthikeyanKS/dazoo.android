@@ -5,8 +5,7 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 public class TeamJSON 
 {
-	protected String teamId;
-	protected String phaseId;
+	protected long teamId;
 	protected String displayName;
 	protected String nation;
 	protected String nationCode;
@@ -18,18 +17,13 @@ public class TeamJSON
 
 
 	
-	public String getTeamId() {
+	public long getTeamId() {
 		return teamId;
 	}
 
 
 	public String getDisplayName() {
 		return displayName;
-	}
-
-
-	public String getPhaseId() {
-		return phaseId;
 	}
 
 

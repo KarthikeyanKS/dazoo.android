@@ -9,7 +9,6 @@ import com.mitv.models.gson.mitvapi.ImageSetSizeJSON;
 public class CompetitionJSON 
 {
 	protected String competitionId;
-	protected String url;
 	protected String displayName;
 	protected String startDate;
 	protected String endDate;
@@ -26,12 +25,6 @@ public class CompetitionJSON
 	public String getCompetitionId() 
 	{
 		return competitionId;
-	}
-
-
-
-	public String getUrl() {
-		return url;
 	}
 
 

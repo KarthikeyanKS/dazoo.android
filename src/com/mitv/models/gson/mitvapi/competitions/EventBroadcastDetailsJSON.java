@@ -12,6 +12,15 @@ public class EventBroadcastDetailsJSON
 	
 	public EventBroadcastDetailsJSON(){}
 
+	
+	
+	// TODO - Remove this
+	public EventBroadcastDetailsJSON(String channelId, String date, String broadcastId)
+	{
+		this.channelId = channelId;
+		this.date = date;
+		this.broadcastId = broadcastId;
+	}
 
 
 	public String getChannelId() {

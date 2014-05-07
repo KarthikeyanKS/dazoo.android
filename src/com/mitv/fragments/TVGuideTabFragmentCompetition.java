@@ -282,7 +282,7 @@ public class TVGuideTabFragmentCompetition
 	{
 		String competitionName = competition.getDisplayName();
 		
-		long eventStartTimeInMiliseconds = event.getStartTimeCalendarLocal().getTimeInMillis();
+		long eventStartTimeInMiliseconds = event.getEventDateCalendarLocal().getTimeInMillis();
 		
 		long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
 		
@@ -290,13 +290,13 @@ public class TVGuideTabFragmentCompetition
 		
 		eventCountDownTimer.start();
 		
-		String team1ID = event.getTeam1Id();
+		long team1ID = event.getHomeTeamId();
 		
 		Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 		
 		team1Name.setText(team1.getDisplayName());
 		
-		String team2ID = event.getTeam2Id();
+		long team2ID = event.getAwayTeamId();
 		
 		Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
 		
@@ -332,7 +332,7 @@ public class TVGuideTabFragmentCompetition
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
 		}
 		
-		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
+		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 		
 		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
 		

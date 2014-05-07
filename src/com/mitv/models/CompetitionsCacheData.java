@@ -14,8 +14,8 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
-import com.mitv.models.objects.mitvapi.competitions.TeamDetails;
 
 
 
@@ -176,43 +176,37 @@ public class CompetitionsCacheData
 			Log.w(TAG, "Selected competition is null");
 		}
 	}
-
-
-
-	public synchronized TeamDetails getTeamDetailsForTeamInSelectedCompetition(String teamID) 
-	{
-		if(selectedCompetition != null)
-		{
-			Map<String, TeamDetails> teamDetailsForAllTeams = selectedCompetition.getTeamDetailsForTeam();
-			
-			TeamDetails teamDetails = teamDetailsForAllTeams.get(teamID);
-			
-			return teamDetails;
-		}
-		else
-		{
-			Log.w(TAG, "Selected competition is null");
-			
-			return null;
-		}
-	}
-
-
-
-	public synchronized void setTeamDetailsForTeam(String teamID, TeamDetails teamDetails) 
-	{
-		if(selectedCompetition != null)
-		{
-			Map<String, TeamDetails> teamDetailsForAllTeams = selectedCompetition.getTeamDetailsForTeam();
-			
-			teamDetailsForAllTeams.put(teamID, teamDetails);
-		}
-		else
-		{
-			Log.w(TAG, "Selected competition is null");
-		}
-	}
 	
+	
+	
+	public synchronized Map<Long, List<Standings>> getStandingsByPhaseForSelectedCompetition() 
+	{
+		if(selectedCompetition != null)
+		{
+			return selectedCompetition.getStandingsByPhase();
+		}
+		else
+		{
+			Log.w(TAG, "Selected competition is null");
+			
+			return Collections.emptyMap();
+		}
+	}
+
+
+
+	public synchronized void addStandingsForPhaseIDForSelectedCompetition(List<Standings> standings, long phaseID) 
+	{
+		if(selectedCompetition != null)
+		{
+			selectedCompetition.getStandingsByPhase().put(phaseID, standings);
+		}
+		else
+		{
+			Log.w(TAG, "Selected competition is null");
+		}
+	}
+
 	
 	
 	public synchronized boolean containsCompetitionData(String competitionID) 

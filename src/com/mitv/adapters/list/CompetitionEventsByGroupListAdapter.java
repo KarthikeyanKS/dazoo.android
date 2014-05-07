@@ -41,14 +41,14 @@ public class CompetitionEventsByGroupListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	
-	private Map<String, List<Event>> eventsByGroup;
+	private Map<Long, List<Event>> eventsByGroup;
 	private List<Event> events;
 	
 	
 	
 	public CompetitionEventsByGroupListAdapter(
 			final Activity activity,
-			final Map<String, List<Event>> eventsByGroup)
+			final Map<Long, List<Event>> eventsByGroup)
 	{
 		super();
 		
@@ -168,7 +168,7 @@ public class CompetitionEventsByGroupListAdapter
 	
 					isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
 					
-					isCurrentEventGroupEqualToPreviousEventGroup = event.isSameGroup(prevEvent);
+					isCurrentEventGroupEqualToPreviousEventGroup = event.isSamePhase(prevEvent);
 				}
 				else
 				{
@@ -193,17 +193,17 @@ public class CompetitionEventsByGroupListAdapter
 				{
 					StringBuilder sb = new StringBuilder();
 	
-					boolean isBeginTimeTodayOrTomorrow = event.isBeginTimeTodayOrTomorrow();
+					boolean isBeginTimeTodayOrTomorrow = event.isEventTimeTodayOrTomorrow();
 	
 					if(isBeginTimeTodayOrTomorrow)
 					{
-						sb.append(event.getBeginTimeDayOfTheWeekAsString());
+						sb.append(event.getEventTimeDayOfTheWeekAsString());
 					}
 					else
 					{
-						sb.append(event.getBeginTimeDayOfTheWeekAsString());
+						sb.append(event.getEventTimeDayOfTheWeekAsString());
 						sb.append(" ");
-						sb.append(event.getBeginTimeDayAndMonthAsString());
+						sb.append(event.getEventTimeDayAndMonthAsString());
 					}
 					
 					/* Capitalized letters in header */
@@ -217,7 +217,7 @@ public class CompetitionEventsByGroupListAdapter
 				{
 					/* Group ID */
 					// TODO Change from phaseID to group name...
-					String headerGroup = event.getPhaseId();
+					String headerGroup = "TODO";
 					holder.group.setText(headerGroup);
 
 					holder.groupContainer.setVisibility(View.VISIBLE);
@@ -229,7 +229,7 @@ public class CompetitionEventsByGroupListAdapter
 					holder.dividerView.setVisibility(View.GONE);
 				}
 				
-				String team1ID = event.getTeam1Id();
+				long team1ID = event.getHomeTeamId();
 				
 				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 				
@@ -248,7 +248,7 @@ public class CompetitionEventsByGroupListAdapter
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
 				}
 				
-				String team2ID = event.getTeam2Id();
+				long team2ID = event.getAwayTeamId();
 				
 				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
 				
@@ -275,7 +275,7 @@ public class CompetitionEventsByGroupListAdapter
 				// Set remaining variables: group, score and timeLeft
 				
 				/* Start time */
-				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getStartTimeCalendarLocal());
+				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 				holder.startTime.setText(start);
 				
 				StringBuilder sb = new StringBuilder();

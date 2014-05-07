@@ -60,7 +60,7 @@ public class Team
 		
 		int result = 1;
 		
-		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
+		result = prime * result + (int) teamId;
 		
 		return result;
 	}
@@ -87,37 +87,11 @@ public class Team
 		
 		Team other = (Team) obj;
 		
-		if (teamId == null) 
-		{
-			if (other.teamId != null) 
-			{
-				return false;
-			}
-		} 
-		else if (!teamId.equals(other.teamId)) 
+		if (this.teamId != other.teamId) 
 		{
 			return false;
 		}
 		
 		return true;
-	}
-	
-	
-	
-	/**
-	 * Compares previous or next team with current team to check if they belongs to the same group or not.
-	 * 
-	 * @param other
-	 * @return
-	 */
-	public boolean isSameGroup(Team other) {
-		boolean isSameGroup = false;
-		String currentTeamPhaseID = this.phaseId;
-		
-		if (other.phaseId.equals(currentTeamPhaseID)) {
-			isSameGroup = true;
-		}
-		
-		return isSameGroup;
 	}
 }

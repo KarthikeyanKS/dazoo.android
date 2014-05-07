@@ -21,6 +21,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 
 
@@ -103,9 +104,9 @@ public class EventTabFragmentTeams
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				Map<String, List<Team>> teamsByGroup = ContentManager.sharedInstance().getFromCacheAllTeamsGroupedByPhaseForSelectedCompetition();
+				Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition();
 
-				listAdapter = new CompetitionTeamsByGroupListAdapter(activity, teamsByGroup);
+				listAdapter = new CompetitionTeamsByGroupListAdapter(activity, standingsByPhase);
 				
 				listView.setAdapter(listAdapter);
 					

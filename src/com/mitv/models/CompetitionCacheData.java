@@ -11,8 +11,8 @@ import java.util.Map;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
-import com.mitv.models.objects.mitvapi.competitions.TeamDetails;
 
 
 
@@ -20,11 +20,10 @@ public class CompetitionCacheData
 {
 	private Competition competition;
 	
-	private List<Event> events;
 	private List<Team> teams;
 	private List<Phase> phases;
-	
-	private Map<String, TeamDetails> teamDetailsForTeam;
+	private List<Event> events;
+	private Map<Long, List<Standings>> standingsByPhase;
 	
 	
 	
@@ -32,13 +31,13 @@ public class CompetitionCacheData
 	{
 		this.competition = null;
 		
-		this.events = new ArrayList<Event>();
-		
 		this.teams = new ArrayList<Team>();
 		
 		this.phases = new ArrayList<Phase>();
 		
-		this.teamDetailsForTeam = new HashMap<String, TeamDetails>();
+		this.events = new ArrayList<Event>();
+		
+		this.standingsByPhase = new HashMap<Long, List<Standings>>();
 	}
 	
 	
@@ -47,20 +46,20 @@ public class CompetitionCacheData
 	{
 		this.competition = competition;
 		
-		this.events = new ArrayList<Event>();
-		
 		this.teams = new ArrayList<Team>();
 		
 		this.phases = new ArrayList<Phase>();
 		
-		this.teamDetailsForTeam = new HashMap<String, TeamDetails>();
+		this.events = new ArrayList<Event>();
+		
+		this.standingsByPhase = new HashMap<Long, List<Standings>>();
 	}
 	
 	
 	
 	public boolean hasCompetitionInitialData()
 	{
-		boolean hasCompetitionInitialData = (events.isEmpty() == false && teams.isEmpty() == false && phases.isEmpty() == false);
+		boolean hasCompetitionInitialData = (events.isEmpty() == false && teams.isEmpty() == false && standingsByPhase.isEmpty() == false && phases.isEmpty() == false);
 		
 		return hasCompetitionInitialData;
 	}
@@ -115,13 +114,13 @@ public class CompetitionCacheData
 
 
 
-	public Map<String, TeamDetails> getTeamDetailsForTeam() {
-		return teamDetailsForTeam;
+	public Map<Long, List<Standings>> getStandingsByPhase() {
+		return standingsByPhase;
 	}
 
 
 
-	public void setTeamDetailsForTeam(Map<String, TeamDetails> teamDetailsForTeam) {
-		this.teamDetailsForTeam = teamDetailsForTeam;
+	public void setStandingsByPhase(Map<Long, List<Standings>> standingsByPhase) {
+		this.standingsByPhase = standingsByPhase;
 	}
 }
