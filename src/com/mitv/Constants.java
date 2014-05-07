@@ -52,8 +52,8 @@ public abstract class Constants
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
 	public static final boolean FORCE_DISABLE_COMPETITIONS = false;
-	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
-	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = false;
+	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
+	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
@@ -115,6 +115,8 @@ public abstract class Constants
 	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_POLLS 					 		= "/polls";
+	
+	public static final String GROUP_STAGE                          = "Group Stage";
 	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";

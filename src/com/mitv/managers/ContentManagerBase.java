@@ -12,10 +12,12 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.APIClient;
+import com.mitv.Constants;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
@@ -1002,8 +1004,10 @@ public abstract class ContentManagerBase
 	}
 
 	
-	
-	public Map<Long, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition()
+
+	private Map<Long, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition(
+			final String stage,
+			final boolean reverseComparisson)
 	{
 		Map<Long, List<Event>> eventsByPhaseID = new HashMap<Long, List<Event>>();
 		
@@ -1013,20 +1017,44 @@ public abstract class ContentManagerBase
 		
 		for(Phase phase : phases)
 		{
-			List<Event> eventsForPhase = new ArrayList<Event>();
+			boolean isSameStage = (phase.getStage() == stage);
 			
-			for(Event event : events)
+			if(reverseComparisson)
 			{
-				if(event.getPhaseId() == phase.getPhaseId())
-				{
-					eventsForPhase.add(event);
-				}
+				isSameStage = !isSameStage;
 			}
 			
-			eventsByPhaseID.put(phase.getPhaseId(), eventsForPhase);
+			if(isSameStage)
+			{
+				List<Event> eventsForPhase = new ArrayList<Event>();
+				
+				for(Event event : events)
+				{
+					if(event.getPhaseId() == phase.getPhaseId())
+					{
+						eventsForPhase.add(event);
+					}
+				}
+				
+				eventsByPhaseID.put(phase.getPhaseId(), eventsForPhase);
+			}
 		}
 		
 		return eventsByPhaseID;
+	}
+	
+		
+	
+	public Map<Long, List<Event>> getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition()
+	{
+		return getFromCacheAllEventsGroupedByPhaseForSelectedCompetition(Constants.GROUP_STAGE, false);
+	}
+	
+	
+	
+	public Map<Long, List<Event>> getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition()
+	{
+		return getFromCacheAllEventsGroupedByPhaseForSelectedCompetition(Constants.GROUP_STAGE, true);
 	}
 	
 	

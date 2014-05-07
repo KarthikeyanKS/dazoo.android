@@ -12,8 +12,8 @@ public class PhaseJSON
 	protected boolean table; 
 	protected boolean current;
 	protected boolean currents;
-	protected String startDate;
-	protected String endDate;
+	protected String dateStart;
+	protected String dateEnd;
 	
 	
 	
@@ -66,12 +66,12 @@ public class PhaseJSON
 
 
 	public String getStartDate() {
-		return startDate;
+		return dateStart;
 	}
 
 
 
 	public String getEndDate() {
-		return endDate;
+		return dateEnd;
 	}
 }

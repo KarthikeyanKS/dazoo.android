@@ -37,6 +37,7 @@ public class GetEvents
 		
 		if(competitionID != null)
 		{
+			url.append(Constants.FORWARD_SLASH);
 			url.append(competitionID);
 		}
 		else
@@ -57,7 +58,6 @@ public class GetEvents
 			url.append(phaseID);
 		}
 		
-		url.append(Constants.FORWARD_SLASH);
 		url.append(Constants.URL_EVENTS);
 		
 		return url.toString();

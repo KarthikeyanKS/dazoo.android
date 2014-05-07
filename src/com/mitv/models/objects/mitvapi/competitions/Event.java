@@ -41,6 +41,20 @@ public class Event
 	
 	
 	
+	public boolean containsTeamInfo()
+	{
+		if(homeTeamId == 0 || awayTeamId == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */
