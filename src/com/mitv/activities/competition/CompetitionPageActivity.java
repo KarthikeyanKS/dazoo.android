@@ -96,6 +96,7 @@ public class CompetitionPageActivity
 		ContentManager.sharedInstance().setSelectedCompetition(competition);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_EVENTS);
 		
 		initLayout();
 		
@@ -436,6 +437,11 @@ public class CompetitionPageActivity
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
+		
+//		String loadingString = getString(R.string.XX);
+		String loadingString = "TODO LOADING";
+		
+		setLoadingLayoutDetailsMessage(loadingString);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competition.getCompetitionId());
 	}

@@ -81,11 +81,18 @@ public class EventTabFragmentGroupStage
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		
-		// updateUI(UIStatusEnum.LOADING);
-
-		// TODO - Implement me
+//		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		if (hasEnoughDataToShowContent()) {
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			
+		} else {
+			updateUI(UIStatusEnum.LOADING);
+//			String loadingString = getString(R.string.XX);
+			String loadingString = "TODO LOADING";
+			setLoadingLayoutDetailsMessage(loadingString);
+			
+			// TODO ????
+		}
 	}
 	
 	
@@ -101,7 +108,14 @@ public class EventTabFragmentGroupStage
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		/* Do nothing (no data to load on this activity) */
+		if(fetchRequestResult.wasSuccessful())
+		{
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		}
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
 	}
 	
 	
