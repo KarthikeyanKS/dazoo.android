@@ -22,6 +22,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
+import com.mitv.utilities.SetListViewToHeightBasedOnChildren;
 
 
 
@@ -109,6 +110,8 @@ public class EventTabFragmentTeamStandings
 				listAdapter = new CompetitionTeamsByGroupListAdapter(activity, standingsByPhase);
 				
 				listView.setAdapter(listAdapter);
+				
+				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
 					
 				listAdapter.notifyDataSetChanged();
 					

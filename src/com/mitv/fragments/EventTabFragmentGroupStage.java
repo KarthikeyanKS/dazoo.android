@@ -20,6 +20,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.utilities.SetListViewToHeightBasedOnChildren;
 
 
 
@@ -119,6 +120,8 @@ public class EventTabFragmentGroupStage
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
 				
 				listView.setAdapter(listAdapter);
+				
+				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
 					
 				listAdapter.notifyDataSetChanged();
 					
