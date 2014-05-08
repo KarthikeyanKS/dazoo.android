@@ -115,8 +115,6 @@ public abstract class Constants
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_POLLS 					 		= "/polls";
 	
-	public static final String GROUP_STAGE                          = "Group Stage";
-	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
 	public static final String	API_CHANNEL_ID						= "channelId";
@@ -490,4 +488,5 @@ public abstract class Constants
 	
 	
 	public static final String INTENT_COMPETITION_ID = "competitionID";
+	public static final String GROUP_STAGE = "Fase de Grupos";
 }

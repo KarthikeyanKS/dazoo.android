@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey1"
+    android:paddingBottom="10dp"
     android:orientation="vertical" >
 
     
@@ -13,7 +14,7 @@
 	<RelativeLayout
         android:id="@+id/competition_count_down_area"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="170dp"
         android:background="@drawable/competition_tag_banner"
         android:orientation="vertical" >
 
@@ -148,33 +149,10 @@
 	        android:textColor="@color/white"
 	        android:layout_marginTop="10dp"
 	        android:layout_centerHorizontal="true"
-	        android:text="Time left"
+	        android:text="@string/competition_page_time_left_title"
 	        android:textSize="12sp"
 	        font:fonttextview="roboto_mitv_light.ttf" />
-        
-        <RelativeLayout
-            android:id="@+id/competition_go_to_schedule_layout"
-            android:layout_below="@id/competition_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/background_color_selector_event_selection_box"
-            android:clickable="true"
-            android:orientation="horizontal" >
 
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/competition_learn_more_button_text"
-                style="@style/header1"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/competition_go_to_schedule"
-                android:textSize="12sp"
-                font:fonttextview="roboto_mitv_bold.ttf" />
-        </RelativeLayout>
     </RelativeLayout>
 
 	
@@ -209,12 +187,11 @@
             android:layout_toRightOf="@id/competition_upcoming_icon"
             android:text="@string/competition_page_upcoming_features_title"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="13sp"/>
         
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_upcoming_features_description"
-            style="@style/header3"
+            style="@style/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
@@ -254,19 +231,21 @@
             android:id="@+id/competition_page_begin_time_broadcast_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_below="@id/competition_next_game_text"
-            android:layout_centerInParent="true"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@color/white" >
 
             <!-- Start time of game -->
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/competition_page_begin_time_broadcast"
-                style="@style/header1"
+                style="@style/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black" 
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:text="00:00"/>
 
             <!-- Channels airing on channels: -->
@@ -274,8 +253,9 @@
                 android:id="@+id/competition_airing_channels_for_broadcast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_below="@id/competition_page_begin_time_broadcast"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/grey1"
                 android:textSize="11sp" 
                 android:text="Channels"/>

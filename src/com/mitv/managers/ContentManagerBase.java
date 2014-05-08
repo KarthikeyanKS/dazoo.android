@@ -1096,9 +1096,10 @@ public abstract class ContentManagerBase
 	{
 		List<Competition> competitions = getFromCacheVisibleCompetitions();
 		
-		int randomCompetitionIndex = RandomNumberUtils.getRandomIntegerInRange(0, competitions.size());
+		// TODO - Revert the random
+		//int randomCompetitionIndex = RandomNumberUtils.getRandomIntegerInRange(0, competitions.size());
 		
-		Competition competition = competitions.get(randomCompetitionIndex);
+		Competition competition = getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
 		
 		return competition;
 	}

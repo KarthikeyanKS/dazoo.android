@@ -17,11 +17,18 @@
         android:layout_below="@id/tab_event_indicator"
         android:background="@color/home_divider" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/tab_event_divider"
+        android:background="@color/grey1" />
+    
     <com.imbryk.viewPager.LoopViewPager
         android:id="@+id/tab_event_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tab_event_divider"
+        android:layout_below="@id/divider"
         android:visibility="gone" />
 
 </RelativeLayout>

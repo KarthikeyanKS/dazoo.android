@@ -26,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
-        android:layout_alignParentRight="true"
         android:fillViewport="true"
         android:orientation="vertical" >
 
@@ -43,19 +42,11 @@
                 android:layout_alignParentTop="true"
                 layout="@layout/block_competition_broadcastpage_main_content" />
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_below="@id/competition_broacastpage_block_container_layout"
-                android:layout_marginTop="10dp"
-                android:background="@color/grey2" />
-
             <include
                 android:id="@+id/competition_fragment_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider"
+                android:layout_below="@id/competition_broacastpage_block_container_layout"
                 layout="@layout/fragment_competition_holder_layout" />
         </RelativeLayout>
     </ScrollView>

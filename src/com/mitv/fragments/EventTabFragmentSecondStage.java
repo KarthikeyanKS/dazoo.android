@@ -70,6 +70,14 @@ public class EventTabFragmentSecondStage
 	
 	
 	@Override
+	public void onResume() 
+	{	
+		super.onResume();
+	}
+	
+	
+	
+	@Override
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);

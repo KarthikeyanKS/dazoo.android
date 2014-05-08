@@ -27,7 +27,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -97,6 +96,10 @@ public class CompetitionPageActivity
 		ContentManager.sharedInstance().setSelectedCompetition(competition);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+		
+		initLayout();
+		
+		setAdapter(selectedTabIndex);
 	}
 	
 	
@@ -120,11 +123,7 @@ public class CompetitionPageActivity
 		super.onResume();
 		
 		if(!SecondScreenApplication.isAppRestarting()) 
-		{
-			initLayout();
-			
-			setAdapter(selectedTabIndex);
-		}
+		{}
 		
 		setTabViews();
 	}
@@ -141,6 +140,9 @@ public class CompetitionPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setData();
+				
+				pagerAdapter.notifyDataSetChanged();
+				
 				break;
 			}
 			
@@ -172,9 +174,6 @@ public class CompetitionPageActivity
 		if(viewPagerIndexChangedListener != null)
 		{
 			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
-			
-			// TODO
-			TrackingGAManager.sharedInstance().sendUserTagSelectionEvent(pos);
 		}
 		else
 		{
@@ -397,8 +396,6 @@ public class CompetitionPageActivity
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
 		
-		
-		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
@@ -418,12 +415,9 @@ public class CompetitionPageActivity
 		viewPager.setCurrentItem(selectedIndex);
 		viewPager.setVisibility(View.VISIBLE);
 		viewPager.setEnabled(false);
-	
-		pagerAdapter.notifyDataSetChanged();
-	
+
 		pageTabIndicator.setVisibility(View.VISIBLE);
 		pageTabIndicator.setViewPager(viewPager);
-		pageTabIndicator.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
 		pageTabIndicator.setOnPageChangeListener(this);
 		
