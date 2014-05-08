@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +24,7 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.EventCountDownTimer;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -42,11 +42,9 @@ public class TVGuideTabFragmentCompetition
 	private EventCountDownTimer eventCountDownTimer;
 	
 	private RelativeLayout countDownAreaContainer;
-	private RelativeLayout countDownAreaDays;
-	private RelativeLayout countDownAreaHours;
-	private RelativeLayout countDownAreaMinutes;
-	private TextView timeLeft;
-	private ImageView backgroundImg;
+	private TextView remainingTimeInDays;
+	private TextView remainingTimeInHours;
+	private TextView remainingTimeInMinutes;
 	
 	
 	
@@ -80,19 +78,19 @@ public class TVGuideTabFragmentCompetition
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
-		Button button = (Button) rootView.findViewById(R.id.competition_button);
+		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_learn_more_button_container);
 		
-        button.setOnClickListener(new View.OnClickListener() 
-        {
-            public void onClick(View v) 
-            {
+        learnMoreButton.setOnClickListener(new View.OnClickListener() {
+        	
+            public void onClick(View v) {
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
                 intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
                 
-                startActivity(intent);
+                activity.startActivity(intent);
             }
         });
+        
         
         initView();
 		
@@ -187,8 +185,7 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	@Override
-	public void onTimeChange(int hour)
-	{}
+	public void onTimeChange(int hour) {}
 	
 	
 	
@@ -202,33 +199,49 @@ public class TVGuideTabFragmentCompetition
 
 	
 	@Override
-	public void onPageSelected(int pos) 
-	{
-		
-	}
+	public void onPageSelected(int pos) {}
 
 	
 	
 	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2){}
+	public void onPageScrolled(int arg0, float arg1, int arg2) {}
 
 	
 	
 	@Override
-	public void onPageScrollStateChanged(int arg0){}
+	public void onPageScrollStateChanged(int arg0) {}
 	
 	
 	
 	private void initView()
 	{
 		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
-		countDownAreaDays = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
-		countDownAreaHours = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
-		countDownAreaMinutes = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
+		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_tab_time_left_days);
+		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_tab_time_left_hours);
+		remainingTimeInMinutes = (TextView) rootView.findViewById(R.id.competition_tab_time_left_minutes);
 		
 		if (event != null) 
 		{
+			String competitionName = competition.getDisplayName();
 			
+			if (competition.hasBegun())
+			{
+				countDownAreaContainer.setVisibility(View.GONE);
+			}
+			else
+			{
+				countDownAreaContainer.setVisibility(View.VISIBLE);
+				
+				long eventStartTimeInMiliseconds = event.getEventDateCalendarLocal().getTimeInMillis();
+				
+				long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+				
+				eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
+				
+				
+				
+				eventCountDownTimer.start();
+			}
 		}
 	}
 	

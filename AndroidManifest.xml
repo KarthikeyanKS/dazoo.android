@@ -332,7 +332,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
+            android:theme="@style/CompetitionPage" >
         </activity>
 
         <!-- HOCKEY APP ACTIVITIES -->

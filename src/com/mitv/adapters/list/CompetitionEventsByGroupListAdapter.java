@@ -126,7 +126,7 @@ public class CompetitionEventsByGroupListAdapter
 			viewHolder.groupContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container_event);
 			
 			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
-			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_header_divider);
+			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_row_divider);
 			
 			viewHolder.team1name = (TextView) rowView.findViewById(R.id.row_competition_team_one_name);
 			viewHolder.team1flag = (ImageView) rowView.findViewById(R.id.row_competition_team_one_flag);
@@ -212,21 +212,26 @@ public class CompetitionEventsByGroupListAdapter
 	
 					holder.startWeekDayHeader.setVisibility(View.VISIBLE);
 				}
+				else
+				{
+					holder.dividerView.setVisibility(View.VISIBLE);
+				}
 				
 				if (isFirstposition || isCurrentEventGroupEqualToPreviousEventGroup == false)
 				{
 					/* Group ID */
-					// TODO Change from phaseID to group name...
 					String headerGroup = "TODO";
 					holder.group.setText(headerGroup);
 
 					holder.groupContainer.setVisibility(View.VISIBLE);
 					holder.group.setVisibility(View.VISIBLE);
+					
+					holder.startWeekDayHeader.setVisibility(View.VISIBLE);
 				}
 				
 				if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
 				{
-					holder.dividerView.setVisibility(View.GONE);
+					holder.dividerView.setVisibility(View.VISIBLE);
 				}
 				
 				String homeTeamName = event.getHomeTeam();

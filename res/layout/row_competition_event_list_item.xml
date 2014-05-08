@@ -159,11 +159,13 @@
         
     </RelativeLayout>
     
+    <!-- Divider -->
+    
     <View
-        android:id="@+id/row_competition_header_divider"
+        android:id="@+id/row_competition_row_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/row_competition_row_container"
+        android:layout_above="@id/row_competition_start_day_of_week"
         android:visibility="gone"
         android:background="@color/grey1" />
 

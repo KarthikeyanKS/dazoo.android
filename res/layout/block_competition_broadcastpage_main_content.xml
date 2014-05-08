@@ -115,7 +115,7 @@
             android:layout_below="@id/competition_hours_container"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@color/red" >
+            android:background="@color/transparent_loading_overlay" >
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/competition_page_time_left_to_fifa"
