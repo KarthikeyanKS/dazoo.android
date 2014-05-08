@@ -12,7 +12,6 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.renderscript.Sampler;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -123,7 +122,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	protected void setFetchDataProgressCallbackListener(FetchDataProgressCallbackListener listener)
+	public void setFetchDataProgressCallbackListener(FetchDataProgressCallbackListener listener)
 	{
 		this.fetchDataProgressCallbackListener = listener;
 	}
@@ -331,7 +330,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public boolean getFromCacheHasCompetitionData(String competitionID)
+	public boolean getFromCacheHasCompetitionData(long competitionID)
 	{
 		return getCache().getCompetitionsData().containsCompetitionData(competitionID);
 	}
@@ -342,7 +341,7 @@ public abstract class ContentManagerBase
 	{
 		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
 		
-		String competitionID = selectedCompetition.getCompetitionId();
+		long competitionID = selectedCompetition.getCompetitionId();
 		
 		return getFromCacheHasCompetitionData(competitionID);
 	}
@@ -353,7 +352,7 @@ public abstract class ContentManagerBase
 	{
 		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
 		
-		String competitionID = selectedCompetition.getCompetitionId();
+		long competitionID = selectedCompetition.getCompetitionId();
 		
 		return getFromCacheHasCompetitionData(competitionID);
 	}
@@ -1131,12 +1130,21 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	
 	public void setSelectedCompetition(Competition competition)
 	{
-		String competitionID = competition.getCompetitionId();
+		long competitionID = competition.getCompetitionId();
 		
 		getCache().getCompetitionsData().setSelectedCompetition(competitionID);
 	}
+	
+	
+	
+	public Competition getFromCacheCompetitionByID(long competitionID)
+	{
+		return getCache().getCompetitionsData().getSelectedCompetitionByID(competitionID);
+	}
+	
 	
 	
 	protected void clearUserCache() 

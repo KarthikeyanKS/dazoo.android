@@ -3,7 +3,6 @@ package com.mitv.fragments;
 
 
 
-import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
@@ -15,14 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.imbryk.viewPager.LoopViewPager;
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.pager.TVGuideTagFragmentStatePagerAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVTag;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.viewpagerindicator.TabPageIndicator;
 
 
@@ -138,18 +135,7 @@ public class TVGuideHolderFragment
 	{
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 		
-		List<Competition> competitions;
-		
-		if(Constants.FORCE_DISABLE_COMPETITIONS)
-		{
-			competitions = Collections.emptyList();
-		}
-		else
-		{
-			competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
-		}
-		
-		pagerAdapter = new TVGuideTagFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, competitions);
+		pagerAdapter = new TVGuideTagFragmentStatePagerAdapter(getChildFragmentManager(), tvTags);
 
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(1);

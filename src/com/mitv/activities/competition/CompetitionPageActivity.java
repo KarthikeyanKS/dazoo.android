@@ -1,4 +1,7 @@
+
 package com.mitv.activities.competition;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,21 +40,20 @@ import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
 
+
+
 public class CompetitionPageActivity 
 	extends BaseContentActivity
-	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener {
-	
+	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener 
+{
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
 	
 	private static final int MAXIMUM_CHANNELS_TO_SHOW = 1;
 	private static final int STARTING_TAB_INDEX = 0;
 	
-	private List<Competition> competitions;
 	private Competition competition;
 	private Event event;
-	private int competitionPosition;
-	private String competitionID;
 	
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
@@ -75,46 +77,27 @@ public class CompetitionPageActivity
 	
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
+		if (super.isRestartNeeded())
+		{
 			return;
 		}
 		
+		setContentView(R.layout.layout_competition_events_page);
+		
 		Intent intent = getIntent();
 		
-//		competitionPosition = intent.getIntExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_POSITION, 0);
-		competitionID = intent.getStringExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_ID);
+		long competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
 		
-		initView();
+		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+		
+		ContentManager.sharedInstance().setSelectedCompetition(competition);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 	}
-	
-	
-	
-	private void setCompetition() 
-	{
-		competitions = ContentManager.sharedInstance().getFromCacheAllCompetitions(false);
-		
-		this.competition = competitions.get(competitionPosition);
-		
-		ContentManager.sharedInstance().setSelectedCompetition(competition);
-	}
-	
-	
-	
-	private void initView() {
-		setContentView(R.layout.fragment_competition_events_page);
-		
-		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
-		
-		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
-		
-		selectedTabIndex = STARTING_TAB_INDEX;
-	}
-	
 	
 	
 	
@@ -130,14 +113,17 @@ public class CompetitionPageActivity
 	}
 	
 	
+	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 		
 		if(!SecondScreenApplication.isAppRestarting()) 
 		{
-			setAdapter(selectedTabIndex);
 			initLayout();
+			
+			setAdapter(selectedTabIndex);
 		}
 		
 		setTabViews();
@@ -269,38 +255,56 @@ public class CompetitionPageActivity
 			
 			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 			
+			if(team1 != null)
+			{
+				boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+				
+				if(isLocalFlagDrawableResourceAvailableForTeam1)
+				{
+					team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+				}
+				else
+				{
+					Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
+					
+					ImageAware imageAware = new ImageViewAware(team1Flag, false);
+					
+					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+				}
+			}
+			else
+			{
+				Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+			}
+			
 			long team2ID = event.getAwayTeamId();
 			
 			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-			
-			boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
-			
-			if(isLocalFlagDrawableResourceAvailableForTeam1)
+
+			if(team2 != null)
 			{
-				team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+				boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+				
+				if(isLocalFlagDrawableResourceAvailableForTeam2)
+				{
+					team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
+				}
+				else
+				{
+					Log.w(TAG, "Local flag for team: " + team2.getNationCode() + " not found in cache");
+					
+					ImageAware imageAware = new ImageViewAware(team2Flag, false);
+					
+					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+				}
 			}
 			else
 			{
-				ImageAware imageAware = new ImageViewAware(team1Flag, false);
-				
-				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
-			}
-			
-			boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
-			
-			if(isLocalFlagDrawableResourceAvailableForTeam2)
-			{
-				team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
-			}
-			else
-			{
-				ImageAware imageAware = new ImageViewAware(team2Flag, false);
-				
-				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+				Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
 			}
 		}
 		
@@ -377,18 +381,29 @@ public class CompetitionPageActivity
 	private void initLayout()
 	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(getString(R.string.competition_bar_header));
+		
+		String competitionName = competition.getDisplayName();
+		
+		actionBar.setTitle(competitionName);
 		
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
-		remainingTimeInDays = (TextView) findViewById(R.id.competition_page_time_left_to_fifa_days);
-		remainingTimeInHours = (TextView) findViewById(R.id.competition_page_time_left_to_fifa_hours);
-		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_page_time_left_to_fifa_minutes);
+		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
+		remainingTimeInHours = (TextView) findViewById(R.id.competition_hours_number);
+		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_minutes_number);
 		eventStartTime = (TextView) findViewById(R.id.competition_page_begin_time_broadcast);
 		tvBroadcastChannels = (TextView) findViewById(R.id.competition_airing_channels_for_broadcast);
 		team1Name = (TextView) findViewById(R.id.competition_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
+		
+		
+		
+		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
+		
+		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
+		
+		selectedTabIndex = STARTING_TAB_INDEX;
 	}
 	
 	
@@ -424,11 +439,11 @@ public class CompetitionPageActivity
 
 
 	@Override
-	protected void loadData() 
+	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competition.getCompetitionId());
 	}
 
 
@@ -436,7 +451,7 @@ public class CompetitionPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
 		
 		return hasData;
 	}
@@ -444,7 +459,8 @@ public class CompetitionPageActivity
 
 
 	@Override
-	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
 		if(fetchRequestResult.wasSuccessful())
 		{
 			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
@@ -455,15 +471,12 @@ public class CompetitionPageActivity
 			} 
 			else
 			{
-				setCompetition();
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			}
 		}
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
-		}
-		
+		}	
 	}
-
 }

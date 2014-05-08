@@ -27,20 +27,13 @@ public class GetPhases
 	
 	
 	
-	private static String buildURL(final String competitionID)
+	private static String buildURL(final long competitionID)
 	{
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_COMPETITIONS);
 		url.append(Constants.FORWARD_SLASH);
 		
-		if(competitionID != null)
-		{
-			url.append(competitionID);
-		}
-		else
-		{
-			Log.w(TAG, "Competition ID is null");
-		}
+		url.append(competitionID);
 		
 		url.append(Constants.URL_PHASES);
 
@@ -52,7 +45,7 @@ public class GetPhases
 	public GetPhases(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final String competitionID)
+			final long competitionID)
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASES, Phase[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID));
 	}

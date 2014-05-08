@@ -24,7 +24,6 @@ import com.google.android.gms.ads.AdView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.managers.ContentManager;
@@ -91,7 +90,7 @@ public abstract class BannerListAdapter<T>
 		
 		this.isAdsEnabled = (globalAdsEnabled && localAdsEnabled);
 		
-		this.areCompetitionsEnabled = showCompetitionsBanner && (ContentManager.sharedInstance().getFromCacheVisibleCompetitions().isEmpty() == false) && (Constants.FORCE_DISABLE_COMPETITIONS == false);
+		this.areCompetitionsEnabled = showCompetitionsBanner && (ContentManager.sharedInstance().getFromCacheVisibleCompetitions().isEmpty() == false);
 		
 		this.onlyDisplayCompetitionBannerOnce = onlyDisplayCompetitionBannerOnce;
 	}
@@ -310,7 +309,7 @@ public abstract class BannerListAdapter<T>
 					{
 						Intent intent = new Intent(activity, CompetitionPageActivity.class);
 		                
-		                intent.putExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_ID, competition.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 		                
 						activity.startActivity(intent);
 					}

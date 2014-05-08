@@ -228,7 +228,7 @@ public class APIClient
 	
 	/* THREAD POLL EXECUTOR METHODS FOR COMPETITIONS INITIAL CALL */
 	
-	public void getCompetitionInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, String competitionID)
+	public void getCompetitionInitialDataOnPoolExecutor(ViewCallbackListener activityCallbackListener, long competitionID)
 	{
 		resetCompetitionsInitialCallPoolExecutor();
 		
@@ -535,7 +535,7 @@ public class APIClient
 	}
 	
 	
-	public void getTeams(ViewCallbackListener activityCallbackListener, String competitionID)
+	public void getTeams(ViewCallbackListener activityCallbackListener, long competitionID)
 	{
 		GetTeams task = new GetTeams(contentCallbackListener, activityCallbackListener, competitionID);
 		task.execute();
@@ -549,28 +549,28 @@ public class APIClient
 	}
 	
 	
-	public void getPhases(ViewCallbackListener activityCallbackListener, String competitionID)
+	public void getPhases(ViewCallbackListener activityCallbackListener, long competitionID)
 	{
 		GetPhases task = new GetPhases(contentCallbackListener, activityCallbackListener, competitionID);
 		task.execute();
 	}
 	
 	
-	public void getPhaseByID(ViewCallbackListener activityCallbackListener, String competitionID, String phaseID)
+	public void getPhaseByID(ViewCallbackListener activityCallbackListener, long competitionID, String phaseID)
 	{
 		GetPhaseByID task = new GetPhaseByID(contentCallbackListener, activityCallbackListener, competitionID, phaseID);
 		task.execute();
 	}
 	
 	
-	public void getEventsForPhase(ViewCallbackListener activityCallbackListener, String competitionID, String phaseID)
+	public void getEventsForPhase(ViewCallbackListener activityCallbackListener, long competitionID, String phaseID)
 	{
 		GetEvents task = new GetEvents(contentCallbackListener, activityCallbackListener, competitionID, null, phaseID);
 		task.execute();
 	}
 	
 	
-	public void getEventsForTeam(ViewCallbackListener activityCallbackListener, String competitionID, String teamID)
+	public void getEventsForTeam(ViewCallbackListener activityCallbackListener, long competitionID, String teamID)
 	{
 		GetEvents task = new GetEvents(contentCallbackListener, activityCallbackListener, competitionID, teamID, null);
 		task.execute();
