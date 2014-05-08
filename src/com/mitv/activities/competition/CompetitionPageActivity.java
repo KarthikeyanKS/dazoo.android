@@ -84,7 +84,7 @@ public class CompetitionPageActivity
 		
 		Intent intent = getIntent();
 		
-		competitionPosition = intent.getIntExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_POSITION, 0);
+//		competitionPosition = intent.getIntExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_POSITION, 0);
 		competitionID = intent.getStringExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_ID);
 		
 		initView();
@@ -240,12 +240,12 @@ public class CompetitionPageActivity
 	{
 		String competitionName = competition.getDisplayName();
 		
-//		if (competition.hasBegun())
-//		{
-//			countDownArea.setVisibility(View.GONE);
-//		}
-//		else
-//		{
+		if (competition.hasBegun())
+		{
+			countDownArea.setVisibility(View.GONE);
+		}
+		else
+		{
 			countDownArea.setVisibility(View.VISIBLE);
 			
 			long eventStartTimeInMiliseconds = event.getEventDateCalendarLocal().getTimeInMillis();
@@ -255,7 +255,7 @@ public class CompetitionPageActivity
 			eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
 			
 			eventCountDownTimer.start();
-//		}
+		}
 		
 		String homeTeamName = event.getHomeTeam();
 			

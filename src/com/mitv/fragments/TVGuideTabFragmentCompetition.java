@@ -89,10 +89,10 @@ public class TVGuideTabFragmentCompetition
             public void onClick(View v) {
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
-                intent.putExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_POSITION, competitionPosition);
+//                intent.putExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_POSITION, competitionPosition);
                 intent.putExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_ID, competition.getCompetitionId());
                 
-                startActivity(intent);
+                activity.startActivity(intent);
             }
         });
         
@@ -229,12 +229,12 @@ public class TVGuideTabFragmentCompetition
 		{
 			String competitionName = competition.getDisplayName();
 			
-//			if (competition.hasBegun())
-//			{
-//				countDownArea.setVisibility(View.GONE);
-//			}
-//			else
-//			{
+			if (competition.hasBegun())
+			{
+				countDownAreaContainer.setVisibility(View.GONE);
+			}
+			else
+			{
 				countDownAreaContainer.setVisibility(View.VISIBLE);
 				
 				long eventStartTimeInMiliseconds = event.getEventDateCalendarLocal().getTimeInMillis();
@@ -246,7 +246,7 @@ public class TVGuideTabFragmentCompetition
 				
 				
 				eventCountDownTimer.start();
-//			}
+			}
 		}
 	}
 	
