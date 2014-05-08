@@ -1,4 +1,7 @@
+
 package com.mitv.activities.competition;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,8 @@ import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
 
+
+
 public class CompetitionPageActivity 
 	extends BaseContentActivity
 	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener 
@@ -49,7 +54,6 @@ public class CompetitionPageActivity
 	
 	private Competition competition;
 	private Event event;
-	private long competitionID;
 	
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
@@ -84,21 +88,16 @@ public class CompetitionPageActivity
 		
 		Intent intent = getIntent();
 		
-		competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
+		long competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
+		
+		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+		
+		ContentManager.sharedInstance().setSelectedCompetition(competition);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 	}
 	
 	
-	
-	private void setCompetition() 
-	{
-		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-		
-		ContentManager.sharedInstance().setSelectedCompetition(competition);
-	}
-	
-
 	
 	@Override
 	public void onPause()
@@ -380,7 +379,10 @@ public class CompetitionPageActivity
 	private void initLayout()
 	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(getString(R.string.competition_bar_header));
+		
+		String competitionName = competition.getDisplayName();
+		
+		actionBar.setTitle(competitionName);
 		
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_page_time_left_to_fifa_days);
@@ -439,7 +441,7 @@ public class CompetitionPageActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competition.getCompetitionId());
 	}
 
 
@@ -447,7 +449,7 @@ public class CompetitionPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
 		
 		return hasData;
 	}
@@ -467,7 +469,6 @@ public class CompetitionPageActivity
 			} 
 			else
 			{
-				setCompetition();
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			}
 		}

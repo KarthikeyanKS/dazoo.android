@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:padding="10dp"
-                android:text="@string/competition_page_time_left_to_fifa"
+                android:text="@string/competition_page_time_left_title"
                 android:textColor="@color/white" />
         </RelativeLayout>
     </RelativeLayout>

@@ -42,6 +42,8 @@ public class TVGuideTabFragmentCompetition
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInHours;
 	private TextView remainingTimeInMinutes;
+	private TextView title;
+	private RelativeLayout competitionGoToScheduleLayout;
 	
 	
 	
@@ -73,7 +75,7 @@ public class TVGuideTabFragmentCompetition
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
-		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_learn_more_button_container);
+		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
 		
         learnMoreButton.setOnClickListener(new View.OnClickListener() 
         {	
@@ -188,9 +190,12 @@ public class TVGuideTabFragmentCompetition
 	private void initView()
 	{
 		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
-		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_tab_time_left_days);
-		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_tab_time_left_hours);
-		remainingTimeInMinutes = (TextView) rootView.findViewById(R.id.competition_tab_time_left_minutes);	
+		
+		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_days_number);
+		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_hours_number);
+		remainingTimeInMinutes = (TextView) rootView.findViewById(R.id.competition_minutes_number);
+		title = (TextView) rootView.findViewById(R.id.competition_title);	
+		competitionGoToScheduleLayout = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);	
 	}
 	
 	
@@ -199,10 +204,18 @@ public class TVGuideTabFragmentCompetition
 	{
 		if (competition.hasBegun())
 		{
+			title.setText(activity.getString(R.string.competition_page_time_left_title));
+		
+			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
+			
 			countDownAreaContainer.setVisibility(View.GONE);
 		}
 		else
 		{
+			title.setText(activity.getString(R.string.competition_page_time_left_title));
+			
+			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
+			
 			countDownAreaContainer.setVisibility(View.VISIBLE);
 		
 			String competitionName = competition.getDisplayName();

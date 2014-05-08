@@ -258,6 +258,14 @@
         <item name="fonttextview">roboto_mitv_bold.ttf</item>
         <item name="fontbutton">roboto_mitv_bold.ttf</item>
     </style>
+    
+    <style name="yellowtextbutton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/yellow</item>
+        <item name="fonttextview">roboto_mitv_bold.ttf</item>
+        <item name="fontbutton">roboto_mitv_bold.ttf</item>
+    </style>
 
     <style name="bluetextbutton">
         <item name="android:textSize">14sp</item>
