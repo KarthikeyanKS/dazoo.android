@@ -86,6 +86,8 @@ public class CompetitionPageActivity
 			return;
 		}
 		
+		setContentView(R.layout.layout_competition_events_page);
+		
 		Intent intent = getIntent();
 		
 		long competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
@@ -385,9 +387,9 @@ public class CompetitionPageActivity
 		actionBar.setTitle(competitionName);
 		
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
-		remainingTimeInDays = (TextView) findViewById(R.id.competition_page_time_left_to_fifa_days);
-		remainingTimeInHours = (TextView) findViewById(R.id.competition_page_time_left_to_fifa_hours);
-		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_page_time_left_to_fifa_minutes);
+		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
+		remainingTimeInHours = (TextView) findViewById(R.id.competition_hours_number);
+		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_minutes_number);
 		eventStartTime = (TextView) findViewById(R.id.competition_page_begin_time_broadcast);
 		tvBroadcastChannels = (TextView) findViewById(R.id.competition_airing_channels_for_broadcast);
 		team1Name = (TextView) findViewById(R.id.competition_team_one_name);
@@ -395,7 +397,7 @@ public class CompetitionPageActivity
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
 		
-		setContentView(R.layout.fragment_competition_events_page);
+		
 		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
