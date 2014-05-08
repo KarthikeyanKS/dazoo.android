@@ -238,8 +238,6 @@ public class TVGuideTabFragmentCompetition
 			title.setText(activity.getString(R.string.competition_page_time_left_title));
 			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
-			
-			countDownAreaContainer.setVisibility(View.VISIBLE);
 		
 			String competitionName = competition.getDisplayName();
 			
