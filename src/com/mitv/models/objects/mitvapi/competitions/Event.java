@@ -3,10 +3,7 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
-
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
 import com.mitv.utilities.DateUtils;
 
@@ -23,20 +20,13 @@ public class Event
 	
 	
 	public Event()
+	{}
+	
+	
+	
+	public boolean containsBroadcastDetails()
 	{
-		// TODO - Remove this
-		if(this.broadcastDetails == null)
-		{
-			this.broadcastDetails = new ArrayList<EventBroadcastDetailsJSON>();
-			
-			EventBroadcastDetailsJSON eventBroadcastDetailsJSON1 = new EventBroadcastDetailsJSON("co_5184009a-0871-43bd-a99f-1dacc55215f4", "2014-05-07", "1380962800000");
-			EventBroadcastDetailsJSON eventBroadcastDetailsJSON2 = new EventBroadcastDetailsJSON("co_892f1538-aac8-46cb-a8dc-44f4b0668d57", "2014-05-09", "5480962608032");
-			EventBroadcastDetailsJSON eventBroadcastDetailsJSON3 = new EventBroadcastDetailsJSON("co_34b84cce-de14-4db8-abb6-06b09c51233a", "2014-05-10", "1380962800000");
-			
-			this.broadcastDetails.add(eventBroadcastDetailsJSON1);
-			this.broadcastDetails.add(eventBroadcastDetailsJSON2);
-			this.broadcastDetails.add(eventBroadcastDetailsJSON3);
-		}
+		return (broadcastDetails != null);
 	}
 	
 	
