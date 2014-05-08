@@ -18,7 +18,6 @@ public class TrackingManager
 
 	
 	
-	
 	public TrackingManager() {}
 	
 	
@@ -91,6 +90,49 @@ public class TrackingManager
 		{
 			TrackingAIManager.sharedInstance().reportHTTPCoreOutOfMemoryException();
 		}
+	}
+	
+	
+	
+	public void sendUserCompetitionTabCountdownPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Countdown";
+		
+		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionTabBannerPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner";
+		
+		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+		
+	
+	
+	public void sendUserCompetitionTabCalendarPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Calendar";
+		
+		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	public void sendUserCompetitionBannerPressedInAllTab(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner";
+		
+		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	public void sendUserCompetitionBannerPressedInSportsTab(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner";
+		
+		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
 	}
 	
 	

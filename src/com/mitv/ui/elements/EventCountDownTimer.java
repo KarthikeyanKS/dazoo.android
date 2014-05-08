@@ -96,4 +96,19 @@ public class EventCountDownTimer
 		hoursTextView.setText("00");
 		minutesTextView.setText("00");
     }
+	
+	
+	
+	@Override
+	public String toString() 
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(daysTextView.getText());
+		sb.append(" ");
+		sb.append(hoursTextView.getText());
+		sb.append(" ");
+		sb.append(minutesTextView.getText());
+		
+		return sb.toString();
+	}
 }

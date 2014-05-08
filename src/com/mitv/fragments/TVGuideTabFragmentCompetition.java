@@ -20,6 +20,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.TVGuideTabTypeEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
@@ -81,11 +82,33 @@ public class TVGuideTabFragmentCompetition
         {	
             public void onClick(View v)
             {
+            	TrackingManager.sharedInstance().sendUserCompetitionTabCalendarPressed(competition.getDisplayName());
+            	
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
                 intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
                 
                 activity.startActivity(intent);
+            }
+        });
+        
+        RelativeLayout competitionCountDownAreaLayout = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_layout);
+        
+        competitionCountDownAreaLayout.setOnClickListener(new View.OnClickListener() 
+        {	
+            public void onClick(View v)
+            {
+                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(competition.getDisplayName());
+            }
+        });
+        
+        RelativeLayout competitionBannerLayout = (RelativeLayout) rootView.findViewById(R.id.competition_banner_layout);
+        
+        competitionBannerLayout.setOnClickListener(new View.OnClickListener() 
+        {	
+            public void onClick(View v)
+            {
+                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(competition.getDisplayName());
             }
         });
         

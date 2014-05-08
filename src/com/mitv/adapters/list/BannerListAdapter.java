@@ -27,6 +27,8 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -310,6 +312,8 @@ public abstract class BannerListAdapter<T>
 						Intent intent = new Intent(activity, CompetitionPageActivity.class);
 		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+		                
+		                TrackingManager.sharedInstance().sendUserCompetitionBannerPressedInAllTab(competition.getDisplayName());
 		                
 						activity.startActivity(intent);
 					}
