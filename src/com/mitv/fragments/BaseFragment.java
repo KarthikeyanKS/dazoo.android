@@ -79,6 +79,13 @@ public abstract class BaseFragment
 	}
 	
 	
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
+	}
+	
+	
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
