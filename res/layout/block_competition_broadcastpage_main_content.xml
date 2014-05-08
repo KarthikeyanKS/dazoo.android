@@ -54,6 +54,7 @@
 	                android:textStyle="bold"
 	                android:textSize="50sp"
 	                font:fonttextview="roboto_mitv_bold.ttf"/>
+	            
 	            <com.mitv.ui.elements.FontTextView
 	                android:id="@+id/competition_days_title"
 	                style="@style/header1"

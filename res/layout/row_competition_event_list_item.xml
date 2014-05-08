@@ -5,30 +5,41 @@
     android:background="@color/white" >
 
     <!-- HEADER BY GROUP -->
-    
+
     <RelativeLayout
         android:id="@+id/row_competition_group_header_container_event"
         android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentTop="true"
-	    android:paddingTop="15dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/grey1"
         android:paddingBottom="5dp"
-	    android:background="@color/grey1" >
-	    
+        android:paddingTop="15dp" >
+
         <!-- GROUP -->
-    
-	    <com.mitv.ui.elements.FontTextView
-	        android:id="@+id/row_competition_header_group_event"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:textAllCaps="true"
-	        android:textColor="@color/grey3"
-	        android:textSize="20sp" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_header_group_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:textAllCaps="true"
+            android:textColor="@color/grey3"
+            android:textSize="20sp" />
+
+        <!-- Divider -->
+
+        <View
+            android:id="@+id/row_competition_row_header_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/row_competition_header_group_event"
+            android:background="@color/grey1"
+            android:visibility="visible" />
     </RelativeLayout>
-    
+
     <!-- HEADER DAY -->
-    
+
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_competition_start_day_of_week"
         android:layout_width="match_parent"
@@ -92,8 +103,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
             android:background="@color/white"
             android:padding="5dp" >
 
@@ -156,17 +167,16 @@
                 android:src="@drawable/competitions_contry_flag_default"
                 android:visibility="visible" />
         </RelativeLayout>
-        
     </RelativeLayout>
-    
+
     <!-- Divider -->
-    
+
     <View
         android:id="@+id/row_competition_row_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@id/row_competition_start_day_of_week"
-        android:visibility="gone"
-        android:background="@color/grey1" />
+        android:background="@color/grey1"
+        android:visibility="gone" />
 
 </RelativeLayout>

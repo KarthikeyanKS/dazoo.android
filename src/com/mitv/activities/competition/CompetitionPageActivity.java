@@ -5,13 +5,17 @@ package com.mitv.activities.competition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +24,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.adapters.pager.EventTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -35,6 +40,7 @@ import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.SetListViewToHeightBasedOnChildren;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
@@ -48,16 +54,20 @@ public class CompetitionPageActivity
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
 	
-	private static final int STARTING_TAB_INDEX = 0;
+//	private static final int STARTING_TAB_INDEX = 0;
 	
 	private Competition competition;
 	private Event event;
 	
-	private TabPageIndicator pageTabIndicator;
-	private LoopViewPager viewPager;
-	private EventTabFragmentStatePagerAdapter pagerAdapter;
-	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
-	private int selectedTabIndex;
+//	private TabPageIndicator pageTabIndicator;
+//	private LoopViewPager viewPager;
+//	private EventTabFragmentStatePagerAdapter pagerAdapter;
+//	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
+//	private int selectedTabIndex;
+
+	/* fake tab */
+	private ListView listView;
+	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInHours;
@@ -99,7 +109,7 @@ public class CompetitionPageActivity
 		
 		initLayout();
 		
-		setAdapter(selectedTabIndex);
+//		setAdapter(selectedTabIndex);
 	}
 	
 	
@@ -140,6 +150,7 @@ public class CompetitionPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setData();
+				setListView();
 				break;
 			}
 			
@@ -166,16 +177,16 @@ public class CompetitionPageActivity
 	@Override
 	public void onPageSelected(int pos) 
 	{
-		selectedTabIndex = pos;
-		
-		if(viewPagerIndexChangedListener != null)
-		{
-			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
-		}
-		else
-		{
-			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
-		}
+//		selectedTabIndex = pos;
+//		
+//		if(viewPagerIndexChangedListener != null)
+//		{
+//			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+//		}
+//		else
+//		{
+//			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
+//		}
 	}
 	
 	
@@ -190,31 +201,31 @@ public class CompetitionPageActivity
 	
 	
 	
-	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
-	{
-		return viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
-	{
-		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public int getSelectedTabIndex() 
-	{
-		return selectedTabIndex;
-	}
-	
-	
-	
-	public void setSelectedTabIndex(int selectedTabIndex) 
-	{
-		this.selectedTabIndex = selectedTabIndex;
-	}
+//	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
+//	{
+//		return viewPagerIndexChangedListener;
+//	}
+//	
+//	
+//	
+//	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
+//	{
+//		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
+//	}
+//	
+//	
+//	
+//	public int getSelectedTabIndex() 
+//	{
+//		return selectedTabIndex;
+//	}
+//	
+//	
+//	
+//	public void setSelectedTabIndex(int selectedTabIndex) 
+//	{
+//		this.selectedTabIndex = selectedTabIndex;
+//	}
 	
 	
 	
@@ -398,37 +409,37 @@ public class CompetitionPageActivity
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
 		
-		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
-		
-		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
-		
-		selectedTabIndex = STARTING_TAB_INDEX;
+//		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
+//		
+//		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
+//		
+//		selectedTabIndex = STARTING_TAB_INDEX;
 	}
 	
 	
 	
-	private void setAdapter(int selectedIndex) 
-	{
-		pagerAdapter = new EventTabFragmentStatePagerAdapter(getSupportFragmentManager());
-	
-		viewPager.setAdapter(pagerAdapter);
-		viewPager.setOffscreenPageLimit(1);
-		viewPager.setBoundaryCaching(true);
-		viewPager.setCurrentItem(selectedIndex);
-		viewPager.setVisibility(View.VISIBLE);
-		viewPager.setEnabled(false);
-
-		pageTabIndicator.setVisibility(View.VISIBLE);
-		pageTabIndicator.setViewPager(viewPager);
-		
-		pageTabIndicator.setCurrentItem(selectedIndex);
-		pageTabIndicator.setOnPageChangeListener(this);
-		
-		pagerAdapter.notifyDataSetChanged();
-		
-		pageTabIndicator.setInitialStyleOnAllTabs();
-		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
-	}
+//	private void setAdapter(int selectedIndex) 
+//	{
+//		pagerAdapter = new EventTabFragmentStatePagerAdapter(getSupportFragmentManager());
+//	
+//		viewPager.setAdapter(pagerAdapter);
+//		viewPager.setOffscreenPageLimit(1);
+//		viewPager.setBoundaryCaching(true);
+//		viewPager.setCurrentItem(selectedIndex);
+//		viewPager.setVisibility(View.VISIBLE);
+//		viewPager.setEnabled(false);
+//
+//		pageTabIndicator.setVisibility(View.VISIBLE);
+//		pageTabIndicator.setViewPager(viewPager);
+//		
+//		pageTabIndicator.setCurrentItem(selectedIndex);
+//		pageTabIndicator.setOnPageChangeListener(this);
+//		
+//		pagerAdapter.notifyDataSetChanged();
+//		
+//		pageTabIndicator.setInitialStyleOnAllTabs();
+//		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
+//	}
 
 
 
@@ -482,5 +493,21 @@ public class CompetitionPageActivity
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}	
+	}
+	
+	
+	
+	private void setListView() {
+		listView = (ListView) findViewById(R.id.competition_fake_table_listview);
+		
+		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
+
+		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
+		
+		listView.setAdapter(listAdapter);
+
+		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
+			
+		listAdapter.notifyDataSetChanged();
 	}
 }
