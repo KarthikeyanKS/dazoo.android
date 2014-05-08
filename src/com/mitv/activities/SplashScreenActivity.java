@@ -135,8 +135,17 @@ public class SplashScreenActivity
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
 	}
-		
 	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ContentManager.sharedInstance().setFetchDataProgressCallbackListener(null);
+
+		View view = getWindow().getDecorView().getRootView();
+		GenericUtils.unbindDrawables(view);
+	}
+
 	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 

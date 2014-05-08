@@ -762,9 +762,11 @@ public abstract class BaseActivity
 	@Override
 	protected void onDestroy() 
 	{
-		removeFromStackOnDestroy(this);
-
 		super.onDestroy();
+		
+		removeFromStackOnDestroy(this);
+		
+		unregisterListenerFromAllRequests();
 	}
 	
 	

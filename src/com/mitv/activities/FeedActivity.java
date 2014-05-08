@@ -79,17 +79,7 @@ public class FeedActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 	}
-	
-	
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-//		Debug.stopMethodTracing();
-	}
-	
-	
-	
+
 	@Override
 	protected void onResume()
 	{
@@ -214,7 +204,6 @@ public class FeedActivity
 		
 		listAdapter = new FeedListAdapter(this, activityFeed);
 
-//		Debug.startMethodTracing("FeedActivityAfterOptimizationWithScrollFromDataLoaded", 100000000);
 		listView.setAdapter(listAdapter);
 		
 		listView.setVisibility(View.VISIBLE);

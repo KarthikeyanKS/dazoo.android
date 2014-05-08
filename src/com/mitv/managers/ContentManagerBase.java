@@ -123,7 +123,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	protected void setFetchDataProgressCallbackListener(FetchDataProgressCallbackListener listener)
+	public void setFetchDataProgressCallbackListener(FetchDataProgressCallbackListener listener)
 	{
 		this.fetchDataProgressCallbackListener = listener;
 	}
