@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.imbryk.viewPager.LoopViewPager;
@@ -138,7 +139,7 @@ public class CompetitionPageActivity
 		setTabViews();
 	}
 	
-	
+	private ScrollView scrollView;
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
@@ -149,8 +150,10 @@ public class CompetitionPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				setData();
 				setListView();
+				
+				setData();
+				
 				break;
 			}
 			
@@ -398,6 +401,8 @@ public class CompetitionPageActivity
 		
 		actionBar.setTitle(competitionName);
 		
+
+		scrollView = (ScrollView) findViewById(R.id.teeeest);
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
 		remainingTimeInHours = (TextView) findViewById(R.id.competition_hours_number);
@@ -444,17 +449,11 @@ public class CompetitionPageActivity
 
 
 	@Override
-	public void onFetchDataProgress(int totalSteps, String message) {}
-
-
-
-	@Override
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-//		String loadingString = getString(R.string.XX);
-		String loadingString = "TODO LOADING";
+		String loadingString = getString(R.string.competition_loader_text);
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
@@ -507,7 +506,10 @@ public class CompetitionPageActivity
 		listView.setAdapter(listAdapter);
 
 		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
-			
-		listAdapter.notifyDataSetChanged();
 	}
+
+
+
+	@Override
+	public void onFetchDataProgress(int totalSteps, String message) {}
 }
