@@ -43,7 +43,6 @@ import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
-import com.mitv.utilities.RandomNumberUtils;
 
 
 
@@ -1143,7 +1142,14 @@ public abstract class ContentManagerBase
 	
 	public Competition getFromCacheCompetitionByID(long competitionID)
 	{
-		return getCache().getCompetitionsData().getSelectedCompetitionByID(competitionID);
+		return getCache().getCompetitionsData().getCompetitionByID(competitionID);
+	}
+	
+	
+	
+	public Phase getFromCachePhaseByID(long phaseID)
+	{
+		return getCache().getCompetitionsData().getPhaseByIDForSelectedCompetition(phaseID);
 	}
 	
 	

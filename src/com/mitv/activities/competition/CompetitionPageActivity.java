@@ -48,7 +48,6 @@ public class CompetitionPageActivity
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
 	
-	private static final int MAXIMUM_CHANNELS_TO_SHOW = 1;
 	private static final int STARTING_TAB_INDEX = 0;
 	
 	private Competition competition;
@@ -140,9 +139,6 @@ public class CompetitionPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setData();
-				
-				pagerAdapter.notifyDataSetChanged();
-				
 				break;
 			}
 			
@@ -316,52 +312,57 @@ public class CompetitionPageActivity
 		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
 		
 		StringBuilder channelsSB = new StringBuilder();
+		
+		boolean containsBroadcastDetails = event.containsBroadcastDetails();
+		
+		if(containsBroadcastDetails)
+		{
+			List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+			
+			int totalChannelCount = eventBroadcastDetailsList.size();
+			
+			List<String> channelNames = new ArrayList<String>(totalChannelCount);
+			
+			for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+			{
+				String channelID = eventBroadcastDetails.getChannelId();
 				
-		List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
-		
-		int totalChannelCount = eventBroadcastDetailsList.size();
-		
-		List<String> channelNames = new ArrayList<String>(totalChannelCount);
-		
-		for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
-		{
-			String channelID = eventBroadcastDetails.getChannelId();
-			
-			TVChannelId tvChannelId = new TVChannelId(channelID);
-			
-			TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-			
-			if(tvChannel != null)
-			{
-				channelNames.add(tvChannel.getName());
-			}
-			else
-			{
-				Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
-			}
-		}
-		
-		for(int i=0; i<channelNames.size(); i++)
-		{
-			if(i >= MAXIMUM_CHANNELS_TO_SHOW)
-			{
-				int remainingChannels = totalChannelCount-MAXIMUM_CHANNELS_TO_SHOW;
-						
-				channelsSB.append("+ ");
-				channelsSB.append(remainingChannels);
-				channelsSB.append(" ");
-				channelsSB.append(getResources().getString(R.string.competition_page_more_channels_broadcasting));
-				break;
+				TVChannelId tvChannelId = new TVChannelId(channelID);
+				
+				TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+				
+				if(tvChannel != null)
+				{
+					channelNames.add(tvChannel.getName());
+				}
+				else
+				{
+					Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
+				}
 			}
 			
-			channelsSB.append(channelNames.get(i));
-			
-			if(i != channelNames.size()-1)
+			for(int i=0; i<channelNames.size(); i++)
 			{
-				channelsSB.append(", ");
+				if(i >= Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON)
+				{
+					int remainingChannels = totalChannelCount - Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
+							 
+					channelsSB.append("+ ");
+					channelsSB.append(remainingChannels);
+					channelsSB.append(" ");
+					channelsSB.append(getResources().getString(R.string.competition_page_more_channels_broadcasting));
+					break;
+				}
+				
+				channelsSB.append(channelNames.get(i));
+				
+				if(i != channelNames.size()-1)
+				{
+					channelsSB.append(", ");
+				}
 			}
 		}
-	
+		
 		String channels = channelsSB.toString();
 		
 		if (channels != null && !channels.isEmpty() && channels != "")
@@ -418,8 +419,11 @@ public class CompetitionPageActivity
 
 		pageTabIndicator.setVisibility(View.VISIBLE);
 		pageTabIndicator.setViewPager(viewPager);
+		
 		pageTabIndicator.setCurrentItem(selectedIndex);
 		pageTabIndicator.setOnPageChangeListener(this);
+		
+		pagerAdapter.notifyDataSetChanged();
 		
 		pageTabIndicator.setInitialStyleOnAllTabs();
 		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);

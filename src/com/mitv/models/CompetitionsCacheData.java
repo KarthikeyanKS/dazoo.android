@@ -53,7 +53,7 @@ public class CompetitionsCacheData
 	
 	
 	
-	public synchronized Competition getSelectedCompetitionByID(long competitionID) 
+	public synchronized Competition getCompetitionByID(long competitionID) 
 	{
 		Competition competitionFound = null;
 		
@@ -71,6 +71,28 @@ public class CompetitionsCacheData
 		return competitionFound;
 	}
 	
+	
+	
+	public synchronized Phase getPhaseByIDForSelectedCompetition(long phaseID) 
+	{
+		Phase phaseFound = null;
+		
+		List<Phase> phases = selectedCompetition.getPhases();
+		
+		for(Phase phase : phases)
+		{
+			long phaseCacheID = phase.getPhaseId();
+			
+			if(phaseCacheID == phaseID)
+			{
+				phaseFound = phase;
+				break;
+			}
+		}
+		
+		return phaseFound;
+	}
+
 	
 	
 	public synchronized void setAllCompetitions(List<Competition> competitions)
@@ -106,7 +128,7 @@ public class CompetitionsCacheData
 		}
 	}
 	
-	
+
 	
 	public synchronized List<Event> getEventsForSelectedCompetition() 
 	{

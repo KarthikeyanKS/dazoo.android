@@ -19,12 +19,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -219,9 +222,19 @@ public class CompetitionEventsByGroupListAdapter
 				
 				if (isFirstposition || isCurrentEventGroupEqualToPreviousEventGroup == false)
 				{
-					/* Group ID */
-					String headerGroup = "TODO";
-					holder.group.setText(headerGroup);
+					long phaseID = event.getPhaseId();
+					
+					Phase phase = ContentManager.sharedInstance().getFromCachePhaseByID(phaseID);
+					
+					if(phase != null)
+					{
+						String headerGroup = phase.getPhase();
+						holder.group.setText(headerGroup);
+					}
+					else
+					{
+						holder.group.setText("");
+					}
 
 					holder.groupContainer.setVisibility(View.VISIBLE);
 					holder.group.setVisibility(View.VISIBLE);
@@ -310,34 +323,59 @@ public class CompetitionEventsByGroupListAdapter
 				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 				holder.startTime.setText(start);
 				
-				StringBuilder sb = new StringBuilder();
+				StringBuilder channelsSB = new StringBuilder();
 				
-				/* Broadcast details - airing channel names */
-				List<EventBroadcastDetailsJSON> broadcastDetails = event.getBroadcastDetails();
-				List<TVChannel> channels = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
-				int howManyChannels = broadcastDetails.size();
+				boolean containsBroadcastDetails = event.containsBroadcastDetails();
 				
-				if (howManyChannels >= 1) {
-					String cid = broadcastDetails.get(0).getChannelId();
+				if(containsBroadcastDetails)
+				{
+					List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
 					
-					for (TVChannel tvChannel: channels) {
+					int totalChannelCount = eventBroadcastDetailsList.size();
+					
+					List<String> channelNames = new ArrayList<String>(totalChannelCount);
+					
+					for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+					{
+						String channelID = eventBroadcastDetails.getChannelId();
 						
-						if (tvChannel.getChannelId().getChannelId().equals(cid)) {
-							
-							if (howManyChannels == 1) {
-								sb.append(tvChannel.getName());
-								
-							} else {
-								sb.append(tvChannel.getName());
-								sb.append(" + ");
-								sb.append(howManyChannels - 1);
-								sb.append(" more");
-							}
+						TVChannelId tvChannelId = new TVChannelId(channelID);
+						
+						TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+						
+						if(tvChannel != null)
+						{
+							channelNames.add(tvChannel.getName());
 						}
-					}				
+						else
+						{
+							Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
+						}
+					}
+					
+					for(int j=0; j<channelNames.size(); j++)
+					{
+						if(j >= Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON)
+						{
+							int remainingChannels = totalChannelCount-Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
+									
+							channelsSB.append("+ ");
+							channelsSB.append(remainingChannels);
+							channelsSB.append(" ");
+							channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
+							break;
+						}
+						
+						channelsSB.append(channelNames.get(j));
+						
+						if(j != channelNames.size()-1)
+						{
+							channelsSB.append(", ");
+						}
+					}
 				}
 				
-				holder.broadcastChannels.setText(sb.toString());
+				holder.broadcastChannels.setText(channelsSB.toString());
 			}
 			
 		}

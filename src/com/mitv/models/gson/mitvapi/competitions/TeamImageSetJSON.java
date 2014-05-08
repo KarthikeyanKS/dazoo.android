@@ -14,11 +14,7 @@ public class TeamImageSetJSON
 	
 	
 	public TeamImageSetJSON()
-	{
-		// TODO - Remove this
-		flag = new ImageSetSizeJSON("http://www.clubpenguininsiders.com/forum/uploads/gallery/album_679/gallery_65742_679_11051.jpg", "http://www.clubpenguininsiders.com/forum/uploads/gallery/album_679/gallery_65742_679_11051.jpg", "http://www.clubpenguininsiders.com/forum/uploads/gallery/album_679/gallery_65742_679_11051.jpg");
-		banner = new ImageSetSizeJSON("http://www.clubpenguininsiders.com/forum/uploads/gallery/album_679/gallery_65742_679_11051.jpg", "http://www.clubpenguininsiders.com/forum/uploads/gallery/album_679/gallery_65742_679_11051.jpg", "http://www.clubpenguininsiders.com/forum/uploads/gallery/album_679/gallery_65742_679_11051.jpg");
-	}
+	{}
 
 
 	
