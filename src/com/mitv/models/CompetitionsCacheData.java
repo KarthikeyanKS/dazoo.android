@@ -53,6 +53,26 @@ public class CompetitionsCacheData
 	
 	
 	
+	public synchronized Competition getSelectedCompetitionByID(long competitionID) 
+	{
+		Competition competitionFound = null;
+		
+		for(CompetitionCacheData competitionCacheData : allCompetitions)
+		{
+			long competitionCacheID = competitionCacheData.getCompetition().getCompetitionId();
+			
+			if(competitionCacheID == competitionID)
+			{
+				competitionFound = competitionCacheData.getCompetition();
+				break;
+			}
+		}
+		
+		return competitionFound;
+	}
+	
+	
+	
 	public synchronized void setAllCompetitions(List<Competition> competitions)
 	{
 		for(Competition competition : competitions)
@@ -69,16 +89,16 @@ public class CompetitionsCacheData
 	{
 		return selectedCompetition.getCompetition();
 	}
+	
+	
 
-
-
-	public synchronized void setSelectedCompetition(String competitionID)
+	public synchronized void setSelectedCompetition(long competitionID)
 	{
 		for(CompetitionCacheData competitionCacheData : allCompetitions)
 		{
-			String competitionCacheID = competitionCacheData.getCompetition().getCompetitionId();
+			long competitionCacheID = competitionCacheData.getCompetition().getCompetitionId();
 			
-			if(competitionCacheID.equals(competitionID))
+			if(competitionCacheID == competitionID)
 			{
 				selectedCompetition = competitionCacheData;
 				break;
@@ -209,13 +229,13 @@ public class CompetitionsCacheData
 
 	
 	
-	public synchronized boolean containsCompetitionData(String competitionID) 
+	public synchronized boolean containsCompetitionData(long competitionID) 
 	{
 		boolean containsCompetitionData = false;
 		
 		for(CompetitionCacheData competitionCacheData : allCompetitions)
 		{
-			boolean matchesCompetitionID = competitionCacheData.getCompetition().getCompetitionId().equals(competitionID);
+			boolean matchesCompetitionID = (competitionCacheData.getCompetition().getCompetitionId() == competitionID);
 			
 			if(matchesCompetitionID)
 			{

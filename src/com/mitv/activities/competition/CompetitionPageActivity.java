@@ -39,19 +39,17 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CompetitionPageActivity 
 	extends BaseContentActivity
-	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener {
-	
+	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener 
+{
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
 	
 	private static final int MAXIMUM_CHANNELS_TO_SHOW = 1;
 	private static final int STARTING_TAB_INDEX = 0;
 	
-	private List<Competition> competitions;
 	private Competition competition;
 	private Event event;
-	private int competitionPosition;
-	private String competitionID;
+	private long competitionID;
 	
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
@@ -75,19 +73,18 @@ public class CompetitionPageActivity
 	
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
+		if (super.isRestartNeeded())
+		{
 			return;
 		}
 		
 		Intent intent = getIntent();
 		
-//		competitionPosition = intent.getIntExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_POSITION, 0);
-		competitionID = intent.getStringExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_ID);
-		
-		initView();
+		competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 	}
@@ -96,27 +93,12 @@ public class CompetitionPageActivity
 	
 	private void setCompetition() 
 	{
-		competitions = ContentManager.sharedInstance().getFromCacheAllCompetitions(false);
-		
-		this.competition = competitions.get(competitionPosition);
+		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 		
 		ContentManager.sharedInstance().setSelectedCompetition(competition);
 	}
 	
-	
-	
-	private void initView() {
-		setContentView(R.layout.fragment_competition_events_page);
-		
-		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
-		
-		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
-		
-		selectedTabIndex = STARTING_TAB_INDEX;
-	}
-	
-	
-	
+
 	
 	@Override
 	public void onPause()
@@ -130,14 +112,17 @@ public class CompetitionPageActivity
 	}
 	
 	
+	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 		
 		if(!SecondScreenApplication.isAppRestarting()) 
 		{
-			setAdapter(selectedTabIndex);
 			initLayout();
+			
+			setAdapter(selectedTabIndex);
 		}
 		
 		setTabViews();
@@ -269,38 +254,56 @@ public class CompetitionPageActivity
 			
 			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 			
+			if(team1 != null)
+			{
+				boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
+				
+				if(isLocalFlagDrawableResourceAvailableForTeam1)
+				{
+					team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+				}
+				else
+				{
+					Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
+					
+					ImageAware imageAware = new ImageViewAware(team1Flag, false);
+					
+					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
+				}
+			}
+			else
+			{
+				Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+			}
+			
 			long team2ID = event.getAwayTeamId();
 			
 			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-			
-			boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
-			
-			if(isLocalFlagDrawableResourceAvailableForTeam1)
+
+			if(team2 != null)
 			{
-				team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
+				boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
+				
+				if(isLocalFlagDrawableResourceAvailableForTeam2)
+				{
+					team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
+				}
+				else
+				{
+					Log.w(TAG, "Local flag for team: " + team2.getNationCode() + " not found in cache");
+					
+					ImageAware imageAware = new ImageViewAware(team2Flag, false);
+					
+					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+				}
 			}
 			else
 			{
-				ImageAware imageAware = new ImageViewAware(team1Flag, false);
-				
-				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
-			}
-			
-			boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
-			
-			if(isLocalFlagDrawableResourceAvailableForTeam2)
-			{
-				team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
-			}
-			else
-			{
-				ImageAware imageAware = new ImageViewAware(team2Flag, false);
-				
-				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
+				Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
 			}
 		}
 		
@@ -389,6 +392,14 @@ public class CompetitionPageActivity
 		team1Flag = (ImageView) findViewById(R.id.competition_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
+		
+		setContentView(R.layout.fragment_competition_events_page);
+		
+		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
+		
+		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
+		
+		selectedTabIndex = STARTING_TAB_INDEX;
 	}
 	
 	
@@ -424,7 +435,7 @@ public class CompetitionPageActivity
 
 
 	@Override
-	protected void loadData() 
+	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
@@ -444,7 +455,8 @@ public class CompetitionPageActivity
 
 
 	@Override
-	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
 		if(fetchRequestResult.wasSuccessful())
 		{
 			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
@@ -462,8 +474,6 @@ public class CompetitionPageActivity
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
-		}
-		
+		}	
 	}
-
 }

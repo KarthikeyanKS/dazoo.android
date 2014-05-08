@@ -32,7 +32,7 @@ public class EventTabFragmentStatePagerAdapter
 	
 	private static final int GROUP_STAGE_POSITION = 0;
 	private static final int SECOND_STAGE_POSITION = 1;
-	private static final int TEAM_POSITION = 2;
+	private static final int TEAM_STANDINGS_POSITION = 2;
 	
 	
 	public EventTabFragmentStatePagerAdapter(final FragmentManager fm) 
@@ -45,7 +45,7 @@ public class EventTabFragmentStatePagerAdapter
 		
 		tabs.add(context.getString(R.string.event_page_tab_group_stage));
 		tabs.add(context.getString(R.string.event_page_tab_second_stage));
-		tabs.add(context.getString(R.string.event_page_tab_teams));
+		//tabs.add(context.getString(R.string.event_page_tab_teams));
 	}
 	
 	
@@ -74,7 +74,7 @@ public class EventTabFragmentStatePagerAdapter
 				break;
 			}
 			
-			case TEAM_POSITION:
+			case TEAM_STANDINGS_POSITION:
 			{
 				fragment = new EventTabFragmentTeamStandings(tab, tab, EventTabTypeEnum.TEAM_STANDINGS);
 				break;

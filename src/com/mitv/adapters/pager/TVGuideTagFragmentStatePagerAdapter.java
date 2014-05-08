@@ -15,6 +15,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.fragments.TVGuideTabFragmentAllPrograms;
 import com.mitv.fragments.TVGuideTabFragmentBroadcast;
 import com.mitv.fragments.TVGuideTabFragmentCompetition;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 
@@ -28,20 +29,16 @@ public class TVGuideTagFragmentStatePagerAdapter
 	
 	
 	private List<TVTag> tvTags;
-	private List<Competition> competitions;
-	private Competition competition;
 
 	
 	
 	public TVGuideTagFragmentStatePagerAdapter(
 			final FragmentManager fm, 
-			final List<TVTag> tags, 
-			final List<Competition> competitions) 
+			final List<TVTag> tags) 
 	{
 		super(fm);
 		
 		this.tvTags = tags;
-		this.competitions = competitions;
 	}
 	
 	
@@ -60,19 +57,22 @@ public class TVGuideTagFragmentStatePagerAdapter
 			
 			fragment = new TVGuideTabFragmentAllPrograms(tvTag);
 		}
-		else if(realPosition < tvTags.size())
+		else
 		{
 			TVTag tvTag = tvTags.get(realPosition);
 			
-			fragment = new TVGuideTabFragmentBroadcast(tvTag);
-		}
-		else
-		{
-			int competitionPosition = (realPosition-tvTags.size());
+			List<Competition> competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
 			
-			competition = competitions.get(competitionPosition);
+			Competition competition = tvTag.getMatchingCompetition(competitions);
 			
-			fragment = new TVGuideTabFragmentCompetition(competition, competitionPosition);
+			if(competition == null)
+			{
+				fragment = new TVGuideTabFragmentBroadcast(tvTag);
+			}
+			else
+			{
+				fragment = new TVGuideTabFragmentCompetition(competition);
+			}
 		}
 		
 		return fragment;
@@ -89,20 +89,9 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{	
 			int realPosition = position % getCount();
 			
-			if(realPosition >= 0 && realPosition < tvTags.size())
-			{
-				TVTag tvTag = tvTags.get(realPosition);
+			TVTag tvTag = tvTags.get(realPosition);
 				
-				displayName = tvTag.getDisplayName();
-			}
-			else
-			{
-				int competitionPosition = (realPosition-tvTags.size());
-				
-				competition = competitions.get(competitionPosition);
-				
-				displayName = competition.getDisplayName();
-			}
+			displayName = tvTag.getDisplayName();
 		}
 		else
 		{
@@ -119,14 +108,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 	{
 		if (tvTags != null) 
 		{
-			if(competitions != null)
-			{
-				return tvTags.size() + competitions.size();
-			}
-			else
-			{
-				return tvTags.size();
-			}
+			return tvTags.size();
 		}
 		else 
 		{

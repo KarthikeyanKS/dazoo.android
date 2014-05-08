@@ -8,7 +8,7 @@ import com.mitv.models.gson.mitvapi.ImageSetSizeJSON;
 
 public class CompetitionJSON 
 {
-	protected String competitionId;
+	protected long competitionId;
 	protected String displayName;
 	protected String startDate;
 	protected String endDate;
@@ -22,7 +22,7 @@ public class CompetitionJSON
 
 
 
-	public String getCompetitionId() 
+	public long getCompetitionId() 
 	{
 		return competitionId;
 	}
