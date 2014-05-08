@@ -309,7 +309,7 @@ public abstract class BannerListAdapter<T>
 					{
 						Intent intent = new Intent(activity, CompetitionPageActivity.class);
 		                
-		                intent.putExtra(Constants.COMPETITION_TAG_INTENT_EXTRA_ID, competition.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 		                
 						activity.startActivity(intent);
 					}
