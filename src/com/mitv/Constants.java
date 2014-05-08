@@ -481,7 +481,9 @@ public abstract class Constants
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
-		
+	public static final String FIFA_TAG_ID = "FIFA";
+	public static final long FIFA_COMPETITION_ID = 17694;
+	
 	/* Ad mob stuff */
 	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
 	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";

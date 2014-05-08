@@ -93,7 +93,7 @@ public class CompetitionPageActivity
 	
 	private void setCompetition() 
 	{
-		this.competition = ContentManager.sharedInstance().getCompetitionByID(competitionID);
+		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 		
 		ContentManager.sharedInstance().setSelectedCompetition(competition);
 	}
@@ -435,7 +435,7 @@ public class CompetitionPageActivity
 
 
 	@Override
-	protected void loadData() 
+	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
@@ -474,8 +474,6 @@ public class CompetitionPageActivity
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
-		}
-		
+		}	
 	}
-
 }

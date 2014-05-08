@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,10 +21,8 @@ import com.mitv.enums.TVGuideTabTypeEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
-import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
-import com.mitv.utilities.GenericUtils;
 
 
 
@@ -33,11 +30,11 @@ public class TVGuideTabFragmentCompetition
 	extends TVGuideTabFragment
 	implements OnPageChangeListener
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTabFragmentCompetition.class.getName();
 	
 	
 	private Competition competition;
-	private Event event;
 	
 	private EventCountDownTimer eventCountDownTimer;
 	
@@ -73,16 +70,15 @@ public class TVGuideTabFragmentCompetition
 
 		super.initRequestCallbackLayouts(rootView);
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
 		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_learn_more_button_container);
 		
-        learnMoreButton.setOnClickListener(new View.OnClickListener() {
-        	
-            public void onClick(View v) {
+        learnMoreButton.setOnClickListener(new View.OnClickListener() 
+        {	
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
                 intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
@@ -90,7 +86,6 @@ public class TVGuideTabFragmentCompetition
                 activity.startActivity(intent);
             }
         });
-        
         
         initView();
 		
@@ -115,15 +110,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.LOADING);
-
-		String loadingMessage = String.format(GenericUtils.getCurrentLocale(activity), "%s %s", getString(R.string.loading_message_tag), getTabTitle());
-		
-		setLoadingLayoutDetailsMessage(loadingMessage);
-		
-		long competitionID = competition.getCompetitionId();
-		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	}
 	
 	
@@ -141,23 +128,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if(fetchRequestResult.wasSuccessful())
-		{
-			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
-
-			if(event == null)
-			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-			} 
-			else
-			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-			}
-		}
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		// Do nothing
 	}
 	
 	
@@ -171,6 +142,7 @@ public class TVGuideTabFragmentCompetition
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
+				setData();
 				break;
 			}
 			
@@ -185,7 +157,7 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	@Override
-	public void onTimeChange(int hour) {}
+	public void onTimeChange(int hour){}
 	
 	
 	
@@ -218,31 +190,30 @@ public class TVGuideTabFragmentCompetition
 		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_tab_time_left_days);
 		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_tab_time_left_hours);
-		remainingTimeInMinutes = (TextView) rootView.findViewById(R.id.competition_tab_time_left_minutes);
-		
-		if (event != null) 
-		{
-			String competitionName = competition.getDisplayName();
-			
-			if (competition.hasBegun())
-			{
-				countDownAreaContainer.setVisibility(View.GONE);
-			}
-			else
-			{
-				countDownAreaContainer.setVisibility(View.VISIBLE);
-				
-				long eventStartTimeInMiliseconds = event.getEventDateCalendarLocal().getTimeInMillis();
-				
-				long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
-				
-				eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
-				
-				
-				
-				eventCountDownTimer.start();
-			}
-		}
+		remainingTimeInMinutes = (TextView) rootView.findViewById(R.id.competition_tab_time_left_minutes);	
 	}
 	
+	
+	
+	private void setData()
+	{
+		if (competition.hasBegun())
+		{
+			countDownAreaContainer.setVisibility(View.GONE);
+		}
+		else
+		{
+			countDownAreaContainer.setVisibility(View.VISIBLE);
+		
+			String competitionName = competition.getDisplayName();
+			
+			long eventStartTimeInMiliseconds = competition.getBeginTimeCalendarLocal().getTimeInMillis();
+				
+			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+
+			eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
+				
+			eventCountDownTimer.start();
+		}
+	}
 }

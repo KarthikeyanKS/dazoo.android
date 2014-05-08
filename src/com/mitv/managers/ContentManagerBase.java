@@ -1140,7 +1140,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public Competition getCompetitionByID(long competitionID)
+	public Competition getFromCacheCompetitionByID(long competitionID)
 	{
 		return getCache().getCompetitionsData().getSelectedCompetitionByID(competitionID);
 	}

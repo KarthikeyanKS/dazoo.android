@@ -10,6 +10,7 @@ import android.content.Context;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.TVTagJSON;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.orm.TVTagORM;
@@ -49,13 +50,9 @@ public class TVTag
 	{
 		Competition matchingCompetition = null;
 		
-		for(Competition competition : competitions)
+		if(id.equalsIgnoreCase(Constants.FIFA_TAG_ID))
 		{
-			if(id.equalsIgnoreCase("FIFA"))
-			{
-				matchingCompetition = competition;
-				break;
-			}
+			matchingCompetition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
 		}
 		
 		return matchingCompetition;
