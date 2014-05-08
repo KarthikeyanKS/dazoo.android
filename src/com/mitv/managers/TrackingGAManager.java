@@ -37,14 +37,21 @@ public class TrackingGAManager
 	private Tracker tracker;
 	private Context context;
 
-	public TrackingGAManager(final Context context) {
+	
+	
+	public TrackingGAManager(final Context context) 
+	{
 		this.context = context;
 
 		updateConfiguration();
 	}
 
-	public static TrackingGAManager sharedInstance() {
-		if (instance == null) {
+	
+	
+	public static TrackingGAManager sharedInstance() 
+	{
+		if (instance == null) 
+		{
 			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 
 			instance = new TrackingGAManager(context);
@@ -54,11 +61,13 @@ public class TrackingGAManager
 	}
 
 	
+	
 	public Tracker getTrackerInstance() 
 	{
 		return tracker;
 	}
 
+	
 	
 	public static Tracker getTracker() 
 	{
@@ -75,6 +84,7 @@ public class TrackingGAManager
 	}
 
 	
+	
 	public void updateConfiguration() 
 	{
 		GoogleAnalytics googleAnalyticsInstance = getGoogleAnalyticsInstance();
@@ -87,8 +97,10 @@ public class TrackingGAManager
 
 		boolean forceDefaultGATrackingID = Constants.FORCE_DEFAULT_GOOGLE_TRACKING_ID;
 
-		if (cacheHasAppConfiguration && !forceDefaultGATrackingID) {
+		if (cacheHasAppConfiguration && !forceDefaultGATrackingID) 
+		{
 			String trackingId = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsTrackingId();
+			
 			this.tracker.set("&tid", trackingId);
 		}
 
@@ -454,7 +466,14 @@ public class TrackingGAManager
 	private void sendUserEventWithLabelAndValue(String action, String label, long value) {
 		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label, value);
 	}
+	
+	
+	public void sendInternalSpeedMeasureEventWithLabelAndValue(String action, String label, long value) 
+	{
+		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_INTERNAL_SPEED_MEASUARE_EVENT, action, label, value);
+	} 
 
+	
 	private void sendEventWithLabel(String category, String action, String label) {
 		sendEventBase(category, action, true, label, false, 0);
 	}

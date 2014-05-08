@@ -32,7 +32,7 @@ public class PerformUserPasswordResetConfirmation
 			String newPassword,
 			String resetPasswordToken) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false);
 		
 		UserPasswordResetConfirmationData postData = new UserPasswordResetConfirmationData();
 		postData.setEmail(email);

@@ -44,7 +44,7 @@ public class PerformUserLoginWithCredentials
 			UserLoginDataPost userLoginDataPost,
 			boolean usingHashedPassword) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword), false);
 		
 		this.bodyContentData = gson.toJson(userLoginDataPost);
 		

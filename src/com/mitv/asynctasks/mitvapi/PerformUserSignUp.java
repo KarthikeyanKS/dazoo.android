@@ -44,7 +44,7 @@ public class PerformUserSignUp
 			UserRegistrationData userRegistrationData,
 			boolean usingHashedPassword)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword), false);
 		
 		this.bodyContentData = gson.toJson(userRegistrationData);
 		

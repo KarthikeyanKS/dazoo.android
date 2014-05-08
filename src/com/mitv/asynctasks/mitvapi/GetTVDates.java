@@ -14,6 +14,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 
 
@@ -30,12 +31,15 @@ public class GetTVDates
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_DATE, TVDate[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_DATE, TVDate[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, true);
 	}
+	
 	
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		
 		super.doInBackground(params);
 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
@@ -52,6 +56,20 @@ public class GetTVDates
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
 
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		
 		return null;
+	}
+	
+	
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		
+		super.onPostExecute(result);
+		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 	}
 }

@@ -27,10 +27,10 @@ public abstract class Constants
 		
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME = "59b039d2c0c0a7fbe173";
@@ -50,7 +50,7 @@ public abstract class Constants
 	public static final boolean ENABLE_RATE_APP_DIALOG = false;
 	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
-	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
+	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
@@ -266,6 +266,7 @@ public abstract class Constants
 	/* Category keys */
 	public static final String GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT					= "SystemEvent";
 	public static final String GA_EVENT_CATEGORY_KEY_USER_EVENT						= "UserEvent";
+	public static final String GA_EVENT_CATEGORY_KEY_INTERNAL_SPEED_MEASUARE_EVENT  = "InternalSpeedMeasureEvent";
 	
 	/* Action keys */
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS				= "APP_WAS_PREINSTALLED_SHARED_PREFS";
@@ -439,8 +440,7 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */
-	public static final String DISQUS_COMMENTS_DOMAIN = HTTP_SCHEME_USED + BACKEND_ENVIRONMENT_USED;
-	public static final String DISQUS_COMMENTS_PAGE_URL = DISQUS_COMMENTS_DOMAIN + "/test/index.htm";
+	public static final String DISQUS_COMMENTS_PAGE_URL = URL_FRONTEND_ENVIRONMENT + "/test/index.htm";
 	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE = "title";
 	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER = "identifier";
 	public static final String DISQUS_COMMENTS_PARAMETER_CONTENT_LANGUAGE = "language";

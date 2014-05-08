@@ -3,8 +3,14 @@ package com.mitv.managers;
 
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
+import android.util.Log;
+
 import com.mitv.Constants;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -16,6 +22,7 @@ public class TrackingManager
 	
 	private static TrackingManager instance;
 
+	private static Map<String, Long> measureEventStartTimes;
 	
 	
 	
@@ -28,6 +35,8 @@ public class TrackingManager
 		if (instance == null) 
 		{
 			instance = new TrackingManager();
+			
+			measureEventStartTimes = new HashMap<String, Long>();
 		}
 
 		return instance;
@@ -128,5 +137,195 @@ public class TrackingManager
 		{
 			TrackingAIManager.sharedInstance().sendUserTutorialExitEvent(page);
 		}
+	}
+	
+	
+	private void clearEventStartValues()
+	{
+		measureEventStartTimes.clear();
+	}
+	
+	
+	
+	private void setStartValue(String eventName)
+	{
+		Long now = new Long(DateUtils.getNow().getTimeInMillis());
+		
+		measureEventStartTimes.put(eventName, now);
+	}
+	
+	
+	
+	private long calculateValueSincePrevious(String previousEventName)
+	{
+		Long now = new Long(DateUtils.getNow().getTimeInMillis());
+		
+		Long startTime = measureEventStartTimes.get(previousEventName);
+		
+		long duration;
+		
+		if(startTime == null)	
+		{
+			duration = 0;
+		}
+		else
+		{
+			duration = now.longValue() - startTime.longValue();
+		}
+		
+		return duration;
+	}
+	
+	
+	public void sendTestMeasureInitialLoadingScreenStarted(String className)
+	{
+		clearEventStartValues();
+		
+		setStartValue(className);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "START", 0);
+	}
+	
+	
+	
+	public void sendTestMeasureInitialLoadingScreenOnResultReached(String className)
+	{
+		long duration = calculateValueSincePrevious(className);
+		
+		Log.d(TAG, "Duration for " + "SPLASH_SCREEN_ON_RESULT_REACHED" + " is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ON_RESULT_REACHED", duration);
+	}
+	
+	
+	
+	
+	public void sendTestMeasureInitialLoadingScreenEnded(String className)
+	{
+		long duration = calculateValueSincePrevious(className);
+		
+		Log.d(TAG, "Duration for " + "SPLASH_SCREEN_END" + " end is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "END", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskBackgroundStart(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "DoInBackground";
+		
+		setStartValue(measureEventName);
+		
+		String previousEventName = "SplashScreenActivity";
+		
+		long duration = calculateValueSincePrevious(previousEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_START", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskBackgroundEnd(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "DoInBackground";
+		
+		long duration = calculateValueSincePrevious(measureEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_END", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskPostExecutionStart(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "PostExecute";
+		
+		setStartValue(measureEventName);
+		
+		String previousEventName =  className + "AsyncTask" + "DoInBackground";
+		
+		long duration = calculateValueSincePrevious(previousEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_POST_EXECUTE_START", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskPostExecutionEnd(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "PostExecute";
+		
+		long duration = calculateValueSincePrevious(measureEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_POST_EXECUTE_END", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskBackgroundNetworkRequestStart(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "Network";
+		
+		setStartValue(measureEventName);
+		
+		String previousEventName = className + "AsyncTask" + "DoInBackground";
+		
+		long duration = calculateValueSincePrevious(previousEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_NETWORK_REQUEST_START", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "Network";
+		
+		long duration = calculateValueSincePrevious(measureEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_NETWORK_REQUEST_END", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskBackgroundJSONParsingStart(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "JSON";
+		
+		setStartValue(measureEventName);
+		
+		String previousEventName = className + "AsyncTask" + "DoInBackground";
+		
+		long duration = calculateValueSincePrevious(previousEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_JSON_PARSING_START", duration);
+	}
+	
+	
+	
+	public void sendTestMeasureAsycTaskBackgroundJSONParsingEnd(String className)
+	{
+		String measureEventName = className + "AsyncTask" + "JSON";
+		
+		long duration = calculateValueSincePrevious(measureEventName);
+		
+		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_JSON_PARSING_END", duration);
 	}
 }
