@@ -79,7 +79,7 @@ public abstract class TVGuideTabFragment
 			
 			Integer selectedHourFromCache = ContentManager.sharedInstance().getFromCacheSelectedHour();
 
-			if (isToday) 
+			if (isToday)
 			{
 				/* If today, default to currentHour */
 				selectedHour = currentHour;

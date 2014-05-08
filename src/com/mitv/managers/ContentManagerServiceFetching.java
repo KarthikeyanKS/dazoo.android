@@ -509,7 +509,7 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
-	public void getElseFetchFromServiceCompetitionInitialData(ViewCallbackListener activityCallbackListener, boolean forceDownload, String competitionID)
+	public void getElseFetchFromServiceCompetitionInitialData(ViewCallbackListener activityCallbackListener, boolean forceDownload, long competitionID)
 	{
 		if (!forceDownload && getFromCacheHasCompetitionData(competitionID)) 
 		{

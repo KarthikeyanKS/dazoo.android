@@ -27,7 +27,7 @@ public class GetEvents
 	
 	
 	private static String buildURL(
-			final String competitionID,
+			final long competitionID,
 			final String teamID,
 			final String phaseID)
 	{
@@ -35,15 +35,8 @@ public class GetEvents
 		url.append(Constants.URL_COMPETITIONS);
 		
 		
-		if(competitionID != null)
-		{
-			url.append(Constants.FORWARD_SLASH);
-			url.append(competitionID);
-		}
-		else
-		{
-			Log.w(TAG, "Competition ID is null");
-		}
+		url.append(Constants.FORWARD_SLASH);
+		url.append(competitionID);
 		
 		if(teamID != null)
 		{
@@ -68,7 +61,7 @@ public class GetEvents
 	public GetEvents(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final String competitionID,
+			final long competitionID,
 			final String teamID,
 			final String phaseID)
 	{
@@ -80,7 +73,7 @@ public class GetEvents
 	public GetEvents(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final String competitionID,
+			final long competitionID,
 			final String teamID,
 			final String phaseID,
 			final boolean useOnlyOngoing,

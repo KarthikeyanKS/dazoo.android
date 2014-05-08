@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -40,8 +41,6 @@ public class TVGuideTabFragmentCompetition
 	
 	private EventCountDownTimer eventCountDownTimer;
 	
-	private int competitionPosition;
-	
 	private RelativeLayout countDownAreaContainer;
 	private RelativeLayout countDownAreaDays;
 	private RelativeLayout countDownAreaHours;
@@ -60,13 +59,11 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	
-	public TVGuideTabFragmentCompetition(Competition competition, int competitionPosition)
+	public TVGuideTabFragmentCompetition(Competition competition)
 	{
-		super(competition.getCompetitionId(), competition.getDisplayName(), TVGuideTabTypeEnum.COMPETITION);
+		super(new Long(competition.getCompetitionId()).toString(), competition.getDisplayName(), TVGuideTabTypeEnum.COMPETITION);
 
 		this.competition = competition;
-		
-		this.competitionPosition = competitionPosition;
 	}
 	
 	
@@ -85,12 +82,13 @@ public class TVGuideTabFragmentCompetition
 		
 		Button button = (Button) rootView.findViewById(R.id.competition_button);
 		
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        button.setOnClickListener(new View.OnClickListener() 
+        {
+            public void onClick(View v) 
+            {
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
-                intent.putExtra("fifa", competitionPosition);
-                intent.putExtra("competitionID", competition.getCompetitionId());
+                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
                 
                 startActivity(intent);
             }
@@ -125,7 +123,7 @@ public class TVGuideTabFragmentCompetition
 		
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		
-		String competitionID = competition.getCompetitionId();
+		long competitionID = competition.getCompetitionId();
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
 	}
@@ -135,7 +133,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		String competitionID = competition.getCompetitionId();
+		long competitionID = competition.getCompetitionId();
 		
 		return ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
 	}

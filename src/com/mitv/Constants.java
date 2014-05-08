@@ -51,7 +51,6 @@ public abstract class Constants
 	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
-	public static final boolean FORCE_DISABLE_COMPETITIONS = false;
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	
@@ -486,4 +485,7 @@ public abstract class Constants
 	/* Ad mob stuff */
 	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
 	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";
+	
+	
+	public static final String INTENT_COMPETITION_ID = "competitionID";
 }
