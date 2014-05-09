@@ -292,6 +292,14 @@ public class Cache
 			{
 				if(!channelIdsFromChannelGuides.contains(tvChannelId)) 
 				{
+					/* TODO
+					 * 
+					 * WARNING WARNING WARNING
+					 * 
+					 * If tvChannelId is not in channelIdsFromChannelGuides WE WILL RESTART FOREVER!!!
+					 * We need to make sure from BE that user channel ids exists
+					 * */
+					
 					containsTVGuideForTVDate = false;
 					break;
 				}
