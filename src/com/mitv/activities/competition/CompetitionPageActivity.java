@@ -10,11 +10,17 @@ import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -67,7 +73,7 @@ public class CompetitionPageActivity
 //	private int selectedTabIndex;
 
 	/* fake tab */
-	private ListView listView;
+	private LinearLayout listView;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	private TextView remainingTimeInDays;
@@ -109,7 +115,6 @@ public class CompetitionPageActivity
 		ContentManager.sharedInstance().setSelectedCompetition(competition);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_EVENTS);
 		
 		initLayout();
 		
@@ -135,11 +140,6 @@ public class CompetitionPageActivity
 	protected void onResume() 
 	{
 		super.onResume();
-		
-		if(!SecondScreenApplication.isAppRestarting()) 
-		{}
-		
-		setTabViews();
 	}
 	
 	
@@ -489,15 +489,26 @@ public class CompetitionPageActivity
 	
 	
 	private void setListView() {
-		listView = (ListView) findViewById(R.id.competition_fake_table_listview);
+		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
 		
 		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 
 		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
 		
-		listView.setAdapter(listAdapter);
-
-		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            
+            if (listItem != null) {
+                listView.addView(listItem);
+            }
+        }
+		
+		/* Only use this if not use the for-loop above */
+//		listView.setAdapter(listAdapter);
+		
+		/* This class is not in use right now
+		 * TODO Remove if Erik thinks the loading time right now is OK */
+//		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
 	}
 
 

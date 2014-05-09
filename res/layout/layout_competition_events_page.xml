@@ -9,7 +9,6 @@
     android:orientation="vertical" >
 
     <ScrollView
-        android:id="@+id/teeeest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
@@ -43,7 +42,7 @@
                 android:textColor="@color/black"
                 font:fonttextview="roboto_mitv_bold.ttf" />
 
-            <ListView
+            <LinearLayout
                 android:id="@+id/competition_fake_table_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
