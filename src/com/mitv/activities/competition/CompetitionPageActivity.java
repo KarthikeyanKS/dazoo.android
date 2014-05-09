@@ -391,7 +391,6 @@ public class CompetitionPageActivity
 		
 		actionBar.setTitle(competitionName);
 		
-		scrollView = (ScrollView) findViewById(R.id.teeeest);
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
 		remainingTimeInDaysTitle = (TextView) findViewById(R.id.competition_days_title);

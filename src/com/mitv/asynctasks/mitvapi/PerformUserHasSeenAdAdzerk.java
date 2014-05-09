@@ -19,6 +19,6 @@ public class PerformUserHasSeenAdAdzerk
 			ViewCallbackListener activityCallbackListener,
 			String url) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.ADS_ADZERK_SEEN, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, url);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.ADS_ADZERK_SEEN, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, url, false);
 	}
 }

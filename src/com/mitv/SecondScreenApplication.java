@@ -303,6 +303,7 @@ public class SecondScreenApplication
 	}
 	
 	
+	
 	/**
 	 * This method checks if user has seen the tutorial or
 	 * if the user has seen the tutorial && not opened the

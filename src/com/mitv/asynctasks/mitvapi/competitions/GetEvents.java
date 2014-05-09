@@ -82,7 +82,7 @@ public class GetEvents
 			final boolean useBroadcastBeginTimeBefore,
 			final String broadcastBeginTimeBefore)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENTS, Event[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENTS, Event[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID), false);
 		
 		if(useOnlyOngoing)
 		{

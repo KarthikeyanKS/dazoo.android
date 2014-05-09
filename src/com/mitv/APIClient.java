@@ -418,7 +418,7 @@ public class APIClient
 	
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
-	public void addUserLike(ViewCallbackListener activityCallbackListener, UserLike userLike) 
+	public void addUserLike(ViewCallbackListener activityCallbackListener, UserLike userLike)
 	{
 		AddUserLike task = new AddUserLike(contentCallbackListener, activityCallbackListener, userLike);
 		task.execute();

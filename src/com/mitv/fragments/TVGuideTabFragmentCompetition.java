@@ -82,7 +82,7 @@ public class TVGuideTabFragmentCompetition
 		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
 		
         learnMoreButton.setOnClickListener(new View.OnClickListener() 
-        {	
+        {
             public void onClick(View v)
             {
             	TrackingManager.sharedInstance().sendUserCompetitionTabCalendarPressed(competition.getDisplayName());

@@ -47,7 +47,7 @@ public class GetTeams
 			final ViewCallbackListener activityCallbackListener,
 			final long competitionID)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAMS, Team[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAMS, Team[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false);
 	}
 	
 	

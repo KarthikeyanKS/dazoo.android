@@ -15,6 +15,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.TrackingManager;
 
 
 
@@ -45,6 +46,8 @@ public class SNTPAsyncTask
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		
         SNTPClient client = new SNTPClient();
         
         boolean success = client.requestTime(Constants.HOST_FOR_NTP_CHECK, Constants.HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK);
@@ -77,6 +80,8 @@ public class SNTPAsyncTask
 		
         requestResultObjectContent = calendarInstance;
         
+        TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+        
 		return null;
 	}
 	
@@ -84,6 +89,8 @@ public class SNTPAsyncTask
 	@Override
 	protected void onPostExecute(Void result)
 	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		
 		if(contentCallbackListener != null)
 		{
 			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.SNTP_CALL, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
@@ -92,5 +99,7 @@ public class SNTPAsyncTask
 		{
 			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
 		}
+		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 	}
 }

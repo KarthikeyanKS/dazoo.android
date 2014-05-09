@@ -56,6 +56,6 @@ public class GetPhaseByID
 			final long competitionID,
 			final String phaseID)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASE_BY_ID, Phase.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, phaseID));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASE_BY_ID, Phase.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, phaseID), false);
 	}
 }
