@@ -52,7 +52,7 @@ public class GetStandings
 			final ViewCallbackListener activityCallbackListener,
 			final String phaseID)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID, Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID, Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID), false);
 	}
 	
 	

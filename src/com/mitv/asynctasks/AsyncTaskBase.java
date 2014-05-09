@@ -213,7 +213,7 @@ public abstract class AsyncTaskBase<T>
 		}
 		
 		response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
-	{	
+	
 		if(Constants.FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE)
 		{
 			String responseString = FileUtils.getMockJSONString(getClass().getSimpleName());

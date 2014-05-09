@@ -34,7 +34,7 @@ public class GetCompetitions
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITIONS_ALL, Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITIONS_ALL, Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true);
 	}
 	
 	

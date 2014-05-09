@@ -65,6 +65,6 @@ public class GetTeamDetails
 			final String competitionID,
 			final String teamID)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_DETAILS, TeamDetails.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_DETAILS, TeamDetails.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID), false);
 	}
 }

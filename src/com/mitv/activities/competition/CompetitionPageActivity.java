@@ -142,7 +142,7 @@ public class CompetitionPageActivity
 		setTabViews();
 	}
 	
-	private ScrollView scrollView;
+	
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
@@ -392,8 +392,6 @@ public class CompetitionPageActivity
 		
 		actionBar.setTitle(competitionName);
 		
-
-		scrollView = (ScrollView) findViewById(R.id.teeeest);
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
 		remainingTimeInDaysTitle = (TextView) findViewById(R.id.competition_days_title);

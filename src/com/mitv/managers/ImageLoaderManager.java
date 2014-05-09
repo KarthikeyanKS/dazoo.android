@@ -150,6 +150,15 @@ public class ImageLoaderManager
 	
 	
 	
+	public void displayImageWithOptionsForTVGuideImages(String url, ImageAware imageAware)
+	{
+		DisplayImageOptions displayImageOptions = getDisplayImageDefaultOptions();
+		
+		imageLoader.displayImage(url, imageAware, displayImageOptions);
+	}
+	
+	
+	
 	public void displayImageWithCompetitionOptions(String url, ImageAware imageAware)
 	{
 		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitions();
