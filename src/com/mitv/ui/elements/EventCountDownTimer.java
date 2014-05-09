@@ -6,6 +6,7 @@ package com.mitv.ui.elements;
 import java.text.NumberFormat;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import com.mitv.utilities.DateUtils;
 
@@ -24,6 +25,10 @@ public class EventCountDownTimer
 	private TextView hoursTextView;
 	private TextView minutesTextView;
 	
+	private TextView daysTitleTextView;
+	private TextView hoursTitleTextView;
+	private TextView minutesTitleTextView;
+	
 	
 	
 	public EventCountDownTimer(
@@ -31,10 +36,14 @@ public class EventCountDownTimer
 			final long millisecondsUntilEventStart,
 			final TextView daysTextView,
 			final TextView hoursTextView,
-			final TextView minutesTextView)
+			final TextView minutesTextView,
+			final TextView remainingTimeInDaysTitle,
+			final TextView remainingTimeInHoursTitle,
+			final TextView remainingTimeInMinutesTitle)
 	{
-		this(eventName, millisecondsUntilEventStart, DEFAULT_COUNTDOWN_INTERVAL, daysTextView, hoursTextView, minutesTextView);
+		this(eventName, millisecondsUntilEventStart, DEFAULT_COUNTDOWN_INTERVAL, daysTextView, hoursTextView, minutesTextView, remainingTimeInDaysTitle, remainingTimeInHoursTitle, remainingTimeInMinutesTitle);
 	}
+	
 	
 	
 	public EventCountDownTimer(
@@ -43,7 +52,10 @@ public class EventCountDownTimer
 			final long countDownInterval,
 			final TextView daysTextView,
 			final TextView hoursTextView,
-			final TextView minutesTextView)
+			final TextView minutesTextView,
+			final TextView remainingTimeInDaysTitle,
+			final TextView remainingTimeInHoursTitle,
+			final TextView remainingTimeInMinutesTitle)
 	{
 		super(millisInFuture, countDownInterval);
 		
@@ -52,6 +64,10 @@ public class EventCountDownTimer
 		this.daysTextView = daysTextView;
 		this.hoursTextView = hoursTextView;
 		this.minutesTextView = minutesTextView;
+		
+		this.daysTitleTextView = remainingTimeInDaysTitle;
+		this.hoursTitleTextView = remainingTimeInHoursTitle;
+		this.minutesTitleTextView = remainingTimeInMinutesTitle;
 	}
 	
 	
@@ -74,7 +90,7 @@ public class EventCountDownTimer
 		StringBuilder hoursLeftSB = new StringBuilder();
 		hoursLeftSB.append(nf.format(hoursLeft));
 		
-		long totalMinutesLeftInMilliseconds = millisUntilFinished - (hoursLeft*DateUtils.TOTAL_MILLISECONDS_IN_ONE_HOUR);
+		long totalMinutesLeftInMilliseconds = totalHoursLeftInMilliseconds - (hoursLeft*DateUtils.TOTAL_MILLISECONDS_IN_ONE_HOUR);
 		int minutesLeft = (int) (totalMinutesLeftInMilliseconds / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE); 
 		
 		StringBuilder minutesLeftSB = new StringBuilder();
@@ -92,9 +108,13 @@ public class EventCountDownTimer
     {
     	Log.d(TAG, "Event " + eventName + " is now starting.");
     	
-    	daysTextView.setText("00");
-		hoursTextView.setText("00");
-		minutesTextView.setText("00");
+    	daysTextView.setVisibility(View.GONE);
+		hoursTextView.setVisibility(View.GONE);
+		minutesTextView.setVisibility(View.GONE);
+		
+		daysTitleTextView.setVisibility(View.GONE);
+		hoursTitleTextView.setVisibility(View.GONE);
+		minutesTitleTextView.setVisibility(View.GONE);
     }
 	
 	

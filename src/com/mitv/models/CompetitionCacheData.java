@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mitv.Constants;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -25,6 +26,23 @@ public class CompetitionCacheData
 	private List<Event> events;
 	private Map<Long, List<Standings>> standingsByPhase;
 	
+	private Map<Long, List<Event>> eventsGroupedByFirstPhase;
+	private Map<Long, List<Event>> eventsGroupedBySecondPhase;
+	
+	
+	
+	public Map<Long, List<Event>> getEventsForFirstStages()
+	{
+		return eventsGroupedByFirstPhase;
+	}
+	
+	
+	
+	public Map<Long, List<Event>> getEventsForSecondStages()
+	{
+		return eventsGroupedBySecondPhase;
+	}
+	
 	
 	
 	public CompetitionCacheData()
@@ -38,6 +56,10 @@ public class CompetitionCacheData
 		this.events = new ArrayList<Event>();
 		
 		this.standingsByPhase = new HashMap<Long, List<Standings>>();
+		
+		this.eventsGroupedByFirstPhase = new HashMap<Long, List<Event>>();
+		
+		this.eventsGroupedBySecondPhase = new HashMap<Long, List<Event>>();
 	}
 	
 	
@@ -53,6 +75,63 @@ public class CompetitionCacheData
 		this.events = new ArrayList<Event>();
 		
 		this.standingsByPhase = new HashMap<Long, List<Standings>>();
+		
+		this.eventsGroupedByFirstPhase = new HashMap<Long, List<Event>>();
+		
+		this.eventsGroupedBySecondPhase = new HashMap<Long, List<Event>>();
+	}
+	
+	
+	
+	public void setEventsGroupedByFirstStage()
+	{
+		for(Phase phase : phases)
+		{
+			boolean isGroupStage = phase.getStage().equals(Constants.GROUP_STAGE);
+	
+			if(isGroupStage)
+			{
+				List<Event> eventsForPhase = new ArrayList<Event>();
+				
+				for(Event event : events)
+				{
+					boolean matchesPhaseId = (event.getPhaseId() == phase.getPhaseId());
+					
+					if(matchesPhaseId)
+					{
+						eventsForPhase.add(event);
+					}
+				}
+				
+				eventsGroupedByFirstPhase.put(phase.getPhaseId(), eventsForPhase);
+			}
+		}
+	}
+	
+	
+	public void setEventsGroupedBySecondStage()
+	{
+		for(Phase phase : phases)
+		{
+			boolean isGroupStage = (phase.getStage().equals(Constants.GROUP_STAGE) == false);
+	
+			if(isGroupStage)
+			{
+				List<Event> eventsForPhase = new ArrayList<Event>();
+				
+				for(Event event : events)
+				{
+					boolean matchesPhaseId = (event.getPhaseId() == phase.getPhaseId());
+					
+					if(matchesPhaseId)
+					{
+						eventsForPhase.add(event);
+					}
+				}
+				
+				eventsGroupedBySecondPhase.put(phase.getPhaseId(), eventsForPhase);
+			}
+		}
 	}
 	
 	
@@ -122,5 +201,17 @@ public class CompetitionCacheData
 
 	public void setStandingsByPhase(Map<Long, List<Standings>> standingsByPhase) {
 		this.standingsByPhase = standingsByPhase;
+	}
+
+
+
+	public Map<Long, List<Event>> getEventsGroupedByFirstPhase() {
+		return eventsGroupedByFirstPhase;
+	}
+
+
+
+	public Map<Long, List<Event>> getEventsGroupedBySecondPhase() {
+		return eventsGroupedBySecondPhase;
 	}
 }

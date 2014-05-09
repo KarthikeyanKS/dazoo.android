@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -202,19 +203,11 @@ public class CompetitionTeamsByGroupListAdapter
 				
 				if(team != null)
 				{
-					boolean isLocalFlagDrawableResourceAvailableForTeam1 = team.isLocalFlagDrawableResourceAvailable();
-					
-					if(isLocalFlagDrawableResourceAvailableForTeam1)
-					{
-						holder.teamFlag.setImageDrawable(team.getLocalFlagDrawableResource());
-					}
-					else
-					{
-						ImageAware imageAware = new ImageViewAware(holder.teamFlag, false);
+					ImageAware imageAware = new ImageViewAware(holder.teamFlag, false);
 						
-						// TODO
-						//SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1.g, imageAware);
-					}
+					String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
+							
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
 					
 					holder.teamName.setText(team.getDisplayName());
 				}

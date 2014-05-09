@@ -268,4 +268,26 @@ public class CompetitionsCacheData
 		
 		return containsCompetitionData;
 	}
+	
+	
+	
+	public Map<Long, List<Event>> getEventsGroupedByFirstPhase() 
+	{
+		return selectedCompetition.getEventsGroupedByFirstPhase();
+	}
+
+
+
+	public Map<Long, List<Event>> getEventsGroupedBySecondPhase() 
+	{
+		return selectedCompetition.getEventsGroupedBySecondPhase();
+	}
+	
+	
+	
+	public synchronized void setSelectedCompetitionProcessedData()
+	{
+		selectedCompetition.setEventsGroupedByFirstStage();
+		selectedCompetition.setEventsGroupedBySecondStage();
+	}
 }

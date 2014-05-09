@@ -129,6 +129,36 @@ public class ImageLoaderManager
 	
 	
 	
+	
+	/* Used in views where we don't want to reset the view itself and we always want to use memory cache */
+	private DisplayImageOptions getDisplayImageOptionsForCompetitions()
+	{		
+		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.competitions_contry_flag_default)
+        .showImageForEmptyUri(R.drawable.competitions_contry_flag_default)
+        .showImageOnFail(R.drawable.competitions_contry_flag_default)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.bitmapConfig(Bitmap.Config.RGB_565)
+		.imageScaleType(ImageScaleType.EXACTLY)
+		.displayer(new FadeInBitmapDisplayer(1000))
+		.build();
+
+		return displayImageOptions;
+	}
+	
+	
+	
+	public void displayImageWithCompetitionOptions(String url, ImageAware imageAware)
+	{
+		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitions();
+		
+		imageLoader.displayImage(url, imageAware, displayImageOptions);
+	}
+	
+	
+	
+	
 	public void displayImageWithDefaultOptions(String url, ImageAware imageAware)
 	{
 		DisplayImageOptions displayImageOptions = getDisplayImageDefaultOptions();

@@ -222,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:padding="3dp"
-            android:text="@string/competition_page_next_game"
+            android:text="@string/competition_page_first_game"
             android:textColor="@color/black" 
             android:textStyle="bold"/>
         
@@ -273,7 +273,7 @@
 
 	        <ImageView
 	            android:id="@+id/competition_team_one_flag"
-	            android:layout_width="64dp"
+	            android:layout_width="95dp"
 	            android:layout_height="64dp"
 	            android:src="@drawable/competitions_contry_flag_default"
 	            android:scaleType="fitXY" />

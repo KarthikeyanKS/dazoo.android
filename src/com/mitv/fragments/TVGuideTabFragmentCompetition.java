@@ -43,6 +43,9 @@ public class TVGuideTabFragmentCompetition
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInHours;
 	private TextView remainingTimeInMinutes;
+	private TextView remainingTimeInDaysTitle;
+	private TextView remainingTimeInHoursTitle;
+	private TextView remainingTimeInMinutesTitle;
 	private TextView title;
 	private RelativeLayout competitionGoToScheduleLayout;
 	
@@ -217,7 +220,13 @@ public class TVGuideTabFragmentCompetition
 		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_days_number);
 		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_hours_number);
 		remainingTimeInMinutes = (TextView) rootView.findViewById(R.id.competition_minutes_number);
-		title = (TextView) rootView.findViewById(R.id.competition_title);	
+		
+		remainingTimeInDaysTitle = (TextView) rootView.findViewById(R.id.competition_days_title);
+		remainingTimeInHoursTitle = (TextView) rootView.findViewById(R.id.competition_hours_title);
+		remainingTimeInMinutesTitle = (TextView) rootView.findViewById(R.id.competition_minutes_title);
+		
+		title = (TextView) rootView.findViewById(R.id.competition_title);
+		
 		competitionGoToScheduleLayout = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);	
 	}
 	
@@ -245,7 +254,15 @@ public class TVGuideTabFragmentCompetition
 				
 			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
 
-			eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
+			eventCountDownTimer = new EventCountDownTimer(
+					competitionName, 
+					millisecondsUntilEventStart, 
+					remainingTimeInDays, 
+					remainingTimeInHours, 
+					remainingTimeInMinutes,
+					remainingTimeInDaysTitle,
+					remainingTimeInHoursTitle,
+					remainingTimeInMinutesTitle);
 				
 			eventCountDownTimer.start();
 		}

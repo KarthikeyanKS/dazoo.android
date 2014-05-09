@@ -47,6 +47,7 @@ import com.mitv.asynctasks.mitvapi.usertoken.PerformUserLogout;
 import com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike;
 import com.mitv.asynctasks.mitvapi.usertoken.SetUserTVChannelIds;
 import com.mitv.asynctasks.other.CheckNetworkConnectivity;
+import com.mitv.asynctasks.other.CompetitionDataPostProcessingTask;
 import com.mitv.asynctasks.other.SNTPAsyncTask;
 import com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -244,7 +245,18 @@ public class APIClient
 		}
 	}
 	
-
+	
+	
+	public void setCompetitionDataPostProcessingTask(ViewCallbackListener activityCallbackListener) 
+	{
+		resetTVGuideInitialCallPoolExecutor();
+		
+		CompetitionDataPostProcessingTask task = new CompetitionDataPostProcessingTask(contentCallbackListener, activityCallbackListener);
+		
+		tvGuideInitialCallPoolExecutor.addAndExecuteTask(task);
+	}
+	
+	
 	
 	public void cancelAllCompetitionInitialCallPendingRequests()
 	{

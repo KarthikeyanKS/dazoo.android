@@ -146,7 +146,6 @@
 	        android:textColor="@color/white"
 	        android:layout_marginTop="10dp"
 	        android:layout_centerHorizontal="true"
-	        android:text="Time left"
 	        android:textSize="12sp"
 	        font:fonttextview="roboto_mitv_light.ttf" />
         

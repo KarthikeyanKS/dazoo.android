@@ -71,8 +71,11 @@ public class CompetitionPageActivity
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	private TextView remainingTimeInDays;
+	private TextView remainingTimeInDaysTitle;
 	private TextView remainingTimeInHours;
+	private TextView remainingTimeInHoursTitle;
 	private TextView remainingTimeInMinutes;
+	private TextView remainingTimeInMinutesTitle;
 	private TextView eventStartTime;
 	private TextView tvBroadcastChannels;
 	private TextView team1Name;
@@ -248,7 +251,15 @@ public class CompetitionPageActivity
 			
 			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
 			
-			eventCountDownTimer = new EventCountDownTimer(competitionName, millisecondsUntilEventStart, remainingTimeInDays, remainingTimeInHours, remainingTimeInMinutes);
+			eventCountDownTimer = new EventCountDownTimer(
+					competitionName, 
+					millisecondsUntilEventStart, 
+					remainingTimeInDays, 
+					remainingTimeInHours,
+					remainingTimeInMinutes,
+					remainingTimeInDaysTitle,
+					remainingTimeInHoursTitle,
+					remainingTimeInMinutesTitle);
 			
 			eventCountDownTimer.start();
 		}
@@ -267,22 +278,13 @@ public class CompetitionPageActivity
 			
 			if(team1 != null)
 			{
-				boolean isLocalFlagDrawableResourceAvailableForTeam1 = team1.isLocalFlagDrawableResourceAvailable();
-				
-				if(isLocalFlagDrawableResourceAvailableForTeam1)
-				{
-					team1Flag.setImageDrawable(team1.getLocalFlagDrawableResource());
-				}
-				else
-				{
-					Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
+				Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
 					
-					ImageAware imageAware = new ImageViewAware(team1Flag, false);
+				ImageAware imageAware = new ImageViewAware(team1Flag, false);
 					
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
 					
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team1FlagUrl, imageAware);
-				}
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 			}
 			else
 			{
@@ -295,22 +297,11 @@ public class CompetitionPageActivity
 
 			if(team2 != null)
 			{
-				boolean isLocalFlagDrawableResourceAvailableForTeam2 = team2.isLocalFlagDrawableResourceAvailable();
-				
-				if(isLocalFlagDrawableResourceAvailableForTeam2)
-				{
-					team2Flag.setImageDrawable(team2.getLocalFlagDrawableResource());
-				}
-				else
-				{
-					Log.w(TAG, "Local flag for team: " + team2.getNationCode() + " not found in cache");
+				ImageAware imageAware = new ImageViewAware(team2Flag, false);
 					
-					ImageAware imageAware = new ImageViewAware(team2Flag, false);
+				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
 					
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-					
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(team2FlagUrl, imageAware);
-				}
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 			}
 			else
 			{
@@ -405,8 +396,11 @@ public class CompetitionPageActivity
 		scrollView = (ScrollView) findViewById(R.id.teeeest);
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
+		remainingTimeInDaysTitle = (TextView) findViewById(R.id.competition_days_title);
 		remainingTimeInHours = (TextView) findViewById(R.id.competition_hours_number);
+		remainingTimeInHoursTitle = (TextView) findViewById(R.id.competition_hours_title);
 		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_minutes_number);
+		remainingTimeInMinutesTitle = (TextView) findViewById(R.id.competition_minutes_title);
 		eventStartTime = (TextView) findViewById(R.id.competition_page_begin_time_broadcast);
 		tvBroadcastChannels = (TextView) findViewById(R.id.competition_airing_channels_for_broadcast);
 		team1Name = (TextView) findViewById(R.id.competition_team_one_name);

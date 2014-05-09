@@ -85,7 +85,11 @@ public abstract class ContentManagerCallback
 	private int completedCountTVActivityFeed = 0;
 	
 	private boolean isProcessingPopularBroadcasts;
-
+	
+	private boolean competitionTeamsFetchFinished;
+	private boolean competitionPhasesFetchFinished;
+	private boolean competitionEventsFetchFinished;
+	
 	
 	
 	public ContentManagerCallback()
@@ -270,6 +274,7 @@ public abstract class ContentManagerCallback
 			case COMPETITION_TEAMS:
 			case COMPETITION_PHASES:
 			case COMPETITION_EVENTS:
+			case COMPETITION_POST_PROCESSING:
 			{
 				handleCompetitionInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
@@ -461,9 +466,16 @@ public abstract class ContentManagerCallback
 			{
 				if(result.wasSuccessful() && content != null) 
 				{
+					competitionTeamsFetchFinished = true;
+					
 					@SuppressWarnings("unchecked")
 					ArrayList<Team> teams = (ArrayList<Team>) content;
 					getCache().getCompetitionsData().setTeamsForSelectedCompetition(teams);
+					
+					if(competitionTeamsFetchFinished && competitionPhasesFetchFinished && competitionEventsFetchFinished)
+					{
+						getAPIClient().setCompetitionDataPostProcessingTask(activityCallbackListener);
+					}
 				}
 				break;
 			}
@@ -472,9 +484,16 @@ public abstract class ContentManagerCallback
 			{
 				if(result.wasSuccessful() && content != null) 
 				{
+					competitionPhasesFetchFinished = true;
+					
 					@SuppressWarnings("unchecked")
 					ArrayList<Phase> phases = (ArrayList<Phase>) content;
 					getCache().getCompetitionsData().setPhasesForSelectedCompetition(phases);
+					
+					if(competitionTeamsFetchFinished && competitionPhasesFetchFinished && competitionEventsFetchFinished)
+					{
+						getAPIClient().setCompetitionDataPostProcessingTask(activityCallbackListener);
+					}
 				}
 				break;
 			}
@@ -483,10 +502,23 @@ public abstract class ContentManagerCallback
 			{
 				if(result.wasSuccessful() && content != null) 
 				{
+					competitionEventsFetchFinished = true;
+					
 					@SuppressWarnings("unchecked")
 					ArrayList<Event> events = (ArrayList<Event>) content;
 					getCache().getCompetitionsData().setEventsForSelectedCompetition(events);
+					
+					if(competitionTeamsFetchFinished && competitionPhasesFetchFinished && competitionEventsFetchFinished)
+					{
+						getAPIClient().setCompetitionDataPostProcessingTask(activityCallbackListener);
+					}
 				}
+				break;
+			}
+			
+			case COMPETITION_POST_PROCESSING:
+			{
+				// Do nothing
 				break;
 			}
 			
