@@ -3,8 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/competition_scrollable_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/grey1"
     android:orientation="vertical" >
 
@@ -12,13 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
-        android:fillViewport="true"
+        android:fillViewport="false"
         android:orientation="vertical" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:paddingBottom="15dp" >
 
             <include
@@ -28,6 +30,15 @@
                 android:layout_alignParentTop="true"
                 layout="@layout/block_competition_broadcastpage_main_content" />
 
+            <!-- This is only a temporary holder: Remove in the future -->
+            <include
+                android:id="@+id/competition_fragment_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_broacastpage_block_container_layout"
+                layout="@layout/fragment_competition_holder_layout" />
+            
+            <!-- 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/competition_fake_tab_header"
                 style="@style/header1"
@@ -41,30 +52,19 @@
                 android:text="@string/competition_fake_tab_header"
                 android:textColor="@color/black"
                 font:fonttextview="roboto_mitv_bold.ttf" />
+            -->
 
             <LinearLayout
                 android:id="@+id/competition_fake_table_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
                 android:cacheColorHint="@null"
                 android:divider="@null"
                 android:fadingEdge="none"
                 android:minHeight="200dp"
                 android:orientation="vertical"
-                android:layout_below="@id/competition_fake_tab_header"
-                android:visibility="visible" />
+                android:layout_below="@id/competition_fragment_tabs"/>
 
-            <!--
-            <include
-                android:id="@+id/competition_fragment_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/competition_broacastpage_block_container_layout"
-                layout="@layout/fragment_competition_holder_layout" />
-            -->
         </RelativeLayout>
     </ScrollView>
     

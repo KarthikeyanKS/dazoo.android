@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -289,9 +290,11 @@ public abstract class BannerListAdapter<T>
 				
 				viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.ad_space_container);
 				
-				viewHolder.competitionBannerView = (ImageView) rowView.findViewById(R.id.banner_image_competition);
+				viewHolder.competitionBannerFrameLayout = (FrameLayout) rowView.findViewById(R.id.banner_image_competition_frame_layout);
+				
+				//viewHolder.competitionBannerView = (ImageView) rowView.findViewById(R.id.banner_image_competition);
 			
-				viewHolder.competitionBannerView.setVisibility(View.VISIBLE);
+				viewHolder.competitionBannerFrameLayout.setVisibility(View.VISIBLE);
 			
 				final Competition competition = ContentManager.sharedInstance().getFromCacheVisibleRandomCompetition();
 				
@@ -304,7 +307,7 @@ public abstract class BannerListAdapter<T>
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithDefaultOptions(imageUrl, imageAware);
 				}
 				
-				viewHolder.competitionBannerView.setOnClickListener(new View.OnClickListener() 
+				viewHolder.competitionBannerFrameLayout.setOnClickListener(new View.OnClickListener() 
 				{
 					@Override
 					public void onClick(View v) 
@@ -466,6 +469,7 @@ public abstract class BannerListAdapter<T>
 	private static class ViewHolder 
 	{
 		private RelativeLayout container;
+		private FrameLayout competitionBannerFrameLayout;
 		private ImageView competitionBannerView;
 		private AdView adMobView;
 	}

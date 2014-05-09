@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.mitv.Constants;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -26,8 +27,8 @@ public class CompetitionCacheData
 	private List<Event> events;
 	private Map<Long, List<Standings>> standingsByPhase;
 	
-	private Map<Long, List<Event>> eventsGroupedByFirstPhase;
-	private Map<Long, List<Event>> eventsGroupedBySecondPhase;
+	private TreeMap<Long, List<Event>> eventsGroupedByFirstPhase;
+	private TreeMap<Long, List<Event>> eventsGroupedBySecondPhase;
 	
 	
 	
@@ -55,11 +56,11 @@ public class CompetitionCacheData
 		
 		this.events = new ArrayList<Event>();
 		
-		this.standingsByPhase = new HashMap<Long, List<Standings>>();
+		this.standingsByPhase = new TreeMap<Long, List<Standings>>();
 		
-		this.eventsGroupedByFirstPhase = new HashMap<Long, List<Event>>();
+		this.eventsGroupedByFirstPhase = new TreeMap<Long, List<Event>>();
 		
-		this.eventsGroupedBySecondPhase = new HashMap<Long, List<Event>>();
+		this.eventsGroupedBySecondPhase = new TreeMap<Long, List<Event>>();
 	}
 	
 	
@@ -76,9 +77,9 @@ public class CompetitionCacheData
 		
 		this.standingsByPhase = new HashMap<Long, List<Standings>>();
 		
-		this.eventsGroupedByFirstPhase = new HashMap<Long, List<Event>>();
+		this.eventsGroupedByFirstPhase = new TreeMap<Long, List<Event>>();
 		
-		this.eventsGroupedBySecondPhase = new HashMap<Long, List<Event>>();
+		this.eventsGroupedBySecondPhase = new TreeMap<Long, List<Event>>();
 	}
 	
 	
@@ -129,7 +130,7 @@ public class CompetitionCacheData
 					}
 				}
 				
-				eventsGroupedBySecondPhase.put(phase.getPhaseId(), eventsForPhase);
+				eventsGroupedBySecondPhase. put(phase.getPhaseId(), eventsForPhase);
 			}
 		}
 	}
