@@ -29,7 +29,7 @@ public class GetAppVersionData
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionElement[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, true);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionElement[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
 	}
 	
 	

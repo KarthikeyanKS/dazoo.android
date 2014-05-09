@@ -31,7 +31,7 @@ public class GetTVTags
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_TAG, TVTag[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, true);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_TAG, TVTag[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
 	}
 
 

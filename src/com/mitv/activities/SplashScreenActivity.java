@@ -243,7 +243,9 @@ public class SplashScreenActivity
 				
 				if (!isViewingTutorial && waitingForData) 
 				{
-					TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+					if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+						TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+					}
 					
 					startPrimaryActivity();
 				}

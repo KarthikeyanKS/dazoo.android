@@ -69,7 +69,7 @@ public class GetTVChannelGuides
 			final TVDate tvDate,
 			final List<TVChannelId> tvChannelIds) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelGuide[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvDate), true);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelGuide[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvDate), Constants.USE_INITIAL_METRICS_ANALTYTICS);
 		
 		this.tvDate = tvDate;
 		

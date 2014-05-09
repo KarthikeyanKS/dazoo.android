@@ -53,6 +53,7 @@ public abstract class Constants
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = true;
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
+	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";

@@ -9,6 +9,7 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.mitv.Constants;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
@@ -56,11 +57,15 @@ public class SetPopularVariablesWithPopularBroadcasts
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
 		
 		setPopularBroadcastVariables();
 		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		}
 		
 		return null;
 	}
@@ -72,7 +77,9 @@ public class SetPopularVariablesWithPopularBroadcasts
 	{
 		super.onPostExecute(result);
 		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
 		
 		if(contentCallbackListener != null)
 		{
@@ -83,7 +90,9 @@ public class SetPopularVariablesWithPopularBroadcasts
 			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
 		}
 		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		}
 	}
 	
 	
