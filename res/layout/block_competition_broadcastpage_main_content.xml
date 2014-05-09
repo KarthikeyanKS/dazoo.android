@@ -172,7 +172,7 @@
 	        android:layout_height="32dp"
 	        android:src="@drawable/competition_upcoming_icon"
 	        android:layout_centerVertical="true"
-	        android:layout_marginLeft="10dp"
+	        android:layout_marginLeft="5dp"
 	        android:layout_marginRight="10dp"
 	        android:scaleType="fitXY" />
 	    
@@ -182,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/competition_upcoming_icon"
             android:text="@string/competition_page_upcoming_features_title"
             android:textColor="@color/black"
@@ -194,7 +194,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/competition_upcoming_icon"
             android:layout_below="@id/competition_upcoming_features_title"
             android:text="@string/competition_page_upcoming_features_description"
@@ -266,26 +266,26 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/competition_next_game_text"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:background="@color/white" >
             
             <!-- Flag team one -->
 
 	        <ImageView
 	            android:id="@+id/competition_team_one_flag"
-	            android:layout_width="95dp"
-	            android:layout_height="64dp"
+	            android:layout_width="64dp"
+	            android:layout_height="43dp"
 	            android:src="@drawable/competitions_contry_flag_default"
 	            android:scaleType="fitXY" />
 	        
 	        <!-- Team one name -->
-
 	        <com.mitv.ui.elements.FontTextView
 	            android:id="@+id/competition_team_one_name"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@id/competition_team_one_flag"
 	            android:layout_centerHorizontal="true"
+	            android:text="Team 1"
 	            android:textSize="12sp"/>
         </RelativeLayout>
 
@@ -297,7 +297,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/competition_next_game_text"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="5dp"
             android:background="@color/white" >
 	        
             <!-- Flag team two -->
@@ -305,7 +305,7 @@
 	        <ImageView
 	            android:id="@+id/competition_team_two_flag"
 	            android:layout_width="64dp"
-	            android:layout_height="64dp"
+	            android:layout_height="43dp"
 	            android:src="@drawable/competitions_contry_flag_default"
 	            android:scaleType="fitXY" />
 	        
@@ -317,6 +317,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_centerHorizontal="true"
 	            android:layout_below="@id/competition_team_two_flag"
+	            android:text="Team 2"
 	            android:textSize="12sp"/>
         </RelativeLayout>
 

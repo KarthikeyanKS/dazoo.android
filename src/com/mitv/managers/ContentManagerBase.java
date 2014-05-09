@@ -1002,46 +1002,6 @@ public abstract class ContentManagerBase
 	}
 
 	
-
-//	private Map<Long, List<Event>> getFromCacheAllEventsGroupedByPhaseForSelectedCompetition(
-//			final String stage,
-//			final boolean reverseComparisson)
-//	{
-//		Map<Long, List<Event>> eventsByPhaseID = new HashMap<Long, List<Event>>();
-//		
-//		List<Phase> phases = getCache().getCompetitionsData().getPhasesForSelectedCompetition();
-//		
-//		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
-//		
-//		for(Phase phase : phases)
-//		{
-//			boolean isSameStage = phase.getStage().equals(stage);
-//			
-//			if(reverseComparisson)
-//			{
-//				isSameStage = !isSameStage;
-//			}
-//			
-//			if(isSameStage)
-//			{
-//				List<Event> eventsForPhase = new ArrayList<Event>();
-//				
-//				for(Event event : events)
-//				{
-//					if(event.getPhaseId() == phase.getPhaseId())
-//					{
-//						eventsForPhase.add(event);
-//					}
-//				}
-//				
-//				eventsByPhaseID.put(phase.getPhaseId(), eventsForPhase);
-//			}
-//		}
-//		
-//		return eventsByPhaseID;
-//	}
-//	
-		
 	
 	public Map<Long, List<Event>> getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition()
 	{

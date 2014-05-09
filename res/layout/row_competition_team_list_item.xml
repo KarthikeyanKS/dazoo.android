@@ -27,7 +27,7 @@
 	        android:layout_alignParentRight="true"
             android:layout_marginLeft="32dp"
 	        android:textColor="@color/grey3"
-	        android:text="@string/competition_team_header_pts"
+	        android:text="@string/competition_standings_points"
 	        android:textSize="15sp" />
         
         <!-- +/- -->
@@ -40,7 +40,7 @@
             android:layout_marginLeft="32dp"
 	        android:layout_toLeftOf="@id/row_competition_header_pts"
 	        android:textColor="@color/grey3"
-	        android:text="@string/competition_team_header_plus_minus"
+	        android:text="@string/competition_standings_plus_minus"
 	        android:textSize="15sp" />
         
         <!-- GP -->
@@ -52,7 +52,7 @@
 	        android:textAllCaps="true"
 	        android:layout_toLeftOf="@id/row_competition_header_plus_minus"
 	        android:textColor="@color/grey3"
-	        android:text="@string/competition_team_header_gp"
+	        android:text="@string/competition_standings_gp"
 	        android:textSize="15sp" />
         
         <!-- GROUP -->
