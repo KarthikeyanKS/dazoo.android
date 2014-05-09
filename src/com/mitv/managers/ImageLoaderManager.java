@@ -79,7 +79,9 @@ public class ImageLoaderManager
 	
 	
 	
-	/* Used in views where we don't want to reset the view itself and we always want to use memory cache */
+	/* Used in views where we don't want to reset the view itself
+	 * we always want to use memory cache
+	 * we don not want to used fade in effect */
 	private DisplayImageOptions getDisplayImageDefaultOptions()
 	{		
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
@@ -90,7 +92,6 @@ public class ImageLoaderManager
 		.cacheOnDisc(true)
 		.bitmapConfig(Bitmap.Config.RGB_565)
 		.imageScaleType(ImageScaleType.EXACTLY)
-		.displayer(new FadeInBitmapDisplayer(1000))
 		.build();
 
 		return displayImageOptions;

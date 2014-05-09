@@ -34,6 +34,6 @@ public class PerformUserLogout
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL());
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(), false);
 	}
 }

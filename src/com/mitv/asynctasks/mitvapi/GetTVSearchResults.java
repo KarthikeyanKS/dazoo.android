@@ -33,7 +33,7 @@ public class GetTVSearchResults
 			final ViewCallbackListener activityCallbackListener,
 			final String searchQuery)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false);
 		
 		this.searchQuery = searchQuery.trim();
 				

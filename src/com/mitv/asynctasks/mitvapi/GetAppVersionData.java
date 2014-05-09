@@ -10,6 +10,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.AppVersion;
 import com.mitv.models.objects.mitvapi.AppVersionElement;
 
@@ -28,7 +29,7 @@ public class GetAppVersionData
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionElement[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionElement[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, true);
 	}
 	
 	
@@ -36,6 +37,8 @@ public class GetAppVersionData
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		
 		super.doInBackground(params);
 		
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
@@ -51,6 +54,20 @@ public class GetAppVersionData
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
 		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		
 		return null;
+	}
+	
+
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		
+		super.onPostExecute(result);
+		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 	}
 }

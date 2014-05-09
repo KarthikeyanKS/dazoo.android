@@ -110,6 +110,8 @@ public class SearchPageListAdapter
 	{
 		this.searchResultItems = searchResultItems;
 		
+		this.notifyDataSetChanged();
+		
 		this.queryString = queryString;
 	}
 

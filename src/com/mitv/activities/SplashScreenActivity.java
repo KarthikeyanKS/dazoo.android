@@ -121,13 +121,15 @@ public class SplashScreenActivity
 	protected void onResume() 
 	{
 		super.onResume();
-				
+		
+		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenStarted(this.getClass().getSimpleName());
+		
 		boolean isConnected = NetworkUtils.isConnected();
 		
 		isViewingTutorial = SecondScreenApplication.sharedInstance().getIsViewingTutorial();
 		
 		if(isConnected)
-		{	
+		{
 			loadData();
 		}
 		else
@@ -182,6 +184,8 @@ public class SplashScreenActivity
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
+		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenOnResultReached(this.getClass().getSimpleName());
+		
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		
 		switch (fetchRequestResult) 
@@ -214,7 +218,8 @@ public class SplashScreenActivity
 			
 			case NO_CONNECTION_AVAILABLE:
 			{				
-				if (!isViewingTutorial) {
+				if (!isViewingTutorial) 
+				{
 					startPrimaryActivity();
 				}
 				
@@ -238,6 +243,8 @@ public class SplashScreenActivity
 				
 				if (!isViewingTutorial && waitingForData) 
 				{
+					TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+					
 					startPrimaryActivity();
 				}
 				break;
@@ -252,6 +259,7 @@ public class SplashScreenActivity
 		if(SecondScreenApplication.isAppRestarting()) 
 		{
 			Log.d(TAG, "isAppRestarting is true => setting to false");
+			
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
 		

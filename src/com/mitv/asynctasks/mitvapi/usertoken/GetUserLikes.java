@@ -44,7 +44,7 @@ public class GetUserLikes
 			ViewCallbackListener activityCallbackListener,
 			boolean standaloneUserLikes) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false);
 	}
 	
 	

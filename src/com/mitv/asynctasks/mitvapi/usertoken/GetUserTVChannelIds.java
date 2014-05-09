@@ -13,6 +13,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 
 
@@ -31,7 +32,7 @@ public class GetUserTVChannelIds
 			final ViewCallbackListener activityCallbackListener,
 			boolean standalone) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, true);
 	}
 	
 	
@@ -51,9 +52,16 @@ public class GetUserTVChannelIds
 		return requestIdentifier;
 	}
 	
+	
+	
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
+		
 		super.doInBackground(params);
 		 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
@@ -69,7 +77,30 @@ public class GetUserTVChannelIds
 		{
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
-		 
+		
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		}
+		
 		return null;
+	}
+	
+	
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
+		
+		super.onPostExecute(result);
+		
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		}
 	}
 }

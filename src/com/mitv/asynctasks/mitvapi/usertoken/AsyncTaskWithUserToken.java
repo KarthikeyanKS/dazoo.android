@@ -29,9 +29,10 @@ public abstract class AsyncTaskWithUserToken<T>
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
-			String url) 
+			String url,
+			final boolean reportMetricsToTracker) 
 	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, httpRequestType, url);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, httpRequestType, url, reportMetricsToTracker);
 	}
 	
 	
@@ -43,9 +44,10 @@ public abstract class AsyncTaskWithUserToken<T>
 			Class<T> clazz,
 			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
-			String url) 
+			String url,
+			final boolean reportMetricsToTracker) 
 	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, reportMetricsToTracker);
 	}
 	
 	
