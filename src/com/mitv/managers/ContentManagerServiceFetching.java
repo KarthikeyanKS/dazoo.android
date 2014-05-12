@@ -24,6 +24,7 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -504,6 +505,20 @@ public abstract class ContentManagerServiceFetching
 		else 
 		{
 			fetchFromServiceRepeatingBroadcasts(activityCallbackListener, RequestIdentifierEnum.REPEATING_BROADCASTS_FOR_PROGRAMS, broadcastKey);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceCompetitionsData(ViewCallbackListener activityCallbackListener, boolean forceDownload)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsCompetitionsData())
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITIONS_ALL_STANDALONE);
+		} 
+		else 
+		{
+			getAPIClient().getCompetitions(activityCallbackListener, true);
 		}
 	}
 	
