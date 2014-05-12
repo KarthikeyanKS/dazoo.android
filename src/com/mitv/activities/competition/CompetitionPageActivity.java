@@ -406,6 +406,8 @@ public class CompetitionPageActivity
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
 		
+		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
+		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
@@ -489,7 +491,7 @@ public class CompetitionPageActivity
 	
 	
 	private void setListView() {
-		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
+		listView.removeAllViews();
 		
 		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 
