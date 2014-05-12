@@ -12,16 +12,15 @@
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         android:fillViewport="false"
-        android:orientation="vertical"
-        android:clipToPadding="false"
-        android:fadingEdge="none"
-        android:padding="10dp"
-        android:scrollbarStyle="outsideOverlay" >
+        android:orientation="vertical" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
             <include
                 android:id="@+id/competition_broacastpage_block_container_layout"
