@@ -5,23 +5,21 @@ package com.mitv.activities.competition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.adapters.pager.EventTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -60,10 +58,6 @@ public class CompetitionPageActivity
 	private EventTabFragmentStatePagerAdapter pagerAdapter;
 	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
 	private int selectedTabIndex;
-
-	/* fake tab */
-	private LinearLayout listView;
-	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInDaysTitle;
@@ -143,8 +137,6 @@ public class CompetitionPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				setListView();
-				
 				setData();
 				
 				break;
@@ -406,8 +398,6 @@ public class CompetitionPageActivity
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
 		nextGameText = (TextView) findViewById(R.id.competition_next_game_text);
 		
-		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
-		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
@@ -428,13 +418,13 @@ public class CompetitionPageActivity
 		viewPager.setVisibility(View.VISIBLE);
 		viewPager.setEnabled(false);
 
+		pagerAdapter.notifyDataSetChanged();
+		
 		pageTabIndicator.setVisibility(View.VISIBLE);
 		pageTabIndicator.setViewPager(viewPager);
-		
+		pagerAdapter.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
 		pageTabIndicator.setOnPageChangeListener(this);
-		
-		pagerAdapter.notifyDataSetChanged();
 		
 		pageTabIndicator.setInitialStyleOnAllTabs();
 		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
@@ -486,31 +476,6 @@ public class CompetitionPageActivity
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}	
-	}
-	
-	
-	
-	private void setListView() {
-		listView.removeAllViews();
-		
-		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-
-		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
-		
-		for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            
-            if (listItem != null) {
-                listView.addView(listItem);
-            }
-        }
-		
-		/* Only use this if not use the for-loop above */
-//		listView.setAdapter(listAdapter);
-		
-		/* This class is not in use right now
-		 * TODO Remove if Erik thinks the loading time right now is OK */
-//		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
 	}
 
 

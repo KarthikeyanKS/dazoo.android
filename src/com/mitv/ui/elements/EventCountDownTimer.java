@@ -17,6 +17,9 @@ public class EventCountDownTimer
 {
 	private static final String TAG = EventCountDownTimer.class.getName();
 	
+	private static final int MAXIMUM_VALUE_FOR_COUNT_VIEW = 99;
+	private static final String VALUE_FOR_COUNT_VIEW_OVERFLOW = "99+";
+	
 	private static final long DEFAULT_COUNTDOWN_INTERVAL = DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND*30;
 	
 	
@@ -82,7 +85,15 @@ public class EventCountDownTimer
 		int totalDaysLeft = (int) (millisUntilFinished / DateUtils.TOTAL_MILLISECONDS_IN_ONE_DAY);
 		
 		StringBuilder daysLeftSB = new StringBuilder();
-		daysLeftSB.append(nf.format(totalDaysLeft));
+		
+		if(totalDaysLeft <= MAXIMUM_VALUE_FOR_COUNT_VIEW)
+		{
+			daysLeftSB.append(nf.format(totalDaysLeft));
+		}
+		else
+		{
+			daysLeftSB.append(VALUE_FOR_COUNT_VIEW_OVERFLOW);
+		}
 		
 		long totalHoursLeftInMilliseconds = millisUntilFinished - (totalDaysLeft*DateUtils.TOTAL_MILLISECONDS_IN_ONE_DAY);	
 		int hoursLeft = (int) (totalHoursLeftInMilliseconds / DateUtils.TOTAL_MILLISECONDS_IN_ONE_HOUR);

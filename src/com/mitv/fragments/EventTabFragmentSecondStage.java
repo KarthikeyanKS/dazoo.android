@@ -139,8 +139,6 @@ public class EventTabFragmentSecondStage
 					
 				listAdapter.notifyDataSetChanged();
 					
-				Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
-					
 				break;
 			}
 			
