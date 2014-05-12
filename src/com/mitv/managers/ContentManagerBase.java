@@ -339,9 +339,16 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public boolean getFromCacheHasCompetitionData(long competitionID)
+	public boolean getFromCacheHasCompetitionData(Long competitionID)
 	{
 		return getCache().getCompetitionsData().containsCompetitionData(competitionID);
+	}
+	
+	
+	
+	public boolean getFromCacheHasEventData(Long competitionID, Long eventID)
+	{
+		return getCache().getCompetitionsData().containsEventData(competitionID, eventID);
 	}
 	
 	
@@ -1117,9 +1124,27 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public Phase getFromCachePhaseByID(long phaseID)
+	public Phase getFromCachePhaseByIDForSelectedCompetition(long phaseID)
 	{
 		return getCache().getCompetitionsData().getPhaseByIDForSelectedCompetition(phaseID);
+	}
+	
+	
+	
+	public Event getFromCacheEventByIDForSelectedCompetition(Long eventID)
+	{
+		Event event = null;
+		
+		Competition competition = getCache().getCompetitionsData().getSelectedCompetition();
+
+		if(competition != null)
+		{
+			Long competitionID = competition.getCompetitionId();
+			
+			event = getCache().getCompetitionsData().getEventByID(competitionID, eventID);
+		}
+		
+		return event;
 	}
 	
 	

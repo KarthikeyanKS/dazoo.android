@@ -119,7 +119,7 @@ public class CompetitionEventsByGroupListAdapter
 
 		if (rowView == null)
 		{
-			rowView = layoutInflater.inflate(R.layout.row_competition_event_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_event_lineup_list_item, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 
@@ -220,7 +220,7 @@ public class CompetitionEventsByGroupListAdapter
 			{
 				long phaseID = event.getPhaseId();
 				
-				Phase phase = ContentManager.sharedInstance().getFromCachePhaseByID(phaseID);
+				Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 				
 				if(phase != null)
 				{

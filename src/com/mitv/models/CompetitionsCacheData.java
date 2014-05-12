@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import android.util.Log;
 
@@ -25,14 +26,14 @@ public class CompetitionsCacheData
 	
 	
 	
-	private List<CompetitionCacheData> allCompetitions;
+	private Map<Long, CompetitionCacheData> allCompetitions;
 	private CompetitionCacheData selectedCompetition;
 	
 	
 	
 	public CompetitionsCacheData()
 	{
-		this.allCompetitions = new ArrayList<CompetitionCacheData>();
+		this.allCompetitions = new TreeMap<Long, CompetitionCacheData>();
 		
 		this.selectedCompetition = null;
 	}
@@ -43,7 +44,7 @@ public class CompetitionsCacheData
 	{
 		List<Competition> competitions = new ArrayList<Competition>();
 		
-		for(CompetitionCacheData competitionCacheData : allCompetitions)
+		for(CompetitionCacheData competitionCacheData : allCompetitions.values())
 		{
 			competitions.add(competitionCacheData.getCompetition());
 		}
@@ -53,22 +54,52 @@ public class CompetitionsCacheData
 	
 	
 	
-	public synchronized Competition getCompetitionByID(long competitionID) 
+	private synchronized CompetitionCacheData getCompetitionCacheDataByID(long competitionID) 
+	{
+		CompetitionCacheData competitionCacheData = allCompetitions.get(competitionID);
+		
+		return competitionCacheData;
+	}
+	
+	
+	
+	public synchronized Competition getCompetitionByID(Long competitionID) 
 	{
 		Competition competitionFound = null;
 		
-		for(CompetitionCacheData competitionCacheData : allCompetitions)
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+
+		if(competitionCacheData != null)
 		{
-			long competitionCacheID = competitionCacheData.getCompetition().getCompetitionId();
-			
-			if(competitionCacheID == competitionID)
+			competitionFound = competitionCacheData.getCompetition();
+		}
+
+		return competitionFound;
+	}
+	
+	
+	
+	public synchronized Event getEventByID(long competitionID, long eventID) 
+	{
+		Event eventFound = null;
+		
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{	
+			for(Event event : competitionCacheData.getEvents())
 			{
-				competitionFound = competitionCacheData.getCompetition();
-				break;
+				long eventCacheID = event.getEventId();
+				
+				if(eventCacheID == eventID)
+				{
+					eventFound = event;
+					break;
+				}
 			}
 		}
 		
-		return competitionFound;
+		return eventFound;
 	}
 	
 	
@@ -101,7 +132,9 @@ public class CompetitionsCacheData
 		{
 			CompetitionCacheData competitionCacheData = new CompetitionCacheData(competition);
 			
-			allCompetitions.add(competitionCacheData);
+			Long competitionID = new Long(competition.getCompetitionId());
+			
+			allCompetitions.put(competitionID, competitionCacheData);
 		}
 	}
 	
@@ -116,15 +149,11 @@ public class CompetitionsCacheData
 
 	public synchronized void setSelectedCompetition(long competitionID)
 	{
-		for(CompetitionCacheData competitionCacheData : allCompetitions)
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
 		{
-			long competitionCacheID = competitionCacheData.getCompetition().getCompetitionId();
-			
-			if(competitionCacheID == competitionID)
-			{
-				selectedCompetition = competitionCacheData;
-				break;
-			}
+			selectedCompetition = competitionCacheData;
 		}
 	}
 	
@@ -260,22 +289,34 @@ public class CompetitionsCacheData
 
 	
 	
-	public synchronized boolean containsCompetitionData(long competitionID) 
+	public synchronized boolean containsCompetitionData(Long competitionID) 
 	{
 		boolean containsCompetitionData = false;
+	
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
 		
-		for(CompetitionCacheData competitionCacheData : allCompetitions)
+		if(competitionCacheData != null)
 		{
-			boolean matchesCompetitionID = (competitionCacheData.getCompetition().getCompetitionId() == competitionID);
-			
-			if(matchesCompetitionID)
-			{
-				containsCompetitionData = competitionCacheData.hasCompetitionInitialData();
-				break;
-			}
+			containsCompetitionData = competitionCacheData.hasCompetitionInitialData();
 		}
 		
 		return containsCompetitionData;
+	}
+	
+	
+	
+	public synchronized boolean containsEventData(Long competitionID, Long eventID) 
+	{
+		boolean containsEventData = false;
+	
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			containsEventData = competitionCacheData.hasEventData();
+		}
+		
+		return containsEventData;
 	}
 	
 	
