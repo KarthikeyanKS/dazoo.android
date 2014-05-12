@@ -250,6 +250,20 @@ public class CompetitionEventsByGroupListAdapter
 				holder.dividerView.setVisibility(View.VISIBLE);
 			}
 			
+			holder.container.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					Intent intent = new Intent(activity, EventPageActivity.class);
+					
+					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+
+					activity.startActivity(intent);
+				}
+			});
+			
+			
 			String homeTeamName = event.getHomeTeam();
 			
 			String awayTeamName = event.getAwayTeam();
@@ -357,25 +371,26 @@ public class CompetitionEventsByGroupListAdapter
 			}
 			
 			holder.broadcastChannels.setText(channelsSB.toString());
+			
+			holder.container.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					Intent intent = new Intent(activity, EventPageActivity.class);
+					
+					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+
+					activity.startActivity(intent);
+				}
+			});
+			
 		}
 		else
 		{
 			Log.w(TAG, "Event is null");
 		}
 		
-		holder.container.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				Intent intent = new Intent(activity, EventPageActivity.class);
-				
-				intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-
-				activity.startActivity(intent);
-			}
-		});
-			
 		return rowView;
 	}
 	
