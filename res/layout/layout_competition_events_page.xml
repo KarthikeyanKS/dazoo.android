@@ -34,16 +34,6 @@
                 android:layout_below="@id/competition_broacastpage_block_container_layout"
                 layout="@layout/fragment_competition_holder_layout" />
 
-<!--             <LinearLayout -->
-<!--                 android:id="@+id/competition_fake_table_listview" -->
-<!--                 android:layout_width="match_parent" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_below="@id/competition_fragment_tabs" -->
-<!--                 android:cacheColorHint="@null" -->
-<!--                 android:divider="@null" -->
-<!--                 android:fadingEdge="none" -->
-<!--                 android:minHeight="200dp" -->
-<!--                 android:orientation="vertical" /> -->
         </RelativeLayout>
     </ScrollView>
 

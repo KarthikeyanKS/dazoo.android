@@ -126,7 +126,7 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				setListView();
+				//setListView();
 				
 				setData();
 				
@@ -430,19 +430,19 @@ public class EventPageActivity
 	
 	private void setListView() 
 	{
-		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
-		
-		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-
-		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
-		
-		for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            
-            if (listItem != null) {
-                listView.addView(listItem);
-            }
-        }
+//		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
+//		
+//		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
+//
+//		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
+//		
+//		for (int i = 0; i < listAdapter.getCount(); i++) {
+//            View listItem = listAdapter.getView(i, null, listView);
+//            
+//            if (listItem != null) {
+//                listView.addView(listItem);
+//            }
+//        }
 		
 		/* Only use this if not use the for-loop above */
 //		listView.setAdapter(listAdapter);

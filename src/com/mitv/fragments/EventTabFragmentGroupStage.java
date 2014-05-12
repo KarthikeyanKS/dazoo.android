@@ -131,7 +131,7 @@ public class EventTabFragmentGroupStage
 				
 				listView.setAdapter(listAdapter);
 				
-				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
+//				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
 				
 				listAdapter.notifyDataSetChanged();
 				

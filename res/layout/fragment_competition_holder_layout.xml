@@ -23,8 +23,7 @@
         android:id="@+id/tab_event_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:visibility="gone" />
+        android:layout_below="@id/divider" />
 
 </RelativeLayout>
 
