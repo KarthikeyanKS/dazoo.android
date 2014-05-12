@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:clickable="true"
+        android:background="@color/white"
         android:foreground="@drawable/background_color_selector_banner" 
         android:visibility="gone">
 	    <ImageView 

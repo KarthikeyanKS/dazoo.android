@@ -71,7 +71,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 			}
 			else
 			{
-				fragment = new TVGuideTabFragmentCompetition(competition);
+				fragment = new TVGuideTabFragmentCompetition(competition.getCompetitionId(), competition.getDisplayName());
 			}
 		}
 		

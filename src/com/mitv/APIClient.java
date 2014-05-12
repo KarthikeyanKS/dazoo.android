@@ -151,7 +151,7 @@ public class APIClient
 		tasks.add(new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener));
 		tasks.add(new SNTPAsyncTask(contentCallbackListener, activityCallbackListener));
 		tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false));
-		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener));
+		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener, false));
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
 		{
@@ -533,9 +533,9 @@ public class APIClient
 	
 	/* METHODS FOR COMPETITIONS */
 	
-	public void getCompetitions(ViewCallbackListener activityCallbackListener)
+	public void getCompetitions(ViewCallbackListener activityCallbackListener, boolean standalone)
 	{
-		GetCompetitions task = new GetCompetitions(contentCallbackListener, activityCallbackListener);
+		GetCompetitions task = new GetCompetitions(contentCallbackListener, activityCallbackListener, standalone);
 		task.execute();
 	}
 	

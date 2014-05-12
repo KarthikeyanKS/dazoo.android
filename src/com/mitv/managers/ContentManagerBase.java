@@ -209,6 +209,7 @@ public abstract class ContentManagerBase
 		boolean containsTVTags = getCache().containsTVTags();
 		boolean containsTVChannels = getCache().containsTVChannels();
 		boolean containsTVGuideForSelectedDay = getCache().containsTVGuideForSelectedDay();
+		boolean containsCompetitions = getCache().getCompetitionsData().containsCompetitionsData();
 		
 		Log.d(TAG, "Contains AppConfigData " + containsAppConfigData);
 		Log.d(TAG, "Contains AppVersionData " + containsAppVersionData);
@@ -216,13 +217,15 @@ public abstract class ContentManagerBase
 		Log.d(TAG, "Contains TVTags " + containsTVTags);
 		Log.d(TAG, "Contains containsTVChannels " + containsTVChannels);
 		Log.d(TAG, "Contains TVGuideForSelectedDay " + containsTVGuideForSelectedDay);
+		Log.d(TAG, "Contains Competitions " + containsCompetitions);
 		
 		boolean hasInitialData = containsAppConfigData && 
 								 containsAppVersionData &&
 								 containsTVDates && 
 								 containsTVTags &&
 								 containsTVChannels &&
-								 containsTVGuideForSelectedDay;
+								 containsTVGuideForSelectedDay &&
+								 containsCompetitions;
 		
 		return hasInitialData;
 	}
@@ -325,6 +328,13 @@ public abstract class ContentManagerBase
 	public boolean getFromCacheHasPopularBroadcasts()
 	{
 		return getCache().containsPopularBroadcasts();
+	}
+	
+	
+	
+	public boolean getFromCacheHasCompetitionsData()
+	{
+		return getCache().getCompetitionsData().containsCompetitionsData();
 	}
 	
 	

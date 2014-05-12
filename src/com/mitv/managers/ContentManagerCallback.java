@@ -265,7 +265,7 @@ public abstract class ContentManagerCallback
 			case SNTP_CALL:
 			case POPULAR_ITEMS_INITIAL_CALL:
 			case TV_BROADCASTS_POUPULAR_PROCESSING:
-			case COMPETITIONS_ALL:
+			case COMPETITIONS_ALL_INITIAL:
 			{
 				handleInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
@@ -277,6 +277,12 @@ public abstract class ContentManagerCallback
 			case COMPETITION_POST_PROCESSING:
 			{
 				handleCompetitionInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
+			case COMPETITIONS_ALL_STANDALONE:
+			{
+				handleCompetitionsStandaloneResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			
@@ -796,7 +802,7 @@ public abstract class ContentManagerCallback
 				break;
 			}
 			
-			case COMPETITIONS_ALL:
+			case COMPETITIONS_ALL_INITIAL:
 			{
 				if(result.wasSuccessful() && content != null) 
 				{
@@ -853,6 +859,32 @@ public abstract class ContentManagerCallback
 				Log.d(TAG, "There are pending tasks still running.");
 			}
 		}
+	}
+	
+	
+	
+	private void handleCompetitionsStandaloneResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<Competition> competitions = (ArrayList<Competition>) content;
+			getCache().getCompetitionsData().setAllCompetitions(competitions);
+			
+			/* Setting the initially selected competition as the first competition in the list */
+			if(competitions.isEmpty() == false)
+			{
+				long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+				
+				getCache().getCompetitionsData().setSelectedCompetition(competitionID);
+			}
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 	
 	

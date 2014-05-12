@@ -6,6 +6,7 @@ package com.mitv.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,12 @@ public class TVGuideTabFragmentCompetition
 	extends TVGuideTabFragment
 	implements OnPageChangeListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTabFragmentCompetition.class.getName();
 	
 	
 	private Competition competition;
+	
+	private long competitionID;
 	
 	private EventCountDownTimer eventCountDownTimer;
 	
@@ -60,11 +62,11 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	
-	public TVGuideTabFragmentCompetition(Competition competition)
+	public TVGuideTabFragmentCompetition(long competitionID, String competitionDisplayName)
 	{
-		super(new Long(competition.getCompetitionId()).toString(), competition.getDisplayName(), TVGuideTabTypeEnum.COMPETITION);
+		super(new Long(competitionID).toString(), competitionDisplayName, TVGuideTabTypeEnum.COMPETITION);
 
-		this.competition = competition;
+		this.competitionID = competitionID;
 	}
 	
 	
@@ -85,11 +87,11 @@ public class TVGuideTabFragmentCompetition
         {
             public void onClick(View v)
             {
-            	TrackingManager.sharedInstance().sendUserCompetitionTabCalendarPressed(competition.getDisplayName());
+            	TrackingManager.sharedInstance().sendUserCompetitionTabCalendarPressed(getCompetition().getDisplayName());
             	
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
-                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+                intent.putExtra(Constants.INTENT_COMPETITION_ID, getCompetition().getCompetitionId());
                 
                 activity.startActivity(intent);
             }
@@ -101,7 +103,7 @@ public class TVGuideTabFragmentCompetition
         {	
             public void onClick(View v)
             {
-                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(competition.getDisplayName());
+                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
             }
         });
         
@@ -111,14 +113,30 @@ public class TVGuideTabFragmentCompetition
         {	
             public void onClick(View v)
             {
-                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(competition.getDisplayName());
+                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
             }
         });
+        
+        if (savedInstanceState != null) 
+        {
+            // Restore last state for checked position.
+        	competitionID = savedInstanceState.getLong("competitionID", 0);
+        }
         
         initView();
 		
 		return rootView;
 	}
+	
+	
+	
+	@Override
+    public void onSaveInstanceState(Bundle outState) 
+	{
+        super.onSaveInstanceState(outState);
+        
+        outState.putLong("competitionID", competitionID);
+    }
 	
 	
 	
@@ -138,7 +156,9 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		updateUI(UIStatusEnum.LOADING);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionsData(this, false);
 	}
 	
 	
@@ -146,8 +166,6 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		long competitionID = competition.getCompetitionId();
-		
 		return ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
 	}
 	
@@ -156,7 +174,14 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		// Do nothing
+		if(fetchRequestResult.wasSuccessful())
+		{
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		} 
+		else 
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
 	}
 	
 	
@@ -232,9 +257,23 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	
+	private Competition getCompetition()
+	{
+		if(this.competition == null)
+		{
+			Log.d(TAG, "Competition ID is: " + competitionID);
+			
+			this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+		}
+		
+		return competition;
+	}
+	
+	
+	
 	private void setData()
 	{
-		if (competition.hasBegun())
+		if (getCompetition().hasBegun())
 		{
 			title.setText(activity.getString(R.string.competition_page_time_left_title));
 		
@@ -248,9 +287,9 @@ public class TVGuideTabFragmentCompetition
 			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 		
-			String competitionName = competition.getDisplayName();
+			String competitionName = getCompetition().getDisplayName();
 			
-			long eventStartTimeInMiliseconds = competition.getBeginTimeCalendarLocal().getTimeInMillis();
+			long eventStartTimeInMiliseconds = getCompetition().getBeginTimeCalendarLocal().getTimeInMillis();
 				
 			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
 

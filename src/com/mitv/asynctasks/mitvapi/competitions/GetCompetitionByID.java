@@ -46,6 +46,6 @@ public class GetCompetitionByID
 			final ViewCallbackListener activityCallbackListener,
 			final String competitionID)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITIONS_ALL, Competition.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_BY_ID, Competition.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false);
 	}
 }
