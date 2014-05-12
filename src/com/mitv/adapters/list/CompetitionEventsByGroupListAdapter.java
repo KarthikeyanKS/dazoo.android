@@ -10,10 +10,13 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -23,6 +26,8 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -37,7 +42,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class CompetitionEventsByGroupListAdapter 
-	extends BaseAdapter 
+	extends BaseAdapter
 {
 	private static final String TAG = CompetitionEventsByGroupListAdapter.class.getName();
 	
@@ -47,6 +52,7 @@ public class CompetitionEventsByGroupListAdapter
 	
 	private Map<Long, List<Event>> eventsByGroup;
 	private List<Event> events;
+	private Event event;
 	
 	
 	
@@ -119,9 +125,11 @@ public class CompetitionEventsByGroupListAdapter
 
 		if (rowView == null)
 		{
-			rowView = layoutInflater.inflate(R.layout.row_competition_event_lineup_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_page_list_item, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
+			
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
 
 			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event);
 			
@@ -152,7 +160,7 @@ public class CompetitionEventsByGroupListAdapter
 			holder.dividerView.setVisibility(View.GONE);
 			holder.group.setVisibility(View.GONE);
 			
-			final Event event = getItem(position);
+			event = getItem(position);
 			
 			boolean isFirstposition = (position == 0);
 
@@ -354,6 +362,19 @@ public class CompetitionEventsByGroupListAdapter
 		{
 			Log.w(TAG, "Event is null");
 		}
+		
+		holder.container.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Intent intent = new Intent(activity, EventPageActivity.class);
+				
+				intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+
+				activity.startActivity(intent);
+			}
+		});
 			
 		return rowView;
 	}
@@ -373,5 +394,7 @@ public class CompetitionEventsByGroupListAdapter
 		private TextView timeLeft;
 		private TextView broadcastChannels;
 		private View dividerView;
+		private RelativeLayout container;
 	}
+	
 }

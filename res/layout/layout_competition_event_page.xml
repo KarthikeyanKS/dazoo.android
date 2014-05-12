@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
-    android:id="@+id/competition_scrollable_layout"
+    android:id="@+id/competition_event_scrollable_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/grey1"
@@ -22,50 +21,35 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="15dp" >
+            
+            <!-- ONGOING GAME -->
 
             <include
-                android:id="@+id/competition_broacastpage_block_container_layout"
+                android:id="@+id/competition_event_block_container_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                layout="@layout/block_competition_broadcastpage_main_content" />
-
-            <!-- This is only a temporary holder: Remove in the future -->
-            <include
-                android:id="@+id/competition_fragment_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/competition_broacastpage_block_container_layout"
-                layout="@layout/fragment_competition_holder_layout" />
+                layout="@layout/block_competition_event_main_content" />
             
-            <!-- 
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/competition_fake_tab_header"
-                style="@style/header1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="15dp"
-                android:textStyle="bold|italic"
-                android:layout_below="@id/competition_broacastpage_block_container_layout"
-                android:text="@string/competition_fake_tab_header"
-                android:textColor="@color/black"
-                font:fonttextview="roboto_mitv_bold.ttf" />
-            -->
-
-            <LinearLayout
-                android:id="@+id/competition_fake_table_listview"
+            <!-- TABS: EVENTS & LINEUP -->
+            
+            <include
+                android:id="@+id/competition_event_events_lineup_fragment_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:cacheColorHint="@null"
-                android:divider="@null"
-                android:fadingEdge="none"
-                android:minHeight="200dp"
-                android:orientation="vertical"
-                android:layout_below="@id/competition_fragment_tabs"/>
+                android:layout_below="@id/competition_event_block_container_layout"
+                layout="@layout/fragment_competition_holder_layout" />
 
+            <!-- TABS: GROUP X & STANDINGS -->
+            
+            <include
+                android:id="@+id/competition_event_group_standings_fragment_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_event_events_lineup_fragment_tabs"
+                layout="@layout/fragment_competition_holder_layout" />
         </RelativeLayout>
+        
     </ScrollView>
     
     <!-- NAVIGATION TABS -->

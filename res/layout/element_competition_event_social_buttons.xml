@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:id="@+id/element_social_buttons_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <!-- LIKE BUTTON -->
+
+    <com.mitv.ui.elements.LikeView
+        android:id="@+id/element_social_buttons_like_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/background_color_selector" />
+
+    <!-- DIVIDER -->
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey1" />
+
+    <!-- SHARE BUTTON -->
+
+    <RelativeLayout
+        android:id="@+id/element_social_buttons_share_button_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/background_color_selector" >
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/element_social_buttons_share_button_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/icon_share"
+            android:textColor="@color/grey3"
+            android:textSize="30sp"
+            font:fonttextview="roboto_mitv_regular.ttf" />
+    </RelativeLayout>
+    
+</LinearLayout>
