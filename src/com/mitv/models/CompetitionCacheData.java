@@ -12,6 +12,8 @@ import java.util.TreeMap;
 import com.mitv.Constants;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
+import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -26,9 +28,12 @@ public class CompetitionCacheData
 	private List<Phase> phases;
 	private List<Event> events;
 	private Map<Long, List<Standings>> standingsByPhase;
-	
+		
 	private TreeMap<Long, List<Event>> eventsGroupedByFirstPhase;
 	private TreeMap<Long, List<Event>> eventsGroupedBySecondPhase;
+	
+	private TreeMap<Long, List<EventHighlight>> highlightsByEvent;
+	private TreeMap<Long, List<EventLineUp>> lineupByEvent;
 	
 	
 	
@@ -61,6 +66,10 @@ public class CompetitionCacheData
 		this.eventsGroupedByFirstPhase = new TreeMap<Long, List<Event>>();
 		
 		this.eventsGroupedBySecondPhase = new TreeMap<Long, List<Event>>();
+		
+		this.highlightsByEvent = new TreeMap<Long, List<EventHighlight>>();
+		
+		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
 	}
 	
 	
@@ -80,6 +89,10 @@ public class CompetitionCacheData
 		this.eventsGroupedByFirstPhase = new TreeMap<Long, List<Event>>();
 		
 		this.eventsGroupedBySecondPhase = new TreeMap<Long, List<Event>>();
+		
+		this.highlightsByEvent = new TreeMap<Long, List<EventHighlight>>();
+		
+		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
 	}
 	
 	
@@ -152,8 +165,26 @@ public class CompetitionCacheData
 		
 		return hasEventData;
 	}
+	
+	
+	
+	public boolean hasLineUpData(Long eventID)
+	{
+		boolean hasLineUpData = (lineupByEvent.isEmpty() == false && lineupByEvent.containsKey(eventID));
+		
+		return hasLineUpData;
+	}
 
+	
+	
+	public boolean hasHighlightsData(Long eventID)
+	{
+		boolean hasHighlightsData = (highlightsByEvent.isEmpty() == false && highlightsByEvent.containsKey(eventID));
+		
+		return hasHighlightsData;
+	}
 
+	
 
 	public List<Phase> getPhases() {
 		return phases;
@@ -223,5 +254,30 @@ public class CompetitionCacheData
 
 	public Map<Long, List<Event>> getEventsGroupedBySecondPhase() {
 		return eventsGroupedBySecondPhase;
+	}
+
+
+
+	public TreeMap<Long, List<EventHighlight>> getHighlightsByEvent() {
+		return highlightsByEvent;
+	}
+
+
+
+	public void setHighlightsByEvent(
+			TreeMap<Long, List<EventHighlight>> highlightsByEvent) {
+		this.highlightsByEvent = highlightsByEvent;
+	}
+
+
+
+	public TreeMap<Long, List<EventLineUp>> getLineupByEvent() {
+		return lineupByEvent;
+	}
+
+
+
+	public void setLineupByEvent(TreeMap<Long, List<EventLineUp>> lineupByEvent) {
+		this.lineupByEvent = lineupByEvent;
 	}
 }

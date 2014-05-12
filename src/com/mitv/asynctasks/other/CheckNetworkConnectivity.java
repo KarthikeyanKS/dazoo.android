@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.utilities.NetworkUtils;
@@ -22,6 +23,7 @@ public class CheckNetworkConnectivity
 	private ContentCallbackListener contentCallbackListener;
 	private ViewCallbackListener activityCallbackListener;
 	private RequestIdentifierEnum requestIdentifier;
+	private RequestParameters requestParameters;
 	
 	private Boolean isConnectedAndHostIsReachable;
 	
@@ -35,6 +37,7 @@ public class CheckNetworkConnectivity
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
 		this.requestIdentifier = requestIdentifier;
+		this.requestParameters = new RequestParameters();
 		
 		this.isConnectedAndHostIsReachable = false;
 	}
@@ -58,11 +61,11 @@ public class CheckNetworkConnectivity
 		{
 			if(isConnectedAndHostIsReachable)
 			{
-				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_AVAILABLE, isConnectedAndHostIsReachable);
+				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_AVAILABLE, isConnectedAndHostIsReachable, requestParameters);
 			}
 			else
 			{
-				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_NOT_AVAILABLE, isConnectedAndHostIsReachable);
+				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_NOT_AVAILABLE, isConnectedAndHostIsReachable, requestParameters);
 			}
 		}
 		else

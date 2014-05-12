@@ -20,6 +20,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.objects.disqus.DisqusThreadDetails;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
@@ -39,6 +40,8 @@ import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
+import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 
@@ -244,7 +247,8 @@ public abstract class ContentManagerCallback
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier, 
 			FetchRequestResultEnum result,
-			Object content)
+			Object content,
+			RequestParameters requestParameters)
 	{
 		switch (requestIdentifier) 
 		{
@@ -283,6 +287,18 @@ public abstract class ContentManagerCallback
 			case COMPETITIONS_ALL_STANDALONE:
 			{
 				handleCompetitionsStandaloneResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
+			case COMPETITION_EVENT_HIGHLIGHTS:
+			{
+				handleCompetitionEventHighlightsResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
+			case COMPETITION_EVENT_LINEUP:
+			{
+				handleCompetitionEventLineUpResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
 				break;
 			}
 			
@@ -862,6 +878,50 @@ public abstract class ContentManagerCallback
 	}
 	
 	
+	
+	private void handleCompetitionEventHighlightsResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<EventHighlight> highlights = (ArrayList<EventHighlight>) content;
+			
+			Long eventID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY);
+			
+			getCache().getCompetitionsData().setHighlightsForEventInSelectedCompetition(eventID, highlights);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	private void handleCompetitionEventLineUpResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<EventLineUp> eventLineUp = (ArrayList<EventLineUp>) content;
+			
+			Long eventID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY);
+			
+			getCache().getCompetitionsData().setLineUpForEventInSelectedCompetition(eventID, eventLineUp);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+
 	
 	private void handleCompetitionsStandaloneResponse(
 			ViewCallbackListener activityCallbackListener,

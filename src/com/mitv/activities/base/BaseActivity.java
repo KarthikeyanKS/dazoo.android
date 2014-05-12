@@ -843,7 +843,7 @@ public abstract class BaseActivity
 	
 	
 	@Override
-	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
 		Log.d(TAG, String.format("onDataAvailable FetchRequestResult: %s requestId: %s", fetchRequestResult.getDescription(), requestIdentifier.getDescription()));
 		
