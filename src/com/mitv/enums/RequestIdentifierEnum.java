@@ -40,7 +40,19 @@ public enum RequestIdentifierEnum {
 	DISQUS_THREAD_COMMENTS(37, "Disqus thread comments"),
 	DISQUS_THREAD_DETAILS(38, "Disqus thread details"),
 	POPULAR_ITEMS_STANDALONE(39, "Popular items standalone"),
-	TV_BROADCASTS_POUPULAR_PROCESSING(40, "TV Broadcasts popular processing");
+	TV_BROADCASTS_POUPULAR_PROCESSING(40, "TV Broadcasts popular processing"),
+	COMPETITIONS_ALL_INITIAL(41, "All available competitions"),
+	COMPETITIONS_ALL_STANDALONE(42, "All available competitions"),
+	COMPETITION_INITIAL_DATA(43, "Competition initial data agregation"),
+	COMPETITION_BY_ID(44, "Specific Competition by ID"),
+	COMPETITION_TEAMS(45, "All teams present in a specific competition"),
+	COMPETITION_TEAM_DETAILS(46, "Details for a team present in a specific competition"),
+	COMPETITION_PHASES(47, "All phases for a specific competition"),
+	COMPETITION_PHASE_BY_ID(48, "A phase for a specific competition"),
+	COMPETITION_EVENTS(49, "All events for a specific competition"),
+	COMPETITION_EVENT_BY_ID(50, "An event for a specific competition"),
+	COMPETITION_STANDINGS_BY_PHASE_ID(51, "All standings for a specific phase"),
+	COMPETITION_POST_PROCESSING(52, "Competition post processing");
 	
 	
 	private final int id;

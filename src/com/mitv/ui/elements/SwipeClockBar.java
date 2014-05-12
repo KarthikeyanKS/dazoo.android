@@ -19,7 +19,6 @@ import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -46,8 +45,8 @@ public class SwipeClockBar
 	public static final int SCREEN_HEIGHT_TABLET = 1920;
 	private static final int HOURS_PER_DAY = 24;
 	private static final int HOUR_NOT_FOUND_IN_LIST_OF_HOURS = -1;
-
 	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 1200;
+	
 	
 	private Activity activity;
 	private VerticalSeekBar seekBar;

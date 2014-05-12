@@ -40,6 +40,9 @@ public class AppConfigurationJSON
 	/* Disqus comments configuration */
 	protected boolean areDisqusCommentsEnabled;
 	
+	/* Competitions configuration */
+	protected boolean areCompetitionsEnabled;
+	
 	protected boolean preventRateAppDialog;
 	
 	/* Cell count configuration */
@@ -331,5 +334,5 @@ public class AppConfigurationJSON
 
 	public boolean areDisqusCommentsEnabled() {
 		return areDisqusCommentsEnabled;
-	}	
+	}
 }

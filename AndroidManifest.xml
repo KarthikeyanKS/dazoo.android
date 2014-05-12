@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="130"
-    android:versionName="1.0.130" >
+    android:versionCode="134"
+    android:versionName="1.0.134" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -24,11 +24,12 @@
 
     <supports-screens
         android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
         android:resizeable="true"
-        android:smallScreens="true" />
-
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="false" />
+    
     <compatible-screens>
 
         <!-- all small size screens -->
@@ -323,6 +324,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
+        </activity>
+        
+        <!-- COMPETITION PAGE -->
+        <activity
+            android:name="com.mitv.activities.competition.CompetitionPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/CompetitionPage" >
         </activity>
 
         <!-- HOCKEY APP ACTIVITIES -->

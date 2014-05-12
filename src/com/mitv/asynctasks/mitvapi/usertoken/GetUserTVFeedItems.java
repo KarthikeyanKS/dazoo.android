@@ -68,7 +68,7 @@ public class GetUserTVFeedItems
 			boolean useItemLimit,
 			int itemLimit)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(itemStartIndex), TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(itemStartIndex), TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false);
 		
 		if(useItemStartIndex)
 		{

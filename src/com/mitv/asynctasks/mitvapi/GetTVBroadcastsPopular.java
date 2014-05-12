@@ -14,6 +14,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.comparators.TVBroadcastComparatorByTime;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
@@ -51,7 +52,7 @@ public class GetTVBroadcastsPopular
 			ViewCallbackListener activityCallbackListener,
 			boolean standalone)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
 	}
 	
 	
@@ -59,6 +60,11 @@ public class GetTVBroadcastsPopular
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
+		
 		super.doInBackground(params);
 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
@@ -88,7 +94,30 @@ public class GetTVBroadcastsPopular
 		{
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
-
+		
+		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		}
+		
 		return null;
+	}
+
+	
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
+		
+		super.onPostExecute(result);
+		
+		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		}
 	}
 }

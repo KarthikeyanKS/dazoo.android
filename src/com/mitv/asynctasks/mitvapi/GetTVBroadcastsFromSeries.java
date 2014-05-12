@@ -51,7 +51,7 @@ public class GetTVBroadcastsFromSeries
 			ViewCallbackListener activityCallbackListener,
 			String tvSeriesId) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId), false);
 	}
 	
 	

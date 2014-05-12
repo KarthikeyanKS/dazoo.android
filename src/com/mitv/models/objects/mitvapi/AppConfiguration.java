@@ -20,31 +20,10 @@ public class AppConfiguration
 {
 	private HashMap<String, Integer> activityNameToCellCountBetweenAdCells;
 	
-	private void buildActivityToCellCountMap() {
-		activityNameToCellCountBetweenAdCells = new HashMap<String, Integer>();
-		
-		String feedActivityName = Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY;
-		String guideFragmentName = Constants.ALL_CATEGORIES_TAG_ID;
-		
-		activityNameToCellCountBetweenAdCells.put(feedActivityName, feedActivityCellCountBetweenAdCells);
-		activityNameToCellCountBetweenAdCells.put(guideFragmentName, guideFragmentCellCountBetweenAdCells);
-	}
-	
-	public Integer getCellCountBetweenAdCellsUsingActivityName(String key) {
-		if(activityNameToCellCountBetweenAdCells == null) {
-			buildActivityToCellCountMap();
-		}
-		
-		Integer cellCountBetweenAdCells = activityNameToCellCountBetweenAdCells.get(key);
-		
-		if(cellCountBetweenAdCells == null) {
-			cellCountBetweenAdCells = 0;
-		}
-			
-		return cellCountBetweenAdCells;
-	}
 	
 	public AppConfiguration(){}
+	
+	
 	
 	public AppConfiguration(AppConfigurationORM ormData)
 	{
@@ -91,5 +70,36 @@ public class AppConfiguration
 		 this.trackingDomain = ormData.getTrackingDomain();
 		 
 		 buildActivityToCellCountMap();
+	}
+	
+	
+	private void buildActivityToCellCountMap() 
+	{
+		activityNameToCellCountBetweenAdCells = new HashMap<String, Integer>();
+		
+		String feedActivityName = Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY;
+		String guideFragmentName = Constants.ALL_CATEGORIES_TAG_ID;
+		
+		activityNameToCellCountBetweenAdCells.put(feedActivityName, feedActivityCellCountBetweenAdCells);
+		activityNameToCellCountBetweenAdCells.put(guideFragmentName, guideFragmentCellCountBetweenAdCells);
+	}
+	
+	
+	
+	public Integer getCellCountBetweenAdCellsUsingActivityName(String key) 
+	{
+		if(activityNameToCellCountBetweenAdCells == null) 
+		{
+			buildActivityToCellCountMap();
+		}
+		
+		Integer cellCountBetweenAdCells = activityNameToCellCountBetweenAdCells.get(key);
+		
+		if(cellCountBetweenAdCells == null)
+		{
+			cellCountBetweenAdCells = 0;
+		}
+			
+		return cellCountBetweenAdCells;
 	}
 }
