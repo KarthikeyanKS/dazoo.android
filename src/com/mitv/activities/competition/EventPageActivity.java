@@ -341,15 +341,6 @@ public class EventPageActivity
 		
 		actionBar.setTitle(eventName);
 		
-		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
-		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
-		remainingTimeInDaysTitle = (TextView) findViewById(R.id.competition_days_title);
-		remainingTimeInHours = (TextView) findViewById(R.id.competition_hours_number);
-		remainingTimeInHoursTitle = (TextView) findViewById(R.id.competition_hours_title);
-		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_minutes_number);
-		remainingTimeInMinutesTitle = (TextView) findViewById(R.id.competition_minutes_title);
-		eventStartTime = (TextView) findViewById(R.id.competition_page_begin_time_broadcast);
-		tvBroadcastChannels = (TextView) findViewById(R.id.competition_airing_channels_for_broadcast);
 		team1Name = (TextView) findViewById(R.id.competition_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);

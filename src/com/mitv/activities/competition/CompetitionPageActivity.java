@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -482,4 +483,5 @@ public class CompetitionPageActivity
 
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) {}
+	
 }
