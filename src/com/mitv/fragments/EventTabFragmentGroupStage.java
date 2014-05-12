@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.mitv.R;
+import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -35,7 +37,6 @@ public class EventTabFragmentGroupStage
 	
 	
 	private LinearLayout listContainerLayout;
-	private ListView listView;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	
@@ -60,8 +61,7 @@ public class EventTabFragmentGroupStage
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
 		
-//		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
-		listView = (ListView) rootView.findViewById(R.id.competition_table_listview);
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -80,7 +80,6 @@ public class EventTabFragmentGroupStage
 	{	
 		super.onResume();
 		
-		//listContainerLayout.measure(0, 0);
 	}
 	
 	
@@ -128,12 +127,17 @@ public class EventTabFragmentGroupStage
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
+				for (int i = 0; i < listAdapter.getCount(); i++) {
+		            View listItem = listAdapter.getView(i, null, listContainerLayout);
+		            if (listItem != null) {
+		            	listContainerLayout.addView(listItem);
+		            }
+		        } 
+
 				
-				listView.setAdapter(listAdapter);
-				
-//				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
-				
-				listAdapter.notifyDataSetChanged();
+				listContainerLayout.measure(0, 0);
+				CompetitionPageActivity.viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+				CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

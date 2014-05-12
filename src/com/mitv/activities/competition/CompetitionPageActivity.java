@@ -33,8 +33,10 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
@@ -43,7 +45,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CompetitionPageActivity 
 	extends BaseContentActivity
-	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener 
+	implements /*OnPageChangeListener,*/ ViewCallbackListener, FetchDataProgressCallbackListener 
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
@@ -54,9 +56,9 @@ public class CompetitionPageActivity
 	private Event event;
 	
 	private TabPageIndicator pageTabIndicator;
-	private LoopViewPager viewPager;
+	public static CustomViewPager viewPager;
 	private EventTabFragmentStatePagerAdapter pagerAdapter;
-	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
+//	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
 	private int selectedTabIndex;
 	
 	private TextView remainingTimeInDays;
@@ -153,67 +155,67 @@ public class CompetitionPageActivity
 	
 	
 	
-	/* Tab elements */
-	
-	public interface OnViewPagerIndexChangedListener 
-	{
-		public void onIndexSelected(int position);
-	}
-	
-	
-	
-	@Override
-	public void onPageSelected(int pos) 
-	{
-		selectedTabIndex = pos;
-		
-		if(viewPagerIndexChangedListener != null)
-		{
-			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
-		}
-		else
-		{
-			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
-		}
-	}
-	
-	
-	
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2){}
-	
-	
-	
-	@Override
-	public void onPageScrollStateChanged(int arg0){}
-	
-	
-	
-	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
-	{
-		return viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
-	{
-		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public int getSelectedTabIndex() 
-	{
-		return selectedTabIndex;
-	}
-	
-	
-	
-	public void setSelectedTabIndex(int selectedTabIndex) 
-	{
-		this.selectedTabIndex = selectedTabIndex;
-	}
+//	/* Tab elements */
+//	
+//	public interface OnViewPagerIndexChangedListener 
+//	{
+//		public void onIndexSelected(int position);
+//	}
+//	
+//	
+//	
+//	@Override
+//	public void onPageSelected(int pos) 
+//	{
+//		selectedTabIndex = pos;
+//		
+//		if(viewPagerIndexChangedListener != null)
+//		{
+//			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+//		}
+//		else
+//		{
+//			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
+//		}
+//	}
+//	
+//	
+//	
+//	@Override
+//	public void onPageScrolled(int arg0, float arg1, int arg2){}
+//	
+//	
+//	
+//	@Override
+//	public void onPageScrollStateChanged(int arg0){}
+//	
+//	
+//	
+//	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
+//	{
+//		return viewPagerIndexChangedListener;
+//	}
+//	
+//	
+//	
+//	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
+//	{
+//		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
+//	}
+//	
+//	
+//	
+//	public int getSelectedTabIndex() 
+//	{
+//		return selectedTabIndex;
+//	}
+//	
+//	
+//	
+//	public void setSelectedTabIndex(int selectedTabIndex) 
+//	{
+//		this.selectedTabIndex = selectedTabIndex;
+//	}
 	
 	
 	
@@ -400,7 +402,7 @@ public class CompetitionPageActivity
 		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
-		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
+		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
 		
 		selectedTabIndex = STARTING_TAB_INDEX;
 	}
@@ -412,7 +414,7 @@ public class CompetitionPageActivity
 		pagerAdapter = new EventTabFragmentStatePagerAdapter(getSupportFragmentManager());
 	
 		viewPager.setAdapter(pagerAdapter);
-		viewPager.setOffscreenPageLimit(1);
+		viewPager.setOffscreenPageLimit(2);
 		viewPager.setBoundaryCaching(true);
 		viewPager.setCurrentItem(selectedIndex);
 		viewPager.setVisibility(View.VISIBLE);
@@ -422,9 +424,11 @@ public class CompetitionPageActivity
 		
 		pageTabIndicator.setVisibility(View.VISIBLE);
 		pageTabIndicator.setViewPager(viewPager);
+		viewPager.setScreenHeight(GenericUtils.getScreenHeight(this));
+		
 		pagerAdapter.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
-		pageTabIndicator.setOnPageChangeListener(this);
+//		pageTabIndicator.setOnPageChangeListener(this);
 		
 		pageTabIndicator.setInitialStyleOnAllTabs();
 		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);

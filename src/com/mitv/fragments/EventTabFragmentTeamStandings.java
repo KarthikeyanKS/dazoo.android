@@ -58,7 +58,7 @@ public class EventTabFragmentTeamStandings
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
 		
-		listView = (ListView) rootView.findViewById(R.id.competition_table_listview);
+//		listView = (ListView) rootView.findViewById(R.id.competition_table_listview);
 
 		super.initRequestCallbackLayouts(rootView);
 		

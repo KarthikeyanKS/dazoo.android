@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,13 +17,12 @@
         android:layout_height="1dp"
         android:layout_below="@id/tab_event_indicator"
         android:background="@color/home_divider" />
-    
-    <com.imbryk.viewPager.LoopViewPager
+
+    <com.mitv.ui.elements.CustomViewPager
         android:id="@+id/tab_event_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider" />
+        android:layout_below="@id/divider"
+        android:tag="sticky" />
 
 </RelativeLayout>
-
-

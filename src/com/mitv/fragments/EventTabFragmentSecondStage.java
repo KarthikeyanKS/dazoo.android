@@ -5,13 +5,17 @@ package com.mitv.fragments;
 
 import java.util.List;
 import java.util.Map;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import com.mitv.R;
+import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -30,8 +34,8 @@ public class EventTabFragmentSecondStage
 {
 	private static final String TAG = EventTabFragmentSecondStage.class.getName();
 	
-	
-	private ListView listView;
+
+	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	
@@ -55,8 +59,8 @@ public class EventTabFragmentSecondStage
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
-		
-		listView = (ListView) rootView.findViewById(R.id.competition_table_listview);
+
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -132,12 +136,15 @@ public class EventTabFragmentSecondStage
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
 
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
-				
-				listView.setAdapter(listAdapter);
-				
-				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
-					
-				listAdapter.notifyDataSetChanged();
+				for (int i = 0; i < listAdapter.getCount(); i++) {
+		            View listItem = listAdapter.getView(i, null, listContainerLayout);
+		            if (listItem != null) {
+		            	listContainerLayout.addView(listItem);
+		            }
+		        } 
+
+				listContainerLayout.measure(0, 0);
+				CompetitionPageActivity.viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
 					
 				break;
 			}

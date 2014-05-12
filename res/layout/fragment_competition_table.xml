@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_table_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey1"
     android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/competition_table_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp"
-        android:cacheColorHint="@null"
-        android:divider="@null"
-        android:fadingEdge="none"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:orientation="vertical"
-        android:visibility="visible" />
+    <!-- include layout="@layout/layout_request_callbacks_holder_main_layout" / -->
 
-    <include layout="@layout/layout_request_callbacks_holder_main_layout" />
-
-</RelativeLayout>
+</LinearLayout>
