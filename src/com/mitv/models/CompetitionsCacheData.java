@@ -248,6 +248,15 @@ public class CompetitionsCacheData
 			Log.w(TAG, "Selected competition is null");
 		}
 	}
+	
+	
+	
+	public synchronized boolean containsCompetitionsData()
+	{
+		boolean containsCompetitionsData = (allCompetitions.isEmpty() == false);
+		
+		return containsCompetitionsData;
+	}
 
 	
 	

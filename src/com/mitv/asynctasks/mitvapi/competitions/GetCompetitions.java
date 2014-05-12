@@ -30,11 +30,30 @@ public class GetCompetitions
 	
 	
 	
+	private static RequestIdentifierEnum getRequestIdentifier(boolean standalone)
+	{
+		RequestIdentifierEnum requestIdentifier;
+		
+		if(standalone)
+		{
+			requestIdentifier = RequestIdentifierEnum.COMPETITIONS_ALL_STANDALONE;
+		}
+		else
+		{
+			requestIdentifier = RequestIdentifierEnum.COMPETITIONS_ALL_INITIAL;
+		}
+		
+		return requestIdentifier;
+	}
+	
+	
+	
 	public GetCompetitions(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener)
+			ViewCallbackListener activityCallbackListener,
+			boolean standalone)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITIONS_ALL, Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true);
 	}
 	
 	
