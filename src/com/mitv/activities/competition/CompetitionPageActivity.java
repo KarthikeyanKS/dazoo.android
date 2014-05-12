@@ -80,7 +80,7 @@ public class CompetitionPageActivity
 	private TextView team2Name;
 	private ImageView team2Flag;
 	private RelativeLayout countDownArea;
-	private ScrollView scrollView;
+	private TextView nextGameText;
 	
 	private EventCountDownTimer eventCountDownTimer;
 	
@@ -305,6 +305,15 @@ public class CompetitionPageActivity
 		
 		team2Name.setText(awayTeamName);
 		
+		StringBuilder sb = new StringBuilder();
+		sb.append(getResources().getString(R.string.competition_page_first_game))
+			.append(" - ")
+			.append(event.getEventTimeDayOfTheWeekAsString())
+			.append(" ")
+			.append(event.getEventTimeDayAndMonthAsString());
+		
+		nextGameText.setText(sb.toString());
+		
 		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 		
 		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
@@ -397,6 +406,7 @@ public class CompetitionPageActivity
 		team1Flag = (ImageView) findViewById(R.id.competition_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
+		nextGameText = (TextView) findViewById(R.id.competition_next_game_text);
 		
 		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
 		

@@ -481,8 +481,8 @@ public abstract class DateUtils
 		
 		Calendar now = getNow();
 		
-    	boolean isCorrectYear = (now.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) <= 1;
-    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) <= 1;
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) == 0;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) == 0;
     	boolean isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, now);
     	
 		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;

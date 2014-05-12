@@ -4,6 +4,8 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 import java.util.Calendar;
+import java.util.Date;
+
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
 import com.mitv.utilities.DateUtils;
 
@@ -92,8 +94,8 @@ public class Event
 		
 		Calendar beginTime = this.getEventDateCalendarLocal();
 		
-    	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) <= 1;
-    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) <= 1;
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
     	boolean isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, now);
     	
 		boolean isAiringToday = isCorrectYear && isCorrectMonth && isSameDay;
