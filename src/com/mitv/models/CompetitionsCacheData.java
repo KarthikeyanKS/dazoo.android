@@ -14,6 +14,8 @@ import android.util.Log;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
+import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -305,6 +307,37 @@ public class CompetitionsCacheData
 	
 	
 	
+	public synchronized boolean containsEventLineUpData(Long competitionID, Long eventID) 
+	{
+		boolean containsEventLineUpData = false;
+	
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			containsEventLineUpData = competitionCacheData.hasLineUpData(eventID);
+		}
+		
+		return containsEventLineUpData;
+	}
+	
+	
+	public synchronized boolean containsEventHighlightsData(Long competitionID, Long eventID) 
+	{
+		boolean containsEventHighlightsData = false;
+	
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			containsEventHighlightsData = competitionCacheData.hasHighlightsData(eventID);
+		}
+		
+		return containsEventHighlightsData;
+	}
+	
+	
+	
 	public synchronized boolean containsEventData(Long competitionID, Long eventID) 
 	{
 		boolean containsEventData = false;
@@ -339,5 +372,33 @@ public class CompetitionsCacheData
 	{
 		selectedCompetition.setEventsGroupedByFirstStage();
 		selectedCompetition.setEventsGroupedBySecondStage();
+	}
+	
+	
+	
+	public synchronized List<EventHighlight> getEventHighlightsForEventInSelectedCompetition(Long eventID)
+	{
+		return selectedCompetition.getHighlightsByEvent().get(eventID);
+	}
+	
+	
+	
+	public synchronized List<EventLineUp> getEventLineUpForEventInSelectedCompetition(Long eventID)
+	{
+		return selectedCompetition.getLineupByEvent().get(eventID);
+	}
+	
+	
+	
+	public synchronized void setHighlightsForEventInSelectedCompetition(Long eventID, List<EventHighlight> eventHighligths)
+	{
+		selectedCompetition.getHighlightsByEvent().put(eventID, eventHighligths);
+	}
+	
+	
+	
+	public synchronized void setLineUpForEventInSelectedCompetition(Long eventID, List<EventLineUp> eventLineup)
+	{
+		selectedCompetition.getLineupByEvent().put(eventID, eventLineup);
 	}
 }

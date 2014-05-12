@@ -52,7 +52,10 @@ public enum RequestIdentifierEnum {
 	COMPETITION_EVENTS(49, "All events for a specific competition"),
 	COMPETITION_EVENT_BY_ID(50, "An event for a specific competition"),
 	COMPETITION_STANDINGS_BY_PHASE_ID(51, "All standings for a specific phase"),
-	COMPETITION_POST_PROCESSING(52, "Competition post processing");
+	COMPETITION_POST_PROCESSING(52, "Competition post processing"),
+	COMPETITION_EVENT_HIGHLIGHTS(53, "Competition event highlights"),
+	COMPETITION_EVENT_LINEUP(54, "Competition event line");
+	
 	
 	
 	private final int id;

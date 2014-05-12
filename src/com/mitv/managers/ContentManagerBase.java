@@ -70,8 +70,6 @@ public abstract class ContentManagerBase
 	protected boolean isFetchingFeedItems;
 	protected boolean isGoingToMyChannelsFromSearch;
 	protected Boolean isLocalDeviceCalendarOffSync;
-	
-	
 		
 	
 	
@@ -371,6 +369,36 @@ public abstract class ContentManagerBase
 		long competitionID = selectedCompetition.getCompetitionId();
 		
 		return getFromCacheHasCompetitionData(competitionID);
+	}
+	
+	
+	
+	public boolean getFromCacheHasLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		boolean hasLineUpDataByEventIDForSelectedCompetition = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasLineUpDataByEventIDForSelectedCompetition = getCache().getCompetitionsData().containsEventLineUpData(competitionID, eventID);
+
+		return hasLineUpDataByEventIDForSelectedCompetition;
+	}
+	
+	
+	
+	public boolean getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		boolean hasHighlightsDataByEventIDForSelectedCompetition = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasHighlightsDataByEventIDForSelectedCompetition = getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID);
+
+		return hasHighlightsDataByEventIDForSelectedCompetition;
 	}
 	
 	
@@ -1152,6 +1180,20 @@ public abstract class ContentManagerBase
 	public void setSelectedCompetitionProcessedData()
 	{
 		getCache().getCompetitionsData().setSelectedCompetitionProcessedData();
+	}
+	
+	
+	
+	public void getFromCacheLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		getCache().getCompetitionsData().getEventLineUpForEventInSelectedCompetition(eventID);
+	}
+	
+	
+	
+	public void getFromCacheHighlightsDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
 	}
 	
 	

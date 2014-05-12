@@ -24,7 +24,6 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -103,6 +102,7 @@ public abstract class ContentManagerServiceFetching
 		
 		getAPIClient().getDisqusThreadPosts(activityCallbackListener, contentID);
 	}
+	
 	
 	
 	public void fetchFromServiceDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID) 
@@ -519,6 +519,42 @@ public abstract class ContentManagerServiceFetching
 		else 
 		{
 			getAPIClient().getCompetitions(activityCallbackListener, true);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceEventHighlighstData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long competitionID,
+			Long eventID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS);
+		} 
+		else 
+		{
+			getAPIClient().GetEventHighlights(activityCallbackListener, competitionID, eventID);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceEventLineUpData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long competitionID,
+			Long eventID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsEventLineUpData(competitionID, eventID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_EVENT_LINEUP);
+		} 
+		else 
+		{
+			getAPIClient().GetEventLineUp(activityCallbackListener, competitionID, eventID);
 		}
 	}
 	

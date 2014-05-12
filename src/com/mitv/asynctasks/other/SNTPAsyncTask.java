@@ -14,6 +14,7 @@ import com.mitv.SNTPClient;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.TrackingManager;
 
@@ -28,6 +29,7 @@ public class SNTPAsyncTask
 	
 	private ContentCallbackListener contentCallbackListener;
 	private ViewCallbackListener activityCallbackListener;
+	private RequestParameters requestParameters;
 	
 	protected Object requestResultObjectContent;
 	
@@ -39,6 +41,7 @@ public class SNTPAsyncTask
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
+		this.requestParameters = new RequestParameters();
 	}
 
 
@@ -99,7 +102,7 @@ public class SNTPAsyncTask
 		
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.SNTP_CALL, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.SNTP_CALL, FetchRequestResultEnum.SUCCESS, requestResultObjectContent, requestParameters);
 		}
 		else
 		{

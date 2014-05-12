@@ -6,6 +6,7 @@ package com.mitv.asynctasks.other;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ public class CompetitionDataPostProcessingTask
 	private ContentCallbackListener contentCallbackListener;
 	private ViewCallbackListener activityCallbackListener;
 	private Object requestResultObjectContent;
+	private RequestParameters requestParameters;
 	
 	
 	
@@ -31,6 +33,7 @@ public class CompetitionDataPostProcessingTask
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
+		this.requestParameters = new RequestParameters();
 	}
 	
 	
@@ -58,7 +61,7 @@ public class CompetitionDataPostProcessingTask
 	{	
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING, FetchRequestResultEnum.SUCCESS, requestResultObjectContent, requestParameters);
 		}
 		else
 		{

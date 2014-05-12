@@ -20,8 +20,8 @@ import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.managers.TrackingManager;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -54,6 +54,9 @@ public abstract class AsyncTaskBase<T>
 	protected Object requestResultObjectContent;
 	
 	protected HTTPCoreResponse response;
+	
+	// Request parameters to pass along to the handles. Each subclass should set it as necessary.
+	protected RequestParameters requestParameters;
 	
 	protected boolean isMiTVAPICall;
 	
@@ -134,6 +137,7 @@ public abstract class AsyncTaskBase<T>
 		this.requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
 		this.requestResultObjectContent = null;
 		this.response = null;
+		this.requestParameters = new RequestParameters();
 		
 		this.isMiTVAPICall = isMiTVAPICall;
 		
@@ -313,7 +317,7 @@ public abstract class AsyncTaskBase<T>
 		
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, requestResultStatus, requestResultObjectContent, requestParameters);
 		}
 		else
 		{
