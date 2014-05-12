@@ -6,6 +6,7 @@ package com.mitv.activities.competition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.Constants;
 import com.mitv.R;
@@ -32,10 +34,8 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
-import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -43,16 +43,16 @@ import com.viewpagerindicator.TabPageIndicator;
 
 
 
-public class CompetitionPageActivity 
+public class EventPageActivity 
 	extends BaseContentActivity
 	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener 
 {
-	private static final String TAG = CompetitionPageActivity.class.getName();
+	private static final String TAG = EventPageActivity.class.getName();
 	
 	
 	private static final int STARTING_TAB_INDEX = 0;
 	
-	private Competition competition;
+
 	private Event event;
 	
 	private TabPageIndicator pageTabIndicator;
@@ -80,8 +80,6 @@ public class CompetitionPageActivity
 	private RelativeLayout countDownArea;
 	private ScrollView scrollView;
 	
-	private EventCountDownTimer eventCountDownTimer;
-	
 	
 	
 	@Override
@@ -94,15 +92,13 @@ public class CompetitionPageActivity
 			return;
 		}
 		
-		setContentView(R.layout.layout_competition_events_page);
+		setContentView(R.layout.layout_competition_event_page);
 		
 		Intent intent = getIntent();
 		
-		long competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
+		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
 		
-		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-		
-		ContentManager.sharedInstance().setSelectedCompetition(competition);
+		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 		
@@ -110,20 +106,7 @@ public class CompetitionPageActivity
 		
 		setAdapter(selectedTabIndex);
 	}
-	
-	
-	
-	@Override
-	public void onPause()
-	{
-		super.onPause();
 		
-		if(eventCountDownTimer != null)
-		{
-			eventCountDownTimer.cancel();
-		}
-	}
-	
 	
 	
 	@Override
@@ -227,33 +210,6 @@ public class CompetitionPageActivity
 	
 	private void setData()
 	{
-		String competitionName = competition.getDisplayName();
-		
-		if (competition.hasBegun())
-		{
-			countDownArea.setVisibility(View.GONE);
-		}
-		else
-		{
-			countDownArea.setVisibility(View.VISIBLE);
-			
-			long competitionStartTimeInMiliseconds = competition.getBeginTimeCalendarLocal().getTimeInMillis();
-			
-			long millisecondsUntilEventStart = (competitionStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
-			
-			eventCountDownTimer = new EventCountDownTimer(
-					competitionName, 
-					millisecondsUntilEventStart, 
-					remainingTimeInDays,
-					remainingTimeInHours,
-					remainingTimeInMinutes,
-					remainingTimeInDaysTitle,
-					remainingTimeInHoursTitle,
-					remainingTimeInMinutesTitle);
-			
-			eventCountDownTimer.start();
-		}
-		
 		String homeTeamName = event.getHomeTeam();
 			
 		String awayTeamName = event.getAwayTeam();
@@ -378,9 +334,12 @@ public class CompetitionPageActivity
 	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		String competitionName = competition.getDisplayName();
+		StringBuilder eventName = new StringBuilder();
+		eventName.append(event.getHomeTeam())
+		.append(" : ")
+		.append(event.getAwayTeam());
 		
-		actionBar.setTitle(competitionName);
+		actionBar.setTitle(eventName);
 		
 		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
@@ -439,7 +398,7 @@ public class CompetitionPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competition.getCompetitionId());
+		//ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competition.getCompetitionId());
 	}
 
 
@@ -447,7 +406,7 @@ public class CompetitionPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
+		boolean hasData = ContentManager.sharedInstance().getFromCacheHasEventData(event.getCompetitionId(), event.getEventId());
 		
 		return hasData;
 	}
@@ -478,7 +437,8 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setListView() {
+	private void setListView() 
+	{
 		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
 		
 		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();

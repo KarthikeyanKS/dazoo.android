@@ -6,10 +6,18 @@ package com.mitv.models.gson.mitvapi.competitions;
 public class EventHighlightJSON
 {
 	private String highlightId;
-	private String highlightType;
-	private String description;
-	private String beginTime;
-	private String endTime;
+	private String action;
+	private int actionCode;
+	private long actionTime;
+	private long teamId;
+	private String team;
+	private long personId;
+	private String actionMinute;
+	private String person;
+	private long subPersonId;
+	private String subPerson;
+	private long subActionReasonId;
+	private String subActionReason;
 	
 	
 	
@@ -23,25 +31,73 @@ public class EventHighlightJSON
 
 
 
-	public String getHighlightType() {
-		return highlightType;
+	public String getAction() {
+		return action;
 	}
 
 
 
-	public String getDescription() {
-		return description;
+	public int getActionCode() {
+		return actionCode;
 	}
 
 
 
-	public String getBeginTime() {
-		return beginTime;
+	public long getActionTime() {
+		return actionTime;
 	}
 
 
 
-	public String getEndTime() {
-		return endTime;
+	public long getTeamId() {
+		return teamId;
+	}
+
+
+
+	public String getTeam() {
+		return team;
+	}
+
+
+
+	public long getPersonId() {
+		return personId;
+	}
+
+
+
+	public String getActionMinute() {
+		return actionMinute;
+	}
+
+
+
+	public String getPerson() {
+		return person;
+	}
+
+
+
+	public long getSubPersonId() {
+		return subPersonId;
+	}
+
+
+
+	public String getSubPerson() {
+		return subPerson;
+	}
+
+
+
+	public long getSubActionReasonId() {
+		return subActionReasonId;
+	}
+
+
+
+	public String getSubActionReason() {
+		return subActionReason;
 	}
 }

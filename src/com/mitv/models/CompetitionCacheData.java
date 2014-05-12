@@ -143,6 +143,15 @@ public class CompetitionCacheData
 		
 		return hasCompetitionInitialData;
 	}
+	
+	
+	
+	public boolean hasEventData()
+	{
+		boolean hasEventData = (events.isEmpty() == false);
+		
+		return hasEventData;
+	}
 
 
 

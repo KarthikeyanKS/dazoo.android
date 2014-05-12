@@ -114,6 +114,8 @@ public abstract class Constants
 	public static final String URL_PHASES_FULL 					 	= "/api/sports/phases";
 	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
+	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
+	public static final String URL_LINE_UP 					 		= "/lineup";
 	public static final String URL_POLLS 					 		= "/polls";
 	
 	/* API request strings */
@@ -496,6 +498,7 @@ public abstract class Constants
 	
 	
 	public static final String INTENT_COMPETITION_ID = "competitionID";
+	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	public static final String GROUP_STAGE = "Fase de Grupos";
 	public static final int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON = 1;
 }
