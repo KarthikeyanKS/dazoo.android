@@ -124,7 +124,6 @@ public class CompetitionEventsByGroupListAdapter
 			ViewHolder viewHolder = new ViewHolder();
 
 			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event);
-			viewHolder.groupContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container_event);
 			
 			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
 			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_row_divider);
@@ -151,7 +150,6 @@ public class CompetitionEventsByGroupListAdapter
 		{
 			holder.startWeekDayHeader.setVisibility(View.GONE);
 			holder.dividerView.setVisibility(View.GONE);
-			holder.groupContainer.setVisibility(View.GONE);
 			holder.group.setVisibility(View.GONE);
 			
 			final Event event = getItem(position);
@@ -234,7 +232,6 @@ public class CompetitionEventsByGroupListAdapter
 					holder.group.setText("");
 				}
 
-				holder.groupContainer.setVisibility(View.VISIBLE);
 				holder.group.setVisibility(View.VISIBLE);
 				
 				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
@@ -366,7 +363,6 @@ public class CompetitionEventsByGroupListAdapter
 	private static class ViewHolder 
 	{
 		private TextView group;
-		private RelativeLayout groupContainer;
 		private TextView startWeekDayHeader;
 		private TextView team1name;
 		private ImageView team1flag;
