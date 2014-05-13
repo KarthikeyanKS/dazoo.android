@@ -239,7 +239,7 @@ public class CompetitionEventsByGroupListAdapter
 				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
 			}
 			
-			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
+			if (isLastPosition == false && isBeginTimeEqualToNextItem)
 			{
 				holder.dividerView.setVisibility(View.VISIBLE);
 			}			
