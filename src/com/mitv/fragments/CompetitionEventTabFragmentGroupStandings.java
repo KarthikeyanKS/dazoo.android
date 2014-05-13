@@ -4,7 +4,6 @@ package com.mitv.fragments;
 
 
 import java.util.List;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +15,7 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
+import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -24,6 +23,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 
 
 
@@ -39,7 +39,7 @@ public class CompetitionEventTabFragmentGroupStandings
 	private long eventID;
 	
 	private LinearLayout listContainerLayout;
-	private CompetitionEventsByGroupListAdapter listAdapter;
+	private CompetitionEventStandingsListAdapter listAdapter;
 	
 	
 	
@@ -69,8 +69,6 @@ public class CompetitionEventTabFragmentGroupStandings
 	
 		super.initRequestCallbackLayouts(rootView);
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-	
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
@@ -98,7 +96,13 @@ public class CompetitionEventTabFragmentGroupStandings
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		updateUI(UIStatusEnum.LOADING);
+		
+		long competitionID = getEvent().getCompetitionId();
+		
+		long phaseID = getEvent().getPhaseId();
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, false, competitionID, phaseID);
 	}
 	
 	
@@ -106,7 +110,9 @@ public class CompetitionEventTabFragmentGroupStandings
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
+		long phaseID = getEvent().getPhaseId();
+		
+		return ContentManager.sharedInstance().getFromCacheHasStandingsForPhaseInSelectedCompetition(phaseID);
 	}
 	
 	
@@ -135,9 +141,11 @@ public class CompetitionEventTabFragmentGroupStandings
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
+				long phaseID = getEvent().getPhaseId();
+				
+				List<Standings> standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
 	
-				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
+				listAdapter = new CompetitionEventStandingsListAdapter(activity, standings);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{

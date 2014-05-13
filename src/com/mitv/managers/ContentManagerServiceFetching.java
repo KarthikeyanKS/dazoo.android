@@ -542,6 +542,24 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
+	public void getElseFetchFromServiceEventStandingsData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long competitionID,
+			Long phaseID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsStandingsData(competitionID, phaseID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID);
+		}
+		else 
+		{
+			getAPIClient().GetStandingsForPhase(activityCallbackListener, phaseID);
+		}
+	}
+	
+	
+	
 	public void getElseFetchFromServiceEventLineUpData(
 			ViewCallbackListener activityCallbackListener, 
 			boolean forceDownload,

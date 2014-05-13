@@ -38,6 +38,8 @@ import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
+import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -375,30 +377,45 @@ public abstract class ContentManagerBase
 	
 	public boolean getFromCacheHasLineUpDataByEventIDForSelectedCompetition(Long eventID)
 	{
-		boolean hasLineUpDataByEventIDForSelectedCompetition = false;
+		boolean hasData = false;
 		
 		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
 		
 		long competitionID = selectedCompetition.getCompetitionId();
 		
-		hasLineUpDataByEventIDForSelectedCompetition = getCache().getCompetitionsData().containsEventLineUpData(competitionID, eventID);
+		hasData = getCache().getCompetitionsData().containsEventLineUpData(competitionID, eventID);
 
-		return hasLineUpDataByEventIDForSelectedCompetition;
+		return hasData;
 	}
 	
 	
 	
 	public boolean getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(Long eventID)
 	{
-		boolean hasHighlightsDataByEventIDForSelectedCompetition = false;
+		boolean hasData = false;
 		
 		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
 		
 		long competitionID = selectedCompetition.getCompetitionId();
 		
-		hasHighlightsDataByEventIDForSelectedCompetition = getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID);
+		hasData = getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID);
 
-		return hasHighlightsDataByEventIDForSelectedCompetition;
+		return hasData;
+	}
+	
+	
+	
+	public boolean getFromCacheHasStandingsForPhaseInSelectedCompetition(Long phaseID)
+	{
+		boolean hasData = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasData = getCache().getCompetitionsData().containsStandingsData(competitionID, phaseID);
+		
+		return hasData;
 	}
 	
 	
@@ -1184,16 +1201,23 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public void getFromCacheLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	public List<EventLineUp> getFromCacheLineUpDataByEventIDForSelectedCompetition(Long eventID)
 	{
-		getCache().getCompetitionsData().getEventLineUpForEventInSelectedCompetition(eventID);
+		return getCache().getCompetitionsData().getEventLineUpForEventInSelectedCompetition(eventID);
 	}
 	
 	
 	
-	public void getFromCacheHighlightsDataByEventIDForSelectedCompetition(Long eventID)
+	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(Long eventID)
 	{
-		getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
+		return getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
+	}
+	
+	
+	
+	public List<Standings> getFromCacheStandingsForPhaseInSelectedCompetition(Long phaseID)
+	{
+		return getCache().getCompetitionsData().getEventStandingsForPhaseInSelectedCompetition(phaseID);
 	}
 	
 	

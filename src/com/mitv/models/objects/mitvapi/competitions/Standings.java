@@ -15,4 +15,10 @@ public class Standings
 	
 	
 	public Standings(){}
+	
+	
+	public int getGoalsForMinusGoalsAgainst()
+	{
+		return goalsFor - goalsAgainst;
+	}
 }

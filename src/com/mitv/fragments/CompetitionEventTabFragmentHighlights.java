@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
+import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -24,6 +25,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 
 
 
@@ -39,7 +41,7 @@ public class CompetitionEventTabFragmentHighlights
 	private long eventID;
 	
 	private LinearLayout listContainerLayout;
-	private CompetitionEventsByGroupListAdapter listAdapter;
+	private CompetitionEventHighlightsListAdapter listAdapter;
 	
 	
 	
@@ -69,8 +71,6 @@ public class CompetitionEventTabFragmentHighlights
 	
 		super.initRequestCallbackLayouts(rootView);
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-	
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
@@ -98,7 +98,13 @@ public class CompetitionEventTabFragmentHighlights
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		updateUI(UIStatusEnum.LOADING);
+		
+		long competitionID = getEvent().getCompetitionId();
+		
+		long eventID = getEvent().getEventId();
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, competitionID, eventID);
 	}
 	
 	
@@ -106,7 +112,9 @@ public class CompetitionEventTabFragmentHighlights
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
+		long eventID = getEvent().getEventId();
+		
+		return ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID);
 	}
 	
 	
@@ -135,11 +143,13 @@ public class CompetitionEventTabFragmentHighlights
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-	
-				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
+				long eventID = getEvent().getEventId();
 				
-				for (int i = 0; i < listAdapter.getCount(); i++) 
+				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+	
+				listAdapter = new CompetitionEventHighlightsListAdapter(activity, eventHighlights);
+				
+				for (int i = 0; i < listAdapter.getCount(); i++)
 				{
 		            View listItem = listAdapter.getView(i, null, listContainerLayout);
 		           
