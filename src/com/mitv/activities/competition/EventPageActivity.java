@@ -5,14 +5,14 @@ package com.mitv.activities.competition;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -69,6 +69,13 @@ public class EventPageActivity
 	private ImageView team1Flag;
 	private TextView team2Name;
 	private ImageView team2Flag;
+	private RelativeLayout nextGameLayout;
+	private TextView groupHeader;
+	private TextView liveStandings;
+	private TextView liveTimeInGame;
+	private LinearLayout broadcastListView;
+	private TextView likeIcon;
+	private TextView shareIcon;
 	
 	
 	
@@ -272,6 +279,11 @@ public class EventPageActivity
 		team1Flag = (ImageView) findViewById(R.id.competition_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
+		nextGameLayout = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
+		groupHeader = (TextView) findViewById(R.id.competition_event_group_header);
+		liveStandings = (TextView) findViewById(R.id.competition_event_live_standing);
+		liveTimeInGame = (TextView) findViewById(R.id.competition_event_live_time);
+		broadcastListView = (LinearLayout) findViewById(R.id.competition_event_broadcasts_listview);
 		
 		pageTabIndicatorForHighlightsAndLineup = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_highlights_and_lineup);
 		viewPagerForHighlightsAndLineup = (CustomViewPager) findViewById(R.id.tab_event_pager_for_highlights_and_lineup);
@@ -286,7 +298,7 @@ public class EventPageActivity
 	
 	private void setAdapterForHighlightsAndLineup(int selectedIndex) 
 	{
-		pagerAdapterForHighlightsAndLineup = new CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter(getSupportFragmentManager());
+		pagerAdapterForHighlightsAndLineup = new CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter(getSupportFragmentManager(), event.getEventId());
 	
 		viewPagerForHighlightsAndLineup.setAdapter(pagerAdapterForHighlightsAndLineup);
 		viewPagerForHighlightsAndLineup.setOffscreenPageLimit(1);
@@ -315,7 +327,7 @@ public class EventPageActivity
 		StringBuilder groupName = new StringBuilder();
 		groupName.append(phase.getPhase());
 		
-		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), groupName.toString());
+		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), groupName.toString(), event.getEventId());
 	
 		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
 		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);

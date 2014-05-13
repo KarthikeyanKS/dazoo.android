@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
@@ -33,6 +34,8 @@ public class CompetitionTabFragmentSecondStage
 	private static final String TAG = CompetitionTabFragmentSecondStage.class.getName();
 	
 
+	private long competitionID;
+	
 	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
@@ -46,9 +49,11 @@ public class CompetitionTabFragmentSecondStage
 
 	
 	
-	public CompetitionTabFragmentSecondStage(String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionTabFragmentSecondStage(final long competitionID, String tabId, String tabTitle, EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
+		
+		this.competitionID = competitionID;
 	}
 	
 	
@@ -67,16 +72,24 @@ public class CompetitionTabFragmentSecondStage
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
+		if (savedInstanceState != null) 
+        {
+            // Restore last state for checked position.
+        	competitionID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_ID, 0);
+        }
+		
 		return rootView;
 	}
 	
 	
 	
 	@Override
-	public void onResume() 
-	{	
-		super.onResume();
-	}
+    public void onSaveInstanceState(Bundle outState) 
+	{
+        super.onSaveInstanceState(outState);
+        
+        outState.putLong(Constants.INTENT_COMPETITION_ID, competitionID);
+    }
 	
 	
 	

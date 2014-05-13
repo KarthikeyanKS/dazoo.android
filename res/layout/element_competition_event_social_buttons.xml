@@ -9,7 +9,7 @@
     <!-- LIKE BUTTON -->
 
     <com.mitv.ui.elements.LikeView
-        android:id="@+id/element_social_buttons_like_view"
+        android:id="@+id/competition_element_social_buttons_like_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -29,7 +29,7 @@
     <!-- SHARE BUTTON -->
 
     <RelativeLayout
-        android:id="@+id/element_social_buttons_share_button_container"
+        android:id="@+id/competition_element_social_buttons_share_button_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -37,7 +37,7 @@
         android:background="@drawable/background_color_selector" >
 
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/element_social_buttons_share_button_iv"
+            android:id="@+id/competition_element_social_buttons_share_button_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

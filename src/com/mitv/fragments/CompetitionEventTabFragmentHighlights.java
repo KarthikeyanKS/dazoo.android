@@ -5,11 +5,15 @@ package com.mitv.fragments;
 
 import java.util.List;
 import java.util.Map;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
@@ -27,9 +31,12 @@ public class CompetitionEventTabFragmentHighlights
 	extends CompetitionTabFragment
 	implements ViewCallbackListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = CompetitionTabFragmentGroupStage.class.getName();
 	
+	
+	private Event event;
+	
+	private long eventID;
 	
 	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
@@ -44,9 +51,11 @@ public class CompetitionEventTabFragmentHighlights
 	
 	
 	
-	public CompetitionEventTabFragmentHighlights(String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionEventTabFragmentHighlights(long eventID, String tabId, String tabTitle, EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
+		
+		this.eventID = eventID;
 	}
 	
 	
@@ -65,17 +74,24 @@ public class CompetitionEventTabFragmentHighlights
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
+		if (savedInstanceState != null) 
+        {
+            // Restore last state for checked position.
+			eventID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+        }
+		
 		return rootView;
 	}
 	
 	
 	
 	@Override
-	public void onResume() 
-	{	
-		super.onResume();
-		
-	}
+    public void onSaveInstanceState(Bundle outState) 
+	{
+        super.onSaveInstanceState(outState);
+        
+        outState.putLong(Constants.INTENT_COMPETITION_EVENT_ID, eventID);
+    }
 	
 	
 	
@@ -148,5 +164,19 @@ public class CompetitionEventTabFragmentHighlights
 				break;
 			}
 		}
+	}
+	
+	
+	
+	private Event getEvent()
+	{
+		if(this.event == null)
+		{
+			Log.d(TAG, "Event ID is: " + eventID);
+			
+			this.event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		}
+		
+		return event;
 	}
 }

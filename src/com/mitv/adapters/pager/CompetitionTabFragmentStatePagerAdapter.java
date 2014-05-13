@@ -29,19 +29,23 @@ public class CompetitionTabFragmentStatePagerAdapter
 	
 	
 	private List<String> tabs;
+	private long competitionID;
 	
 	private static final int GROUP_STAGE_POSITION = 0;
 	private static final int SECOND_STAGE_POSITION = 1;
 	private static final int TEAM_STANDINGS_POSITION = 2;
 	
 	
-	public CompetitionTabFragmentStatePagerAdapter(final FragmentManager fm) 
+	public CompetitionTabFragmentStatePagerAdapter(
+			final FragmentManager fm,
+			final long competitionID) 
 	{
 		super(fm);
 		
 		Context context = SecondScreenApplication.sharedInstance();
 		
 		this.tabs = new ArrayList<String>();
+		this.competitionID = competitionID;
 		
 		tabs.add(context.getString(R.string.competition_page_tab_group_stage));
 		tabs.add(context.getString(R.string.competition_page_tab_second_stage));
@@ -64,19 +68,19 @@ public class CompetitionTabFragmentStatePagerAdapter
 		{
 			case GROUP_STAGE_POSITION:
 			{
-				fragment = new CompetitionTabFragmentGroupStage(tab, tab, EventTabTypeEnum.COMPETITION_GROUP_STAGE);
+				fragment = new CompetitionTabFragmentGroupStage(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_GROUP_STAGE);
 				break;
 			}
 			
 			case SECOND_STAGE_POSITION:
 			{
-				fragment = new CompetitionTabFragmentSecondStage(tab, tab, EventTabTypeEnum.COMPETITION_SECOND_STAGE);
+				fragment = new CompetitionTabFragmentSecondStage(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_SECOND_STAGE);
 				break;
 			}
 			
 			case TEAM_STANDINGS_POSITION:
 			{
-				fragment = new CompetitionTabFragmentTeamStandings(tab, tab, EventTabTypeEnum.COMPETITION_STANDINGS);
+				fragment = new CompetitionTabFragmentTeamStandings(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_STANDINGS);
 				break;
 			}
 			

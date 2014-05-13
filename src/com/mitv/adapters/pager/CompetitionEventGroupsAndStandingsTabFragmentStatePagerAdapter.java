@@ -16,8 +16,8 @@ import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventTabTypeEnum;
-import com.mitv.fragments.CompetitionEventTabGroupStandings;
-import com.mitv.fragments.CompetitionTabFragmentGroupStage;
+import com.mitv.fragments.CompetitionEventTabFragmentGroupStage;
+import com.mitv.fragments.CompetitionEventTabFragmentGroupStandings;
 
 
 
@@ -28,6 +28,7 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 	
 	
 	private List<String> tabs;
+	private long eventID;
 	
 	private static final int GROUP_STAGE_POSITION = 0;
 	private static final int SECOND_STAGE_POSITION = 1;
@@ -35,13 +36,15 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 	
 	public CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(
 			final FragmentManager fm,
-			final String firstTabName) 
+			final String firstTabName,
+			final long eventID) 
 	{
 		super(fm);
 		
 		Context context = SecondScreenApplication.sharedInstance();
 		
 		this.tabs = new ArrayList<String>();
+		this.eventID = eventID;
 		
 		tabs.add(firstTabName);
 		tabs.add(context.getString(R.string.event_page_tab_standings));
@@ -63,13 +66,13 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 		{
 			case GROUP_STAGE_POSITION:
 			{
-				fragment = new CompetitionTabFragmentGroupStage(tab, tab, EventTabTypeEnum.EVENT_GROUP_STAGE);
+				fragment = new CompetitionEventTabFragmentGroupStage(eventID, tab, tab, EventTabTypeEnum.EVENT_GROUP_STAGE);
 				break;
 			}
 			
 			case SECOND_STAGE_POSITION:
 			{
-				fragment = new CompetitionEventTabGroupStandings(tab, tab, EventTabTypeEnum.EVENT_GROUP_STANDINGS);
+				fragment = new CompetitionEventTabFragmentGroupStandings(eventID, tab, tab, EventTabTypeEnum.EVENT_GROUP_STANDINGS);
 				break;
 			}
 

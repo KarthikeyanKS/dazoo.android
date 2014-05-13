@@ -28,18 +28,22 @@ public class CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter
 	
 	
 	private List<String> tabs;
+	private long eventID;
 	
 	private static final int GROUP_STAGE_POSITION = 0;
 	private static final int SECOND_STAGE_POSITION = 1;
 	
 	
-	public CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter(final FragmentManager fm) 
+	public CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter(
+			final FragmentManager fm,
+			final long eventID)
 	{
 		super(fm);
 		
 		Context context = SecondScreenApplication.sharedInstance();
 		
 		this.tabs = new ArrayList<String>();
+		this.eventID = eventID;
 		
 		tabs.add(context.getString(R.string.event_page_tab_highlights));
 		tabs.add(context.getString(R.string.event_page_tab_line_up));
@@ -61,13 +65,13 @@ public class CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter
 		{
 			case GROUP_STAGE_POSITION:
 			{
-				fragment = new CompetitionEventTabFragmentHighlights(tab, tab, EventTabTypeEnum.EVENT_HIGHLIGHTS);
+				fragment = new CompetitionEventTabFragmentHighlights(eventID, tab, tab, EventTabTypeEnum.EVENT_HIGHLIGHTS);
 				break;
 			}
 			
 			case SECOND_STAGE_POSITION:
 			{
-				fragment = new CompetitionEventTabFragmentLineUp(tab, tab, EventTabTypeEnum.EVENT_LINE_UP);
+				fragment = new CompetitionEventTabFragmentLineUp(eventID, tab, tab, EventTabTypeEnum.EVENT_LINE_UP);
 				break;
 			}
 			

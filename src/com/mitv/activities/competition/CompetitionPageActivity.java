@@ -343,7 +343,7 @@ public class CompetitionPageActivity
 	
 	private void setAdapter(int selectedIndex) 
 	{
-		pagerAdapter = new CompetitionTabFragmentStatePagerAdapter(getSupportFragmentManager());
+		pagerAdapter = new CompetitionTabFragmentStatePagerAdapter(getSupportFragmentManager(), competition.getCompetitionId());
 	
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(2);
