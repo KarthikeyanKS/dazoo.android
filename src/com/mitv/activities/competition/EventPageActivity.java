@@ -62,7 +62,6 @@ public class EventPageActivity
 	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
 	private int selectedTabIndex;
 
-	/* fake tab */
 	private LinearLayout listView;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	

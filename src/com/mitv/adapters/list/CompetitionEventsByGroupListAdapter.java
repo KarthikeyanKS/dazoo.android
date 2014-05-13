@@ -244,21 +244,7 @@ public class CompetitionEventsByGroupListAdapter
 			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
 			{
 				holder.dividerView.setVisibility(View.VISIBLE);
-			}
-			
-			holder.container.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v) 
-				{
-					Intent intent = new Intent(activity, EventPageActivity.class);
-					
-					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-
-					activity.startActivity(intent);
-				}
-			});
-			
+			}			
 			
 			String homeTeamName = event.getHomeTeam();
 			
@@ -367,19 +353,6 @@ public class CompetitionEventsByGroupListAdapter
 			}
 			
 			holder.broadcastChannels.setText(channelsSB.toString());
-			
-			holder.container.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v) 
-				{
-					Intent intent = new Intent(activity, EventPageActivity.class);
-					
-					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-
-					activity.startActivity(intent);
-				}
-			});
 			
 		}
 		else
