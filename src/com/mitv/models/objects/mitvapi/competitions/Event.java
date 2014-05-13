@@ -225,4 +225,12 @@ public class Event
 		
 		return minutesInGame;
 	}
+	
+	
+	
+	public int totalMinutesOfEvent(Calendar beginTime, Calendar endTime) {
+		int totalMinutes = 0;
+		
+		return totalMinutes;
+	}
 }

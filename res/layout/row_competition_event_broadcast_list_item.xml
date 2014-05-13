@@ -35,13 +35,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
         android:background="@drawable/background_color_selector"
         android:lines="1"
         android:padding="10dp"
         android:text="@string/icon_reminder"
         android:textColor="@color/grey3"
         android:textSize="28sp"
-        android:layout_marginRight="10dp"
         font:fonttextview="roboto_mitv_regular.ttf" />
+
+    <ProgressBar
+        android:id="@+id/competition_event_broadcast_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/competition_event_channel_logo"
+        android:progressDrawable="@drawable/progress_horizontal"
+        android:visibility="gone" />
 
 </RelativeLayout>

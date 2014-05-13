@@ -194,4 +194,18 @@ public abstract class LanguageUtils
 		progressTxt.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
 	}
+	
+	
+	
+	public static void setupOnlyProgressBar(
+			final Activity activity, 
+			final int minutesInGame,
+			final int totalMinutesOfEvent,
+			final ProgressBar progressBar)
+	{
+		progressBar.setMax(totalMinutesOfEvent + 1);
+		progressBar.setProgress(minutesInGame + 1);
+		
+		progressBar.setVisibility(View.VISIBLE);
+	}
 }
