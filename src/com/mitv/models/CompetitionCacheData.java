@@ -29,8 +29,8 @@ public class CompetitionCacheData
 	private List<Team> teams;
 	private List<Phase> phases;
 	private List<Event> events;
-	private Map<Long, List<Standings>> standingsByPhase;
-		
+	
+	private Map<Long, List<Standings>> standingsByPhase;	
 	private TreeMap<Long, List<Event>> eventsGroupedByFirstPhase;
 	private TreeMap<Long, List<Event>> eventsGroupedBySecondPhase;
 	
@@ -244,6 +244,15 @@ public class CompetitionCacheData
 		boolean hasHighlightsData = (highlightsByEvent.isEmpty() == false && highlightsByEvent.containsKey(eventID));
 		
 		return hasHighlightsData;
+	}
+	
+	
+	
+	public boolean hasStandingsData(Long phaseID)
+	{
+		boolean hasStandingsData = (standingsByPhase.isEmpty() == false && standingsByPhase.containsKey(phaseID));
+		
+		return hasStandingsData;
 	}
 
 	

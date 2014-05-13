@@ -41,14 +41,7 @@ public class CompetitionStandingsByGroupListAdapter
 	private Map<Long, List<Standings>> standingsByPhase;
 	private List<Standings> standings;
 	
-	private static final String PHASE01 = "PHASE01";
-	private static final String PHASE02 = "PHASE02";
-	private static final String PHASE03 = "PHASE03";
-	private static final String PHASE04 = "PHASE04";
-	private static final String PHASE05 = "PHASE05";
-	private static final String PHASE06 = "PHASE06";
-	
-	
+
 	
 	public CompetitionStandingsByGroupListAdapter(
 			final Activity activity,
@@ -121,7 +114,7 @@ public class CompetitionStandingsByGroupListAdapter
 		{
 			ViewHolder viewHolder = new ViewHolder();
 
-			rowView = layoutInflater.inflate(R.layout.row_competition_team_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_team_standings_list_item, null);
 
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container);
 			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group);

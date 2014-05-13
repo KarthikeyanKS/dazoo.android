@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:layout_width="match_parent"
+    android:layout_height="70dp" >
+
+     	<!-- Position -->
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_event_lineup_team_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+			android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:text="1"
+            android:textSize="15sp" />
+        
+        <!-- Team flag -->
+        <ImageView
+            android:id="@+id/row_competition_event_lineup_team_flag"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@id/row_competition_event_lineup_team_position"
+			android:layout_centerVertical="true"
+            android:src="@drawable/competitions_contry_flag_default" />
+
+        <!-- Team name -->
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_event_lineup_team_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/row_competition_event_lineup_team_flag"
+            android:layout_centerVertical="true"
+            android:textSize="15sp" />
+        
+        <!-- Pts -->
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_event_lineup_team_pts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:text="00"
+            android:textSize="15sp" />
+        
+        <!-- +/- -->
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_event_lineup_team_plus_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/row_competition_event_lineup_team_pts"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:text="00"
+            android:textSize="15sp" />
+        
+        <!-- GP -->
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_event_lineup_team_gp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/row_competition_event_lineup_team_plus_minus"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:text="00"
+            android:textSize="15sp" />
+
+</RelativeLayout>

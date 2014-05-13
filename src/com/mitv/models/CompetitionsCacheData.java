@@ -339,6 +339,22 @@ public class CompetitionsCacheData
 	
 	
 	
+	public synchronized boolean containsStandingsData(Long competitionID, Long phaseID) 
+	{
+		boolean containsStandingsData = false;
+	
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			containsStandingsData = competitionCacheData.hasStandingsData(phaseID);
+		}
+		
+		return containsStandingsData;
+	}
+	
+	
+	
 	public synchronized boolean containsEventData(Long competitionID, Long eventID) 
 	{
 		boolean containsEventData = false;
@@ -387,6 +403,12 @@ public class CompetitionsCacheData
 	public synchronized List<EventLineUp> getEventLineUpForEventInSelectedCompetition(Long eventID)
 	{
 		return selectedCompetition.getLineupByEvent().get(eventID);
+	}
+	
+	
+	public synchronized List<Standings> getEventStandingsForPhaseInSelectedCompetition(Long phaseID)
+	{
+		return selectedCompetition.getStandingsByPhase().get(phaseID);
 	}
 	
 	
