@@ -102,7 +102,7 @@ public class EventPageActivity
 		
 		initLayout();
 		
-		setAdapter(selectedTabIndex);
+//		setAdapter(selectedTabIndex);
 	}
 		
 	

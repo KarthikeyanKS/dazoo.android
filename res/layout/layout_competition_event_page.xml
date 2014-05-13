@@ -31,6 +31,9 @@
                 android:layout_alignParentTop="true"
                 layout="@layout/block_competition_event_main_content" />
             
+            <!-- LATER: INCLUDE POLL -->
+            
+            
             <!-- TABS: EVENTS & LINEUP -->
             
             <include
@@ -38,16 +41,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_block_container_layout"
-                layout="@layout/fragment_competition_holder_layout" />
+                layout="@layout/fragment_competition_event_holder_layout" />
 
-            <!-- TABS: GROUP X & STANDINGS -->
+            <!-- TABS: GROUP XXX & STANDINGS -->
             
             <include
                 android:id="@+id/competition_event_group_standings_fragment_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_events_lineup_fragment_tabs"
-                layout="@layout/fragment_competition_holder_layout" />
+                layout="@layout/fragment_competition_event_group_standings_holder_layout" />
         </RelativeLayout>
         
     </ScrollView>

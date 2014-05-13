@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:padding="3dp"
-            android:text="@string/competition_page_first_game"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -151,11 +150,12 @@
             android:orientation="vertical" />
         
         <!-- INCLUDING THE SOCIAL INTERACTION PANEL -->
-        
+        <!--  
         <include
             android:id="@+id/competition_event_social_panel"
             android:layout_below="@id/competition_event_broadcasts_listview"
             layout="@layout/element_competition_event_social_buttons" />
+            -->
         
     </RelativeLayout>
 
