@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.games.multiplayer.realtime.Room;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -42,6 +43,7 @@ extends BaseAdapter
 	private Map<Long, List<Event>> eventsByGroup;
 	private List<Event> events;
 	private Event event;
+	private List<EventBroadcastDetailsJSON> broadcastDetails;
 	
 	
 	
@@ -114,29 +116,14 @@ extends BaseAdapter
 
 		if (rowView == null)
 		{
-			rowView = layoutInflater.inflate(R.layout.row_competition_page_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_event_broadcast_list_item, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
-
-			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event);
-			
-			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
-			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_row_divider);
-			
-			viewHolder.team1name = (TextView) rowView.findViewById(R.id.row_competition_team_one_name);
-			viewHolder.team1flag = (ImageView) rowView.findViewById(R.id.row_competition_team_one_flag);
-			viewHolder.team2name = (TextView) rowView.findViewById(R.id.row_competition_team_two_name);
-			viewHolder.team2flag = (ImageView) rowView.findViewById(R.id.row_competition_team_two_flag);
-			
-			viewHolder.startTime = (TextView) rowView.findViewById(R.id.row_competition_page_begin_time_broadcast);
-			
-			// TODO - Fix this
-//			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
-//			viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
-			
-			viewHolder.broadcastChannels = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
+			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.competition_event_channel_logo);
+			viewHolder.beginTime = (TextView) rowView.findViewById(R.id.competition_event_full_date);
+			viewHolder.reminderIcon = (TextView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_broadcast_details_container);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -145,208 +132,37 @@ extends BaseAdapter
 
 		if (holder != null)
 		{
-			holder.startWeekDayHeader.setVisibility(View.GONE);
-			holder.dividerView.setVisibility(View.GONE);
-			holder.group.setVisibility(View.GONE);
-			
-			event = getItem(position);
-			
-			boolean isFirstposition = (position == 0);
-
-			boolean isLastPosition = (position == (getCount() - 1));
-
-			boolean isCurrentEventDayEqualToPreviousEventDay;
-			boolean isCurrentEventGroupEqualToPreviousEventGroup;
-
-			if(isFirstposition == false)
-			{
-				Event prevEvent = getItem(position - 1);
-
-				isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
-				
-				isCurrentEventGroupEqualToPreviousEventGroup = event.isSamePhase(prevEvent);
-			}
-			else
-			{
-				isCurrentEventDayEqualToPreviousEventDay = true;
-				isCurrentEventGroupEqualToPreviousEventGroup = true;
-			}
-
-			boolean isBeginTimeEqualToNextItem;
-
-			if(isLastPosition == false)
-			{
-				Event nextEvent = getItem(position + 1);
-
-				isBeginTimeEqualToNextItem = event.isTheSameDayAs(nextEvent);
-			}
-			else
-			{
-				isBeginTimeEqualToNextItem = false;
-			}
-
-			if (isFirstposition || isCurrentEventDayEqualToPreviousEventDay == false) 
-			{
-				StringBuilder sb = new StringBuilder();
-
-				boolean isBeginTimeTodayOrTomorrow = event.isEventTimeTodayOrTomorrow();
-
-				if(isBeginTimeTodayOrTomorrow)
-				{
-					sb.append(event.getEventTimeDayOfTheWeekAsString());
-				}
-				else
-				{
-					sb.append(event.getEventTimeDayOfTheWeekAsString());
-					sb.append(" ");
-					sb.append(event.getEventTimeDayAndMonthAsString());
-				}
-				
-				/* Capitalized letters in header */
-				String headerText = sb.toString();
-				holder.startWeekDayHeader.setText(headerText.toUpperCase());
-
-				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				holder.dividerView.setVisibility(View.VISIBLE);
-			}
-			
-			if (isFirstposition || isCurrentEventGroupEqualToPreviousEventGroup == false)
-			{
-				long phaseID = event.getPhaseId();
-				
-				Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
-				
-				if(phase != null)
-				{
-					String headerGroup = phase.getPhase();
-					holder.group.setText(headerGroup);
-				}
-				else
-				{
-					holder.group.setText("");
-				}
-
-				holder.group.setVisibility(View.VISIBLE);
-				
-				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
-			}
-			
-			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
-			{
-				holder.dividerView.setVisibility(View.VISIBLE);
-			}			
-			
-			String homeTeamName = event.getHomeTeam();
-			
-			String awayTeamName = event.getAwayTeam();
-			
-			boolean containsTeamInfo = event.containsTeamInfo();
-			
-			if(containsTeamInfo)
-			{
-				long team1ID = event.getHomeTeamId();
-				
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
-				
-				if(team1 != null)
-				{
-					ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
-						
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
-				}
-				else
-				{
-					Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
-				}
-					
-				
-				long team2ID = event.getAwayTeamId();
-				
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-				
-				if(team2 != null)
-				{
-					ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
-						
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
-				}
-				else
-				{
-					Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
-				}
-			}
-			
-			holder.team1name.setText(homeTeamName);
-			
-			holder.team2name.setText(awayTeamName);
-			
-			// TODO Set remaining variables: score and timeLeft
-			
-			/* Start time */
-			String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
-			holder.startTime.setText(start);
-			
-			StringBuilder channelsSB = new StringBuilder();
-			
 			boolean containsBroadcastDetails = event.containsBroadcastDetails();
 			
-			if(containsBroadcastDetails)
-			{
-				List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+			if(containsBroadcastDetails) {
+				broadcastDetails = event.getBroadcastDetails();
+				EventBroadcastDetailsJSON details = broadcastDetails.get(position);
 				
-				int totalChannelCount = eventBroadcastDetailsList.size();
+				/* Channel logo */
+				ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 				
-				List<String> channelNames = new ArrayList<String>(totalChannelCount);
+				TVChannelId tvChannelId = new TVChannelId(details.getChannelId());
 				
-				for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
-				{
-					String channelID = eventBroadcastDetails.getChannelId();
-					
-					TVChannelId tvChannelId = new TVChannelId(channelID);
-					
-					TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-					
-					if(tvChannel != null)
-					{
-						channelNames.add(tvChannel.getName());
-					}
-					else
-					{
-						Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
-					}
-				}
+				TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
 				
-				for(int j=0; j<channelNames.size(); j++)
-				{
-					if(j >= Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON)
-					{
-						int remainingChannels = totalChannelCount-Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
-								
-						channelsSB.append("+ ");
-						channelsSB.append(remainingChannels);
-						channelsSB.append(" ");
-						channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
-						break;
-					}
+				String logoUrl = tvChannel.getLogo().getSmall();
 					
-					channelsSB.append(channelNames.get(j));
-					
-					if(j != channelNames.size()-1)
-					{
-						channelsSB.append(", ");
-					}
-				}
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(logoUrl, imageAware);
+				
+				/* Date airing */
+				String date = details.getDate();
+				holder.beginTime.setText(date);
+				
+				/* Reminder icon */
+				holder.reminderIcon.setVisibility(View.VISIBLE);
+				holder.container.setVisibility(View.VISIBLE);
 			}
 			
-			holder.broadcastChannels.setText(channelsSB.toString());
-			
+			else {
+				holder.beginTime.setVisibility(View.GONE);
+				holder.reminderIcon.setVisibility(View.GONE);
+				holder.container.setVisibility(View.GONE);
+			}
 		}
 		else
 		{
@@ -360,17 +176,9 @@ extends BaseAdapter
 	
 	private static class ViewHolder 
 	{
-		private TextView group;
-		private TextView startWeekDayHeader;
-		private TextView team1name;
-		private ImageView team1flag;
-		private TextView team2name;
-		private ImageView team2flag;
-		private TextView startTime;
-		private TextView score;
-		private TextView timeLeft;
-		private TextView broadcastChannels;
-		private View dividerView;
+		private ImageView channelLogo;
+		private TextView beginTime;
+		private TextView reminderIcon;
 		private RelativeLayout container;
 	}
 	
