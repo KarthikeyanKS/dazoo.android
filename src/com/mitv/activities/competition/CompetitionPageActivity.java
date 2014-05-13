@@ -5,24 +5,21 @@ package com.mitv.activities.competition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.adapters.pager.EventTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -36,8 +33,10 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
@@ -46,7 +45,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CompetitionPageActivity 
 	extends BaseContentActivity
-	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener 
+	implements /*OnPageChangeListener,*/ ViewCallbackListener, FetchDataProgressCallbackListener 
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
@@ -57,14 +56,10 @@ public class CompetitionPageActivity
 	private Event event;
 	
 	private TabPageIndicator pageTabIndicator;
-	private LoopViewPager viewPager;
+	public static CustomViewPager viewPager;
 	private EventTabFragmentStatePagerAdapter pagerAdapter;
-	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
+//	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
 	private int selectedTabIndex;
-
-	/* fake tab */
-	private LinearLayout listView;
-	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInDaysTitle;
@@ -144,8 +139,6 @@ public class CompetitionPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				setListView();
-				
 				setData();
 				
 				break;
@@ -162,67 +155,67 @@ public class CompetitionPageActivity
 	
 	
 	
-	/* Tab elements */
-	
-	public interface OnViewPagerIndexChangedListener 
-	{
-		public void onIndexSelected(int position);
-	}
-	
-	
-	
-	@Override
-	public void onPageSelected(int pos) 
-	{
-		selectedTabIndex = pos;
-		
-		if(viewPagerIndexChangedListener != null)
-		{
-			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
-		}
-		else
-		{
-			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
-		}
-	}
-	
-	
-	
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2){}
-	
-	
-	
-	@Override
-	public void onPageScrollStateChanged(int arg0){}
-	
-	
-	
-	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
-	{
-		return viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
-	{
-		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public int getSelectedTabIndex() 
-	{
-		return selectedTabIndex;
-	}
-	
-	
-	
-	public void setSelectedTabIndex(int selectedTabIndex) 
-	{
-		this.selectedTabIndex = selectedTabIndex;
-	}
+//	/* Tab elements */
+//	
+//	public interface OnViewPagerIndexChangedListener 
+//	{
+//		public void onIndexSelected(int position);
+//	}
+//	
+//	
+//	
+//	@Override
+//	public void onPageSelected(int pos) 
+//	{
+//		selectedTabIndex = pos;
+//		
+//		if(viewPagerIndexChangedListener != null)
+//		{
+//			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
+//		}
+//		else
+//		{
+//			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
+//		}
+//	}
+//	
+//	
+//	
+//	@Override
+//	public void onPageScrolled(int arg0, float arg1, int arg2){}
+//	
+//	
+//	
+//	@Override
+//	public void onPageScrollStateChanged(int arg0){}
+//	
+//	
+//	
+//	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
+//	{
+//		return viewPagerIndexChangedListener;
+//	}
+//	
+//	
+//	
+//	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
+//	{
+//		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
+//	}
+//	
+//	
+//	
+//	public int getSelectedTabIndex() 
+//	{
+//		return selectedTabIndex;
+//	}
+//	
+//	
+//	
+//	public void setSelectedTabIndex(int selectedTabIndex) 
+//	{
+//		this.selectedTabIndex = selectedTabIndex;
+//	}
 	
 	
 	
@@ -407,11 +400,9 @@ public class CompetitionPageActivity
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
 		nextGameText = (TextView) findViewById(R.id.competition_next_game_text);
 		
-		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
-		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
-		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
+		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
 		
 		selectedTabIndex = STARTING_TAB_INDEX;
 	}
@@ -423,19 +414,21 @@ public class CompetitionPageActivity
 		pagerAdapter = new EventTabFragmentStatePagerAdapter(getSupportFragmentManager());
 	
 		viewPager.setAdapter(pagerAdapter);
-		viewPager.setOffscreenPageLimit(1);
+		viewPager.setOffscreenPageLimit(2);
 		viewPager.setBoundaryCaching(true);
 		viewPager.setCurrentItem(selectedIndex);
 		viewPager.setVisibility(View.VISIBLE);
 		viewPager.setEnabled(false);
 
+		pagerAdapter.notifyDataSetChanged();
+		
 		pageTabIndicator.setVisibility(View.VISIBLE);
 		pageTabIndicator.setViewPager(viewPager);
-		
-		pageTabIndicator.setCurrentItem(selectedIndex);
-		pageTabIndicator.setOnPageChangeListener(this);
+		viewPager.setScreenHeight(GenericUtils.getScreenHeight(this));
 		
 		pagerAdapter.notifyDataSetChanged();
+		pageTabIndicator.setCurrentItem(selectedIndex);
+//		pageTabIndicator.setOnPageChangeListener(this);
 		
 		pageTabIndicator.setInitialStyleOnAllTabs();
 		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
@@ -487,31 +480,6 @@ public class CompetitionPageActivity
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}	
-	}
-	
-	
-	
-	private void setListView() {
-		listView.removeAllViews();
-		
-		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-
-		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
-		
-		for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            
-            if (listItem != null) {
-                listView.addView(listItem);
-            }
-        }
-		
-		/* Only use this if not use the for-loop above */
-//		listView.setAdapter(listAdapter);
-		
-		/* This class is not in use right now
-		 * TODO Remove if Erik thinks the loading time right now is OK */
-//		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
 	}
 
 

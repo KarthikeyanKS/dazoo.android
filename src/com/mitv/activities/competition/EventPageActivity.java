@@ -124,7 +124,7 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-//				setListView();
+				//setListView();
 				
 				setData();
 				

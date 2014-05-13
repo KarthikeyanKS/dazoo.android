@@ -6,18 +6,16 @@
     android:background="@color/grey1"
     android:orientation="vertical" >
 
-    <ScrollView
+    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tab_selector_container"
-        android:fillViewport="false"
-        android:orientation="vertical" >
+        android:layout_above="@id/tab_selector_container" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
+            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
 
@@ -28,27 +26,38 @@
                 android:layout_alignParentTop="true"
                 layout="@layout/block_competition_broadcastpage_main_content" />
 
-            <!-- This is only a temporary holder: Remove in the future -->
+            <com.viewpagerindicator.TabPageIndicator
+                android:id="@+id/tab_event_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@id/competition_broacastpage_block_container_layout"
+                android:background="@color/white"
+                android:tag="sticky" />
 
-            <include
+            <View
+                android:id="@+id/tab_event_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/tab_event_indicator"
+                android:background="@color/home_divider" />
+
+            <com.mitv.ui.elements.CustomViewPager
+                android:id="@+id/tab_event_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tab_event_divider" />
+
+            <!--
+                include
                 android:id="@+id/competition_fragment_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_broacastpage_block_container_layout"
-                layout="@layout/fragment_competition_holder_layout" />
+                layout="@layout/fragment_competition_holder_layout" /
+            -->
 
-            <LinearLayout
-                android:id="@+id/competition_fake_table_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/competition_fragment_tabs"
-                android:cacheColorHint="@null"
-                android:divider="@null"
-                android:fadingEdge="none"
-                android:minHeight="200dp"
-                android:orientation="vertical" />
         </RelativeLayout>
-    </ScrollView>
+    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
 
     <!-- NAVIGATION TABS -->
 
