@@ -4,6 +4,7 @@ package com.mitv.activities.competition;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,9 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -55,6 +58,7 @@ public class EventPageActivity
 	
 
 	private Event event;
+	private Competition competition;
 	
 	private TabPageIndicator pageTabIndicator;
 	private LoopViewPager viewPager;
@@ -76,6 +80,8 @@ public class EventPageActivity
 	private LinearLayout broadcastListView;
 	private TextView likeIcon;
 	private TextView shareIcon;
+	private TextView beginTime;
+	private TextView beginTimeDate;
 	
 	
 	
@@ -94,8 +100,11 @@ public class EventPageActivity
 		Intent intent = getIntent();
 		
 		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+		long competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
 		
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		
+		competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 		
@@ -123,7 +132,7 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				//setListView();
+				setListView();
 				
 				setData();
 				
@@ -207,122 +216,106 @@ public class EventPageActivity
 	
 	private void setData()
 	{
-//		String homeTeamName = event.getHomeTeam();
-//			
-//		String awayTeamName = event.getAwayTeam();
-//			
-//		boolean containsTeamInfo = event.containsTeamInfo();
-//			
-//		if(containsTeamInfo)
-//		{	
-//			long team1ID = event.getHomeTeamId();
-//			
-//			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
-//			
-//			if(team1 != null)
-//			{
-//				Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
-//					
-//				ImageAware imageAware = new ImageViewAware(team1Flag, false);
-//					
-//				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-//					
-//				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
-//			}
-//			else
-//			{
-//				Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
-//			}
-//			
-//			long team2ID = event.getAwayTeamId();
-//			
-//			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-//
-//			if(team2 != null)
-//			{
-//				ImageAware imageAware = new ImageViewAware(team2Flag, false);
-//					
-//				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-//					
-//				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
-//			}
-//			else
-//			{
-//				Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
-//			}
-//		}
-//		
-//		team1Name.setText(homeTeamName);
-//		
-//		team2Name.setText(awayTeamName);
-//		
-//		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
-//		
-//		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
-//		
-//		StringBuilder channelsSB = new StringBuilder();
-//		
-//		boolean containsBroadcastDetails = event.containsBroadcastDetails();
-//		
-//		if(containsBroadcastDetails)
-//		{
-//			List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
-//			
-//			int totalChannelCount = eventBroadcastDetailsList.size();
-//			
-//			List<String> channelNames = new ArrayList<String>(totalChannelCount);
-//			
-//			for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
-//			{
-//				String channelID = eventBroadcastDetails.getChannelId();
-//				
-//				TVChannelId tvChannelId = new TVChannelId(channelID);
-//				
-//				TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-//				
-//				if(tvChannel != null)
-//				{
-//					channelNames.add(tvChannel.getName());
-//				}
-//				else
-//				{
-//					Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
-//				}
-//			}
-//			
-//			for(int i=0; i<channelNames.size(); i++)
-//			{
-//				if(i >= Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON)
-//				{
-//					int remainingChannels = totalChannelCount - Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
-//							 
-//					channelsSB.append("+ ");
-//					channelsSB.append(remainingChannels);
-//					channelsSB.append(" ");
-//					channelsSB.append(getResources().getString(R.string.competition_page_more_channels_broadcasting));
-//					break;
-//				}
-//				
-//				channelsSB.append(channelNames.get(i));
-//				
-//				if(i != channelNames.size()-1)
-//				{
-//					channelsSB.append(", ");
-//				}
-//			}
-//		}
-//		
-//		String channels = channelsSB.toString();
-//		
-//		if (channels != null && !channels.isEmpty() && channels != "")
-//		{
-//			tvBroadcastChannels.setText(channels);
-//			tvBroadcastChannels.setVisibility(View.VISIBLE);
-//		}
-//		else
-//		{
-//			tvBroadcastChannels.setVisibility(View.GONE);
-//		}
+		String homeTeamName = event.getHomeTeam();
+			
+		String awayTeamName = event.getAwayTeam();
+			
+		boolean containsTeamInfo = event.containsTeamInfo();
+			
+		if(containsTeamInfo)
+		{	
+			long team1ID = event.getHomeTeamId();
+			
+			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+			
+			if(team1 != null)
+			{
+				Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
+					
+				ImageAware imageAware = new ImageViewAware(team1Flag, false);
+					
+				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
+			}
+			else
+			{
+				Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+			}
+			
+			long team2ID = event.getAwayTeamId();
+			
+			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+
+			if(team2 != null)
+			{
+				ImageAware imageAware = new ImageViewAware(team2Flag, false);
+					
+				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
+			}
+			else
+			{
+				Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
+			}
+		}
+		
+		team1Name.setText(homeTeamName);
+		
+		team2Name.setText(awayTeamName);
+		
+		/* Group name */
+		
+		long phaseID = event.getPhaseId();
+		
+		Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
+		
+		String groupHeaderName = phase.getPhase();
+		
+		groupHeader.setText(groupHeaderName);
+		
+		StringBuilder sb = new StringBuilder();
+		
+		/* The event is ongoing */
+		if (event.isOngoing() && !event.isPostponed()) {
+			
+			sb.append(event.getAwayGoals())
+				.append(" - ")
+				.append(event.getHomeGoals());
+			
+			liveStandings.setText(sb.toString());
+			
+			Calendar beginTimeCal = event.getEventDateCalendarLocal();
+			
+			// TODO Check if this method works....
+			int minutesInGame = event.countMinutesInGame(beginTimeCal);
+			
+			liveTimeInGame.setText(minutesInGame + "'");
+			
+			liveStandings.setVisibility(View.VISIBLE);
+			liveTimeInGame.setVisibility(View.VISIBLE);
+			beginTime.setVisibility(View.GONE);
+			beginTimeDate.setVisibility(View.GONE);
+		}
+		
+		/* The event has not started yet */
+		else {
+			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+			
+			beginTime.setText(eventStartTimeHourAndMinuteAsString);
+			
+			sb.append(event.getEventTimeDayOfTheWeekAsString())
+			.append(" ")
+			.append(event.getEventTimeDayAndMonthAsString());
+			
+			beginTimeDate.setText(sb.toString());
+			
+			liveStandings.setVisibility(View.GONE);
+			liveTimeInGame.setVisibility(View.GONE);
+			beginTime.setVisibility(View.VISIBLE);
+			beginTimeDate.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	
@@ -349,6 +342,8 @@ public class EventPageActivity
 		broadcastListView = (LinearLayout) findViewById(R.id.competition_event_broadcasts_listview);
 		likeIcon = (TextView) findViewById(R.id.competition_element_social_buttons_like_view);
 		shareIcon = (TextView) findViewById(R.id.competition_element_social_buttons_share_button_iv);
+		beginTime = (TextView) findViewById(R.id.competition_event_starttime_time);
+		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
@@ -434,26 +429,27 @@ public class EventPageActivity
 	
 	private void setListView() 
 	{
-//		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
-//		
-//		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-//
+		broadcastListView.removeAllViews();
+		
+		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
+
 //		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
-//		
-//		for (int i = 0; i < listAdapter.getCount(); i++) {
-//            View listItem = listAdapter.getView(i, null, listView);
-//            
-//            if (listItem != null) {
-//                listView.addView(listItem);
-//            }
-//        }
 		
-		/* Only use this if not use the for-loop above */
-//		listView.setAdapter(listAdapter);
+		for (int i = 0; i < listAdapter.getCount(); i++) 
+		{
+            View listItem = listAdapter.getView(i, null, broadcastListView);
+           
+            if (listItem != null) 
+            {
+            	broadcastListView.addView(listItem);
+            }
+        }
 		
-		/* This class is not in use right now
-		 * TODO Remove if Erik thinks the loading time right now is OK */
-//		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
+		broadcastListView.measure(0, 0);
+		
+		CompetitionPageActivity.viewPager.heightsMap.put(1, broadcastListView.getMeasuredHeight());
+		
+		CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 	}
 
 

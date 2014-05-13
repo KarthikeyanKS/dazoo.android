@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/white" >
+
+    <!-- CHANNEL LOGO -->
+
+    <ImageView
+        android:id="@+id/competition_event_channel_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/competitions_contry_flag_default" />
+
+    <!-- DATE -->
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/competition_event_full_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/competition_event_channel_logo"
+        android:textSize="12sp" />
+
+    <!-- REMINDER BUTTON -->
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/row_reminders_notification_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/background_color_selector"
+        android:lines="1"
+        android:padding="10dp"
+        android:text="@string/icon_reminder"
+        android:textColor="@color/grey3"
+        android:textSize="28sp"
+        android:layout_marginRight="10dp"
+        font:fonttextview="roboto_mitv_regular.ttf" />
+
+</RelativeLayout>
