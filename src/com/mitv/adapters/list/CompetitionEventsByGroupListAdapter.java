@@ -10,6 +10,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,10 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.competition.CompetitionPageActivity;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -119,7 +123,8 @@ public class CompetitionEventsByGroupListAdapter
 
 		if (rowView == null)
 		{
-			rowView = layoutInflater.inflate(R.layout.row_competition_page_list_item, null);
+			// We are reusing the same row layout from the competition page
+			rowView = layoutInflater.inflate(R.layout.row_competition_group_events_list_item, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
@@ -291,6 +296,18 @@ public class CompetitionEventsByGroupListAdapter
 			holder.team1name.setText(homeTeamName);
 			
 			holder.team2name.setText(awayTeamName);
+			
+			holder.container.setOnClickListener(new View.OnClickListener() 
+	        {
+	            public void onClick(View v)
+	            {
+	                Intent intent = new Intent(activity, EventPageActivity.class);
+	                
+	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+	                
+	                activity.startActivity(intent);
+	            }
+	        });
 			
 			// TODO Set remaining variables: score and timeLeft
 			

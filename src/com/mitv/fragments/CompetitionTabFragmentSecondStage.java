@@ -61,7 +61,7 @@ public class CompetitionTabFragmentSecondStage
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
+		rootView = inflater.inflate(R.layout.fragment_competition_tab_fragment_container, null);
 
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
 

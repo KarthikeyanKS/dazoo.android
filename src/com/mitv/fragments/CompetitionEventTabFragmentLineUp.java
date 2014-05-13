@@ -64,9 +64,9 @@ public class CompetitionEventTabFragmentLineUp
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
+		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container, null);
 		
-		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container);
 	
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -98,6 +98,10 @@ public class CompetitionEventTabFragmentLineUp
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
+		
+		String loadingString = getString(R.string.competition_event_lineup_loading_text);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
 		
 		long competitionID = getEvent().getCompetitionId();
 		
