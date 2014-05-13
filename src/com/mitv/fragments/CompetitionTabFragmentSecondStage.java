@@ -14,39 +14,39 @@ import android.widget.LinearLayout;
 
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
-import com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter;
+import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.competitions.Standings;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 
 
 
-public class EventTabFragmentTeamStandings 
-	extends EventTabFragment
+public class CompetitionTabFragmentSecondStage 
+	extends CompetitionTabFragment
 	implements ViewCallbackListener
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = EventTabFragmentGroupStage.class.getName();
+	private static final String TAG = CompetitionTabFragmentSecondStage.class.getName();
 	
-	
+
 	private LinearLayout listContainerLayout;
-	private CompetitionStandingsByGroupListAdapter listAdapter;
+	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	
 	
 	/* An empty constructor is required by the Fragment Manager */
-	public EventTabFragmentTeamStandings()
+	public CompetitionTabFragmentSecondStage()
 	{
 		super();
 	}
+
 	
 	
-	
-	public EventTabFragmentTeamStandings(String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionTabFragmentSecondStage(String tabId, String tabTitle, EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
 	}
@@ -57,7 +57,7 @@ public class EventTabFragmentTeamStandings
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
-		
+
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
 
 		super.initRequestCallbackLayouts(rootView);
@@ -73,6 +73,14 @@ public class EventTabFragmentTeamStandings
 	
 	
 	@Override
+	public void onResume() 
+	{	
+		super.onResume();
+	}
+	
+	
+	
+	@Override
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
@@ -83,7 +91,7 @@ public class EventTabFragmentTeamStandings
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition();
+		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
 	}
 	
 	
@@ -112,9 +120,9 @@ public class EventTabFragmentTeamStandings
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition();
+				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
 
-				listAdapter = new CompetitionStandingsByGroupListAdapter(activity, standingsByPhase);
+				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{
@@ -129,7 +137,7 @@ public class EventTabFragmentTeamStandings
 				listContainerLayout.measure(0, 0);
 				
 				CompetitionPageActivity.viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
-				
+
 				break;
 			}
 			

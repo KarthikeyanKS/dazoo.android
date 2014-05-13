@@ -5,26 +5,20 @@ package com.mitv.activities.competition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
-import com.mitv.adapters.pager.EventTabFragmentStatePagerAdapter;
+import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
+import com.mitv.adapters.pager.CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -35,8 +29,11 @@ import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
@@ -45,7 +42,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class EventPageActivity 
 	extends BaseContentActivity
-	implements OnPageChangeListener, ViewCallbackListener, FetchDataProgressCallbackListener 
+	implements ViewCallbackListener, FetchDataProgressCallbackListener 
 {
 	private static final String TAG = EventPageActivity.class.getName();
 	
@@ -54,31 +51,24 @@ public class EventPageActivity
 	
 
 	private Event event;
+	private Phase phase;
 	
-	private TabPageIndicator pageTabIndicator;
-	private LoopViewPager viewPager;
-	private EventTabFragmentStatePagerAdapter pagerAdapter;
-	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
-	private int selectedTabIndex;
+	private int selectedTabIndexForHighlightsAndLineup;
+	private TabPageIndicator pageTabIndicatorForHighlightsAndLineup;
+	public static CustomViewPager viewPagerForHighlightsAndLineup;
+	private CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter pagerAdapterForHighlightsAndLineup;
+	
+	private int selectedTabIndexForGroupAndStandings;
+	private TabPageIndicator pageTabIndicatorForGroupAndStandings;
+	public static CustomViewPager viewPagerForGroupAndStandings;
+	private CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter pagerAdapterForGroupAndStandings;
 
-	/* fake tab */
-	private LinearLayout listView;
-	private CompetitionEventsByGroupListAdapter listAdapter;
-	
-	private TextView remainingTimeInDays;
-	private TextView remainingTimeInDaysTitle;
-	private TextView remainingTimeInHours;
-	private TextView remainingTimeInHoursTitle;
-	private TextView remainingTimeInMinutes;
-	private TextView remainingTimeInMinutesTitle;
 	private TextView eventStartTime;
 	private TextView tvBroadcastChannels;
 	private TextView team1Name;
 	private ImageView team1Flag;
 	private TextView team2Name;
 	private ImageView team2Flag;
-	private RelativeLayout countDownArea;
-	private ScrollView scrollView;
 	
 	
 	
@@ -99,12 +89,16 @@ public class EventPageActivity
 		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
 		
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+				
+		long phaseID = event.getPhaseId();
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 		
 		initLayout();
 		
-		setAdapter(selectedTabIndex);
+		setAdapterForHighlightsAndLineup(selectedTabIndexForHighlightsAndLineup);
+		
+		setAdapterForGroupAndStandings(selectedTabIndexForGroupAndStandings);
 	}
 		
 	
@@ -126,8 +120,6 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				//setListView();
-				
 				setData();
 				
 				break;
@@ -139,71 +131,6 @@ public class EventPageActivity
 				break;
 			}
 		}
-	}
-	
-	
-	
-	
-	/* Tab elements */
-	
-	public interface OnViewPagerIndexChangedListener 
-	{
-		public void onIndexSelected(int position);
-	}
-	
-	
-	
-	@Override
-	public void onPageSelected(int pos) 
-	{
-		selectedTabIndex = pos;
-		
-		if(viewPagerIndexChangedListener != null)
-		{
-			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
-		}
-		else
-		{
-			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
-		}
-	}
-	
-	
-	
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2){}
-	
-	
-	
-	@Override
-	public void onPageScrollStateChanged(int arg0){}
-	
-	
-	
-	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
-	{
-		return viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
-	{
-		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
-	}
-	
-	
-	
-	public int getSelectedTabIndex() 
-	{
-		return selectedTabIndex;
-	}
-	
-	
-	
-	public void setSelectedTabIndex(int selectedTabIndex) 
-	{
-		this.selectedTabIndex = selectedTabIndex;
 	}
 	
 	
@@ -346,36 +273,68 @@ public class EventPageActivity
 		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
 		
-		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
+		pageTabIndicatorForHighlightsAndLineup = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_highlights_and_lineup);
+		viewPagerForHighlightsAndLineup = (CustomViewPager) findViewById(R.id.tab_event_pager_for_highlights_and_lineup);
+		selectedTabIndexForHighlightsAndLineup = STARTING_TAB_INDEX;
 		
-		viewPager = (LoopViewPager) findViewById(R.id.tab_event_pager);
+		pageTabIndicatorForGroupAndStandings = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_group_and_standings);
+		viewPagerForGroupAndStandings = (CustomViewPager) findViewById(R.id.tab_event_pager_for_group_and_standings);
+		selectedTabIndexForGroupAndStandings = STARTING_TAB_INDEX;
+	}
+	
+
+	
+	private void setAdapterForHighlightsAndLineup(int selectedIndex) 
+	{
+		pagerAdapterForHighlightsAndLineup = new CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter(getSupportFragmentManager());
+	
+		viewPagerForHighlightsAndLineup.setAdapter(pagerAdapterForHighlightsAndLineup);
+		viewPagerForHighlightsAndLineup.setOffscreenPageLimit(1);
+		viewPagerForHighlightsAndLineup.setBoundaryCaching(true);
+		viewPagerForHighlightsAndLineup.setCurrentItem(selectedIndex);
+		viewPagerForHighlightsAndLineup.setVisibility(View.VISIBLE);
+		viewPagerForHighlightsAndLineup.setEnabled(false);
+
+		pagerAdapterForHighlightsAndLineup.notifyDataSetChanged();
 		
-		selectedTabIndex = STARTING_TAB_INDEX;
+		pageTabIndicatorForHighlightsAndLineup.setVisibility(View.VISIBLE);
+		pageTabIndicatorForHighlightsAndLineup.setViewPager(viewPagerForHighlightsAndLineup);
+		viewPagerForHighlightsAndLineup.setScreenHeight(GenericUtils.getScreenHeight(this));
+		
+		pagerAdapterForHighlightsAndLineup.notifyDataSetChanged();
+		pageTabIndicatorForHighlightsAndLineup.setCurrentItem(selectedIndex);
+		
+		pageTabIndicatorForHighlightsAndLineup.setInitialStyleOnAllTabs();
+		pageTabIndicatorForHighlightsAndLineup.setStyleOnTabViewAtIndex(selectedIndex);
 	}
 	
 	
 	
-	private void setAdapter(int selectedIndex) 
+	private void setAdapterForGroupAndStandings(int selectedIndex) 
 	{
-		pagerAdapter = new EventTabFragmentStatePagerAdapter(getSupportFragmentManager());
+		StringBuilder groupName = new StringBuilder();
+		groupName.append(phase.getPhase());
+		
+		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), groupName.toString());
 	
-		viewPager.setAdapter(pagerAdapter);
-		viewPager.setOffscreenPageLimit(1);
-		viewPager.setBoundaryCaching(true);
-		viewPager.setCurrentItem(selectedIndex);
-		viewPager.setVisibility(View.VISIBLE);
-		viewPager.setEnabled(false);
+		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
+		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);
+		viewPagerForGroupAndStandings.setBoundaryCaching(true);
+		viewPagerForGroupAndStandings.setCurrentItem(selectedIndex);
+		viewPagerForGroupAndStandings.setVisibility(View.VISIBLE);
+		viewPagerForGroupAndStandings.setEnabled(false);
 
-		pageTabIndicator.setVisibility(View.VISIBLE);
-		pageTabIndicator.setViewPager(viewPager);
+		pagerAdapterForGroupAndStandings.notifyDataSetChanged();
 		
-		pageTabIndicator.setCurrentItem(selectedIndex);
-		pageTabIndicator.setOnPageChangeListener(this);
+		pageTabIndicatorForGroupAndStandings.setVisibility(View.VISIBLE);
+		pageTabIndicatorForGroupAndStandings.setViewPager(viewPagerForGroupAndStandings);
+		viewPagerForGroupAndStandings.setScreenHeight(GenericUtils.getScreenHeight(this));
 		
-		pagerAdapter.notifyDataSetChanged();
+		pagerAdapterForGroupAndStandings.notifyDataSetChanged();
+		pageTabIndicatorForGroupAndStandings.setCurrentItem(selectedIndex);
 		
-		pageTabIndicator.setInitialStyleOnAllTabs();
-		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
+		pageTabIndicatorForGroupAndStandings.setInitialStyleOnAllTabs();
+		pageTabIndicatorForGroupAndStandings.setStyleOnTabViewAtIndex(selectedIndex);
 	}
 
 
@@ -389,7 +348,7 @@ public class EventPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		//ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competition.getCompetitionId());
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, event.getCompetitionId());
 	}
 
 
@@ -428,32 +387,6 @@ public class EventPageActivity
 	
 	
 	
-	private void setListView() 
-	{
-//		listView = (LinearLayout) findViewById(R.id.competition_fake_table_listview);
-//		
-//		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-//
-//		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
-//		
-//		for (int i = 0; i < listAdapter.getCount(); i++) {
-//            View listItem = listAdapter.getView(i, null, listView);
-//            
-//            if (listItem != null) {
-//                listView.addView(listItem);
-//            }
-//        }
-		
-		/* Only use this if not use the for-loop above */
-//		listView.setAdapter(listAdapter);
-		
-		/* This class is not in use right now
-		 * TODO Remove if Erik thinks the loading time right now is OK */
-//		SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
-	}
-
-
-
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) {}
 }

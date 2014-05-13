@@ -20,37 +20,28 @@ import com.mitv.models.objects.mitvapi.competitions.Standings;
 
 
 
-public class GetStandings 
+public class GetStandingsForPhase 
 	extends AsyncTaskBase<Standings[]>
 {
-	private static final String TAG = GetStandings.class.getName();
+	private static final String TAG = GetStandingsForPhase.class.getName();
 	
 	
-	private static String buildURL(final String phaseID)
+	private static String buildURL(final long phaseID)
 	{
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_PHASES_FULL);
 		url.append(Constants.FORWARD_SLASH);
-		
-		if(phaseID != null)
-		{
-			url.append(phaseID);
-		}
-		else
-		{
-			Log.w(TAG, "Competition ID is null");
-		}
-		
+		url.append(phaseID);
 		url.append(Constants.URL_STANDINGS);
 
 		return url.toString();
 	}
 	
 	
-	public GetStandings(
+	public GetStandingsForPhase(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final String phaseID)
+			final long phaseID)
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID, Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID), false);
 	}

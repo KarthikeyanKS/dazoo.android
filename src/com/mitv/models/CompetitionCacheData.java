@@ -4,6 +4,7 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -33,8 +35,9 @@ public class CompetitionCacheData
 	private TreeMap<Long, List<Event>> eventsGroupedBySecondPhase;
 	
 	private TreeMap<Long, List<EventHighlight>> highlightsByEvent;
+	private Long highlightsByEventFetchTime;
 	private TreeMap<Long, List<EventLineUp>> lineupByEvent;
-	
+	private Long lineupByEventFetchTime;
 	
 	
 	public Map<Long, List<Event>> getEventsForFirstStages()
@@ -69,7 +72,11 @@ public class CompetitionCacheData
 		
 		this.highlightsByEvent = new TreeMap<Long, List<EventHighlight>>();
 		
+		this.highlightsByEventFetchTime = null;
+		
 		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
+		
+		this.lineupByEventFetchTime = null;
 	}
 	
 	
@@ -92,7 +99,62 @@ public class CompetitionCacheData
 		
 		this.highlightsByEvent = new TreeMap<Long, List<EventHighlight>>();
 		
+		this.highlightsByEventFetchTime = null;
+		
 		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
+		
+		this.lineupByEventFetchTime = null;
+	}
+	
+	
+	
+	
+	public boolean hasPeriodElapsedSinceLineUpFetchTime(long minutes)
+	{
+		boolean hasPeriodElapsed = false;
+		
+		if(lineupByEventFetchTime != null)
+		{
+			Calendar now = DateUtils.getNow();
+			
+			Long nowInMillis = now.getTimeInMillis();
+			
+			Long elapsedMillis = (nowInMillis - lineupByEventFetchTime);
+			
+			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
+			
+			if(elapsedMillis > elapsedLimitInMillis)
+			{
+				hasPeriodElapsed = true;
+			}
+		}
+		
+		return hasPeriodElapsed;
+	}
+	
+	
+	
+	public boolean hasPeriodElapsedSinceHighlightsFetchTime(long minutes)
+	{
+		boolean hasPeriodElapsed = false;
+		
+		if(highlightsByEventFetchTime != null)
+		{
+			Calendar now = DateUtils.getNow();
+			
+			Long nowInMillis = now.getTimeInMillis();
+			
+			Long elapsedMillis = (nowInMillis - highlightsByEventFetchTime);
+			
+			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
+			
+			if(elapsedMillis > elapsedLimitInMillis)
+			{
+				hasPeriodElapsed = true;
+			}
+		}
+		
+		return hasPeriodElapsed;
 	}
 	
 	
@@ -279,5 +341,29 @@ public class CompetitionCacheData
 
 	public void setLineupByEvent(TreeMap<Long, List<EventLineUp>> lineupByEvent) {
 		this.lineupByEvent = lineupByEvent;
+	}
+
+
+
+	public Long getHighlightsByEventFetchTime() {
+		return highlightsByEventFetchTime;
+	}
+
+
+
+	public void setHighlightsByEventFetchTime(Long highlightsByEventFetchTime) {
+		this.highlightsByEventFetchTime = highlightsByEventFetchTime;
+	}
+
+
+
+	public Long getLineupByEventFetchTime() {
+		return lineupByEventFetchTime;
+	}
+
+
+
+	public void setLineupByEventFetchTime(Long lineupByEventFetchTime) {
+		this.lineupByEventFetchTime = lineupByEventFetchTime;
 	}
 }
