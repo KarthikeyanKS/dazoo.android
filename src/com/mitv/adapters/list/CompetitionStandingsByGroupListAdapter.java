@@ -29,10 +29,10 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class CompetitionTeamsByGroupListAdapter 
+public class CompetitionStandingsByGroupListAdapter 
 	extends BaseAdapter 
 {
-	private static final String TAG = CompetitionTeamsByGroupListAdapter.class.getName();
+	private static final String TAG = CompetitionStandingsByGroupListAdapter.class.getName();
 	
 	
 	private LayoutInflater layoutInflater;
@@ -50,7 +50,7 @@ public class CompetitionTeamsByGroupListAdapter
 	
 	
 	
-	public CompetitionTeamsByGroupListAdapter(
+	public CompetitionStandingsByGroupListAdapter(
 			final Activity activity,
 			final Map<Long, List<Standings>> standingsByPhase)
 	{

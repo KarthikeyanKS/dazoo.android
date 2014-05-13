@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
@@ -24,7 +22,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.utilities.SetListViewToHeightBasedOnChildren;
 
 
 
@@ -32,6 +29,7 @@ public class EventTabFragmentSecondStage
 	extends EventTabFragment
 	implements ViewCallbackListener
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = EventTabFragmentSecondStage.class.getName();
 	
 
@@ -85,18 +83,7 @@ public class EventTabFragmentSecondStage
 	@Override
 	protected void loadData()
 	{
-//		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		if (hasEnoughDataToShowContent()) {
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-			
-		} else {
-			updateUI(UIStatusEnum.LOADING);
-//			String loadingString = getString(R.string.XX);
-			String loadingString = "TODO LOADING";
-			setLoadingLayoutDetailsMessage(loadingString);
-			
-			// TODO ????
-		}
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	}
 	
 	
@@ -136,16 +123,21 @@ public class EventTabFragmentSecondStage
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
 
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
-				for (int i = 0; i < listAdapter.getCount(); i++) {
+				
+				for (int i = 0; i < listAdapter.getCount(); i++) 
+				{
 		            View listItem = listAdapter.getView(i, null, listContainerLayout);
-		            if (listItem != null) {
+		            
+		            if (listItem != null)
+		            {
 		            	listContainerLayout.addView(listItem);
 		            }
 		        } 
 
 				listContainerLayout.measure(0, 0);
+				
 				CompetitionPageActivity.viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
-					
+
 				break;
 			}
 			

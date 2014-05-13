@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
@@ -24,7 +22,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.utilities.SetListViewToHeightBasedOnChildren;
 
 
 
@@ -127,16 +124,21 @@ public class EventTabFragmentGroupStage
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
-				for (int i = 0; i < listAdapter.getCount(); i++) {
+				
+				for (int i = 0; i < listAdapter.getCount(); i++) 
+				{
 		            View listItem = listAdapter.getView(i, null, listContainerLayout);
-		            if (listItem != null) {
+		           
+		            if (listItem != null) 
+		            {
 		            	listContainerLayout.addView(listItem);
 		            }
-		        } 
-
+		        }
 				
 				listContainerLayout.measure(0, 0);
+				
 				CompetitionPageActivity.viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+				
 				CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
