@@ -3,9 +3,10 @@ package com.mitv.activities.competition;
 
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,10 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -26,9 +29,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
-import com.mitv.models.objects.mitvapi.TVChannel;
-import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -55,6 +55,7 @@ public class EventPageActivity
 	private Event event;
 	private Competition competition;
 	private Phase phase;
+	private CompetitionEventPageBroadcastListAdapter listAdapter;
 	
 	private int selectedTabIndexForHighlightsAndLineup;
 	private TabPageIndicator pageTabIndicatorForHighlightsAndLineup;
@@ -99,15 +100,13 @@ public class EventPageActivity
 		Intent intent = getIntent();
 		
 		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
-		long competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
 		
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 				
 		long phaseID = event.getPhaseId();
 		
-		competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+		
 		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 		
 		initLayout();
@@ -204,72 +203,52 @@ public class EventPageActivity
 		
 		team2Name.setText(awayTeamName);
 		
-		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+		/* Group name */
 		
-		eventStartTime.setText(eventStartTimeHourAndMinuteAsString);
+		String groupHeaderName = phase.getPhase();
 		
-		StringBuilder channelsSB = new StringBuilder();
+		groupHeader.setText(groupHeaderName);
 		
-		boolean containsBroadcastDetails = event.containsBroadcastDetails();
+		StringBuilder sb = new StringBuilder();
 		
-		if(containsBroadcastDetails)
-		{
-			List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+		/* The event is ongoing */
+		if (event.isOngoing() && !event.isPostponed()) {
 			
-			int totalChannelCount = eventBroadcastDetailsList.size();
+			sb.append(event.getAwayGoals())
+				.append(" - ")
+				.append(event.getHomeGoals());
 			
-			List<String> channelNames = new ArrayList<String>(totalChannelCount);
+			liveStandings.setText(sb.toString());
 			
-			for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
-			{
-				String channelID = eventBroadcastDetails.getChannelId();
-				
-				TVChannelId tvChannelId = new TVChannelId(channelID);
-				
-				TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-				
-				if(tvChannel != null)
-				{
-					channelNames.add(tvChannel.getName());
-				}
-				else
-				{
-					Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
-				}
-			}
+			Calendar beginTimeCal = event.getEventDateCalendarLocal();
 			
-			for(int i=0; i<channelNames.size(); i++)
-			{
-				if(i >= Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON)
-				{
-					int remainingChannels = totalChannelCount - Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
-							 
-					channelsSB.append("+ ");
-					channelsSB.append(remainingChannels);
-					channelsSB.append(" ");
-					channelsSB.append(getResources().getString(R.string.competition_page_more_channels_broadcasting));
-					break;
-				}
-				
-				channelsSB.append(channelNames.get(i));
-				
-				if(i != channelNames.size()-1)
-				{
-					channelsSB.append(", ");
-				}
-			}
+			// TODO Check if this method works....
+			int minutesInGame = event.countMinutesInGame(beginTimeCal);
+			
+			liveTimeInGame.setText(minutesInGame + "'");
+			
+			liveStandings.setVisibility(View.VISIBLE);
+			liveTimeInGame.setVisibility(View.VISIBLE);
+			beginTime.setVisibility(View.GONE);
+			beginTimeDate.setVisibility(View.GONE);
 		}
 		
-		String channels = channelsSB.toString();
-		
-		if (channels != null && !channels.isEmpty() && channels != "")
-		{
-			tvBroadcastChannels.setText(channels);
-			tvBroadcastChannels.setVisibility(View.VISIBLE);
-		}
-		else
-		{
-			tvBroadcastChannels.setVisibility(View.GONE);
+		/* The event has not started yet */
+		else {
+			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+			
+			beginTime.setText(eventStartTimeHourAndMinuteAsString);
+			
+			sb.append(event.getEventTimeDayOfTheWeekAsString())
+			.append(" ")
+			.append(event.getEventTimeDayAndMonthAsString());
+			
+			beginTimeDate.setText(sb.toString());
+			
+			liveStandings.setVisibility(View.GONE);
+			liveTimeInGame.setVisibility(View.GONE);
+			beginTime.setVisibility(View.VISIBLE);
+			beginTimeDate.setVisibility(View.VISIBLE);
 		}
 	}
 	
@@ -420,7 +399,7 @@ public class EventPageActivity
 		
 		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 
-//		listAdapter = new CompetitionEventsByGroupListAdapter(this, eventsByGroups);
+		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, eventsByGroups);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{
