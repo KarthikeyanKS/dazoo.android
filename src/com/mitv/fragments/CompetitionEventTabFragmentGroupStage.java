@@ -5,13 +5,14 @@ package com.mitv.fragments;
 
 import java.util.List;
 import java.util.Map;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
@@ -25,13 +26,16 @@ import com.mitv.models.objects.mitvapi.competitions.Event;
 
 
 
-public class EventTabFragmentGroupStage 
-	extends EventTabFragment
+public class CompetitionEventTabFragmentGroupStage 
+	extends CompetitionTabFragment
 	implements ViewCallbackListener
 {
-	@SuppressWarnings("unused")
-	private static final String TAG = EventTabFragmentGroupStage.class.getName();
+	private static final String TAG = CompetitionTabFragmentGroupStage.class.getName();
 	
+	
+	private Event event;
+	
+	private long eventID;
 	
 	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
@@ -39,16 +43,18 @@ public class EventTabFragmentGroupStage
 	
 	
 	/* An empty constructor is required by the Fragment Manager */
-	public EventTabFragmentGroupStage()
+	public CompetitionEventTabFragmentGroupStage()
 	{
 		super();
 	}
-
 	
 	
-	public EventTabFragmentGroupStage(String tabId, String tabTitle, EventTabTypeEnum tabType)
+	
+	public CompetitionEventTabFragmentGroupStage(long eventID, String tabId, String tabTitle, EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
+		
+		this.eventID = eventID;
 	}
 	
 	
@@ -59,13 +65,19 @@ public class EventTabFragmentGroupStage
 		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
 		
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
-
+	
 		super.initRequestCallbackLayouts(rootView);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-
+	
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
+		
+		if (savedInstanceState != null) 
+        {
+            // Restore last state for checked position.
+			eventID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+        }
 		
 		return rootView;
 	}
@@ -73,11 +85,12 @@ public class EventTabFragmentGroupStage
 	
 	
 	@Override
-	public void onResume() 
-	{	
-		super.onResume();
-		
-	}
+    public void onSaveInstanceState(Bundle outState) 
+	{
+        super.onSaveInstanceState(outState);
+        
+        outState.putLong(Constants.INTENT_COMPETITION_EVENT_ID, eventID);
+    }
 	
 	
 	
@@ -116,15 +129,13 @@ public class EventTabFragmentGroupStage
 	protected void updateUI(UIStatusEnum status)
 	{
 		super.updateUIBaseElements(status);
-
+	
 		switch (status) 
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				listContainerLayout.removeAllViews();
-				
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-
+	
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
@@ -152,5 +163,19 @@ public class EventTabFragmentGroupStage
 				break;
 			}
 		}
+	}
+	
+	
+	
+	private Event getEvent()
+	{
+		if(this.event == null)
+		{
+			Log.d(TAG, "Event ID is: " + eventID);
+			
+			this.event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		}
+		
+		return event;
 	}
 }

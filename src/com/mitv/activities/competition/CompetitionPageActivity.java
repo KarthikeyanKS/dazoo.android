@@ -8,19 +8,17 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
-import com.mitv.adapters.pager.EventTabFragmentStatePagerAdapter;
+import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -45,7 +43,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CompetitionPageActivity 
 	extends BaseContentActivity
-	implements /*OnPageChangeListener,*/ ViewCallbackListener, FetchDataProgressCallbackListener 
+	implements ViewCallbackListener, FetchDataProgressCallbackListener 
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
@@ -57,8 +55,7 @@ public class CompetitionPageActivity
 	
 	private TabPageIndicator pageTabIndicator;
 	public static CustomViewPager viewPager;
-	private EventTabFragmentStatePagerAdapter pagerAdapter;
-//	private OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
+	private CompetitionTabFragmentStatePagerAdapter pagerAdapter;
 	private int selectedTabIndex;
 	
 	private TextView remainingTimeInDays;
@@ -90,7 +87,7 @@ public class CompetitionPageActivity
 			return;
 		}
 		
-		setContentView(R.layout.layout_competition_events_page);
+		setContentView(R.layout.layout_competition_page);
 		
 		Intent intent = getIntent();
 		
@@ -154,71 +151,6 @@ public class CompetitionPageActivity
 	
 	
 	
-	
-//	/* Tab elements */
-//	
-//	public interface OnViewPagerIndexChangedListener 
-//	{
-//		public void onIndexSelected(int position);
-//	}
-//	
-//	
-//	
-//	@Override
-//	public void onPageSelected(int pos) 
-//	{
-//		selectedTabIndex = pos;
-//		
-//		if(viewPagerIndexChangedListener != null)
-//		{
-//			viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
-//		}
-//		else
-//		{
-//			Log.w(TAG, "The ViewPagerIndexChangedListener is null");
-//		}
-//	}
-//	
-//	
-//	
-//	@Override
-//	public void onPageScrolled(int arg0, float arg1, int arg2){}
-//	
-//	
-//	
-//	@Override
-//	public void onPageScrollStateChanged(int arg0){}
-//	
-//	
-//	
-//	public OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() 
-//	{
-//		return viewPagerIndexChangedListener;
-//	}
-//	
-//	
-//	
-//	public void setViewPagerIndexChangedListener(OnViewPagerIndexChangedListener viewPagerIndexChangedListener) 
-//	{
-//		this.viewPagerIndexChangedListener = viewPagerIndexChangedListener;
-//	}
-//	
-//	
-//	
-//	public int getSelectedTabIndex() 
-//	{
-//		return selectedTabIndex;
-//	}
-//	
-//	
-//	
-//	public void setSelectedTabIndex(int selectedTabIndex) 
-//	{
-//		this.selectedTabIndex = selectedTabIndex;
-//	}
-	
-	
-	
 	private void setData()
 	{
 		String competitionName = competition.getDisplayName();
@@ -231,7 +163,7 @@ public class CompetitionPageActivity
 		{
 			countDownArea.setVisibility(View.VISIBLE);
 			
-			long competitionStartTimeInMiliseconds = competition.getBeginTimeCalendarLocal().getTimeInMillis();
+			long competitionStartTimeInMiliseconds = competition.getBeginTimeCalendarGMT().getTimeInMillis();
 			
 			long millisecondsUntilEventStart = (competitionStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
 			
@@ -411,7 +343,7 @@ public class CompetitionPageActivity
 	
 	private void setAdapter(int selectedIndex) 
 	{
-		pagerAdapter = new EventTabFragmentStatePagerAdapter(getSupportFragmentManager());
+		pagerAdapter = new CompetitionTabFragmentStatePagerAdapter(getSupportFragmentManager(), competition.getCompetitionId());
 	
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(2);
@@ -428,7 +360,6 @@ public class CompetitionPageActivity
 		
 		pagerAdapter.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
-//		pageTabIndicator.setOnPageChangeListener(this);
 		
 		pageTabIndicator.setInitialStyleOnAllTabs();
 		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
@@ -486,5 +417,4 @@ public class CompetitionPageActivity
 
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) {}
-	
 }

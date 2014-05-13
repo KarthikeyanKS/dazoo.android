@@ -16,33 +16,38 @@ import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventTabTypeEnum;
-import com.mitv.fragments.EventHighlightsFragment;
-import com.mitv.fragments.EventTabFragmentSecondStage;
+import com.mitv.fragments.CompetitionEventTabFragmentGroupStage;
+import com.mitv.fragments.CompetitionEventTabFragmentGroupStandings;
 
 
 
-public class EventAndLineUpTabFragmentStatePagerAdapter
+public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 	extends FragmentStatePagerAdapter 
 {
-	private static final String TAG = EventAndLineUpTabFragmentStatePagerAdapter.class.getName();
+	private static final String TAG = CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter.class.getName();
 	
 	
 	private List<String> tabs;
+	private long eventID;
 	
-	private static final int EVENT_POSITION = 0;
-	private static final int LINEUP_POSITION = 1;
+	private static final int GROUP_STAGE_POSITION = 0;
+	private static final int SECOND_STAGE_POSITION = 1;
 	
 	
-	public EventAndLineUpTabFragmentStatePagerAdapter(final FragmentManager fm) 
+	public CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(
+			final FragmentManager fm,
+			final String firstTabName,
+			final long eventID) 
 	{
 		super(fm);
 		
 		Context context = SecondScreenApplication.sharedInstance();
 		
 		this.tabs = new ArrayList<String>();
+		this.eventID = eventID;
 		
-		tabs.add(context.getString(R.string.event_page_tab_events));
-		tabs.add(context.getString(R.string.event_page_tab_lineup));
+		tabs.add(firstTabName);
+		tabs.add(context.getString(R.string.event_page_tab_standings));
 	}
 	
 	
@@ -59,18 +64,18 @@ public class EventAndLineUpTabFragmentStatePagerAdapter
 		
 		switch(realPosition)
 		{
-			case EVENT_POSITION:
+			case GROUP_STAGE_POSITION:
 			{
-				fragment = new EventHighlightsFragment(tab, tab, EventTabTypeEnum.EVENTS_STAGE);
+				fragment = new CompetitionEventTabFragmentGroupStage(eventID, tab, tab, EventTabTypeEnum.EVENT_GROUP_STAGE);
 				break;
 			}
 			
-			case LINEUP_POSITION:
+			case SECOND_STAGE_POSITION:
 			{
-				fragment = new EventTabFragmentSecondStage(tab, tab, EventTabTypeEnum.LINE_UP_STAGE);
+				fragment = new CompetitionEventTabFragmentGroupStandings(eventID, tab, tab, EventTabTypeEnum.EVENT_GROUP_STANDINGS);
 				break;
 			}
-			
+
 			default:
 			{
 				Log.w(TAG, "Unhandled position");

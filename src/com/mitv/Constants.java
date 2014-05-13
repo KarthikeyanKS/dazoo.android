@@ -501,6 +501,7 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
+	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
 	public static final String GROUP_STAGE = "Fase de Grupos";
 	public static final int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON = 1;
 }

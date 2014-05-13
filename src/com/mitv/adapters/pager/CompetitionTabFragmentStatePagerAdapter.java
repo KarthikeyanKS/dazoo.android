@@ -16,36 +16,40 @@ import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventTabTypeEnum;
-import com.mitv.fragments.EventTabFragmentGroupStage;
-import com.mitv.fragments.EventTabFragmentSecondStage;
-import com.mitv.fragments.EventTabFragmentTeamStandings;
+import com.mitv.fragments.CompetitionTabFragmentGroupStage;
+import com.mitv.fragments.CompetitionTabFragmentSecondStage;
+import com.mitv.fragments.CompetitionTabFragmentTeamStandings;
 
 
 
-public class EventTabFragmentStatePagerAdapter
+public class CompetitionTabFragmentStatePagerAdapter
 	extends FragmentStatePagerAdapter 
 {
-	private static final String TAG = EventTabFragmentStatePagerAdapter.class.getName();
+	private static final String TAG = CompetitionTabFragmentStatePagerAdapter.class.getName();
 	
 	
 	private List<String> tabs;
+	private long competitionID;
 	
 	private static final int GROUP_STAGE_POSITION = 0;
 	private static final int SECOND_STAGE_POSITION = 1;
 	private static final int TEAM_STANDINGS_POSITION = 2;
 	
 	
-	public EventTabFragmentStatePagerAdapter(final FragmentManager fm) 
+	public CompetitionTabFragmentStatePagerAdapter(
+			final FragmentManager fm,
+			final long competitionID) 
 	{
 		super(fm);
 		
 		Context context = SecondScreenApplication.sharedInstance();
 		
 		this.tabs = new ArrayList<String>();
+		this.competitionID = competitionID;
 		
-		tabs.add(context.getString(R.string.event_page_tab_group_stage));
-		tabs.add(context.getString(R.string.event_page_tab_second_stage));
-		//tabs.add(context.getString(R.string.event_page_tab_teams));
+		tabs.add(context.getString(R.string.competition_page_tab_group_stage));
+		tabs.add(context.getString(R.string.competition_page_tab_second_stage));
+		//tabs.add(context.getString(R.string.competition_page_tab_standings));
 	}
 	
 	
@@ -64,19 +68,19 @@ public class EventTabFragmentStatePagerAdapter
 		{
 			case GROUP_STAGE_POSITION:
 			{
-				fragment = new EventTabFragmentGroupStage(tab, tab, EventTabTypeEnum.GROUP_STAGE);
+				fragment = new CompetitionTabFragmentGroupStage(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_GROUP_STAGE);
 				break;
 			}
 			
 			case SECOND_STAGE_POSITION:
 			{
-				fragment = new EventTabFragmentSecondStage(tab, tab, EventTabTypeEnum.SECOND_STAGE);
+				fragment = new CompetitionTabFragmentSecondStage(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_SECOND_STAGE);
 				break;
 			}
 			
 			case TEAM_STANDINGS_POSITION:
 			{
-				fragment = new EventTabFragmentTeamStandings(tab, tab, EventTabTypeEnum.TEAM_STANDINGS);
+				fragment = new CompetitionTabFragmentTeamStandings(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_STANDINGS);
 				break;
 			}
 			

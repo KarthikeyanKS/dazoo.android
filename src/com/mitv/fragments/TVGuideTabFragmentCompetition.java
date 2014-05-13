@@ -120,7 +120,7 @@ public class TVGuideTabFragmentCompetition
         if (savedInstanceState != null) 
         {
             // Restore last state for checked position.
-        	competitionID = savedInstanceState.getLong("competitionID", 0);
+        	competitionID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_ID, 0);
         }
         
         initView();
@@ -135,7 +135,7 @@ public class TVGuideTabFragmentCompetition
 	{
         super.onSaveInstanceState(outState);
         
-        outState.putLong("competitionID", competitionID);
+        outState.putLong(Constants.INTENT_COMPETITION_ID, competitionID);
     }
 	
 	

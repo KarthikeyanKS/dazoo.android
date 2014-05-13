@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_scrollable_layout"
     android:layout_width="fill_parent"
@@ -46,15 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tab_event_divider" />
-
-            <!--
-                include
-                android:id="@+id/competition_fragment_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/competition_broacastpage_block_container_layout"
-                layout="@layout/fragment_competition_holder_layout" /
-            -->
 
         </RelativeLayout>
     </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>

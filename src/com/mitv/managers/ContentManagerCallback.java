@@ -43,6 +43,7 @@ import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 
 
@@ -287,6 +288,12 @@ public abstract class ContentManagerCallback
 			case COMPETITIONS_ALL_STANDALONE:
 			{
 				handleCompetitionsStandaloneResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
+			case COMPETITION_STANDINGS_BY_PHASE_ID:
+			{
+				handleCompetitionStandingsByPhaseIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
 				break;
 			}
 			
@@ -876,6 +883,29 @@ public abstract class ContentManagerCallback
 			}
 		}
 	}
+	
+	
+	
+	private void handleCompetitionStandingsByPhaseIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<Standings> standings = (ArrayList<Standings>) content;
+			
+			Long phaseID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY);
+			
+			getCache().getCompetitionsData().addStandingsForPhaseIDForSelectedCompetition(standings, phaseID);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
 	
 	
 	

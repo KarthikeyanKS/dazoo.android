@@ -11,12 +11,12 @@ import com.mitv.interfaces.ViewCallbackListener;
 
 
 
-public abstract class EventTabFragment 
+public abstract class CompetitionTabFragment 
 	extends BaseFragment
 	implements ViewCallbackListener
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = EventTabFragment.class.getName();
+	private static final String TAG = CompetitionTabFragment.class.getName();
 	
 	
 	private String tabId;
@@ -29,16 +29,16 @@ public abstract class EventTabFragment
 	
 	
 	/* An empty constructor is required by the Fragment Manager */
-	public EventTabFragment()
+	public CompetitionTabFragment()
 	{
 		this.tabId = "";
 		this.tabTitle = "";
-		this.tabType = EventTabTypeEnum.GROUP_STAGE;
+		this.tabType = EventTabTypeEnum.COMPETITION_GROUP_STAGE;
 	}
 	
 	
 	
-	public EventTabFragment(
+	public CompetitionTabFragment(
 			final String tabId, 
 			final String tabTitle, 
 			final EventTabTypeEnum tabType)

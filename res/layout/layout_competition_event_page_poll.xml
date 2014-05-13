@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_margin="10dp"
-        android:text="@string/competition_who_is_gonna_win"
+        android:text="@string/event_page_poll_title"
         android:textColor="@color/black"
         android:textAllCaps="true"/>
     
@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:layout_below="@id/competition_event_poll_header"
-        android:text="@string/competition_who_is_gonna_win"
+        android:text="@string/event_page_poll_title"
         android:textAllCaps="true" />
 
 </RelativeLayout>
