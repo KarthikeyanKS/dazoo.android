@@ -44,7 +44,7 @@ public class EventTabFragmentStatePagerAdapter
 		this.tabs = new ArrayList<String>();
 		
 		tabs.add(context.getString(R.string.event_page_tab_group_stage));
-		//tabs.add(context.getString(R.string.event_page_tab_second_stage));
+		tabs.add(context.getString(R.string.event_page_tab_second_stage));
 		//tabs.add(context.getString(R.string.event_page_tab_teams));
 	}
 	

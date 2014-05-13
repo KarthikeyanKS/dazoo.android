@@ -5,13 +5,15 @@ package com.mitv.fragments;
 
 import java.util.List;
 import java.util.Map;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+
 import com.mitv.R;
+import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -20,7 +22,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.utilities.SetListViewToHeightBasedOnChildren;
 
 
 
@@ -28,10 +29,11 @@ public class EventTabFragmentSecondStage
 	extends EventTabFragment
 	implements ViewCallbackListener
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = EventTabFragmentSecondStage.class.getName();
 	
-	
-	private ListView listView;
+
+	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	
@@ -55,8 +57,8 @@ public class EventTabFragmentSecondStage
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
-		
-		listView = (ListView) rootView.findViewById(R.id.competition_table_listview);
+
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -81,18 +83,7 @@ public class EventTabFragmentSecondStage
 	@Override
 	protected void loadData()
 	{
-//		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		if (hasEnoughDataToShowContent()) {
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-			
-		} else {
-			updateUI(UIStatusEnum.LOADING);
-//			String loadingString = getString(R.string.XX);
-			String loadingString = "TODO LOADING";
-			setLoadingLayoutDetailsMessage(loadingString);
-			
-			// TODO ????
-		}
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	}
 	
 	
@@ -133,14 +124,20 @@ public class EventTabFragmentSecondStage
 
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
 				
-				listView.setAdapter(listAdapter);
+				for (int i = 0; i < listAdapter.getCount(); i++) 
+				{
+		            View listItem = listAdapter.getView(i, null, listContainerLayout);
+		            
+		            if (listItem != null)
+		            {
+		            	listContainerLayout.addView(listItem);
+		            }
+		        } 
+
+				listContainerLayout.measure(0, 0);
 				
-				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
-					
-				listAdapter.notifyDataSetChanged();
-					
-				Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
-					
+				CompetitionPageActivity.viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
+
 				break;
 			}
 			

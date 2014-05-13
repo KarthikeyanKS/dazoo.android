@@ -29,5 +29,7 @@
 	<dimen name="myprofile_items_height">50dp</dimen>
 	<dimen name="myprofile_items_width_of_logo">25dp</dimen>
 	
+	<dimen name="indicator_height">44dp</dimen>
+	
 	
 </resources>

@@ -3,13 +3,17 @@ package com.mitv.fragments;
 
 
 
+import java.util.List;
+import java.util.Map;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 
 import com.mitv.R;
+import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -17,6 +21,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 
 
 
@@ -24,10 +29,11 @@ public class EventTabFragmentGroupStage
 	extends EventTabFragment
 	implements ViewCallbackListener
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = EventTabFragmentGroupStage.class.getName();
 	
 	
-	private ListView listView;
+	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	
@@ -52,7 +58,7 @@ public class EventTabFragmentGroupStage
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
 		
-		listView = (ListView) rootView.findViewById(R.id.competition_table_listview);
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -70,6 +76,7 @@ public class EventTabFragmentGroupStage
 	public void onResume() 
 	{	
 		super.onResume();
+		
 	}
 	
 	
@@ -77,18 +84,7 @@ public class EventTabFragmentGroupStage
 	@Override
 	protected void loadData()
 	{
-////		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-//		if (hasEnoughDataToShowContent()) {
-//			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-//			
-//		} else {
-//			updateUI(UIStatusEnum.LOADING);
-////			String loadingString = getString(R.string.XX);
-//			String loadingString = "TODO LOADING";
-//			setLoadingLayoutDetailsMessage(loadingString);
-//			
-//			// TODO ????
-//		}
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	}
 	
 	
@@ -117,7 +113,7 @@ public class EventTabFragmentGroupStage
 	
 	
 	@Override
-	protected void updateUI(UIStatusEnum status) 
+	protected void updateUI(UIStatusEnum status)
 	{
 		super.updateUIBaseElements(status);
 
@@ -125,18 +121,26 @@ public class EventTabFragmentGroupStage
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-//				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-//
-//				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
-//				
-//				listView.setAdapter(listAdapter);
-//				
-//				SetListViewToHeightBasedOnChildren.setListViewHeightBasedOnChildren(listView);
-//					
-//				listAdapter.notifyDataSetChanged();
-//					
-//				Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
-					
+				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
+
+				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
+				
+				for (int i = 0; i < listAdapter.getCount(); i++) 
+				{
+		            View listItem = listAdapter.getView(i, null, listContainerLayout);
+		           
+		            if (listItem != null) 
+		            {
+		            	listContainerLayout.addView(listItem);
+		            }
+		        }
+				
+				listContainerLayout.measure(0, 0);
+				
+				CompetitionPageActivity.viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+				
+				CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				
 				break;
 			}
 			
