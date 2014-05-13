@@ -7,12 +7,10 @@
     android:orientation="vertical"
     android:paddingBottom="10dp" >
 
-    <!-- ONGOING GAME -->
-
     <RelativeLayout
         android:id="@+id/competition_next_game_layout"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:paddingBottom="10dp"
@@ -25,19 +23,20 @@
             style="@style/header2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:padding="3dp"
+            android:text="Group H"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
         <RelativeLayout
-            android:id="@+id/competition_event_live_standings_container"
+            android:id="@+id/competition_event_before_and_live_standings_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/competition_next_game_text"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_below="@id/competition_event_group_header"
             android:background="@color/white" >
 
             <!-- LIVE STANDINGS -->
@@ -47,22 +46,51 @@
                 style="@style/header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/grey1"
+                android:layout_centerInParent="true"
+                android:text="2 - 1"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <!-- BEGIN TIME: XX:XX -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_event_starttime_time"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="18:00"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
-            
-            <!-- TIME IN GAME -->
+
+            <!-- BEGIN TIME DATE: DAY XX/X -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_event_starttime_date"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_event_starttime_time"
+            	android:layout_marginTop="10dp"
+                android:text="Saturday 14/6"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <!-- LIVE TIME IN GAME: XX' -->
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/competition_event_live_time"
                 style="@style/header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/competition_event_live_standing"
-                android:textColor="@color/grey1"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:textSize="18sp" />
+                android:text="54&apos;"
+                android:textColor="@color/grey1"
+                android:textSize="18sp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <!-- TEAM ONE -->
@@ -72,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/competition_next_game_text"
+            android:layout_below="@id/competition_event_group_header"
             android:layout_marginLeft="10dp"
             android:background="@color/white" >
 
@@ -103,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/competition_next_game_text"
+            android:layout_below="@id/competition_event_group_header"
             android:layout_marginRight="10dp"
             android:background="@color/white" >
 
@@ -133,11 +161,13 @@
             android:id="@+id/divider_container"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/competition_event_team_two_flag_container"
-            android:background="@color/grey1" />
+            android:layout_below="@id/competition_event_before_and_live_standings_container"
+            android:background="@color/grey1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
         <!-- LIST WITH BROADCAST ITEMS -->
-        
+
         <LinearLayout
             android:id="@+id/competition_event_broadcasts_listview"
             android:layout_width="match_parent"
@@ -146,17 +176,16 @@
             android:cacheColorHint="@null"
             android:divider="@null"
             android:fadingEdge="none"
-            android:minHeight="200dp"
             android:orientation="vertical" />
-        
+
         <!-- INCLUDING THE SOCIAL INTERACTION PANEL -->
-        <!--  
+        <!--
         <include
             android:id="@+id/competition_event_social_panel"
             android:layout_below="@id/competition_event_broadcasts_listview"
             layout="@layout/element_competition_event_social_buttons" />
-            -->
-        
+        -->
+
     </RelativeLayout>
 
 </RelativeLayout>
