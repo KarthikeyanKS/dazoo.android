@@ -58,20 +58,21 @@ public class CompetitionPageActivity
 	private CompetitionTabFragmentStatePagerAdapter pagerAdapter;
 	private int selectedTabIndex;
 	
+	private RelativeLayout countDownLayout;
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInDaysTitle;
 	private TextView remainingTimeInHours;
 	private TextView remainingTimeInHoursTitle;
 	private TextView remainingTimeInMinutes;
 	private TextView remainingTimeInMinutesTitle;
+	private RelativeLayout nextGameLayout;
+	private TextView nextGameText;
 	private TextView eventStartTime;
 	private TextView tvBroadcastChannels;
 	private TextView team1Name;
 	private ImageView team1Flag;
 	private TextView team2Name;
 	private ImageView team2Flag;
-	private RelativeLayout countDownArea;
-	private TextView nextGameText;
 	
 	private EventCountDownTimer eventCountDownTimer;
 	
@@ -157,11 +158,11 @@ public class CompetitionPageActivity
 		
 		if (competition.hasBegun())
 		{
-			countDownArea.setVisibility(View.GONE);
+			countDownLayout.setVisibility(View.GONE);
 		}
 		else
 		{
-			countDownArea.setVisibility(View.VISIBLE);
+			countDownLayout.setVisibility(View.VISIBLE);
 			
 			long competitionStartTimeInMiliseconds = competition.getBeginTimeCalendarGMT().getTimeInMillis();
 			
@@ -305,6 +306,18 @@ public class CompetitionPageActivity
 		{
 			tvBroadcastChannels.setVisibility(View.GONE);
 		}
+		
+		nextGameLayout.setOnClickListener(new View.OnClickListener() 
+        {
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
+                
+                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+                
+                startActivity(intent);
+            }
+        });
 	}
 	
 	
@@ -317,13 +330,15 @@ public class CompetitionPageActivity
 		
 		actionBar.setTitle(competitionName);
 		
-		countDownArea = (RelativeLayout) findViewById(R.id.competition_count_down_area);
+		countDownLayout = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
 		remainingTimeInDaysTitle = (TextView) findViewById(R.id.competition_days_title);
 		remainingTimeInHours = (TextView) findViewById(R.id.competition_hours_number);
 		remainingTimeInHoursTitle = (TextView) findViewById(R.id.competition_hours_title);
 		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_minutes_number);
 		remainingTimeInMinutesTitle = (TextView) findViewById(R.id.competition_minutes_title);
+		
+		nextGameLayout = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
 		eventStartTime = (TextView) findViewById(R.id.competition_page_begin_time_broadcast);
 		tvBroadcastChannels = (TextView) findViewById(R.id.competition_airing_channels_for_broadcast);
 		team1Name = (TextView) findViewById(R.id.competition_team_one_name);

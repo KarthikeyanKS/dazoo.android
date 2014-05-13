@@ -60,6 +60,7 @@ import com.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 
 
 
@@ -75,6 +76,7 @@ public class APIClient
 	private ContentCallbackListener contentCallbackListener;
 	private CustomThreadedPoolExecutor tvGuideInitialCallPoolExecutor;
 	private CustomThreadedPoolExecutor competitionsInitialCallPoolExecutor;
+	private CustomThreadedPoolExecutor multipleStandingsCallPoolExecutor;
 	
 	
 	
@@ -133,6 +135,80 @@ public class APIClient
 				POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME,
                 TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>());
+	}
+	
+	
+	
+	private void resetMultipleStandingsCallPoolExecutor()
+	{
+		if(multipleStandingsCallPoolExecutor != null)
+		{
+			if(multipleStandingsCallPoolExecutor.isShutdown() == false)
+			{
+				multipleStandingsCallPoolExecutor.shutdownNow();
+			}
+
+			multipleStandingsCallPoolExecutor.purge();
+			multipleStandingsCallPoolExecutor.resetTaskCount();
+		}
+		
+		multipleStandingsCallPoolExecutor = new CustomThreadedPoolExecutor(
+				POOL_EXECUTOR_DEFAULT_CORE_POOL_SIZE,
+				POOL_EXECUTOR_DEFAULT_MAXIMUM_POOL_SIZE,
+				POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
+	}
+	
+	
+	
+	/* THREAD POLL EXECUTOR METHODS FOR MULTIPLE STANDINGS CALL */
+	
+	public void getMultipleStandingsOnCallPoolExecutor(ViewCallbackListener activityCallbackListener, List<Phase> phases)
+	{
+		resetMultipleStandingsCallPoolExecutor();
+		
+		List<AsyncTask<String, Void, Void>> tasks = new ArrayList<AsyncTask<String,Void,Void>>();
+		
+		for(Phase phase : phases)
+		{
+			long phaseID = phase.getPhaseId();
+			
+			tasks.add(new GetStandingsForPhase(contentCallbackListener, activityCallbackListener, phaseID));
+		}
+		
+		for(AsyncTask<String, Void, Void> task : tasks)
+		{
+			multipleStandingsCallPoolExecutor.addAndExecuteTask(task);
+		}
+	}
+	
+	
+	
+	public void cancelAllMultipleStandingsCallPendingRequests()
+	{
+		multipleStandingsCallPoolExecutor.shutdown();
+	}
+	
+	
+	
+	public boolean areMultipleStandingsPendingRequestsCanceled()
+	{
+		return (multipleStandingsCallPoolExecutor.isShutdown() || multipleStandingsCallPoolExecutor.isTerminated() || multipleStandingsCallPoolExecutor.isTerminating());
+	}
+	
+	
+	
+	public void incrementCompletedTasksForMultipleStandingsCall()
+	{
+		multipleStandingsCallPoolExecutor.incrementCompletedTasks();
+	}
+	
+	
+	
+	public boolean areAllTasksCompletedForMultipleStandingsCall()
+	{
+		return multipleStandingsCallPoolExecutor.areAllTasksCompleted();
 	}
 	
 	

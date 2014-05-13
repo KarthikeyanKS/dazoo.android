@@ -291,6 +291,12 @@ public abstract class ContentManagerCallback
 				break;
 			}
 			
+			case COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID:
+			{
+				handleCompetitionStandingsMultipleByPhaseIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
 			case COMPETITION_STANDINGS_BY_PHASE_ID:
 			{
 				handleCompetitionStandingsByPhaseIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
@@ -475,6 +481,65 @@ public abstract class ContentManagerCallback
 	
 	
 	/* HANDLES */
+	
+	private void handleCompetitionStandingsMultipleByPhaseIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters) 
+	{
+		if(getAPIClient().areMultipleStandingsPendingRequestsCanceled())
+		{
+			return;
+		}
+		
+		getAPIClient().incrementCompletedTasksForMultipleStandingsCall();
+		
+		switch (requestIdentifier) 
+		{
+			case COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID:
+			{
+				@SuppressWarnings("unchecked")
+				ArrayList<Standings> standings = (ArrayList<Standings>) content;
+				
+				Long phaseID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY);
+				
+				getCache().getCompetitionsData().addStandingsForPhaseIDForSelectedCompetition(standings, phaseID);
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unhandled request identifier.");
+				break;
+			}
+		}
+				
+		if(getAPIClient().areAllTasksCompletedForMultipleStandingsCall())
+		{
+			notifyListenersOfRequestResult(RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID, result);
+						
+			getAPIClient().cancelAllMultipleStandingsCallPendingRequests();
+		}
+		else
+		{
+			if(!result.wasSuccessful() || content == null)
+			{
+				getAPIClient().cancelAllMultipleStandingsCallPendingRequests();
+				
+				notifyListenersOfRequestResult(RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID, FetchRequestResultEnum.UNKNOWN_ERROR);
+			}
+			else
+			{
+				Log.d(TAG, "There are pending tasks still running.");
+			}
+		}
+	}
+	
+	
+	
+	
 	
 	private void handleCompetitionInitialDataResponse(
 			ViewCallbackListener activityCallbackListener,

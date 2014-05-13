@@ -37,6 +37,17 @@ public class Competition
 	
 	
 	
+	public boolean hasEnded()
+	{
+		Calendar now = DateUtils.getNow();
+		
+		boolean hasEnded = getEndTimeCalendarLocal().before(now);
+		
+		return hasEnded;
+	}
+	
+	
+	
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */

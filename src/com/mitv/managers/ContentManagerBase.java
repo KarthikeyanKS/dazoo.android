@@ -1153,6 +1153,13 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public List<Phase> getFromCacheAllPhasesForSelectedCompetition()
+	{
+		return getCache().getCompetitionsData().getPhasesForSelectedCompetition();
+	}
+	
+	
+	
 	public void setSelectedCompetition(Competition competition)
 	{
 		long competitionID = competition.getCompetitionId();
