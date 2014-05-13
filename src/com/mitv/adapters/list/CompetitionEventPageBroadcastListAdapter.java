@@ -1,6 +1,7 @@
 package com.mitv.adapters.list;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.games.multiplayer.realtime.Room;
+import com.google.android.gms.internal.ev;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -28,6 +31,7 @@ import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -123,6 +127,7 @@ extends BaseAdapter
 			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.competition_event_channel_logo);
 			viewHolder.beginTime = (TextView) rowView.findViewById(R.id.competition_event_full_date);
 			viewHolder.reminderIcon = (TextView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
+			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.competition_event_broadcast_progressbar);
 			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_broadcast_details_container);
 			
 			rowView.setTag(viewHolder);
@@ -135,34 +140,30 @@ extends BaseAdapter
 			boolean containsBroadcastDetails = event.containsBroadcastDetails();
 			
 			if(containsBroadcastDetails) {
+				
 				broadcastDetails = event.getBroadcastDetails();
 				EventBroadcastDetailsJSON details = broadcastDetails.get(position);
 				
-				/* Channel logo */
-				ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
+				setChannelLogo(holder, details);
 				
-				TVChannelId tvChannelId = new TVChannelId(details.getChannelId());
+				/* Event is ongoing */
+				if (event.isOngoing() && !event.isPostponed()) {
+					setProgressBar(holder);
+				}
 				
-				TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-				
-				String logoUrl = tvChannel.getLogo().getSmall();
-					
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(logoUrl, imageAware);
-				
-				/* Date airing */
-				String date = details.getDate();
-				holder.beginTime.setText(date);
-				
-				/* Reminder icon */
-				holder.reminderIcon.setVisibility(View.VISIBLE);
-				holder.container.setVisibility(View.VISIBLE);
+				/* Event has not started yet */
+				else {
+					setAiringDate(holder, details);
+				}
 			}
-			
+				
 			else {
 				holder.beginTime.setVisibility(View.GONE);
 				holder.reminderIcon.setVisibility(View.GONE);
+				holder.progressBar.setVisibility(View.GONE);
 				holder.container.setVisibility(View.GONE);
 			}
+				
 		}
 		else
 		{
@@ -174,12 +175,56 @@ extends BaseAdapter
 	
 	
 	
+	private void setProgressBar(ViewHolder holder) {
+		/* Progress bar */
+		Calendar beginTimeCal = event.getEventDateCalendarLocal();
+		Calendar endTimeCal = event.getEventDateCalendarLocal();
+		
+		int totalMinutesInGame = event.countMinutesInGame(beginTimeCal);
+		int totalMinutesOfEvent = event.totalMinutesOfEvent(beginTimeCal, endTimeCal);
+		
+		LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfEvent, holder.progressBar);
+	}
+	
+	
+	
+	private void setAiringDate(ViewHolder holder, EventBroadcastDetailsJSON details) {
+		/* Date airing */
+		String date = details.getDate();
+		holder.beginTime.setText(date);
+		
+		holder.beginTime.setVisibility(View.VISIBLE);
+		
+		/* Reminder icon */
+		holder.reminderIcon.setVisibility(View.VISIBLE);
+		
+		holder.container.setVisibility(View.VISIBLE);
+	}
+	
+	
+	
+	private void setChannelLogo(ViewHolder holder, EventBroadcastDetailsJSON details) {
+		/* Channel logo */
+		ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
+		
+		TVChannelId tvChannelId = new TVChannelId(details.getChannelId());
+		
+		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+		
+		String logoUrl = tvChannel.getLogo().getSmall();
+			
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(logoUrl, imageAware);
+	}
+	
+	
+	
 	private static class ViewHolder 
 	{
 		private ImageView channelLogo;
 		private TextView beginTime;
 		private TextView reminderIcon;
 		private RelativeLayout container;
+		private ProgressBar progressBar;
 	}
 	
 }
