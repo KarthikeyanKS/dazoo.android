@@ -211,13 +211,13 @@ public class Event
 	 * 
 	 * @return minutesInGame
 	 */
-	public int countMinutesInGame(Calendar beginTime) {
+	public int getMinutesInGame() {
 		int minutesInGame = 0;
 		long minutes = 0l;
 		
 		Calendar now = DateUtils.getNow();
 		
-		minutes = now.getTimeInMillis() - beginTime.getTimeInMillis();
+		minutes = now.getTimeInMillis() - this.getEventDateCalendarLocal().getTimeInMillis();
 		
 		if (minutes > 0) {
 			minutesInGame = (int) (minutes / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
@@ -228,8 +228,24 @@ public class Event
 	
 	
 	
+	
+	public String getMinutesInGameString() {
+		int minutesinGame = getMinutesInGame();
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(minutesinGame)
+			.append("'");
+		
+		return sb.toString();
+	}
+	
+	
+	
 	public int totalMinutesOfEvent(Calendar beginTime, Calendar endTime) {
 		int totalMinutes = 0;
+//		int totalMinutes = DateUtils.calculateDifferenceBetween(
+//				beginTimeCalendar, endTimeCalendar, differenceUnitType,
+//				useAbslouteDifference, defaultValueIfNegative);
 		
 		return totalMinutes;
 	}

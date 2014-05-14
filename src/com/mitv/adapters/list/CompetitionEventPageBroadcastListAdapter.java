@@ -18,9 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.games.multiplayer.realtime.Room;
-import com.google.android.gms.internal.ev;
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
@@ -28,9 +25,6 @@ import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
-import com.mitv.models.objects.mitvapi.competitions.Team;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -178,10 +172,10 @@ extends BaseAdapter
 	private void setProgressBar(ViewHolder holder) {
 		/* Progress bar */
 		Calendar beginTimeCal = event.getEventDateCalendarLocal();
-		Calendar endTimeCal = event.getEventDateCalendarLocal();
+		Calendar endTimeCal = event.getEventDateCalendarLocal(); // TODO ALEXANDRA
 		
-		int totalMinutesInGame = event.countMinutesInGame(beginTimeCal);
-		int totalMinutesOfEvent = event.totalMinutesOfEvent(beginTimeCal, endTimeCal);
+		int totalMinutesInGame = event.getMinutesInGame();
+		int totalMinutesOfEvent = event.totalMinutesOfEvent(beginTimeCal, endTimeCal); // TODO ALEXANDRA
 		
 		LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfEvent, holder.progressBar);
 	}
@@ -209,7 +203,7 @@ extends BaseAdapter
 		
 		TVChannelId tvChannelId = new TVChannelId(details.getChannelId());
 		
-		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId); // TODO: get channel, search in all channels.
 		
 		String logoUrl = tvChannel.getLogo().getSmall();
 			
