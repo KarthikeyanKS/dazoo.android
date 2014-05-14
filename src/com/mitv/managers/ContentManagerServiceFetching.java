@@ -24,6 +24,7 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -587,6 +588,34 @@ public abstract class ContentManagerServiceFetching
 		else 
 		{
 			getAPIClient().getCompetitionInitialDataOnPoolExecutor(activityCallbackListener, competitionID);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceStandingsForMultiplePhases(ViewCallbackListener activityCallbackListener, boolean forceDownload, List<Phase> phases)
+	{
+		List<Phase> phasesToFetch = new ArrayList<Phase>();
+		
+		for(Phase phase : phases)
+		{
+			long phaseID = phase.getPhaseId();
+			
+			boolean containsStanding = getFromCacheHasStandingsForPhaseInSelectedCompetition(phaseID);
+			
+			if(containsStanding)
+			{
+				phasesToFetch.add(phase);
+			}
+		}
+		
+		if (!forceDownload && phasesToFetch.isEmpty()) 
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID);
+		} 
+		else 
+		{
+			getAPIClient().getMultipleStandingsOnCallPoolExecutor(activityCallbackListener, phases);
 		}
 	}
 	

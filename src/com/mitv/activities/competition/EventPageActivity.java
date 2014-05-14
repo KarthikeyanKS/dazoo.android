@@ -345,7 +345,7 @@ public class EventPageActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		String loadingString = getString(R.string.competition_loading_text);
+		String loadingString = getString(R.string.competition_event_loading_text);
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		

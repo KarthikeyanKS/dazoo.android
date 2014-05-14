@@ -5,7 +5,6 @@ package com.mitv.models;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -29,13 +28,15 @@ public class CompetitionCacheData
 	private List<Team> teams;
 	private List<Phase> phases;
 	private List<Event> events;
+
+	private Map<Long, List<Standings>> standingsByPhase;
 	
-	private Map<Long, List<Standings>> standingsByPhase;	
 	private TreeMap<Long, List<Event>> eventsGroupedByFirstPhase;
 	private TreeMap<Long, List<Event>> eventsGroupedBySecondPhase;
 	
 	private TreeMap<Long, List<EventHighlight>> highlightsByEvent;
 	private Long highlightsByEventFetchTime;
+	
 	private TreeMap<Long, List<EventLineUp>> lineupByEvent;
 	private Long lineupByEventFetchTime;
 	
@@ -83,27 +84,9 @@ public class CompetitionCacheData
 	
 	public CompetitionCacheData(Competition competition)
 	{
+		this();
+		
 		this.competition = competition;
-		
-		this.teams = new ArrayList<Team>();
-		
-		this.phases = new ArrayList<Phase>();
-		
-		this.events = new ArrayList<Event>();
-		
-		this.standingsByPhase = new HashMap<Long, List<Standings>>();
-		
-		this.eventsGroupedByFirstPhase = new TreeMap<Long, List<Event>>();
-		
-		this.eventsGroupedBySecondPhase = new TreeMap<Long, List<Event>>();
-		
-		this.highlightsByEvent = new TreeMap<Long, List<EventHighlight>>();
-		
-		this.highlightsByEventFetchTime = null;
-		
-		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
-		
-		this.lineupByEventFetchTime = null;
 	}
 	
 	

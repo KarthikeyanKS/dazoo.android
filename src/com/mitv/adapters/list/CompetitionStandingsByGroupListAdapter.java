@@ -10,7 +10,6 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +31,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class CompetitionStandingsByGroupListAdapter 
 	extends BaseAdapter 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = CompetitionStandingsByGroupListAdapter.class.getName();
 	
 	
@@ -108,7 +108,7 @@ public class CompetitionStandingsByGroupListAdapter
 	{
 		View rowView = convertView;
 
-		final Standings standingsElement = getItem(position);
+		final Standings element = getItem(position);
 
 		if (rowView == null) 
 		{
@@ -124,14 +124,11 @@ public class CompetitionStandingsByGroupListAdapter
 			viewHolder.headerPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_header_plus_minus);
 			viewHolder.headerPts = (TextView) rowView.findViewById(R.id.row_competition_header_pts);
 			
-			/* Flag and name */
 			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_team_name);
 			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_team_flag);
-			
-			/* Table */
-			viewHolder.teamInfoGP = (TextView) rowView.findViewById(R.id.row_competition_team_table_gp);
-			viewHolder.teamInfoPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_team_table_plus_minus);
-			viewHolder.teamInfoPts = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
+			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_team_table_gp);
+			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_team_table_plus_minus);
+			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
 
 			rowView.setTag(viewHolder);
 		}
@@ -139,8 +136,7 @@ public class CompetitionStandingsByGroupListAdapter
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 		
 		// TODO Sort the teams in each group accordingly to highest Pts.
-
-		if (standingsElement != null) 
+		if (holder != null) 
 		{
 			holder.headerContainer.setVisibility(View.GONE);
 			holder.group.setVisibility(View.GONE);
@@ -149,37 +145,13 @@ public class CompetitionStandingsByGroupListAdapter
 			holder.headerPlusMinus.setVisibility(View.GONE);
 			holder.headerPts.setVisibility(View.GONE);
 			
-			for (int i = 0; i < standingsByPhase.size(); i++) {
-				
+			for (int i = 0; i < standingsByPhase.size(); i++) 
+			{
 				boolean isFirstposition = (position == 0);
 
-				boolean isLastPosition = (position == (getCount() - 1));
-
-				boolean isCurrentTeamGroupEqualToPreviousTeamGroup;
-
-				if(isFirstposition == false)
+				if (isFirstposition) 
 				{
-					Standings prevStandingsElement = getItem(position - 1);
-
-					// TODO
-					isCurrentTeamGroupEqualToPreviousTeamGroup = false;
-				}
-				else
-				{
-					isCurrentTeamGroupEqualToPreviousTeamGroup = true;
-					
-					// TODO After sorting, set the team with highest score to bold.
-					// TODO Also make the margin 1dp smaller programmatically.
-					
-//					holder.teamInfoGP.setTypeface(null, Typeface.BOLD);
-//					holder.teamInfoPlusMinus.setTypeface(null, Typeface.BOLD);
-//					holder.teamInfoPts.setTypeface(null, Typeface.BOLD);
-				}
-
-				if (isFirstposition || isCurrentTeamGroupEqualToPreviousTeamGroup == false) 
-				{
-					/* Capitalized letters in header */
-					String headerText = "TODO";
+					String headerText = element.getPhase();
 					holder.group.setText(headerText.toUpperCase());
 
 					holder.headerContainer.setVisibility(View.VISIBLE);
@@ -190,7 +162,13 @@ public class CompetitionStandingsByGroupListAdapter
 					holder.headerPts.setVisibility(View.VISIBLE);
 				}
 				
-				long teamID = standingsElement.getTeamId();
+				holder.teamGP.setText(element.getPoints());
+				holder.teamPlusMinus.setText(element.getGoalsForMinusGoalsAgainst());
+				holder.teamPoints.setText(element.getPoints());
+				
+				holder.teamName.setText(element.getTeam());
+				
+				long teamID = element.getTeamId();
 					
 				Team team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
 				
@@ -201,19 +179,8 @@ public class CompetitionStandingsByGroupListAdapter
 					String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
 							
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
-					
-					holder.teamName.setText(team.getDisplayName());
-				}
-				else
-				{
-					// TODO - Do something
 				}
 			}
-				
-		}
-		else
-		{
-			Log.w(TAG, "Event is null");
 		}
 			
 		return rowView;
@@ -226,9 +193,9 @@ public class CompetitionStandingsByGroupListAdapter
 		private TextView group;
 		private TextView teamName;
 		private ImageView teamFlag;
-		private TextView teamInfoGP;
-		private TextView teamInfoPlusMinus;
-		private TextView teamInfoPts;
+		private TextView teamGP;
+		private TextView teamPlusMinus;
+		private TextView teamPoints;
 		private View dividerView;
 		private TextView headerGP;
 		private TextView headerPlusMinus;

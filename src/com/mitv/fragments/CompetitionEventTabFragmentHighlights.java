@@ -4,7 +4,6 @@ package com.mitv.fragments;
 
 
 import java.util.List;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +16,6 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -65,9 +63,9 @@ public class CompetitionEventTabFragmentHighlights
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
+		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container, null);
 		
-		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container);
 	
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -99,6 +97,10 @@ public class CompetitionEventTabFragmentHighlights
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.LOADING);
+		
+		String loadingString = getString(R.string.competition_event_highlights_loading_text);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
 		
 		long competitionID = getEvent().getCompetitionId();
 		

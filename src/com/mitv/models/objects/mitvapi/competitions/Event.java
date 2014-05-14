@@ -4,7 +4,6 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 import java.util.Calendar;
-import java.util.Date;
 
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
 import com.mitv.utilities.DateUtils;

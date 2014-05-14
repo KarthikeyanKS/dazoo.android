@@ -22,6 +22,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 
 
@@ -61,7 +62,7 @@ public class CompetitionTabFragmentTeamStandings
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.fragment_competition_table, null);
+		rootView = inflater.inflate(R.layout.fragment_competition_tab_fragment_container, null);
 		
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
 
@@ -96,7 +97,15 @@ public class CompetitionTabFragmentTeamStandings
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		updateUI(UIStatusEnum.LOADING);
+		
+		String loadingString = getString(R.string.competition_standings_loading_text);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
+		
+		List<Phase> phases = ContentManager.sharedInstance().getFromCacheAllPhasesForSelectedCompetition();
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceStandingsForMultiplePhases(this, false, phases);
 	}
 	
 	
@@ -104,7 +113,7 @@ public class CompetitionTabFragmentTeamStandings
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition();
+		return ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
 	}
 	
 	
@@ -137,7 +146,7 @@ public class CompetitionTabFragmentTeamStandings
 
 				listAdapter = new CompetitionStandingsByGroupListAdapter(activity, standingsByPhase);
 				
-				for (int i = 0; i < listAdapter.getCount(); i++) 
+				for (int i = 0; i < listAdapter.getCount(); i++)
 				{
 		            View listItem = listAdapter.getView(i, null, listContainerLayout);
 		            
