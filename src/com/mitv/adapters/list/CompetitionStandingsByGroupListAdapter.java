@@ -113,7 +113,7 @@ public class CompetitionStandingsByGroupListAdapter
 			ViewHolder viewHolder = new ViewHolder();
 			
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container);
-			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group);
+			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_name);
 			
 			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_team_name);
 			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_team_flag);

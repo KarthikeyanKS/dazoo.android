@@ -35,8 +35,6 @@ import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
-import com.mitv.ui.elements.LikeView;
-import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -176,7 +174,7 @@ public class EventPageActivity
 			.append(" ")
 			.append(awayTeamName);
 		
-		headerteamvsteam.setText(sbHeader.toString());
+		//headerteamvsteam.setText(sbHeader.toString());
 		
 		headerCompetitionName.setText(competitionName);
 		

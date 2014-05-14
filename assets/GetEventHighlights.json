@@ -1,0 +1,32 @@
+[
+	{
+	  eventId: 1658217,
+	  highlightId: 11123920,
+	  action: "Gol",
+	  actionCode: 4,
+	  eventPhase: "Primer tiempo",
+	  actionTime: 1526000,
+	  actionMinute: "26'",
+	  teamId: 3037,
+	  team: "Colombia",
+	  personId: 834696,
+	  person: "James Rodriguez",
+	  subActionReasonId: 0,
+	  subActionReason: "null"
+	},
+	{
+	  eventId: 1658217,
+	  highlightId: 11123921,
+	  action: "Yellow",
+	  actionCode: 2048,
+	  eventPhase: "Primer tiempo",
+	  actionTime: 2164000,
+	  actionMinute: "37'",
+	  teamId: 3037,
+	  team: "Colombia",
+	  personId: 834696,
+	  person: "Carlos Valdez",
+	  subActionReasonId: 0,
+	  subActionReason: "null"
+	}
+]

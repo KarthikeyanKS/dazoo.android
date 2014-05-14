@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.EventPageActivity;
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
+import com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -39,7 +39,7 @@ public class CompetitionEventTabFragmentGroupStage
 	private long eventID;
 	
 	private LinearLayout listContainerLayout;
-	private CompetitionEventsByGroupListAdapter listAdapter;
+	private CompetitionEventEventsByGroupListAdapter listAdapter;
 	
 	
 	
@@ -135,7 +135,7 @@ public class CompetitionEventTabFragmentGroupStage
 			{
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 	
-				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
+				listAdapter = new CompetitionEventEventsByGroupListAdapter(activity, eventsByGroups);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{

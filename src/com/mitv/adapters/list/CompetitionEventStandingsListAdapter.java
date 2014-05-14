@@ -99,7 +99,6 @@ public class CompetitionEventStandingsListAdapter
 	
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_group_header_container);
 					
-			viewHolder.teamPosition = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_position);
 			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_event_lineup_team_flag);
 			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_name);
 			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_gp);
@@ -123,8 +122,6 @@ public class CompetitionEventStandingsListAdapter
 			{
 				holder.headerContainer.setVisibility(View.GONE);
 			}
-			
-			holder.teamPosition.setText(element.getRank());
 			
 			long teamID = element.getTeamId();
 			
@@ -163,7 +160,6 @@ public class CompetitionEventStandingsListAdapter
 	{
 		private RelativeLayout headerContainer;
 		
-		private TextView teamPosition;
 		private ImageView teamFlag;
 		private TextView teamName;		
 		private TextView teamGP;

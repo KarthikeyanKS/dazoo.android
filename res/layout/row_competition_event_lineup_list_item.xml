@@ -17,7 +17,7 @@
         android:id="@+id/row_competition_event_lineup_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/row_competition_event_highlight_name"
+        android:layout_toRightOf="@id/row_competition_event_lineup_name"
         android:background="@color/grey0"
         android:gravity="center_horizontal"
         android:paddingBottom="5dp"

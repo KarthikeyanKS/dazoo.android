@@ -7,42 +7,11 @@
     android:layout_height="70dp"
     android:background="@color/white" >
 
-    <!-- HEADER BY GROUP -->
-    <RelativeLayout
-        android:id="@+id/row_competition_group_header_container_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/grey1"
-        android:paddingBottom="5dp"
-        android:paddingTop="25dp">
-
-        <!-- GROUP -->
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_competition_header_group_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/grey3"
-            android:textSize="20sp" />
-
-        <!-- Divider -->
-        <View
-            android:id="@+id/row_competition_row_header_divider"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@id/row_competition_header_group_event"
-            android:background="@color/grey1"
-            android:visibility="visible" />
-    </RelativeLayout>
-
     <!-- HEADER DAY -->
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_competition_start_day_of_week"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_competition_group_header_container_event"
         android:background="@color/grey0"
         android:gravity="center_horizontal"
         android:paddingBottom="5dp"
@@ -52,7 +21,7 @@
         android:textSize="12sp" />
 
     <RelativeLayout
-        android:id="@+id/row_competition_row_container"
+        android:id="@+id/row_competition_event_row_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/row_competition_start_day_of_week"

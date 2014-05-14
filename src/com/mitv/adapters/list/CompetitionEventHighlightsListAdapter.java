@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.mitv.R;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
@@ -89,9 +90,11 @@ public class CompetitionEventHighlightsListAdapter
 	
 			rowView = layoutInflater.inflate(R.layout.row_competition_event_highlights_list_item, null);
 	
-			viewHolder.highlight = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_name);
-			viewHolder.time = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_time);
-			viewHolder.timeLineIcon = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_timeline_icon);
+			viewHolder.leftName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_name_left);
+			viewHolder.leftDetails = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_details_left);
+			
+			viewHolder.middleName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_middle_name);
+			viewHolder.middleIcon = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_middle_icon);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -100,8 +103,8 @@ public class CompetitionEventHighlightsListAdapter
 		
 		if (holder != null) 
 		{
-			holder.highlight.setText(element.getAction());
-			holder.time.setText(element.getActionMinute());
+			holder.leftName.setText(element.getAction());
+			holder.leftDetails.setText(element.getActionMinute());
 			
 			// TODO - Set the timeline icon
 			//holder.timeLineIcon
@@ -118,8 +121,16 @@ public class CompetitionEventHighlightsListAdapter
 	
 	private static class ViewHolder 
 	{
-		private TextView highlight;
-		private TextView time;
-		private ImageView timeLineIcon;
+		private RelativeLayout leftLayout;
+		private TextView leftName;
+		private TextView leftDetails;
+		
+		private RelativeLayout rightLayout;
+		private TextView rightName;
+		private TextView rightDetails;
+		
+		private RelativeLayout middleLayout;
+		private TextView middleName;
+		private ImageView middleIcon;
 	}
 }
