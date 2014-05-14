@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -23,6 +22,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.ui.elements.CustomViewPager;
 
 
 
@@ -36,6 +36,7 @@ public class CompetitionTabFragmentGroupStage
 	
 	private long competitionID;
 	
+	private CustomViewPager viewPager;
 	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
@@ -49,11 +50,17 @@ public class CompetitionTabFragmentGroupStage
 
 	
 	
-	public CompetitionTabFragmentGroupStage(final long competitionID, String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionTabFragmentGroupStage(
+			final CustomViewPager viewPager,
+			final long competitionID, 
+			final String tabId, 
+			final String tabTitle, 
+			final EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
 		
 		this.competitionID = competitionID;
+		this.viewPager = viewPager;
 	}
 	
 	
@@ -68,7 +75,7 @@ public class CompetitionTabFragmentGroupStage
 		super.initRequestCallbackLayouts(rootView);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-
+		
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
@@ -151,9 +158,9 @@ public class CompetitionTabFragmentGroupStage
 				
 				listContainerLayout.measure(0, 0);
 				
-				CompetitionPageActivity.viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+				viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
 				
-				CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

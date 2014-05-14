@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -23,6 +22,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.ui.elements.CustomViewPager;
 
 
 
@@ -36,6 +36,7 @@ public class CompetitionTabFragmentSecondStage
 
 	private long competitionID;
 	
+	private CustomViewPager viewPager;
 	private LinearLayout listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
@@ -49,11 +50,17 @@ public class CompetitionTabFragmentSecondStage
 
 	
 	
-	public CompetitionTabFragmentSecondStage(final long competitionID, String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionTabFragmentSecondStage(
+			final CustomViewPager viewPager,
+			final long competitionID, 
+			final String tabId, 
+			final String tabTitle, 
+			final EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
 		
 		this.competitionID = competitionID;
+		this.viewPager = viewPager;
 	}
 	
 	
@@ -91,7 +98,7 @@ public class CompetitionTabFragmentSecondStage
         outState.putLong(Constants.INTENT_COMPETITION_ID, competitionID);
     }
 	
-	
+		
 	
 	@Override
 	protected void loadData()
@@ -129,7 +136,7 @@ public class CompetitionTabFragmentSecondStage
 	{
 		super.updateUIBaseElements(status);
 
-		switch (status) 
+		switch (status)
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
@@ -145,11 +152,13 @@ public class CompetitionTabFragmentSecondStage
 		            {
 		            	listContainerLayout.addView(listItem);
 		            }
-		        } 
+		        }
 
 				listContainerLayout.measure(0, 0);
 				
-				CompetitionPageActivity.viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
+				viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
+				
+				viewPager.onPageScrolled(2, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 
 				break;
 			}

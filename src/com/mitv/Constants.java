@@ -108,10 +108,12 @@ public abstract class Constants
 	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
 	
 	/* API request strings for competitions module */
-	public static final String URL_COMPETITIONS 					= URL_SERVER + "api/sports/competitions";
-	public static final String URL_TEAMS 					 		= "/teams";
+	public static final String URL_SPORTS_MODULE					= "api/sports"; 
+	public static final String URL_COMPETITIONS 					= "/competitions";
 	public static final String URL_PHASES 					 		= "/phases";
-	public static final String URL_PHASES_FULL 					 	= "/api/sports/phases";
+	public static final String URL_COMPETITIONS_FULL 			    = URL_SERVER + URL_SPORTS_MODULE + URL_COMPETITIONS;
+	public static final String URL_PHASES_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_PHASES;
+	public static final String URL_TEAMS 					 		= "/teams";
 	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";

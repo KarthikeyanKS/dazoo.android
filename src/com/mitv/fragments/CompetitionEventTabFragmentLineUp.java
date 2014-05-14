@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.competition.CompetitionPageActivity;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.CompetitionEventLineUpListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -164,9 +164,9 @@ public class CompetitionEventTabFragmentLineUp
 				
 				listContainerLayout.measure(0, 0);
 				
-				CompetitionPageActivity.viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+				EventPageActivity.viewPagerForHighlightsAndLineup.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
 				
-				CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				EventPageActivity.viewPagerForHighlightsAndLineup.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

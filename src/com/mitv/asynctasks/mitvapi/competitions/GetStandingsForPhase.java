@@ -38,12 +38,35 @@ public class GetStandingsForPhase
 	}
 	
 	
+	
+	private static RequestIdentifierEnum getRequestIdentifier(boolean multiple)
+	{
+		RequestIdentifierEnum requestIdentifier;
+		
+		if(multiple)
+		{
+			requestIdentifier = RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID;
+		}
+		else
+		{
+			requestIdentifier = RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID;
+		}
+		
+		return requestIdentifier;
+	}
+	
+	
+	
+	
 	public GetStandingsForPhase(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final long phaseID)
+			final long phaseID,
+			final boolean multiple)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID, Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID), false);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(multiple), Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID), false);
+		
+		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY, phaseID);
 	}
 	
 	

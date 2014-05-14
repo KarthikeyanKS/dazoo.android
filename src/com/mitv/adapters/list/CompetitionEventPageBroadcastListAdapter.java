@@ -132,6 +132,8 @@ extends BaseAdapter
 
 		if (holder != null)
 		{
+			final Event event = getItem(position);
+			
 			boolean containsBroadcastDetails = event.containsBroadcastDetails();
 			
 			if(containsBroadcastDetails) {

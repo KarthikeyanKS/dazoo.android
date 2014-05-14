@@ -54,7 +54,7 @@ public class CompetitionPageActivity
 	private Event event;
 	
 	private TabPageIndicator pageTabIndicator;
-	public static CustomViewPager viewPager;
+	private CustomViewPager viewPager;
 	private CompetitionTabFragmentStatePagerAdapter pagerAdapter;
 	private int selectedTabIndex;
 	
@@ -358,7 +358,7 @@ public class CompetitionPageActivity
 	
 	private void setAdapter(int selectedIndex) 
 	{
-		pagerAdapter = new CompetitionTabFragmentStatePagerAdapter(getSupportFragmentManager(), competition.getCompetitionId());
+		pagerAdapter = new CompetitionTabFragmentStatePagerAdapter(getSupportFragmentManager(), viewPager, competition.getCompetitionId());
 	
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(2);

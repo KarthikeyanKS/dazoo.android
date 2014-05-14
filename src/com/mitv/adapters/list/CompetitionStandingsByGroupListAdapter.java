@@ -37,8 +37,6 @@ public class CompetitionStandingsByGroupListAdapter
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	
-	private Map<Long, List<Standings>> standingsByPhase;
 	private List<Standings> standings;
 	
 
@@ -47,8 +45,6 @@ public class CompetitionStandingsByGroupListAdapter
 			final Activity activity,
 			final Map<Long, List<Standings>> standingsByPhase)
 	{
-		this.standingsByPhase = standingsByPhase;
-		
 		this.standings = new ArrayList<Standings>();
 		
 		Collection<List<Standings>> values = standingsByPhase.values();
@@ -112,17 +108,12 @@ public class CompetitionStandingsByGroupListAdapter
 
 		if (rowView == null) 
 		{
-			ViewHolder viewHolder = new ViewHolder();
-
 			rowView = layoutInflater.inflate(R.layout.row_competition_team_standings_list_item, null);
-
+			
+			ViewHolder viewHolder = new ViewHolder();
+			
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container);
 			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group);
-			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_header_divider);
-			
-			viewHolder.headerGP = (TextView) rowView.findViewById(R.id.row_competition_header_gp);
-			viewHolder.headerPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_header_plus_minus);
-			viewHolder.headerPts = (TextView) rowView.findViewById(R.id.row_competition_header_pts);
 			
 			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_team_name);
 			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_team_flag);
@@ -138,49 +129,56 @@ public class CompetitionStandingsByGroupListAdapter
 		// TODO Sort the teams in each group accordingly to highest Pts.
 		if (holder != null) 
 		{
-			holder.headerContainer.setVisibility(View.GONE);
-			holder.group.setVisibility(View.GONE);
-			holder.dividerView.setVisibility(View.GONE);
-			holder.headerGP.setVisibility(View.GONE);
-			holder.headerPlusMinus.setVisibility(View.GONE);
-			holder.headerPts.setVisibility(View.GONE);
-			
-			for (int i = 0; i < standingsByPhase.size(); i++) 
+			boolean isFirstposition = (position == 0);
+
+			boolean isCurrentPhaseEqualToPreviousPhase;
+
+			if(isFirstposition == false)
 			{
-				boolean isFirstposition = (position == 0);
+				Standings previousElement = getItem(position - 1);
 
-				if (isFirstposition) 
-				{
-					String headerText = element.getPhase();
-					holder.group.setText(headerText.toUpperCase());
-
-					holder.headerContainer.setVisibility(View.VISIBLE);
-					holder.group.setVisibility(View.VISIBLE);
-					holder.dividerView.setVisibility(View.VISIBLE);
-					holder.headerGP.setVisibility(View.VISIBLE);
-					holder.headerPlusMinus.setVisibility(View.VISIBLE);
-					holder.headerPts.setVisibility(View.VISIBLE);
-				}
-				
-				holder.teamGP.setText(element.getPoints());
-				holder.teamPlusMinus.setText(element.getGoalsForMinusGoalsAgainst());
-				holder.teamPoints.setText(element.getPoints());
-				
-				holder.teamName.setText(element.getTeam());
-				
-				long teamID = element.getTeamId();
-					
-				Team team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
-				
-				if(team != null)
-				{
-					ImageAware imageAware = new ImageViewAware(holder.teamFlag, false);
-						
-					String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
-							
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
-				}
+				isCurrentPhaseEqualToPreviousPhase = element.isTheSamePhaseAs(previousElement);
 			}
+			else
+			{
+				isCurrentPhaseEqualToPreviousPhase = true;
+			}
+			
+			if (isFirstposition || isCurrentPhaseEqualToPreviousPhase == false) 
+			{
+				holder.headerContainer.setVisibility(View.VISIBLE);
+				
+				String headerText = element.getPhase();
+				holder.group.setText(headerText.toUpperCase());
+			}
+			else
+			{
+				holder.headerContainer.setVisibility(View.GONE);
+			}
+				
+			String teamGPAsString = new Integer(element.getMatches()).toString();
+			String teamPlusMinusAsString = new Integer(element.getGoalsForMinusGoalsAgainst()).toString();
+			String teamPointsAsString = new Integer(element.getPoints()).toString();
+
+			holder.teamGP.setText(teamGPAsString);
+			holder.teamPlusMinus.setText(teamPlusMinusAsString);
+			holder.teamPoints.setText(teamPointsAsString);
+
+			holder.teamName.setText(element.getTeam());
+
+			long teamID = element.getTeamId();
+
+			Team team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
+
+			if(team != null)
+			{
+				ImageAware imageAware = new ImageViewAware(holder.teamFlag, false);
+
+				String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
+
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
+			}
+			
 		}
 			
 		return rowView;
@@ -190,16 +188,13 @@ public class CompetitionStandingsByGroupListAdapter
 	
 	private static class ViewHolder 
 	{
+		private RelativeLayout headerContainer;
+		
 		private TextView group;
 		private TextView teamName;
 		private ImageView teamFlag;
 		private TextView teamGP;
 		private TextView teamPlusMinus;
 		private TextView teamPoints;
-		private View dividerView;
-		private TextView headerGP;
-		private TextView headerPlusMinus;
-		private TextView headerPts;
-		private RelativeLayout headerContainer;
 	}
 }

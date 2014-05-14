@@ -21,4 +21,11 @@ public class Standings
 	{
 		return goalsFor - goalsAgainst;
 	}
+	
+	
+	
+	public boolean isTheSamePhaseAs(Standings element)
+	{
+		return this.phase.equalsIgnoreCase(element.phase);
+	}
 }

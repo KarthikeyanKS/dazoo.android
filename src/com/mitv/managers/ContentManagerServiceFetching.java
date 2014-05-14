@@ -603,7 +603,7 @@ public abstract class ContentManagerServiceFetching
 			
 			boolean containsStanding = getFromCacheHasStandingsForPhaseInSelectedCompetition(phaseID);
 			
-			if(containsStanding)
+			if(containsStanding == false)
 			{
 				phasesToFetch.add(phase);
 			}

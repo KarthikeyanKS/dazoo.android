@@ -19,6 +19,7 @@ import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.fragments.CompetitionTabFragmentGroupStage;
 import com.mitv.fragments.CompetitionTabFragmentSecondStage;
 import com.mitv.fragments.CompetitionTabFragmentTeamStandings;
+import com.mitv.ui.elements.CustomViewPager;
 
 
 
@@ -30,6 +31,7 @@ public class CompetitionTabFragmentStatePagerAdapter
 	
 	private List<String> tabs;
 	private long competitionID;
+	private CustomViewPager viewPager;
 	
 	private static final int GROUP_STAGE_POSITION = 0;
 	private static final int SECOND_STAGE_POSITION = 1;
@@ -38,6 +40,7 @@ public class CompetitionTabFragmentStatePagerAdapter
 	
 	public CompetitionTabFragmentStatePagerAdapter(
 			final FragmentManager fm,
+			final CustomViewPager viewPager,
 			final long competitionID) 
 	{
 		super(fm);
@@ -46,10 +49,11 @@ public class CompetitionTabFragmentStatePagerAdapter
 		
 		this.tabs = new ArrayList<String>();
 		this.competitionID = competitionID;
+		this.viewPager = viewPager;
 		
 		tabs.add(context.getString(R.string.competition_page_tab_group_stage));
 		tabs.add(context.getString(R.string.competition_page_tab_second_stage));
-		//tabs.add(context.getString(R.string.competition_page_tab_standings));
+		tabs.add(context.getString(R.string.competition_page_tab_standings));
 	}
 	
 	
@@ -68,19 +72,19 @@ public class CompetitionTabFragmentStatePagerAdapter
 		{
 			case GROUP_STAGE_POSITION:
 			{
-				fragment = new CompetitionTabFragmentGroupStage(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_GROUP_STAGE);
+				fragment = new CompetitionTabFragmentGroupStage(viewPager, competitionID, tab, tab, EventTabTypeEnum.COMPETITION_GROUP_STAGE);
 				break;
 			}
 			
 			case SECOND_STAGE_POSITION:
 			{
-				fragment = new CompetitionTabFragmentSecondStage(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_SECOND_STAGE);
+				fragment = new CompetitionTabFragmentSecondStage(viewPager, competitionID, tab, tab, EventTabTypeEnum.COMPETITION_SECOND_STAGE);
 				break;
 			}
 			
 			case TEAM_STANDINGS_POSITION:
 			{
-				fragment = new CompetitionTabFragmentTeamStandings(competitionID, tab, tab, EventTabTypeEnum.COMPETITION_STANDINGS);
+				fragment = new CompetitionTabFragmentTeamStandings(viewPager, competitionID, tab, tab, EventTabTypeEnum.COMPETITION_STANDINGS);
 				break;
 			}
 			

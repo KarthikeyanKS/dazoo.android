@@ -4,7 +4,82 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="70dp" >
-
+    
+    <!-- HEADER BY GROUP -->
+    <RelativeLayout
+        android:id="@+id/row_competition_event_group_header_container"
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:paddingTop="15dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+	    android:background="@color/white" >
+	    
+        <!-- Pts. -->
+        
+        <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_header_pts"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textAllCaps="true"
+	        android:layout_alignParentRight="true"
+            android:layout_marginLeft="32dp"
+	        android:textColor="@color/grey3"
+	        android:text="@string/competition_standings_points"
+	        android:textSize="15sp" />
+        
+        <!-- +/- -->
+        
+        <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_header_plus_minus"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textAllCaps="true"
+            android:layout_marginLeft="32dp"
+	        android:layout_toLeftOf="@id/row_competition_event_header_pts"
+	        android:textColor="@color/grey3"
+	        android:text="@string/competition_standings_plus_minus"
+	        android:textSize="15sp" />
+        
+        <!-- GP -->
+        
+        <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_header_gp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textAllCaps="true"
+	        android:layout_toLeftOf="@id/row_competition_event_header_plus_minus"
+	        android:textColor="@color/grey3"
+	        android:text="@string/competition_standings_gp"
+	        android:textSize="15sp" />
+    
+    </RelativeLayout>
+    
+    <!-- DIVIDER -->
+    <View
+        android:id="@+id/row_competition_event_header_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/row_competition_event_group_header_container"
+        android:visibility="gone"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/grey1" />
+    
+    
+	<!-- FLAG, NAME AND STANDINGS -->
+    <RelativeLayout
+        android:id="@+id/row_competition_row_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_below="@id/row_competition_event_header_divider"
+        android:layout_marginRight="15dp"
+        android:background="@color/white" >
+	    
      	<!-- Position -->
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/row_competition_event_lineup_team_position"
@@ -68,5 +143,7 @@
             android:layout_centerVertical="true"
             android:text="00"
             android:textSize="15sp" />
+
+	</RelativeLayout>
 
 </RelativeLayout>
