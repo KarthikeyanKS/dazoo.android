@@ -5,32 +5,87 @@
     android:layout_width="match_parent"
     android:layout_height="70dp" >
 
-    <com.mitv.ui.elements.FontTextView
-        android:id="@+id/row_competition_event_highlight_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:textSize="12sp" />
-
-    <com.mitv.ui.elements.FontTextView
-        android:id="@+id/row_competition_event_highlight_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/row_competition_event_highlight_name"
-        android:background="@color/grey0"
-        android:gravity="center_horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:textSize="12sp" />
     
-    <ImageView
-		android:id="@+id/row_competition_event_highlight_timeline_icon"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:scaleType="fitXY" />
+    <!-- Middle section -->
+    <RelativeLayout
+        android:id="@+id/row_competition_event_highlight_middle_layout"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" 
+    	android:layout_centerInParent="true">
+	    
+        <ImageView
+			android:id="@+id/row_competition_event_highlight_middle_icon"
+	        android:layout_width="44dp"
+	        android:layout_height="44dp"
+	        android:scaleType="fitXY" />
+        
+        <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_highlight_middle_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        
+    </RelativeLayout>
+    
+    
+    <!-- Left section -->
+    <RelativeLayout
+        android:id="@+id/row_competition_event_highlight_left_layout"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" 
+    	android:layout_toLeftOf="@id/row_competition_event_highlight_middle_layout">
+    
+	    <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_highlight_name_left"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+	    
+	    <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_highlight_time_left"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@id/row_competition_event_highlight_name_left"
+	        android:textSize="12sp" />
+	    
+	    <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_highlight_details_left"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/row_competition_event_highlight_name_left"
+	        android:textSize="12sp" />
+	    
+    </RelativeLayout>
+    
+    
+    <!-- Right section -->
+    <RelativeLayout
+        android:id="@+id/row_competition_event_highlight_right_layout"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" 
+    	android:layout_toRightOf="@id/row_competition_event_highlight_middle_layout">
+    
+	    <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_highlight_name_right"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:textSize="12sp" />
+	    
+	    <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_highlight_time_right"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@id/row_competition_event_highlight_name_right"
+	        android:textSize="12sp" />
+	    
+	    <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/row_competition_event_highlight_details_right"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/row_competition_event_highlight_name_right"
+	        android:textSize="12sp" />
 
+        </RelativeLayout>
+        
 </RelativeLayout>

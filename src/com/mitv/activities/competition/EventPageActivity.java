@@ -27,13 +27,10 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
-import com.mitv.ui.elements.LikeView;
-import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -165,7 +162,7 @@ public class EventPageActivity
 			.append(" ")
 			.append(awayTeamName);
 		
-		headerteamvsteam.setText(sbHeader.toString());
+		//headerteamvsteam.setText(sbHeader.toString());
 		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
