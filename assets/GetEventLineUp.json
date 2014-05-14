@@ -1,0 +1,24 @@
+[
+	{
+	  	eventId: 1658217,
+		lineUpId: 834696,
+		actionSet:5,
+		actionId:695004, 
+		actionMinute: "37'",
+	  	personId: 834696,
+	  	person: "James Rodriguez",
+	  	teamId:12232,
+		team: "Colombia",
+		functionCode: 32769,
+	 	function: "Forward", 
+		functionShort: "GC",
+		isCaptain: true, 
+		shirtNr: "1",
+		position: "1", 
+		inStartingLineUp: true,
+		lineUpInMinute: 0, 
+		lineUpOutMinute: "71'",
+		subPersonId:null,
+		subPerson:null
+	}
+]

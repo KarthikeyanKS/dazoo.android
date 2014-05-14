@@ -7,7 +7,7 @@
     android:background="@color/grey1"
     android:orientation="vertical" >
 
-    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container" >
@@ -28,7 +28,6 @@
                 android:layout_alignParentTop="true"
                 layout="@layout/block_competition_event_main_content" />
             
-            
             <!-- TABS: HIGHLIGHTS & LINEUP -->
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_highlights_and_lineup"
@@ -36,16 +35,13 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@id/competition_event_block_container_layout"
 	            android:orientation="vertical"
-	            android:paddingBottom="10dp"
-	            android:paddingLeft="10dp"
-	            android:paddingRight="10dp" >
+	            android:paddingBottom="10dp">
 
 	            <com.viewpagerindicator.TabPageIndicator
 	                android:id="@+id/tab_event_indicator_for_highlights_and_lineup"
 	                android:layout_width="match_parent"
 	                android:layout_height="44dp"
-	                android:background="@color/white"
-	                android:tag="sticky" />
+	                android:background="@color/white"/>
 	
 	            <View
 	                android:id="@+id/tab_event_divider_for_highlights_and_lineup"
@@ -62,16 +58,14 @@
         	</RelativeLayout>
 
             
-            <!-- TABS: GROUP X & STANDINGS -->
+            <!-- TABS: GROUPS & STANDINGS -->
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_group_and_standings"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_below="@id/competition_event_block_tabs_highlights_and_lineup"
 	            android:orientation="vertical"
-	            android:paddingBottom="10dp"
-	            android:paddingLeft="10dp"
-	            android:paddingRight="10dp" >
+	            android:paddingBottom="10dp" >
 
 	            <com.viewpagerindicator.TabPageIndicator
 	                android:id="@+id/tab_event_indicator_for_group_and_standings"
@@ -96,7 +90,7 @@
         	
         </RelativeLayout>
         
-    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
+    </ScrollView>
     
     <!-- NAVIGATION TABS -->
 
