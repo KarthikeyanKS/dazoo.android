@@ -3,7 +3,6 @@ package com.mitv.activities.competition;
 
 
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +33,8 @@ import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
+import com.mitv.ui.elements.LikeView;
+import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -53,7 +54,6 @@ public class EventPageActivity
 	
 
 	private Event event;
-	private Competition competition;
 	private Phase phase;
 	private CompetitionEventPageBroadcastListAdapter listAdapter;
 	
