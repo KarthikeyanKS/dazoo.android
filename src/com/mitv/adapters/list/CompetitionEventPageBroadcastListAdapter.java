@@ -25,6 +25,7 @@ import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -41,7 +42,7 @@ extends BaseAdapter
 	private Map<Long, List<Event>> eventsByGroup;
 	private List<Event> events;
 	private Event event;
-	private List<EventBroadcastDetailsJSON> broadcastDetails;
+	private List<EventBroadcastDetails> broadcastDetails;
 	
 	
 	
@@ -136,18 +137,19 @@ extends BaseAdapter
 			if(containsBroadcastDetails) {
 				
 				broadcastDetails = event.getBroadcastDetails();
-				EventBroadcastDetailsJSON details = broadcastDetails.get(position);
+				EventBroadcastDetails details = broadcastDetails.get(position);
 				
 				setChannelLogo(holder, details);
 				
 				/* Event is ongoing */
 				if (event.isOngoing() && !event.isPostponed()) {
-					setProgressBar(holder);
+					setProgressBar(holder, details);
 				}
 				
 				/* Event has not started yet */
 				else {
 					setAiringDate(holder, details);
+					setReminderIcon(holder);
 				}
 			}
 				
@@ -169,36 +171,53 @@ extends BaseAdapter
 	
 	
 	
-	private void setProgressBar(ViewHolder holder) {
-		/* Progress bar */
-		Calendar beginTimeCal = event.getEventDateCalendarLocal();
-		Calendar endTimeCal = event.getEventDateCalendarLocal(); // TODO ALEXANDRA
-		
-		int totalMinutesInGame = event.getMinutesInGame();
-		int totalMinutesOfEvent = event.totalMinutesOfEvent(beginTimeCal, endTimeCal); // TODO ALEXANDRA
+	/**
+	 * Set progress bar
+	 * 
+	 * @param holder
+	 * @param details
+	 */
+	private void setProgressBar(ViewHolder holder, EventBroadcastDetails details) {
+		int totalMinutesInGame = details.getMinutesInGame();
+		int totalMinutesOfEvent = details.getTotalAiringTimeInMinutes();
 		
 		LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfEvent, holder.progressBar);
 	}
 	
 	
-	
-	private void setAiringDate(ViewHolder holder, EventBroadcastDetailsJSON details) {
-		/* Date airing */
-		String date = details.getDate();
+	/**
+	 * Set airing date
+	 * 
+	 * @param holder
+	 * @param details
+	 */
+	private void setAiringDate(ViewHolder holder, EventBroadcastDetails details) {
+		String date = details.getBeginTime();
 		holder.beginTime.setText(date);
-		
 		holder.beginTime.setVisibility(View.VISIBLE);
-		
-		/* Reminder icon */
+	}
+	
+	
+	
+	/**
+	 * Set reminder icon
+	 * 
+	 * @param holder
+	 */
+	private void setReminderIcon(ViewHolder holder) {
 		holder.reminderIcon.setVisibility(View.VISIBLE);
-		
 		holder.container.setVisibility(View.VISIBLE);
 	}
 	
 	
 	
-	private void setChannelLogo(ViewHolder holder, EventBroadcastDetailsJSON details) {
-		/* Channel logo */
+	/**
+	 * Set channel logo
+	 * 
+	 * @param holder
+	 * @param details
+	 */
+	private void setChannelLogo(ViewHolder holder, EventBroadcastDetails details) {
 		ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 		
 		TVChannelId tvChannelId = new TVChannelId(details.getChannelId());
