@@ -5,7 +5,11 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 import java.util.Calendar;
 
+import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVProgram;
+import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
 
@@ -22,6 +26,25 @@ public class Event
 	
 	public Event()
 	{}
+	
+	
+	
+	public Event(NotificationSQLElement item)
+	{
+//		TVChannel tvChannel = new TVChannel(item);
+//		this.channel = tvChannel;
+//		
+//		TVProgram tvProgram = new TVProgram(item);
+//		this.program = tvProgram;
+//		
+//		String broadcastTypeAsString = item.getBroadcastType();
+//		
+//		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
+//		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
+//		this.beginTime = item.getBroadcastBeginTime();
+//		this.endTime = item.getBroadcastEndTime();
+//		this.shareUrl = item.getShareUrl();
+	}
 	
 	
 	

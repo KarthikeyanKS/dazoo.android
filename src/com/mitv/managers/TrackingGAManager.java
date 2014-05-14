@@ -25,6 +25,7 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -209,6 +210,22 @@ public class TrackingGAManager
 		}
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder);
+	}
+	
+	public void sendUserReminderEventCompetition(Event event, boolean didJustRemoveReminder) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(event.getHomeTeam())
+			.append(" - ")
+			.append(event.getAwayTeam());
+		
+		String title = sb.toString();
+
+		Long addedReminder = 1L;
+		if (didJustRemoveReminder) {
+			addedReminder = 0L;
+		}
+
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, title, addedReminder);
 	}
 
 	public void sendTimeOffSyncEvent() {

@@ -3,7 +3,6 @@ package com.mitv.activities.competition;
 
 
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +32,8 @@ import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
+import com.mitv.ui.elements.LikeView;
+import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -52,7 +53,6 @@ public class EventPageActivity
 	
 
 	private Event event;
-	private Competition competition;
 	private Phase phase;
 	private CompetitionEventPageBroadcastListAdapter listAdapter;
 	
@@ -80,6 +80,7 @@ public class EventPageActivity
 	private TextView shareIcon;
 	private TextView beginTime;
 	private TextView beginTimeDate;
+	private TextView headerteamvsteam;
 	
 	
 	
@@ -155,7 +156,17 @@ public class EventPageActivity
 		String homeTeamName = event.getHomeTeam();
 			
 		String awayTeamName = event.getAwayTeam();
-			
+		
+		/* Headr img and text: Team1 va Team2 */
+		StringBuilder sbHeader = new StringBuilder();
+		sbHeader.append(homeTeamName)
+			.append(" ")
+			.append("vs")
+			.append(" ")
+			.append(awayTeamName);
+		
+		headerteamvsteam.setText(sbHeader.toString());
+		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
 		if(containsTeamInfo)
@@ -271,6 +282,7 @@ public class EventPageActivity
 		shareIcon = (TextView) findViewById(R.id.competition_element_social_buttons_share_button_iv);
 		beginTime = (TextView) findViewById(R.id.competition_event_starttime_time);
 		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
+		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
 		
 		pageTabIndicatorForHighlightsAndLineup = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_highlights_and_lineup);
 		viewPagerForHighlightsAndLineup = (CustomViewPager) findViewById(R.id.tab_event_pager_for_highlights_and_lineup);

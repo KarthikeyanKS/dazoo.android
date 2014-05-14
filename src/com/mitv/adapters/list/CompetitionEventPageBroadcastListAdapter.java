@@ -24,6 +24,7 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -120,7 +121,7 @@ extends BaseAdapter
 			
 			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.competition_event_channel_logo);
 			viewHolder.beginTime = (TextView) rowView.findViewById(R.id.competition_event_full_date);
-			viewHolder.reminderIcon = (TextView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
+//			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
 			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.competition_event_broadcast_progressbar);
 			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_broadcast_details_container);
 			
@@ -150,13 +151,15 @@ extends BaseAdapter
 				/* Event has not started yet */
 				else {
 					setAiringDate(holder, details);
-					setReminderIcon(holder);
+					setReminderIcon(holder, details);
 				}
 			}
 				
 			else {
+				Log.w(TAG, "EventBroadcastDetails is null");
+				
 				holder.beginTime.setVisibility(View.GONE);
-				holder.reminderIcon.setVisibility(View.GONE);
+//				holder.reminderView.setVisibility(View.GONE);
 				holder.progressBar.setVisibility(View.GONE);
 				holder.container.setVisibility(View.GONE);
 			}
@@ -205,8 +208,21 @@ extends BaseAdapter
 	 * 
 	 * @param holder
 	 */
-	private void setReminderIcon(ViewHolder holder) {
-		holder.reminderIcon.setVisibility(View.VISIBLE);
+	private void setReminderIcon(ViewHolder holder, EventBroadcastDetails details) {
+		
+		/* TODO
+		 * 
+		 * WARNING WARNING WARNING
+		 * 
+		 * The notifications for event is not finished  */
+//		holder.reminderView.setCompetitionEventBroadcast(event, details);
+		
+		/* Used to set a smaller size on the reminder icon */
+		boolean iconSizeSmall = true;
+		
+//		holder.reminderView.setSizeOfIcon(iconSizeSmall);
+		
+//		holder.reminderView.setVisibility(View.VISIBLE);
 		holder.container.setVisibility(View.VISIBLE);
 	}
 	
@@ -221,9 +237,7 @@ extends BaseAdapter
 	private void setChannelLogo(ViewHolder holder, EventBroadcastDetails details) {
 		ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 		
-		TVChannelId tvChannelId = new TVChannelId(details.getChannelId());
-		
-		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId); // TODO: get channel, search in all channels.
+		TVChannel tvChannel = details.getTVChannelForEventBroadcast();
 		
 		String logoUrl = tvChannel.getLogo().getSmall();
 			
@@ -236,7 +250,7 @@ extends BaseAdapter
 	{
 		private ImageView channelLogo;
 		private TextView beginTime;
-		private TextView reminderIcon;
+		private ReminderView reminderView;
 		private RelativeLayout container;
 		private ProgressBar progressBar;
 	}
