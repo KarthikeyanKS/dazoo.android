@@ -5,10 +5,8 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey1"
     android:paddingBottom="10dp"
     android:orientation="vertical" >
-
     
     <!-- COUNTDOWN AREA -->
 	<RelativeLayout
@@ -211,7 +209,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/competition_upcoming_features"
-        android:background="@color/white"
+        android:background="@drawable/background_color_selector_white" 
         android:layout_marginTop="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
@@ -234,8 +232,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/competition_next_game_text"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white" >
+            android:layout_marginTop="10dp">
 
             <!-- Start time of game -->
             <com.mitv.ui.elements.FontTextView
@@ -267,8 +264,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/competition_next_game_text"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:background="@color/white" >
+            android:layout_marginLeft="5dp">
             
             <!-- Flag team one -->
 
@@ -298,8 +294,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/competition_next_game_text"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:background="@color/white" >
+            android:layout_marginRight="5dp">
 	        
             <!-- Flag team two -->
 

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
@@ -73,7 +72,6 @@ public class EventPageActivity
 	private ImageView team1Flag;
 	private TextView team2Name;
 	private ImageView team2Flag;
-	private RelativeLayout nextGameLayout;
 	private TextView groupHeader;
 	private TextView liveStandings;
 	private TextView liveTimeInGame;
@@ -265,11 +263,10 @@ public class EventPageActivity
 		
 		actionBar.setTitle(eventName);
 		
-		team1Name = (TextView) findViewById(R.id.competition_team_one_name);
-		team1Flag = (ImageView) findViewById(R.id.competition_team_one_flag);
-		team2Name = (TextView) findViewById(R.id.competition_team_two_name);
-		team2Flag = (ImageView) findViewById(R.id.competition_team_two_flag);
-		nextGameLayout = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
+		team1Name = (TextView) findViewById(R.id.competition_event_team_one_name);
+		team1Flag = (ImageView) findViewById(R.id.competition_event_team_one_flag);
+		team2Name = (TextView) findViewById(R.id.competition_event_team_two_name);
+		team2Flag = (ImageView) findViewById(R.id.competition_event_team_two_flag);
 		groupHeader = (TextView) findViewById(R.id.competition_event_group_header);
 		liveStandings = (TextView) findViewById(R.id.competition_event_live_standing);
 		liveTimeInGame = (TextView) findViewById(R.id.competition_event_live_time);
@@ -413,9 +410,9 @@ public class EventPageActivity
 		
 		broadcastListView.measure(0, 0);
 		
-		CompetitionPageActivity.viewPager.heightsMap.put(1, broadcastListView.getMeasuredHeight());
+		//viewPager.heightsMap.put(1, broadcastListView.getMeasuredHeight());
 		
-		CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+		//viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 	}
 
 

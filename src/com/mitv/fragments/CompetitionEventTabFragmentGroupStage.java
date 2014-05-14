@@ -5,6 +5,7 @@ package com.mitv.fragments;
 
 import java.util.List;
 import java.util.Map;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,7 @@ import android.widget.LinearLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.competition.CompetitionPageActivity;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -148,9 +149,9 @@ public class CompetitionEventTabFragmentGroupStage
 				
 				listContainerLayout.measure(0, 0);
 				
-				CompetitionPageActivity.viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+				EventPageActivity.viewPagerForGroupAndStandings.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
 				
-				CompetitionPageActivity.viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				EventPageActivity.viewPagerForGroupAndStandings.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

@@ -46,7 +46,6 @@ extends BaseAdapter
 	
 	private Map<Long, List<Event>> eventsByGroup;
 	private List<Event> events;
-	private Event event;
 	private List<EventBroadcastDetailsJSON> broadcastDetails;
 	
 	
@@ -137,6 +136,8 @@ extends BaseAdapter
 
 		if (holder != null)
 		{
+			final Event event = getItem(position);
+			
 			boolean containsBroadcastDetails = event.containsBroadcastDetails();
 			
 			if(containsBroadcastDetails) {
@@ -147,8 +148,9 @@ extends BaseAdapter
 				setChannelLogo(holder, details);
 				
 				/* Event is ongoing */
-				if (event.isOngoing() && !event.isPostponed()) {
-					setProgressBar(holder);
+				if (event.isOngoing() && !event.isPostponed()) 
+				{
+					setProgressBar(holder, event);
 				}
 				
 				/* Event has not started yet */
@@ -175,7 +177,10 @@ extends BaseAdapter
 	
 	
 	
-	private void setProgressBar(ViewHolder holder) {
+	private void setProgressBar(
+			final ViewHolder holder,
+			final Event event) 
+	{
 		/* Progress bar */
 		Calendar beginTimeCal = event.getEventDateCalendarLocal();
 		Calendar endTimeCal = event.getEventDateCalendarLocal();

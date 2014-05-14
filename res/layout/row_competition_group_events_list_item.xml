@@ -60,8 +60,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/row_competition_start_day_of_week"
-        android:layout_marginTop="5dp"
-        android:background="@color/white" >
+        android:paddingTop="5dp"
+        android:background="@drawable/background_color_selector_white">
 
         <RelativeLayout
             android:id="@+id/row_competition_page_begin_time_broadcast_container"
@@ -70,7 +70,6 @@
             android:layout_centerInParent="true"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
             android:padding="5dp" >
 
             <!-- Start time of game -->
@@ -105,10 +104,10 @@
             android:id="@+id/row_competition_page_team_one_flag_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/row_competition_page_begin_time_broadcast_container"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:background="@color/white"
             android:padding="5dp" >
 
             <ImageView
@@ -127,7 +126,6 @@
                 android:layout_toRightOf="@id/row_competition_team_one_flag"
                 android:textSize="12sp"
                 android:gravity="left"
-                android:maxWidth="55sp"
                 android:maxLines="2"/>
          
         </RelativeLayout>
@@ -140,7 +138,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:background="@color/white"
             android:padding="5dp" >
 
             <com.mitv.ui.elements.FontTextView
@@ -151,7 +148,6 @@
                 android:layout_marginRight="5dp"
                 android:textSize="12sp"
                 android:gravity="right"
-                android:maxWidth="55sp"
                 android:maxLines="2"/>
             <ImageView
                 android:id="@+id/row_competition_team_two_flag"

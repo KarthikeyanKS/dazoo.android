@@ -174,7 +174,7 @@ public class APIClient
 		{
 			long phaseID = phase.getPhaseId();
 			
-			tasks.add(new GetStandingsForPhase(contentCallbackListener, activityCallbackListener, phaseID));
+			tasks.add(new GetStandingsForPhase(contentCallbackListener, activityCallbackListener, phaseID, true));
 		}
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
@@ -670,7 +670,7 @@ public class APIClient
 	
 	public void GetStandingsForPhase(final ViewCallbackListener activityCallbackListener, final long phaseID)
 	{
-		GetStandingsForPhase task = new GetStandingsForPhase(contentCallbackListener, activityCallbackListener, phaseID);
+		GetStandingsForPhase task = new GetStandingsForPhase(contentCallbackListener, activityCallbackListener, phaseID, false);
 		task.execute();
 	}
 	

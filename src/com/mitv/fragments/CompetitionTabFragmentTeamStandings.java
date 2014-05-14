@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import android.widget.LinearLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -24,6 +24,7 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
+import com.mitv.ui.elements.CustomViewPager;
 
 
 
@@ -31,12 +32,12 @@ public class CompetitionTabFragmentTeamStandings
 	extends CompetitionTabFragment
 	implements ViewCallbackListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = CompetitionTabFragmentGroupStage.class.getName();
 	
 	
 	private long competitionID;
 	
+	private CustomViewPager viewPager;
 	private LinearLayout listContainerLayout;
 	private CompetitionStandingsByGroupListAdapter listAdapter;
 	
@@ -50,11 +51,18 @@ public class CompetitionTabFragmentTeamStandings
 	
 	
 	
-	public CompetitionTabFragmentTeamStandings(final long competitionID, String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionTabFragmentTeamStandings(
+			final CustomViewPager viewPager,
+			final long competitionID, 
+			final String tabId, 
+			final String tabTitle,
+			final EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
 		
 		this.competitionID = competitionID;
+		
+		this.viewPager = viewPager;
 	}
 	
 	
@@ -69,7 +77,8 @@ public class CompetitionTabFragmentTeamStandings
 		super.initRequestCallbackLayouts(rootView);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID);
+		
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
@@ -78,6 +87,8 @@ public class CompetitionTabFragmentTeamStandings
             // Restore last state for checked position.
         	competitionID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_ID, 0);
         }
+		
+		setEmptyLayoutDetailsMessage(getString(R.string.competition_standings_no_data_text));
 		
 		return rootView;
 	}
@@ -93,19 +104,36 @@ public class CompetitionTabFragmentTeamStandings
     }
 	
 	
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		Log.w(TAG, "Something");
+	}
+	
+	
 	
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.LOADING);
-		
-		String loadingString = getString(R.string.competition_standings_loading_text);
-		
-		setLoadingLayoutDetailsMessage(loadingString);
-		
 		List<Phase> phases = ContentManager.sharedInstance().getFromCacheAllPhasesForSelectedCompetition();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceStandingsForMultiplePhases(this, false, phases);
+		if(phases.isEmpty() == false)
+		{
+			updateUI(UIStatusEnum.LOADING);
+			
+			String loadingString = getString(R.string.competition_standings_loading_text);
+			
+			setLoadingLayoutDetailsMessage(loadingString);
+			
+			ContentManager.sharedInstance().getElseFetchFromServiceStandingsForMultiplePhases(this, false, phases);
+		}
+		else
+		{
+			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+		}
 	}
 	
 	
@@ -123,7 +151,35 @@ public class CompetitionTabFragmentTeamStandings
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			switch(requestIdentifier)
+			{
+				case COMPETITION_INITIAL_DATA:
+				{
+					this.loadData();
+					break;
+				}
+				
+				case COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID:
+				{
+					Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition();
+					
+					if(standingsByPhase.isEmpty())
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+					}
+					else
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					}
+					break;
+				}
+				
+				default:
+				{
+					Log.w(TAG, "Unhandled request identifier");
+					break;
+				}
+			}
 		}
 		else
 		{
@@ -158,7 +214,9 @@ public class CompetitionTabFragmentTeamStandings
 
 				listContainerLayout.measure(0, 0);
 				
-				CompetitionPageActivity.viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
+				viewPager.heightsMap.put(3, listContainerLayout.getMeasuredHeight());
+				
+				viewPager.onPageScrolled(3, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

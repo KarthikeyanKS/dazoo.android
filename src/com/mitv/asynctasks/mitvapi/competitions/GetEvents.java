@@ -32,7 +32,7 @@ public class GetEvents
 			final String phaseID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS);
+		url.append(Constants.URL_COMPETITIONS_FULL);
 		
 		
 		url.append(Constants.FORWARD_SLASH);

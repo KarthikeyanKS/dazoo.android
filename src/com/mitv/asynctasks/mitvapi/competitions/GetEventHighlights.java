@@ -26,7 +26,7 @@ public class GetEventHighlights
 			final Long eventID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS);
+		url.append(Constants.URL_COMPETITIONS_FULL);
 		url.append(Constants.FORWARD_SLASH);
 		
 		url.append(competitionID);

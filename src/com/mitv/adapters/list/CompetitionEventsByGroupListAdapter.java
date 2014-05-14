@@ -23,10 +23,8 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
-import com.mitv.managers.TrackingManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -47,10 +45,7 @@ public class CompetitionEventsByGroupListAdapter
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	
-	private Map<Long, List<Event>> eventsByGroup;
 	private List<Event> events;
-	private Event event;
 	
 	
 	
@@ -59,8 +54,6 @@ public class CompetitionEventsByGroupListAdapter
 			final Map<Long, List<Event>> eventsByGroup)
 	{
 		super();
-		
-		this.eventsByGroup = eventsByGroup;
 		
 		this.events = new ArrayList<Event>();
 		
@@ -159,7 +152,7 @@ public class CompetitionEventsByGroupListAdapter
 			holder.dividerView.setVisibility(View.GONE);
 			holder.group.setVisibility(View.GONE);
 			
-			event = getItem(position);
+			final Event event = getItem(position);
 			
 			boolean isFirstposition = (position == 0);
 

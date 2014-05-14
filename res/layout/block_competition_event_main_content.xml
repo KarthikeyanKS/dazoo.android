@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey1"
     android:orientation="vertical"
-    android:paddingBottom="10dp" >
+    android:paddingBottom="10dp"
+    android:background="@color/white" >
 
     <RelativeLayout
         android:id="@+id/competition_next_game_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="@drawable/background_color_selector"
         android:paddingBottom="10dp"
         android:paddingTop="10dp" >
 
@@ -26,7 +27,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:padding="3dp"
-            android:text="Group H"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -36,8 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="20dp"
-            android:layout_below="@id/competition_event_group_header"
-            android:background="@color/white" >
+            android:layout_below="@id/competition_event_group_header">
 
             <!-- LIVE STANDINGS -->
 
@@ -47,7 +46,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="2 - 1"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:visibility="gone" />
@@ -60,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="18:00"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -73,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_starttime_time"
             	android:layout_marginTop="10dp"
-                android:text="Saturday 14/6"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -87,7 +83,6 @@
                 android:layout_below="@id/competition_event_live_standing"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="54&apos;"
                 android:textColor="@color/grey1"
                 android:textSize="18sp"
                 android:visibility="gone" />
@@ -101,8 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/competition_event_group_header"
-            android:layout_marginLeft="10dp"
-            android:background="@color/white" >
+            android:layout_marginLeft="10dp">
 
             <!-- Flag team one -->
 
@@ -132,8 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/competition_event_group_header"
-            android:layout_marginRight="10dp"
-            android:background="@color/white" >
+            android:layout_marginRight="10dp">
 
             <!-- Flag team two -->
 
