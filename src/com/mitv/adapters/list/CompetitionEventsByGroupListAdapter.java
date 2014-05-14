@@ -23,14 +23,12 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
-import com.mitv.managers.TrackingManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
@@ -321,13 +319,13 @@ public class CompetitionEventsByGroupListAdapter
 			
 			if(containsBroadcastDetails)
 			{
-				List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getBroadcastDetails();
 				
 				int totalChannelCount = eventBroadcastDetailsList.size();
 				
 				List<String> channelNames = new ArrayList<String>(totalChannelCount);
 				
-				for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+				for(EventBroadcastDetails eventBroadcastDetails : eventBroadcastDetailsList)
 				{
 					String channelID = eventBroadcastDetails.getChannelId();
 					

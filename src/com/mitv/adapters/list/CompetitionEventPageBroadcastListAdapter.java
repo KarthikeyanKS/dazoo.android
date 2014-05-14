@@ -26,6 +26,7 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -178,7 +179,7 @@ extends BaseAdapter
 	 * @param details
 	 */
 	private void setProgressBar(ViewHolder holder, EventBroadcastDetails details) {
-		int totalMinutesInGame = details.getMinutesInGame();
+		int totalMinutesInGame = DateUtils.getMinutesInEvent(details.getEventBroadcastBeginTimeLocal());
 		int totalMinutesOfEvent = details.getTotalAiringTimeInMinutes();
 		
 		LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfEvent, holder.progressBar);

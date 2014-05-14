@@ -220,7 +220,8 @@ public class EventPageActivity
 			
 			liveStandings.setText(sb.toString());
 			
-			liveTimeInGame.setText(event.getMinutesInGameString());
+			String timeInGame = DateUtils.getMinutesInGameString(event.getEventDateCalendarLocal());
+			liveTimeInGame.setText(timeInGame);
 			
 			liveStandings.setVisibility(View.VISIBLE);
 			liveTimeInGame.setVisibility(View.VISIBLE);

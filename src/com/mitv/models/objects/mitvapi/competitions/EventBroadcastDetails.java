@@ -72,37 +72,4 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 		return totalMinutes;
 	}
 	
-	
-	
-	/**
-	 * Returns the time in minutes the has been going on.
-	 * 
-	 * @return minutesInGame
-	 */
-	public int getMinutesInGame() {
-		int minutesInGame = 0;
-		long minutes = 0l;
-		
-		Calendar now = DateUtils.getNow();
-		
-		minutes = now.getTimeInMillis() - this.getEventBroadcastBeginTimeLocal().getTimeInMillis();
-		
-		minutesInGame = (int) (minutes / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
-		
-		return minutesInGame;
-	}
-	
-	
-	
-	
-	public String getMinutesInGameString() {
-		int minutesinGame = getMinutesInGame();
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(minutesinGame)
-			.append("'");
-		
-		return sb.toString();
-	}
-
 }
