@@ -27,8 +27,11 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
+import com.mitv.models.gson.mitvapi.competitions.EventDetailsJSON;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
@@ -81,6 +84,8 @@ public class EventPageActivity
 	private TextView beginTime;
 	private TextView beginTimeDate;
 	private TextView headerteamvsteam;
+	private TextView headerCompetitionName;
+	private String competitionName;
 	
 	
 	
@@ -99,6 +104,8 @@ public class EventPageActivity
 		Intent intent = getIntent();
 		
 		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+		
+		competitionName = intent.getStringExtra(Constants.INTENT_COMPETITION_NAME);
 		
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 				
@@ -134,7 +141,11 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				setListView();
+				boolean containsBroadcastDetails = event.containsBroadcastDetails();
+				
+				if (containsBroadcastDetails) {
+					setListView();
+				}
 				
 				setData();
 				
@@ -166,6 +177,8 @@ public class EventPageActivity
 			.append(awayTeamName);
 		
 		headerteamvsteam.setText(sbHeader.toString());
+		
+		headerCompetitionName.setText(competitionName);
 		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
@@ -283,6 +296,7 @@ public class EventPageActivity
 		beginTime = (TextView) findViewById(R.id.competition_event_starttime_time);
 		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
+		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
 		
 		pageTabIndicatorForHighlightsAndLineup = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_highlights_and_lineup);
 		viewPagerForHighlightsAndLineup = (CustomViewPager) findViewById(R.id.tab_event_pager_for_highlights_and_lineup);
@@ -402,9 +416,9 @@ public class EventPageActivity
 	{
 		broadcastListView.removeAllViews();
 		
-		Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-
-		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, eventsByGroups);
+		List<EventBroadcastDetails> broadcastDetails = event.getEventBroadcastDetails();
+		
+		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, event, broadcastDetails);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{
@@ -417,10 +431,6 @@ public class EventPageActivity
         }
 		
 		broadcastListView.measure(0, 0);
-		
-		//viewPager.heightsMap.put(1, broadcastListView.getMeasuredHeight());
-		
-		//viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 	}
 
 

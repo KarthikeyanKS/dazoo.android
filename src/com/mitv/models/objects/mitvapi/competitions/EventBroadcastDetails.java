@@ -5,12 +5,10 @@ import java.util.Calendar;
 import android.content.Context;
 
 import com.mitv.SecondScreenApplication;
-import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
@@ -22,6 +20,15 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 	
 	
 	public EventBroadcastDetails() {}
+	
+	public EventBroadcastDetails(EventBroadcastDetailsJSON ev) 
+	{
+		this.beginTime = ev.getBeginTime();
+		this.beginTimeMillis = ev.getBeginTimeMillis();
+		this.channelId = ev.getChannelId();
+		this.endTime = ev.getEndTime();
+		this.broadcastId = ev.getBroadcastId();
+	}
 	
 	
 	
@@ -175,6 +182,28 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 		boolean isAiring = this.getEventBroadcastBeginTimeLocal().before(now) && this.getEventBroadcastEndTimeLocal().after(now);
 
 		return isAiring;
+	}
+	
+	
+	
+	/**
+	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
+	 * is today or tomorrow (per comparison with the current time)
+	 */
+	public String getEventTimeDayOfTheWeekAsString() 
+	{	
+		return DateUtils.buildDayOfTheWeekAsString(this.getEventBroadcastBeginTimeLocal());
+	}
+	
+	
+	/**
+	 * Returns a string representation of the begin time calendar in the format "dd/MM"
+	 */
+	public String getEventTimeDayAndMonthAsString() 
+	{
+		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(this.getEventBroadcastBeginTimeLocal(), false);
+		
+		return beginTimeDayAndMonthRepresentation;
 	}
 	
 }

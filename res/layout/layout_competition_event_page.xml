@@ -34,6 +34,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@id/competition_event_block_container_layout"
 	            android:orientation="vertical"
+	            android:layout_marginTop="10dp"
 	            android:paddingBottom="10dp"
 	            android:paddingLeft="10dp"
 	            android:paddingRight="10dp" >
@@ -67,6 +68,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@id/competition_event_block_tabs_highlights_and_lineup"
 	            android:orientation="vertical"
+	            android:layout_marginTop="10dp"
 	            android:paddingBottom="10dp"
 	            android:paddingLeft="10dp"
 	            android:paddingRight="10dp" >
