@@ -203,33 +203,4 @@ public class Event
 		return isSamePhase;
 	}
 	
-	
-	
-	/**
-	 * Returns the time in minutes the has been going on.
-	 * 
-	 * @return minutesInGame
-	 */
-	public int countMinutesInGame(Calendar beginTime) {
-		int minutesInGame = 0;
-		long minutes = 0l;
-		
-		Calendar now = DateUtils.getNow();
-		
-		minutes = now.getTimeInMillis() - beginTime.getTimeInMillis();
-		
-		if (minutes > 0) {
-			minutesInGame = (int) (minutes / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
-		}
-		
-		return minutesInGame;
-	}
-	
-	
-	
-	public int totalMinutesOfEvent(Calendar beginTime, Calendar endTime) {
-		int totalMinutes = 0;
-		
-		return totalMinutes;
-	}
 }

@@ -1,7 +1,6 @@
 package com.mitv.adapters.list;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -18,18 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.games.multiplayer.realtime.Room;
-import com.google.android.gms.internal.ev;
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
-import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -46,7 +40,8 @@ extends BaseAdapter
 	
 	private Map<Long, List<Event>> eventsByGroup;
 	private List<Event> events;
-	private List<EventBroadcastDetailsJSON> broadcastDetails;
+	private Event event;
+	private List<EventBroadcastDetails> broadcastDetails;
 	
 	
 	
@@ -143,19 +138,19 @@ extends BaseAdapter
 			if(containsBroadcastDetails) {
 				
 				broadcastDetails = event.getBroadcastDetails();
-				EventBroadcastDetailsJSON details = broadcastDetails.get(position);
+				EventBroadcastDetails details = broadcastDetails.get(position);
 				
 				setChannelLogo(holder, details);
 				
 				/* Event is ongoing */
-				if (event.isOngoing() && !event.isPostponed()) 
-				{
-					setProgressBar(holder, event);
+				if (event.isOngoing() && !event.isPostponed()) {
+					setProgressBar(holder, details);
 				}
 				
 				/* Event has not started yet */
 				else {
 					setAiringDate(holder, details);
+					setReminderIcon(holder);
 				}
 			}
 				
@@ -177,44 +172,58 @@ extends BaseAdapter
 	
 	
 	
-	private void setProgressBar(
-			final ViewHolder holder,
-			final Event event) 
-	{
-		/* Progress bar */
-		Calendar beginTimeCal = event.getEventDateCalendarLocal();
-		Calendar endTimeCal = event.getEventDateCalendarLocal();
-		
-		int totalMinutesInGame = event.countMinutesInGame(beginTimeCal);
-		int totalMinutesOfEvent = event.totalMinutesOfEvent(beginTimeCal, endTimeCal);
+	/**
+	 * Set progress bar
+	 * 
+	 * @param holder
+	 * @param details
+	 */
+	private void setProgressBar(ViewHolder holder, EventBroadcastDetails details) {
+		int totalMinutesInGame = DateUtils.getMinutesInEvent(details.getEventBroadcastBeginTimeLocal());
+		int totalMinutesOfEvent = details.getTotalAiringTimeInMinutes();
 		
 		LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfEvent, holder.progressBar);
 	}
 	
 	
-	
-	private void setAiringDate(ViewHolder holder, EventBroadcastDetailsJSON details) {
-		/* Date airing */
-		String date = details.getDate();
+	/**
+	 * Set airing date
+	 * 
+	 * @param holder
+	 * @param details
+	 */
+	private void setAiringDate(ViewHolder holder, EventBroadcastDetails details) {
+		String date = details.getBeginTime();
 		holder.beginTime.setText(date);
-		
 		holder.beginTime.setVisibility(View.VISIBLE);
-		
-		/* Reminder icon */
+	}
+	
+	
+	
+	/**
+	 * Set reminder icon
+	 * 
+	 * @param holder
+	 */
+	private void setReminderIcon(ViewHolder holder) {
 		holder.reminderIcon.setVisibility(View.VISIBLE);
-		
 		holder.container.setVisibility(View.VISIBLE);
 	}
 	
 	
 	
-	private void setChannelLogo(ViewHolder holder, EventBroadcastDetailsJSON details) {
-		/* Channel logo */
+	/**
+	 * Set channel logo
+	 * 
+	 * @param holder
+	 * @param details
+	 */
+	private void setChannelLogo(ViewHolder holder, EventBroadcastDetails details) {
 		ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 		
 		TVChannelId tvChannelId = new TVChannelId(details.getChannelId());
 		
-		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId); // TODO: get channel, search in all channels.
 		
 		String logoUrl = tvChannel.getLogo().getSmall();
 			

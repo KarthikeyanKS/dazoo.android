@@ -29,6 +29,7 @@ import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
@@ -314,7 +315,7 @@ public class CompetitionEventsByGroupListAdapter
 			
 			if(containsBroadcastDetails)
 			{
-				List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getBroadcastDetails();
 				
 				int totalChannelCount = eventBroadcastDetailsList.size();
 				

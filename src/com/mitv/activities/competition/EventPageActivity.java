@@ -218,12 +218,8 @@ public class EventPageActivity
 			
 			liveStandings.setText(sb.toString());
 			
-			Calendar beginTimeCal = event.getEventDateCalendarLocal();
-			
-			// TODO Check if this method works....
-			int minutesInGame = event.countMinutesInGame(beginTimeCal);
-			
-			liveTimeInGame.setText(minutesInGame + "'");
+			String timeInGame = DateUtils.getMinutesInGameString(event.getEventDateCalendarLocal());
+			liveTimeInGame.setText(timeInGame);
 			
 			liveStandings.setVisibility(View.VISIBLE);
 			liveTimeInGame.setVisibility(View.VISIBLE);
