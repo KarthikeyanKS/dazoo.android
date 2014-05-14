@@ -31,8 +31,10 @@
             
             <!-- TABS: HIGHLIGHTS & LINEUP -->
             <RelativeLayout
+                android:id="@+id/competition_event_block_tabs_highlights_and_lineup"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
+	            android:layout_below="@id/competition_event_block_container_layout"
 	            android:orientation="vertical"
 	            android:paddingBottom="10dp"
 	            android:paddingLeft="10dp"
@@ -62,8 +64,10 @@
             
             <!-- TABS: GROUP X & STANDINGS -->
             <RelativeLayout
+                android:id="@+id/competition_event_block_tabs_group_and_standings"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
+	            android:layout_below="@id/competition_event_block_tabs_highlights_and_lineup"
 	            android:orientation="vertical"
 	            android:paddingBottom="10dp"
 	            android:paddingLeft="10dp"

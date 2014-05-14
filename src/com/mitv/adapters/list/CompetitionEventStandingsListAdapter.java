@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
@@ -33,7 +34,6 @@ public class CompetitionEventStandingsListAdapter
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	
 	private List<Standings> standings;
 		
 	
@@ -97,6 +97,8 @@ public class CompetitionEventStandingsListAdapter
 	
 			rowView = layoutInflater.inflate(R.layout.row_competition_event_team_standings_list_item, null);
 	
+			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_group_header_container);
+					
 			viewHolder.teamPosition = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_position);
 			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_event_lineup_team_flag);
 			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_name);
@@ -111,6 +113,17 @@ public class CompetitionEventStandingsListAdapter
 		
 		if (holder != null) 
 		{
+			boolean isFirstposition = (position == 0);
+			
+			if (isFirstposition) 
+			{
+				holder.headerContainer.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				holder.headerContainer.setVisibility(View.GONE);
+			}
+			
 			holder.teamPosition.setText(element.getRank());
 			
 			long teamID = element.getTeamId();
@@ -126,10 +139,15 @@ public class CompetitionEventStandingsListAdapter
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
 			}
 
+			String teamGPAsString = new Integer(element.getMatches()).toString();
+			String teamPlusMinusAsString = new Integer(element.getGoalsForMinusGoalsAgainst()).toString();
+			String teamPointsAsString = new Integer(element.getPoints()).toString();
+
+			holder.teamGP.setText(teamGPAsString);
+			holder.teamPlusMinus.setText(teamPlusMinusAsString);
+			holder.teamPoints.setText(teamPointsAsString);
+			
 			holder.teamName.setText(element.getTeam());
-			holder.teamGP.setText(element.getMatches());
-			holder.teamPlusMinus.setText(element.getGoalsForMinusGoalsAgainst());
-			holder.teamPoints.setText(element.getPoints());
 		}
 		else
 		{
@@ -143,6 +161,8 @@ public class CompetitionEventStandingsListAdapter
 	
 	private static class ViewHolder 
 	{
+		private RelativeLayout headerContainer;
+		
 		private TextView teamPosition;
 		private ImageView teamFlag;
 		private TextView teamName;		

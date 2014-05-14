@@ -5,7 +5,6 @@
     android:background="@color/white" >
     
     <!-- HEADER BY GROUP -->
-    
     <RelativeLayout
         android:id="@+id/row_competition_group_header_container"
         android:layout_width="match_parent"
@@ -68,7 +67,6 @@
     </RelativeLayout>
     
     <!-- DIVIDER -->
-    
     <View
         android:id="@+id/row_competition_header_divider"
         android:layout_width="match_parent"

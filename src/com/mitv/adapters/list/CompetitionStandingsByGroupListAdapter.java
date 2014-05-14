@@ -21,8 +21,6 @@ import android.widget.TextView;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -39,8 +37,6 @@ public class CompetitionStandingsByGroupListAdapter
 	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	
-	private Map<Long, List<Standings>> standingsByPhase;
 	private List<Standings> standings;
 	
 
@@ -49,8 +45,6 @@ public class CompetitionStandingsByGroupListAdapter
 			final Activity activity,
 			final Map<Long, List<Standings>> standingsByPhase)
 	{
-		this.standingsByPhase = standingsByPhase;
-		
 		this.standings = new ArrayList<Standings>();
 		
 		Collection<List<Standings>> values = standingsByPhase.values();
@@ -120,13 +114,7 @@ public class CompetitionStandingsByGroupListAdapter
 			
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container);
 			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group);
-			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_header_divider);
 			
-			viewHolder.headerGP = (TextView) rowView.findViewById(R.id.row_competition_header_gp);
-			viewHolder.headerPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_header_plus_minus);
-			viewHolder.headerPts = (TextView) rowView.findViewById(R.id.row_competition_header_pts);
-			
-			viewHolder.rowContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
 			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_team_name);
 			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_team_flag);
 			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_team_table_gp);
@@ -168,7 +156,7 @@ public class CompetitionStandingsByGroupListAdapter
 				holder.headerContainer.setVisibility(View.GONE);
 			}
 				
-			String teamGPAsString = new Integer(element.getPoints()).toString();
+			String teamGPAsString = new Integer(element.getMatches()).toString();
 			String teamPlusMinusAsString = new Integer(element.getGoalsForMinusGoalsAgainst()).toString();
 			String teamPointsAsString = new Integer(element.getPoints()).toString();
 
@@ -201,12 +189,7 @@ public class CompetitionStandingsByGroupListAdapter
 	private static class ViewHolder 
 	{
 		private RelativeLayout headerContainer;
-		private TextView headerGP;
-		private TextView headerPlusMinus;
-		private TextView headerPts;
-		private View dividerView;
 		
-		private RelativeLayout rowContainer;
 		private TextView group;
 		private TextView teamName;
 		private ImageView teamFlag;
