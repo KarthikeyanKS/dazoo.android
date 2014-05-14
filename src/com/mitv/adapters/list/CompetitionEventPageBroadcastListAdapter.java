@@ -121,7 +121,7 @@ extends BaseAdapter
 			
 			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.competition_event_channel_logo);
 			viewHolder.beginTime = (TextView) rowView.findViewById(R.id.competition_event_full_date);
-			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
+//			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
 			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.competition_event_broadcast_progressbar);
 			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_broadcast_details_container);
 			
@@ -159,7 +159,7 @@ extends BaseAdapter
 				Log.w(TAG, "EventBroadcastDetails is null");
 				
 				holder.beginTime.setVisibility(View.GONE);
-				holder.reminderView.setVisibility(View.GONE);
+//				holder.reminderView.setVisibility(View.GONE);
 				holder.progressBar.setVisibility(View.GONE);
 				holder.container.setVisibility(View.GONE);
 			}
@@ -220,9 +220,9 @@ extends BaseAdapter
 		/* Used to set a smaller size on the reminder icon */
 		boolean iconSizeSmall = true;
 		
-		holder.reminderView.setSizeOfIcon(iconSizeSmall);
+//		holder.reminderView.setSizeOfIcon(iconSizeSmall);
 		
-		holder.reminderView.setVisibility(View.VISIBLE);
+//		holder.reminderView.setVisibility(View.VISIBLE);
 		holder.container.setVisibility(View.VISIBLE);
 	}
 	

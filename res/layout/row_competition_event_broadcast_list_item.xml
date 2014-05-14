@@ -28,7 +28,7 @@
         android:textSize="12sp" />
 
     <!-- REMINDER BUTTON -->
-
+	<!--  
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/competition_event_row_reminders_notification_iv"
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:text="@string/icon_reminder"
         android:textColor="@color/grey3"
         android:textSize="28sp"
-        font:fonttextview="roboto_mitv_regular.ttf" />
+        font:fonttextview="roboto_mitv_regular.ttf" /> -->
 
     <ProgressBar
         android:id="@+id/competition_event_broadcast_progressbar"

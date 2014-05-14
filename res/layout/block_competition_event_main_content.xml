@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:background="@color/white" >
+    android:paddingBottom="10dp" >
+
+    <!-- Header img and title -->
+
+    <RelativeLayout
+        android:id="@+id/competition_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/blue1" >
+
+        <!-- HEADER: World Cup 2014 -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_event_world_cup_header"
+            style="@style/headercard2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="@string/event_page_world_cup_title"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <!-- HEADER: Team vs Team -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_event_title_header"
+            style="@style/headercard1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/competition_event_world_cup_header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/competition_next_game_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/competition_header_container"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_color_selector"
         android:paddingBottom="10dp"
@@ -21,22 +59,21 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_group_header"
-            style="@style/header2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:padding="3dp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
 
         <RelativeLayout
             android:id="@+id/competition_event_before_and_live_standings_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/competition_event_group_header"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="20dp"
-            android:layout_below="@id/competition_event_group_header">
+            android:layout_marginTop="10dp" >
 
             <!-- LIVE STANDINGS -->
 
@@ -50,28 +87,34 @@
                 android:textSize="18sp"
                 android:visibility="gone" />
 
-            <!-- BEGIN TIME: XX:XX -->
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/competition_event_starttime_time"
-                style="@style/header1"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:layout_centerInParent="true" >
 
-            <!-- BEGIN TIME DATE: DAY XX/X -->
+                <!-- BEGIN TIME: XX:XX -->
 
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/competition_event_starttime_date"
-                style="@style/header1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/competition_event_starttime_time"
-            	android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_event_starttime_time"
+                    style="@style/header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <!-- BEGIN TIME DATE: DAY XX/X -->
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_event_starttime_date"
+                    style="@style/header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/competition_event_starttime_time"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
             <!-- LIVE TIME IN GAME: XX' -->
 
@@ -96,14 +139,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/competition_event_group_header"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp" >
 
             <!-- Flag team one -->
 
             <ImageView
                 android:id="@+id/competition_event_team_one_flag"
-                android:layout_width="64dp"
-                android:layout_height="43dp"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/competitions_contry_flag_default" />
 
@@ -113,8 +157,9 @@
                 android:id="@+id/competition_event_team_one_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/competition_team_one_flag"
+                android:layout_below="@id/competition_event_team_one_flag"
                 android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -126,14 +171,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/competition_event_group_header"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp" >
 
             <!-- Flag team two -->
 
             <ImageView
                 android:id="@+id/competition_event_team_two_flag"
-                android:layout_width="64dp"
-                android:layout_height="43dp"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/competitions_contry_flag_default" />
 
@@ -143,8 +189,9 @@
                 android:id="@+id/competition_event_team_two_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/competition_team_two_flag"
+                android:layout_below="@id/competition_event_team_two_flag"
                 android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -154,10 +201,10 @@
             android:id="@+id/divider_container"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/competition_event_before_and_live_standings_container"
-            android:background="@color/grey1"
+            android:layout_below="@id/competition_event_team_one_flag_container"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            android:background="@color/grey1" />
 
         <!-- LIST WITH BROADCAST ITEMS -->
 
