@@ -25,11 +25,11 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.ui.elements.EventCountDownTimer;
@@ -249,13 +249,13 @@ public class CompetitionPageActivity
 		
 		if(containsBroadcastDetails)
 		{
-			List<EventBroadcastDetailsJSON> eventBroadcastDetailsList = event.getBroadcastDetails();
+			List<EventBroadcastDetails> eventBroadcastDetailsList = event.getBroadcastDetails();
 			
 			int totalChannelCount = eventBroadcastDetailsList.size();
 			
 			List<String> channelNames = new ArrayList<String>(totalChannelCount);
 			
-			for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+			for(EventBroadcastDetails eventBroadcastDetails : eventBroadcastDetailsList)
 			{
 				String channelID = eventBroadcastDetails.getChannelId();
 				
