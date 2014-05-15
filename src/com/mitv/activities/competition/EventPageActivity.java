@@ -4,7 +4,6 @@ package com.mitv.activities.competition;
 
 
 import java.util.List;
-import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,9 +26,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
-import com.mitv.models.gson.mitvapi.competitions.EventDetailsJSON;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -67,8 +63,6 @@ public class EventPageActivity
 	public static CustomViewPager viewPagerForGroupAndStandings;
 	private CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter pagerAdapterForGroupAndStandings;
 
-	private TextView eventStartTime;
-	private TextView tvBroadcastChannels;
 	private TextView team1Name;
 	private ImageView team1Flag;
 	private TextView team2Name;
@@ -288,8 +282,8 @@ public class EventPageActivity
 		liveStandings = (TextView) findViewById(R.id.competition_event_live_standing);
 		liveTimeInGame = (TextView) findViewById(R.id.competition_event_live_time);
 		broadcastListView = (LinearLayout) findViewById(R.id.competition_event_broadcasts_listview);
-		likeIcon = (TextView) findViewById(R.id.competition_element_social_buttons_like_view);
-		shareIcon = (TextView) findViewById(R.id.competition_element_social_buttons_share_button_iv);
+//		likeIcon = (TextView) findViewById(R.id.competition_element_social_buttons_like_view);
+//		shareIcon = (TextView) findViewById(R.id.competition_element_social_buttons_share_button_iv);
 		beginTime = (TextView) findViewById(R.id.competition_event_starttime_time);
 		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);

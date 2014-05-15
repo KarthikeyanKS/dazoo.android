@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
-    android:id="@+id/element_social_buttons_container"
+    android:id="@+id/competition_element_social_buttons_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
@@ -14,10 +14,11 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_weight="1"
+        android:layout_marginLeft="20dp"
         android:background="@drawable/background_color_selector" />
 
     <!-- DIVIDER -->
-
+	<!--  
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
@@ -25,6 +26,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:background="@color/grey1" />
+        -->
 
     <!-- SHARE BUTTON -->
 
@@ -34,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:layout_marginRight="20dp"
         android:background="@drawable/background_color_selector" >
 
         <com.mitv.ui.elements.FontTextView
