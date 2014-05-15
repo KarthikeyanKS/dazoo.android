@@ -22,7 +22,21 @@ public class EventBroadcastDetailsJSON
 		}
 	 */
 	
-	public EventBroadcastDetailsJSON(){}
+	public EventBroadcastDetailsJSON() {}
+	
+	public EventBroadcastDetailsJSON(String channelid, String beginTime, long beginTimeMillis, String broadcastId, String endTime) {
+//		this.channelId = "co_8a59310b-f558-48e3-8dcf-d59afc9e5ac3";
+//		this.beginTime = "2014-06-13T04:00:00Z";
+//		this.beginTimeMillis = 1402632000000l;
+//		this.broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
+//		this.endTime = "2014-06-13T06:00:00Z";
+		
+		this.beginTime = beginTime;
+		this.channelId = channelid;
+		this.beginTimeMillis = beginTimeMillis;
+		this.broadcastId = broadcastId;
+		this.endTime = endTime;
+	}
 
 	
 	

@@ -249,7 +249,7 @@ public class CompetitionPageActivity
 		
 		if(containsBroadcastDetails)
 		{
-			List<EventBroadcastDetails> eventBroadcastDetailsList = event.getBroadcastDetails();
+			List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
 			
 			int totalChannelCount = eventBroadcastDetailsList.size();
 			
@@ -314,6 +314,8 @@ public class CompetitionPageActivity
                 Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
                 
                 intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+                
+                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
                 
                 startActivity(intent);
             }

@@ -39,29 +39,21 @@ extends BaseAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	
-	private Map<Long, List<Event>> eventsByGroup;
-	private List<Event> events;
-	private Event event;
 	private List<EventBroadcastDetails> broadcastDetails;
+	private Event event;
 	
 	
 	
 	public CompetitionEventPageBroadcastListAdapter(
 			final Activity activity,
-			final Map<Long, List<Event>> eventsByGroup)
+			final Event event,
+			final List<EventBroadcastDetails> broadcastDetails)
 	{
 		super();
 		
-		this.eventsByGroup = eventsByGroup;
+		this.broadcastDetails = broadcastDetails;
 		
-		this.events = new ArrayList<Event>();
-		
-		Collection<List<Event>> values = eventsByGroup.values();
-		
-		for(List<Event> value : values)
-		{
-			events.addAll(value);
-		}
+		this.event = event;
 		
 		this.activity = activity;
 
@@ -75,9 +67,9 @@ extends BaseAdapter
 	{
 		int count = 0;
 		
-		if (events != null) 
+		if (broadcastDetails != null) 
 		{
-			count = events.size();
+			count = broadcastDetails.size();
 		}
 		
 		return count;
@@ -86,16 +78,16 @@ extends BaseAdapter
 	
 	
 	@Override
-	public Event getItem(int position) 
+	public EventBroadcastDetails getItem(int position) 
 	{
-		Event event = null;
+		EventBroadcastDetails detail = null;
 		
-		if (events != null)
+		if (broadcastDetails != null)
 		{
-			event = events.get(position);
+			detail = broadcastDetails.get(position);
 		}
 		
-		return event;
+		return detail;
 	}
 
 	
@@ -132,36 +124,23 @@ extends BaseAdapter
 
 		if (holder != null)
 		{
-			final Event event = getItem(position);
+			final EventBroadcastDetails details = getItem(position);
 			
-			boolean containsBroadcastDetails = event.containsBroadcastDetails();
+			setChannelLogo(holder, details);
+			boolean isOngoing;
 			
-			if(containsBroadcastDetails) {
-				
-				broadcastDetails = event.getBroadcastDetails();
-				EventBroadcastDetails details = broadcastDetails.get(position);
-				
-				setChannelLogo(holder, details);
-				
-				/* Event is ongoing */
-				if (event.isOngoing() && !event.isPostponed()) {
-					setProgressBar(holder, details);
-				}
-				
-				/* Event has not started yet */
-				else {
-					setAiringDate(holder, details);
-					setReminderIcon(holder, details);
-				}
+			/* Event is ongoing */
+			if (event.isOngoing() && !event.isPostponed()) {
+				isOngoing = true;
+				setAiringDate(holder, details, isOngoing);
+				setProgressBar(holder, details);
 			}
-				
+			
+			/* Event has not started yet */
 			else {
-				Log.w(TAG, "EventBroadcastDetails is null");
-				
-				holder.beginTime.setVisibility(View.GONE);
-//				holder.reminderView.setVisibility(View.GONE);
-				holder.progressBar.setVisibility(View.GONE);
-				holder.container.setVisibility(View.GONE);
+				isOngoing = false;
+				setAiringDate(holder, details, isOngoing);
+				setReminderIcon(holder, details);
 			}
 				
 		}
@@ -195,9 +174,17 @@ extends BaseAdapter
 	 * @param holder
 	 * @param details
 	 */
-	private void setAiringDate(ViewHolder holder, EventBroadcastDetails details) {
-		String date = details.getBeginTime();
-		holder.beginTime.setText(date);
+	private void setAiringDate(ViewHolder holder, EventBroadcastDetails details, boolean isOngoing) {	
+		StringBuilder sb = new StringBuilder();
+		
+		String startTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastBeginTimeLocal());
+		String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastEndTimeLocal());
+		
+		sb.append(details.getEventTimeDayOfTheWeekAsString())
+		.append(" ")
+		.append(details.getEventTimeDayAndMonthAsString());
+		
+		holder.beginTime.setText(sb.toString());
 		holder.beginTime.setVisibility(View.VISIBLE);
 	}
 	

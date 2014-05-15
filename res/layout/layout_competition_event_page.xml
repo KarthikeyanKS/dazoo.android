@@ -33,7 +33,10 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@id/competition_event_block_container_layout"
 	            android:orientation="vertical"
-	            android:paddingBottom="10dp">
+	            android:layout_marginTop="10dp"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp" >
 
 	            <com.viewpagerindicator.TabPageIndicator
 	                android:id="@+id/tab_event_indicator_for_highlights_and_lineup"
@@ -63,7 +66,10 @@
 	            android:layout_height="wrap_content"
 	            android:layout_below="@id/competition_event_block_tabs_highlights_and_lineup"
 	            android:orientation="vertical"
-	            android:paddingBottom="10dp" >
+	            android:layout_marginTop="10dp"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp" >
 
 	            <com.viewpagerindicator.TabPageIndicator
 	                android:id="@+id/tab_event_indicator_for_group_and_standings"

@@ -295,7 +295,7 @@ public class CompetitionEventEventsByGroupListAdapter
 			
 			if(containsBroadcastDetails)
 			{
-				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getBroadcastDetails();
+				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
 				
 				int totalChannelCount = eventBroadcastDetailsList.size();
 				

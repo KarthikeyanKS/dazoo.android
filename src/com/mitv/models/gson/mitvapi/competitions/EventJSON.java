@@ -5,8 +5,6 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 import java.util.List;
 
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
-
 
 
 public class EventJSON 
@@ -42,7 +40,7 @@ public class EventJSON
 	protected boolean dataEntryLiveScore;
 	protected boolean dataEntryLiveGoal;
 	protected boolean dataEntryLiveLineUp;
-	protected List<EventBroadcastDetails> broadcastDetails;
+	protected List<EventBroadcastDetailsJSON> broadcastDetails;
 	
 	protected boolean isOngoing;
 	
@@ -236,13 +234,6 @@ public class EventJSON
 	public boolean isDataEntryLiveLineUp() {
 		return dataEntryLiveLineUp;
 	}
-
-
-
-	public List<EventBroadcastDetails> getBroadcastDetails() {
-		return broadcastDetails;
-	}
-
 
 
 	public boolean isOngoing() {
