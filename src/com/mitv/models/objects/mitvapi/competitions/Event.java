@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
-import com.mitv.models.objects.mitvapi.TVChannel;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
@@ -28,17 +25,31 @@ public class Event
 	
 	
 	public Event()
-	{
+	{		
 		if (broadcastDetails == null) {
-			String channelId = "co_d9ff9f53-fe42-45d2-b532-e74932de5f82";
-			String beginTime = "2014-06-13T04:00:00Z";
-			long beginTimeMillis = 1402632000000l;
-			String broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
-			String endTime = "2014-06-13T06:00:00Z";
+			String channelId;
+			String beginTime;
+			long beginTimeMillis;
+			String broadcastId;
+			String endTime;
+			EventBroadcastDetailsJSON sdf;
 			
-			EventBroadcastDetailsJSON sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
-			
+			channelId = "co_d9ff9f53-fe42-45d2-b532-e74932de5f82";
+			beginTime = "2014-05-15T07:00:00Z";
+			beginTimeMillis = 1400122800000l;
+			broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
+			endTime = "2014-05-15T12:00:00Z";
+			sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
 			broadcastDetails = new ArrayList<EventBroadcastDetailsJSON>();
+			broadcastDetails.add(sdf);
+			
+			channelId = "co_d9ff9f53-fe42-45d2-b532-e74932de5f82";
+			beginTime = "2014-06-13T04:00:00Z";
+			beginTimeMillis = 1402632000000l;
+			broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
+			endTime = "2014-06-13T06:00:00Z";
+			sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
+			
 			broadcastDetails.add(sdf);
 		}
 	}

@@ -55,7 +55,7 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 	 * 
 	 * @return Calendar
 	 */
-	public Calendar getEventBroadcastBeginTimeLocal() {		
+	public Calendar getEventBroadcastBeginTimeLocal() {	
 		beginTimeCalendar = getEventBroadcastCalendar(beginTime);
 		
 		return beginTimeCalendar;

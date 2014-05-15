@@ -10,12 +10,12 @@
 
     <ImageView
         android:id="@+id/competition_event_channel_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:src="@drawable/competitions_contry_flag_default" />
+        android:visibility="gone" />
 
     <!-- DATE -->
 
@@ -26,7 +26,8 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/competition_event_channel_logo"
-        android:textSize="12sp" />
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <!-- REMINDER BUTTON -->
 	
@@ -43,15 +44,28 @@
         android:text="@string/icon_reminder"
         android:textColor="@color/grey3"
         android:textSize="28sp"
-        font:fonttextview="roboto_mitv_regular.ttf" />
+        font:fonttextview="roboto_mitv_regular.ttf"
+        android:visibility="visible" />
+    
+    <!-- OnGoing: time left -->
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/competition_event_time_left_ongoing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/grey1"
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/competition_event_broadcast_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/competition_event_channel_logo"
+        android:layout_height="match_parent"
+        android:layout_below="@id/competition_event_channel_logo"
         android:progressDrawable="@drawable/progress_horizontal"
         android:visibility="gone" />
 

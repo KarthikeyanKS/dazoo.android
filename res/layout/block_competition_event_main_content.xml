@@ -15,7 +15,7 @@
         android:layout_height="180dp"
         android:background="@color/blue1" >
 
-        <!-- HEADER: World Cup 2014 -->
+        <!-- HEADER: Competition name -->
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_world_cup_header"
@@ -201,7 +201,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/competition_event_team_one_flag_container"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/grey1" />
 

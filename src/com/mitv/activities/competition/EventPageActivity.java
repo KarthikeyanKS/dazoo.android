@@ -169,14 +169,14 @@ public class EventPageActivity
 		/* Headr img and text: Team1 va Team2 */
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
-			.append(" ")
-			.append("vs")
-			.append(" ")
+			.append(" vs ")
 			.append(awayTeamName);
 		
-		//headerteamvsteam.setText(sbHeader.toString());
-		
+		headerteamvsteam.setText(sbHeader.toString());
 		headerCompetitionName.setText(competitionName);
+		
+		headerteamvsteam.setVisibility(View.VISIBLE);
+		headerCompetitionName.setVisibility(View.VISIBLE);
 		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
@@ -229,11 +229,9 @@ public class EventPageActivity
 		
 		groupHeader.setText(groupHeaderName);
 		
-		StringBuilder sb = new StringBuilder();
-		
 		/* The event is ongoing */
 		if (event.isOngoing() && !event.isPostponed()) {
-			
+			StringBuilder sb = new StringBuilder();
 			sb.append(event.getAwayGoals())
 				.append(" - ")
 				.append(event.getHomeGoals());
@@ -251,13 +249,14 @@ public class EventPageActivity
 		
 		/* The event has not started yet */
 		else {
+			StringBuilder sb = new StringBuilder();
 			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 			
 			beginTime.setText(eventStartTimeHourAndMinuteAsString);
 			
 			sb.append(event.getEventTimeDayOfTheWeekAsString())
-			.append(" ")
-			.append(event.getEventTimeDayAndMonthAsString());
+				.append(" ")
+				.append(event.getEventTimeDayAndMonthAsString());
 			
 			beginTimeDate.setText(sb.toString());
 			
@@ -279,7 +278,7 @@ public class EventPageActivity
 		.append(" : ")
 		.append(event.getAwayTeam());
 		
-		actionBar.setTitle(eventName);
+		actionBar.setTitle(eventName.toString());
 		
 		team1Name = (TextView) findViewById(R.id.competition_event_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_event_team_one_flag);
@@ -416,7 +415,7 @@ public class EventPageActivity
 		
 		List<EventBroadcastDetails> broadcastDetails = event.getEventBroadcastDetails();
 		
-		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, event, broadcastDetails);
+		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, broadcastDetails);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{
