@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_event_scrollable_layout"
     android:layout_width="fill_parent"
@@ -17,119 +16,205 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="15dp" >
-            
+
             <!-- ONGOING GAME -->
+
             <include
                 android:id="@+id/competition_event_block_container_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_marginBottom="15dp"
                 layout="@layout/block_competition_event_main_content" />
-            
+
             <!-- TABS: HIGHLIGHTS & LINEUP -->
-            <RelativeLayout
-                android:id="@+id/competition_event_block_tabs_highlights_and_lineup"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@id/competition_event_block_container_layout"
-	            android:orientation="vertical"
-	            android:layout_marginTop="10dp"
-	            android:paddingBottom="10dp"
-	            android:paddingLeft="10dp"
-	            android:paddingRight="10dp" >
 
-	            <com.viewpagerindicator.TabPageIndicator
-	                android:id="@+id/tab_event_indicator_for_highlights_and_lineup"
-	                android:layout_width="match_parent"
-	                android:layout_height="44dp"
-	                android:background="@color/white"/>
-	
-	            <View
-	                android:id="@+id/tab_event_divider_for_highlights_and_lineup"
-	                android:layout_width="match_parent"
-	                android:layout_height="1dp"
-	                android:layout_below="@id/tab_event_indicator_for_highlights_and_lineup"
-	                android:background="@color/home_divider" />
-	
-	            <com.mitv.ui.elements.CustomViewPager
-	                android:id="@+id/tab_event_pager_for_highlights_and_lineup"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_below="@id/tab_event_divider_for_highlights_and_lineup" />
-        	</RelativeLayout>
-        	
+            <RelativeLayout
+                android:id="@+id/competition_event_block_tabs_highlights_teams_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_event_block_container_layout"
+                android:layout_margin="15dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_events_header"
+                    style="@style/header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Events" />
+
+                <View
+                    android:id="@+id/container_divider_highlights"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/competition_events_header"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey0" />
+
+                <RelativeLayout
+                    android:id="@+id/competition_event_block_tabs_highlights_and_lineup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/container_divider_highlights"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" >
+
+                    <com.viewpagerindicator.TabPageIndicator
+                        android:id="@+id/tab_event_indicator_for_highlights_and_lineup"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@color/white" />
+
+                    <View
+                        android:id="@+id/tab_event_divider_for_highlights_and_lineup"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/tab_event_indicator_for_highlights_and_lineup"
+                        android:background="@color/home_divider" />
+
+                    <com.mitv.ui.elements.CustomViewPager
+                        android:id="@+id/tab_event_pager_for_highlights_and_lineup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tab_event_divider_for_highlights_and_lineup" />
+                </RelativeLayout>
+            </RelativeLayout>
+
             <!-- LINEUP -->
-        	
-            <!-- TABS: Team1 & Team2 -->
+
             <RelativeLayout
-                android:id="@+id/competition_event_block_tabs_lineup_teams"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@id/competition_event_block_tabs_highlights_and_lineup"
-	            android:orientation="vertical"
-	            android:layout_marginTop="10dp"
-	            android:paddingBottom="10dp"
-	            android:paddingLeft="10dp"
-	            android:paddingRight="10dp" >
+                android:id="@+id/competition_event_block_tabs_lineup_teams_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_event_block_tabs_highlights_teams_container"
+                android:layout_margin="15dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
 
-	            <com.viewpagerindicator.TabPageIndicator
-	                android:id="@+id/tab_event_indicator_for_lineup_teams"
-	                android:layout_width="match_parent"
-	                android:layout_height="44dp"
-	                android:background="@color/white"/>
-	
-	            <View
-	                android:id="@+id/tab_event_divider_for_lineup_teams"
-	                android:layout_width="match_parent"
-	                android:layout_height="1dp"
-	                android:layout_below="@id/tab_event_indicator_for_lineup_teams"
-	                android:background="@color/home_divider" />
-	
-	            <com.mitv.ui.elements.CustomViewPager
-	                android:id="@+id/tab_event_pager_for_lineup_teams"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_below="@id/tab_event_divider_for_lineup_teams" />
-        	</RelativeLayout>
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_lineup_header"
+                    style="@style/header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Line Up" />
 
-            
+                <View
+                    android:id="@+id/container_divider_lineup"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/competition_lineup_header"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey0" />
+
+                <!-- TABS: Team1 & Team2 -->
+
+                <RelativeLayout
+                    android:id="@+id/competition_event_block_tabs_lineup_teams"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/container_divider_lineup"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" >
+
+                    <com.viewpagerindicator.TabPageIndicator
+                        android:id="@+id/tab_event_indicator_for_lineup_teams"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@color/white" />
+
+                    <View
+                        android:id="@+id/tab_event_divider_for_lineup_teams"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/tab_event_indicator_for_lineup_teams"
+                        android:background="@color/home_divider" />
+
+                    <com.mitv.ui.elements.CustomViewPager
+                        android:id="@+id/tab_event_pager_for_lineup_teams"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tab_event_divider_for_lineup_teams" />
+                </RelativeLayout>
+            </RelativeLayout>
+
             <!-- TABS: GROUPS & STANDINGS -->
-            <RelativeLayout
-                android:id="@+id/competition_event_block_tabs_group_and_standings"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@id/competition_event_block_tabs_lineup_teams"
-	            android:orientation="vertical"
-	            android:layout_marginTop="10dp"
-	            android:paddingBottom="10dp"
-	            android:paddingLeft="10dp"
-	            android:paddingRight="10dp" >
 
-	            <com.viewpagerindicator.TabPageIndicator
-	                android:id="@+id/tab_event_indicator_for_group_and_standings"
-	                android:layout_width="match_parent"
-	                android:layout_height="44dp"
-	                android:background="@color/white"
-	                android:tag="sticky" />
-	
-	            <View
-	                android:id="@+id/tab_event_divider_for_group_and_standings"
-	                android:layout_width="match_parent"
-	                android:layout_height="1dp"
-	                android:layout_below="@id/tab_event_indicator_for_group_and_standings"
-	                android:background="@color/home_divider" />
-	
-	            <com.mitv.ui.elements.CustomViewPager
-	                android:id="@+id/tab_event_pager_for_group_and_standings"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_below="@id/tab_event_divider_for_group_and_standings" />
-        	</RelativeLayout>
-        	
+            <RelativeLayout
+                android:id="@+id/competition_event_block_tabs_standings_teams_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_event_block_tabs_lineup_teams_container"
+                android:layout_margin="15dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_standings_header"
+                    style="@style/header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Standings for Group A" />
+
+                <View
+                    android:id="@+id/container_divider_standings"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/competition_standings_header"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey0" />
+
+                <RelativeLayout
+                    android:id="@+id/competition_event_block_tabs_group_and_standings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/container_divider_standings"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" >
+
+                    <com.viewpagerindicator.TabPageIndicator
+                        android:id="@+id/tab_event_indicator_for_group_and_standings"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@color/white"
+                        android:tag="sticky" />
+
+                    <View
+                        android:id="@+id/tab_event_divider_for_group_and_standings"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/tab_event_indicator_for_group_and_standings"
+                        android:background="@color/home_divider" />
+
+                    <com.mitv.ui.elements.CustomViewPager
+                        android:id="@+id/tab_event_pager_for_group_and_standings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tab_event_divider_for_group_and_standings" />
+                </RelativeLayout>
+            </RelativeLayout>
         </RelativeLayout>
-        
     </ScrollView>
-    
+
     <!-- NAVIGATION TABS -->
 
     <include
