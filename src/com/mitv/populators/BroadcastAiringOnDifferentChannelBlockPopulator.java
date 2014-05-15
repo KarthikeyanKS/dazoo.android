@@ -21,6 +21,7 @@ import com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreA
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -165,8 +166,15 @@ public class BroadcastAiringOnDifferentChannelBlockPopulator
 
 				ImageAware imageAware = new ImageViewAware(imageIv, false);
 				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI(), imageAware);
-
+				ImageSetOrientation imageSetOrientation = broadcastWithChannelInfo.getProgram().getImages();
+				
+				boolean containsPortraitOrientation = imageSetOrientation.containsPortraitImageSet();
+				
+				if(containsPortraitOrientation)
+				{
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(imageSetOrientation.getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
+				}
+				
 				timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 				channelTv.setText(broadcastWithChannelInfo.getChannel().getName());
 

@@ -22,6 +22,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ChannelRowTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -145,7 +146,14 @@ public class ChannelPageListAdapter
 			{
 				ImageAware imageAware = new ImageViewAware(holder.logo, false);
 				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
+				ImageSetOrientation imageSetOrientation = broadcast.getProgram().getImages();
+				
+				boolean containsLandscapeOrientation = imageSetOrientation.containsLandscapeImageSet();
+				
+				if(containsLandscapeOrientation)
+				{
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(imageSetOrientation.getLandscape().getImageURLForDeviceDensityDPI(), imageAware);
+				}
 				
 				LanguageUtils.setupProgressBar(activity, broadcast, holder.durationProgressBar, holder.timeLeft);
 				

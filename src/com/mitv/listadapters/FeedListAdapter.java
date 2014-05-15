@@ -30,6 +30,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.models.objects.mitvapi.TVProgram;
@@ -219,8 +220,15 @@ public class FeedListAdapter
 
 				ImageAware imageAware = new ImageViewAware(imageView, false);
 				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(tvProgram.getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI(), imageAware);
-
+				ImageSetOrientation imageSetOrientation = tvProgram.getImages();
+				
+				boolean containsPortraitOrientation = imageSetOrientation.containsPortraitImageSet();
+				
+				if(containsPortraitOrientation)
+				{
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(imageSetOrientation.getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
+				}
+				
 				time.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
 				channelName.setText(broadcast.getChannel().getName());
@@ -518,9 +526,16 @@ public class FeedListAdapter
 			}
 			
 			ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
-			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(program.getImages().getLandscape().getLarge(), imageAware);
 
+			ImageSetOrientation imageSetOrientation = program.getImages();
+			
+			boolean containsLandscapeOrientation = imageSetOrientation.containsLandscapeImageSet();
+			
+			if(containsLandscapeOrientation)
+			{
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(imageSetOrientation.getLandscape().getImageURLForDeviceDensityDPI(), imageAware);
+			}
+			
 			holderBC.timeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holderBC.channelTv.setText(broadcast.getChannel().getName());
 

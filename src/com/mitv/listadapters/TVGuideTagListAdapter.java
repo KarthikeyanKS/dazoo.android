@@ -24,6 +24,7 @@ import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -31,7 +32,8 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> 
+public class TVGuideTagListAdapter 
+	extends AdListAdapter<TVBroadcastWithChannelInfo> 
 {
 	private static final String TAG = TVGuideTagListAdapter.class.getName();
 
@@ -124,8 +126,15 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI(), imageAware);
-
+			ImageSetOrientation imageSetOrientation = broadcastWithChannelInfo.getProgram().getImages();
+			
+			boolean containsPortraitOrientation = imageSetOrientation.containsPortraitImageSet();
+			
+			if(containsPortraitOrientation)
+			{
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
+			}
+			
 			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holder.mChannelTv.setText(broadcastWithChannelInfo.getChannel().getName());
 

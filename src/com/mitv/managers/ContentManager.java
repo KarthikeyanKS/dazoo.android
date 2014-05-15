@@ -891,26 +891,16 @@ public class ContentManager
 	 */
 	public void getElseFetchFromServiceBroadcastPageData(
 			final ViewCallbackListener activityCallbackListener, 
-			final boolean forceDownload, 
-			final TVBroadcastWithChannelInfo broadcastWithChannelInfo, 
+			final boolean forceDownload,
 			final TVChannelId channelId, 
 			final long beginTimeInMillis) 
 	{
-		if (!forceDownload && (broadcastWithChannelInfo != null || getCache().containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis))) 
+		if (!forceDownload && getCache().containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis)) 
 		{
-			TVBroadcastWithChannelInfo broadcastWithChannelInfoUsed;
-			
-			if(broadcastWithChannelInfo == null) 
-			{
-				broadcastWithChannelInfoUsed = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
-			}
-			else
-			{
-				broadcastWithChannelInfoUsed = broadcastWithChannelInfo;
-			}
+			TVBroadcastWithChannelInfo broadcastWithChannelInfoUsed = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
 			
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfoUsed);
-		} 
+		}
 		else 
 		{
 			if(channelId != null)
@@ -1384,7 +1374,7 @@ public class ContentManager
 					{
 						TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
 						
-						// TODO - Evaluate if this is really needed
+						pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 						//getCache().pushToNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 						
 						/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
@@ -1716,7 +1706,6 @@ public class ContentManager
 		
 		return tvChannelIdsUser;
 	}
-	
 	
 	
 	

@@ -3,10 +3,12 @@ package com.mitv.models.gson.mitvapi;
 import com.mitv.models.objects.mitvapi.ImageSetSize;
 
 
-public class ImageSetOrientationJSON {
-	
+public class ImageSetOrientationJSON 
+{	
 	protected ImageSetSize landscape;
 	protected ImageSetSize portrait;
+
+	
 	
 	public ImageSetOrientationJSON(
 			String smallLandscape,
@@ -21,6 +23,8 @@ public class ImageSetOrientationJSON {
 		this.portrait = new ImageSetSize(smallPortrait, mediumPortrait, largePortrait);
 	}
 	
+	
+	
 	public ImageSetOrientationJSON() 
 	{
 		this.landscape = new ImageSetSize();
@@ -28,22 +32,17 @@ public class ImageSetOrientationJSON {
 		this.portrait = new ImageSetSize();
 	}
 	
-	public ImageSetSize getLandscape() {
+	
+	
+	public ImageSetSize getLandscape()
+	{
 		return landscape;
 	}
-	public ImageSetSize getPortrait() {
+	
+	
+	
+	public ImageSetSize getPortrait() 
+	{
 		return portrait;
 	}
-
-	
-
-	public void setLandscape(ImageSetSize landscape) {
-		this.landscape = landscape;
-	}
-
-	public void setPortrait(ImageSetSize portrait) {
-		this.portrait = portrait;
-	}
-	
-	
 }

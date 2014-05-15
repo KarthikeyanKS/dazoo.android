@@ -84,12 +84,13 @@ public class TVChannel
 		return true;
 	}
 
+	
+	
 	@Override
 	public boolean areDataFieldsValid() 
 	{
 		boolean areDataFieldsValid = (!TextUtils.isEmpty(getName()) && getChannelId() != null && !TextUtils.isEmpty(getChannelId().getChannelId()) && 
-				getLogo() != null && !TextUtils.isEmpty(getLogo().getSmall()) && !TextUtils.isEmpty(getLogo().getMedium()) && 
-				!TextUtils.isEmpty(getLogo().getLarge()));
+				getLogo() != null && getLogo().containsImages());
 
 		return areDataFieldsValid;
 	}
