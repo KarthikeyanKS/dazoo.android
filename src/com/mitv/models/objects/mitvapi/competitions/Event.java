@@ -38,7 +38,7 @@ public class Event
 			beginTime = "2014-05-15T07:00:00Z";
 			beginTimeMillis = 1400122800000l;
 			broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
-			endTime = "2014-05-15T12:00:00Z";
+			endTime = "2014-05-15T18:00:00Z";
 			sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
 			broadcastDetails = new ArrayList<EventBroadcastDetailsJSON>();
 			broadcastDetails.add(sdf);

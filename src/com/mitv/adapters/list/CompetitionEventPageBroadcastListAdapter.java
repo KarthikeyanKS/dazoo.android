@@ -149,8 +149,6 @@ extends BaseAdapter
 				.append(startTimeHourAndMinuteAsString)
 				.append(" - ")
 				.append(endTimeHourAndMinuteAsString);
-			
-				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.red));
 				
 				/* Set minutes left */
 				
@@ -188,6 +186,7 @@ extends BaseAdapter
 //				boolean iconSizeSmall = true;
 //				holder.reminderView.setSizeOfIcon(iconSizeSmall);
 				
+				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
 				holder.onGoingTimeLeft.setVisibility(View.GONE);
 				holder.reminderView.setVisibility(View.VISIBLE);
 			}

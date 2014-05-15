@@ -241,6 +241,10 @@ public class EventPageActivity
 			beginTimeDate.setVisibility(View.GONE);
 		}
 		
+		else if (event.isFinished()) {
+			
+		}
+		
 		/* The event has not started yet */
 		else {
 			StringBuilder sb = new StringBuilder();
