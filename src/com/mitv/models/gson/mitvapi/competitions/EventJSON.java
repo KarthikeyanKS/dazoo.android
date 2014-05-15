@@ -41,7 +41,6 @@ public class EventJSON
 	protected boolean dataEntryLiveGoal;
 	protected boolean dataEntryLiveLineUp;
 	protected List<EventBroadcastDetailsJSON> broadcastDetails;
-	
 	protected boolean isOngoing;
 	
 	

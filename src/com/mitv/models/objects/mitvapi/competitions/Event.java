@@ -74,16 +74,20 @@ public class Event
 	}
 	
 	
-	public List<EventBroadcastDetails> getEventBroadcastDetails() {
+	
+	public List<EventBroadcastDetails> getEventBroadcastDetails()
+	{
 		List<EventBroadcastDetails> list = new ArrayList<EventBroadcastDetails>();
 		
-		for (EventBroadcastDetailsJSON ev : broadcastDetails) {
+		for (EventBroadcastDetailsJSON ev : broadcastDetails) 
+		{
 			EventBroadcastDetails element = new EventBroadcastDetails(ev);
 			list.add(element);
 		}
 		
 		return list;
 	}
+	
 	
 	
 	public boolean containsBroadcastDetails()
@@ -103,6 +107,33 @@ public class Event
 		{
 			return true;
 		}
+	}
+	
+	
+	
+	public boolean hasStarted()
+	{
+		return isOngoing;
+	}
+	
+	
+	
+	public boolean hasEnded()
+	{
+		return finished;
+	}
+	
+	
+	
+	public String getScoreAsString()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(homeGoals);
+		sb.append(" - ");
+		sb.append(awayGoals);
+		
+		return sb.toString();
 	}
 	
 	

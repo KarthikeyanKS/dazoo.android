@@ -46,4 +46,7 @@
     
     <color name="facebook_blue">#3B5998</color>
     <color name="facebook_blue_pressed">#2E497C</color>
+    
+    <color name="competition_event_highlight_substitution_player_in">#57A069</color>
+    <color name="competition_event_highlight_substitution_player_out">#E8420C</color>
 </resources>
