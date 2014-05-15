@@ -3,70 +3,94 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/row_competition_broadcast_details_container"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="wrap_content"
     android:background="@color/white" >
 
     <!-- CHANNEL LOGO -->
 
     <ImageView
         android:id="@+id/competition_event_channel_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="10dp"
         android:visibility="gone" />
 
     <!-- DATE -->
 
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/competition_event_full_date"
+        style="@style/remaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/competition_event_channel_logo"
-        android:textSize="15sp"
         android:visibility="gone" />
 
     <!-- REMINDER BUTTON -->
-	
+
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/competition_event_row_reminders_notification_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
         android:background="@drawable/background_color_selector"
         android:lines="1"
         android:padding="10dp"
         android:text="@string/icon_reminder"
         android:textColor="@color/grey3"
         android:textSize="28sp"
-        font:fonttextview="roboto_mitv_regular.ttf"
-        android:visibility="visible" />
-    
+        android:visibility="visible"
+        font:fonttextview="roboto_mitv_regular.ttf" />
+
     <!-- OnGoing: time left -->
 
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/competition_event_time_left_ongoing"
+        style="@style/meta2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:textColor="@color/grey1"
-        android:textSize="15sp"
         android:visibility="gone" />
-
+    
+    <!-- PROGRESSBAR -->
+    
+    <ProgressBar
+        android:id="@+id/competition_event_broadcast_progressbar_1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/competition_event_channel_logo"
+        android:progressDrawable="@drawable/progress_horizontal"
+        android:scaleY="0.5" />
+    
+    <!-- PROGRESSBAR -->
+    
     <ProgressBar
         android:id="@+id/competition_event_broadcast_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/competition_event_broadcast_progressbar_1"
         android:layout_below="@id/competition_event_channel_logo"
         android:progressDrawable="@drawable/progress_horizontal"
-        android:visibility="gone" />
-
+        android:scaleY="0.5" />
+    
+    <!-- PROGRESSBAR -->
+    
+    <ProgressBar
+        android:id="@+id/competition_event_broadcast_progressbar_2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/competition_event_broadcast_progressbar"
+        android:layout_below="@id/competition_event_channel_logo"
+        android:progressDrawable="@drawable/progress_horizontal"
+        android:scaleY="0.5" />
 </RelativeLayout>

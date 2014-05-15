@@ -14,11 +14,10 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_weight="1"
-        android:layout_marginLeft="20dp"
         android:background="@drawable/background_color_selector" />
 
     <!-- DIVIDER -->
-	<!--  
+	
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
@@ -26,7 +25,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:background="@color/grey1" />
-        -->
+        
 
     <!-- SHARE BUTTON -->
 
@@ -36,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:layout_marginRight="20dp"
         android:background="@drawable/background_color_selector" >
 
         <com.mitv.ui.elements.FontTextView

@@ -23,24 +23,23 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:textColor="@color/white"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <!-- HEADER: Team vs Team -->
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_title_header"
-            style="@style/headercard1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/competition_event_world_cup_header"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:maxLines="2"
             android:textColor="@color/white"
             android:textSize="35sp"
-            android:textStyle="bold" />
+            font:fonttextview="chunkfive.otf" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -48,10 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/competition_header_container"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/background_color_selector"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:layout_marginTop="5dp"
+        android:background="@drawable/background_color_selector" >
 
         <!-- HEADER : GROUP -->
 
@@ -88,7 +85,8 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true" >
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp" >
 
                 <!-- BEGIN TIME: XX:XX -->
 
@@ -153,12 +151,12 @@
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/competition_event_team_one_name"
+            	style="@style/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_team_one_flag"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
-                android:textSize="15sp" />
+                android:layout_marginTop="5dp" />
         </RelativeLayout>
 
         <!-- TEAM TWO -->
@@ -185,12 +183,12 @@
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/competition_event_team_two_name"
+            	style="@style/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_team_two_flag"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
-                android:textSize="15sp" />
+                android:layout_marginTop="5dp" />
         </RelativeLayout>
 
         <!-- DIVIDER -->
@@ -219,14 +217,40 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_synopsis"
+            style="@style/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/competition_event_broadcasts_listview"
             android:layout_margin="10dp"
             android:lineSpacingExtra="2dp"
-            android:text="dskdshf f dfj djf jdjf j jdjfjnskxksj sj jfjn jbd sjdk dkjf kdjfhfjjbjbs jkdjfndjfn kdfjnjdfndjf dkjfdfaf dfkdjfkdksdk kjkjkf kfkgj otorte fdkfs. jdhdg djdfhf jss kffhfd shjdb sks ffn."
-            android:textSize="15sp" />
+            android:text="dskdshf f dfj djf jdjf j jdjfjnskxksj sj jfjn jbd sjdk dkjf kdjfhfjjbjbs jkdjfndjfn kdfjnjdfndjf dkjfdfaf dfkdjfkdksdk kjkjkf kfkgj otorte fdkfs. jdhdg djdfhf jss kffhfd shjdb sks ffn." />
+        
+        <!-- SYNOPSIS: Place -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_event_synopsis_place"
+            style="@style/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_event_synopsis"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Arena de Sao Paulo - Sao Paulo" />
+        
+        <!-- SYNOPSIS: Photo from -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_event_synopsis_photo_from"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/competition_event_synopsis_place"
+            android:text="Photo: LUIS ACOSTA/AFP/Getty Images" />
 
         <!-- DIVIDER -->
 
@@ -234,9 +258,7 @@
             android:id="@+id/divider_after_synopsis"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/competition_event_synopsis"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_below="@id/competition_event_synopsis_photo_from"
             android:background="@color/grey1"
             android:visibility="visible" />
 
