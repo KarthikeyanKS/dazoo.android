@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingBottom="10dp" >
+    android:orientation="vertical" >
 
     <!-- Header img and title -->
 
@@ -15,7 +14,7 @@
         android:layout_height="180dp"
         android:background="@color/blue1" >
 
-        <!-- HEADER: World Cup 2014 -->
+        <!-- HEADER: Competition name -->
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_world_cup_header"
@@ -109,8 +108,8 @@
                     style="@style/header1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/competition_event_starttime_time"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
             </RelativeLayout>
@@ -159,7 +158,7 @@
                 android:layout_below="@id/competition_event_team_one_flag"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <!-- TEAM TWO -->
@@ -191,7 +190,7 @@
                 android:layout_below="@id/competition_event_team_two_flag"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <!-- DIVIDER -->
@@ -201,7 +200,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/competition_event_team_one_flag_container"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/grey1" />
 
@@ -217,14 +215,39 @@
             android:fadingEdge="none"
             android:orientation="vertical" />
 
+        <!-- SYNOPSIS -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_event_synopsis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_event_broadcasts_listview"
+            android:layout_margin="10dp"
+            android:lineSpacingExtra="2dp"
+            android:text="dskdshf f dfj djf jdjf j jdjfjnskxksj sj jfjn jbd sjdk dkjf kdjfhfjjbjbs jkdjfndjfn kdfjnjdfndjf dkjfdfaf dfkdjfkdksdk kjkjkf kfkgj otorte fdkfs. jdhdg djdfhf jss kffhfd shjdb sks ffn."
+            android:textSize="15sp" />
+
+        <!-- DIVIDER -->
+
+        <View
+            android:id="@+id/divider_after_synopsis"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/competition_event_synopsis"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/grey1"
+            android:visibility="visible" />
+
         <!-- INCLUDING THE SOCIAL INTERACTION PANEL -->
-        <!--
+
         <include
             android:id="@+id/competition_event_social_panel"
-            android:layout_below="@id/competition_event_broadcasts_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_after_synopsis"
             layout="@layout/element_competition_event_social_buttons" />
-        -->
-
     </RelativeLayout>
 
 </RelativeLayout>

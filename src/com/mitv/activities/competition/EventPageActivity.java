@@ -4,7 +4,6 @@ package com.mitv.activities.competition;
 
 
 import java.util.List;
-import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,9 +26,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
-import com.mitv.models.gson.mitvapi.competitions.EventDetailsJSON;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -67,8 +63,6 @@ public class EventPageActivity
 	public static CustomViewPager viewPagerForGroupAndStandings;
 	private CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter pagerAdapterForGroupAndStandings;
 
-	private TextView eventStartTime;
-	private TextView tvBroadcastChannels;
 	private TextView team1Name;
 	private ImageView team1Flag;
 	private TextView team2Name;
@@ -169,14 +163,14 @@ public class EventPageActivity
 		/* Headr img and text: Team1 va Team2 */
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
-			.append(" ")
-			.append("vs")
-			.append(" ")
+			.append(" vs ")
 			.append(awayTeamName);
 		
-		//headerteamvsteam.setText(sbHeader.toString());
-		
+		headerteamvsteam.setText(sbHeader.toString());
 		headerCompetitionName.setText(competitionName);
+		
+		headerteamvsteam.setVisibility(View.VISIBLE);
+		headerCompetitionName.setVisibility(View.VISIBLE);
 		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
@@ -229,11 +223,9 @@ public class EventPageActivity
 		
 		groupHeader.setText(groupHeaderName);
 		
-		StringBuilder sb = new StringBuilder();
-		
 		/* The event is ongoing */
 		if (event.isOngoing() && !event.isPostponed()) {
-			
+			StringBuilder sb = new StringBuilder();
 			sb.append(event.getAwayGoals())
 				.append(" - ")
 				.append(event.getHomeGoals());
@@ -251,13 +243,14 @@ public class EventPageActivity
 		
 		/* The event has not started yet */
 		else {
+			StringBuilder sb = new StringBuilder();
 			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 			
 			beginTime.setText(eventStartTimeHourAndMinuteAsString);
 			
 			sb.append(event.getEventTimeDayOfTheWeekAsString())
-			.append(" ")
-			.append(event.getEventTimeDayAndMonthAsString());
+				.append(" ")
+				.append(event.getEventTimeDayAndMonthAsString());
 			
 			beginTimeDate.setText(sb.toString());
 			
@@ -279,7 +272,7 @@ public class EventPageActivity
 		.append(" : ")
 		.append(event.getAwayTeam());
 		
-		actionBar.setTitle(eventName);
+		actionBar.setTitle(eventName.toString());
 		
 		team1Name = (TextView) findViewById(R.id.competition_event_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_event_team_one_flag);
@@ -289,8 +282,8 @@ public class EventPageActivity
 		liveStandings = (TextView) findViewById(R.id.competition_event_live_standing);
 		liveTimeInGame = (TextView) findViewById(R.id.competition_event_live_time);
 		broadcastListView = (LinearLayout) findViewById(R.id.competition_event_broadcasts_listview);
-		likeIcon = (TextView) findViewById(R.id.competition_element_social_buttons_like_view);
-		shareIcon = (TextView) findViewById(R.id.competition_element_social_buttons_share_button_iv);
+//		likeIcon = (TextView) findViewById(R.id.competition_element_social_buttons_like_view);
+//		shareIcon = (TextView) findViewById(R.id.competition_element_social_buttons_share_button_iv);
 		beginTime = (TextView) findViewById(R.id.competition_event_starttime_time);
 		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
@@ -416,7 +409,7 @@ public class EventPageActivity
 		
 		List<EventBroadcastDetails> broadcastDetails = event.getEventBroadcastDetails();
 		
-		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, event, broadcastDetails);
+		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, broadcastDetails);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{
