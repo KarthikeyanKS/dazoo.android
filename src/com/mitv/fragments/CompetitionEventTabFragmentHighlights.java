@@ -153,6 +153,7 @@ public class CompetitionEventTabFragmentHighlights
 				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 	
 				Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
+				Collections.reverse(eventHighlights);
 				
 				listAdapter = new CompetitionEventHighlightsListAdapter(activity, eventHighlights);
 				
