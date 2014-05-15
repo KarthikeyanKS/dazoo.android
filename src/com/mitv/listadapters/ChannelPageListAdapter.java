@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
@@ -157,12 +158,15 @@ public class ChannelPageListAdapter
 			
 			StringBuilder descriptionSB = new StringBuilder();
 			
-			if(broadcast.isPopular())
+			if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
 			{
-//				String stringIconTrending = activity.getString(R.string.icon_trending);
-//				
-//				titleSB.append(stringIconTrending)
-//					.append(" ");
+				if(broadcast.isPopular())
+				{
+					String stringIconTrending = activity.getString(R.string.icon_trending);
+					
+					titleSB.append(stringIconTrending)
+						.append(" ");
+				}
 			}
 			
 			ProgramTypeEnum programType = broadcast.getProgram().getProgramType();

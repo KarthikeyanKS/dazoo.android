@@ -196,7 +196,7 @@ public class PopularListAdapter
 
 			ImageAware imageAware = new ImageViewAware(holder.posterIv, false);
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI(), imageAware);
 
 			holder.timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 

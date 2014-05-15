@@ -511,10 +511,13 @@ public class BroadcastPageActivity
 
 		StringBuilder titleSB = new StringBuilder();
 
-		if(broadcastWithChannelInfo.isPopular())
+		if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
 		{
-//			titleSB.append(getString(R.string.icon_trending))
-//				.append(" ");
+			if(broadcastWithChannelInfo.isPopular())
+			{
+				titleSB.append(getString(R.string.icon_trending))
+					.append(" ");
+			}
 		}
 		
 		titleSB.append(broadcastWithChannelInfo.getTitle());
@@ -649,7 +652,7 @@ public class BroadcastPageActivity
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
 
-		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true) 
+		if (program.getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI() != null && TextUtils.isEmpty(program.getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI()) != true) 
 		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
 			

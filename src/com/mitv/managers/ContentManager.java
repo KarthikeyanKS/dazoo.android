@@ -527,7 +527,7 @@ public class ContentManager
 					
 					completedTVGuideRequest = true;
 					
-					if(!isProcessingPopularBroadcasts && completedTVPopularRequest)
+					if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING && !isProcessingPopularBroadcasts && completedTVPopularRequest)
 					{
 						isProcessingPopularBroadcasts = true;
 						
@@ -550,7 +550,7 @@ public class ContentManager
 					
 					completedTVPopularRequest = true;
 					
-					if(!isProcessingPopularBroadcasts && completedTVGuideRequest)
+					if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING && !isProcessingPopularBroadcasts && completedTVGuideRequest)
 					{
 						isProcessingPopularBroadcasts = true;
 						

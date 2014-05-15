@@ -165,7 +165,7 @@ public class BroadcastAiringOnDifferentChannelBlockPopulator
 
 				ImageAware imageAware = new ImageViewAware(imageIv, false);
 				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI(), imageAware);
 
 				timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 				channelTv.setText(broadcastWithChannelInfo.getChannel().getName());

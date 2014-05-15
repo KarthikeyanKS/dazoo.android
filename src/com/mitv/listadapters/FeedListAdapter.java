@@ -219,7 +219,7 @@ public class FeedListAdapter
 
 				ImageAware imageAware = new ImageViewAware(imageView, false);
 				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(tvProgram.getImages().getPortrait().getMedium(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(tvProgram.getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI(), imageAware);
 
 				time.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 

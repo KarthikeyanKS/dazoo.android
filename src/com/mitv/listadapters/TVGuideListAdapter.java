@@ -228,12 +228,15 @@ public class TVGuideListAdapter
 
 					String showName = program.getTitle();
 					
-					if(broadcast.isPopular())
+					if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
 					{
-//						String stringIconTrending = activity.getString(R.string.icon_trending);
-//						
-//						rowInfoSB.append(stringIconTrending);
-//						rowInfoSB.append(" ");
+						if(broadcast.isPopular())
+						{
+							String stringIconTrending = activity.getString(R.string.icon_trending);
+							
+							rowInfoSB.append(stringIconTrending);
+							rowInfoSB.append(" ");
+						}
 					}
 					
 					switch (programType) 

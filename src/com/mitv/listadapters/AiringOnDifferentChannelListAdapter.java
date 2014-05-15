@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
@@ -138,7 +139,7 @@ public class AiringOnDifferentChannelListAdapter
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getImageSetForDeviceOrientation().getImageURLForDeviceDensityDPI(), imageAware);
 
 			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holder.mChannelTv.setText(broadcastWithChannelInfo.getChannel().getName());
@@ -147,12 +148,15 @@ public class AiringOnDifferentChannelListAdapter
 			
 			StringBuilder descriptionSB = new StringBuilder();
 			
-			if(broadcastWithChannelInfo.isPopular())
+			if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
 			{
-//				String stringIconTrending = activity.getString(R.string.icon_trending);
-//				
-//				titleSB.append(stringIconTrending)
-//				.append(" ");
+				if(broadcastWithChannelInfo.isPopular())
+				{
+					String stringIconTrending = activity.getString(R.string.icon_trending);
+					
+					titleSB.append(stringIconTrending)
+					.append(" ");
+				}
 			}
 			
 			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
