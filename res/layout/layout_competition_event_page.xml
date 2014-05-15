@@ -57,6 +57,40 @@
 	                android:layout_height="wrap_content"
 	                android:layout_below="@id/tab_event_divider_for_highlights_and_lineup" />
         	</RelativeLayout>
+        	
+            <!-- LINEUP -->
+        	
+            <!-- TABS: Team1 & Team2 -->
+            <RelativeLayout
+                android:id="@+id/competition_event_block_tabs_lineup_teams"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/competition_event_block_tabs_highlights_and_lineup"
+	            android:orientation="vertical"
+	            android:layout_marginTop="10dp"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp" >
+
+	            <com.viewpagerindicator.TabPageIndicator
+	                android:id="@+id/tab_event_indicator_for_lineup_teams"
+	                android:layout_width="match_parent"
+	                android:layout_height="44dp"
+	                android:background="@color/white"/>
+	
+	            <View
+	                android:id="@+id/tab_event_divider_for_lineup_teams"
+	                android:layout_width="match_parent"
+	                android:layout_height="1dp"
+	                android:layout_below="@id/tab_event_indicator_for_lineup_teams"
+	                android:background="@color/home_divider" />
+	
+	            <com.mitv.ui.elements.CustomViewPager
+	                android:id="@+id/tab_event_pager_for_lineup_teams"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/tab_event_divider_for_lineup_teams" />
+        	</RelativeLayout>
 
             
             <!-- TABS: GROUPS & STANDINGS -->
@@ -64,7 +98,7 @@
                 android:id="@+id/competition_event_block_tabs_group_and_standings"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
-	            android:layout_below="@id/competition_event_block_tabs_highlights_and_lineup"
+	            android:layout_below="@id/competition_event_block_tabs_lineup_teams"
 	            android:orientation="vertical"
 	            android:layout_marginTop="10dp"
 	            android:paddingBottom="10dp"

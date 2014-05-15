@@ -17,6 +17,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.adapters.list.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter;
@@ -57,6 +58,11 @@ public class EventPageActivity
 	private TabPageIndicator pageTabIndicatorForHighlightsAndLineup;
 	public static CustomViewPager viewPagerForHighlightsAndLineup;
 	private CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter pagerAdapterForHighlightsAndLineup;
+	
+	private int selectedTabIndexForLineupTeams;
+	private TabPageIndicator pageTabIndicatorForLineupTeams;
+	public static CustomViewPager viewPagerForLineupTeams;
+	private CompetitionEventLineupTeamsTabFragmentStatePagerAdapter pagerAdapterForLineupTeams;
 	
 	private int selectedTabIndexForGroupAndStandings;
 	private TabPageIndicator pageTabIndicatorForGroupAndStandings;
@@ -110,6 +116,8 @@ public class EventPageActivity
 		initLayout();
 		
 		setAdapterForHighlightsAndLineup(selectedTabIndexForHighlightsAndLineup);
+		
+		setAdapterForLineupTeams(selectedTabIndexForLineupTeams);
 		
 		setAdapterForGroupAndStandings(selectedTabIndexForGroupAndStandings);
 	}
@@ -223,8 +231,11 @@ public class EventPageActivity
 		
 		groupHeader.setText(groupHeaderName);
 		
+		/* WARNING TODO: Check if live is the same as onGoing...!!!!!!!!!!!!!!!!!!!!!!! */
+		boolean isOngoing = event.hasStarted();
+		
 		/* The event is ongoing */
-		if (event.isOngoing() && !event.isPostponed()) {
+		if (isOngoing && !event.isPostponed()) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(event.getAwayGoals())
 				.append(" - ")
@@ -297,6 +308,10 @@ public class EventPageActivity
 		viewPagerForHighlightsAndLineup = (CustomViewPager) findViewById(R.id.tab_event_pager_for_highlights_and_lineup);
 		selectedTabIndexForHighlightsAndLineup = STARTING_TAB_INDEX;
 		
+		pageTabIndicatorForLineupTeams = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_lineup_teams);
+		viewPagerForLineupTeams = (CustomViewPager) findViewById(R.id.tab_event_pager_for_lineup_teams);
+		selectedTabIndexForLineupTeams = STARTING_TAB_INDEX;
+		
 		pageTabIndicatorForGroupAndStandings = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_group_and_standings);
 		viewPagerForGroupAndStandings = (CustomViewPager) findViewById(R.id.tab_event_pager_for_group_and_standings);
 		selectedTabIndexForGroupAndStandings = STARTING_TAB_INDEX;
@@ -326,6 +341,36 @@ public class EventPageActivity
 		
 		pageTabIndicatorForHighlightsAndLineup.setInitialStyleOnAllTabs();
 		pageTabIndicatorForHighlightsAndLineup.setStyleOnTabViewAtIndex(selectedIndex);
+	}
+	
+	
+	
+	private void setAdapterForLineupTeams(int selectedIndex) 
+	{
+		pagerAdapterForLineupTeams = new CompetitionEventLineupTeamsTabFragmentStatePagerAdapter(
+				getSupportFragmentManager(),
+				event.getEventId(),
+				event.getHomeTeam(),
+				event.getAwayTeam());
+	
+		viewPagerForLineupTeams.setAdapter(pagerAdapterForLineupTeams);
+		viewPagerForLineupTeams.setOffscreenPageLimit(1);
+		viewPagerForLineupTeams.setBoundaryCaching(true);
+		viewPagerForLineupTeams.setCurrentItem(selectedIndex);
+		viewPagerForLineupTeams.setVisibility(View.VISIBLE);
+		viewPagerForLineupTeams.setEnabled(false);
+
+		pagerAdapterForLineupTeams.notifyDataSetChanged();
+		
+		pageTabIndicatorForLineupTeams.setVisibility(View.VISIBLE);
+		pageTabIndicatorForLineupTeams.setViewPager(viewPagerForLineupTeams);
+		viewPagerForLineupTeams.setScreenHeight(GenericUtils.getScreenHeight(this));
+		
+		pagerAdapterForLineupTeams.notifyDataSetChanged();
+		pageTabIndicatorForLineupTeams.setCurrentItem(selectedIndex);
+		
+		pageTabIndicatorForLineupTeams.setInitialStyleOnAllTabs();
+		pageTabIndicatorForLineupTeams.setStyleOnTabViewAtIndex(selectedIndex);
 	}
 	
 	

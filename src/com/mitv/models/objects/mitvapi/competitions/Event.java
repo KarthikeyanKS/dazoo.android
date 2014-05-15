@@ -110,10 +110,17 @@ public class Event
 	}
 	
 	
-	
+	/**
+	 * WARNING WARNING WARNING
+	 * 
+	 * TODO
+	 * Check if live is the same as onGoing.....!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
+	 * @return
+	 */
 	public boolean hasStarted()
 	{
-		return isOngoing;
+		return live;
 	}
 	
 	
