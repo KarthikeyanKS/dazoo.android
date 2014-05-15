@@ -3,6 +3,7 @@ package com.mitv.fragments;
 
 
 
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.comparators.EventHighlightComparatorByTime;
+import com.mitv.models.comparators.TVBroadcastComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 
@@ -149,6 +152,8 @@ public class CompetitionEventTabFragmentHighlights
 				
 				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 	
+				Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
+				
 				listAdapter = new CompetitionEventHighlightsListAdapter(activity, eventHighlights);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++)

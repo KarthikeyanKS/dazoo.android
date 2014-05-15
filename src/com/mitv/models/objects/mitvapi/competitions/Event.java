@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
-import com.mitv.models.objects.mitvapi.TVChannel;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
@@ -63,16 +60,20 @@ public class Event
 	}
 	
 	
-	public List<EventBroadcastDetails> getEventBroadcastDetails() {
+	
+	public List<EventBroadcastDetails> getEventBroadcastDetails()
+	{
 		List<EventBroadcastDetails> list = new ArrayList<EventBroadcastDetails>();
 		
-		for (EventBroadcastDetailsJSON ev : broadcastDetails) {
+		for (EventBroadcastDetailsJSON ev : broadcastDetails) 
+		{
 			EventBroadcastDetails element = new EventBroadcastDetails(ev);
 			list.add(element);
 		}
 		
 		return list;
 	}
+	
 	
 	
 	public boolean containsBroadcastDetails()
@@ -92,6 +93,33 @@ public class Event
 		{
 			return true;
 		}
+	}
+	
+	
+	
+	public boolean hasStarted()
+	{
+		return isOngoing;
+	}
+	
+	
+	
+	public boolean hasEnded()
+	{
+		return finished;
+	}
+	
+	
+	
+	public String getScoreAsString()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(homeGoals);
+		sb.append(" - ");
+		sb.append(awayGoals);
+		
+		return sb.toString();
 	}
 	
 	
