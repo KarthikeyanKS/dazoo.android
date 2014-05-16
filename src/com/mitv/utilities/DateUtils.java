@@ -9,11 +9,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -26,11 +24,14 @@ public abstract class DateUtils
 {	
 	private static final String TAG = DateUtils.class.getName();
 	
+	
 	public static final int TOTAL_MINUTES_IN_ONE_HOUR = 60;
 	public static final long TOTAL_MILLISECONDS_IN_ONE_SECOND = 1000;
 	public static final long TOTAL_MILLISECONDS_IN_ONE_MINUTE = TOTAL_MILLISECONDS_IN_ONE_SECOND*60;
 	public static final long TOTAL_MILLISECONDS_IN_ONE_HOUR = TOTAL_MILLISECONDS_IN_ONE_MINUTE*60;
 	public static final long TOTAL_MILLISECONDS_IN_ONE_DAY = TOTAL_MILLISECONDS_IN_ONE_HOUR*24;
+	
+	
 	
 	/**
 	 * Converts a string input to a Calendar object
@@ -43,6 +44,8 @@ public abstract class DateUtils
 		
 		return convertFromStringToCalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString, context);
 	}
+	
+	
 	
 	/**
 	 * Creates a Calendar object from the string representation of a TVDate. The calendar
@@ -63,6 +66,8 @@ public abstract class DateUtils
 		
 		return startOfTVDayCalendar;
 	}
+	
+	
 	
 	/**
 	 * Creates a Calendar object from the string representation of a TVDate. The calendar
@@ -94,6 +99,7 @@ public abstract class DateUtils
 			final String inputString)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		return convertFromYearDateAndTimeStringToCalendar(inputString, context);
 	}
 	
@@ -140,6 +146,7 @@ public abstract class DateUtils
 
 		return timeZoneOffsetInMinutes;
 	}
+	
 	
 	
 	/**
@@ -222,6 +229,7 @@ public abstract class DateUtils
 	}
 	
 	
+	
 	private static int getCurrentHour(Context context) 
 	{
 		boolean showTimeOn24HourFormat = showTimeOn24HourFormat();
@@ -230,11 +238,13 @@ public abstract class DateUtils
 	}
 		
 	
+	
 	public static int getCurrentHourUseDevice24HourSettings()
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		return getCurrentHour(context);
 	}
+	
 	
 	
 	public static int getCurrentHourOn24HourFormat()
@@ -523,9 +533,7 @@ public abstract class DateUtils
 	 * Builds a string representation of the year, month and day (yyyy-MM-dd) for the provided calendar. 
 	 * 
 	 */
-	public static String buildDateCompositionAsString(
-			final Calendar inputCalendar,
-			final Context context)
+	public static String buildDateCompositionAsString(final Calendar inputCalendar)
 	{
 		String pattern = Constants.DATE_FORMAT_DATE;
 		

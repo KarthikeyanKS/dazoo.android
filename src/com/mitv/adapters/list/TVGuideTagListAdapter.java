@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -35,6 +35,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class TVGuideTagListAdapter 
 	extends BannerListAdapter<TVBroadcastWithChannelInfo> 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTagListAdapter.class.getName();
 
 	
@@ -66,8 +67,6 @@ public class TVGuideTagListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		Log.d(TAG, "Fetching index " + position);
-		
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 
@@ -141,8 +140,15 @@ public class TVGuideTagListAdapter
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
-
+			ImageSetOrientation imageSetOrientation = broadcastWithChannelInfo.getProgram().getImages();
+			
+			boolean containsPortraitOrientation = imageSetOrientation.containsPortraitImageSet();
+			
+			if(containsPortraitOrientation)
+			{
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
+			}
+			
 			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holder.mChannelTv.setText(broadcastWithChannelInfo.getChannel().getName());
 
@@ -150,12 +156,15 @@ public class TVGuideTagListAdapter
 			
 			StringBuilder descriptionSB = new StringBuilder();
 			
-			if(broadcastWithChannelInfo.isPopular())
+			if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
 			{
-//				String stringIconTrending = activity.getString(R.string.icon_trending);
-//				
-//				titleSB.append(stringIconTrending)
-//				.append(" ");
+				if(broadcastWithChannelInfo.isPopular())
+				{
+					String stringIconTrending = activity.getString(R.string.icon_trending);
+					
+					titleSB.append(stringIconTrending)
+					.append(" ");
+				}
 			}
 			
 			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();

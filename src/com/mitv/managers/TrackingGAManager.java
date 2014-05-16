@@ -10,6 +10,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.HitBuilders.AppViewBuilder;
 import com.google.android.gms.analytics.HitBuilders.EventBuilder;
 import com.google.android.gms.analytics.Logger.LogLevel;
@@ -119,7 +120,8 @@ public class TrackingGAManager
 		String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 		String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 
-		if (cacheHasAppConfiguration) {
+		if (cacheHasAppConfiguration) 
+		{
 			double sampleRateDecimal = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsSampleRate();
 
 			double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
@@ -498,9 +500,11 @@ public class TrackingGAManager
 		sendEventWithLabel(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label);
 	}
 
+	
 	private void sendUserEventWithLabelAndValue(String action, String label, long value) {
 		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label, value);
 	}
+	
 	
 	public void sendUserCompetitionEventWithLabelAndValue(String action, String label, long value) 
 	{
@@ -508,22 +512,48 @@ public class TrackingGAManager
 	}
 	
 	
-	public void sendInternalSpeedMeasureEventWithLabelAndValue(String action, String label, long value) 
+	public void sendInternalSpeedMeasureEventWithLabelAndValue(
+			final String action, 
+			final String label,
+			final long value)
 	{
-		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_INTERNAL_SPEED_MEASUARE_EVENT, action, label, value);
-	} 
+		sendUserTimings(Constants.GA_EVENT_CATEGORY_KEY_INTERNAL_SPEED_MEASUARE_EVENT, value, action, label);
+	}
 
 	
 	private void sendEventWithLabel(String category, String action, String label) {
 		sendEventBase(category, action, true, label, false, 0);
 	}
 
-	private void sendEventWithLabelAndValue(String category, String action, String label, long value) {
+	
+	
+	private void sendEventWithLabelAndValue(String category, String action, String label, long value) 
+	{
 		sendEventBase(category, action, true, label, true, value);
 	}
+	
+	
+	
+	private void sendUserTimings(
+			final String category, 
+			final long timingInterval,
+			final String eventName,
+			final String timingLabel)
+	{
+        tracker.send(new HitBuilders.TimingBuilder()
+            .setCategory(category)
+            .setValue(timingInterval)
+            .setVariable(eventName)
+            .setLabel(timingLabel)
+            .build());
+	}
 
-	private void sendEventBase(String category, String action, boolean setLabel, String label, boolean setValue, long value) {
+	
+	
+	private void sendEventBase(String category, String action, boolean setLabel, String label, boolean setValue, long value) 
+	{
 		EventBuilder eventBuilder = new EventBuilder();
+		
 		eventBuilder.setCategory(category).setAction(action);
 
 		if (setLabel) {
@@ -535,20 +565,28 @@ public class TrackingGAManager
 		}
 
 		Log.d(TAG, String.format("%s, %s, %s, %d", category, action, label, value));
+		
 		tracker.send(eventBuilder.build());
 	}
 
+	
+	
 	/* Methods for sending screens using autoActivityTracking */
-	public static void reportActivityStart(Activity activity) {
+	public static void reportActivityStart(Activity activity) 
+	{
 		GoogleAnalytics googleAnalyticsInstance = sharedInstance().getGoogleAnalyticsInstance();
 		googleAnalyticsInstance.reportActivityStart(activity);
 	}
 
-	public static void reportActivityStop(Activity activity) {
+	
+	
+	public static void reportActivityStop(Activity activity) 
+	{
 		GoogleAnalytics googleAnalyticsInstance = sharedInstance().getGoogleAnalyticsInstance();
 		googleAnalyticsInstance.reportActivityStop(activity);
 	}
 
+	
 	/**
 	 * Manually sending the campaign (as a system event) information to analytics.
 	 * 

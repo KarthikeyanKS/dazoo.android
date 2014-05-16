@@ -447,18 +447,14 @@ public abstract class ContentManagerServiceFetching
 	public void getElseFetchFromServiceBroadcastPageData(
 			ViewCallbackListener activityCallbackListener, 
 			final boolean forceDownload, 
-			TVBroadcastWithChannelInfo broadcastWithChannelInfo, 
 			final TVChannelId channelId, 
 			final long beginTimeInMillis) 
 	{
-		if (!forceDownload && (broadcastWithChannelInfo != null || getCache().containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis))) 
+		if (!forceDownload && getCache().containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis)) 
 		{
-			if(broadcastWithChannelInfo == null) 
-			{
-				broadcastWithChannelInfo = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
-			}
-			
-			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfo);
+			TVBroadcastWithChannelInfo broadcastWithChannelInfoUsed = getCache().getNonPersistentLastSelectedBroadcastWithChannelInfo();
+
+			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfoUsed);
 		} 
 		else 
 		{

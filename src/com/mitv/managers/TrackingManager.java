@@ -16,7 +16,6 @@ import com.mitv.utilities.DateUtils;
 
 public class TrackingManager 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TrackingAIManager.class.getName();
 
 	
@@ -219,13 +218,12 @@ public class TrackingManager
 	}
 	
 	
+	
 	public void sendTestMeasureInitialLoadingScreenStarted(String className)
 	{
 		clearEventStartValues();
 		
 		setStartValue(className);
-		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "START", 0);
 	}
 	
 	
@@ -234,9 +232,9 @@ public class TrackingManager
 	{
 		long duration = calculateValueSincePrevious(className);
 		
-		Log.d(TAG, "Duration for " + "SPLASH_SCREEN_ON_RESULT_REACHED" + " is " + duration);
+		Log.v(TAG, "Duration for " + "SPLASH_SCREEN_ON_RESULT_REACHED" + " is " + duration);
 		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ON_RESULT_REACHED", duration);
+		//TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ON_RESULT_REACHED", duration);
 	}
 	
 	
@@ -246,9 +244,9 @@ public class TrackingManager
 	{
 		long duration = calculateValueSincePrevious(className);
 		
-		Log.d(TAG, "Duration for " + "SPLASH_SCREEN_END" + " end is " + duration);
+		Log.v(TAG, "Duration for " + "SPLASH_SCREEN_END" + " end is " + duration);
 		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "END", duration);
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "SPLASH_SCREEN_START_TO_END", duration);
 	}
 	
 	
@@ -258,14 +256,6 @@ public class TrackingManager
 		String measureEventName = className + "AsyncTask" + "DoInBackground";
 		
 		setStartValue(measureEventName);
-		
-		String previousEventName = "SplashScreenActivity";
-		
-		long duration = calculateValueSincePrevious(previousEventName);
-		
-		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
-		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_START", duration);
 	}
 	
 	
@@ -276,9 +266,9 @@ public class TrackingManager
 		
 		long duration = calculateValueSincePrevious(measureEventName);
 		
-		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		Log.v(TAG, "Duration for " + measureEventName + " end is " + duration);
 		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_END", duration);
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_START_TO_END", duration);
 	}
 	
 	
@@ -288,14 +278,6 @@ public class TrackingManager
 		String measureEventName = className + "AsyncTask" + "PostExecute";
 		
 		setStartValue(measureEventName);
-		
-		String previousEventName =  className + "AsyncTask" + "DoInBackground";
-		
-		long duration = calculateValueSincePrevious(previousEventName);
-		
-		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
-		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_POST_EXECUTE_START", duration);
 	}
 	
 	
@@ -306,9 +288,9 @@ public class TrackingManager
 		
 		long duration = calculateValueSincePrevious(measureEventName);
 		
-		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		Log.v(TAG, "Duration for " + measureEventName + " end is " + duration);
 		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_POST_EXECUTE_END", duration);
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_POST_EXECUTE_START_TO_END", duration);
 	}
 	
 	
@@ -318,14 +300,6 @@ public class TrackingManager
 		String measureEventName = className + "AsyncTask" + "Network";
 		
 		setStartValue(measureEventName);
-		
-		String previousEventName = className + "AsyncTask" + "DoInBackground";
-		
-		long duration = calculateValueSincePrevious(previousEventName);
-		
-		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
-		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_NETWORK_REQUEST_START", duration);
 	}
 	
 	
@@ -336,9 +310,9 @@ public class TrackingManager
 		
 		long duration = calculateValueSincePrevious(measureEventName);
 		
-		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		Log.v(TAG, "Duration for " + measureEventName + " end is " + duration);
 		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_NETWORK_REQUEST_END", duration);
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_NETWORK_REQUEST_START_TO_END", duration);
 	}
 	
 	
@@ -348,14 +322,6 @@ public class TrackingManager
 		String measureEventName = className + "AsyncTask" + "JSON";
 		
 		setStartValue(measureEventName);
-		
-		String previousEventName = className + "AsyncTask" + "DoInBackground";
-		
-		long duration = calculateValueSincePrevious(previousEventName);
-		
-		Log.d(TAG, "Duration for " + measureEventName + " start is " + duration);
-		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_JSON_PARSING_START", duration);
 	}
 	
 	
@@ -366,8 +332,8 @@ public class TrackingManager
 		
 		long duration = calculateValueSincePrevious(measureEventName);
 		
-		Log.d(TAG, "Duration for " + measureEventName + " end is " + duration);
+		Log.v(TAG, "Duration for " + measureEventName + " end is " + duration);
 		
-		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_JSON_PARSING_END", duration);
+		TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ASYNC_TASK_BACKGROUND_JSON_PARSING_START_TO_END", duration);
 	}
 }

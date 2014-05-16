@@ -367,10 +367,25 @@ public class Cache
 		this.nonPersistentSelectedHour = seletectedHour;
 	}
 			
+	
+	
 	public synchronized void pushToNonPersistentSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo) 
 	{
+		if(this.nonPersistentSelectedBroadcastsWithChannelInfo.isEmpty() == false)
+		{
+			boolean isSameBroadcast = (nonPersistentSelectedBroadcastsWithChannelInfo.peek().getBeginTimeMillis() == nonPersistentSelectedBroadcastWithChannelInfo.getBeginTimeMillis() &&
+									   nonPersistentSelectedBroadcastsWithChannelInfo.peek().getChannel().equals(nonPersistentSelectedBroadcastWithChannelInfo.getChannel()));
+			
+			if(isSameBroadcast)
+			{
+				nonPersistentSelectedBroadcastsWithChannelInfo.pop();
+			}
+		}
+
 		this.nonPersistentSelectedBroadcastsWithChannelInfo.add(nonPersistentSelectedBroadcastWithChannelInfo);
 	}
+	
+	
 	
 	public synchronized void popFromNonPersistentSelectedBroadcastWithChannelInfo() 
 	{

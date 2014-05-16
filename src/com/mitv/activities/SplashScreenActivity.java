@@ -33,6 +33,7 @@ import com.mitv.managers.TrackingManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -139,31 +140,36 @@ public class SplashScreenActivity
 	}
 	
 	
+	
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
+		
 		ContentManager.sharedInstance().setFetchDataProgressCallbackListener(null);
 
 		View view = getWindow().getDecorView().getRootView();
+		
 		GenericUtils.unbindDrawables(view);
 	}
 
 	
+	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
 	{
-		if (!isViewingTutorial) 
+		if(isViewingTutorial == false)
 		{
 			waitingForData = true;
 			
 			fetchedDataCount++;
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append(fetchedDataCount);
-			sb.append("/");
-			sb.append(totalSteps);
-			sb.append(" - ");
-			sb.append(message);
+			sb.append(fetchedDataCount)
+			.append("/")
+			.append(totalSteps)
+			.append(" - ")
+			.append(message);
 			
 			if (progressTextView != null) 
 			{
@@ -222,7 +228,6 @@ public class SplashScreenActivity
 				{
 					startPrimaryActivity();
 				}
-				
 				break;
 			}
 			
@@ -265,9 +270,9 @@ public class SplashScreenActivity
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
 		
-		String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+		Calendar now = DateUtils.getNow();
 		
-		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(date);
+		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);
 		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 		
@@ -343,7 +348,6 @@ public class SplashScreenActivity
 				titleIndicator.setCurrentItem(mPager.getCurrentItem());
 				updateViewForSelectedPage();
 			}
-			
 		});
 	}
 	
@@ -443,14 +447,17 @@ public class SplashScreenActivity
 		
 		boolean isConnected = NetworkUtils.isConnected();
 		
-		if (isDataFetched) {
-			startPrimaryActivity();
-			
-		} else {
+		if (isDataFetched) 
+		{
+			startPrimaryActivity();	
+		} 
+		else 
+		{
 			waitingForData = true;
 			isViewingTutorial = false;
 			
-			if (!isConnected) {
+			if (!isConnected) 
+			{
 				startPrimaryActivity();
 			}
 		}

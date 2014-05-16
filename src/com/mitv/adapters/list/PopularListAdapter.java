@@ -23,6 +23,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -195,8 +196,15 @@ public class PopularListAdapter
 			});
 
 			ImageAware imageAware = new ImageViewAware(holder.posterIv, false);
+
+			ImageSetOrientation imageSetOrientation = broadcastWithChannelInfo.getProgram().getImages();
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			boolean containsPortraitOrientation = imageSetOrientation.containsPortraitImageSet();
+			
+			if(containsPortraitOrientation)
+			{
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(imageSetOrientation.getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
+			}
 
 			holder.timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
