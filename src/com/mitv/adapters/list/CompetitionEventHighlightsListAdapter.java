@@ -183,7 +183,7 @@ public class CompetitionEventHighlightsListAdapter
 					holder.leftLayout.setVisibility(View.VISIBLE);
 					holder.rightLayout.setVisibility(View.GONE);
 
-					holder.leftName.setText(element.getPerson());
+					holder.leftName.setText(element.getPersonShort());
 
 					if(element.hasSubPerson())
 					{
@@ -215,7 +215,7 @@ public class CompetitionEventHighlightsListAdapter
 					holder.leftLayout.setVisibility(View.GONE);
 					holder.rightLayout.setVisibility(View.VISIBLE);
 
-					holder.rightName.setText(element.getPerson());
+					holder.rightName.setText(element.getPersonShort());
 
 					if(element.hasSubPerson())
 					{

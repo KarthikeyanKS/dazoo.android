@@ -3,6 +3,7 @@ package com.mitv.activities.competition;
 
 
 
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Intent;
@@ -17,6 +18,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
@@ -27,8 +29,10 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.comparators.EventHighlightComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
@@ -53,11 +57,6 @@ public class EventPageActivity
 	private Event event;
 	private Phase phase;
 	private CompetitionEventPageBroadcastListAdapter listAdapter;
-	
-	private int selectedTabIndexForHighlightsAndLineup;
-	private TabPageIndicator pageTabIndicatorForHighlightsAndLineup;
-	public static CustomViewPager viewPagerForHighlightsAndLineup;
-	private CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter pagerAdapterForHighlightsAndLineup;
 	
 	private int selectedTabIndexForLineupTeams;
 	private TabPageIndicator pageTabIndicatorForLineupTeams;
@@ -85,6 +84,12 @@ public class EventPageActivity
 	private TextView headerCompetitionName;
 	private String competitionName;
 	
+	private LinearLayout listContainerLayoutHighlights;
+	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
+	private TextView team1NameHighlights;
+	private ImageView team1FlagHighlights;
+	private TextView team2NameHighlights;
+	private ImageView team2FlagHighlights;
 	
 	
 	@Override
@@ -115,8 +120,6 @@ public class EventPageActivity
 		
 		initLayout();
 		
-		setAdapterForHighlightsAndLineup(selectedTabIndexForHighlightsAndLineup);
-		
 		setAdapterForLineupTeams(selectedTabIndexForLineupTeams);
 		
 		setAdapterForGroupAndStandings(selectedTabIndexForGroupAndStandings);
@@ -145,6 +148,7 @@ public class EventPageActivity
 				
 				if (containsBroadcastDetails) {
 					setListView();
+					setAdapterForHighlightsAndLineup();
 				}
 				
 				setData();
@@ -193,10 +197,12 @@ public class EventPageActivity
 				Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
 					
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
+				ImageAware imageAwareHighlights = new ImageViewAware(team1FlagHighlights, false);
 					
 				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
 			}
 			else
 			{
@@ -210,10 +216,12 @@ public class EventPageActivity
 			if(team2 != null)
 			{
 				ImageAware imageAware = new ImageViewAware(team2Flag, false);
+				ImageAware imageAwareHighlights = new ImageViewAware(team2FlagHighlights, false);
 					
 				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
 			}
 			else
 			{
@@ -222,8 +230,10 @@ public class EventPageActivity
 		}
 		
 		team1Name.setText(homeTeamName);
+		team1NameHighlights.setText(homeTeamName);
 		
 		team2Name.setText(awayTeamName);
+		team2NameHighlights.setText(awayTeamName);
 		
 		/* Group name */
 		
@@ -253,7 +263,7 @@ public class EventPageActivity
 		}
 		
 		else if (event.isFinished()) {
-			
+			// TODO
 		}
 		
 		/* The event has not started yet */
@@ -304,9 +314,11 @@ public class EventPageActivity
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
 		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
 		
-		pageTabIndicatorForHighlightsAndLineup = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_highlights_and_lineup);
-		viewPagerForHighlightsAndLineup = (CustomViewPager) findViewById(R.id.tab_event_pager_for_highlights_and_lineup);
-		selectedTabIndexForHighlightsAndLineup = STARTING_TAB_INDEX;
+		team1NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_one_name);
+		team1FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_one_flag);
+		team2NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_two_name);
+		team2FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_two_flag);
+		listContainerLayoutHighlights = (LinearLayout) findViewById(R.id.competition_event_highlights_table_container);
 		
 		pageTabIndicatorForLineupTeams = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_lineup_teams);
 		viewPagerForLineupTeams = (CustomViewPager) findViewById(R.id.tab_event_pager_for_lineup_teams);
@@ -319,28 +331,36 @@ public class EventPageActivity
 	
 
 	
-	private void setAdapterForHighlightsAndLineup(int selectedIndex) 
+	private void setAdapterForHighlightsAndLineup() 
 	{
-		pagerAdapterForHighlightsAndLineup = new CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter(getSupportFragmentManager(), event.getEventId());
-	
-		viewPagerForHighlightsAndLineup.setAdapter(pagerAdapterForHighlightsAndLineup);
-		viewPagerForHighlightsAndLineup.setOffscreenPageLimit(1);
-		viewPagerForHighlightsAndLineup.setBoundaryCaching(true);
-		viewPagerForHighlightsAndLineup.setCurrentItem(selectedIndex);
-		viewPagerForHighlightsAndLineup.setVisibility(View.VISIBLE);
-		viewPagerForHighlightsAndLineup.setEnabled(false);
+		long eventID = event.getEventId();
+		
+		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) {
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+			
+			listContainerLayoutHighlights.removeAllViews();
 
-		pagerAdapterForHighlightsAndLineup.notifyDataSetChanged();
-		
-		pageTabIndicatorForHighlightsAndLineup.setVisibility(View.VISIBLE);
-		pageTabIndicatorForHighlightsAndLineup.setViewPager(viewPagerForHighlightsAndLineup);
-		viewPagerForHighlightsAndLineup.setScreenHeight(GenericUtils.getScreenHeight(this));
-		
-		pagerAdapterForHighlightsAndLineup.notifyDataSetChanged();
-		pageTabIndicatorForHighlightsAndLineup.setCurrentItem(selectedIndex);
-		
-		pageTabIndicatorForHighlightsAndLineup.setInitialStyleOnAllTabs();
-		pageTabIndicatorForHighlightsAndLineup.setStyleOnTabViewAtIndex(selectedIndex);
+			Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
+			Collections.reverse(eventHighlights);
+			
+			listAdapterHighlights = new CompetitionEventHighlightsListAdapter(this, eventHighlights);
+			
+			for (int i = 0; i < listAdapterHighlights.getCount(); i++)
+			{
+	            View listItem = listAdapterHighlights.getView(i, null, listContainerLayoutHighlights);
+	           
+	            if (listItem != null) 
+	            {
+	            	listContainerLayoutHighlights.addView(listItem);
+	            }
+	        }
+			
+			listContainerLayoutHighlights.measure(0, 0);
+			
+//			EventPageActivity.viewPagerForHighlightsAndLineup.heightsMap.put(1, listContainerLayoutHighlights.getMeasuredHeight());
+			
+//			EventPageActivity.viewPagerForHighlightsAndLineup.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+		}
 	}
 	
 	
@@ -414,6 +434,8 @@ public class EventPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, event.getCompetitionId());
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, event.getCompetitionId(), event.getEventId());
 	}
 
 

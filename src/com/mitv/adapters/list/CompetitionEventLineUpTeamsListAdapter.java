@@ -6,12 +6,17 @@ package com.mitv.adapters.list;
 import java.util.List;
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 
@@ -27,6 +32,7 @@ public class CompetitionEventLineUpTeamsListAdapter
 	private Activity activity;
 	
 	private List<EventLineUp> lineups;
+	private int rowWidth = -1;
 		
 	
 	
@@ -81,6 +87,13 @@ public class CompetitionEventLineUpTeamsListAdapter
 	
 	
 	
+	public void setRowWidth(int width) 
+	{
+		this.rowWidth = width;
+	}
+	
+	
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
@@ -106,12 +119,18 @@ public class CompetitionEventLineUpTeamsListAdapter
 		if (holder != null) 
 		{
 			if (eventLineUp != null) {
+				
 				String shirtNr = eventLineUp.getShirtNr();
 				String positionShort = eventLineUp.getFunctionShort();
+				String playerNameFull = eventLineUp.getPerson();
 				
 				holder.playerShirtNumber.setText(shirtNr);
 				holder.playerPosition.setText(positionShort);
-				holder.playerName.setText(eventLineUp.getPerson());
+				
+				holder.playerName.setText(playerNameFull);
+				holder.playerName.setEllipsize(TextUtils.TruncateAt.END);
+				holder.playerName.setHorizontallyScrolling(false);
+				holder.playerName.setSingleLine();
 					
 			} else {
 				Log.w(TAG, "EventLineUp is null");

@@ -164,9 +164,9 @@ public class CompetitionEventTabFragmentLineUp
 				
 				listContainerLayout.measure(0, 0);
 				
-				EventPageActivity.viewPagerForHighlightsAndLineup.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+//				EventPageActivity.viewPagerForHighlightsAndLineup.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
 				
-				EventPageActivity.viewPagerForHighlightsAndLineup.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+//				EventPageActivity.viewPagerForHighlightsAndLineup.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

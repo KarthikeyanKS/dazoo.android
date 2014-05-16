@@ -44,7 +44,6 @@
         android:id="@+id/competition_event_table_substitute_players_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/competition_event_subs_header"
         android:orientation="vertical"
         android:visibility="gone" >

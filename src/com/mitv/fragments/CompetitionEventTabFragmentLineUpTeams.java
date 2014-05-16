@@ -176,10 +176,6 @@ public class CompetitionEventTabFragmentLineUpTeams
 				
 				listContainerLayout.measure(0, 0);
 				
-//				EventPageActivity.viewPagerForLineupTeams.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
-				
-//				EventPageActivity.viewPagerForLineupTeams.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
-				
 				
 				// Line up - Substitutes
 				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID);

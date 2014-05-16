@@ -4,7 +4,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/grey0">
 
     <!-- Middle top section -->
     <RelativeLayout
@@ -38,7 +38,6 @@
 	        android:layout_width="2dp"
 	        android:layout_height="25dp"
 	        android:layout_centerHorizontal="true"
-	        android:layout_below="@id/row_competition_event_highlight_middle_top_layout"
 	        android:src="@drawable/competition_event_highlight_separator"
 	        android:scaleType="fitXY"
 	        android:visibility="gone"/>
