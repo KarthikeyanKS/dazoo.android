@@ -136,9 +136,9 @@ public class CompetitionEventStandingsListAdapter
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
 			}
 
-			String teamGPAsString = new Integer(element.getMatches()).toString();
-			String teamPlusMinusAsString = new Integer(element.getGoalsForMinusGoalsAgainst()).toString();
-			String teamPointsAsString = new Integer(element.getPoints()).toString();
+			String teamGPAsString = Integer.valueOf(element.getMatches()).toString();
+			String teamPlusMinusAsString = Integer.valueOf(element.getGoalsForMinusGoalsAgainst()).toString();
+			String teamPointsAsString = Integer.valueOf(element.getPoints()).toString();
 
 			holder.teamGP.setText(teamGPAsString);
 			holder.teamPlusMinus.setText(teamPlusMinusAsString);
