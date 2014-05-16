@@ -6,6 +6,7 @@ package com.mitv.ui.elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -204,10 +205,11 @@ public class SwipeClockBar
 	}
 
 	
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{
-		if (Build.VERSION.SDK_INT < 16) 
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) 
 		{
 			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
 		} 

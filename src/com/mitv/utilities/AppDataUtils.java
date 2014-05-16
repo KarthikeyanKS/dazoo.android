@@ -49,35 +49,6 @@ public class AppDataUtils
 	}
 	
 	
-	public Set<String> getPreference(
-			final String name,
-			final Set<String> defaultValue)
-	{		
-		return appSharedPreferences.getStringSet(name, defaultValue);
-	}
-
-	
-	
-	public void setPreference(
-			final String name, 
-			final Set<String> value,
-			final Boolean immediate)
-	{
-		SharedPreferences.Editor prefEditor = appSharedPreferences.edit();
-		
-		prefEditor.putStringSet(name, value);
-		
-		if (immediate) 
-		{
-			prefEditor.commit();
-		} 
-		else 
-		{
-			prefEditor.apply();
-		}
-	}
-	
-
 	
 	public String getPreference(
 			final String name, 
