@@ -5,6 +5,7 @@ package com.mitv.activities;
 
 
 import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.list.ChannelPageListAdapter;
