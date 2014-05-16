@@ -158,9 +158,8 @@ public class CompetitionTabFragmentGroupStage
 				
 				listContainerLayout.measure(0, 0);
 				
-				viewPager.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
-				
-				viewPager.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				viewPager.heightsMap.put(0, listContainerLayout.getMeasuredHeight());
+				viewPager.onPageScrolled(0, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

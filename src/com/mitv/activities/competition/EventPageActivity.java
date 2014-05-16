@@ -375,7 +375,7 @@ public class EventPageActivity
 	
 		viewPagerForLineupTeams.setAdapter(pagerAdapterForLineupTeams);
 		viewPagerForLineupTeams.setOffscreenPageLimit(1);
-		viewPagerForLineupTeams.setBoundaryCaching(true);
+//		viewPagerForLineupTeams.setBoundaryCaching(true);
 		viewPagerForLineupTeams.setCurrentItem(selectedIndex);
 		viewPagerForLineupTeams.setVisibility(View.VISIBLE);
 		viewPagerForLineupTeams.setEnabled(false);
@@ -404,7 +404,7 @@ public class EventPageActivity
 	
 		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
 		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);
-		viewPagerForGroupAndStandings.setBoundaryCaching(true);
+//		viewPagerForGroupAndStandings.setBoundaryCaching(true);
 		viewPagerForGroupAndStandings.setCurrentItem(selectedIndex);
 		viewPagerForGroupAndStandings.setVisibility(View.VISIBLE);
 		viewPagerForGroupAndStandings.setEnabled(false);
