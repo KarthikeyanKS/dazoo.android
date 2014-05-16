@@ -2,9 +2,6 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 import java.util.Calendar;
 
-import android.content.Context;
-
-import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -153,10 +150,8 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 	
 	
 	public String getBeginTimeDateRepresentation() 
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-		String beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(this.getEventBroadcastBeginTimeLocal(), context);
+	{	
+		String beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(this.getEventBroadcastBeginTimeLocal());
 		
 		return beginTimeDateRepresentation;
 	}

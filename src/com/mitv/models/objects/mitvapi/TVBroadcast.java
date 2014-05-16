@@ -322,9 +322,7 @@ public class TVBroadcast
 	 */
 	public String getBeginTimeDateRepresentation() 
 	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-		String beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendarLocal(), context);
+		String beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendarLocal());
 		
 		return beginTimeDateRepresentation;
 	}

@@ -3,11 +3,8 @@ package com.mitv.utilities;
 
 
 
-import java.util.Set;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.mitv.Constants;
 
 
@@ -36,6 +33,7 @@ public class AppDataUtils
 				Constants.DEVICE_PREFERENCES_FILE, 
 				Context.MODE_PRIVATE);
 	}
+	
 	
 	
 	public static AppDataUtils sharedInstance(Context context) 

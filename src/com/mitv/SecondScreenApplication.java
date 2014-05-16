@@ -4,8 +4,6 @@ package com.mitv;
 
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
@@ -17,8 +15,8 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.mitv.managers.ContentManager;
-import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.ImageLoaderManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -324,17 +322,19 @@ public class SecondScreenApplication
 		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
 		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
 		
-		String lastOpenApp = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
+		String lastOpenAppAsString = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
+		
 		Calendar now = DateUtils.getNow();
 		
-		if (hasUserSeenTutorial && hasUserSeenTutorialOnceFromFile) {
-			
-			if (!neverShowTutorialAgain && !hasUserSeenTutorialTwiceFromFile) {
-				
-				if (!lastOpenApp.isEmpty() && !lastOpenApp.equals("")) {
-					
+		if (hasUserSeenTutorial && hasUserSeenTutorialOnceFromFile)
+		{	
+			if (!neverShowTutorialAgain && !hasUserSeenTutorialTwiceFromFile) 
+			{	
+				if (lastOpenAppAsString != null && 
+					lastOpenAppAsString.isEmpty() == false) 
+				{	
 					/* Get calendar from the string lastOpenApp */
-					Calendar cal = getDateUserLastOpenApp(lastOpenApp);
+					Calendar cal = DateUtils.convertFromYearAndDateStringToCalendar(lastOpenAppAsString);
 					
 					/* 
 					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
@@ -381,31 +381,17 @@ public class SecondScreenApplication
 		return true;
 	}
 	
+
 	
-	
-	private Calendar getDateUserLastOpenApp(String lastOpenApp) {
-		Calendar cal = Calendar.getInstance();
-		
-	    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
-		
-		try {
-			cal.setTime(sdf.parse(lastOpenApp));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		return cal;
-	}
-	
-	
-	
-	public void setIsViewingTutorial(boolean isViewingTutorial) {
+	public void setIsViewingTutorial(boolean isViewingTutorial) 
+	{
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, isViewingTutorial, true);
 	}
 	
 	
 	
-	public boolean getIsViewingTutorial() {
+	public boolean getIsViewingTutorial() 
+	{
 		boolean isViewingTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, false);
 		
 		return isViewingTutorial;
@@ -413,21 +399,25 @@ public class SecondScreenApplication
 	
 	
 	
-	public void setUserSeenTutorial() {
+	public void setUserSeenTutorial()
+	{
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true, false);
 	}
 	
 	
 	
-	public void setDateUserLastOpenedApp(String date) {
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, date, false);
+	public void setDateUserLastOpenedApp(Calendar calendar) 
+	{
+		String calendarRepresentationAsString = DateUtils.buildDateCompositionAsString(calendar);
+		
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, calendarRepresentationAsString, false);
 	}
 	
 	
 	
-	public void setTutorialToNeverShowAgain() {
+	public void setTutorialToNeverShowAgain() 
+	{
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, true);
-//		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, false, true);
 	}
 
 	
