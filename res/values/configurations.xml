@@ -33,5 +33,6 @@
     <string name="icon_bookmark" translatable="false"> 		&#xE804;</string>
     <string name="icon_pin" translatable="false"> 			&#xE800;</string>
     <string name="icon_series" translatable="false"> 		&#xE801;</string>
+    <string name="icon_checkmark" translatabe="false">		&#x2713;</string>
     
 </resources>

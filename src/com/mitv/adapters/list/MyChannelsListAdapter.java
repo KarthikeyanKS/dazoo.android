@@ -40,11 +40,14 @@ extends BaseAdapter
 	private String searchQuery;
 
 	private MyChannelsCountInterface mCountInterface;
+	
+	private boolean[] recentlyChecked;
 
 	public MyChannelsListAdapter(MyChannelsCountInterface countInterface, ArrayList<TVChannel> channels, ArrayList<TVChannelId> checkedChannelIds) {
 		this.channelsMatchingSearch = channels;
 		this.checkedChannelIds = checkedChannelIds;
 		this.mCountInterface = countInterface;
+		this.recentlyChecked = new boolean[channels.size()];
 
 		layoutInflater = (LayoutInflater) SecondScreenApplication.sharedInstance().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -119,7 +122,11 @@ extends BaseAdapter
 
 		final Resources resources = SecondScreenApplication.sharedInstance().getResources();
 		
-		if (checked) {
+		if (checked && recentlyChecked[channelsMatchingSearch.indexOf(channel)] == true) {
+			holder.buttonTv.setText(resources.getString(R.string.icon_checkmark) + " " + resources.getString(R.string.agregado));
+			holder.button.setBackgroundResource(R.drawable.layout_rounded_corners_blue0);
+		}
+		else if (checked) {
 			holder.buttonTv.setText(resources.getString(R.string.remover));
 			holder.button.setBackgroundResource(R.drawable.background_color_selector_mychannels_grey);
 		}
@@ -137,12 +144,14 @@ extends BaseAdapter
 				if (channelByTag != null) {
 					TVChannelId channelId = channelByTag.getChannelId();
 					if (checked) {
+						recentlyChecked[channelsMatchingSearch.indexOf(channel)] = false;
 						checkedChannelIds.remove(channelId);
 						holder.buttonTv.setText("+  " + resources.getString(R.string.agregar));
 						holder.button.setBackgroundResource(R.drawable.background_color_selector_mychannels_blue);
 					} else {
+						recentlyChecked[channelsMatchingSearch.indexOf(channel)] = true;
 						checkedChannelIds.add(channelId);
-						holder.buttonTv.setText("✓ " + resources.getString(R.string.agregado)); //TODO: Update icon when it is in font.
+						holder.buttonTv.setText(resources.getString(R.string.icon_checkmark) + " " + resources.getString(R.string.agregado));
 						holder.button.setBackgroundResource(R.drawable.layout_rounded_corners_blue0);
 					}
 
