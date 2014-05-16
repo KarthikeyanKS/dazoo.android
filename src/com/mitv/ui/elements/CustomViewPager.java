@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.RelativeLayout;
@@ -11,7 +12,7 @@ import android.widget.RelativeLayout;
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 
-public class CustomViewPager extends LoopViewPager {
+public class CustomViewPager extends ViewPager {
 
 	public HashMap<Integer, Integer> heightsMap;
 	int screenHeight;

@@ -64,11 +64,13 @@ public class CompetitionTabFragmentStatePagerAdapter
 		/* This instance will only be created when needed by the pager adapter */
 		Fragment fragment;
 		
-		int realPosition = LoopViewPager.toRealPosition(position, getCount());
+		/* Uncomment if we decide to change back to looping Viewpager */
+//		int realPosition = LoopViewPager.toRealPosition(position, getCount());
+//		String tab = tabs.get(position);
 		
-		String tab = tabs.get(realPosition);
+		String tab = tabs.get(position);
 		
-		switch(realPosition)
+		switch(position)
 		{
 			case GROUP_STAGE_POSITION:
 			{
@@ -108,9 +110,11 @@ public class CompetitionTabFragmentStatePagerAdapter
 		
 		if(getCount() > 0)
 		{	
-			int realPosition = position % getCount();
+			/* Uncomment if we decide to change back to looping Viewpager */
+//			int realPosition = position % getCount();
+//			displayName = tabs.get(realPosition);
 				
-			displayName = tabs.get(realPosition);
+			displayName = tabs.get(position);
 		}
 		else
 		{

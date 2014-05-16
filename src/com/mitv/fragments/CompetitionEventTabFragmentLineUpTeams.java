@@ -209,9 +209,9 @@ public class CompetitionEventTabFragmentLineUpTeams
 					
 					eventListOfSubs.measure(0, 0);
 					
-					EventPageActivity.viewPagerForLineupTeams.heightsMap.put(1, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
-					
-					EventPageActivity.viewPagerForLineupTeams.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+					//TODO: This is not using the correct id for this tab.
+					EventPageActivity.viewPagerForLineupTeams.heightsMap.put(0, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
+					EventPageActivity.viewPagerForLineupTeams.onPageScrolled(0, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 					
 					subsHeader.setVisibility(View.VISIBLE);
 					eventListOfSubs.setVisibility(View.VISIBLE);
