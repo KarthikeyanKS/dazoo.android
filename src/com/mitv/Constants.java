@@ -27,10 +27,10 @@ public abstract class Constants
 	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME = "59b039d2c0c0a7fbe173";
@@ -54,7 +54,7 @@ public abstract class Constants
 	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
-	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
+	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */

@@ -1177,9 +1177,8 @@ public abstract class ContentManagerCallback
 					{
 						TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
 						
-						// TODO - Evaluate if this is really needed
-						//getCache().pushToNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-						
+						pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+
 						/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
 						if(broadcastWithChannelInfo.getProgram() != null && broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) 
 						{
