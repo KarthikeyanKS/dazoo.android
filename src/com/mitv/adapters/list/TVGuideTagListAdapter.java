@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class TVGuideTagListAdapter 
 	extends BannerListAdapter<TVBroadcastWithChannelInfo> 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTagListAdapter.class.getName();
 
 	
@@ -67,8 +67,6 @@ public class TVGuideTagListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		Log.d(TAG, "Fetching index " + position);
-		
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 

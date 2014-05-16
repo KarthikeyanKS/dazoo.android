@@ -4,6 +4,7 @@ package com.mitv.adapters.list;
 
 
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -14,7 +15,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -47,6 +48,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class TVGuideListAdapter 
 	extends BannerListAdapter<TVChannelGuide>
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideListAdapter.class.getName();
 
 	private LayoutInflater layoutInflater;
@@ -436,8 +438,6 @@ public class TVGuideListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{	
-		Log.d(TAG, "Fetching index " + position);
-		
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 

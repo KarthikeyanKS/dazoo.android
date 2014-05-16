@@ -51,6 +51,7 @@ public class ImageLoaderManager
 		int maximumMemoryCacheSize;
 		int maximumDiskCacheSize = 50 * 1024 * 1024;
 		int diskCacheFileCount = 200;
+		boolean enableLoging = false;
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
 		{
@@ -74,7 +75,10 @@ public class ImageLoaderManager
 		imageLoader = ImageLoader.getInstance();
 		imageLoader.init(configuration);
 		
-		L.disableLogging();
+		if(enableLoging == false)
+		{
+			L.disableLogging();
+		}
 	}
 	
 	

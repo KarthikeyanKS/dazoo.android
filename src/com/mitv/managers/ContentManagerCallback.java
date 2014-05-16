@@ -1000,7 +1000,8 @@ public abstract class ContentManagerCallback
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					
 					/* Filter the feed items */
-					if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) {
+					if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) 
+					{
 						Log.d(TAG, "MMM Starting filtering old broadcasts");
 						
 						feedItems = filterOldBroadcasts(feedItems, null);

@@ -523,9 +523,7 @@ public abstract class DateUtils
 	 * Builds a string representation of the year, month and day (yyyy-MM-dd) for the provided calendar. 
 	 * 
 	 */
-	public static String buildDateCompositionAsString(
-			final Calendar inputCalendar,
-			final Context context)
+	public static String buildDateCompositionAsString(final Calendar inputCalendar)
 	{
 		String pattern = Constants.DATE_FORMAT_DATE;
 		

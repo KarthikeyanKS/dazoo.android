@@ -21,7 +21,6 @@ import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.managers.TrackingManager;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;

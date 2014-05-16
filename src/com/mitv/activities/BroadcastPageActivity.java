@@ -6,7 +6,6 @@ package com.mitv.activities;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -24,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
