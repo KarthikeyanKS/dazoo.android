@@ -14,9 +14,9 @@
         android:id="@+id/indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp" />
+        android:layout_marginBottom="70dp"
+        android:paddingTop="2dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,6 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_color_selector_orange_box"
+            android:clickable="true"
+            android:onClick="onClick"
             android:paddingBottom="10dp"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
@@ -70,8 +72,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/skip_button_progressbar"
-                android:clickable="true"
-                android:onClick="onClick"
                 android:text="@string/tutorial_skip_button" />
         </RelativeLayout>
 
@@ -105,6 +105,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:background="@drawable/background_color_selector_signup_login_box"
+            android:clickable="true"
+            android:onClick="onClick"
             android:paddingBottom="10dp"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
@@ -125,8 +127,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/start_primary_button_progressbar"
-                android:clickable="true"
-                android:onClick="onClick"
                 android:text="@string/tutorial_start_button" />
         </RelativeLayout>
     </RelativeLayout>
