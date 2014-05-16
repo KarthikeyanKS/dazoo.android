@@ -34052,31 +34052,30 @@ com.mitv.SecondScreenApplication -> com.mitv.SecondScreenApplication:
     java.lang.String TAG -> TAG
     com.mitv.SecondScreenApplication sharedInstance -> sharedInstance
     com.mitv.managers.ContentManager contentManager -> contentManager
-    51:56:com.mitv.SecondScreenApplication sharedInstance() -> sharedInstance
-    62:66:boolean isContentManagerNull() -> isContentManagerNull
-    74:169:void onCreate() -> onCreate
-    176:179:void onLowMemory() -> onLowMemory
-    186:187:void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    193:211:boolean isApplicationSystemApp() -> isApplicationSystemApp
-    218:232:boolean isApplicationSystemAppUsingFlag() -> isApplicationSystemAppUsingFlag
-    238:238:com.mitv.managers.ImageLoaderManager getImageLoaderManager() -> getImageLoaderManager
-    244:245:void setAppAsPreinstalled() -> setAppAsPreinstalled
-    250:250:boolean isAppPreinstalled() -> isAppPreinstalled
-    256:257:void setAppIsRestarting(boolean) -> setAppIsRestarting
-    262:262:boolean isAppRestarting() -> isAppRestarting
-    267:267:java.lang.String getCurrentAppVersion() -> getCurrentAppVersion
-    273:273:java.lang.String getInstalledAppVersion() -> getInstalledAppVersion
-    279:282:void setInstalledAppVersionToCurrentVersion() -> setInstalledAppVersionToCurrentVersion
-    289:302:boolean isCurrentVersionAnUpgradeFromInstalledVersion() -> isCurrentVersionAnUpgradeFromInstalledVersion
-    318:362:boolean hasUserSeenTutorial() -> hasUserSeenTutorial
-    370:381:boolean checkIfUserOpenedAppLastTwoWeeks(java.util.Calendar,java.util.Calendar) -> checkIfUserOpenedAppLastTwoWeeks
-    387:397:java.util.Calendar getDateUserLastOpenApp(java.lang.String) -> getDateUserLastOpenApp
-    403:404:void setIsViewingTutorial(boolean) -> setIsViewingTutorial
-    409:411:boolean getIsViewingTutorial() -> getIsViewingTutorial
-    417:418:void setUserSeenTutorial() -> setUserSeenTutorial
-    423:424:void setDateUserLastOpenedApp(java.lang.String) -> setDateUserLastOpenedApp
-    429:431:void setTutorialToNeverShowAgain() -> setTutorialToNeverShowAgain
-    437:440:com.mitv.managers.ContentManager getContentManager() -> getContentManager
+    49:54:com.mitv.SecondScreenApplication sharedInstance() -> sharedInstance
+    61:69:boolean isContentManagerNull() -> isContentManagerNull
+    79:178:void onCreate() -> onCreate
+    185:188:void onLowMemory() -> onLowMemory
+    195:196:void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
+    202:220:boolean isApplicationSystemApp() -> isApplicationSystemApp
+    227:241:boolean isApplicationSystemAppUsingFlag() -> isApplicationSystemAppUsingFlag
+    247:247:com.mitv.managers.ImageLoaderManager getImageLoaderManager() -> getImageLoaderManager
+    253:254:void setAppAsPreinstalled() -> setAppAsPreinstalled
+    260:260:boolean isAppPreinstalled() -> isAppPreinstalled
+    267:268:void setAppIsRestarting(boolean) -> setAppIsRestarting
+    274:274:boolean isAppRestarting() -> isAppRestarting
+    279:279:java.lang.String getCurrentAppVersion() -> getCurrentAppVersion
+    286:286:java.lang.String getInstalledAppVersion() -> getInstalledAppVersion
+    293:296:void setInstalledAppVersionToCurrentVersion() -> setInstalledAppVersionToCurrentVersion
+    304:317:boolean isCurrentVersionAnUpgradeFromInstalledVersion() -> isCurrentVersionAnUpgradeFromInstalledVersion
+    333:384:boolean hasUserSeenTutorial() -> hasUserSeenTutorial
+    392:405:boolean checkIfUserOpenedAppLastTwoWeeks(java.util.Calendar,java.util.Calendar) -> checkIfUserOpenedAppLastTwoWeeks
+    412:413:void setIsViewingTutorial(boolean) -> setIsViewingTutorial
+    419:421:boolean getIsViewingTutorial() -> getIsViewingTutorial
+    428:429:void setUserSeenTutorial() -> setUserSeenTutorial
+    435:438:void setDateUserLastOpenedApp(java.util.Calendar) -> setDateUserLastOpenedApp
+    444:445:void setTutorialToNeverShowAgain() -> setTutorialToNeverShowAgain
+    451:456:com.mitv.managers.ContentManager getContentManager() -> getContentManager
 com.mitv.activities.AboutOrTermsActivity -> com.mitv.activities.AboutOrTermsActivity:
     java.lang.String TAG -> o
     boolean isAboutView -> p
@@ -34129,40 +34128,40 @@ com.mitv.activities.BroadcastPageActivity -> com.mitv.activities.BroadcastPageAc
     int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> T
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> U
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> V
-    113:130:void onCreate(android.os.Bundle) -> onCreate
-    137:173:void onResume() -> onResume
-    180:183:void onNewIntent(android.content.Intent) -> onNewIntent
-    189:193:void updateStatusOfLikeView() -> h
-    200:207:void loadData() -> loadData
-    214:216:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    224:251:java.util.ArrayList filterOutEpisodesWithBadData() -> i
-    258:280:void handleInitialDataAvailable() -> j
-    287:350:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    357:381:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    387:458:void initViews() -> k
-    464:514:void populateBlocks() -> l
-    520:762:void populateMainView() -> m
-    772:801:void setTVCreditInfo(com.mitv.models.objects.mitvapi.TVProgram,java.lang.String) -> a
-    809:842:void onClick(android.view.View) -> onClick
-    849:854:void onBackPressed() -> onBackPressed
-    860:861:void hideDisqusCommentsWebview() -> n
-    867:911:void showAndReloadDisqusCommentsWebview(int) -> b
-    917:956:void buildDisqusCommentsWebViewURL(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> a
-    962:962:java.lang.Runnable getConfirmProcedure(android.app.Activity) -> a
-    61:61:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
-    61:61:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
-    65:65:java.lang.String access$2() -> d
-    61:61:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> e
+    111:128:void onCreate(android.os.Bundle) -> onCreate
+    135:171:void onResume() -> onResume
+    178:181:void onNewIntent(android.content.Intent) -> onNewIntent
+    187:191:void updateStatusOfLikeView() -> h
+    198:205:void loadData() -> loadData
+    212:214:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    222:249:java.util.ArrayList filterOutEpisodesWithBadData() -> i
+    256:278:void handleInitialDataAvailable() -> j
+    285:348:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    355:379:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    385:456:void initViews() -> k
+    462:512:void populateBlocks() -> l
+    518:760:void populateMainView() -> m
+    770:799:void setTVCreditInfo(com.mitv.models.objects.mitvapi.TVProgram,java.lang.String) -> a
+    807:840:void onClick(android.view.View) -> onClick
+    847:852:void onBackPressed() -> onBackPressed
+    858:859:void hideDisqusCommentsWebview() -> n
+    865:909:void showAndReloadDisqusCommentsWebview(int) -> b
+    915:954:void buildDisqusCommentsWebViewURL(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> a
+    960:960:java.lang.Runnable getConfirmProcedure(android.app.Activity) -> a
+    59:59:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
+    59:59:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
+    63:63:java.lang.String access$2() -> d
+    59:59:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> e
 com.mitv.activities.BroadcastPageActivity$1 -> axv:
     com.mitv.activities.BroadcastPageActivity this$0 -> a
-    434:447:boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String) -> shouldOverrideUrlLoading
+    432:445:boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String) -> shouldOverrideUrlLoading
 com.mitv.activities.BroadcastPageActivity$2 -> axw:
     com.mitv.activities.BroadcastPageActivity this$0 -> a
-    455:456:void onConsoleMessage(java.lang.String,int,java.lang.String) -> onConsoleMessage
+    453:454:void onConsoleMessage(java.lang.String,int,java.lang.String) -> onConsoleMessage
 com.mitv.activities.BroadcastPageActivity$3 -> axx:
     com.mitv.activities.BroadcastPageActivity this$0 -> a
     android.app.Activity val$activity -> b
-    966:969:void run() -> run
+    964:967:void run() -> run
 com.mitv.activities.ChannelPageActivity -> com.mitv.activities.ChannelPageActivity:
     java.lang.String TAG -> o
     android.widget.ListView listView -> p
@@ -34419,32 +34418,32 @@ com.mitv.activities.SplashScreenActivity -> com.mitv.activities.SplashScreenActi
     com.viewpagerindicator.CirclePageIndicator titleIndicator -> B
     int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum -> C
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> D
-    81:106:void onCreate(android.os.Bundle) -> onCreate
-    113:116:void onStop() -> onStop
-    123:139:void onResume() -> onResume
-    144:149:void onDestroy() -> onDestroy
-    155:173:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
-    179:180:void loadData() -> loadData
-    187:205:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
-    211:255:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    261:277:void startPrimaryActivity() -> d
-    283:293:void showSplashScreen() -> e
-    299:304:void showUserTutorial() -> f
-    310:348:void initTutorialView() -> g
-    355:370:void onBackPressed() -> onBackPressed
-    377:434:void onClick(android.view.View) -> onClick
-    440:457:void finishTutorial() -> h
-    463:502:void updateViewForSelectedPage() -> i
-    42:42:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> b
-    42:42:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
-    74:74:com.viewpagerindicator.CirclePageIndicator access$2(com.mitv.activities.SplashScreenActivity) -> a
-    63:63:android.support.v4.view.ViewPager access$3(com.mitv.activities.SplashScreenActivity) -> b
-    461:461:void access$4(com.mitv.activities.SplashScreenActivity) -> c
+    82:107:void onCreate(android.os.Bundle) -> onCreate
+    114:117:void onStop() -> onStop
+    124:140:void onResume() -> onResume
+    147:154:void onDestroy() -> onDestroy
+    161:179:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    185:186:void loadData() -> loadData
+    193:211:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    217:260:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    266:282:void startPrimaryActivity() -> d
+    288:298:void showSplashScreen() -> e
+    304:309:void showUserTutorial() -> f
+    315:352:void initTutorialView() -> g
+    359:374:void onBackPressed() -> onBackPressed
+    381:438:void onClick(android.view.View) -> onClick
+    444:464:void finishTutorial() -> h
+    470:509:void updateViewForSelectedPage() -> i
+    43:43:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> b
+    43:43:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
+    75:75:com.viewpagerindicator.CirclePageIndicator access$2(com.mitv.activities.SplashScreenActivity) -> a
+    64:64:android.support.v4.view.ViewPager access$3(com.mitv.activities.SplashScreenActivity) -> b
+    468:468:void access$4(com.mitv.activities.SplashScreenActivity) -> c
 com.mitv.activities.SplashScreenActivity$1 -> ayh:
     com.mitv.activities.SplashScreenActivity this$0 -> a
-    335:335:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
-    338:338:void onPageScrolled(int,float,int) -> onPageScrolled
-    343:345:void onPageSelected(int) -> onPageSelected
+    340:340:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
+    343:343:void onPageScrolled(int,float,int) -> onPageScrolled
+    348:350:void onPageSelected(int) -> onPageSelected
 com.mitv.activities.TVDateSelectionActivity -> com.mitv.activities.TVDateSelectionActivity:
     java.lang.String TAG -> o
     com.mitv.adapters.list.ActionBarDropDownDateListAdapter dayAdapter -> p
@@ -34776,26 +34775,26 @@ com.mitv.activities.competition.CompetitionPageActivity -> com.mitv.activities.c
     android.widget.TextView nextGameText -> L
     com.mitv.ui.elements.EventCountDownTimer eventCountDownTimer -> M
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> N
-    92:114:void onCreate(android.os.Bundle) -> onCreate
-    121:127:void onPause() -> onPause
-    134:135:void onResume() -> onResume
-    142:161:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    178:188:void onPageSelected(int) -> onPageSelected
-    193:193:void onPageScrolled(int,float,int) -> onPageScrolled
-    198:198:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
-    204:204:com.mitv.activities.competition.CompetitionPageActivity$OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() -> getViewPagerIndexChangedListener
-    211:212:void setViewPagerIndexChangedListener(com.mitv.activities.competition.CompetitionPageActivity$OnViewPagerIndexChangedListener) -> setViewPagerIndexChangedListener
-    218:218:int getSelectedTabIndex() -> getSelectedTabIndex
-    225:226:void setSelectedTabIndex(int) -> setSelectedTabIndex
-    232:384:void setData() -> c
-    390:418:void initLayout() -> d
-    424:443:void setAdapter(int) -> b
-    450:457:void loadData() -> loadData
-    464:466:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    474:491:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    496:516:void setListView() -> e
-    521:521:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
-    48:48:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
+    91:113:void onCreate(android.os.Bundle) -> onCreate
+    120:126:void onPause() -> onPause
+    133:134:void onResume() -> onResume
+    141:160:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    177:187:void onPageSelected(int) -> onPageSelected
+    192:192:void onPageScrolled(int,float,int) -> onPageScrolled
+    197:197:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
+    203:203:com.mitv.activities.competition.CompetitionPageActivity$OnViewPagerIndexChangedListener getViewPagerIndexChangedListener() -> getViewPagerIndexChangedListener
+    210:211:void setViewPagerIndexChangedListener(com.mitv.activities.competition.CompetitionPageActivity$OnViewPagerIndexChangedListener) -> setViewPagerIndexChangedListener
+    217:217:int getSelectedTabIndex() -> getSelectedTabIndex
+    224:225:void setSelectedTabIndex(int) -> setSelectedTabIndex
+    231:383:void setData() -> c
+    389:417:void initLayout() -> d
+    423:442:void setAdapter(int) -> b
+    449:456:void loadData() -> loadData
+    463:465:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    473:490:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    495:515:void setListView() -> e
+    520:520:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    47:47:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
 com.mitv.activities.competition.CompetitionPageActivity$OnViewPagerIndexChangedListener -> com.mitv.activities.competition.CompetitionPageActivity$OnViewPagerIndexChangedListener:
     void onIndexSelected(int) -> onIndexSelected
 com.mitv.adapters.list.ActionBarDropDownDateListAdapter -> com.mitv.adapters.list.ActionBarDropDownDateListAdapter:
@@ -35351,35 +35350,35 @@ com.mitv.adapters.list.TVGuideListAdapter -> com.mitv.adapters.list.TVGuideListA
     int rowWidth -> f
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> g
     int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType -> h
-    82:84:boolean isAddMoreChannelsCellPosition(int) -> a
-    92:99:int getItemViewType(int) -> getItemViewType
-    107:114:com.mitv.enums.BannerViewType getBannerViewType(int) -> getBannerViewType
-    121:379:android.view.View getViewForGuideCell(int,android.view.View,android.view.ViewGroup) -> getViewForGuideCell
-    391:415:android.view.View createAddChannelsCell() -> createAddChannelsCell
-    422:422:java.lang.Runnable yesSigninOrSignUpBlock() -> yesSigninOrSignUpBlock
-    439:470:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    84:86:boolean isAddMoreChannelsCellPosition(int) -> a
+    94:101:int getItemViewType(int) -> getItemViewType
+    109:116:com.mitv.enums.BannerViewType getBannerViewType(int) -> getBannerViewType
+    123:381:android.view.View getViewForGuideCell(int,android.view.View,android.view.ViewGroup) -> getViewForGuideCell
+    393:417:android.view.View createAddChannelsCell() -> createAddChannelsCell
+    424:424:java.lang.Runnable yesSigninOrSignUpBlock() -> yesSigninOrSignUpBlock
+    442:470:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     478:483:int getCount() -> getCount
     490:495:void refreshList(int) -> refreshList
     501:502:void setRowWidth(int) -> setRowWidth
     510:518:void removeOnGlobalLayoutListener(android.view.View,android.view.ViewTreeObserver$OnGlobalLayoutListener) -> removeOnGlobalLayoutListener
-    53:53:android.app.Activity access$0(com.mitv.adapters.list.TVGuideListAdapter) -> a
-    47:47:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> c
-    47:47:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> d
+    55:55:android.app.Activity access$0(com.mitv.adapters.list.TVGuideListAdapter) -> a
+    48:48:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> c
+    48:48:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> d
 com.mitv.adapters.list.TVGuideListAdapter$1 -> azp:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
     com.mitv.adapters.list.TVGuideListAdapter$ViewHolder val$holder -> b
-    159:169:void onGlobalLayout() -> onGlobalLayout
+    161:171:void onGlobalLayout() -> onGlobalLayout
 com.mitv.adapters.list.TVGuideListAdapter$2 -> azq:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVChannelGuide val$guide -> b
     int val$position -> c
-    191:200:void onClick(android.view.View) -> onClick
+    193:202:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.TVGuideListAdapter$3 -> azr:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
-    400:412:void onClick(android.view.View) -> onClick
+    402:414:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.TVGuideListAdapter$4 -> azs:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
-    426:431:void run() -> run
+    428:433:void run() -> run
 com.mitv.adapters.list.TVGuideListAdapter$ViewHolder -> azt:
     android.widget.RelativeLayout container -> a
     android.widget.ImageView channelLogo -> b
@@ -35398,19 +35397,19 @@ com.mitv.adapters.list.TVGuideTagListAdapter -> com.mitv.adapters.list.TVGuideTa
     int currentPosition -> e
     int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType -> f
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> g
-    70:95:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    102:253:android.view.View getViewForBroadCastCell(int,android.view.View,android.view.ViewGroup) -> a
-    275:281:int getCount() -> getCount
-    290:296:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
-    305:305:long getItemId(int) -> getItemId
+    71:93:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    100:251:android.view.View getViewForBroadCastCell(int,android.view.View,android.view.ViewGroup) -> a
+    273:279:int getCount() -> getCount
+    288:294:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
+    303:303:long getItemId(int) -> getItemId
     1:1:java.lang.Object getItem(int) -> getItem
-    36:36:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> c
-    36:36:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> d
+    35:35:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> c
+    35:35:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> d
     43:43:android.app.Activity access$3(com.mitv.adapters.list.TVGuideTagListAdapter) -> a
 com.mitv.adapters.list.TVGuideTagListAdapter$1 -> azu:
     com.mitv.adapters.list.TVGuideTagListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
-    245:250:void onClick(android.view.View) -> onClick
+    243:248:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder -> azv:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mImageIv -> b
@@ -35420,22 +35419,22 @@ com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder -> azv:
     android.widget.TextView mDescTv -> f
     android.widget.TextView mTimeLeftTv -> g
     android.widget.ProgressBar mDurationPb -> h
-    260:260:void access$1(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    261:261:void access$2(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ImageView) -> a
-    262:262:void access$3(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> a
-    263:263:void access$4(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> b
-    264:264:void access$5(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> c
-    265:265:void access$6(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> d
-    266:266:void access$7(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> e
-    267:267:void access$8(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ProgressBar) -> a
-    267:267:android.widget.ProgressBar access$9(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> a
-    266:266:android.widget.TextView access$10(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> b
-    261:261:android.widget.ImageView access$11(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> c
-    263:263:android.widget.TextView access$12(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> d
-    264:264:android.widget.TextView access$13(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> e
-    262:262:android.widget.TextView access$14(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> f
-    265:265:android.widget.TextView access$15(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> g
-    260:260:android.widget.RelativeLayout access$16(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> h
+    258:258:void access$1(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    259:259:void access$2(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ImageView) -> a
+    260:260:void access$3(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> a
+    261:261:void access$4(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> b
+    262:262:void access$5(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> c
+    263:263:void access$6(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> d
+    264:264:void access$7(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> e
+    265:265:void access$8(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ProgressBar) -> a
+    265:265:android.widget.ProgressBar access$9(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> a
+    264:264:android.widget.TextView access$10(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> b
+    259:259:android.widget.ImageView access$11(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> c
+    261:261:android.widget.TextView access$12(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> d
+    262:262:android.widget.TextView access$13(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> e
+    260:260:android.widget.TextView access$14(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> f
+    263:263:android.widget.TextView access$15(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> g
+    258:258:android.widget.RelativeLayout access$16(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> h
 com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter -> com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter:
     java.lang.String TAG -> a
     android.view.LayoutInflater layoutInflater -> b
@@ -35510,10 +35509,10 @@ com.mitv.asynctasks.AsyncTaskBase -> com.mitv.asynctasks.AsyncTaskBase:
     com.mitv.http.HTTPCoreResponse response -> response
     boolean isMiTVAPICall -> isMiTVAPICall
     boolean reportMetricsToTracker -> h
-    200:203:void onPreExecute() -> onPreExecute
-    210:304:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
-    312:322:void onPostExecute(java.lang.Void) -> onPostExecute
-    328:328:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier() -> getRequestIdentifier
+    199:202:void onPreExecute() -> onPreExecute
+    209:303:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    311:321:void onPostExecute(java.lang.Void) -> onPostExecute
+    327:327:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier() -> getRequestIdentifier
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.mitv.asynctasks.CustomThreadedPoolExecutor -> com.mitv.asynctasks.CustomThreadedPoolExecutor:
@@ -36110,12 +36109,11 @@ com.mitv.fragments.TVGuideTabFragment -> com.mitv.fragments.TVGuideTabFragment:
     59:66:void setSwipeClockBar() -> setSwipeClockBar
     72:111:void updateSwipeClockBarWithDayAndTime() -> updateSwipeClockBarWithDayAndTime
     117:125:void setSwipeCLockbackground() -> setSwipeCLockbackground
-    132:135:void onDestroyView() -> onDestroyView
-    142:147:void onResume() -> onResume
-    153:153:com.mitv.enums.TVGuideTabTypeEnum getType() -> getType
-    160:160:java.lang.String getTabTitle() -> getTabTitle
-    167:167:java.lang.String getTabId() -> getTabId
-    174:174:int getSelectedHour() -> getSelectedHour
+    132:135:void onResume() -> onResume
+    141:141:com.mitv.enums.TVGuideTabTypeEnum getType() -> getType
+    148:148:java.lang.String getTabTitle() -> getTabTitle
+    155:155:java.lang.String getTabId() -> getTabId
+    162:162:int getSelectedHour() -> getSelectedHour
 com.mitv.fragments.TVGuideTabFragmentAllPrograms -> com.mitv.fragments.TVGuideTabFragmentAllPrograms:
     java.lang.String TAG -> a
     android.widget.ListView listView -> b
@@ -36419,21 +36417,21 @@ com.mitv.managers.ContentManagerCallback -> com.mitv.managers.ContentManagerCall
     917:927:void handleDisqusThreadDetailsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> f
     936:937:void handleInternetConnectionDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> a
     947:982:void handleActivityFeedMoreItemsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> g
-    991:1045:void handleActivityFeedInitalFetchResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> h
-    1057:1082:void handleTVChannelGuidesForSelectedDayResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> i
-    1088:1102:void handleTVBroadcastsPopularBroadcastsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVBroadcastsPopularBroadcastsResponse
-    1108:1123:void handleSearchResultResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSearchResultResponse
-    1140:1156:void handleTVChannelIdsUserResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> j
-    1168:1242:void handleBroadcastPageDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBroadcastPageDataResponse
-    1248:1259:void handleSignUpResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSignUpResponse
-    1264:1273:void handleGetUserLikesResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleGetUserLikesResponse
-    1279:1289:void handleAddUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleAddUserLikeResponse
-    1295:1303:void handleRemoveUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleRemoveUserLikeResponse
-    1309:1317:void handleResetPasswordSendEmailResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleResetPasswordSendEmailResponse
-    1323:1340:void handleUserTokenWithFacebookTokenResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleUserTokenWithFacebookTokenResponse
-    1346:1358:void handleSetChannelsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleSetChannelsResponse
-    1363:1373:void handleLoginResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> k
-    1379:1382:void handleLogoutResponse(com.mitv.interfaces.ViewCallbackListener) -> b
+    991:1046:void handleActivityFeedInitalFetchResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> h
+    1058:1083:void handleTVChannelGuidesForSelectedDayResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> i
+    1089:1103:void handleTVBroadcastsPopularBroadcastsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVBroadcastsPopularBroadcastsResponse
+    1109:1124:void handleSearchResultResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSearchResultResponse
+    1141:1157:void handleTVChannelIdsUserResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> j
+    1169:1243:void handleBroadcastPageDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBroadcastPageDataResponse
+    1249:1260:void handleSignUpResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSignUpResponse
+    1265:1274:void handleGetUserLikesResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleGetUserLikesResponse
+    1280:1290:void handleAddUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleAddUserLikeResponse
+    1296:1304:void handleRemoveUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleRemoveUserLikeResponse
+    1310:1318:void handleResetPasswordSendEmailResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleResetPasswordSendEmailResponse
+    1324:1341:void handleUserTokenWithFacebookTokenResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleUserTokenWithFacebookTokenResponse
+    1347:1359:void handleSetChannelsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleSetChannelsResponse
+    1364:1374:void handleLoginResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> k
+    1380:1383:void handleLogoutResponse(com.mitv.interfaces.ViewCallbackListener) -> b
     47:47:int[] $SWITCH_TABLE$com$mitv$managers$ContentManagerCallback$RequestToCallBackMapAccessIdentifier() -> a
     47:47:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
 com.mitv.managers.ContentManagerCallback$RequestToCallBackMapAccessIdentifier -> bab:
@@ -36505,17 +36503,17 @@ com.mitv.managers.ImageLoaderManager -> com.mitv.managers.ImageLoaderManager:
     com.mitv.managers.ImageLoaderManager instance -> b
     com.nostra13.universalimageloader.core.ImageLoader imageLoader -> c
     40:45:com.mitv.managers.ImageLoaderManager sharedInstance(android.content.Context) -> sharedInstance
-    87:97:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageDefaultOptions() -> a
-    107:128:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageWithResetViewOptions() -> b
-    137:148:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageOptionsForCompetitions() -> c
-    155:158:void displayImageWithOptionsForTVGuideImages(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithOptionsForTVGuideImages
-    164:167:void displayImageWithCompetitionOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithCompetitionOptions
-    174:177:void displayImageWithDefaultOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithDefaultOptions
-    183:186:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.ImageLoadingListener) -> displayImageWithResetViewOptions
-    192:195:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithResetViewOptions
-    201:204:void displayImageWithResetViewOptions(java.lang.String,android.widget.ImageView) -> displayImageWithResetViewOptions
-    209:217:void pause() -> pause
-    223:231:void resume() -> resume
+    91:101:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageDefaultOptions() -> a
+    111:132:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageWithResetViewOptions() -> b
+    141:152:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageOptionsForCompetitions() -> c
+    159:162:void displayImageWithOptionsForTVGuideImages(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithOptionsForTVGuideImages
+    168:171:void displayImageWithCompetitionOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithCompetitionOptions
+    178:181:void displayImageWithDefaultOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithDefaultOptions
+    187:190:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.ImageLoadingListener) -> displayImageWithResetViewOptions
+    196:199:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithResetViewOptions
+    205:208:void displayImageWithResetViewOptions(java.lang.String,android.widget.ImageView) -> displayImageWithResetViewOptions
+    213:221:void pause() -> pause
+    227:235:void resume() -> resume
 com.mitv.managers.RateAppManager -> com.mitv.managers.RateAppManager:
     java.lang.String TAG -> a
     58:59:android.content.SharedPreferences getSharedPrefs(android.content.Context) -> a
@@ -36570,95 +36568,96 @@ com.mitv.managers.TrackingGAManager -> com.mitv.managers.TrackingGAManager:
     com.google.android.gms.analytics.Tracker tracker -> c
     android.content.Context context -> d
     int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum -> e
-    54:61:com.mitv.managers.TrackingGAManager sharedInstance() -> sharedInstance
-    68:68:com.google.android.gms.analytics.Tracker getTrackerInstance() -> getTrackerInstance
-    75:75:com.google.android.gms.analytics.Tracker getTracker() -> getTracker
-    82:84:com.google.android.gms.analytics.GoogleAnalytics getGoogleAnalyticsInstance() -> b
-    91:142:void updateConfiguration() -> updateConfiguration
-    145:147:void sendUserSignedInEventAndSetUserIdOnTracker(java.lang.String) -> sendUserSignedInEventAndSetUserIdOnTracker
-    151:152:void setUserIdOnTrackerAndSendSignedOut() -> setUserIdOnTrackerAndSendSignedOut
-    155:156:void sendUserSignedInEvent() -> c
-    159:160:void sendUserSignedOutEvent() -> d
-    163:164:void setUserIdOnTracker(java.lang.String) -> setUserIdOnTracker
-    169:177:void sendUserSignUpSuccessfulEvent(boolean) -> sendUserSignUpSuccessfulEvent
-    183:184:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
-    187:189:void sendUserSharedEvent(com.mitv.models.objects.mitvapi.TVBroadcast) -> sendUserSharedEvent
-    192:201:void sendUserLikesEvent(com.mitv.models.objects.mitvapi.UserLike,boolean) -> sendUserLikesEvent
-    204:212:void sendUserReminderEvent(com.mitv.models.objects.mitvapi.TVBroadcast,boolean) -> sendUserReminderEvent
-    215:216:void sendTimeOffSyncEvent() -> sendTimeOffSyncEvent
-    219:220:void sendFirstBootEvent() -> sendFirstBootEvent
-    224:248:void sendUserTagSelectionEvent(int) -> sendUserTagSelectionEvent
-    251:268:void sendUserHourSelectionEvent(int) -> sendUserHourSelectionEvent
-    271:275:void sendUserPressedChannelInHomeActivity(com.mitv.models.objects.mitvapi.TVChannelId,int) -> sendUserPressedChannelInHomeActivity
-    278:298:void sendUserPressedBroadcastInChannelActivity(com.mitv.models.objects.mitvapi.TVChannel,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserPressedBroadcastInChannelActivity
-    302:316:void sendUserDaySelectionEvent(int) -> sendUserDaySelectionEvent
-    321:322:void sendUserPressedRateInRateDialogEvent() -> sendUserPressedRateInRateDialogEvent
-    325:326:void sendUserPressedRemindLaterInRateDialogEvent() -> sendUserPressedRemindLaterInRateDialogEvent
-    329:330:void sendUserPressedNoThanksInRateDialogEvent() -> sendUserPressedNoThanksInRateDialogEvent
-    333:334:void sendUserPressedMenuButtonEvent() -> sendUserPressedMenuButtonEvent
-    337:338:void sendUserPressedUserProfilePageTopViewEvent() -> sendUserPressedUserProfilePageTopViewEvent
-    341:342:void sendUserPressedAddMoreChannelsCell() -> sendUserPressedAddMoreChannelsCell
-    345:346:void sendUserPressedSearchButtonOnKeyBoard() -> sendUserPressedSearchButtonOnKeyBoard
-    349:350:void sendUserPressedLikeInLikesActivity() -> sendUserPressedLikeInLikesActivity
-    353:354:void sendUserPressedChannelInMyChannelsActivity() -> sendUserPressedChannelInMyChannelsActivity
-    358:365:void sendUserFeedListScrolledToItemAtIndexEvent(int,boolean) -> sendUserFeedListScrolledToItemAtIndexEvent
-    368:397:void sendUserFeedItemPressedEvent(com.mitv.enums.FeedItemTypeEnum,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserFeedItemPressedEvent
-    400:401:void sendUserFeedItemPopularBroadcastPressedEvent(java.lang.String) -> a
-    404:405:void sendUserFeedItemPopularBroadcastsPressedEvent(java.lang.String,int) -> a
-    408:409:void sendUserFeedItemTwitterPressedEvent(java.lang.String) -> b
-    412:413:void sendUserFeedItemRecommendedPressedEvent(java.lang.String) -> c
-    416:417:void sendUserFeedItemYouLikePressedEvent(java.lang.String) -> d
-    420:430:void sendUserSearchResultPressedEvent(java.lang.String,java.lang.String,int) -> sendUserSearchResultPressedEvent
-    433:447:void sendUserChannelSearchResultClickedEvent(java.lang.String,java.lang.String,boolean) -> sendUserChannelSearchResultClickedEvent
-    450:451:void sendUserSearchEvent(java.lang.String) -> sendUserSearchEvent
-    455:461:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
-    464:465:void sendUserMyChannelsPageSearchEvent(java.lang.String) -> sendUserMyChannelsPageSearchEvent
-    469:470:void sendSystemEvent(java.lang.String) -> e
-    473:474:void sendSystemEventWithLabel(java.lang.String,java.lang.String) -> a
-    477:478:void sendUserEvent(java.lang.String) -> f
-    481:482:void sendUserEventWithLabel(java.lang.String,java.lang.String) -> b
-    485:486:void sendUserEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> a
-    490:491:void sendUserCompetitionEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendUserCompetitionEventWithLabelAndValue
-    496:497:void sendInternalSpeedMeasureEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendInternalSpeedMeasureEventWithLabelAndValue
-    501:502:void sendEventWithLabel(java.lang.String,java.lang.String,java.lang.String) -> a
-    505:506:void sendEventWithLabelAndValue(java.lang.String,java.lang.String,java.lang.String,long) -> a
-    509:522:void sendEventBase(java.lang.String,java.lang.String,boolean,java.lang.String,boolean,long) -> a
-    526:528:void reportActivityStart(android.app.Activity) -> reportActivityStart
-    531:533:void reportActivityStop(android.app.Activity) -> reportActivityStop
-    542:596:void sendGooglePlayCampaignToAnalytics(java.lang.String) -> sendGooglePlayCampaignToAnalytics
-    32:32:int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum() -> a
+    55:62:com.mitv.managers.TrackingGAManager sharedInstance() -> sharedInstance
+    69:69:com.google.android.gms.analytics.Tracker getTrackerInstance() -> getTrackerInstance
+    76:76:com.google.android.gms.analytics.Tracker getTracker() -> getTracker
+    83:85:com.google.android.gms.analytics.GoogleAnalytics getGoogleAnalyticsInstance() -> b
+    92:144:void updateConfiguration() -> updateConfiguration
+    147:149:void sendUserSignedInEventAndSetUserIdOnTracker(java.lang.String) -> sendUserSignedInEventAndSetUserIdOnTracker
+    153:154:void setUserIdOnTrackerAndSendSignedOut() -> setUserIdOnTrackerAndSendSignedOut
+    157:158:void sendUserSignedInEvent() -> c
+    161:162:void sendUserSignedOutEvent() -> d
+    165:166:void setUserIdOnTracker(java.lang.String) -> setUserIdOnTracker
+    171:179:void sendUserSignUpSuccessfulEvent(boolean) -> sendUserSignUpSuccessfulEvent
+    185:186:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
+    189:191:void sendUserSharedEvent(com.mitv.models.objects.mitvapi.TVBroadcast) -> sendUserSharedEvent
+    194:203:void sendUserLikesEvent(com.mitv.models.objects.mitvapi.UserLike,boolean) -> sendUserLikesEvent
+    206:214:void sendUserReminderEvent(com.mitv.models.objects.mitvapi.TVBroadcast,boolean) -> sendUserReminderEvent
+    217:218:void sendTimeOffSyncEvent() -> sendTimeOffSyncEvent
+    221:222:void sendFirstBootEvent() -> sendFirstBootEvent
+    226:250:void sendUserTagSelectionEvent(int) -> sendUserTagSelectionEvent
+    253:270:void sendUserHourSelectionEvent(int) -> sendUserHourSelectionEvent
+    273:277:void sendUserPressedChannelInHomeActivity(com.mitv.models.objects.mitvapi.TVChannelId,int) -> sendUserPressedChannelInHomeActivity
+    280:300:void sendUserPressedBroadcastInChannelActivity(com.mitv.models.objects.mitvapi.TVChannel,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserPressedBroadcastInChannelActivity
+    304:318:void sendUserDaySelectionEvent(int) -> sendUserDaySelectionEvent
+    323:324:void sendUserPressedRateInRateDialogEvent() -> sendUserPressedRateInRateDialogEvent
+    327:328:void sendUserPressedRemindLaterInRateDialogEvent() -> sendUserPressedRemindLaterInRateDialogEvent
+    331:332:void sendUserPressedNoThanksInRateDialogEvent() -> sendUserPressedNoThanksInRateDialogEvent
+    335:336:void sendUserPressedMenuButtonEvent() -> sendUserPressedMenuButtonEvent
+    339:340:void sendUserPressedUserProfilePageTopViewEvent() -> sendUserPressedUserProfilePageTopViewEvent
+    343:344:void sendUserPressedAddMoreChannelsCell() -> sendUserPressedAddMoreChannelsCell
+    347:348:void sendUserPressedSearchButtonOnKeyBoard() -> sendUserPressedSearchButtonOnKeyBoard
+    351:352:void sendUserPressedLikeInLikesActivity() -> sendUserPressedLikeInLikesActivity
+    355:356:void sendUserPressedChannelInMyChannelsActivity() -> sendUserPressedChannelInMyChannelsActivity
+    360:367:void sendUserFeedListScrolledToItemAtIndexEvent(int,boolean) -> sendUserFeedListScrolledToItemAtIndexEvent
+    370:399:void sendUserFeedItemPressedEvent(com.mitv.enums.FeedItemTypeEnum,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserFeedItemPressedEvent
+    402:403:void sendUserFeedItemPopularBroadcastPressedEvent(java.lang.String) -> a
+    406:407:void sendUserFeedItemPopularBroadcastsPressedEvent(java.lang.String,int) -> a
+    410:411:void sendUserFeedItemTwitterPressedEvent(java.lang.String) -> b
+    414:415:void sendUserFeedItemRecommendedPressedEvent(java.lang.String) -> c
+    418:419:void sendUserFeedItemYouLikePressedEvent(java.lang.String) -> d
+    422:432:void sendUserSearchResultPressedEvent(java.lang.String,java.lang.String,int) -> sendUserSearchResultPressedEvent
+    435:449:void sendUserChannelSearchResultClickedEvent(java.lang.String,java.lang.String,boolean) -> sendUserChannelSearchResultClickedEvent
+    452:453:void sendUserSearchEvent(java.lang.String) -> sendUserSearchEvent
+    457:463:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
+    466:467:void sendUserMyChannelsPageSearchEvent(java.lang.String) -> sendUserMyChannelsPageSearchEvent
+    471:472:void sendSystemEvent(java.lang.String) -> e
+    475:476:void sendSystemEventWithLabel(java.lang.String,java.lang.String) -> a
+    479:480:void sendUserEvent(java.lang.String) -> f
+    483:484:void sendUserEventWithLabel(java.lang.String,java.lang.String) -> b
+    488:489:void sendUserEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> a
+    494:495:void sendUserCompetitionEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendUserCompetitionEventWithLabelAndValue
+    503:504:void sendInternalSpeedMeasureEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendInternalSpeedMeasureEventWithLabelAndValue
+    508:509:void sendEventWithLabel(java.lang.String,java.lang.String,java.lang.String) -> a
+    515:516:void sendEventWithLabelAndValue(java.lang.String,java.lang.String,java.lang.String,long) -> a
+    526:532:void sendUserTimings(java.lang.String,long,java.lang.String,java.lang.String) -> a
+    538:553:void sendEventBase(java.lang.String,java.lang.String,boolean,java.lang.String,boolean,long) -> a
+    560:562:void reportActivityStart(android.app.Activity) -> reportActivityStart
+    568:570:void reportActivityStop(android.app.Activity) -> reportActivityStop
+    580:634:void sendGooglePlayCampaignToAnalytics(java.lang.String) -> sendGooglePlayCampaignToAnalytics
+    33:33:int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum() -> a
 com.mitv.managers.TrackingManager -> com.mitv.managers.TrackingManager:
     java.lang.String TAG -> a
     com.mitv.managers.TrackingManager instance -> b
     java.util.Map measureEventStartTimes -> c
-    34:41:com.mitv.managers.TrackingManager sharedInstance() -> sharedInstance
-    48:54:void reportActivityStart(android.app.Activity) -> reportActivityStart
-    60:66:void reportActivityStop(android.app.Activity) -> reportActivityStop
-    72:78:void sendUserSignUpSuccessfulUsingEmailEvent() -> sendUserSignUpSuccessfulUsingEmailEvent
-    84:90:void sendUserSignUpSuccessfulUsingFacebookEvent() -> sendUserSignUpSuccessfulUsingFacebookEvent
-    96:102:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
-    108:111:void sendUserCompetitionTabCountdownPressed(java.lang.String) -> sendUserCompetitionTabCountdownPressed
-    117:120:void sendUserCompetitionTabBannerPressed(java.lang.String) -> sendUserCompetitionTabBannerPressed
-    126:129:void sendUserCompetitionTabCalendarPressed(java.lang.String) -> sendUserCompetitionTabCalendarPressed
-    134:137:void sendUserCompetitionBannerPressedInAllTab(java.lang.String) -> sendUserCompetitionBannerPressedInAllTab
-    142:145:void sendUserCompetitionBannerPressedInSportsTab(java.lang.String) -> sendUserCompetitionBannerPressedInSportsTab
-    160:160:void onPause(android.app.Activity) -> onPause
-    170:170:void onResume(android.app.Activity) -> onResume
-    176:182:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
-    187:188:void clearEventStartValues() -> a
-    194:197:void setStartValue(java.lang.String) -> a
-    203:218:long calculateValueSincePrevious(java.lang.String) -> b
-    224:229:void sendTestMeasureInitialLoadingScreenStarted(java.lang.String) -> sendTestMeasureInitialLoadingScreenStarted
-    235:240:void sendTestMeasureInitialLoadingScreenOnResultReached(java.lang.String) -> sendTestMeasureInitialLoadingScreenOnResultReached
-    247:252:void sendTestMeasureInitialLoadingScreenEnded(java.lang.String) -> sendTestMeasureInitialLoadingScreenEnded
-    258:269:void sendTestMeasureAsycTaskBackgroundStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundStart
-    275:282:void sendTestMeasureAsycTaskBackgroundEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundEnd
-    288:299:void sendTestMeasureAsycTaskPostExecutionStart(java.lang.String) -> sendTestMeasureAsycTaskPostExecutionStart
-    305:312:void sendTestMeasureAsycTaskPostExecutionEnd(java.lang.String) -> sendTestMeasureAsycTaskPostExecutionEnd
-    318:329:void sendTestMeasureAsycTaskBackgroundNetworkRequestStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundNetworkRequestStart
-    335:342:void sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundNetworkRequestEnd
-    348:359:void sendTestMeasureAsycTaskBackgroundJSONParsingStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundJSONParsingStart
-    365:372:void sendTestMeasureAsycTaskBackgroundJSONParsingEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundJSONParsingEnd
+    33:40:com.mitv.managers.TrackingManager sharedInstance() -> sharedInstance
+    47:53:void reportActivityStart(android.app.Activity) -> reportActivityStart
+    59:65:void reportActivityStop(android.app.Activity) -> reportActivityStop
+    71:77:void sendUserSignUpSuccessfulUsingEmailEvent() -> sendUserSignUpSuccessfulUsingEmailEvent
+    83:89:void sendUserSignUpSuccessfulUsingFacebookEvent() -> sendUserSignUpSuccessfulUsingFacebookEvent
+    95:101:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
+    107:110:void sendUserCompetitionTabCountdownPressed(java.lang.String) -> sendUserCompetitionTabCountdownPressed
+    116:119:void sendUserCompetitionTabBannerPressed(java.lang.String) -> sendUserCompetitionTabBannerPressed
+    125:128:void sendUserCompetitionTabCalendarPressed(java.lang.String) -> sendUserCompetitionTabCalendarPressed
+    133:136:void sendUserCompetitionBannerPressedInAllTab(java.lang.String) -> sendUserCompetitionBannerPressedInAllTab
+    141:144:void sendUserCompetitionBannerPressedInSportsTab(java.lang.String) -> sendUserCompetitionBannerPressedInSportsTab
+    159:159:void onPause(android.app.Activity) -> onPause
+    169:169:void onResume(android.app.Activity) -> onResume
+    175:181:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
+    186:187:void clearEventStartValues() -> a
+    193:196:void setStartValue(java.lang.String) -> a
+    202:217:long calculateValueSincePrevious(java.lang.String) -> b
+    224:227:void sendTestMeasureInitialLoadingScreenStarted(java.lang.String) -> sendTestMeasureInitialLoadingScreenStarted
+    233:238:void sendTestMeasureInitialLoadingScreenOnResultReached(java.lang.String) -> sendTestMeasureInitialLoadingScreenOnResultReached
+    245:250:void sendTestMeasureInitialLoadingScreenEnded(java.lang.String) -> sendTestMeasureInitialLoadingScreenEnded
+    256:259:void sendTestMeasureAsycTaskBackgroundStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundStart
+    265:272:void sendTestMeasureAsycTaskBackgroundEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundEnd
+    278:281:void sendTestMeasureAsycTaskPostExecutionStart(java.lang.String) -> sendTestMeasureAsycTaskPostExecutionStart
+    287:294:void sendTestMeasureAsycTaskPostExecutionEnd(java.lang.String) -> sendTestMeasureAsycTaskPostExecutionEnd
+    300:303:void sendTestMeasureAsycTaskBackgroundNetworkRequestStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundNetworkRequestStart
+    309:316:void sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundNetworkRequestEnd
+    322:325:void sendTestMeasureAsycTaskBackgroundJSONParsingStart(java.lang.String) -> sendTestMeasureAsycTaskBackgroundJSONParsingStart
+    331:338:void sendTestMeasureAsycTaskBackgroundJSONParsingEnd(java.lang.String) -> sendTestMeasureAsycTaskBackgroundJSONParsingEnd
 com.mitv.models.Cache -> com.mitv.models.Cache:
     java.lang.String TAG -> TAG
     java.util.HashMap nonPersistentTaggedBroadcastsForAllDays -> nonPersistentTaggedBroadcastsForAllDays
@@ -37652,20 +37651,20 @@ com.mitv.models.objects.mitvapi.TVBroadcast -> com.mitv.models.objects.mitvapi.T
     289:293:boolean isAiring() -> isAiring
     300:304:boolean hasEnded() -> hasEnded
     311:315:boolean hasNotAiredYet() -> hasNotAiredYet
-    325:329:java.lang.String getBeginTimeDateRepresentation() -> getBeginTimeDateRepresentation
-    339:341:java.lang.String getBeginTimeDayAndMonthAsString() -> getBeginTimeDayAndMonthAsString
-    347:349:java.lang.String getBeginTimeHourAndMinuteLocalAsString() -> getBeginTimeHourAndMinuteLocalAsString
-    355:357:java.lang.String getEndTimeHourAndMinuteLocalAsString() -> getEndTimeHourAndMinuteLocalAsString
-    364:388:boolean isBeginTimeTodayOrTomorrow() -> isBeginTimeTodayOrTomorrow
-    395:398:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.TVBroadcast) -> isTheSameDayAs
-    409:409:java.lang.String getBeginTimeDayOfTheWeekAsString() -> getBeginTimeDayOfTheWeekAsString
-    420:443:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
-    455:502:java.lang.String getStartingTimeAsString() -> getStartingTimeAsString
-    508:508:boolean isPopular() -> isPopular
-    515:516:void setPopular(boolean) -> setPopular
-    524:530:int hashCode() -> hashCode
-    538:557:boolean equals(java.lang.Object) -> equals
-    563:585:boolean areDataFieldsValid() -> areDataFieldsValid
+    325:327:java.lang.String getBeginTimeDateRepresentation() -> getBeginTimeDateRepresentation
+    337:339:java.lang.String getBeginTimeDayAndMonthAsString() -> getBeginTimeDayAndMonthAsString
+    345:347:java.lang.String getBeginTimeHourAndMinuteLocalAsString() -> getBeginTimeHourAndMinuteLocalAsString
+    353:355:java.lang.String getEndTimeHourAndMinuteLocalAsString() -> getEndTimeHourAndMinuteLocalAsString
+    362:386:boolean isBeginTimeTodayOrTomorrow() -> isBeginTimeTodayOrTomorrow
+    393:396:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.TVBroadcast) -> isTheSameDayAs
+    407:407:java.lang.String getBeginTimeDayOfTheWeekAsString() -> getBeginTimeDayOfTheWeekAsString
+    418:441:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
+    453:500:java.lang.String getStartingTimeAsString() -> getStartingTimeAsString
+    506:506:boolean isPopular() -> isPopular
+    513:514:void setPopular(boolean) -> setPopular
+    522:528:int hashCode() -> hashCode
+    536:555:boolean equals(java.lang.Object) -> equals
+    561:583:boolean areDataFieldsValid() -> areDataFieldsValid
     31:31:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo -> com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo:
     java.lang.String TAG -> TAG
@@ -38552,16 +38551,16 @@ com.mitv.utilities.DateUtils -> com.mitv.utilities.DateUtils:
     373:444:boolean areCalendarsTheSameTVAiringDay(java.util.Calendar,java.util.Calendar) -> areCalendarsTheSameTVAiringDay
     451:464:java.lang.String getDayOfWeekStringUsingFirstHourOfTVDay(java.util.Calendar) -> a
     477:517:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar,android.content.Context) -> a
-    530:536:java.lang.String buildDateCompositionAsString(java.util.Calendar,android.content.Context) -> buildDateCompositionAsString
-    548:549:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar) -> getHourAndMinuteCompositionAsString
-    553:557:java.lang.String calendarToStringForDebug(java.util.Calendar) -> calendarToStringForDebug
-    562:562:boolean showTimeOn24HourFormat() -> showTimeOn24HourFormat
-    567:571:java.lang.String getHourAndMinuteAsStringUsingHour(int) -> getHourAndMinuteAsStringUsingHour
-    586:608:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar,boolean) -> a
-    621:644:java.lang.String buildDayAndMonthCompositionAsString(java.util.Calendar,boolean) -> buildDayAndMonthCompositionAsString
-    658:680:java.util.Calendar buildCalendarWithTVDateAndSpecificHour(com.mitv.models.objects.mitvapi.TVDate,int) -> buildCalendarWithTVDateAndSpecificHour
-    695:699:java.util.Calendar getNow() -> getNow
-    709:713:java.text.SimpleDateFormat getSimpleDateFormatWith(java.lang.String) -> a
+    528:534:java.lang.String buildDateCompositionAsString(java.util.Calendar) -> buildDateCompositionAsString
+    546:547:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar) -> getHourAndMinuteCompositionAsString
+    551:555:java.lang.String calendarToStringForDebug(java.util.Calendar) -> calendarToStringForDebug
+    560:560:boolean showTimeOn24HourFormat() -> showTimeOn24HourFormat
+    565:569:java.lang.String getHourAndMinuteAsStringUsingHour(int) -> getHourAndMinuteAsStringUsingHour
+    584:606:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar,boolean) -> a
+    619:642:java.lang.String buildDayAndMonthCompositionAsString(java.util.Calendar,boolean) -> buildDayAndMonthCompositionAsString
+    656:678:java.util.Calendar buildCalendarWithTVDateAndSpecificHour(com.mitv.models.objects.mitvapi.TVDate,int) -> buildCalendarWithTVDateAndSpecificHour
+    693:697:java.util.Calendar getNow() -> getNow
+    707:711:java.text.SimpleDateFormat getSimpleDateFormatWith(java.lang.String) -> a
 com.mitv.utilities.FileUtils -> com.mitv.utilities.FileUtils:
     java.lang.String TAG -> a
     java.lang.String ANDROID_FONTS_PATH -> ANDROID_FONTS_PATH
