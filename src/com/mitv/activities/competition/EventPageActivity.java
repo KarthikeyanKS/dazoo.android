@@ -22,7 +22,6 @@ import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
-import com.mitv.adapters.pager.CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -433,8 +432,6 @@ public class EventPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, event.getCompetitionId());
-		
 		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, event.getCompetitionId(), event.getEventId());
 	}
 
@@ -455,8 +452,6 @@ public class EventPageActivity
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
-	
 			if(event == null)
 			{
 				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
