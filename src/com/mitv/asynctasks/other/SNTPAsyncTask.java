@@ -46,7 +46,9 @@ public class SNTPAsyncTask
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
 		
         SNTPClient client = new SNTPClient();
         
@@ -80,7 +82,9 @@ public class SNTPAsyncTask
 		
         requestResultObjectContent = calendarInstance;
         
-        TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+        if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+        	TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+        }
         
 		return null;
 	}
@@ -89,7 +93,9 @@ public class SNTPAsyncTask
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
 		
 		if(contentCallbackListener != null)
 		{
@@ -100,6 +106,8 @@ public class SNTPAsyncTask
 			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
 		}
 		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		}
 	}
 }

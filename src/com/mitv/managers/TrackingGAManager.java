@@ -24,6 +24,7 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -218,13 +219,30 @@ public class TrackingGAManager
 		sendSystemEventWithLabel(Constants.GA_EVENT_KEY_ACTION_FIRST_BOOT, Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT);
 	}
 
-	public void sendUserTagSelectionEvent(int tagPosition) {
+	public void sendUserTagSelectionEvent(int tagPosition) 
+	{
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
-		if (tvTags != null && !tvTags.isEmpty() && tagPosition < tvTags.size()) {
+		
+		if (tvTags != null && !tvTags.isEmpty() && tagPosition < tvTags.size()) 
+		{
 			TVTag tvTag = tvTags.get(tagPosition);
-			if (tvTag != null) {
+			
+			if (tvTag != null) 
+			{
 				String selectedTag = tvTag.getId();
-				sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_TAG_SELECTED, selectedTag);
+			
+				List<Competition> competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
+				
+				Competition competition = tvTag.getMatchingCompetition(competitions);
+				
+				if(competition == null)
+				{
+					sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_TAG_SELECTED, selectedTag);
+				}
+				else
+				{
+					sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_TAG_SELECTED, selectedTag, 0);
+				}
 			}
 		}
 	}
@@ -464,6 +482,11 @@ public class TrackingGAManager
 	}
 
 	private void sendUserEventWithLabelAndValue(String action, String label, long value) {
+		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label, value);
+	}
+	
+	public void sendUserCompetitionEventWithLabelAndValue(String action, String label, long value) 
+	{
 		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label, value);
 	}
 	

@@ -15,10 +15,10 @@ import android.widget.ListView;
 
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
+import com.mitv.adapters.list.LikesListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.listadapters.LikesListAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.UserLikeComparatorByTitle;

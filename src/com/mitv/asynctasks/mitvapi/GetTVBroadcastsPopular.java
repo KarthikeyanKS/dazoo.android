@@ -52,7 +52,7 @@ public class GetTVBroadcastsPopular
 			ViewCallbackListener activityCallbackListener,
 			boolean standalone)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, true);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
 	}
 	
 	

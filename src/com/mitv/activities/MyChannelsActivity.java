@@ -24,11 +24,11 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivityLoginRequired;
+import com.mitv.adapters.list.MyChannelsListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.MyChannelsCountInterface;
-import com.mitv.listadapters.MyChannelsListAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.TVChannelComparatorByName;

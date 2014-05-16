@@ -82,7 +82,8 @@ public class TVBroadcastWithChannelInfo
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		if(broadcasts != null) {
+		if(broadcasts != null) 
+		{
 			for(int i=0; i<broadcasts.size(); i++)
 			{
 				TVBroadcastWithChannelInfo broadcast = broadcasts.get(i);
@@ -96,9 +97,12 @@ public class TVBroadcastWithChannelInfo
 				}
 			}
 		}
+		
 		return closestIndexFound;
 	}
 
+	
+	
 	public TVBroadcastWithChannelInfo(NotificationSQLElement item)
 	{
 		TVChannel tvChannel = new TVChannel(item);

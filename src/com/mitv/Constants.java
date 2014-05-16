@@ -24,7 +24,7 @@ public abstract class Constants
 	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
 	public static final String FRONTEND_PRODUCTION_ENVIRONMENT = "mi.tv";
 	
-		
+	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
 	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
@@ -52,6 +52,9 @@ public abstract class Constants
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
 	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
+	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
+	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
+	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -106,6 +109,15 @@ public abstract class Constants
 	public static final String URL_API_VERSION						= URL_SERVER + "versions";
 	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
 	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
+	
+	/* API request strings for competitions module */
+	public static final String URL_COMPETITIONS 					= URL_SERVER + "api/sports/competitions";
+	public static final String URL_TEAMS 					 		= "/teams";
+	public static final String URL_PHASES 					 		= "/phases";
+	public static final String URL_PHASES_FULL 					 	= "/api/sports/phases";
+	public static final String URL_EVENTS 					 		= "/events";
+	public static final String URL_STANDINGS 					 	= "/standings";
+	public static final String URL_POLLS 					 		= "/polls";
 	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
@@ -176,8 +188,8 @@ public abstract class Constants
 	public static final String	INTENT_EXTRA_SEARCHSTRING							= "com.mitv.intent.extra.searchstring";
 
 	/* Fragments extra arguments */
-	public static final String	FRAGMENT_EXTRA_TAG_DISPLAY_NAME						= "com.mitv.fragment.extra.tag.displayname";
-	public static final String	FRAGMENT_EXTRA_TAG_ID								= "com.mitv.fragment.extra.tag.id";
+//	public static final String	FRAGMENT_EXTRA_TAG_DISPLAY_NAME						= "com.mitv.fragment.extra.tag.displayname";
+//	public static final String	FRAGMENT_EXTRA_TAG_ID								= "com.mitv.fragment.extra.tag.id";
 
 	/* TVGuide */
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
@@ -311,6 +323,12 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION		= "HTTP_CORE_OUT_OF_MEMORY_EXCEPTION";
 	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS = "CHANNEL_CELL_IN_HOME_ACTIVITY_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS = "BROADCAST_CELL_IN_CHANNEL_ACTIVITY_PRESSED";
+	
+	public static final String GA_EVENT_ACTION_TAG_SELECTED = "TAG_SELECTED";
+	public static final String GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED = "COMPETITION_ENTRY_PRESSED";
+	public static final String GA_EVENT_ACTION_DETACHED_AREA_PRESSED = "DETACHED_AREA_PRESSED";
+	public static final String GA_EVENT_ACTION_INVIEW_TAB_PRESSED = "INVIEW_TAB_PRESSED";
+	public static final String GA_EVENT_ACTION_TEAM_PRESSED = "TEAM_PRESSED";
 	
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
@@ -472,8 +490,15 @@ public abstract class Constants
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
 	
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
+	public static final String FIFA_TAG_ID = "FIFA";
+	public static final long FIFA_COMPETITION_ID = 17694;
 	
 	/* Ad mob stuff */
 	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
 	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";
+	
+	
+	public static final String INTENT_COMPETITION_ID = "competitionID";
+	public static final String GROUP_STAGE = "Fase de Grupos";
+	public static final int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON = 1;
 }

@@ -21,12 +21,12 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.adapters.pager.TutorialScreenSlidePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.listadapters.TutorialScreenSlidePagerAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
@@ -137,8 +137,17 @@ public class SplashScreenActivity
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
 	}
-		
 	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ContentManager.sharedInstance().setFetchDataProgressCallbackListener(null);
+
+		View view = getWindow().getDecorView().getRootView();
+		GenericUtils.unbindDrawables(view);
+	}
+
 	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
@@ -234,7 +243,9 @@ public class SplashScreenActivity
 				
 				if (!isViewingTutorial && waitingForData) 
 				{
-					TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+					if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+						TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+					}
 					
 					startPrimaryActivity();
 				}

@@ -32,7 +32,7 @@ public class GetUserTVChannelIds
 			final ViewCallbackListener activityCallbackListener,
 			boolean standalone) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, true);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
 	}
 	
 	
