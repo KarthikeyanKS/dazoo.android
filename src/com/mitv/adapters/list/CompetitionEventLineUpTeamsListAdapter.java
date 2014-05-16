@@ -46,7 +46,12 @@ public class CompetitionEventLineUpTeamsListAdapter
 	@Override
 	public int getCount()
 	{
-		int count = lineups.size();
+		int count = 0;
+		
+		if (lineups != null) 
+		{
+			count = lineups.size();
+		}
 		
 		return count;
 	}
@@ -81,7 +86,7 @@ public class CompetitionEventLineUpTeamsListAdapter
 	{
 		View rowView = convertView;
 	
-		final EventLineUp element = getItem(position);
+		final EventLineUp eventLineUp = getItem(position);
 	
 		if (rowView == null) 
 		{
@@ -89,8 +94,9 @@ public class CompetitionEventLineUpTeamsListAdapter
 	
 			rowView = layoutInflater.inflate(R.layout.row_competition_event_lineup_teams_list_item, null);
 	
-			viewHolder.highlight = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_teams_name);
-			viewHolder.time = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_teams_time);
+			viewHolder.playerShirtNumber = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_shirt_number);
+			viewHolder.playerPosition = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_position);
+			viewHolder.playerName = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_name);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -99,13 +105,22 @@ public class CompetitionEventLineUpTeamsListAdapter
 		
 		if (holder != null) 
 		{
-			// TODO - Replace with proper model values
-			holder.highlight.setText("Bananas");
-			holder.time.setText("99'");
+			if (eventLineUp != null) {
+				String shirtNr = eventLineUp.getShirtNr();
+				String positionShort = eventLineUp.getFunctionShort();
+				
+				holder.playerShirtNumber.setText(shirtNr);
+				holder.playerPosition.setText(positionShort);
+				holder.playerName.setText(eventLineUp.getPerson());
+					
+			} else {
+				Log.w(TAG, "EventLineUp is null");
+			}
+			
 		}
 		else
 		{
-			Log.w(TAG, "Event is null");
+			Log.w(TAG, "EventLineUp is null");
 		}
 			
 		return rowView;
@@ -115,7 +130,8 @@ public class CompetitionEventLineUpTeamsListAdapter
 	
 	private static class ViewHolder 
 	{
-		private TextView highlight;
-		private TextView time;
+		private TextView playerName;
+		private TextView playerPosition;
+		private TextView playerShirtNumber;
 	}
 }

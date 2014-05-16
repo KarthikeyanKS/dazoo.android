@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
@@ -37,10 +38,14 @@ public class CompetitionEventTabFragmentLineUpTeams
 	private Event event;
 	
 	private long eventID;
-	
+
+	private View whiteDivider;
+	private TextView subsHeader;
+	private LinearLayout eventListOfSubs;
 	
 	private LinearLayout listContainerLayout;
 	private CompetitionEventLineUpTeamsListAdapter listAdapter;
+	private CompetitionEventLineUpTeamsListAdapter listAdapterSubs;
 	
 	
 	
@@ -67,6 +72,12 @@ public class CompetitionEventTabFragmentLineUpTeams
 		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container, null);
 		
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container);
+		
+		eventListOfSubs = (LinearLayout) rootView.findViewById(R.id.competition_event_table_substitute_players_container);
+		
+		subsHeader = (TextView) rootView.findViewById(R.id.competition_event_subs_header);
+		
+		whiteDivider = (View) rootView.findViewById(R.id.competition_event_header_divider);
 	
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -148,7 +159,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 			{
 				long eventID = getEvent().getEventId();
 				
-				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheLineUpDataByEventIDForSelectedCompetition(eventID);
+				// Line up
+				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID);
 	
 				listAdapter = new CompetitionEventLineUpTeamsListAdapter(activity, eventLineUps);
 				
@@ -164,9 +176,50 @@ public class CompetitionEventTabFragmentLineUpTeams
 				
 				listContainerLayout.measure(0, 0);
 				
-				EventPageActivity.viewPagerForLineupTeams.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+//				EventPageActivity.viewPagerForLineupTeams.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
 				
-				EventPageActivity.viewPagerForLineupTeams.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+//				EventPageActivity.viewPagerForLineupTeams.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				
+				
+				// Line up - Substitutes
+				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID);
+				
+				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) {
+					
+					whiteDivider.setVisibility(View.VISIBLE);
+					
+					StringBuilder sb = new StringBuilder();
+					
+					if (eventLineUpsSubs.size() > 1) {
+						sb.append(getString(R.string.event_page_lineup_subs_header))
+							.append("s");
+					} else {
+						sb.append(getString(R.string.event_page_lineup_subs_header));
+					}
+					
+					subsHeader.setText(sb.toString());
+					
+					listAdapterSubs = new CompetitionEventLineUpTeamsListAdapter(activity, eventLineUpsSubs);
+					
+					for (int i = 0; i < listAdapterSubs.getCount(); i++) 
+					{
+			            View listItem = listAdapterSubs.getView(i, null, eventListOfSubs);
+			           
+			            if (listItem != null) 
+			            {
+			            	eventListOfSubs.addView(listItem);
+			            }
+			        }
+					
+					eventListOfSubs.measure(0, 0);
+					
+					EventPageActivity.viewPagerForLineupTeams.heightsMap.put(1, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
+					
+					EventPageActivity.viewPagerForLineupTeams.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+					
+					subsHeader.setVisibility(View.VISIBLE);
+					eventListOfSubs.setVisibility(View.VISIBLE);
+				}
 				
 				break;
 			}

@@ -7,11 +7,12 @@ public class EventLineUpJSON
 {
 	protected long lineUpId;
 	protected long eventId;
-	protected int actionSet;
-	protected int actionId; 
-	protected String actionMinute;
+	protected int actionSet; 		//Remove?
+	protected int actionId; 		//Remove?
+	protected String actionMinute;	//Remove?
 	protected long personId;
 	protected String person;
+	protected String personShort;
 	protected long teamId;
 	protected String team;
 	protected int functionCode;
@@ -70,6 +71,12 @@ public class EventLineUpJSON
 
 	public String getPerson() {
 		return person;
+	}
+	
+	
+	
+	public String getPersonShort() {
+		return personShort;
 	}
 
 

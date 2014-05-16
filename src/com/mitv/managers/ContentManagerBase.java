@@ -1208,9 +1208,41 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<EventLineUp> getFromCacheLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	public List<EventLineUp> getFromCacheAllLineUpDataByEventIDForSelectedCompetition(Long eventID)
 	{
 		return getCache().getCompetitionsData().getEventLineUpForEventInSelectedCompetition(eventID);
+	}
+	
+	
+	
+	public List<EventLineUp> getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		List<EventLineUp> lineups = new ArrayList<EventLineUp>();
+		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
+		
+		for (EventLineUp elu : lineupsAll) {
+			if (!elu.isInStartingLineUp()) {
+				lineups.add(elu);
+			}
+		}
+		
+		return lineups;
+	}
+	
+	
+	
+	public List<EventLineUp> getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		List<EventLineUp> lineups = new ArrayList<EventLineUp>();
+		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
+		
+		for (EventLineUp elu : lineupsAll) {
+			if (elu.isInStartingLineUp()) {
+				lineups.add(elu);
+			}
+		}
+		
+		return lineups;
 	}
 	
 	

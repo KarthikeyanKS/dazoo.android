@@ -148,7 +148,7 @@ public class CompetitionEventTabFragmentLineUp
 			{
 				long eventID = getEvent().getEventId();
 				
-				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheLineUpDataByEventIDForSelectedCompetition(eventID);
+				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
 	
 				listAdapter = new CompetitionEventLineUpListAdapter(activity, eventLineUps);
 				
