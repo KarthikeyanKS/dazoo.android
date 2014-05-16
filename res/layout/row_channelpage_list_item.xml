@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
@@ -15,36 +14,33 @@
         android:layout_margin="10dp"
         android:singleLine="true" />
 
-    <RelativeLayout
-        android:id="@+id/channelpage_list_item_title_container"
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/channelpage_list_item_title_tv"
+        style="@style/header2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/channelpage_list_item_time_tv" >
+        android:layout_toRightOf="@id/channelpage_list_item_time_tv"
+        android:singleLine="true" />
 
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/channelpage_list_item_title_tv"
-            style="@style/header2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/channelpage_list_item_description_tv"
-            style="@style/meta1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/channelpage_list_item_title_tv"
-            android:singleLine="true"
-            android:visibility="visible" />
-    </RelativeLayout>
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/channelpage_list_item_description_tv"
+        style="@style/meta1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/channelpage_list_item_title_tv"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/channelpage_list_item_time_tv"
+        android:singleLine="true"
+        android:visibility="visible" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/channelpage_list_item_title_container"
+        android:layout_height="@dimen/divider_height"
+        android:layout_below="@id/channelpage_list_item_description_tv"
         android:background="@color/grey1" />
 
 </RelativeLayout>

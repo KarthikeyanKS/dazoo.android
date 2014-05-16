@@ -23,7 +23,7 @@ public class PerformInternalTracking
 			String tvProgramId,
 			String deviceId) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.INTERNAL_TRACKING, DummyData.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.INTERNAL_TRACKING, DummyData.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false);
 			
 		this.urlParameters.add(Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_KEY, Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_VALUE_VIEWS);
 		this.urlParameters.add(Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_KEY, Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VALUE_PROGRAM_ID);

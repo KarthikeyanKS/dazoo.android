@@ -23,28 +23,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/block_cast_and_crew_title_tv"
         android:cacheColorHint="@null"
-        android:divider="@null" 
-        android:dividerHeight="0dp"/>
-    
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none" />
+
     <RelativeLayout
         android:id="@+id/block_cast_and_crew_button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/listview"
-        android:background="@color/white">
-        
+        android:background="@color/white" >
+
         <com.mitv.ui.elements.FontButton
             android:id="@+id/block_cast_and_crew_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
             android:background="@color/grey1"
+            android:gravity="center_vertical"
             android:text="@string/view_full_cast_and_crew"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"/>
-        
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </RelativeLayout>

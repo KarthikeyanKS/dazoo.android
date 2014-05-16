@@ -1,5 +1,6 @@
 package com.mitv.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.mitv.R;
  * @author atsampikakis
  *
  */
+@SuppressLint("ValidFragment")
 public class UserTutorialFragment extends Fragment {
 
 	private int currentPage;
@@ -27,6 +29,8 @@ public class UserTutorialFragment extends Fragment {
 	private static final int PAGE4 = 3;
 	private static final int PAGE5 = 4;
 	
+	private static final int DEFAULT_PAGE = 0;
+	
 	private ImageView imgView;
 	private TextView splashText;
 	private TextView headerText;
@@ -36,6 +40,9 @@ public class UserTutorialFragment extends Fragment {
 
 	public static final String ARG_OBJECT = "object";
 	
+	public UserTutorialFragment() {
+		this.currentPage = DEFAULT_PAGE;
+	}
 	
 	public UserTutorialFragment(int position) {
 		this.currentPage = position;

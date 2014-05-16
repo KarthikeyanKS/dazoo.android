@@ -21,12 +21,12 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.adapters.pager.TutorialScreenSlidePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.listadapters.TutorialScreenSlidePagerAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
@@ -121,13 +121,15 @@ public class SplashScreenActivity
 	protected void onResume() 
 	{
 		super.onResume();
-				
+		
+		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenStarted(this.getClass().getSimpleName());
+		
 		boolean isConnected = NetworkUtils.isConnected();
 		
 		isViewingTutorial = SecondScreenApplication.sharedInstance().getIsViewingTutorial();
 		
 		if(isConnected)
-		{	
+		{
 			loadData();
 		}
 		else
@@ -135,8 +137,17 @@ public class SplashScreenActivity
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
 	}
-		
 	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ContentManager.sharedInstance().setFetchDataProgressCallbackListener(null);
+
+		View view = getWindow().getDecorView().getRootView();
+		GenericUtils.unbindDrawables(view);
+	}
+
 	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
@@ -173,6 +184,8 @@ public class SplashScreenActivity
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
+		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenOnResultReached(this.getClass().getSimpleName());
+		
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		
 		switch (fetchRequestResult) 
@@ -205,7 +218,8 @@ public class SplashScreenActivity
 			
 			case NO_CONNECTION_AVAILABLE:
 			{				
-				if (!isViewingTutorial) {
+				if (!isViewingTutorial) 
+				{
 					startPrimaryActivity();
 				}
 				
@@ -229,6 +243,10 @@ public class SplashScreenActivity
 				
 				if (!isViewingTutorial && waitingForData) 
 				{
+					if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+						TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+					}
+					
 					startPrimaryActivity();
 				}
 				break;
@@ -243,6 +261,7 @@ public class SplashScreenActivity
 		if(SecondScreenApplication.isAppRestarting()) 
 		{
 			Log.d(TAG, "isAppRestarting is true => setting to false");
+			
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
 		

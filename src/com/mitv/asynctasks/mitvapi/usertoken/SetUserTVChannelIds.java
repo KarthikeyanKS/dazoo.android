@@ -12,6 +12,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.DummyData;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 
@@ -28,14 +29,40 @@ public class SetUserTVChannelIds
 
 	
 	public SetUserTVChannelIds(
-			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener,
-			List<TVChannelId> channelIds) 
+			final ContentCallbackListener contentCallbackListener,
+			final ViewCallbackListener activityCallbackListener,
+			final List<TVChannelId> channelIds) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SET_CHANNELS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SET_CHANNELS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
 				
 		this.bodyContentData = gson.toJson(channelIds);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
+	}
+	
+	
+	
+	@Override
+	protected Void doInBackground(String... params) 
+	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+	
+		super.doInBackground(params);
+		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		
+		return null;
+	}
+	
+	
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		
+		super.onPostExecute(result);
+		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 	}
 }

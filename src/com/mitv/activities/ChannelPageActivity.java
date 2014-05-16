@@ -15,10 +15,10 @@ import android.widget.ListView;
 
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.adapters.list.ChannelPageListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.listadapters.ChannelPageListAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;

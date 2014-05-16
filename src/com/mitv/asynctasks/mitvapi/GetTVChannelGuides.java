@@ -15,6 +15,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
@@ -62,13 +63,13 @@ public class GetTVChannelGuides
 	
 	
 	public GetTVChannelGuides(
-			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener,
-			boolean standalone,
-			TVDate tvDate,
-			List<TVChannelId> tvChannelIds) 
+			final ContentCallbackListener contentCallbackListener,
+			final ViewCallbackListener activityCallbackListener,
+			final boolean standalone,
+			final TVDate tvDate,
+			final List<TVChannelId> tvChannelIds) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelGuide[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvDate));
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelGuide[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvDate), Constants.USE_INITIAL_METRICS_ANALTYTICS);
 		
 		this.tvDate = tvDate;
 		
@@ -85,6 +86,8 @@ public class GetTVChannelGuides
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		
 		super.doInBackground(params);
 		
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
@@ -103,6 +106,20 @@ public class GetTVChannelGuides
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
 		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		
 		return null;
+	}
+	
+	
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		
+		super.onPostExecute(result);
+		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 	}
 }

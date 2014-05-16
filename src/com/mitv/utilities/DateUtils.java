@@ -27,7 +27,8 @@ public abstract class DateUtils
 	private static final String TAG = DateUtils.class.getName();
 	
 	public static final int TOTAL_MINUTES_IN_ONE_HOUR = 60;
-	public static final long TOTAL_MILLISECONDS_IN_ONE_MINUTE = 60000;
+	public static final long TOTAL_MILLISECONDS_IN_ONE_SECOND = 1000;
+	public static final long TOTAL_MILLISECONDS_IN_ONE_MINUTE = TOTAL_MILLISECONDS_IN_ONE_SECOND*60;
 	public static final long TOTAL_MILLISECONDS_IN_ONE_HOUR = TOTAL_MILLISECONDS_IN_ONE_MINUTE*60;
 	public static final long TOTAL_MILLISECONDS_IN_ONE_DAY = TOTAL_MILLISECONDS_IN_ONE_HOUR*24;
 	
@@ -146,7 +147,8 @@ public abstract class DateUtils
 	 * 
 	 * @return
 	 */
-	public static Long getTimeZoneOffsetInMillis() {
+	public static Long getTimeZoneOffsetInMillis()
+	{
 		Long offsetInMillis = 0L;
 		
 		TimeZone timeZone = TimeZone.getDefault();
@@ -479,8 +481,8 @@ public abstract class DateUtils
 		
 		Calendar now = getNow();
 		
-    	boolean isCorrectYear = (now.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) <= 1;
-    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) <= 1;
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) == 0;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) == 0;
     	boolean isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, now);
     	
 		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;

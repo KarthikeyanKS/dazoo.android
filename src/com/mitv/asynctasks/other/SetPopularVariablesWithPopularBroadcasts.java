@@ -9,11 +9,13 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.mitv.Constants;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
@@ -35,8 +37,8 @@ public class SetPopularVariablesWithPopularBroadcasts
 	
 	
 	public SetPopularVariablesWithPopularBroadcasts(
-			ContentCallbackListener contentCallbackListener, 
-			ViewCallbackListener activityCallbackListener)
+			final ContentCallbackListener contentCallbackListener,
+			final ViewCallbackListener activityCallbackListener)
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
@@ -55,7 +57,15 @@ public class SetPopularVariablesWithPopularBroadcasts
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
+		
 		setPopularBroadcastVariables();
+		
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		}
 		
 		return null;
 	}
@@ -64,7 +74,13 @@ public class SetPopularVariablesWithPopularBroadcasts
 	
 	@Override
 	protected void onPostExecute(Void result)
-	{	
+	{
+		super.onPostExecute(result);
+		
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
+		
 		if(contentCallbackListener != null)
 		{
 			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
@@ -72,6 +88,10 @@ public class SetPopularVariablesWithPopularBroadcasts
 		else
 		{
 			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
+		}
+		
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 		}
 	}
 	

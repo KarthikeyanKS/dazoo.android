@@ -14,8 +14,8 @@
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentRight="true"
-        android:background="@drawable/poster_activity"
         android:fillViewport="true"
+        
         android:orientation="vertical" >
 
         <RelativeLayout

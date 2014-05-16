@@ -135,26 +135,32 @@ public abstract class BaseActivity
 	 * @return 
 	 * 
 	 */
-	protected boolean isRestartNeeded() {
-		if (!ContentManager.sharedInstance().getFromCacheHasInitialData()) {
-			Log.e(TAG, String.format("%s: ContentManager or cache or initialdata was null", getClass().getSimpleName()));
+	protected boolean isRestartNeeded() 
+	{
+		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false) 
+		{
+			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
 
-			if (!ContentManager.sharedInstance().isUpdatingGuide()) {
-
+			if (ContentManager.sharedInstance().isUpdatingGuide() == false) 
+			{
 				boolean isConnected = NetworkUtils.isConnected();
 
-				if (isConnected) {
+				if (isConnected) 
+				{
 					restartTheApp();
 					return true;
 				}
-
-			} else {
+			} 
+			else 
+			{
 				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
 			}
 		}
 		
 		return false;
 	}
+	
+	
 	
 	public void restartTheApp() {
 		if (!SecondScreenApplication.isAppRestarting()) {
@@ -756,9 +762,11 @@ public abstract class BaseActivity
 	@Override
 	protected void onDestroy() 
 	{
-		removeFromStackOnDestroy(this);
-
 		super.onDestroy();
+		
+		removeFromStackOnDestroy(this);
+		
+		unregisterListenerFromAllRequests();
 	}
 	
 	
@@ -989,7 +997,9 @@ public abstract class BaseActivity
 				break;
 			}
 			}
-		} else {
+		} 
+		else 
+		{
 			Log.w(TAG, "Activity is null or finishing. No UI elements will be changed.");
 		}
 	}

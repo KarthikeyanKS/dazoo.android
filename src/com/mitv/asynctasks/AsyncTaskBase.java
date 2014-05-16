@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.mitv.Constants;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -18,11 +19,13 @@ import com.mitv.http.HTTPCore;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
+import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.managers.TrackingManager;
 import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.FileUtils;
 import com.mitv.utilities.LanguageUtils;
-import com.mitv.Constants;
 
 
 
@@ -54,31 +57,20 @@ public abstract class AsyncTaskBase<T>
 	
 	protected boolean isMiTVAPICall;
 	
-	
-	
-	public AsyncTaskBase(
-			ContentCallbackListener contentCallbackListener, 
-			ViewCallbackListener activityCallbackListener,
-			RequestIdentifierEnum requestIdentifier, 
-			Class<T> clazz,
-			HTTPRequestTypeEnum httpRequestType,
-			String url) 
-	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true);
-	}
+	private boolean reportMetricsToTracker;
 	
 	
 	
 	public AsyncTaskBase(
-			ContentCallbackListener contentCallbackListener, 
-			ViewCallbackListener activityCallbackListener,
-			RequestIdentifierEnum requestIdentifier, 
-			Class<T> clazz,
-			boolean manualDeserialization,
-			HTTPRequestTypeEnum httpRequestType,
-			String url) 
+			final ContentCallbackListener contentCallbackListener, 
+			final ViewCallbackListener activityCallbackListener,
+			final RequestIdentifierEnum requestIdentifier, 
+			final Class<T> clazz,
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final boolean reportMetricsToTracker)
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker);
 	}
 	
 	
@@ -91,9 +83,25 @@ public abstract class AsyncTaskBase<T>
 			final boolean manualDeserialization,
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
-			final boolean isMiTVAPICall) 
+			final boolean reportMetricsToTracker) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker);
+	}
+	
+	
+	
+	public AsyncTaskBase(
+			final ContentCallbackListener contentCallbackListener, 
+			final ViewCallbackListener activityCallbackListener,
+			final RequestIdentifierEnum requestIdentifier, 
+			final Class<T> clazz,
+			final boolean manualDeserialization,
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final boolean isMiTVAPICall,
+			final boolean reportMetricsToTracker)
+	{
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false, reportMetricsToTracker);
 	}
 	
 
@@ -110,7 +118,8 @@ public abstract class AsyncTaskBase<T>
 			final URLParameters urlParameters,
 			final HeaderParameters headerParameters,
 			final String bodyContentData,
-			final boolean isMiTVAPICall)
+			final boolean isMiTVAPICall,
+			final boolean reportMetricsToTracker)
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
@@ -127,6 +136,8 @@ public abstract class AsyncTaskBase<T>
 		this.response = null;
 		
 		this.isMiTVAPICall = isMiTVAPICall;
+		
+		this.reportMetricsToTracker = reportMetricsToTracker;
 		
 		if(isMiTVAPICall)
 		{
@@ -196,7 +207,37 @@ public abstract class AsyncTaskBase<T>
 	@Override
 	protected Void doInBackground(String... params) 
 	{
+		if(reportMetricsToTracker)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestStart(this.getClass().getSimpleName());
+		}
+		
 		response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+	
+		if(Constants.FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE)
+		{
+			String responseString = FileUtils.getMockJSONString(getClass().getSimpleName());
+			
+			if(responseString != null)
+			{
+				int statusCode = FetchRequestResultEnum.SUCCESS.getStatusCode();
+				
+				response = new HTTPCoreResponse(url, statusCode, responseString);
+			}
+			else
+			{
+				response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+			}
+		}
+		else
+		{
+			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+		}
+		
+		if(reportMetricsToTracker)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(this.getClass().getSimpleName());
+		}
 		
 		requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
 		
@@ -224,10 +265,17 @@ public abstract class AsyncTaskBase<T>
 			
 			if(wasSuccessful)
 			{	
+				if(reportMetricsToTracker)
+				{
+					TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundJSONParsingStart(this.getClass().getSimpleName());
+				}
+				
 				try
 				{
 					Log.d(TAG, String.format("%s doInBackground - Parsing JSON into model (using GSON)", clazz.getName()));
+				
 					requestResultObjectContent = gson.fromJson(responseString, clazz);
+					
 					Log.d(TAG, String.format("%s doInBackground - After parsing JSON into model (using GSON)", clazz.getName()));
 				}
 				catch(JsonSyntaxException jsex)
@@ -236,6 +284,11 @@ public abstract class AsyncTaskBase<T>
 
 					requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
 					requestResultObjectContent = null;
+				}
+				
+				if(reportMetricsToTracker)
+				{
+					TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundJSONParsingEnd(this.getClass().getSimpleName());
 				}
 			}
 			else
@@ -267,4 +320,11 @@ public abstract class AsyncTaskBase<T>
 			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
 		}
 	}	
+	
+	
+	
+	public RequestIdentifierEnum getRequestIdentifier()
+	{
+		return requestIdentifier;
+	}
 }
