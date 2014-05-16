@@ -76,20 +76,6 @@ public class ImageSetSizeJSON
 	
 	
 	
-	public String getSmall() {
-		return small;
-	}
-
-	public String getMedium() {
-		return medium;
-	}
-
-	public String getLarge() {
-		return large;
-	}
-
-	
-	
 	@Override
 	public String toString()
 	{
@@ -104,5 +90,23 @@ public class ImageSetSizeJSON
 		sb.append(large);
 		
 		return sb.toString();
+	}
+
+
+
+	public String getSmall() {
+		return small;
+	}
+
+
+
+	public String getMedium() {
+		return medium;
+	}
+
+
+
+	public String getLarge() {
+		return large;
 	}	
 }

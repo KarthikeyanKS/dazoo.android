@@ -51,9 +51,11 @@ public abstract class Constants
 	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
-	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
+	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
+	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
-	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
+	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
+	
 	
 	/* AMAZON INSIGHTS SETTINGS */
 	public static final String AMAZON_INSIGHTS_IDENTIFIER = "mi.tv.example";
@@ -81,7 +83,8 @@ public abstract class Constants
 	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
 	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_ENVIRONMENT_USED;
 	
-	public static final String URL_GUIDE 							= URL_SERVER + "epg/guide";
+	//public static final String URL_GUIDE_LEGACY 					= URL_SERVER + "epg/guide";
+	public static final String URL_GUIDE 							= URL_SERVER + "epg/slimguide";
 	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
 	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "epg/channels";
 	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "epg/channels/default";

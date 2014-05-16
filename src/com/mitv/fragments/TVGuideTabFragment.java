@@ -127,22 +127,10 @@ public abstract class TVGuideTabFragment
 	
 	
 	@Override
-	public void onDestroyView()
-	{
-		super.onDestroyView();
-		
-		Log.d(TAG, "Fragment view " + tabTitle + " was destroyed,");
-	}
-	
-	
-	
-	@Override
 	public void onResume() 
 	{	
 		super.onResume();
 
-		Log.d(TAG, "Fragment view " + tabTitle + " was resumed");
-		
 		updateSwipeClockBarWithDayAndTime();
 	}
 	

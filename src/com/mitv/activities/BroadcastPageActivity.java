@@ -6,7 +6,6 @@ package com.mitv.activities;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -24,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
@@ -36,6 +34,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.http.URLParameters;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.FontManager;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -57,19 +56,21 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class BroadcastPageActivity 
+public class BroadcastPageActivity
 	extends BaseContentActivity 
 	implements OnClickListener 
 {
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
 	
+	private boolean requiresDataReload;
 	private TVChannelId channelId;
 	private long beginTimeInMillis;
-	private TVBroadcastWithChannelInfo broadcastWithChannelInfo;
+	
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> broadcastsAiringOnOtherChannels;
+	
 	
 	private ImageView posterIv;
 	private TextView seasonTv;
@@ -102,12 +103,15 @@ public class BroadcastPageActivity
 	
 	
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
+		if (super.isRestartNeeded()) 
+		{
 			return;
 		}
 
@@ -130,27 +134,35 @@ public class BroadcastPageActivity
 	{	
 		Intent intent = getIntent();
 
-		boolean needToDownloadBroadcastWithChannelInfo = intent.getBooleanExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
+		// Defaulting the fetching of data to true
+		requiresDataReload = intent.getBooleanExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 
-		/*
-		 * Used for when starting this activity from notification center in device or if you click on it from reminder
-		 * list
-		 */
-		if (needToDownloadBroadcastWithChannelInfo) 
+		beginTimeInMillis = 0;
+		channelId = null;
+		
+		if(requiresDataReload) 
 		{
-			beginTimeInMillis = intent.getLongExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
+			long beginTime = intent.getLongExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 
 			String channelIdAsString = intent.getStringExtra(Constants.INTENT_EXTRA_CHANNEL_ID);
 
-			channelId = new TVChannelId(channelIdAsString);
-			
-			broadcastWithChannelInfo = null;
-			
-			Log.d(TAG, String.format("needToDownloadBroadcastWithChannelInfo: channelId: %s, beginTimeMillis: %d", channelIdAsString, beginTimeInMillis));
-		} 
-		else 
-		{
-			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+			if(beginTime != 0 && channelIdAsString != null)
+			{
+				beginTimeInMillis = beginTime;
+				
+				channelId = new TVChannelId(channelIdAsString);
+			}
+			else
+			{
+				TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+				
+				if(broadcast != null)
+				{
+					beginTimeInMillis = broadcast.getBeginTimeMillis();
+					
+					channelId = broadcast.getChannel().getChannelId();
+				}
+			}
 		}
 
 		updateStatusOfLikeView();
@@ -189,7 +201,7 @@ public class BroadcastPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, false, broadcastWithChannelInfo, channelId, beginTimeInMillis);
+		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, requiresDataReload, channelId, beginTimeInMillis);
 	}
 
 	
@@ -209,7 +221,9 @@ public class BroadcastPageActivity
 		/* Remove upcoming broadcasts with season 0 and episode 0 */
 		LinkedList<TVBroadcast> upcomingBroadcastsToRemove = new LinkedList<TVBroadcast>();
 		
-		ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		
+		ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
 		
 		if (programType == ProgramTypeEnum.TV_EPISODE) 
 		{
@@ -239,9 +253,9 @@ public class BroadcastPageActivity
 	
 	private void handleInitialDataAvailable() 
 	{
-		broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
-
-		repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		
+		repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcast);
 		
 		if (repeatingBroadcasts != null) 
 		{
@@ -249,18 +263,18 @@ public class BroadcastPageActivity
 
 			for (TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
 			{
-				broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
+				broadcastWithoutProgramInfo.setProgram(broadcast.getProgram());
 			}
 		}
 
-		upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+		upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcast);
 		
 		if (upcomingBroadcasts != null) 
 		{
 			upcomingBroadcasts = filterOutEpisodesWithBadData();
 		}
 		
-		broadcastsAiringOnOtherChannels = ContentManager.sharedInstance().getFromCacheBroadcastsAiringOnDifferentChannels(broadcastWithChannelInfo, true);
+		broadcastsAiringOnOtherChannels = ContentManager.sharedInstance().getFromCacheBroadcastsAiringOnDifferentChannels(broadcast, true);
 	}
 
 	
@@ -285,13 +299,15 @@ public class BroadcastPageActivity
 				{
 					handleInitialDataAvailable();
 					
+					TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+					
 					boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
 					
-					if(areDisqusCommentsEnabled && broadcastWithChannelInfo != null)
+					if(areDisqusCommentsEnabled && broadcast != null)
 					{
-						String contentID = broadcastWithChannelInfo.getShareUrl();
+						String contentID = broadcast.getShareUrl();
 						
-						buildDisqusCommentsWebViewURL(broadcastWithChannelInfo);
+						buildDisqusCommentsWebViewURL(broadcast);
 						
 						ContentManager.sharedInstance().fetchFromServiceDisqusThreadDetails(this, contentID);
 					}
@@ -445,10 +461,12 @@ public class BroadcastPageActivity
 	{
 		populateMainView();
 
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		
 		/* Repetitions */
 		if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) 
 		{
-			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(this, repetitionsContainer, broadcastWithChannelInfo);
+			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(this, repetitionsContainer, broadcast);
 			repeatitionsBlock.createBlock(repeatingBroadcasts);
 			repetitionsContainer.setVisibility(View.VISIBLE);
 		}
@@ -460,7 +478,7 @@ public class BroadcastPageActivity
 		/* Upcoming episodes */
 		if (upcomingBroadcasts != null && !upcomingBroadcasts.isEmpty()) 
 		{
-			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(this, upcomingContainer, true, broadcastWithChannelInfo);
+			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(this, upcomingContainer, true, broadcast);
 			
 			upcomingBlock.createBlock(upcomingBroadcasts);
 			
@@ -476,7 +494,7 @@ public class BroadcastPageActivity
 		{
 			if (broadcastsAiringOnOtherChannels != null && !broadcastsAiringOnOtherChannels.isEmpty()) 
 			{
-				BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(this, nowAiringContainer, broadcastWithChannelInfo);
+				BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(this, nowAiringContainer, broadcast);
 				
 				similarBroadcastsAiringNowBlock.createBlock(broadcastsAiringOnOtherChannels);
 				
@@ -497,11 +515,13 @@ public class BroadcastPageActivity
 	
 	private void populateMainView()
 	{
-		TVProgram program = broadcastWithChannelInfo.getProgram();
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		
+		TVProgram program = broadcast.getProgram();
 
 		ProgramTypeEnum programType = program.getProgramType();
 
-		int duration = broadcastWithChannelInfo.getBroadcastDurationInMinutes();
+		int duration = broadcast.getBroadcastDurationInMinutes();
 
 		StringBuilder extrasStringBuilder = new StringBuilder();
 
@@ -511,13 +531,16 @@ public class BroadcastPageActivity
 
 		StringBuilder titleSB = new StringBuilder();
 
-		if(broadcastWithChannelInfo.isPopular())
+		if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
 		{
-//			titleSB.append(getString(R.string.icon_trending))
-//				.append(" ");
+			if(broadcast.isPopular())
+			{
+				titleSB.append(getString(R.string.icon_trending))
+					.append(" ");
+			}
 		}
 		
-		titleSB.append(broadcastWithChannelInfo.getTitle());
+		titleSB.append(broadcast.getTitle());
 		
 		contentTitleTextView.setText(titleSB);
 		
@@ -649,27 +672,31 @@ public class BroadcastPageActivity
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
 
-		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true) 
+		ImageSetOrientation imageSetOrientation = program.getImages();
+		
+		boolean containsLandscapeOrientation = imageSetOrientation.containsLandscapeImageSet();
+		
+		if(containsLandscapeOrientation)
 		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
 			
-			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
+			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getImageURLForDeviceDensityDPI(), imageAware);
 		}
 
-		if (broadcastWithChannelInfo.getChannel() != null) 
+		if (broadcast.getChannel() != null) 
 		{
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
 			
-			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
+			ImageLoader.getInstance().displayImage(broadcast.getChannel().getImageUrl(), imageAware);
 		}
 
-		BroadcastTypeEnum broadcastType = broadcastWithChannelInfo.getBroadcastType();
+		BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
 		
 		StringBuilder timeSB = new StringBuilder();
 		
-		if(broadcastWithChannelInfo.isBroadcastCurrentlyAiring())
+		if(broadcast.isBroadcastCurrentlyAiring())
 		{
-			LanguageUtils.setupProgressBar(this, broadcastWithChannelInfo, progressBar, progressTxt);
+			LanguageUtils.setupProgressBar(this, broadcast, progressBar, progressTxt);
 
 			if(programType == ProgramTypeEnum.SPORT &&
 			   broadcastType == BroadcastTypeEnum.LIVE) 
@@ -696,9 +723,9 @@ public class BroadcastPageActivity
 				.append(" ");
 			}
 			
-			timeSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString())
+			timeSB.append(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString())
 			.append(" - ")
-			.append(broadcastWithChannelInfo.getEndTimeHourAndMinuteLocalAsString());
+			.append(broadcast.getEndTimeHourAndMinuteLocalAsString());
 			
 			timeTv.setText(timeSB.toString());
 		}
@@ -715,19 +742,19 @@ public class BroadcastPageActivity
 		 * Set tag with broadcast object so that we can get that object from the view in onClickListener and perform add
 		 * or remove reminder for broadcast
 		 */
-		reminderView.setBroadcast(broadcastWithChannelInfo);
+		reminderView.setBroadcast(broadcast);
 
 		/*
 		 * Set tag with broadcast object so that we can get that object from the view in onClickListener and perform add
 		 * or remove like for broadcast
 		 */
-		likeView.setBroadcast(broadcastWithChannelInfo);
+		likeView.setBroadcast(broadcast);
 
 		/*
 		 * Set tag with broadcast object so that we can get that object from the view in onClickListener and perform
 		 * share for broadcast
 		 */
-		shareContainer.setTag(broadcastWithChannelInfo);
+		shareContainer.setTag(broadcast);
 
 		shareContainer.setOnClickListener(this);
 	}

@@ -33,4 +33,13 @@ public class ImageSetSize
 		this.medium = medium;
 		this.large = large;
 	}
+	
+	
+	
+	public boolean containsImages()
+	{
+		return (small != null && small.isEmpty() == false &&
+				medium != null && medium.isEmpty() == false &&
+				large != null && large.isEmpty() == false);
+	}
 }

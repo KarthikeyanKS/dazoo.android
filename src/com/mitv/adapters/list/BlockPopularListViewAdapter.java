@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +22,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -123,8 +123,15 @@ public class BlockPopularListViewAdapter
 			// Different details about the broadcast program depending on the type
 			ImageAware imageAware = new ImageViewAware(holder.mPoster, false);
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			ImageSetOrientation imageSetOrientation = broadcastWithChannelInfo.getProgram().getImages();
 			
+			boolean containsPortraitOrientation = imageSetOrientation.containsPortraitImageSet();
+			
+			if(containsPortraitOrientation)
+			{
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(imageSetOrientation.getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
+			}
+		
 			holder.mTime.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			
 			holder.mChannelName.setText(broadcastWithChannelInfo.getChannel().getName());

@@ -3,6 +3,7 @@
 
     <!-- Being overriden by ID from configuration call -->
     <string name="ga_trackingId" translatable="false">UA-46899989-1</string>
+    <string name="ga_sampleFrequency">80.0</string>
 
     <!--<string name="ga_sampleFrequency" translatable="false">100</string>-->
 

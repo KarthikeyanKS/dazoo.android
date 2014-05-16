@@ -348,7 +348,6 @@ public class SplashScreenActivity
 				titleIndicator.setCurrentItem(mPager.getCurrentItem());
 				updateViewForSelectedPage();
 			}
-			
 		});
 	}
 	
@@ -448,14 +447,17 @@ public class SplashScreenActivity
 		
 		boolean isConnected = NetworkUtils.isConnected();
 		
-		if (isDataFetched) {
-			startPrimaryActivity();
-			
-		} else {
+		if (isDataFetched) 
+		{
+			startPrimaryActivity();	
+		} 
+		else 
+		{
 			waitingForData = true;
 			isViewingTutorial = false;
 			
-			if (!isConnected) {
+			if (!isConnected) 
+			{
 				startPrimaryActivity();
 			}
 		}

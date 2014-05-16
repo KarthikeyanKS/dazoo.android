@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.list.ChannelPageListAdapter;
@@ -60,7 +61,8 @@ public class ChannelPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
+		if (super.isRestartNeeded()) 
+		{
 			return;
 		}
 		

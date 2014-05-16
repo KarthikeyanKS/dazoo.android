@@ -1155,7 +1155,8 @@ public abstract class ContentManagerCallback
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					
 					/* Filter the feed items */
-					if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) {
+					if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) 
+					{
 						Log.d(TAG, "MMM Starting filtering old broadcasts");
 						
 						feedItems = filterOldBroadcasts(feedItems, null);
@@ -1332,9 +1333,8 @@ public abstract class ContentManagerCallback
 					{
 						TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
 						
-						// TODO - Evaluate if this is really needed
-						//getCache().pushToNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-						
+						pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+
 						/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
 						if(broadcastWithChannelInfo.getProgram() != null && broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) 
 						{

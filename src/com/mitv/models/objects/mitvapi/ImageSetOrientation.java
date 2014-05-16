@@ -3,8 +3,6 @@ package com.mitv.models.objects.mitvapi;
 
 
 
-import android.text.TextUtils;
-
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.ImageSetOrientationJSON;
 import com.mitv.models.sql.NotificationSQLElement;
@@ -39,12 +37,23 @@ public class ImageSetOrientation
 	@Override
 	public boolean areDataFieldsValid() 
 	{
-		boolean areDataFieldsValid = ((getPortrait() != null) && (getLandscape() != null) &&
-				!TextUtils.isEmpty(getPortrait().getSmall()) && !TextUtils.isEmpty(getPortrait().getMedium()) && 
-				!TextUtils.isEmpty(getPortrait().getLarge()) && !TextUtils.isEmpty(getLandscape().getSmall()) && 
-				!TextUtils.isEmpty(getLandscape().getMedium()) && !TextUtils.isEmpty(getLandscape().getLarge())
-				);
+		boolean areDataFieldsValid = (landscape != null && landscape.containsImages() && 
+									  portrait != null && portrait.containsImages());
 		
 		return areDataFieldsValid;
+	}
+	
+	
+	
+	public boolean containsLandscapeImageSet()
+	{
+		return (landscape != null && landscape.containsImages());
+	}
+	
+	
+	
+	public boolean containsPortraitImageSet()
+	{
+		return (portrait != null && portrait.containsImages());
 	}
 }
