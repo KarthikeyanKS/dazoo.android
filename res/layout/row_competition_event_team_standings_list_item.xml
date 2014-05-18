@@ -4,7 +4,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/grey0">
     
     <!-- HEADER -->
     <RelativeLayout

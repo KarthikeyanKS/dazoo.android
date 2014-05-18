@@ -159,6 +159,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 			{
 				long eventID = getEvent().getEventId();
 				
+				listContainerLayout.removeAllViews();
+				
 				// Line up
 				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID);
 	
@@ -181,6 +183,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID);
 				
 				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) {
+					
+					eventListOfSubs.removeAllViews();
 					
 					whiteDivider.setVisibility(View.VISIBLE);
 					

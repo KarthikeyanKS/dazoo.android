@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_block_container_layout"
                 android:layout_margin="10dp"
+                android:paddingBottom="10dp"
                 android:background="@color/white"
                 android:orientation="vertical" >
 
@@ -56,6 +57,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/competition_events_header"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp" >
 
                     <!-- Flag team one -->
@@ -74,7 +76,8 @@
                         style="@style/text1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:maxLines="2"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/competition_event_highlights_team_one_flag" />
                 </RelativeLayout>
@@ -87,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/competition_events_header"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp" >
 
                     <!-- Flag team two -->
@@ -108,7 +112,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_margin="5dp"
+                        android:layout_marginRight="5dp"
+                        android:maxLines="2"
                         android:layout_toLeftOf="@id/competition_event_highlights_team_two_flag" />
                 </RelativeLayout>
 
@@ -147,7 +152,8 @@
                     style="@style/header1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/event_page_tab_line_up" />
 
                 <View

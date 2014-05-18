@@ -181,6 +181,16 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 	
 	
 	
+	public boolean hasEnded() {
+		Calendar now = DateUtils.getNow();
+		
+		boolean hasEnded = now.after(this.getEventBroadcastEndTimeLocal());
+		
+		return hasEnded;
+	}
+	
+	
+	
 	/**
 	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
 	 * is today or tomorrow (per comparison with the current time)

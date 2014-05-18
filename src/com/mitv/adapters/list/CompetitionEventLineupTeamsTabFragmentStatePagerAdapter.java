@@ -10,11 +10,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventTabTypeEnum;
-import com.mitv.fragments.CompetitionEventTabFragmentLineUp;
 import com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams;
 
 

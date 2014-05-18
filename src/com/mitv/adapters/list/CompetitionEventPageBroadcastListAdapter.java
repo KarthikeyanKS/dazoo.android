@@ -35,6 +35,7 @@ extends BaseAdapter
 	
 	private List<EventBroadcastDetails> broadcastDetails;
 	private boolean isAiring;
+	private boolean hasEnded;
 	
 	
 	
@@ -105,7 +106,7 @@ extends BaseAdapter
 			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.competition_event_channel_logo);
 			viewHolder.beginTime = (TextView) rowView.findViewById(R.id.competition_event_full_date);
 			viewHolder.reminderView = (TextView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
-			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.competition_event_broadcast_progressbar);
+			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.competition_event_broadcast_progressbar_2);
 			viewHolder.onGoingTimeLeft = (TextView) rowView.findViewById(R.id.competition_event_time_left_ongoing);
 			
 			rowView.setTag(viewHolder);
@@ -117,7 +118,8 @@ extends BaseAdapter
 		{
 			final EventBroadcastDetails details = getItem(position);
 			
-			isAiring =  details.isAiring();
+			isAiring = details.isAiring();
+			hasEnded = details.hasEnded();
 			
 			/* Set channel logo */
 			
@@ -164,7 +166,15 @@ extends BaseAdapter
 				holder.reminderView.setVisibility(View.GONE);
 			}
 			
-			/* Event has not started yet or is finished */
+			/* Event has ended */
+			else if (hasEnded) {
+				sb.append("Game has ended!");
+				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
+				holder.onGoingTimeLeft.setVisibility(View.GONE);
+				holder.reminderView.setVisibility(View.GONE);
+			}
+			
+			/* Event has not started yet */
 			else {
 				LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfGame, holder.progressBar);
 				sb.append(details.getEventTimeDayOfTheWeekAsString())

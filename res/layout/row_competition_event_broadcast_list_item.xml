@@ -73,10 +73,11 @@
     <!-- PROGRESSBAR -->
     
     <ProgressBar
-        android:id="@+id/competition_event_broadcast_progressbar"
+        android:id="@+id/competition_event_broadcast_progressbar_2"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:layout_toRightOf="@id/competition_event_broadcast_progressbar_1"
         android:layout_below="@id/competition_event_channel_logo"
         android:progressDrawable="@drawable/progress_horizontal"
@@ -85,11 +86,11 @@
     <!-- PROGRESSBAR -->
     
     <ProgressBar
-        android:id="@+id/competition_event_broadcast_progressbar_2"
+        android:id="@+id/competition_event_broadcast_progressbar_3"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="10dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/competition_event_broadcast_progressbar"
+        android:layout_alignParentRight="true"
         android:layout_below="@id/competition_event_channel_logo"
         android:progressDrawable="@drawable/progress_horizontal"
         android:scaleY="0.5" />
