@@ -139,10 +139,9 @@ extends BaseAdapter
 			int totalMinutesInGame = DateUtils.getMinutesInEvent(details.getEventBroadcastBeginTimeLocal());
 			int totalMinutesOfGame = details.getTotalAiringTimeInMinutes();
 			
-			LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfGame, holder.progressBar);
-			
 			/* Event is ongoing */
 			if (isAiring) {
+				LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfGame, holder.progressBar);
 				
 				sb.append(details.getEventTimeDayOfTheWeekAsString())
 				.append(", ")
@@ -165,8 +164,9 @@ extends BaseAdapter
 				holder.reminderView.setVisibility(View.GONE);
 			}
 			
-			/* Event has not started yet */
+			/* Event has not started yet or is finished */
 			else {
+				LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfGame, holder.progressBar);
 				sb.append(details.getEventTimeDayOfTheWeekAsString())
 				.append(" ")
 				.append(details.getEventTimeDayAndMonthAsString())

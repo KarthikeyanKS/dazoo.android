@@ -148,7 +148,7 @@ public class EventPageActivity
 				
 				if (containsBroadcastDetails) {
 					setListView();
-					setAdapterForHighlightsAndLineup();
+					setAdapterForHighlights();
 				}
 				
 				setData();
@@ -263,7 +263,11 @@ public class EventPageActivity
 		}
 		
 		else if (event.isFinished()) {
-			// TODO
+			liveStandings.setVisibility(View.VISIBLE);
+			liveTimeInGame.setVisibility(View.GONE);
+			beginTime.setVisibility(View.GONE);
+			beginTimeDate.setVisibility(View.GONE);
+			
 		}
 		
 		/* The event has not started yet */
@@ -331,7 +335,7 @@ public class EventPageActivity
 	
 
 	
-	private void setAdapterForHighlightsAndLineup() 
+	private void setAdapterForHighlights() 
 	{
 		long eventID = event.getEventId();
 		
