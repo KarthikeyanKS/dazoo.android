@@ -398,7 +398,7 @@ public class SplashScreenActivity
 				break;
 			}
 			
-			case R.id.button_tutorial_skip: 
+			case R.id.skip_button_container: 
 			{
 				skipButtonContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				skipButtonProgressBar.setVisibility(View.VISIBLE);
@@ -414,7 +414,7 @@ public class SplashScreenActivity
 				break;
 			}
 			
-			case R.id.button_tutorial_start_primary_activity: 
+			case R.id.start_primary_button_container: 
 			{
 				startPrimaryActivityContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				startPrimaryButtonProgressBar.setVisibility(View.VISIBLE);

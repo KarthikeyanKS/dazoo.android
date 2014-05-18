@@ -28,6 +28,7 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -298,6 +299,12 @@ public class CompetitionEventsByGroupListAdapter
 	                Intent intent = new Intent(activity, EventPageActivity.class);
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+	                
+	                long competitionID = event.getCompetitionId();
+	                
+	                Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+	                
+	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 	                
 	                activity.startActivity(intent);
 	            }

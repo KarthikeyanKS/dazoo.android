@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_scrollable_layout"
     android:layout_width="fill_parent"
@@ -35,19 +34,11 @@
                 android:background="@color/white"
                 android:tag="sticky" />
 
-            <View
-                android:id="@+id/tab_event_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/tab_event_indicator"
-                android:background="@color/home_divider" />
-
             <com.mitv.ui.elements.CustomViewPager
                 android:id="@+id/tab_event_pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tab_event_divider" />
-
+                android:layout_height="0dp"
+                android:layout_below="@id/tab_event_indicator" />
         </RelativeLayout>
     </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
 

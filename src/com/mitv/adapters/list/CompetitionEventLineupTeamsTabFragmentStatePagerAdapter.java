@@ -53,12 +53,14 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 	{
 		/* This instance will only be created when needed by the pager adapter */
 		Fragment fragment;
+
+		/* Uncomment if we decide to change back to looping Viewpager */
+//		int realPosition = LoopViewPager.toRealPosition(position, getCount());
+//		String tab = tabs.get(realPosition);
+
+		String tab = tabs.get(position);
 		
-		int realPosition = LoopViewPager.toRealPosition(position, getCount());
-		
-		String tab = tabs.get(realPosition);
-		
-		switch(realPosition)
+		switch(position)
 		{
 			case HOME_TEAM_POSITION:
 			{
@@ -92,9 +94,11 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 		
 		if(getCount() > 0)
 		{
-			int realPosition = position % getCount();
-				
-			displayName = tabs.get(realPosition);
+			/* Uncomment if we decide to change back to looping Viewpager */
+//			int realPosition = position % getCount();
+//			displayName = tabs.get(realPosition);
+
+			displayName = tabs.get(position);
 		}
 		else
 		{

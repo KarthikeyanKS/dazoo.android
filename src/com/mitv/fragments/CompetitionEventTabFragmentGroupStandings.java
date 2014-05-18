@@ -165,8 +165,6 @@ public class CompetitionEventTabFragmentGroupStandings
 				
 				EventPageActivity.viewPagerForGroupAndStandings.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
 				
-				EventPageActivity.viewPagerForGroupAndStandings.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
-				
 				break;
 			}
 			

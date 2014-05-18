@@ -22,7 +22,6 @@ import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
-import com.mitv.adapters.pager.CompetitionEventHighlightsAndLineupTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -379,7 +378,7 @@ public class EventPageActivity
 	
 		viewPagerForLineupTeams.setAdapter(pagerAdapterForLineupTeams);
 		viewPagerForLineupTeams.setOffscreenPageLimit(1);
-		viewPagerForLineupTeams.setBoundaryCaching(true);
+//		viewPagerForLineupTeams.setBoundaryCaching(true);
 		viewPagerForLineupTeams.setCurrentItem(selectedIndex);
 		viewPagerForLineupTeams.setVisibility(View.VISIBLE);
 		viewPagerForLineupTeams.setEnabled(false);
@@ -408,7 +407,7 @@ public class EventPageActivity
 	
 		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
 		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);
-		viewPagerForGroupAndStandings.setBoundaryCaching(true);
+//		viewPagerForGroupAndStandings.setBoundaryCaching(true);
 		viewPagerForGroupAndStandings.setCurrentItem(selectedIndex);
 		viewPagerForGroupAndStandings.setVisibility(View.VISIBLE);
 		viewPagerForGroupAndStandings.setEnabled(false);
@@ -437,8 +436,6 @@ public class EventPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, event.getCompetitionId());
-		
 		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, event.getCompetitionId(), event.getEventId());
 	}
 
@@ -459,8 +456,6 @@ public class EventPageActivity
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
-	
 			if(event == null)
 			{
 				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
