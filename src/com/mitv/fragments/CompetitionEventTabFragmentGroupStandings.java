@@ -147,6 +147,8 @@ public class CompetitionEventTabFragmentGroupStandings
 			{
 				long phaseID = getEvent().getPhaseId();
 				
+				listContainerLayout.removeAllViews();
+				
 				List<Standings> standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
 	
 				listAdapter = new CompetitionEventStandingsListAdapter(activity, standings);

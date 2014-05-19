@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="15dp" >
+            android:paddingBottom="10dp" >
 
             <!-- ONGOING GAME -->
 
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 layout="@layout/block_competition_event_main_content" />
 
             <!-- TAB: HIGHLIGHTS -->
@@ -34,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_block_container_layout"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:paddingBottom="10dp"
                 android:background="@color/white"
                 android:orientation="vertical" >
@@ -143,7 +144,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_block_tabs_highlights_teams_container"
-                android:layout_margin="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/white"
                 android:orientation="vertical" >
 
@@ -207,7 +210,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_block_tabs_lineup_teams_container"
-                android:layout_margin="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/white"
                 android:orientation="vertical" >
 

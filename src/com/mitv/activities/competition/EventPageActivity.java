@@ -147,9 +147,9 @@ public class EventPageActivity
 				
 				if (containsBroadcastDetails) {
 					setListView();
-					setAdapterForHighlights();
 				}
 				
+				setAdapterForHighlights();
 				setData();
 				
 				break;
@@ -240,11 +240,17 @@ public class EventPageActivity
 		
 		groupHeader.setText(groupHeaderName);
 		
-		/* WARNING TODO: Check if live is the same as onGoing...!!!!!!!!!!!!!!!!!!!!!!! */
 		boolean isOngoing = event.hasStarted();
+		boolean isPostponed = event.isPostponed();
+		boolean isFinished = event.isFinished();
+		
+		isOngoing = true;
+		isPostponed = false;
+		isFinished = false;
 		
 		/* The event is ongoing */
-		if (isOngoing && !event.isPostponed()) {
+		if (isOngoing && !isPostponed) {
+			
 			StringBuilder sb = new StringBuilder();
 			sb.append(event.getAwayGoals())
 				.append(" - ")
@@ -253,7 +259,13 @@ public class EventPageActivity
 			liveStandings.setText(sb.toString());
 			
 			String timeInGame = DateUtils.getMinutesInGameString(event.getEventDateCalendarLocal());
-			liveTimeInGame.setText(timeInGame);
+			
+			StringBuilder sbLiveStandings = new StringBuilder();
+			sbLiveStandings.append(getResources().getString(R.string.icon_time_is_ongoing))
+				.append(" ")
+				.append(timeInGame);
+			
+			liveTimeInGame.setText(sbLiveStandings.toString());
 			
 			liveStandings.setVisibility(View.VISIBLE);
 			liveTimeInGame.setVisibility(View.VISIBLE);
@@ -261,9 +273,25 @@ public class EventPageActivity
 			beginTimeDate.setVisibility(View.GONE);
 		}
 		
-		else if (event.isFinished()) {
+		/* The event has ended */
+		else if (isFinished) {
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(event.getAwayGoals())
+				.append(" - ")
+				.append(event.getHomeGoals());
+			
+			liveStandings.setText(sb.toString());
+			
+			sb = new StringBuilder();
+			sb.append(getResources().getString(R.string.icon_time_is_ongoing))
+				.append(" ")
+				.append("Game over!");
+			
+			liveTimeInGame.setText(sb.toString());
+			
 			liveStandings.setVisibility(View.VISIBLE);
-			liveTimeInGame.setVisibility(View.GONE);
+			liveTimeInGame.setVisibility(View.VISIBLE);
 			beginTime.setVisibility(View.GONE);
 			beginTimeDate.setVisibility(View.GONE);
 			

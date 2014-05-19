@@ -133,6 +133,8 @@ public class CompetitionEventTabFragmentGroupStage
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
+				listContainerLayout.removeAllViews();
+				
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 	
 				listAdapter = new CompetitionEventEventsByGroupListAdapter(activity, eventsByGroups);
