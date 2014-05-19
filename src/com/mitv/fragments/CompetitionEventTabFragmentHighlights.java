@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -24,7 +23,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventHighlightComparatorByTime;
-import com.mitv.models.comparators.TVBroadcastComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 
@@ -101,6 +99,10 @@ public class CompetitionEventTabFragmentHighlights
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
+		String emptyContentString = getString(R.string.competition_event_highlights_no_content_text);
+		
+		setEmptyLayoutDetailsMessage(emptyContentString);
+		
 		String loadingString = getString(R.string.competition_event_highlights_loading_text);
 		
 		setLoadingLayoutDetailsMessage(loadingString);
@@ -129,7 +131,18 @@ public class CompetitionEventTabFragmentHighlights
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			long eventID = getEvent().getEventId();
+			
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+			
+			if(eventHighlights.isEmpty() == false)
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			}
+			else
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+			}
 		}
 		else
 		{
@@ -168,10 +181,6 @@ public class CompetitionEventTabFragmentHighlights
 		        }
 				
 				listContainerLayout.measure(0, 0);
-				
-//				EventPageActivity.viewPagerForHighlightsAndLineup.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
-				
-//				EventPageActivity.viewPagerForHighlightsAndLineup.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 				
 				break;
 			}

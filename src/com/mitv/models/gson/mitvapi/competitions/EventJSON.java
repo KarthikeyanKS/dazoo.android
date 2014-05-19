@@ -161,13 +161,7 @@ public class EventJSON
 		return matchStatusId;
 	}
 
-
-
-	public String getMatchStatus() {
-		return matchStatus;
-	}
-
-
+	
 
 	public boolean isPostponed() {
 		return postponed;

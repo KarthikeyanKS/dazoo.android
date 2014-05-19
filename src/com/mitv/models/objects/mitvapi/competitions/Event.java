@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.mitv.enums.EventMatchStatusEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
 import com.mitv.models.sql.NotificationSQLElement;
@@ -26,7 +27,8 @@ public class Event
 	
 	public Event()
 	{
-		if (broadcastDetails == null) {
+		if (broadcastDetails == null) 
+		{
 			String channelId;
 			String beginTime;
 			long beginTimeMillis;
@@ -52,6 +54,13 @@ public class Event
 			
 			broadcastDetails.add(sdf);
 		}
+	}
+	
+	
+	
+	public EventMatchStatusEnum getMatchStatus()
+	{
+		return EventMatchStatusEnum.getTypeEnumFromCode(matchStatusId);
 	}
 	
 	
