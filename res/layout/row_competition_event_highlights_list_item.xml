@@ -79,6 +79,7 @@
 	        font:fonttextview="roboto_mitv_regular.ttf"
 	        android:textAlignment="viewEnd"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:textSize="14sp" />
 	    
 	    <com.mitv.ui.elements.FontTextView
@@ -91,6 +92,7 @@
 	        font:fonttextview="roboto_mitv_regular.ttf"
 	        android:textAlignment="viewEnd"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:textSize="14sp" />
 	    
 	    <com.mitv.ui.elements.FontTextView
@@ -102,6 +104,7 @@
 	        font:fonttextview="roboto_mitv_light.ttf"
 	        android:textAlignment="viewEnd"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:textSize="11sp" />
 	    
     </RelativeLayout>
@@ -134,6 +137,7 @@
 	        font:fonttextview="roboto_mitv_regular.ttf"
 	        android:textAlignment="viewStart"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:textSize="14sp" />
 	    
 	    <com.mitv.ui.elements.FontTextView
@@ -146,6 +150,7 @@
 	        font:fonttextview="roboto_mitv_regular.ttf"
 	        android:textAlignment="viewStart"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:textSize="14sp" />
 	    
 	    <com.mitv.ui.elements.FontTextView
@@ -156,6 +161,7 @@
 	        font:fonttextview="roboto_mitv_light.ttf"
 	        android:textAlignment="viewStart"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:textSize="11sp" />
 
         </RelativeLayout>

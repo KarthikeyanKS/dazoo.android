@@ -3,6 +3,7 @@ package com.mitv.fragments;
 
 
 
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 
@@ -38,6 +40,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	private Event event;
 	
 	private long eventID;
+	private long teamID;
 
 	private View whiteDivider;
 	private TextView subsHeader;
@@ -57,11 +60,17 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	
 	
-	public CompetitionEventTabFragmentLineUpTeams(long eventID, String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionEventTabFragmentLineUpTeams(
+			final long eventID,
+			final long teamID,
+			final String tabId, 
+			final String tabTitle, 
+			final EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
 		
 		this.eventID = eventID;
+		this.teamID = teamID;
 	}
 	
 	
@@ -88,6 +97,7 @@ public class CompetitionEventTabFragmentLineUpTeams
         {
             // Restore last state for checked position.
 			eventID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+			teamID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_TEAM_ID, 0);
         }
 		
 		return rootView;
@@ -101,6 +111,7 @@ public class CompetitionEventTabFragmentLineUpTeams
         super.onSaveInstanceState(outState);
         
         outState.putLong(Constants.INTENT_COMPETITION_EVENT_ID, eventID);
+        outState.putLong(Constants.INTENT_COMPETITION_TEAM_ID, teamID);
     }
 	
 	
@@ -157,13 +168,13 @@ public class CompetitionEventTabFragmentLineUpTeams
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				long eventID = getEvent().getEventId();
-				
 				listContainerLayout.removeAllViews();
 				
-				// Line up
-				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID);
+				// Line up - main
+				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 	
+				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
+				
 				listAdapter = new CompetitionEventLineUpTeamsListAdapter(activity, eventLineUps);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
@@ -178,9 +189,10 @@ public class CompetitionEventTabFragmentLineUpTeams
 				
 				listContainerLayout.measure(0, 0);
 				
-				
 				// Line up - Substitutes
-				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID);
+				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
+				
+				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
 				
 				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) {
 					

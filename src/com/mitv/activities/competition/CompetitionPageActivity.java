@@ -47,8 +47,8 @@ public class CompetitionPageActivity
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
-	
-	private static final int STARTING_TAB_INDEX = 0;
+	private int STARTING_TAB_INDEX_FOR_GROUP_STAGE = 0;
+	private int STARTING_TAB_INDEX_FOR_SECOND_STAGE = 1;
 	
 	private Competition competition;
 	private Event event;
@@ -352,7 +352,17 @@ public class CompetitionPageActivity
 		
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
 		
-		selectedTabIndex = STARTING_TAB_INDEX;
+		// TODO - Hardcoded - Set this with variable from the competition 
+		boolean isGroupStage = true;
+		
+		if(isGroupStage)
+		{
+			selectedTabIndex = STARTING_TAB_INDEX_FOR_GROUP_STAGE;
+		}
+		else
+		{
+			selectedTabIndex = STARTING_TAB_INDEX_FOR_SECOND_STAGE;
+		}
 	}
 	
 	
@@ -392,7 +402,10 @@ public class CompetitionPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competition.getCompetitionId());
+		/* Always re-fetch the data from the service */
+		boolean forceRefreshOfCompetitionInitialData = true;
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, competition.getCompetitionId());
 	}
 
 

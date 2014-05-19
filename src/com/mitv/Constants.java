@@ -1,7 +1,10 @@
 
 package com.mitv;
 
+import java.util.EnumSet;
+
 import com.mitv.activities.FeedActivity;
+import com.mitv.enums.EventHighlightActionEnum;
 
 
 
@@ -504,7 +507,18 @@ public abstract class Constants
 	
 	public static final String INTENT_COMPETITION_ID = "competitionID";
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
+	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";
 	public static final String INTENT_COMPETITION_NAME = "competitionName";
+	
+	public static final String GOAL_KEEPER_FUNCTION_SORT = "GC";
+	public static final EnumSet<EventHighlightActionEnum> EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE = EnumSet.of(
+								EventHighlightActionEnum.KICK_OFF_2H, 
+								EventHighlightActionEnum.END_OF_PERIOD_2H, 
+								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_1,
+								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_1,
+								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_2,
+								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_2,
+								EventHighlightActionEnum.END_OF_PERIOD_PENALTIES);
 	
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";

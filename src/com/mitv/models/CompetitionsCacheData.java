@@ -432,4 +432,16 @@ public class CompetitionsCacheData
 		
 		selectedCompetition.setLineupByEventFetchTime(nowInMillis);
 	}
+	
+	
+	
+	public synchronized void clearCompetition(Long competitionID)
+	{
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			competitionCacheData.clear();
+		}
+	}
 }

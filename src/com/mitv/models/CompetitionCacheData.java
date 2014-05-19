@@ -91,6 +91,20 @@ public class CompetitionCacheData
 	
 	
 	
+	public void clear()
+	{
+		teams.clear();
+		phases.clear();
+		events.clear();
+		standingsByPhase.clear();
+		eventsGroupedByFirstPhase.clear();
+		eventsGroupedBySecondPhase.clear();
+		highlightsByEvent.clear();
+		lineupByEvent.clear();
+	}
+	
+	
+	
 	
 	public boolean hasPeriodElapsedSinceLineUpFetchTime(long minutes)
 	{

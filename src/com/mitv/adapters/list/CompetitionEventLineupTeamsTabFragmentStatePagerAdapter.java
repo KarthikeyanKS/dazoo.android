@@ -1,3 +1,4 @@
+
 package com.mitv.adapters.list;
 
 
@@ -23,6 +24,8 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 	private static final String TAG = CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.class.getName();
 	
 	private long eventID;
+	private long homeTeamID;
+	private long awayTeamID;
 	private List<String> tabs;
 	
 	private static final int HOME_TEAM_POSITION = 0;
@@ -33,12 +36,16 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 			final FragmentManager fm,
 			final long eventID,
 			final String eventHomeTeamName,
-			final String eventAwayTeamName)
+			final Long homeTeamID,
+			final String eventAwayTeamName,
+			final Long awayTeamID)
 	{
 		super(fm);
 		
 		this.tabs = new ArrayList<String>();
 		this.eventID = eventID;
+		this.homeTeamID = homeTeamID;
+		this.awayTeamID = awayTeamID;
 		
 		tabs.add(eventHomeTeamName);
 		tabs.add(eventAwayTeamName);
@@ -61,14 +68,14 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 		switch(position)
 		{
 			case HOME_TEAM_POSITION:
-			{
-				fragment = new CompetitionEventTabFragmentLineUpTeams(eventID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM);
+			{		
+				fragment = new CompetitionEventTabFragmentLineUpTeams(eventID, homeTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM);
 				break;
 			}
 			
 			case AWAY_TEAM_POSITION:
 			{
-				fragment = new CompetitionEventTabFragmentLineUpTeams(eventID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_AWAY_TEAM);
+				fragment = new CompetitionEventTabFragmentLineUpTeams(eventID, awayTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_AWAY_TEAM);
 				break;
 			}
 			

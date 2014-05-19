@@ -148,24 +148,113 @@ public class CompetitionEventHighlightsListAdapter
 
 				holder.middleName.setVisibility(View.GONE);
 
-				int drawableResourceID = element.getActionType().getDrawableResourceID();
-
-				holder.middleIcon.setBackgroundResource(drawableResourceID);
-
-				EventHighlightActionEnum eventActionType = element.getActionType();
+				EventHighlightActionEnum eventActionType = element.getType();
 				
-				if(eventActionType == EventHighlightActionEnum.GAME_START || 
-				   eventActionType == EventHighlightActionEnum.GAME_END)
+				if(eventActionType.getDrawableResourceID() == -1)
 				{
 					holder.leftLayout.setVisibility(View.GONE);
 					holder.rightLayout.setVisibility(View.GONE);
 					holder.middleIcon.setVisibility(View.GONE);
 					holder.middleName.setVisibility(View.VISIBLE);
 					
-					holder.middleName.setText(element.getAction());
+					StringBuilder sb = new StringBuilder();
+					
+					switch (eventActionType)
+					{
+						case KICK_OFF:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_kick_off));
+							break;
+						}
+						
+						case END_OF_PERIOD_1H:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_half_time));
+							sb.append(" (");
+							sb.append(event.getHomeGoalsHalfTime());
+							sb.append(" : ");
+							sb.append(event.getAwayGoalsHalfTime());
+							sb.append(")");
+							break;
+						}
+						
+						case INJURY_TIME_2H:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_overtime));
+							sb.append(" (");
+							sb.append(element.getActionInfoInMinutes());
+							sb.append(")");
+							break;
+						}
+						
+						case KICK_OFF_EXTRA_TIME_1:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_extra_time_1_started));
+							break;
+						}
+						
+						case KICK_OFF_EXTRA_TIME_2:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_extra_time_2_started));
+							sb.append(" (");
+							sb.append(event.getHomeGoals());
+							sb.append(" : ");
+							sb.append(event.getAwayGoals());
+							sb.append(")");
+							break;
+						}
+						
+						case KICK_OFF_PENALTIES:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_peanalties_started));
+							break;
+						}
+						
+						case END_OF_GAME:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_end_of_game));
+							break;
+						}
+						
+						case MATCH_SUSPENDED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_match_suspended));
+							break;
+						}
+						
+						case MATCH_ABANDONED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_match_abandoned));
+							break;
+						}
+						
+						case PLAY_RESTARTED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_play_restarted));
+							break;
+						}
+						
+						case MATCH_RESCHEDULED_TO_BE_RESUMED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_match_rescheduled));
+							break;
+						}
+						
+						default:
+						{
+							sb.append(element.getAction());
+							break;
+						}					
+					}
+					
+					holder.middleName.setText(sb);
 				}
 				else if(isHomeTeam(element))
 				{
+					int drawableResourceID = element.getType().getDrawableResourceID();
+					
+					holder.middleIcon.setBackgroundResource(drawableResourceID);
+					
 					holder.leftLayout.setVisibility(View.VISIBLE);
 					holder.rightLayout.setVisibility(View.GONE);
 					holder.middleIcon.setVisibility(View.VISIBLE);
@@ -200,6 +289,10 @@ public class CompetitionEventHighlightsListAdapter
 				}
 				else if(isAwayTeam(element))
 				{
+					int drawableResourceID = element.getType().getDrawableResourceID();
+					
+					holder.middleIcon.setBackgroundResource(drawableResourceID);
+					
 					holder.leftLayout.setVisibility(View.GONE);
 					holder.rightLayout.setVisibility(View.VISIBLE);
 
@@ -231,7 +324,7 @@ public class CompetitionEventHighlightsListAdapter
 				}
 				else
 				{
-					Log.w(TAG, "Hightlight is not for home or away team");
+					Log.w(TAG, "Hightlight " + element.getHighlightId() + " is not for home or away team");
 				}
 			}
 		}

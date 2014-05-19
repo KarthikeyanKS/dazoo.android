@@ -410,9 +410,9 @@ public class EventPageActivity
 	{
 		long eventID = event.getEventId();
 		
-		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) 
+		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID))
 		{
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, Constants.EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE);
 			
 			listContainerLayoutHighlights.removeAllViews();
 
@@ -443,7 +443,9 @@ public class EventPageActivity
 				getSupportFragmentManager(),
 				event.getEventId(),
 				event.getHomeTeam(),
-				event.getAwayTeam());
+				event.getHomeTeamId(),
+				event.getAwayTeam(),
+				event.getAwayTeamId());
 	
 		viewPagerForLineupTeams.setAdapter(pagerAdapterForLineupTeams);
 		viewPagerForLineupTeams.setOffscreenPageLimit(1);
@@ -505,7 +507,10 @@ public class EventPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, event.getCompetitionId(), event.getEventId());
+		/* Always re-fetch the data from the service */
+		boolean forceRefreshOfHighlights = true;
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
 	}
 
 
