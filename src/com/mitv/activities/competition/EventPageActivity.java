@@ -366,7 +366,8 @@ public class EventPageActivity
 	{
 		long eventID = event.getEventId();
 		
-		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) {
+		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) 
+		{
 			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 			
 			listContainerLayoutHighlights.removeAllViews();
@@ -387,10 +388,6 @@ public class EventPageActivity
 	        }
 			
 			listContainerLayoutHighlights.measure(0, 0);
-			
-//			EventPageActivity.viewPagerForHighlightsAndLineup.heightsMap.put(1, listContainerLayoutHighlights.getMeasuredHeight());
-			
-//			EventPageActivity.viewPagerForHighlightsAndLineup.onPageScrolled(1, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
 		}
 	}
 	
