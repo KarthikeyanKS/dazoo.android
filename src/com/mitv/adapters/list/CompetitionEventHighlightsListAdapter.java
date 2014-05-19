@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
@@ -108,14 +109,9 @@ public class CompetitionEventHighlightsListAdapter
 			
 			viewHolder.middleSeparatorTop = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_middle_separator_icon_top);
 			viewHolder.middleIcon = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_middle_icon);
+			viewHolder.middleName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_middle_name);
 			viewHolder.middleSeparatorBottom = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_middle_separator_icon_bottom);
 					
-			viewHolder.middleTopLayout = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_highlight_middle_top_layout);
-			viewHolder.middleTopName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_middle_name_top);
-			
-			viewHolder.middleBottomLayout = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_highlight_middle_bottom_layout);
-			viewHolder.middleBottomName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_middle_name_bottom);
-			
 			rowView.setTag(viewHolder);
 		}
 	
@@ -130,71 +126,63 @@ public class CompetitionEventHighlightsListAdapter
 			
 			Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 		
+			boolean hasEnded = event.hasEnded();
+			
 			if(event != null)
 			{
-				boolean hasEventEnded = event.hasEnded();
-				boolean hasEventStarted = event.hasStarted();
-
-				if (isFirstPosition) 
+				if (isFirstPosition)
 				{
-					if(hasEventEnded)
+					if(hasEnded)
 					{
-						StringBuilder sb = new StringBuilder();
-						sb.append(activity.getString(R.string.event_page_highlight_end_result))
-						.append(" ")
-						.append(event.getScoreAsString());
-	
-						holder.middleTopName.setText(sb);
-						
-						holder.middleTopName.setVisibility(View.VISIBLE);
+						holder.middleSeparatorTop.setVisibility(View.GONE);
 					}
 					else
 					{
-						holder.middleTopName.setVisibility(View.GONE);
+						holder.middleSeparatorTop.setVisibility(View.VISIBLE);
 					}
 				}
 				else if (isLastPosition) 
 				{
-					holder.middleSeparatorTop.setVisibility(View.VISIBLE);
-					
-					if(hasEventStarted)
-					{
-						holder.middleBottomName.setText(activity.getString(R.string.event_page_highlight_kick_off));
-						
-						holder.middleBottomName.setVisibility(View.VISIBLE);
-					}
-					else
-					{
-						holder.middleBottomName.setVisibility(View.GONE);
-					}
+					holder.middleSeparatorBottom.setVisibility(View.GONE);
 				}
-				else
-				{
-					holder.middleTopName.setVisibility(View.GONE);
-					holder.middleBottomName.setVisibility(View.GONE);
-				}
+
+				holder.middleName.setVisibility(View.GONE);
 
 				int drawableResourceID = element.getActionType().getDrawableResourceID();
 
 				holder.middleIcon.setBackgroundResource(drawableResourceID);
 
-				if(isHomeTeam(element))
+				EventHighlightActionEnum eventActionType = element.getActionType();
+				
+				if(eventActionType == EventHighlightActionEnum.GAME_START || 
+				   eventActionType == EventHighlightActionEnum.GAME_END)
+				{
+					holder.leftLayout.setVisibility(View.GONE);
+					holder.rightLayout.setVisibility(View.GONE);
+					holder.middleIcon.setVisibility(View.GONE);
+					holder.middleName.setVisibility(View.VISIBLE);
+					
+					holder.middleName.setText(element.getAction());
+				}
+				else if(isHomeTeam(element))
 				{
 					holder.leftLayout.setVisibility(View.VISIBLE);
 					holder.rightLayout.setVisibility(View.GONE);
+					holder.middleIcon.setVisibility(View.VISIBLE);
+					holder.middleName.setVisibility(View.GONE);
 
 					holder.leftName.setText(element.getPersonShort());
 
 					if(element.hasSubPerson())
 					{
 						holder.leftNameExtra.setVisibility(View.VISIBLE);
-						holder.leftNameExtra.setText(element.getSubPerson());
+						holder.leftNameExtra.setText(element.getSubPersonShort());
 						holder.leftNameExtra.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_out));
 
 						holder.leftDetails.setVisibility(View.GONE);							
-							
+
 						holder.leftName.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_in));
-						
+
 						RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.leftTime.getLayoutParams();
 						layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 						holder.leftTime.setLayoutParams(layoutParams);
@@ -202,7 +190,7 @@ public class CompetitionEventHighlightsListAdapter
 					else
 					{
 						holder.leftNameExtra.setVisibility(View.GONE);
-						
+
 						holder.leftDetails.setVisibility(View.VISIBLE);
 						holder.leftDetails.setText(element.getAction());
 					}
@@ -220,13 +208,13 @@ public class CompetitionEventHighlightsListAdapter
 					if(element.hasSubPerson())
 					{
 						holder.rightNameExtra.setVisibility(View.VISIBLE);
-						holder.rightNameExtra.setText(element.getSubPerson());
+						holder.rightNameExtra.setText(element.getSubPersonShort());
 						holder.rightNameExtra.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_out));
 
 						holder.rightDetails.setVisibility(View.GONE);
-						
+
 						holder.rightName.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_in));
-						
+
 						RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.rightTime.getLayoutParams();
 						layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 						holder.rightTime.setLayoutParams(layoutParams);
@@ -234,7 +222,7 @@ public class CompetitionEventHighlightsListAdapter
 					else
 					{
 						holder.rightNameExtra.setVisibility(View.GONE);
-						
+
 						holder.rightDetails.setVisibility(View.VISIBLE);
 						holder.rightDetails.setText(element.getAction());
 					}
@@ -245,10 +233,6 @@ public class CompetitionEventHighlightsListAdapter
 				{
 					Log.w(TAG, "Hightlight is not for home or away team");
 				}
-			}
-			else
-			{
-				Log.w(TAG, "Event is null");
 			}
 		}
 			
@@ -313,12 +297,7 @@ public class CompetitionEventHighlightsListAdapter
 		
 		private ImageView middleSeparatorTop;
 		private ImageView middleIcon;
+		private TextView middleName;
 		private ImageView middleSeparatorBottom;
-		
-		private RelativeLayout middleTopLayout;
-		private TextView middleTopName;
-		
-		private RelativeLayout middleBottomLayout;
-		private TextView middleBottomName;
 	}
 }

@@ -37,6 +37,7 @@ public class CompetitionEventTabFragmentGroupStage
 	private Event event;
 	
 	private long eventID;
+	private long phaseId;
 	
 	private LinearLayout listContainerLayout;
 	private CompetitionEventEventsByGroupListAdapter listAdapter;
@@ -51,11 +52,12 @@ public class CompetitionEventTabFragmentGroupStage
 	
 	
 	
-	public CompetitionEventTabFragmentGroupStage(long eventID, String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionEventTabFragmentGroupStage(long eventID, String tabId, String tabTitle, EventTabTypeEnum tabType, long phaseId)
 	{
 		super(tabId, tabTitle, tabType);
 		
 		this.eventID = eventID;
+		this.phaseId = phaseId;
 	}
 	
 	
@@ -137,7 +139,7 @@ public class CompetitionEventTabFragmentGroupStage
 				
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 	
-				listAdapter = new CompetitionEventEventsByGroupListAdapter(activity, eventsByGroups);
+				listAdapter = new CompetitionEventEventsByGroupListAdapter(activity, phaseId, eventsByGroups);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{

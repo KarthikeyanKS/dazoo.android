@@ -29,6 +29,7 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 	
 	private List<String> tabs;
 	private long eventID;
+	private long phaseId;
 	
 	private static final int GROUP_STAGE_POSITION = 0;
 	private static final int SECOND_STAGE_POSITION = 1;
@@ -36,6 +37,7 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 	
 	public CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(
 			final FragmentManager fm,
+			final long phaseId,
 			final String firstTabName,
 			final long eventID) 
 	{
@@ -45,6 +47,7 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 		
 		this.tabs = new ArrayList<String>();
 		this.eventID = eventID;
+		this.phaseId = phaseId;
 		
 		tabs.add(firstTabName);
 		tabs.add(context.getString(R.string.event_page_tab_standings));
@@ -68,7 +71,7 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 		{
 			case GROUP_STAGE_POSITION:
 			{
-				fragment = new CompetitionEventTabFragmentGroupStage(eventID, tab, tab, EventTabTypeEnum.EVENT_GROUP_STAGE);
+				fragment = new CompetitionEventTabFragmentGroupStage(eventID, tab, tab, EventTabTypeEnum.EVENT_GROUP_STAGE, phaseId);
 				break;
 			}
 			

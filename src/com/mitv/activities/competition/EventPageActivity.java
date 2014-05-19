@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -85,12 +84,12 @@ public class EventPageActivity
 	private TextView headerteamvsteam;
 	private TextView headerCompetitionName;
 	private String competitionName;
-		
-	private RelativeLayout highlightsLayout;
-	private ListView highlightsListView;
+	private TextView headerStandings;
 	
-	private RelativeLayout lineUpLayout;
+	private RelativeLayout highlightsContainerLayout;
+	private RelativeLayout lineupContainerLayout;
 	
+	private LinearLayout listContainerLayoutHighlights;
 	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
 	private TextView team1NameHighlights;
 	private ImageView team1FlagHighlights;
@@ -152,12 +151,13 @@ public class EventPageActivity
 			{
 				boolean containsBroadcastDetails = event.containsBroadcastDetails();
 				
-				if (containsBroadcastDetails) {
+				if (containsBroadcastDetails)
+				{
 					setListView();
 				}
 				
-				setAdapterForHighlights();
 				setData();
+				setAdapterForHighlights();
 				
 				break;
 			}
@@ -181,7 +181,7 @@ public class EventPageActivity
 		/* Headr img and text: Team1 va Team2 */
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
-			.append(" ")
+			.append(" ")	
 			.append(getString(R.string.event_page_versus))
 			.append(" ")
 			.append(awayTeamName);
@@ -191,6 +191,13 @@ public class EventPageActivity
 		
 		headerteamvsteam.setVisibility(View.VISIBLE);
 		headerCompetitionName.setVisibility(View.VISIBLE);
+		
+		StringBuilder sbHeaderGroup = new StringBuilder();
+		sbHeaderGroup.append(getResources().getString(R.string.event_page_header_standings))
+			.append(" ")
+			.append(phase.getPhase());
+		
+		headerStandings.setText(sbHeaderGroup.toString());
 		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
@@ -249,11 +256,7 @@ public class EventPageActivity
 		
 		groupHeader.setText(groupHeaderName);
 		
-		boolean isOngoing = event.hasStarted();
-		boolean isPostponed = event.isPostponed();
-		boolean isFinished = event.isFinished();
-		
-		EventMatchStatusEnum matchStatus = EventMatchStatusEnum.IN_PROGRESS; //event.getMatchStatus();
+		EventMatchStatusEnum matchStatus = event.getMatchStatus();
 		
 		switch(matchStatus)
 		{
@@ -261,30 +264,34 @@ public class EventPageActivity
 			case NOT_STARTED_AND_LINE_UP:
 			case DELAYED:
 			{
-				lineUpLayout.setVisibility(View.VISIBLE);
-				highlightsLayout.setVisibility(View.GONE);
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.GONE);
 				break;
 			}
 			
 			case NOT_STARTED:
 			case POSTPONED:
 			{
-				lineUpLayout.setVisibility(View.GONE);
-				highlightsLayout.setVisibility(View.GONE);
+				lineupContainerLayout.setVisibility(View.GONE);
+				highlightsContainerLayout.setVisibility(View.GONE);
 				break;
 			}
 			
 			default:
 			{
-				lineUpLayout.setVisibility(View.VISIBLE);
-				highlightsLayout.setVisibility(View.VISIBLE);
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.VISIBLE);
 				break;
 			}
 		}
 		
+		boolean isOngoing = event.hasStarted();
+		boolean isPostponed = event.isPostponed();
+		boolean isFinished = event.isFinished();
+		
 		/* The event is ongoing */
-		if (isOngoing && !isPostponed) 
-		{	
+		if (isOngoing && !isPostponed) {
+			
 			StringBuilder sb = new StringBuilder();
 			sb.append(event.getAwayGoals())
 				.append(" - ")
@@ -308,8 +315,8 @@ public class EventPageActivity
 		}
 		
 		/* The event has ended */
-		else if (isFinished) 
-		{	
+		else if (isFinished) {
+			
 			StringBuilder sb = new StringBuilder();
 			sb.append(event.getAwayGoals())
 				.append(" - ")
@@ -332,8 +339,7 @@ public class EventPageActivity
 		}
 		
 		/* The event has not started yet */
-		else 
-		{
+		else {
 			StringBuilder sb = new StringBuilder();
 			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 			
@@ -379,17 +385,16 @@ public class EventPageActivity
 		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
 		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
+		headerStandings = (TextView) findViewById(R.id.competition_standings_header_group);
 		
+		highlightsContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_highlights_teams_container);
 		team1NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_one_name);
 		team1FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_one_flag);
 		team2NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_two_name);
 		team2FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_two_flag);
-				
-		highlightsLayout = (RelativeLayout) findViewById(R.id.competition_event_highlights_container);
-		highlightsListView = (ListView) findViewById(R.id.competition_event_highlights_list);
+		listContainerLayoutHighlights = (LinearLayout) findViewById(R.id.competition_event_highlights_table_container);
 		
-		lineUpLayout = (RelativeLayout) findViewById(R.id.competition_event_lineup_container);
-		
+		lineupContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_lineup_teams_container);
 		pageTabIndicatorForLineupTeams = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_lineup_teams);
 		viewPagerForLineupTeams = (CustomViewPager) findViewById(R.id.tab_event_pager_for_lineup_teams);
 		selectedTabIndexForLineupTeams = STARTING_TAB_INDEX;
@@ -408,15 +413,25 @@ public class EventPageActivity
 		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) 
 		{
 			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+			
+			listContainerLayoutHighlights.removeAllViews();
 
 			Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
 			Collections.reverse(eventHighlights);
 			
 			listAdapterHighlights = new CompetitionEventHighlightsListAdapter(this, eventHighlights);
-
-			highlightsListView.setAdapter(listAdapter);
 			
-			highlightsListView.setVisibility(View.VISIBLE);
+			for (int i = 0; i < listAdapterHighlights.getCount(); i++)
+			{
+	            View listItem = listAdapterHighlights.getView(i, null, listContainerLayoutHighlights);
+	           
+	            if (listItem != null) 
+	            {
+	            	listContainerLayoutHighlights.addView(listItem);
+	            }
+	        }
+			
+			listContainerLayoutHighlights.measure(0, 0);
 		}
 	}
 	
@@ -457,7 +472,7 @@ public class EventPageActivity
 		StringBuilder groupName = new StringBuilder();
 		groupName.append(phase.getPhase());
 		
-		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), groupName.toString(), event.getEventId());
+		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), phase.getPhaseId(), groupName.toString(), event.getEventId());
 	
 		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
 		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);
