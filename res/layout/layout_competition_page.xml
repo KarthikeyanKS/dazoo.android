@@ -20,17 +20,24 @@
             android:paddingRight="10dp" >
 
             <include
-                android:id="@+id/competition_broacastpage_block_container_layout"
+                android:id="@+id/competition_page_before_block_container_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                layout="@layout/block_competition_broadcastpage_main_content" />
+                layout="@layout/block_competition_page_before_main_content" />
+            
+            <include
+                android:id="@+id/competition_page_ongoing_block_container_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_page_before_block_container_layout"
+                layout="@layout/block_competition_page_ongoing_main_content" />
 
             <com.viewpagerindicator.TabPageIndicator
                 android:id="@+id/tab_event_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:layout_below="@id/competition_broacastpage_block_container_layout"
+                android:layout_below="@id/competition_page_ongoing_block_container_layout"
                 android:background="@color/white"
                 android:tag="sticky" />
 

@@ -1062,6 +1062,20 @@ public abstract class ContentManagerBase
 		
 		return matchingEvent;
 	}
+	
+	
+	
+	public Event getFromCacheLiveEventForSelectedCompetition() {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		for (Event ev : events) {
+			if (ev.isLive()) {
+				return ev;
+			}
+		}
+		
+		return null;
+	}
 
 	
 	
