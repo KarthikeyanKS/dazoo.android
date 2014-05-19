@@ -244,9 +244,9 @@ public class EventPageActivity
 		boolean isPostponed = event.isPostponed();
 		boolean isFinished = event.isFinished();
 		
-		isOngoing = true;
-		isPostponed = false;
-		isFinished = false;
+//		isOngoing = true;
+//		isPostponed = false;
+//		isFinished = false;
 		
 		/* The event is ongoing */
 		if (isOngoing && !isPostponed) {
