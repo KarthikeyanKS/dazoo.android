@@ -217,18 +217,17 @@
                 android:orientation="vertical" >
 
                 <com.mitv.ui.elements.FontTextView
-                    android:id="@+id/competition_standings_header"
+                    android:id="@+id/competition_standings_header_group"
                     style="@style/header1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Standings for Group A" />
+                    android:layout_margin="10dp" />
 
                 <View
                     android:id="@+id/container_divider_standings"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/competition_standings_header"
+                    android:layout_below="@id/competition_standings_header_group"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"

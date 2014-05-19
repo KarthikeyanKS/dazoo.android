@@ -30,6 +30,7 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -46,11 +47,13 @@ public class CompetitionEventEventsByGroupListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private List<Event> events;
+	private long phaseIdToShow;
 	
 	
 	
 	public CompetitionEventEventsByGroupListAdapter(
 			final Activity activity,
+			final long phaseIdToShow,
 			final Map<Long, List<Event>> eventsByGroup)
 	{
 		super();
@@ -65,6 +68,8 @@ public class CompetitionEventEventsByGroupListAdapter
 		}
 		
 		this.activity = activity;
+		
+		this.phaseIdToShow = phaseIdToShow;
 
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -146,203 +151,225 @@ public class CompetitionEventEventsByGroupListAdapter
 
 		if (holder != null)
 		{
+			holder.container.setVisibility(View.GONE);
+			holder.team1name.setVisibility(View.GONE);
+			holder.team1flag.setVisibility(View.GONE);
+			holder.team2name.setVisibility(View.GONE);
+			holder.team2flag.setVisibility(View.GONE);
+			holder.startTime.setVisibility(View.GONE);
 			holder.startWeekDayHeader.setVisibility(View.GONE);
 			holder.dividerView.setVisibility(View.GONE);
 
 			final Event event = getItem(position);
 			
-			boolean isFirstposition = (position == 0);
-
-			boolean isLastPosition = (position == (getCount() - 1));
-
-			boolean isCurrentEventDayEqualToPreviousEventDay;
-			boolean isCurrentEventGroupEqualToPreviousEventGroup;
-
-			if(isFirstposition == false)
-			{
-				Event prevEvent = getItem(position - 1);
-
-				isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
+			long phaseID = event.getPhaseId();
+			
+			/* Only show the current group */
+			if (phaseID == phaseIdToShow) {
 				
-				isCurrentEventGroupEqualToPreviousEventGroup = event.isSamePhase(prevEvent);
-			}
-			else
-			{
-				isCurrentEventDayEqualToPreviousEventDay = true;
-				isCurrentEventGroupEqualToPreviousEventGroup = true;
-			}
+				boolean isFirstposition = (position == 0);
 
-			boolean isBeginTimeEqualToNextItem;
+				boolean isLastPosition = (position == (getCount() - 1));
 
-			if(isLastPosition == false)
-			{
-				Event nextEvent = getItem(position + 1);
+				boolean isCurrentEventDayEqualToPreviousEventDay;
+				boolean isCurrentEventGroupEqualToPreviousEventGroup;
 
-				isBeginTimeEqualToNextItem = event.isTheSameDayAs(nextEvent);
-			}
-			else
-			{
-				isBeginTimeEqualToNextItem = false;
-			}
-
-			if (isFirstposition || isCurrentEventDayEqualToPreviousEventDay == false) 
-			{
-				StringBuilder sb = new StringBuilder();
-
-				boolean isBeginTimeTodayOrTomorrow = event.isEventTimeTodayOrTomorrow();
-
-				if(isBeginTimeTodayOrTomorrow)
+				if(isFirstposition == false)
 				{
-					sb.append(event.getEventTimeDayOfTheWeekAsString());
+					Event prevEvent = getItem(position - 1);
+
+					isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
+					
+					isCurrentEventGroupEqualToPreviousEventGroup = event.isSamePhase(prevEvent);
 				}
 				else
 				{
-					sb.append(event.getEventTimeDayOfTheWeekAsString());
-					sb.append(" ");
-					sb.append(event.getEventTimeDayAndMonthAsString());
+					isCurrentEventDayEqualToPreviousEventDay = true;
+					isCurrentEventGroupEqualToPreviousEventGroup = true;
 				}
-				
-				/* Capitalized letters in header */
-				String headerText = sb.toString();
-				holder.startWeekDayHeader.setText(headerText.toUpperCase());
 
-				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				holder.dividerView.setVisibility(View.VISIBLE);
-			}
-			
-			if (isFirstposition || isCurrentEventGroupEqualToPreviousEventGroup == false)
-			{
-				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
-			}
-			
-			if (isLastPosition == false && isBeginTimeEqualToNextItem)
-			{
-				holder.dividerView.setVisibility(View.VISIBLE);
-			}			
-			
-			String homeTeamName = event.getHomeTeam();
-			
-			String awayTeamName = event.getAwayTeam();
-			
-			boolean containsTeamInfo = event.containsTeamInfo();
-			
-			if(containsTeamInfo)
-			{
-				long team1ID = event.getHomeTeamId();
-				
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
-				
-				if(team1 != null)
+				boolean isBeginTimeEqualToNextItem;
+
+				if(isLastPosition == false)
 				{
-					ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
-						
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
+					Event nextEvent = getItem(position + 1);
+
+					isBeginTimeEqualToNextItem = event.isTheSameDayAs(nextEvent);
 				}
 				else
 				{
-					Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+					isBeginTimeEqualToNextItem = false;
 				}
-					
-				
-				long team2ID = event.getAwayTeamId();
-				
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-				
-				if(team2 != null)
+
+				if (isFirstposition || isCurrentEventDayEqualToPreviousEventDay == false) 
 				{
-					ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
-						
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
-						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
-				}
-				else
-				{
-					Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
-				}
-			}
-			
-			holder.team1name.setText(homeTeamName);
-			
-			holder.team2name.setText(awayTeamName);
-			
-			holder.container.setOnClickListener(new View.OnClickListener() 
-	        {
-	            public void onClick(View v)
-	            {
-	                Intent intent = new Intent(activity, EventPageActivity.class);
-	                
-	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-	                
-	                activity.startActivity(intent);
-	            }
-	        });
-			
-			// TODO Set remaining variables: score and timeLeft
-			
-			/* Start time */
-			String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
-			holder.startTime.setText(start);
-			
-			StringBuilder channelsSB = new StringBuilder();
-			
-			boolean containsBroadcastDetails = event.containsBroadcastDetails();
-			
-			if(containsBroadcastDetails)
-			{
-				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
-				
-				int totalChannelCount = eventBroadcastDetailsList.size();
-				
-				List<String> channelNames = new ArrayList<String>(totalChannelCount);
-				
-				for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
-				{
-					String channelID = eventBroadcastDetails.getChannelId();
-					
-					TVChannelId tvChannelId = new TVChannelId(channelID);
-					
-					TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-					
-					if(tvChannel != null)
+					StringBuilder sb = new StringBuilder();
+
+					boolean isBeginTimeTodayOrTomorrow = event.isEventTimeTodayOrTomorrow();
+
+					if(isBeginTimeTodayOrTomorrow)
 					{
-						channelNames.add(tvChannel.getName());
+						sb.append(event.getEventTimeDayOfTheWeekAsString());
 					}
 					else
 					{
-						Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
+						sb.append(event.getEventTimeDayOfTheWeekAsString());
+						sb.append(" ");
+						sb.append(event.getEventTimeDayAndMonthAsString());
+					}
+					
+					/* Capitalized letters in header */
+					String headerText = sb.toString();
+					holder.startWeekDayHeader.setText(headerText.toUpperCase());
+
+					holder.startWeekDayHeader.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					holder.dividerView.setVisibility(View.VISIBLE);
+				}
+				
+				if (isFirstposition || isCurrentEventGroupEqualToPreviousEventGroup == false)
+				{
+					holder.startWeekDayHeader.setVisibility(View.VISIBLE);
+				}
+				
+				if (isLastPosition == false && isBeginTimeEqualToNextItem)
+				{
+					holder.dividerView.setVisibility(View.VISIBLE);
+				}			
+				
+				String homeTeamName = event.getHomeTeam();
+				
+				String awayTeamName = event.getAwayTeam();
+				
+				boolean containsTeamInfo = event.containsTeamInfo();
+				
+				if(containsTeamInfo)
+				{
+					long team1ID = event.getHomeTeamId();
+					
+					Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+					
+					if(team1 != null)
+					{
+						ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
+							
+						String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+							
+						SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
+					}
+					else
+					{
+						Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+					}
+						
+					
+					long team2ID = event.getAwayTeamId();
+					
+					Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+					
+					if(team2 != null)
+					{
+						ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
+							
+						String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+							
+						SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
+					}
+					else
+					{
+						Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
 					}
 				}
 				
-				for(int j=0; j<channelNames.size(); j++)
+				holder.team1name.setText(homeTeamName);
+				
+				holder.team2name.setText(awayTeamName);
+				
+				holder.container.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(activity, EventPageActivity.class);
+		                
+		                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+		                
+		                activity.startActivity(intent);
+		            }
+		        });
+				
+				// TODO Set remaining variables: score and timeLeft
+				
+				/* Start time */
+				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+				holder.startTime.setText(start);
+				
+				StringBuilder channelsSB = new StringBuilder();
+				
+				boolean containsBroadcastDetails = event.containsBroadcastDetails();
+				
+				if(containsBroadcastDetails)
 				{
-					if(j >= Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON)
+					List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
+					
+					int totalChannelCount = eventBroadcastDetailsList.size();
+					
+					List<String> channelNames = new ArrayList<String>(totalChannelCount);
+					
+					for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
 					{
-						int remainingChannels = totalChannelCount-Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
-								
-						channelsSB.append("+ ");
-						channelsSB.append(remainingChannels);
-						channelsSB.append(" ");
-						channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
-						break;
+						String channelID = eventBroadcastDetails.getChannelId();
+						
+						TVChannelId tvChannelId = new TVChannelId(channelID);
+						
+						TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+						
+						if(tvChannel != null)
+						{
+							channelNames.add(tvChannel.getName());
+						}
+						else
+						{
+							Log.w(TAG, "No matching TVChannel ID was found for ID: " + channelID);
+						}
 					}
 					
-					channelsSB.append(channelNames.get(j));
-					
-					if(j != channelNames.size()-1)
+					for(int j=0; j<channelNames.size(); j++)
 					{
-						channelsSB.append(", ");
+						if(j >= Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON)
+						{
+							int remainingChannels = totalChannelCount-Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
+									
+							channelsSB.append("+ ");
+							channelsSB.append(remainingChannels);
+							channelsSB.append(" ");
+							channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
+							break;
+						}
+						
+						channelsSB.append(channelNames.get(j));
+						
+						if(j != channelNames.size()-1)
+						{
+							channelsSB.append(", ");
+						}
 					}
 				}
+				
+				holder.broadcastChannels.setText(channelsSB.toString());
+				
+				holder.container.setVisibility(View.VISIBLE);
+				holder.team1name.setVisibility(View.VISIBLE);
+				holder.team1flag.setVisibility(View.VISIBLE);
+				holder.team2name.setVisibility(View.VISIBLE);
+				holder.team2flag.setVisibility(View.VISIBLE);
+				holder.startTime.setVisibility(View.VISIBLE);
+				
+				
+			} else {
+				/* Do nothing, Dont show event! */
 			}
-			
-			holder.broadcastChannels.setText(channelsSB.toString());
-			
 		}
 		else
 		{

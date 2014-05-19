@@ -82,6 +82,7 @@ public class EventPageActivity
 	private TextView headerteamvsteam;
 	private TextView headerCompetitionName;
 	private String competitionName;
+	private TextView headerStandings;
 	
 	private LinearLayout listContainerLayoutHighlights;
 	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
@@ -183,6 +184,13 @@ public class EventPageActivity
 		headerteamvsteam.setVisibility(View.VISIBLE);
 		headerCompetitionName.setVisibility(View.VISIBLE);
 		
+		StringBuilder sbHeaderGroup = new StringBuilder();
+		sbHeaderGroup.append(getResources().getString(R.string.event_page_header_standings))
+			.append(" ")
+			.append(phase.getPhase());
+		
+		headerStandings.setText(sbHeaderGroup.toString());
+		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
 		if(containsTeamInfo)
@@ -243,10 +251,6 @@ public class EventPageActivity
 		boolean isOngoing = event.hasStarted();
 		boolean isPostponed = event.isPostponed();
 		boolean isFinished = event.isFinished();
-		
-//		isOngoing = true;
-//		isPostponed = false;
-//		isFinished = false;
 		
 		/* The event is ongoing */
 		if (isOngoing && !isPostponed) {
@@ -344,6 +348,7 @@ public class EventPageActivity
 		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
 		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
+		headerStandings = (TextView) findViewById(R.id.competition_standings_header_group);
 		
 		team1NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_one_name);
 		team1FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_one_flag);
@@ -431,7 +436,7 @@ public class EventPageActivity
 		StringBuilder groupName = new StringBuilder();
 		groupName.append(phase.getPhase());
 		
-		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), groupName.toString(), event.getEventId());
+		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), phase.getPhaseId(), groupName.toString(), event.getEventId());
 	
 		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
 		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);
