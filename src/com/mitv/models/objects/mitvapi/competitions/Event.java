@@ -151,7 +151,7 @@ public class Event
 	 */
 	public Calendar getEventDateCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(eventDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearAndDateStringToCalendar(eventDate);
 		
 		return beginTimeCalendarGMT;
 	}
