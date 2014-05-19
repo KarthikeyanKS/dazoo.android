@@ -110,14 +110,6 @@ public class Event
 	}
 	
 	
-	/**
-	 * WARNING WARNING WARNING
-	 * 
-	 * TODO
-	 * Check if live is the same as onGoing.....!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	 * 
-	 * @return
-	 */
 	public boolean hasStarted()
 	{
 		return live;
@@ -300,6 +292,18 @@ public class Event
 		}
 		
 		return isSamePhase;
+	}
+	
+	
+	/**
+	 * Maybe remove this if we get the timeMillis from BE!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
+	 * @return
+	 */
+	public long getBeginTimeLocalInMillis() {
+		long beginTimeMillis = this.getEventDateCalendarLocal().getTimeInMillis();
+		
+		return beginTimeMillis;
 	}
 	
 }

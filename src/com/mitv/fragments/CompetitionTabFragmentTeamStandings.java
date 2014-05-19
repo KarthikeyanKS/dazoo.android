@@ -198,6 +198,8 @@ public class CompetitionTabFragmentTeamStandings
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
+				listContainerLayout.removeAllViews();
+				
 				Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition();
 
 				listAdapter = new CompetitionStandingsByGroupListAdapter(activity, standingsByPhase);

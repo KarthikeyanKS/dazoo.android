@@ -188,7 +188,7 @@ public class CompetitionPageActivity
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
 		if(containsTeamInfo)
-		{	
+		{
 			long team1ID = event.getHomeTeamId();
 			
 			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
