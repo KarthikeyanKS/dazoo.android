@@ -9,6 +9,10 @@ import com.mitv.R;
 
 public enum EventHighlightActionEnum 
 {
+	GAME_START(-2, 0),
+	
+	GAME_END(-1, 0),
+	
 	RED_CARD(0, R.drawable.competition_event_highlight_red_card),
 	
 	YELLOW_CARD(2048, R.drawable.competition_event_highlight_yellow_card),

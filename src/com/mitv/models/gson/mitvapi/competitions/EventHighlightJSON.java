@@ -18,6 +18,7 @@ public class EventHighlightJSON
 	private String personShort;
 	protected long subPersonId;
 	protected String subPerson;
+	protected String subPersonShort;
 	protected long subActionReasonId;
 	protected String subActionReason;
 	
@@ -106,5 +107,11 @@ public class EventHighlightJSON
 
 	public long getEventId() {
 		return eventId;
+	}
+
+
+
+	public String getSubPersonShort() {
+		return subPersonShort;
 	}
 }

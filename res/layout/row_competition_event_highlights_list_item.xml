@@ -6,41 +6,20 @@
     android:layout_height="wrap_content"
     android:background="@color/grey0">
 
-    <!-- Middle top section -->
-    <RelativeLayout
-        android:id="@+id/row_competition_event_highlight_middle_top_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:visibility="gone" >
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_competition_event_highlight_middle_name_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textSize="16sp"
-            font:fonttextview="roboto_mitv_light.ttf" />
-    </RelativeLayout>
-	
-    
     <!-- Middle section -->
     <RelativeLayout
         android:id="@+id/row_competition_event_highlight_middle_layout"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-    	android:layout_below="@id/row_competition_event_highlight_middle_top_layout"
     	android:layout_centerInParent="true">
     
 	    <ImageView
 			android:id="@+id/row_competition_event_highlight_middle_separator_icon_top"
 	        android:layout_width="2dp"
-	        android:layout_height="25dp"
+	        android:layout_height="12dp"
 	        android:layout_centerHorizontal="true"
 	        android:src="@drawable/competition_event_highlight_separator"
-	        android:scaleType="fitXY"
-	        android:visibility="gone"/>
+	        android:scaleType="fitXY"/>
 	    
         <ImageView
 			android:id="@+id/row_competition_event_highlight_middle_icon"
@@ -52,34 +31,24 @@
 	        android:layout_marginBottom="2dp"
 	        android:scaleType="fitXY"/>
         
-        <ImageView
-			android:id="@+id/row_competition_event_highlight_middle_separator_icon_bottom"
-	        android:layout_width="2dp"
-	        android:layout_height="25dp"
-	        android:layout_centerHorizontal="true"
-	        android:layout_below="@id/row_competition_event_highlight_middle_icon"
-	        android:src="@drawable/competition_event_highlight_separator"
-	        android:scaleType="fitXY"/>
-
-    </RelativeLayout>
-
-    <!-- Middle bottom section -->
-    <RelativeLayout
-        android:id="@+id/row_competition_event_highlight_middle_bottom_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/row_competition_event_highlight_middle_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone" >
-
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_competition_event_highlight_middle_name_bottom"
+            android:id="@+id/row_competition_event_highlight_middle_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_below="@id/row_competition_event_highlight_middle_icon"
             android:textSize="16sp"
             font:fonttextview="roboto_mitv_light.ttf" />
+        
+        <ImageView
+			android:id="@+id/row_competition_event_highlight_middle_separator_icon_bottom"
+	        android:layout_width="2dp"
+	        android:layout_height="12dp"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/row_competition_event_highlight_middle_name"
+	        android:src="@drawable/competition_event_highlight_separator"
+	        android:scaleType="fitXY"/>
+
     </RelativeLayout>
 
     
