@@ -27,10 +27,10 @@
                 android:layout_marginBottom="10dp"
                 layout="@layout/block_competition_event_main_content" />
 
-            <!-- TAB: HIGHLIGHTS -->
-
+            
+            <!-- HIGHLIGHTS -->
             <RelativeLayout
-                android:id="@+id/competition_event_block_tabs_highlights_teams_container"
+                android:id="@+id/competition_event_highlights_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_event_block_container_layout"
@@ -83,8 +83,8 @@
                         android:layout_toRightOf="@id/competition_event_highlights_team_one_flag" />
                 </RelativeLayout>
 
+                
                 <!-- TEAM TWO -->
-
                 <RelativeLayout
                     android:id="@+id/competition_event_highlights_team_two_flag_container"
                     android:layout_width="wrap_content"
@@ -118,32 +118,34 @@
                         android:layout_toLeftOf="@id/competition_event_highlights_team_two_flag" />
                 </RelativeLayout>
 
+                
                 <!-- LIST OF HIGHLIGHTS -->
-
                 <RelativeLayout
+                    android:id="@+id/competition_event_highlights_table_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/competition_event_highlights_team_one_flag_container"
+                    android:layout_below="@id/competition_event_highlights_team_two_flag_container"
                     android:layout_margin="10dp"
                     android:background="@color/grey0" >
 
-                    <LinearLayout
-                        android:id="@+id/competition_event_highlights_table_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                    	android:layout_margin="10dp" >
-                    </LinearLayout>
+                    <ListView
+				        android:id="@+id/competition_event_highlights_list"
+				        android:layout_width="match_parent"
+				        android:layout_height="match_parent"
+				        android:cacheColorHint="@null"
+				        android:divider="@null"
+				        android:fadingEdge="none" />
+
                 </RelativeLayout>
             </RelativeLayout>
 
+            
             <!-- LINEUP -->
-
             <RelativeLayout
-                android:id="@+id/competition_event_block_tabs_lineup_teams_container"
+                android:id="@+id/competition_event_lineup_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/competition_event_block_tabs_highlights_teams_container"
+                android:layout_below="@id/competition_event_highlights_container"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -203,13 +205,13 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            
             <!-- TABS: GROUPS & STANDINGS -->
-
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_standings_teams_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/competition_event_block_tabs_lineup_teams_container"
+                android:layout_below="@id/competition_event_lineup_container"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
