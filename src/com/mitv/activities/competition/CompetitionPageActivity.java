@@ -191,9 +191,15 @@ public class CompetitionPageActivity
 		
 		/* Ongoing */
 		if (isOngoing) {
+			beforeLayout.setVisibility(View.GONE);
 			countDownLayout.setVisibility(View.GONE);
 			ongoingLayout.setVisibility(View.VISIBLE);
-			setOngoingLayout();
+			nextGameLayout.setVisibility(View.GONE);
+			nextGameLayoutOngoing.setVisibility(View.VISIBLE);
+			liveOngoingLayout.setVisibility(View.VISIBLE);
+			
+			setOngoingLayoutForLiveEvent();
+			setOngoingLayoutForNextEvent();
 		}
 		
 		/* Has ended */
@@ -201,6 +207,9 @@ public class CompetitionPageActivity
 			countDownLayout.setVisibility(View.GONE);
 			beforeLayout.setVisibility(View.GONE);
 			ongoingLayout.setVisibility(View.GONE);
+			nextGameLayout.setVisibility(View.GONE);
+			nextGameLayoutOngoing.setVisibility(View.GONE);
+			liveOngoingLayout.setVisibility(View.GONE);
 			/* TODO What to do here????????????? */
 		}
 		
@@ -210,6 +219,8 @@ public class CompetitionPageActivity
 			nextGameLayoutOngoing.setVisibility(View.GONE); // Still showing some views... TODO
 			liveHeaderOngoing.setVisibility(View.GONE);
 			countDownLayout.setVisibility(View.VISIBLE);
+			nextGameLayout.setVisibility(View.VISIBLE);
+			liveOngoingLayout.setVisibility(View.GONE);
 			
 			long competitionStartTimeInMiliseconds = competition.getBeginTimeCalendarGMT().getTimeInMillis();
 			
@@ -233,8 +244,7 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setOngoingLayout()
-	{
+	private void setOngoingLayoutForLiveEvent() {
 //		liteTVBroadcastChannelsOngoing;
 		
 		/* LIVE GAME */
@@ -331,8 +341,11 @@ public class CompetitionPageActivity
 			/* Hide container */
 			liveOngoingLayout.setVisibility(View.GONE);
 		}
-		
-		
+	}
+	
+	
+	
+	private void setOngoingLayoutForNextEvent() {
 		/* NEXT GAME */
 		Event nextEvent = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
 		
@@ -487,8 +500,7 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setBeforeLayout()
-	{
+	private void setBeforeLayout() {
 		String homeTeamName = event.getHomeTeam();
 		
 		String awayTeamName = event.getAwayTeam();
@@ -639,6 +651,7 @@ public class CompetitionPageActivity
 		
 		actionBar.setTitle(competitionName);
 		
+		/* Before */
 		countDownLayout = (RelativeLayout) findViewById(R.id.competition_count_down_area);
 		remainingTimeInDays = (TextView) findViewById(R.id.competition_days_number);
 		remainingTimeInDaysTitle = (TextView) findViewById(R.id.competition_days_title);
@@ -659,28 +672,28 @@ public class CompetitionPageActivity
 		nextGameText = (TextView) findViewById(R.id.competition_next_game_text);
 		
 		/* Ongoing - LIVE */
+		liveOngoingLayout = (RelativeLayout) findViewById(R.id.competition_ongoing_live_game_layout);
+		liveGroupHeader = (TextView) findViewById(R.id.competition_ongoing_group_header);
+		liveOngoingStandings = (TextView) findViewById(R.id.competition_ongoing_live_standing);
+//		liteTVBroadcastChannelsOngoing = findViewById(R.id.);
+		liveTeam1NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_one_name);
+		liveTeam1FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_team_one_flag);
+		liveTeam2NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_two_name);
+		liveTeam2FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_team_two_flag);
+		liveTimeLeft = (TextView) findViewById(R.id.competition_ongoing_live_time);
+		
+		/* Ongoing - NEXT GAME */
 		ongoingLayout = (RelativeLayout) findViewById(R.id.competition_page_ongoing_layout);
 		liveHeaderOngoing = (TextView) findViewById(R.id.competition_ongoing_header_live);
 		nextGameHeaderOngoing = (TextView) findViewById(R.id.competition_ongoing_header_next_game);
 		nextGameLayoutOngoing = (RelativeLayout) findViewById(R.id.competition_ongoing_next_game_layout);
 		eventStartTimeOngoing = (TextView) findViewById(R.id.competition_page_ongoing_begin_time_broadcast);
 		tvBroadcastChannelsOngoing = (TextView) findViewById(R.id.competition_ongoing_airing_channels_for_broadcast);
-		team1NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_one_name);
-		team1FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_team_one_flag);
-		team2NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_two_name);
-		team2FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_team_two_flag);
+		team1NameOngoing = (TextView) findViewById(R.id.competition_ongoing_next_team_one_name);
+		team1FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_next_team_one_flag);
+		team2NameOngoing = (TextView) findViewById(R.id.competition_ongoing_next_team_two_name);
+		team2FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_next_team_two_flag);
 		nextGameTextOngoing = (TextView) findViewById(R.id.competition_ongoing_next_game_text);
-		
-		/* Ongoing - NEXT GAME */
-		liveOngoingLayout = (RelativeLayout) findViewById(R.id.competition_ongoing_live_game_layout);
-		liveGroupHeader = (TextView) findViewById(R.id.competition_ongoing_group_header);
-		liveOngoingStandings = (TextView) findViewById(R.id.competition_ongoing_live_standing);
-//		liteTVBroadcastChannelsOngoing = findViewById(R.id.);
-		liveTeam1NameOngoing = (TextView) findViewById(R.id.competition_ongoing_next_team_one_name);
-		liveTeam1FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_next_team_one_flag);
-		liveTeam2NameOngoing = (TextView) findViewById(R.id.competition_ongoing_next_team_two_name);
-		liveTeam2FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_next_team_two_flag);
-		liveTimeLeft = (TextView) findViewById(R.id.competition_ongoing_live_time);
 		
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		

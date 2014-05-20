@@ -64,7 +64,6 @@
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
-
                 <!-- LIVE TIME IN GAME: XX' -->
 
                 <com.mitv.ui.elements.FontTextView
@@ -215,7 +214,7 @@
             <!-- TEAM ONE -->
 
             <RelativeLayout
-                android:id="@+id/competition_page_ongoing_team_one_flag_container"
+                android:id="@+id/competition_page_ongoing_next_team_one_flag_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -245,7 +244,7 @@
             <!-- TEAM TWO -->
 
             <RelativeLayout
-                android:id="@+id/competition_page_ongoing_team_two_flag_container"
+                android:id="@+id/competition_page_ongoing_next_team_two_flag_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

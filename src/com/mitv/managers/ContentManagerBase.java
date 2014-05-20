@@ -1049,6 +1049,7 @@ public abstract class ContentManagerBase
 		
 		if(events.isEmpty() == false)
 		{
+			events = filterFinishedEvents(events);
 			matchingEvent = events.get(0);
 		}
 		
@@ -1067,8 +1068,26 @@ public abstract class ContentManagerBase
 	
 	
 	
+	private List<Event> filterFinishedEvents(List<Event> events) {
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		for (Event ev: events) {
+			if(!ev.isFinished()) {
+				filteredEvents.add(ev);
+			}
+		}
+		
+		return filteredEvents;
+	}
+	
+	
+	
 	public Event getFromCacheLiveEventForSelectedCompetition() {
 		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		if (events != null) {
+			events = filterFinishedEvents(events);
+		}
 		
 		for (Event ev : events) {
 			if (ev.isLive()) {
@@ -1078,7 +1097,7 @@ public abstract class ContentManagerBase
 		
 		return null;
 	}
-
+	
 	
 	
 	public Map<Long, List<Event>> getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition()
