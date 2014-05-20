@@ -240,7 +240,8 @@ public class CompetitionPageActivity
 		/* LIVE GAME */
 		Event liveEvent = ContentManager.sharedInstance().getFromCacheLiveEventForSelectedCompetition();
 		
-		if (liveEvent != null) {
+		if (liveEvent != null) 
+		{
 			liveOngoingLayout.setVisibility(View.VISIBLE);
 			
 			String header = getResources().getString(R.string.competition_page_ongoing_live_header);
@@ -297,27 +298,20 @@ public class CompetitionPageActivity
 			/* Group name */
 			
 			long phaseID = liveEvent.getPhaseId();
+			
 			Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 			
 			String groupHeaderName = phase.getPhase();
 			
 			liveGroupHeader.setText(groupHeaderName);
 				
-			StringBuilder sb = new StringBuilder();
-			sb.append(liveEvent.getAwayGoals())
-				.append(" - ")
-				.append(liveEvent.getHomeGoals());
+			String score = event.getScoreAsString();
 			
-			liveOngoingStandings.setText(sb.toString());
+			liveOngoingStandings.setText(score);
 			
-			String timeInGame = DateUtils.getMinutesInGameString(liveEvent.getEventDateCalendarLocal());
+			String timeInGame = event.getGameTimeAndStatusAsString(true);
 			
-			StringBuilder sbLiveStandings = new StringBuilder();
-			sbLiveStandings.append(getResources().getString(R.string.icon_time_is_ongoing))
-				.append(" ")
-				.append(timeInGame);
-			
-			liveTimeLeft.setText(sbLiveStandings.toString());
+			liveTimeLeft.setText(timeInGame);
 			
 			liveOngoingLayout.setOnClickListener(new View.OnClickListener() 
 	        {
@@ -332,8 +326,8 @@ public class CompetitionPageActivity
 	            }
 	        });
 		}
-		
-		else {
+		else 
+		{
 			/* Hide container */
 			liveOngoingLayout.setVisibility(View.GONE);
 		}
