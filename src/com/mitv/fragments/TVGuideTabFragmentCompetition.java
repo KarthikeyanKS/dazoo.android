@@ -289,7 +289,7 @@ public class TVGuideTabFragmentCompetition
 		
 			String competitionName = getCompetition().getDisplayName();
 			
-			long eventStartTimeInMiliseconds = getCompetition().getBeginTimeCalendarLocal().getTimeInMillis();
+			long eventStartTimeInMiliseconds = getCompetition().getBeginTimeCalendarGMT().getTimeInMillis();
 				
 			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
 

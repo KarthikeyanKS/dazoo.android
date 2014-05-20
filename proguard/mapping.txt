@@ -38532,35 +38532,34 @@ com.mitv.utilities.DateUtils -> com.mitv.utilities.DateUtils:
     long TOTAL_MILLISECONDS_IN_ONE_MINUTE -> TOTAL_MILLISECONDS_IN_ONE_MINUTE
     long TOTAL_MILLISECONDS_IN_ONE_HOUR -> TOTAL_MILLISECONDS_IN_ONE_HOUR
     long TOTAL_MILLISECONDS_IN_ONE_DAY -> TOTAL_MILLISECONDS_IN_ONE_DAY
-    42:44:java.util.Calendar convertFromYearAndDateStringToCalendar(java.lang.String) -> convertFromYearAndDateStringToCalendar
-    56:64:java.util.Calendar getCalendarForStartOfTVDay(java.lang.String) -> getCalendarForStartOfTVDay
-    74:84:java.util.Calendar getCalendarForEndOfTVDayUsingStartCalendar(java.util.Calendar) -> getCalendarForEndOfTVDayUsingStartCalendar
-    96:97:java.util.Calendar convertFromYearDateAndTimeStringToCalendar(java.lang.String) -> convertFromYearDateAndTimeStringToCalendar
-    110:110:java.util.Calendar convertFromYearDateAndTimeStringToCalendar(java.lang.String,android.content.Context) -> a
-    122:141:java.lang.Integer getTimeZoneOffsetInMinutes() -> getTimeZoneOffsetInMinutes
-    152:167:java.lang.Long getTimeZoneOffsetInMillis() -> getTimeZoneOffsetInMillis
-    177:199:java.util.Calendar convertFromStringToCalendarWithFormat(java.lang.String,java.lang.String,android.content.Context) -> a
-    212:221:int getCurrentHour(boolean) -> a
-    227:229:int getCurrentHour(android.content.Context) -> a
-    235:236:int getCurrentHourUseDevice24HourSettings() -> getCurrentHourUseDevice24HourSettings
-    242:242:int getCurrentHourOn24HourFormat() -> getCurrentHourOn24HourFormat
-    262:306:java.lang.Integer calculateDifferenceBetween(java.util.Calendar,java.util.Calendar,int,boolean,int) -> calculateDifferenceBetween
-    313:319:boolean isTodayUsingCalendar(java.util.Calendar) -> isTodayUsingCalendar
-    328:334:boolean isTodayUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> isTodayUsingTVDate
-    346:348:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar) -> buildDayOfTheWeekAsString
-    373:444:boolean areCalendarsTheSameTVAiringDay(java.util.Calendar,java.util.Calendar) -> areCalendarsTheSameTVAiringDay
-    451:464:java.lang.String getDayOfWeekStringUsingFirstHourOfTVDay(java.util.Calendar) -> a
-    477:517:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar,android.content.Context) -> a
-    528:534:java.lang.String buildDateCompositionAsString(java.util.Calendar) -> buildDateCompositionAsString
-    546:547:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar) -> getHourAndMinuteCompositionAsString
-    551:555:java.lang.String calendarToStringForDebug(java.util.Calendar) -> calendarToStringForDebug
-    560:560:boolean showTimeOn24HourFormat() -> showTimeOn24HourFormat
-    565:569:java.lang.String getHourAndMinuteAsStringUsingHour(int) -> getHourAndMinuteAsStringUsingHour
-    584:606:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar,boolean) -> a
-    619:642:java.lang.String buildDayAndMonthCompositionAsString(java.util.Calendar,boolean) -> buildDayAndMonthCompositionAsString
-    656:678:java.util.Calendar buildCalendarWithTVDateAndSpecificHour(com.mitv.models.objects.mitvapi.TVDate,int) -> buildCalendarWithTVDateAndSpecificHour
-    693:697:java.util.Calendar getNow() -> getNow
-    707:711:java.text.SimpleDateFormat getSimpleDateFormatWith(java.lang.String) -> a
+    42:42:java.util.Calendar convertFromYearAndDateStringToCalendar(java.lang.String) -> convertFromYearAndDateStringToCalendar
+    54:62:java.util.Calendar getCalendarForStartOfTVDay(java.lang.String) -> getCalendarForStartOfTVDay
+    72:82:java.util.Calendar getCalendarForEndOfTVDayUsingStartCalendar(java.util.Calendar) -> getCalendarForEndOfTVDayUsingStartCalendar
+    93:93:java.util.Calendar convertFromYearDateAndTimeStringToCalendar(java.lang.String) -> convertFromYearDateAndTimeStringToCalendar
+    105:124:java.lang.Integer getTimeZoneOffsetInMinutes() -> getTimeZoneOffsetInMinutes
+    135:150:java.lang.Long getTimeZoneOffsetInMillis() -> getTimeZoneOffsetInMillis
+    159:182:java.util.Calendar convertFromStringToUTC0CalendarWithFormat(java.lang.String,java.lang.String) -> a
+    195:204:int getCurrentHour(boolean) -> a
+    210:212:int getCurrentHour(android.content.Context) -> a
+    218:219:int getCurrentHourUseDevice24HourSettings() -> getCurrentHourUseDevice24HourSettings
+    225:225:int getCurrentHourOn24HourFormat() -> getCurrentHourOn24HourFormat
+    245:289:java.lang.Integer calculateDifferenceBetween(java.util.Calendar,java.util.Calendar,int,boolean,int) -> calculateDifferenceBetween
+    296:302:boolean isTodayUsingCalendar(java.util.Calendar) -> isTodayUsingCalendar
+    312:326:boolean isTodayUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> isTodayUsingTVDate
+    338:340:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar) -> buildDayOfTheWeekAsString
+    365:436:boolean areCalendarsTheSameTVAiringDay(java.util.Calendar,java.util.Calendar) -> areCalendarsTheSameTVAiringDay
+    443:456:java.lang.String getDayOfWeekStringUsingFirstHourOfTVDay(java.util.Calendar) -> a
+    469:509:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar,android.content.Context) -> a
+    520:526:java.lang.String buildDateCompositionAsString(java.util.Calendar) -> buildDateCompositionAsString
+    538:539:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar) -> getHourAndMinuteCompositionAsString
+    543:547:java.lang.String calendarToStringForDebug(java.util.Calendar) -> calendarToStringForDebug
+    552:552:boolean showTimeOn24HourFormat() -> showTimeOn24HourFormat
+    557:561:java.lang.String getHourAndMinuteAsStringUsingHour(int) -> getHourAndMinuteAsStringUsingHour
+    576:598:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar,boolean) -> a
+    611:634:java.lang.String buildDayAndMonthCompositionAsString(java.util.Calendar,boolean) -> buildDayAndMonthCompositionAsString
+    648:670:java.util.Calendar buildCalendarWithTVDateAndSpecificHour(com.mitv.models.objects.mitvapi.TVDate,int) -> buildCalendarWithTVDateAndSpecificHour
+    685:689:java.util.Calendar getNow() -> getNow
+    699:703:java.text.SimpleDateFormat getSimpleDateFormatWith(java.lang.String) -> a
 com.mitv.utilities.FileUtils -> com.mitv.utilities.FileUtils:
     java.lang.String TAG -> a
     java.lang.String ANDROID_FONTS_PATH -> ANDROID_FONTS_PATH

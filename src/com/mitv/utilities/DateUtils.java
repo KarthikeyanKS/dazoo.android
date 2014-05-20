@@ -39,9 +39,7 @@ public abstract class DateUtils
 	 */
 	public static Calendar convertFromYearAndDateStringToCalendar(final String inputString)
 	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-		return convertFromStringToCalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString, context);
+		return convertFromStringToUTC0CalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString);
 	}
 	
 	/**
@@ -90,26 +88,11 @@ public abstract class DateUtils
 	 * The input string format should be in the ISO 8601 date format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
-	public static Calendar convertFromYearDateAndTimeStringToCalendar(
-			final String inputString)
+	public static Calendar convertFromYearDateAndTimeStringToCalendar(final String inputString)
 	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		return convertFromYearDateAndTimeStringToCalendar(inputString, context);
+		return convertFromStringToUTC0CalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString);
 	}
-	
-	
-	/**
-	 * Converts a string input to a Calendar object
-	 * The input string format should be in the ISO 8601 date format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
-	 * 
-	 */
-	private static Calendar convertFromYearDateAndTimeStringToCalendar(
-			final String inputString,
-			final Context context)
-	{
-		return convertFromStringToCalendarWithFormat(Constants.ISO_8601_DATE_FORMAT, inputString, context);
-	}
-	
+		
 	
 	
 	/**
@@ -169,10 +152,9 @@ public abstract class DateUtils
 	
 	
 	
-	private static Calendar convertFromStringToCalendarWithFormat(
+	private static Calendar convertFromStringToUTC0CalendarWithFormat(
 			final String dateFormatString,
-			final String inputString,
-			final Context context)
+			final String inputString)
 	{
 		Calendar cal = getNow();
 		
@@ -185,6 +167,7 @@ public abstract class DateUtils
 				Date date = dateFormat.parse(inputString);
 				
 				cal.setTime(date);
+				cal.setTimeZone(TimeZone.getTimeZone("GMT"));
 			} 
 			catch (ParseException e) 
 			{
@@ -324,8 +307,17 @@ public abstract class DateUtils
 	 * @param tvDate
 	 * @return
 	 */
-	public static boolean isTodayUsingTVDate(final TVDate tvDate) {
+	public static boolean isTodayUsingTVDate(final TVDate tvDate)
+	{
 		Calendar now = getNow();
+		
+		int localTimeZoneOffsetInSeconds = (int) (getTimeZoneOffsetInMillis() / DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
+		
+		/* TODO - Why do we need to add the timeZone offset if the current "now" time already includes it?
+		 * And why does it matter when using Calendar comparison functions that specifically state that they not use it in internal calculations?
+		 * Investigate why is this working */	
+		now.add(Calendar.SECOND, localTimeZoneOffsetInSeconds);
+		
 		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendar();
 		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendar();
 		
