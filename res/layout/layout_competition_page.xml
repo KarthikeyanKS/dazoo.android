@@ -19,25 +19,33 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
 
-            <include
-                android:id="@+id/competition_page_before_block_container_layout"
+            <RelativeLayout
+                android:id="@+id/competition_before_or_ongoing_layout_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                layout="@layout/block_competition_page_before_main_content" />
-            
-            <include
-                android:id="@+id/competition_page_ongoing_block_container_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/competition_page_before_block_container_layout"
-                layout="@layout/block_competition_page_ongoing_main_content" />
+                android:layout_alignParentTop="true" >
+
+                <include
+                    android:id="@+id/competition_page_before_block_container_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    layout="@layout/block_competition_page_before_main_content" />
+
+                <include
+                    android:id="@+id/competition_page_ongoing_block_container_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_below="@id/competition_page_before_block_container_layout"
+                    layout="@layout/block_competition_page_ongoing_main_content" />
+            </RelativeLayout>
 
             <com.viewpagerindicator.TabPageIndicator
                 android:id="@+id/tab_event_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:layout_below="@id/competition_page_ongoing_block_container_layout"
+                android:layout_below="@id/competition_before_or_ongoing_layout_container"
                 android:background="@color/white"
                 android:tag="sticky" />
 
