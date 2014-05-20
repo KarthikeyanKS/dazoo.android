@@ -207,7 +207,7 @@ public class EventPageActivity
 		
 		String stadiumImageURL = event.getStadiumImageURL();
 		
-		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(stadiumImageURL, imageAwareStadium);
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionEventStadiumOptions(stadiumImageURL, imageAwareStadium);
 		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
