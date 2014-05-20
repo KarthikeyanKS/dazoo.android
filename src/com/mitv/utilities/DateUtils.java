@@ -283,6 +283,8 @@ public abstract class DateUtils
 	    if(difference < 0 && 
 	       useAbslouteDifference == false)
 	    {
+	    	difference = defaultValueIfNegative;
+	    	
 	    	Log.w(TAG, "The calculated time difference is negative.");
 	    }
 	    else
@@ -708,44 +710,5 @@ public abstract class DateUtils
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
 		
 		return dateFormat;
-	}
-	
-	
-	
-	/**
-	 * Returns the time in minutes the has been going on.
-	 * 
-	 * @return minutesInGame
-	 */
-	public static int getMinutesInEvent(Calendar beginTime) {
-		int minutesInGame = 0;
-		long minutes = 0l;
-		
-		Calendar now = getNow();
-		
-		minutes = now.getTimeInMillis() - beginTime.getTimeInMillis();
-		
-		minutesInGame = (int) (minutes / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
-		
-		return minutesInGame;
-	}
-	
-	
-	
-	/**
-	 * Returns a string: "XX'"
-	 * 
-	 * @return String
-	 */
-	public static String getMinutesInGameString(Calendar beginTime)
-	{
-		int minutesinGame = getMinutesInEvent(beginTime);
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(minutesinGame)
-		.append("'");
-		
-		return sb.toString();
-	}
-	
+	}	
 }

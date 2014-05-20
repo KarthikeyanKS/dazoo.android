@@ -75,8 +75,8 @@ public class EventPageActivity
 	private TextView team2Name;
 	private ImageView team2Flag;
 	private TextView groupHeader;
-	private TextView liveStandings;
-	private TextView liveTimeInGame;
+	private TextView liveScore;
+	private TextView liveStatus;
 	private TextView stadiumName;
 	private TextView stadiumImageCopyright;
 	private TextView description;
@@ -308,14 +308,14 @@ public class EventPageActivity
 		{
 			String score = event.getScoreAsString();
 			
-			liveStandings.setText(score);
+			liveScore.setText(score);
 			
 			String timeInGame = event.getGameTimeAndStatusAsString(true);
 			
-			liveTimeInGame.setText(timeInGame);
+			liveStatus.setText(timeInGame);
 			
-			liveStandings.setVisibility(View.VISIBLE);
-			liveTimeInGame.setVisibility(View.VISIBLE);
+			liveScore.setVisibility(View.VISIBLE);
+			liveStatus.setVisibility(View.VISIBLE);
 			beginTime.setVisibility(View.GONE);
 			beginTimeDate.setVisibility(View.GONE);
 		}
@@ -334,8 +334,8 @@ public class EventPageActivity
 			
 			beginTimeDate.setText(sb.toString());
 			
-			liveStandings.setVisibility(View.GONE);
-			liveTimeInGame.setVisibility(View.GONE);
+			liveScore.setVisibility(View.GONE);
+			liveStatus.setVisibility(View.GONE);
 			beginTime.setVisibility(View.VISIBLE);
 			beginTimeDate.setVisibility(View.VISIBLE);
 		}
@@ -360,8 +360,8 @@ public class EventPageActivity
 		team2Name = (TextView) findViewById(R.id.competition_event_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_event_team_two_flag);
 		groupHeader = (TextView) findViewById(R.id.competition_event_group_header);
-		liveStandings = (TextView) findViewById(R.id.competition_event_live_standing);
-		liveTimeInGame = (TextView) findViewById(R.id.competition_event_live_time);
+		liveScore = (TextView) findViewById(R.id.competition_event_live_score);
+		liveStatus = (TextView) findViewById(R.id.competition_event_live_status);
 		broadcastListView = (LinearLayout) findViewById(R.id.competition_event_broadcasts_listview);
 //		likeIcon = (TextView) findViewById(R.id.competition_element_social_buttons_like_view);
 //		shareIcon = (TextView) findViewById(R.id.competition_element_social_buttons_share_button_iv);

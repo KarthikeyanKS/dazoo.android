@@ -1,32 +1,34 @@
+
 package com.mitv.adapters.list;
 
-import java.util.List;
 
+
+import java.util.Calendar;
+import java.util.List;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
-import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
+
+
 public class CompetitionEventPageBroadcastListAdapter 
-extends BaseAdapter
+	extends BaseAdapter
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = CompetitionEventsByGroupListAdapter.class.getName();
 	
 	
@@ -138,7 +140,10 @@ extends BaseAdapter
 			String startTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastBeginTimeLocal());
 			String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastEndTimeLocal());
 			
-			int totalMinutesInGame = DateUtils.getMinutesInEvent(details.getEventBroadcastBeginTimeLocal());
+			Calendar now = DateUtils.getNow();
+			
+			int totalMinutesInGame = DateUtils.calculateDifferenceBetween(details.getEventBroadcastBeginTimeLocal(), now, Calendar.MINUTE, false, 0);
+			
 			int totalMinutesOfGame = details.getTotalAiringTimeInMinutes();
 			
 			/* Event is ongoing */

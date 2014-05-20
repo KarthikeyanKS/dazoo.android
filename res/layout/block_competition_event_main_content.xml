@@ -13,12 +13,23 @@
         android:layout_width="match_parent"
         android:layout_height="180dp">
 
-        <ImageView
-            android:id="@+id/competition_event_stadium_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/event_stadium_gradient"/>
+        <RelativeLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	        
+	        <ImageView
+	            android:id="@+id/competition_event_stadium_image"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:scaleType="fitXY"/>
+	        
+	        <ImageView
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:scaleType="fitXY"
+	            android:src="@drawable/event_stadium_gradient"/>      
+	            
+        </RelativeLayout>
         
         <!-- HEADER: Competition name -->
         <com.mitv.ui.elements.FontTextView
@@ -56,7 +67,6 @@
         android:background="@drawable/background_color_selector" >
 
         <!-- HEADER : GROUP -->
-
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_group_header"
             android:layout_width="wrap_content"
@@ -75,61 +85,58 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp" >
 
-            <!-- LIVE STANDINGS -->
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/competition_event_live_standing"
-                style="@style/header1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
+            <!-- SCORE AND STATUS -->
             <RelativeLayout
+                android:id="@+id/competition_event_score_and_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp" >
+                android:layout_centerInParent="true">
+            
+	            <!-- SCORE, DATE AND STATUS -->
+	            <com.mitv.ui.elements.FontTextView
+	                android:id="@+id/competition_event_live_score"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerHorizontal="true"
+	                android:textSize="40sp"/>
+	
+	            <!-- TIME IN GAME OR STATUS -->
+	            <com.mitv.ui.elements.FontTextView
+	                android:id="@+id/competition_event_live_status"
+	                style="@style/header1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/competition_event_live_score"
+	                android:layout_centerHorizontal="true"
+	                android:textColor="@color/grey1"
+	                android:textSize="18sp"/>     
+            </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/competition_event_date_and_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
                 <!-- BEGIN TIME: XX:XX -->
-
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_event_starttime_time"
-                    style="@style/header1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <!-- BEGIN TIME DATE: DAY XX/X -->
-
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_event_starttime_date"
-                    style="@style/header1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/competition_event_starttime_time"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
                     android:textSize="18sp" />
             </RelativeLayout>
 
-            <!-- LIVE TIME IN GAME: XX' -->
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/competition_event_live_time"
-                style="@style/header1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/competition_event_live_standing"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:textColor="@color/grey1"
-                android:textSize="18sp"
-                android:visibility="gone" />
         </RelativeLayout>
 
         <!-- TEAM ONE -->
