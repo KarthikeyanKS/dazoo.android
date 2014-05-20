@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
@@ -22,6 +23,7 @@ import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
+import com.mitv.enums.EventMatchStatusEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -83,6 +85,9 @@ public class EventPageActivity
 	private TextView headerCompetitionName;
 	private String competitionName;
 	private TextView headerStandings;
+	
+	private RelativeLayout highlightsContainerLayout;
+	private RelativeLayout lineupContainerLayout;
 	
 	private LinearLayout listContainerLayoutHighlights;
 	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
@@ -146,12 +151,13 @@ public class EventPageActivity
 			{
 				boolean containsBroadcastDetails = event.containsBroadcastDetails();
 				
-				if (containsBroadcastDetails) {
+				if (containsBroadcastDetails)
+				{
 					setListView();
 				}
 				
-				setAdapterForHighlights();
 				setData();
+				setAdapterForHighlights();
 				
 				break;
 			}
@@ -175,7 +181,9 @@ public class EventPageActivity
 		/* Headr img and text: Team1 va Team2 */
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
-			.append(" vs ")
+			.append(" ")	
+			.append(getString(R.string.event_page_versus))
+			.append(" ")
 			.append(awayTeamName);
 		
 		headerteamvsteam.setText(sbHeader.toString());
@@ -247,6 +255,35 @@ public class EventPageActivity
 		String groupHeaderName = phase.getPhase();
 		
 		groupHeader.setText(groupHeaderName);
+		
+		EventMatchStatusEnum matchStatus = event.getMatchStatus();
+		
+		switch(matchStatus)
+		{
+			case LINE_UP:
+			case NOT_STARTED_AND_LINE_UP:
+			case DELAYED:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.GONE);
+				break;
+			}
+			
+			case NOT_STARTED:
+			case POSTPONED:
+			{
+				lineupContainerLayout.setVisibility(View.GONE);
+				highlightsContainerLayout.setVisibility(View.GONE);
+				break;
+			}
+			
+			default:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.VISIBLE);
+				break;
+			}
+		}
 		
 		boolean isOngoing = event.hasStarted();
 		boolean isPostponed = event.isPostponed();
@@ -350,12 +387,14 @@ public class EventPageActivity
 		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
 		headerStandings = (TextView) findViewById(R.id.competition_standings_header_group);
 		
+		highlightsContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_highlights_teams_container);
 		team1NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_one_name);
 		team1FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_one_flag);
 		team2NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_two_name);
 		team2FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_two_flag);
 		listContainerLayoutHighlights = (LinearLayout) findViewById(R.id.competition_event_highlights_table_container);
 		
+		lineupContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_lineup_teams_container);
 		pageTabIndicatorForLineupTeams = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_lineup_teams);
 		viewPagerForLineupTeams = (CustomViewPager) findViewById(R.id.tab_event_pager_for_lineup_teams);
 		selectedTabIndexForLineupTeams = STARTING_TAB_INDEX;
@@ -371,9 +410,9 @@ public class EventPageActivity
 	{
 		long eventID = event.getEventId();
 		
-		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) 
+		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID))
 		{
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, Constants.EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE);
 			
 			listContainerLayoutHighlights.removeAllViews();
 
@@ -404,7 +443,9 @@ public class EventPageActivity
 				getSupportFragmentManager(),
 				event.getEventId(),
 				event.getHomeTeam(),
-				event.getAwayTeam());
+				event.getHomeTeamId(),
+				event.getAwayTeam(),
+				event.getAwayTeamId());
 	
 		viewPagerForLineupTeams.setAdapter(pagerAdapterForLineupTeams);
 		viewPagerForLineupTeams.setOffscreenPageLimit(1);
@@ -466,7 +507,10 @@ public class EventPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, event.getCompetitionId(), event.getEventId());
+		/* Always re-fetch the data from the service */
+		boolean forceRefreshOfHighlights = true;
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
 	}
 
 

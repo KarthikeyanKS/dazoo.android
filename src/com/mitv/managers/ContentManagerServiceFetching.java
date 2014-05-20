@@ -583,6 +583,8 @@ public abstract class ContentManagerServiceFetching
 		} 
 		else 
 		{
+			getCache().getCompetitionsData().clearCompetition(competitionID);
+			
 			getAPIClient().getCompetitionInitialDataOnPoolExecutor(activityCallbackListener, competitionID);
 		}
 	}

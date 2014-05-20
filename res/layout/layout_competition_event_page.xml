@@ -27,8 +27,8 @@
                 android:layout_marginBottom="10dp"
                 layout="@layout/block_competition_event_main_content" />
 
+            
             <!-- TAB: HIGHLIGHTS -->
-
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_highlights_teams_container"
                 android:layout_width="match_parent"
@@ -137,8 +137,8 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            
             <!-- LINEUP -->
-
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_lineup_teams_container"
                 android:layout_width="match_parent"

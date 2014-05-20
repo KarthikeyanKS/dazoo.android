@@ -7,8 +7,10 @@ public class EventHighlightJSON
 {
 	protected long highlightId;
 	protected long eventId;
+	protected long highlightCode;
 	protected String action;
 	protected int actionCode;
+	protected long actionInfo;
 	protected long actionTime;
 	protected long teamId;
 	protected String team;
@@ -18,6 +20,7 @@ public class EventHighlightJSON
 	private String personShort;
 	protected long subPersonId;
 	protected String subPerson;
+	protected String subPersonShort;
 	protected long subActionReasonId;
 	protected String subActionReason;
 	
@@ -106,5 +109,17 @@ public class EventHighlightJSON
 
 	public long getEventId() {
 		return eventId;
+	}
+
+
+
+	public String getSubPersonShort() {
+		return subPersonShort;
+	}
+
+
+
+	public long getActionInfo() {
+		return actionInfo;
 	}
 }

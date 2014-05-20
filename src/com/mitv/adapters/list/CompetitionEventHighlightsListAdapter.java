@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
@@ -108,14 +109,9 @@ public class CompetitionEventHighlightsListAdapter
 			
 			viewHolder.middleSeparatorTop = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_middle_separator_icon_top);
 			viewHolder.middleIcon = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_middle_icon);
+			viewHolder.middleName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_middle_name);
 			viewHolder.middleSeparatorBottom = (ImageView) rowView.findViewById(R.id.row_competition_event_highlight_middle_separator_icon_bottom);
 					
-			viewHolder.middleTopLayout = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_highlight_middle_top_layout);
-			viewHolder.middleTopName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_middle_name_top);
-			
-			viewHolder.middleBottomLayout = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_highlight_middle_bottom_layout);
-			viewHolder.middleBottomName = (TextView) rowView.findViewById(R.id.row_competition_event_highlight_middle_name_bottom);
-			
 			rowView.setTag(viewHolder);
 		}
 	
@@ -130,71 +126,152 @@ public class CompetitionEventHighlightsListAdapter
 			
 			Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 		
+			boolean hasEnded = event.hasEnded();
+			
 			if(event != null)
 			{
-				boolean hasEventEnded = event.hasEnded();
-				boolean hasEventStarted = event.hasStarted();
-
-				if (isFirstPosition) 
+				if (isFirstPosition)
 				{
-					if(hasEventEnded)
+					if(hasEnded)
 					{
-						StringBuilder sb = new StringBuilder();
-						sb.append(activity.getString(R.string.event_page_highlight_end_result))
-						.append(" ")
-						.append(event.getScoreAsString());
-	
-						holder.middleTopName.setText(sb);
-						
-						holder.middleTopName.setVisibility(View.VISIBLE);
+						holder.middleSeparatorTop.setVisibility(View.GONE);
 					}
 					else
 					{
-						holder.middleTopName.setVisibility(View.GONE);
+						holder.middleSeparatorTop.setVisibility(View.VISIBLE);
 					}
 				}
 				else if (isLastPosition) 
 				{
-					holder.middleSeparatorTop.setVisibility(View.VISIBLE);
+					holder.middleSeparatorBottom.setVisibility(View.GONE);
+				}
+
+				holder.middleName.setVisibility(View.GONE);
+
+				EventHighlightActionEnum eventActionType = element.getType();
+				
+				if(eventActionType.getDrawableResourceID() == -1)
+				{
+					holder.leftLayout.setVisibility(View.GONE);
+					holder.rightLayout.setVisibility(View.GONE);
+					holder.middleIcon.setVisibility(View.GONE);
+					holder.middleName.setVisibility(View.VISIBLE);
 					
-					if(hasEventStarted)
+					StringBuilder sb = new StringBuilder();
+					
+					switch (eventActionType)
 					{
-						holder.middleBottomName.setText(activity.getString(R.string.event_page_highlight_kick_off));
+						case KICK_OFF:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_kick_off));
+							break;
+						}
 						
-						holder.middleBottomName.setVisibility(View.VISIBLE);
+						case END_OF_PERIOD_1H:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_half_time));
+							sb.append(" (");
+							sb.append(event.getHomeGoalsHalfTime());
+							sb.append(" : ");
+							sb.append(event.getAwayGoalsHalfTime());
+							sb.append(")");
+							break;
+						}
+						
+						case INJURY_TIME_2H:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_overtime));
+							sb.append(" (");
+							sb.append(element.getActionInfoInMinutes());
+							sb.append(")");
+							break;
+						}
+						
+						case KICK_OFF_EXTRA_TIME_1:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_extra_time_1_started));
+							break;
+						}
+						
+						case KICK_OFF_EXTRA_TIME_2:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_extra_time_2_started));
+							sb.append(" (");
+							sb.append(event.getHomeGoals());
+							sb.append(" : ");
+							sb.append(event.getAwayGoals());
+							sb.append(")");
+							break;
+						}
+						
+						case KICK_OFF_PENALTIES:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_peanalties_started));
+							break;
+						}
+						
+						case END_OF_GAME:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_end_of_game));
+							break;
+						}
+						
+						case MATCH_SUSPENDED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_match_suspended));
+							break;
+						}
+						
+						case MATCH_ABANDONED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_match_abandoned));
+							break;
+						}
+						
+						case PLAY_RESTARTED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_play_restarted));
+							break;
+						}
+						
+						case MATCH_RESCHEDULED_TO_BE_RESUMED:
+						{
+							sb.append(activity.getString(R.string.event_page_highlight_match_rescheduled));
+							break;
+						}
+						
+						default:
+						{
+							sb.append(element.getAction());
+							break;
+						}					
 					}
-					else
-					{
-						holder.middleBottomName.setVisibility(View.GONE);
-					}
+					
+					holder.middleName.setText(sb);
 				}
-				else
+				else if(isHomeTeam(element))
 				{
-					holder.middleTopName.setVisibility(View.GONE);
-					holder.middleBottomName.setVisibility(View.GONE);
-				}
-
-				int drawableResourceID = element.getActionType().getDrawableResourceID();
-
-				holder.middleIcon.setBackgroundResource(drawableResourceID);
-
-				if(isHomeTeam(element))
-				{
+					int drawableResourceID = element.getType().getDrawableResourceID();
+					
+					holder.middleIcon.setBackgroundResource(drawableResourceID);
+					
 					holder.leftLayout.setVisibility(View.VISIBLE);
 					holder.rightLayout.setVisibility(View.GONE);
+					holder.middleIcon.setVisibility(View.VISIBLE);
+					holder.middleName.setVisibility(View.GONE);
 
 					holder.leftName.setText(element.getPersonShort());
 
 					if(element.hasSubPerson())
 					{
 						holder.leftNameExtra.setVisibility(View.VISIBLE);
-						holder.leftNameExtra.setText(element.getSubPerson());
+						holder.leftNameExtra.setText(element.getSubPersonShort());
 						holder.leftNameExtra.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_out));
 
 						holder.leftDetails.setVisibility(View.GONE);							
-							
+
 						holder.leftName.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_in));
-						
+
 						RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.leftTime.getLayoutParams();
 						layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 						holder.leftTime.setLayoutParams(layoutParams);
@@ -202,7 +279,7 @@ public class CompetitionEventHighlightsListAdapter
 					else
 					{
 						holder.leftNameExtra.setVisibility(View.GONE);
-						
+
 						holder.leftDetails.setVisibility(View.VISIBLE);
 						holder.leftDetails.setText(element.getAction());
 					}
@@ -212,6 +289,10 @@ public class CompetitionEventHighlightsListAdapter
 				}
 				else if(isAwayTeam(element))
 				{
+					int drawableResourceID = element.getType().getDrawableResourceID();
+					
+					holder.middleIcon.setBackgroundResource(drawableResourceID);
+					
 					holder.leftLayout.setVisibility(View.GONE);
 					holder.rightLayout.setVisibility(View.VISIBLE);
 
@@ -220,13 +301,13 @@ public class CompetitionEventHighlightsListAdapter
 					if(element.hasSubPerson())
 					{
 						holder.rightNameExtra.setVisibility(View.VISIBLE);
-						holder.rightNameExtra.setText(element.getSubPerson());
+						holder.rightNameExtra.setText(element.getSubPersonShort());
 						holder.rightNameExtra.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_out));
 
 						holder.rightDetails.setVisibility(View.GONE);
-						
+
 						holder.rightName.setTextColor(activity.getResources().getColor(R.color.competition_event_highlight_substitution_player_in));
-						
+
 						RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.rightTime.getLayoutParams();
 						layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 						holder.rightTime.setLayoutParams(layoutParams);
@@ -234,7 +315,7 @@ public class CompetitionEventHighlightsListAdapter
 					else
 					{
 						holder.rightNameExtra.setVisibility(View.GONE);
-						
+
 						holder.rightDetails.setVisibility(View.VISIBLE);
 						holder.rightDetails.setText(element.getAction());
 					}
@@ -243,12 +324,8 @@ public class CompetitionEventHighlightsListAdapter
 				}
 				else
 				{
-					Log.w(TAG, "Hightlight is not for home or away team");
+					Log.w(TAG, "Hightlight " + element.getHighlightId() + " is not for home or away team");
 				}
-			}
-			else
-			{
-				Log.w(TAG, "Event is null");
 			}
 		}
 			
@@ -313,12 +390,7 @@ public class CompetitionEventHighlightsListAdapter
 		
 		private ImageView middleSeparatorTop;
 		private ImageView middleIcon;
+		private TextView middleName;
 		private ImageView middleSeparatorBottom;
-		
-		private RelativeLayout middleTopLayout;
-		private TextView middleTopName;
-		
-		private RelativeLayout middleBottomLayout;
-		private TextView middleBottomName;
 	}
 }

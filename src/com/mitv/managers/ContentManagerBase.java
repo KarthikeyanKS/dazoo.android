@@ -6,6 +6,7 @@ package com.mitv.managers;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import android.util.Log;
 
 import com.mitv.APIClient;
 import com.mitv.Constants;
+import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
@@ -1229,14 +1231,20 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<EventLineUp> getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	public List<EventLineUp> getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(
+			final Long eventID,
+			final Long teamID)
 	{
 		List<EventLineUp> lineups = new ArrayList<EventLineUp>();
+		
 		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
 		
-		for (EventLineUp elu : lineupsAll) {
-			if (!elu.isInStartingLineUp()) {
-				lineups.add(elu);
+		for (EventLineUp lineup : lineupsAll)
+		{
+			if (lineup.isInStartingLineUp() == false && 
+				lineup.getTeamId() == teamID.longValue()) 
+			{
+				lineups.add(lineup);
 			}
 		}
 		
@@ -1245,14 +1253,20 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<EventLineUp> getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	public List<EventLineUp> getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(
+			final Long eventID,
+			final Long teamID)
 	{
 		List<EventLineUp> lineups = new ArrayList<EventLineUp>();
+		
 		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
 		
-		for (EventLineUp elu : lineupsAll) {
-			if (elu.isInStartingLineUp()) {
-				lineups.add(elu);
+		for (EventLineUp lineup : lineupsAll) 
+		{
+			if (lineup.isInStartingLineUp() && 
+				lineup.getTeamId() == teamID.longValue()) 
+			{
+				lineups.add(lineup);
 			}
 		}
 		
@@ -1261,9 +1275,27 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(Long eventID)
+	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(
+			final Long eventID,
+			final EnumSet<EventHighlightActionEnum> actionsToExclude)
 	{
-		return getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
+		List<EventHighlight> highlightsToReturn = new ArrayList<EventHighlight>();
+		
+		List<EventHighlight> highlights = getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
+		
+		for(EventHighlight highlight : highlights)
+		{
+			EventHighlightActionEnum highlightAction = highlight.getType();
+			
+			boolean matchesActionsToExclude = actionsToExclude.contains(highlightAction);
+			
+			if(matchesActionsToExclude == false)
+			{
+				highlightsToReturn.add(highlight);
+			}
+		}
+		
+		return highlightsToReturn;
 	}
 	
 	

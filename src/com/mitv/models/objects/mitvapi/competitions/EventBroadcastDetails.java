@@ -80,8 +80,9 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 	 * @param date
 	 * @return
 	 */
-	private Calendar getEventBroadcastCalendar(String date) {
-		Calendar cal = DateUtils.convertFromYearDateAndTimeStringToCalendar(date);
+	private Calendar getEventBroadcastCalendar(String date) 
+	{
+		Calendar cal = DateUtils.convertFromYearAndDateStringToCalendar(date);
 		
 		int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
 		
