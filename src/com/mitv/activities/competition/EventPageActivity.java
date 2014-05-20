@@ -69,6 +69,7 @@ public class EventPageActivity
 	public static CustomViewPager viewPagerForGroupAndStandings;
 	private CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter pagerAdapterForGroupAndStandings;
 
+	private ImageView stadiumImage;
 	private TextView team1Name;
 	private ImageView team1Flag;
 	private TextView team2Name;
@@ -76,6 +77,9 @@ public class EventPageActivity
 	private TextView groupHeader;
 	private TextView liveStandings;
 	private TextView liveTimeInGame;
+	private TextView stadiumName;
+	private TextView stadiumImageCopyright;
+	private TextView description;
 	private LinearLayout broadcastListView;
 	private TextView likeIcon;
 	private TextView shareIcon;
@@ -198,6 +202,12 @@ public class EventPageActivity
 			.append(phase.getPhase());
 		
 		headerStandings.setText(sbHeaderGroup.toString());
+				
+		ImageAware imageAwareStadium = new ImageViewAware(stadiumImage, false);
+		
+		String stadiumImageURL = event.getStadiumImageURL();
+		
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionEventStadiumOptions(stadiumImageURL, imageAwareStadium);
 		
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
@@ -284,62 +294,35 @@ public class EventPageActivity
 				break;
 			}
 		}
+				
+		stadiumName.setText(event.getStadium());
+		stadiumImageCopyright.setText(event.getStadiumImageCopyright());
+		description.setText(event.getDescription());
 		
 		boolean isOngoing = event.hasStarted();
-		boolean isPostponed = event.isPostponed();
 		boolean isFinished = event.isFinished();
 		
-		/* The event is ongoing */
-		if (isOngoing && !isPostponed) {
+
+		/* The event is ongoing or finished */
+		if (isOngoing || isFinished)
+		{
+			String score = event.getScoreAsString();
 			
-			StringBuilder sb = new StringBuilder();
-			sb.append(event.getAwayGoals())
-				.append(" - ")
-				.append(event.getHomeGoals());
+			liveStandings.setText(score);
 			
-			liveStandings.setText(sb.toString());
+			String timeInGame = event.getGameTimeAndStatusAsString(true);
 			
-			String timeInGame = DateUtils.getMinutesInGameString(event.getEventDateCalendarLocal());
-			
-			StringBuilder sbLiveStandings = new StringBuilder();
-			sbLiveStandings.append(getResources().getString(R.string.icon_time_is_ongoing))
-				.append(" ")
-				.append(timeInGame);
-			
-			liveTimeInGame.setText(sbLiveStandings.toString());
+			liveTimeInGame.setText(timeInGame);
 			
 			liveStandings.setVisibility(View.VISIBLE);
 			liveTimeInGame.setVisibility(View.VISIBLE);
 			beginTime.setVisibility(View.GONE);
 			beginTimeDate.setVisibility(View.GONE);
-		}
-		
-		/* The event has ended */
-		else if (isFinished) {
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append(event.getAwayGoals())
-				.append(" - ")
-				.append(event.getHomeGoals());
-			
-			liveStandings.setText(sb.toString());
-			
-			sb = new StringBuilder();
-			sb.append(getResources().getString(R.string.icon_time_is_ongoing))
-				.append(" ")
-				.append("Game over!");
-			
-			liveTimeInGame.setText(sb.toString());
-			
-			liveStandings.setVisibility(View.VISIBLE);
-			liveTimeInGame.setVisibility(View.VISIBLE);
-			beginTime.setVisibility(View.GONE);
-			beginTimeDate.setVisibility(View.GONE);
-			
 		}
 		
 		/* The event has not started yet */
-		else {
+		else 
+		{
 			StringBuilder sb = new StringBuilder();
 			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 			
@@ -371,6 +354,7 @@ public class EventPageActivity
 		
 		actionBar.setTitle(eventName.toString());
 		
+		stadiumImage = (ImageView) findViewById(R.id.competition_event_stadium_image);
 		team1Name = (TextView) findViewById(R.id.competition_event_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_event_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_event_team_two_name);
@@ -386,6 +370,10 @@ public class EventPageActivity
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
 		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
 		headerStandings = (TextView) findViewById(R.id.competition_standings_header_group);
+		
+		stadiumName = (TextView) findViewById(R.id.competition_event_stadium_name);
+		stadiumImageCopyright = (TextView) findViewById(R.id.competition_event_stadium_photo_credits);
+		description = (TextView) findViewById(R.id.competition_event_description);
 		
 		highlightsContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_highlights_teams_container);
 		team1NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_one_name);

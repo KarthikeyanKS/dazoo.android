@@ -6,16 +6,21 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    
     <!-- Header img and title -->
-
     <RelativeLayout
         android:id="@+id/competition_header_container"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@color/blue1" >
+        android:layout_height="180dp">
 
+        <ImageView
+            android:id="@+id/competition_event_stadium_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/event_stadium_gradient"/>
+        
         <!-- HEADER: Competition name -->
-
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_world_cup_header"
             style="@style/headercard2"
@@ -26,9 +31,8 @@
             android:layout_marginBottom="20dp"
             android:textColor="@color/white"
             android:textSize="20sp" />
-
+        
         <!-- HEADER: Team vs Team -->
-
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/competition_event_title_header"
             android:layout_width="wrap_content"
@@ -42,6 +46,7 @@
             font:fonttextview="chunkfive.otf" />
     </RelativeLayout>
 
+    
     <RelativeLayout
         android:id="@+id/competition_next_game_layout"
         android:layout_width="match_parent"
@@ -214,43 +219,37 @@
             android:orientation="vertical" />
 
         <!-- SYNOPSIS -->
-
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/competition_event_synopsis"
+            android:id="@+id/competition_event_description"
             style="@style/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/competition_event_broadcasts_listview"
             android:layout_margin="10dp"
-            android:lineSpacingExtra="2dp"
-            android:text="dskdshf f dfj djf jdjf j jdjfjnskxksj sj jfjn jbd sjdk dkjf kdjfhfjjbjbs jkdjfndjfn kdfjnjdfndjf dkjfdfaf dfkdjfkdksdk kjkjkf kfkgj otorte fdkfs. jdhdg djdfhf jss kffhfd shjdb sks ffn." />
+            android:lineSpacingExtra="2dp"/>
         
-        <!-- SYNOPSIS: Place -->
-
+        <!-- Stadium name -->
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/competition_event_synopsis_place"
+            android:id="@+id/competition_event_stadium_name"
             style="@style/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/competition_event_synopsis"
+            android:layout_below="@id/competition_event_description"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Arena de Sao Paulo - Sao Paulo" />
+            android:layout_marginBottom="10dp"/>
         
-        <!-- SYNOPSIS: Photo from -->
-
+        <!-- Stadium Photo from -->
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/competition_event_synopsis_photo_from"
+            android:id="@+id/competition_event_stadium_photo_credits"
             style="@style/meta2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_below="@id/competition_event_synopsis_place"
-            android:text="Photo: LUIS ACOSTA/AFP/Getty Images" />
+            android:layout_below="@id/competition_event_stadium_name" />
 
         <!-- DIVIDER -->
 
@@ -258,7 +257,7 @@
             android:id="@+id/divider_after_synopsis"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/competition_event_synopsis_photo_from"
+            android:layout_below="@id/competition_event_stadium_photo_credits"
             android:background="@color/grey1"
             android:visibility="visible" />
 

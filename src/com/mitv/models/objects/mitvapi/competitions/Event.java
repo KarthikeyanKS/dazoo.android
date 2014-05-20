@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.content.Context;
+
+import com.mitv.Constants;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventMatchStatusEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
@@ -95,6 +100,56 @@ public class Event
 		}
 		
 		return list;
+	}
+	
+	
+	
+	public String getStadiumImageURL()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(Constants.EVENT_STADIUM_IMAGE_PATH);
+		sb.append(Constants.FORWARD_SLASH);
+		sb.append(stadiumId);
+		
+		return sb.toString();
+	}
+	
+	
+	
+	public String getGameTimeAndStatusAsString(boolean includeIcon)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		if(finished == false && postponed == false)
+		{
+			if(includeIcon)
+			{	
+				sb.append(context.getResources().getString(R.string.icon_time_is_ongoing))
+				.append(" ");
+			}
+			
+			String gameMinutesAsString = DateUtils.getMinutesInGameString(getEventDateCalendarLocal());
+			
+			if(abandoned)
+			{
+				sb.append(gameMinutesAsString)
+				.append(" ")
+				.append(context.getResources().getString(R.string.event_page_abandoned));
+			}
+			else if(live)
+			{
+				sb.append(gameMinutesAsString);
+			}
+		}
+		else
+		{
+			sb.append(context.getResources().getString(R.string.event_page_completed));
+		}
+		
+		return sb.toString();
 	}
 	
 	

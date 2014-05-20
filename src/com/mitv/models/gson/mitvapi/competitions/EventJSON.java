@@ -20,6 +20,8 @@ public class EventJSON
 	protected String awayTeam;
 	protected int stadiumId;
 	protected String stadium;
+	protected String stadiumImageCopyright;
+	protected String description;
 	protected int cityId;
 	protected String city;
 	protected String country;
@@ -225,5 +227,17 @@ public class EventJSON
 
 	public boolean isDataEntryLiveLineUp() {
 		return dataEntryLiveLineUp;
+	}
+
+
+
+	public String getStadiumImageCopyright() {
+		return stadiumImageCopyright;
+	}
+
+
+
+	public String getDescription() {
+		return description;
 	}
 }

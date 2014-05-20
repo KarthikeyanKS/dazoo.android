@@ -142,7 +142,8 @@ extends BaseAdapter
 			int totalMinutesOfGame = details.getTotalAiringTimeInMinutes();
 			
 			/* Event is ongoing */
-			if (isAiring) {
+			if (isAiring) 
+			{
 				LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfGame, holder.progressBar);
 				
 				sb.append(details.getEventTimeDayOfTheWeekAsString())
@@ -204,12 +205,7 @@ extends BaseAdapter
 			holder.progressBar.setVisibility(View.VISIBLE);
 			holder.channelLogo.setVisibility(View.VISIBLE);
 			holder.beginTime.setText(sb.toString());
-			holder.beginTime.setVisibility(View.VISIBLE);
-			
-		}
-		else
-		{
-			Log.w(TAG, "Details is null");
+			holder.beginTime.setVisibility(View.VISIBLE);	
 		}
 		
 		return rowView;
