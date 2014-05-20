@@ -137,8 +137,7 @@ public class CompetitionEventsByGroupListAdapter
 			
 			viewHolder.startTime = (TextView) rowView.findViewById(R.id.row_competition_page_begin_time_broadcast);
 			
-			// TODO - Fix this
-//			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
+			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_page_game_past_score);
 //			viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 			
 			viewHolder.broadcastChannels = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
@@ -310,11 +309,40 @@ public class CompetitionEventsByGroupListAdapter
 	            }
 	        });
 			
-			// TODO Set remaining variables: score and timeLeft
+			/* Score if game is finished or ongoing */
+			if (event.isLive() || event.isFinished()) {
+				int homeGoals = event.getHomeGoals();
+				int awayGoals = event.getAwayGoals();
+				
+				StringBuilder sbGoals = new StringBuilder();
+				sbGoals.append(homeGoals)
+					.append(" - ")
+					.append(awayGoals);
+				
+				holder.score.setText(sbGoals.toString());
+				
+				holder.score.setVisibility(View.VISIBLE);
+				holder.startTime.setVisibility(View.GONE);
+				
+				if (event.isFinished()) {
+//					holder.container.setBackgroundColor(activity.getResources().getColor(R.color.bright_foreground_disabled_holo_dark));
+					
+					/* Add a new container with transparent overlay, TODO How??????????? */
+					holder.score.setTextColor(activity.getResources().getColor(R.color.blue0));
+				}
+				
+				if (event.isLive()) {
+					holder.score.setTextColor(activity.getResources().getColor(R.color.red));
+				}
+			}
 			
-			/* Start time */
-			String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
-			holder.startTime.setText(start);
+			/* Before a game has started, show time: XX:XX */
+			else {
+				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+				holder.startTime.setText(start);
+				holder.score.setVisibility(View.GONE);
+				holder.startTime.setVisibility(View.VISIBLE);
+			}
 			
 			StringBuilder channelsSB = new StringBuilder();
 			

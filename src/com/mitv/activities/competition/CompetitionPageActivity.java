@@ -187,7 +187,7 @@ public class CompetitionPageActivity
 		
 		boolean hasBegun = competition.hasBegun();
 		boolean hasEnded = competition.hasEnded();
-		boolean isOngoing = hasBegun && !hasEnded;
+		boolean isOngoing = true; //hasBegun && !hasEnded;
 		
 		/* Ongoing */
 		if (isOngoing) {
@@ -314,9 +314,9 @@ public class CompetitionPageActivity
 			liveGroupHeader.setText(groupHeaderName);
 				
 			StringBuilder sb = new StringBuilder();
-			sb.append(liveEvent.getAwayGoals())
+			sb.append(liveEvent.getHomeGoals())
 				.append(" - ")
-				.append(liveEvent.getHomeGoals());
+				.append(liveEvent.getAwayGoals());
 			
 			liveOngoingStandings.setText(sb.toString());
 			

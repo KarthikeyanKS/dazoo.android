@@ -41,10 +41,8 @@
         android:background="@drawable/background_color_selector_white"
         android:padding="5dp" >
 
-        <!-- Start time of game -->
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_competition_page_begin_time_broadcast"
+        <RelativeLayout
+            android:id="@+id/row_competition_page_begintime_or_score_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -52,11 +50,30 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:visibility="visible"
-            font:fonttextview="roboto_mitv_bold.ttf" />
+            android:paddingRight="5dp" >
+
+            <!-- Start time of game -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/row_competition_page_begin_time_broadcast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="visible"
+                font:fonttextview="roboto_mitv_bold.ttf" />
+
+            <!-- Score when game is finished -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/row_competition_page_game_past_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="gone"
+                font:fonttextview="roboto_mitv_bold.ttf" />
+        </RelativeLayout>
 
         <!-- Channels airing on channels: -->
 
@@ -64,12 +81,11 @@
             android:id="@+id/row_competition_airing_channels_for_broadcast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/row_competition_page_begin_time_broadcast"
+            android:layout_below="@id/row_competition_page_begintime_or_score_container"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="Channels"
             android:textColor="@color/grey1"
             android:textSize="10sp"
             android:visibility="gone" />
