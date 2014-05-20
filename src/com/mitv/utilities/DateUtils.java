@@ -316,16 +316,23 @@ public abstract class DateUtils
 	 * @param tvDate
 	 * @return
 	 */
-	public static boolean isTodayUsingTVDate(final TVDate tvDate) {
+	public static boolean isTodayUsingTVDate(final TVDate tvDate)
+	{
 		Calendar now = getNow();
+		
+		int localTimeZoneOffsetInSeconds = (int) (getTimeZoneOffsetInMillis() / DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
+		
+		/* TODO - Investigate why is this working? */		
+		now.add(Calendar.SECOND, localTimeZoneOffsetInSeconds);
+		
 		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendar();
 		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendar();
 		
 		boolean isTVDateNow = (now.after(startOfTVDay) || now.equals(startOfTVDay)) && now.before(endOfTVDay);
 		
 		return isTVDateNow;
-
 	}
+	
 	
 	
 	/**
@@ -730,12 +737,13 @@ public abstract class DateUtils
 	 * 
 	 * @return String
 	 */
-	public static String getMinutesInGameString(Calendar beginTime) {
+	public static String getMinutesInGameString(Calendar beginTime)
+	{
 		int minutesinGame = getMinutesInEvent(beginTime);
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(minutesinGame)
-			.append("'");
+		.append("'");
 		
 		return sb.toString();
 	}

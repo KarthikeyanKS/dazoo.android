@@ -19,9 +19,12 @@ public abstract class Constants
 	public static final String HTTPS_SCHEME	= "https://";
 	public static final String FORWARD_SLASH = "/";
 	
+	
 	/* BACKEND API BASE URLs */
 	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com" + FORWARD_SLASH;
 	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv" + FORWARD_SLASH;
+	public static final String BACKEND_IMAGE_PREFIX_PATH = "images.";
+	
 	
 	/* FRONTEND API BASE URLs */
 	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
@@ -58,6 +61,7 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
+	
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -125,6 +129,7 @@ public abstract class Constants
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
 	public static final String URL_LINE_UP 					 		= "/lineup";
 	public static final String URL_POLLS 					 		= "/polls";
+	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
@@ -478,6 +483,7 @@ public abstract class Constants
 	public static final String DISQUS_COMMENTS_PARAMETER_USER_EMAIL = "email";
 	public static final String DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE = "avatar";
 	
+	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS API CALLS */
 	public static final String DISQUS_API_URL = "https://disqus.com/api";
 	public static final String DISQUS_API_VERSION = "3.0";
@@ -492,6 +498,7 @@ public abstract class Constants
 	public static final String DISQUS_API_FORUM_NAME = "mitvexample";
 	public static final String DISQUS_API_FORUM_SECRET_KEY = "VdUJEM6UxNrvz8tvwbgpm2Q4EiupswNYMs57DoxMuTlzKTKonLnMEZEIdG3UoBL8";
 	
+	
 	/* CONFIGURATIONS FOR FACEBOOK */
 	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
@@ -500,11 +507,14 @@ public abstract class Constants
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
 	
+	
 	/* Ad mob stuff */
 	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
 	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";
 	
 	
+	/* Competitions */
+	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + BACKEND_IMAGE_PREFIX_PATH + URL_STADIUMS;
 	public static final String INTENT_COMPETITION_ID = "competitionID";
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";

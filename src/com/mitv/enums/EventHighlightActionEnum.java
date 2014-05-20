@@ -41,6 +41,8 @@ public enum EventHighlightActionEnum
 	
 	GOAL(16, R.drawable.competition_event_highlight_goal),
 	
+	GOAL_BY_FREE_KICK(17, R.drawable.competition_event_highlight_goal),
+	
 	GOAL_BY_PENALTY(18, R.drawable.competition_event_highlight_penalty_scored),
 	
 	GOAL_BY_OWN_TEAM(19, R.drawable.competition_event_highlight_goal),
@@ -59,7 +61,9 @@ public enum EventHighlightActionEnum
 	
 	MATCH_RESCHEDULED_TO_BE_RESUMED(27, -1),
 	
-	PENALYTY_MISSED(28, R.drawable.competition_event_highlight_penalty_missed);
+	PENALYTY_SAVED_BY_THE_GOALKEEPER(28, R.drawable.competition_event_highlight_penalty_missed),
+	
+	PENALYTY_MISSED(29, R.drawable.competition_event_highlight_penalty_missed);
 	
 	
 	
