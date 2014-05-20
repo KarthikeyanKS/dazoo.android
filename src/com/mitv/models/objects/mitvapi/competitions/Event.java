@@ -131,17 +131,19 @@ public class Event
 				.append(" ");
 			}
 			
-			String gameMinutesAsString = DateUtils.getMinutesInGameString(getEventDateCalendarLocal());
+			Calendar now = DateUtils.getNow();
+			
+			Integer gameMinutes = DateUtils.calculateDifferenceBetween(getEventDateCalendarLocal(), now, Calendar.MINUTE, false, 0);
 			
 			if(abandoned)
 			{
-				sb.append(gameMinutesAsString)
+				sb.append(gameMinutes)
 				.append(" ")
 				.append(context.getResources().getString(R.string.event_page_abandoned));
 			}
-			else if(live)
+			else
 			{
-				sb.append(gameMinutesAsString);
+				sb.append(gameMinutes);
 			}
 		}
 		else
