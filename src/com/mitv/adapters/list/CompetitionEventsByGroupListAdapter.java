@@ -11,6 +11,8 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -328,7 +330,12 @@ public class CompetitionEventsByGroupListAdapter
 //					holder.container.setBackgroundColor(activity.getResources().getColor(R.color.bright_foreground_disabled_holo_dark));
 					
 					/* Add a new container with transparent overlay, TODO How??????????? */
-					holder.score.setTextColor(activity.getResources().getColor(R.color.blue0));
+					holder.score.setTextColor(activity.getResources().getColor(R.color.grey2));
+					holder.team1name.setTextColor(activity.getResources().getColor(R.color.grey2));
+					holder.team2name.setTextColor(activity.getResources().getColor(R.color.grey2));
+					
+					holder.team1flag.setColorFilter(activity.getResources().getColor(R.color.transparent_overlay_past_competition_events));
+					holder.team2flag.setColorFilter(activity.getResources().getColor(R.color.transparent_overlay_past_competition_events));
 				}
 				
 				if (event.isLive()) {
@@ -380,7 +387,7 @@ public class CompetitionEventsByGroupListAdapter
 					{
 						int remainingChannels = totalChannelCount-Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
 								
-						channelsSB.append("+ ");
+						channelsSB.append(" + ");
 						channelsSB.append(remainingChannels);
 						channelsSB.append(" ");
 						channelsSB.append(activity.getString(R.string.competition_page_more_channels_broadcasting));
@@ -388,11 +395,6 @@ public class CompetitionEventsByGroupListAdapter
 					}
 					
 					channelsSB.append(channelNames.get(j));
-					
-					if(j != channelNames.size()-1)
-					{
-						channelsSB.append(", ");
-					}
 				}
 			}
 			

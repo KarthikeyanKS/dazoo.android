@@ -187,7 +187,7 @@ public class CompetitionPageActivity
 		
 		boolean hasBegun = competition.hasBegun();
 		boolean hasEnded = competition.hasEnded();
-		boolean isOngoing = hasBegun && !hasEnded;
+		boolean isOngoing = true; //hasBegun && !hasEnded;
 		
 		/* Ongoing */
 		if (isOngoing) {
@@ -455,7 +455,7 @@ public class CompetitionPageActivity
 					{
 						int remainingChannels = totalChannelCount - Constants.MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON;
 								 
-						channelsSB.append("+ ");
+						channelsSB.append(" + ");
 						channelsSB.append(remainingChannels);
 						channelsSB.append(" ");
 						channelsSB.append(getResources().getString(R.string.competition_page_more_channels_broadcasting));
@@ -463,11 +463,6 @@ public class CompetitionPageActivity
 					}
 					
 					channelsSB.append(channelNames.get(i));
-					
-					if(i != channelNames.size()-1)
-					{
-						channelsSB.append(", ");
-					}
 				}
 			}
 			
