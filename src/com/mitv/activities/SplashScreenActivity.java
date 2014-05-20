@@ -58,8 +58,8 @@ public class SplashScreenActivity
 	private int fetchedDataCount = 0;
 	
 	private boolean isViewingTutorial;
-	private boolean isDataFetched;
-	private boolean waitingForData;
+	private boolean tutorialCanStartHomeActivity;
+	private boolean isAPIVersionTooOld;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
@@ -81,9 +81,7 @@ public class SplashScreenActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		isDataFetched = false;
-		
-		waitingForData = false;
+		tutorialCanStartHomeActivity = false;
 		
 		if(Constants.ENABLE_FIRST_TIME_TUTORIAL_VIEW) 
 		{
@@ -129,6 +127,8 @@ public class SplashScreenActivity
 		
 		isViewingTutorial = SecondScreenApplication.sharedInstance().getIsViewingTutorial();
 		
+		isAPIVersionTooOld = false;
+		
 		if(isConnected)
 		{
 			loadData();
@@ -160,7 +160,7 @@ public class SplashScreenActivity
 	{
 		if (!isViewingTutorial) 
 		{
-			waitingForData = true;
+//			waitingForData = true;
 			
 			fetchedDataCount++;
 			
@@ -214,48 +214,53 @@ public class SplashScreenActivity
 	
 	protected void updateUI(UIStatusEnum status)
 	{
-		switch (status)
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) 
 		{
-			case API_VERSION_TOO_OLD:
+			TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+		}
+		
+		if(isViewingTutorial == false)
+		{
+			switch (status)
 			{
-				DialogHelper.showMandatoryAppUpdateDialog(this);
-				break;
-			}
-			
-			case NO_CONNECTION_AVAILABLE:
-			{				
-				if (!isViewingTutorial) 
+				case API_VERSION_TOO_OLD:
 				{
+					DialogHelper.showMandatoryAppUpdateDialog(this);
+					break;
+				}
+	
+				case NO_CONNECTION_AVAILABLE:
+				{				
 					startPrimaryActivity();
+					break;
 				}
-				break;
-			}
-			
-			default:
-			{
-				boolean isLocalDeviceCalendarOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
-				
-				if(isLocalDeviceCalendarOffSync)
+	
+				default:
 				{
-					String message = getString(R.string.review_date_time_settings);
-
-					ToastHelper.createAndShowLongToast(message);
-					
-					TrackingGAManager.sharedInstance().sendTimeOffSyncEvent();
-				}
-				
-				isDataFetched = true;
-				
-				if (!isViewingTutorial && waitingForData) 
-				{
-					if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
-						TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
+					boolean isLocalDeviceCalendarOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
+	
+					if(isLocalDeviceCalendarOffSync)
+					{
+						String message = getString(R.string.review_date_time_settings);
+	
+						ToastHelper.createAndShowLongToast(message);
+	
+						TrackingGAManager.sharedInstance().sendTimeOffSyncEvent();
 					}
-					
+	
 					startPrimaryActivity();
 				}
 				break;
 			}
+		}
+		else
+		{
+			if(status == UIStatusEnum.API_VERSION_TOO_OLD)
+			{
+				isAPIVersionTooOld = true;
+			}
+			
+			tutorialCanStartHomeActivity = true;
 		}
 	}
 	
@@ -283,24 +288,23 @@ public class SplashScreenActivity
 	
 	
 	
-	private void showSplashScreen() 
+	private void showSplashScreen()
 	{
 		isViewingTutorial = false;
+		
+		SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
 		
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
-		
-		if (isDataFetched) 
-		{
-			startPrimaryActivity();
-		}
 	}
 	
 	
 	
 	private void showUserTutorial() 
 	{
+		isViewingTutorial = true;
+		
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(true);
 		
 		setContentView(R.layout.layout_tutorial_screen);
@@ -405,7 +409,8 @@ public class SplashScreenActivity
 				
 				boolean isConnected = NetworkUtils.isConnected();
 				
-				if (isConnected) {
+				if (isConnected) 
+				{
 					TrackingManager.sharedInstance().sendUserTutorialExitEvent(mPager.getCurrentItem());				
 				}
 
@@ -421,7 +426,8 @@ public class SplashScreenActivity
 				
 				boolean isConnected = NetworkUtils.isConnected();
 				
-				if (isConnected) {
+				if (isConnected) 
+				{
 					TrackingManager.sharedInstance().sendUserTutorialExitEvent(PAGE5);				
 				}
 				
@@ -445,22 +451,20 @@ public class SplashScreenActivity
 		
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
 		
-		boolean isConnected = NetworkUtils.isConnected();
+		isViewingTutorial = false;
 		
-		if (isDataFetched) 
+		if (tutorialCanStartHomeActivity)
 		{
-			startPrimaryActivity();	
-		} 
-		else 
-		{
-			waitingForData = true;
-			isViewingTutorial = false;
-			
-			if (!isConnected) 
+			if(isAPIVersionTooOld)
+			{
+				DialogHelper.showMandatoryAppUpdateDialog(this);
+			}
+			else
 			{
 				startPrimaryActivity();
 			}
 		}
+		// No need to do anything else, since we are only waiting for the remaining data to load
 	}
 	
 	

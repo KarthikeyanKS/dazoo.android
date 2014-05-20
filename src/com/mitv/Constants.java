@@ -413,11 +413,11 @@ public abstract class Constants
 	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
+    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 10000;
     
     /* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
     public static final String HOST_FOR_NTP_CHECK = "se.pool.ntp.org";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 4000;
+    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 10000;
     
     
     /* USER AUTHORIZATION TOKEN FOR HTTP REQUESTS */

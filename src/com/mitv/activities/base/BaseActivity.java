@@ -145,7 +145,7 @@ public abstract class BaseActivity
 			{
 				boolean isConnected = NetworkUtils.isConnected();
 
-				if (isConnected) 
+				if (isConnected)
 				{
 					restartTheApp();
 					return true;
