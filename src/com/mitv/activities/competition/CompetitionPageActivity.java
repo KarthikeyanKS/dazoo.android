@@ -248,7 +248,7 @@ public class CompetitionPageActivity
 //		liteTVBroadcastChannelsOngoing;
 		
 		/* LIVE GAME */
-		Event liveEvent = ContentManager.sharedInstance().getFromCacheLiveEventForSelectedCompetition();
+		final Event liveEvent = ContentManager.sharedInstance().getFromCacheLiveEventForSelectedCompetition();
 		
 		if (liveEvent != null) 
 		{
@@ -329,7 +329,7 @@ public class CompetitionPageActivity
 	            {
 	                Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
 	                
-	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, liveEvent.getEventId());
 	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 	                
 	                startActivity(intent);
@@ -347,7 +347,9 @@ public class CompetitionPageActivity
 	
 	private void setOngoingLayoutForNextEvent() {
 		/* NEXT GAME */
-		Event nextEvent = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
+		boolean filterFinishedEvents = true;
+		boolean filterLiveEvents = true;
+		final Event nextEvent = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
 		
 		if (nextEvent != null) {
 			StringBuilder sbNext = new StringBuilder();
@@ -484,7 +486,7 @@ public class CompetitionPageActivity
 			    {
 			        Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
 			        
-			        intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+			        intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, nextEvent.getEventId());
 			        intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 			        
 			        startActivity(intent);
@@ -767,7 +769,9 @@ public class CompetitionPageActivity
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition();
+			boolean filterFinishedEvents = false;
+			boolean filterLiveEvents = false;
+			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
 	
 			if(event == null)
 			{

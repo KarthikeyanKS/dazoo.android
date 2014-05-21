@@ -1041,7 +1041,8 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public Event getFromCacheNextUpcomingEventForSelectedCompetition()
+	public Event getFromCacheNextUpcomingEventForSelectedCompetition(
+			boolean filterFinishedEvents, boolean filterLiveEvents)
 	{
 		Event matchingEvent = null;
 		
@@ -1049,7 +1050,14 @@ public abstract class ContentManagerBase
 		
 		if(events.isEmpty() == false)
 		{
-			events = filterFinishedEvents(events);
+			if (filterFinishedEvents) {
+				events = filterFinishedEvents(events);
+			}
+			
+			if (filterLiveEvents) {
+				events = filterLiveEvents(events);
+			}
+			
 			matchingEvent = events.get(0);
 		}
 		
@@ -1067,6 +1075,18 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	
+	private List<Event> filterLiveEvents(List<Event> events) {
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		for (Event ev: events) {
+			if(!ev.isLive()) {
+				filteredEvents.add(ev);
+			}
+		}
+		
+		return filteredEvents;
+	}
 	
 	private List<Event> filterFinishedEvents(List<Event> events) {
 		List<Event> filteredEvents = new ArrayList<Event>();
