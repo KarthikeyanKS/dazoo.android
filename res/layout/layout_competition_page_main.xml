@@ -3,7 +3,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/competition_banner_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/grey1"
     android:orientation="vertical" >
 
@@ -177,14 +177,23 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <include
-                android:id="@+id/competition_tag_ongoing_live_and_next_event_container"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/competition_count_down_layout"
-                layout="@layout/block_competition_page_ongoing_main_content"
-                android:visibility="gone" />
+                android:layout_below="@id/competition_count_down_layout" >
+
+                <LinearLayout
+                    android:id="@+id/competition_tag_list_events"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey1"
+                    android:orientation="vertical"
+                    android:visibility="visible" >
+                </LinearLayout>
+            </RelativeLayout>
+            
         </RelativeLayout>
+        
     </ScrollView>
 
 </RelativeLayout>
