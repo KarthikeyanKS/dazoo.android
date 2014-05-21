@@ -343,6 +343,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/CompetitionPage" >
         </activity>
+        
+        <!-- COMPETITION TEAM PAGE -->
+        <activity
+            android:name="com.mitv.activities.competition.TeamPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/CompetitionPage" >
+        </activity>
 
         <!-- HOCKEY APP ACTIVITIES -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />

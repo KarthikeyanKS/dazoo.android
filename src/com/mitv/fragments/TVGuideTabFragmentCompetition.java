@@ -298,7 +298,7 @@ public class TVGuideTabFragmentCompetition
 		boolean hasEnded = currentCompetition.hasEnded();
 		boolean isVisible = currentCompetition.isVisible();
 		boolean isOngoing = true;
-//		boolean isOngoing = hasBegun && !hasEnded && isVisible;
+//		boolean isOngoing = hasBegun && !hasEnded && isVisible; TODO
 		
 		if (isOngoing)
 		{
@@ -307,8 +307,6 @@ public class TVGuideTabFragmentCompetition
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 			
 			countDownAreaContainer.setVisibility(View.INVISIBLE);
-			
-//			listContainerLayout.setVisibility(View.VISIBLE);
 			
 			setListOfEvents();
 		}

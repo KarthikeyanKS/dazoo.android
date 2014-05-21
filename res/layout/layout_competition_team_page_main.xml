@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey1"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <!-- Include the main info -->
+            <include
+                android:id="@+id/competition_team_page_main_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="10dp"
+                layout="@layout/element_competition_team_page_main_content" />
+            
+            <!-- Include the squad -->
+            <!-- Include the standings -->
+            <!-- Include the schedule -->
+            
+        </RelativeLayout>
+        
+    </ScrollView>
+    
+    <!-- NAVIGATION TABS -->
+
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout" />
+
+</RelativeLayout>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- HEADER -->
+
+    <RelativeLayout
+        android:id="@+id/competition_team_page_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <!-- FLAG IMAGE -->
+
+        <ImageView
+            android:id="@+id/competition_team_page_header_flag_img"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/competitions_contry_flag_default" />
+
+        <RelativeLayout
+            android:id="@+id/competition_team_page_info_text_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/competition_team_page_header_flag_img" >
+
+            <!-- TEAM NAME -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_team_page_team_name"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:maxLines="2" />
+
+            <!-- National football team text -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/competition_team_page_info_national"
+                style="@style/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/competition_team_page_team_name" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/competition_team_page_header_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <!-- TEAM IMAGE -->
+
+        <ImageView
+            android:id="@+id/competition_team_page_team_img"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/competitions_contry_flag_default" />
+
+        <!-- TEAM INFO: About -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_about"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" />
+
+        <!-- TEAM INFO: Founded -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_founded_header"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_team_page_about"
+            android:layout_marginTop="10dp" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_founded"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/competition_team_page_founded_header" />
+
+        <!-- TEAM INFO: Coach -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_coach_header"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_team_page_founded_header" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_coach"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/competition_team_page_coach_header" />
+
+        <!-- TEAM INFO: Location -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_location_header"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_team_page_coach_header" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_location"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/competition_team_page_location_header" />
+
+        <!-- TEAM INFO: Arenas/Stadiums -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_arenas_header"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_team_page_location_header" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_arenas"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/competition_team_page_arenas_header" />
+
+        <!-- TEAM INFO: Photo from -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_photo_from_header"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_team_page_arenas_header"
+            android:layout_marginTop="10dp" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_team_page_photo_from"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/competition_team_page_photo_from_header" />
+    </RelativeLayout>
+
+    <!-- Include Social interaction panel -->
+
+    <include
+        android:id="@+id/competition_team_page_social_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/element_competition_event_social_buttons" />
+
+</RelativeLayout>
