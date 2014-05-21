@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -16,6 +17,8 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class TeamPageActivity extends BaseContentActivity implements ViewCallbackListener, FetchDataProgressCallbackListener {
 	
@@ -66,6 +69,8 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAMS);
 		
 		initLayout();
 	}
@@ -159,6 +164,13 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	private void initLayout() {
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		
+		StringBuilder eventName = new StringBuilder();
+		eventName.append(team.getDisplayName());
+		
+		actionBar.setTitle(eventName.toString());
+		
 		/* Main content */
 		teamFlagImage = (ImageView) findViewById(R.id.competition_team_page_header_flag_img);
 		teamName = (TextView) findViewById(R.id.competition_team_page_team_name);
@@ -179,6 +191,21 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	private void setTeamInfoLayout() {
+		if (team != null) {
+			ImageAware imageAware = new ImageViewAware(teamFlagImage, false);
+			ImageAware imageAware2 = new ImageViewAware(teamImage, false);
+				
+			String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
+			String teamImageUrl = team.getImages().getBanner().getImageURLForDeviceDensityDPI();
+				
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamImageUrl, imageAware2);
+			
+			String name = team.getDisplayName();
+			teamName.setText(name);
+			
+			teamFootballNational.setText(this.getResources().getString(R.string.team_page_team_info_header));
+		}
 	}
 	
 	
