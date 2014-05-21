@@ -315,11 +315,11 @@ public class CompetitionPageActivity
 			
 			liveGroupHeader.setText(groupHeaderName);
 				
-			String score = event.getScoreAsString();
+			String score = liveEvent.getScoreAsString();
 			
 			liveOngoingStandings.setText(score);
 			
-			String timeInGame = event.getGameTimeAndStatusAsString(true);
+			String timeInGame = liveEvent.getGameTimeAndStatusAsString(true);
 			
 			liveTimeLeft.setText(timeInGame);
 			
@@ -410,12 +410,10 @@ public class CompetitionPageActivity
 			
 			team2NameOngoing.setText(awayTeamName);
 			
-			StringBuilder sb = new StringBuilder();
-			sb.append(nextEvent.getEventTimeDayOfTheWeekAsString())
-				.append(" ")
-				.append(nextEvent.getEventTimeDayAndMonthAsString());
+			long phaseID = nextEvent.getPhaseId();
+			Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 			
-			nextGameTextOngoing.setText(sb.toString());
+			nextGameTextOngoing.setText(phase.getPhase());
 			
 			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(nextEvent.getEventDateCalendarLocal());
 			
