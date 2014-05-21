@@ -6,7 +6,6 @@ package com.mitv.models.gson.mitvapi.competitions;
 public class EventLineUpJSON 
 {
 	protected long lineUpId;
-	protected long eventId;
 	protected int actionSet; 		//Remove?
 	protected int actionId; 		//Remove?
 	protected String actionMinute;	//Remove?
@@ -35,12 +34,6 @@ public class EventLineUpJSON
 
 	public long getLineUpId() {
 		return lineUpId;
-	}
-
-
-
-	public long getEventId() {
-		return eventId;
 	}
 
 

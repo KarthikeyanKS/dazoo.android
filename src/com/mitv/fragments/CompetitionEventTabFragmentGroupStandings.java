@@ -3,6 +3,7 @@ package com.mitv.fragments;
 
 
 
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 
@@ -151,6 +153,10 @@ public class CompetitionEventTabFragmentGroupStandings
 				
 				List<Standings> standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
 	
+				Collections.sort(standings, new EventStandingsComparatorByPoints());
+				
+				Collections.reverse(standings);
+				
 				listAdapter = new CompetitionEventStandingsListAdapter(activity, standings);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 

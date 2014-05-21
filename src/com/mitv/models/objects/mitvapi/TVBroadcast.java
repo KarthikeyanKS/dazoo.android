@@ -134,7 +134,7 @@ public class TVBroadcast
 	 */
 	public Calendar getBeginTimeCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearAndDateStringToCalendar(beginTime);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(beginTime);
 		return beginTimeCalendarGMT;
 	}
 
@@ -145,7 +145,7 @@ public class TVBroadcast
 	 */
 	public Calendar getEndTimeCalendarGMT()
 	{
-		Calendar endTimeCalendarGMT = DateUtils.convertFromYearAndDateStringToCalendar(endTime);
+		Calendar endTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(endTime);
 		return endTimeCalendarGMT;
 	}
 

@@ -351,7 +351,7 @@ public class SecondScreenApplication
 					lastOpenAppAsString.isEmpty() == false)
 				{
 					/* Get calendar from the string lastOpenApp */
-					Calendar cal = DateUtils.convertFromYearAndDateStringToCalendar(lastOpenAppAsString);
+					Calendar cal = DateUtils.convertISO8601StringToCalendar(lastOpenAppAsString);
 					
 					/* 
 					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.

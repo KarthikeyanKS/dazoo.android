@@ -10,7 +10,7 @@
     <!-- Header img and title -->
     <RelativeLayout
         android:id="@+id/competition_header_container"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="180dp">
 
         <RelativeLayout
@@ -51,7 +51,11 @@
             android:layout_above="@id/competition_event_world_cup_header"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:maxLines="2"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="35sp"
             font:fonttextview="chunkfive.otf" />
@@ -214,7 +218,6 @@
             android:background="@color/grey1" />
 
         <!-- LIST WITH BROADCAST ITEMS -->
-
         <LinearLayout
             android:id="@+id/competition_event_broadcasts_listview"
             android:layout_width="match_parent"

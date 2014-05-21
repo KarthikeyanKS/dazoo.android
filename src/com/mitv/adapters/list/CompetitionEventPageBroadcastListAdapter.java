@@ -18,6 +18,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -36,8 +37,6 @@ public class CompetitionEventPageBroadcastListAdapter
 	private Activity activity;
 	
 	private List<EventBroadcastDetails> broadcastDetails;
-	private boolean isAiring;
-	private boolean hasEnded;
 	
 	
 	
@@ -107,9 +106,10 @@ public class CompetitionEventPageBroadcastListAdapter
 			
 			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.competition_event_channel_logo);
 			viewHolder.beginTime = (TextView) rowView.findViewById(R.id.competition_event_full_date);
-			viewHolder.reminderView = (TextView) rowView.findViewById(R.id.competition_event_row_reminders_notification_iv);
-			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.competition_event_broadcast_progressbar_2);
+			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.competition_event_row_reminder_view);
+			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.competition_event_broadcast_progressbar);
 			viewHolder.onGoingTimeLeft = (TextView) rowView.findViewById(R.id.competition_event_time_left_ongoing);
+			viewHolder.divider = (View) rowView.findViewById(R.id.competition_event_broadcast_divider);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -120,97 +120,96 @@ public class CompetitionEventPageBroadcastListAdapter
 		{
 			final EventBroadcastDetails details = getItem(position);
 			
-			isAiring = details.isAiring();
-			hasEnded = details.hasEnded();
+			boolean isAiring = details.isAiring();
+			boolean hasEnded = details.hasEnded();
 			
-			/* Set channel logo */
-			
-			ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
+			ImageAware imageAwareForChannelLogo = new ImageViewAware(holder.channelLogo, false);
 			
 			TVChannel tvChannel = details.getTVChannelForEventBroadcast();
 			
 			String logoUrl = tvChannel.getLogo().getSmall();
 				
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(logoUrl, imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(logoUrl, imageAwareForChannelLogo);
 			
 			/* Set airing date and time */
-			
 			StringBuilder sb = new StringBuilder();
 			
 			String startTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastBeginTimeLocal());
+			
 			String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastEndTimeLocal());
 			
-			Calendar now = DateUtils.getNow();
-			
-			int totalMinutesInGame = DateUtils.calculateDifferenceBetween(details.getEventBroadcastBeginTimeLocal(), now, Calendar.MINUTE, false, 0);
-			
-			int totalMinutesOfGame = details.getTotalAiringTimeInMinutes();
-			
-			/* Event is ongoing */
-			if (isAiring) 
-			{
-				LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfGame, holder.progressBar);
-				
-				sb.append(details.getEventTimeDayOfTheWeekAsString())
-				.append(", ")
-				.append(startTimeHourAndMinuteAsString)
-				.append(" - ")
-				.append(endTimeHourAndMinuteAsString);
-				
-				/* Set minutes left */
-				
-				int minutesLeft = totalMinutesOfGame - totalMinutesInGame;
-				
-				StringBuilder sbMinutesLeft = new StringBuilder();
-				sbMinutesLeft.append(minutesLeft)
-					.append(" ")
-					.append(activity.getResources().getString(R.string.event_page_minutes_left));
-				
-				holder.onGoingTimeLeft.setText(sbMinutesLeft.toString());
-				
-				holder.onGoingTimeLeft.setVisibility(View.VISIBLE);
-				holder.reminderView.setVisibility(View.GONE);
-			}
-			
 			/* Event has ended */
-			else if (hasEnded) {
-				sb.append("Game has ended!");
-				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
-				holder.onGoingTimeLeft.setVisibility(View.GONE);
-				holder.reminderView.setVisibility(View.GONE);
-			}
-			
-			/* Event has not started yet */
-			else {
-				LanguageUtils.setupOnlyProgressBar(activity, totalMinutesInGame, totalMinutesOfGame, holder.progressBar);
+			if(hasEnded) 
+			{
+				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.grey1));
+				
 				sb.append(details.getEventTimeDayOfTheWeekAsString())
-				.append(" ")
-				.append(details.getEventTimeDayAndMonthAsString())
-				.append(", ")
+				.append(",  ")
 				.append(startTimeHourAndMinuteAsString)
 				.append(" - ")
 				.append(endTimeHourAndMinuteAsString);
 				
-				/* TODO
-				 * 
-				 * WARNING WARNING WARNING
-				 * 
-				 * The notifications for event is not finished  */
-				
-//				holder.reminderView.setCompetitionEventBroadcast(event, details);
-				
-//				boolean iconSizeSmall = true;
-//				holder.reminderView.setSizeOfIcon(iconSizeSmall);
-				
-				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
+				holder.progressBar.setVisibility(View.GONE);
 				holder.onGoingTimeLeft.setVisibility(View.GONE);
-				holder.reminderView.setVisibility(View.VISIBLE);
+				holder.reminderView.setVisibility(View.GONE);
+				holder.progressBar.setVisibility(View.GONE);
+			}
+			else
+			{
+				Calendar now = DateUtils.getNow();
+				
+				int totalMinutes = details.getTotalAiringTimeInMinutes();
+				
+				int currentMinutes = DateUtils.calculateDifferenceBetween(details.getEventBroadcastBeginTimeLocal(), now, Calendar.MINUTE, false, 0);
+				
+				sb.append(details.getEventTimeDayOfTheWeekAsString())
+				.append(",  ")
+				.append(startTimeHourAndMinuteAsString)
+				.append(" - ")
+				.append(endTimeHourAndMinuteAsString);
+				
+				if (isAiring)
+				{
+					int minutesLeft = Math.abs(totalMinutes - currentMinutes);
+					
+					StringBuilder sbMinutesLeft = new StringBuilder();
+					sbMinutesLeft.append(minutesLeft)
+						.append(" ")
+						.append(activity.getResources().getString(R.string.event_page_minutes_left));
+					
+					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.red));
+					
+					LanguageUtils.setupOnlyProgressBar(activity, currentMinutes, totalMinutes, holder.progressBar);
+					holder.divider.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
+					
+					holder.progressBar.setVisibility(View.VISIBLE);
+					holder.onGoingTimeLeft.setText(sbMinutesLeft.toString());
+					holder.onGoingTimeLeft.setVisibility(View.VISIBLE);
+					holder.reminderView.setVisibility(View.GONE);
+				}
+				/* Event has not started yet */
+				else
+				{
+					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
+					
+					/* TODO
+					 * 
+					 * WARNING WARNING WARNING
+					 * 
+					 * The notifications for event is not finished  */
+					
+					holder.reminderView.setBroadcast(null);
+					
+//					holder.reminderView.setCompetitionEventBroadcast(event, details);
+//					boolean iconSizeSmall = true;
+//					holder.reminderView.setSizeOfIcon(iconSizeSmall);
+					
+					holder.progressBar.setVisibility(View.GONE);
+					holder.onGoingTimeLeft.setVisibility(View.GONE);
+				}
 			}
 			
-			holder.progressBar.setVisibility(View.VISIBLE);
-			holder.channelLogo.setVisibility(View.VISIBLE);
 			holder.beginTime.setText(sb.toString());
-			holder.beginTime.setVisibility(View.VISIBLE);	
 		}
 		
 		return rowView;
@@ -222,9 +221,10 @@ public class CompetitionEventPageBroadcastListAdapter
 	{
 		private ImageView channelLogo;
 		private TextView beginTime;
-		private TextView reminderView;
+		private ReminderView reminderView;
 		private ProgressBar progressBar;
 		private TextView onGoingTimeLeft;
+		private View divider;
 	}
 	
 }
