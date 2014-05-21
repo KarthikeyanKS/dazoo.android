@@ -1,4 +1,7 @@
+
 package com.mitv.models.objects.mitvapi.competitions;
+
+
 
 import java.util.Calendar;
 
@@ -9,14 +12,19 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
-public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
-	
+
+
+public class EventBroadcastDetails 
+	extends EventBroadcastDetailsJSON 
+{	
 	protected Calendar beginTimeCalendar;
 	protected Calendar endTimeCalendar;
 	
 	
 	
 	public EventBroadcastDetails() {}
+	
+	
 	
 	public EventBroadcastDetails(EventBroadcastDetailsJSON ev) 
 	{
@@ -82,7 +90,7 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 	 */
 	private Calendar getEventBroadcastCalendar(String date) 
 	{
-		Calendar cal = DateUtils.convertFromYearAndDateStringToCalendar(date);
+		Calendar cal = DateUtils.convertISO8601StringToCalendar(date);
 		
 		int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
 		
@@ -182,7 +190,8 @@ public class EventBroadcastDetails extends EventBroadcastDetailsJSON {
 	
 	
 	
-	public boolean hasEnded() {
+	public boolean hasEnded() 
+	{
 		Calendar now = DateUtils.getNow();
 		
 		boolean hasEnded = now.after(this.getEventBroadcastEndTimeLocal());

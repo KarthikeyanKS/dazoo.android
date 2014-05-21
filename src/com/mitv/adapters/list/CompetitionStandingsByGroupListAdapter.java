@@ -5,6 +5,7 @@ package com.mitv.adapters.list;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -51,6 +53,10 @@ public class CompetitionStandingsByGroupListAdapter
 		
 		for(List<Standings> value : values)
 		{
+			Collections.sort(value, new EventStandingsComparatorByPoints());
+			
+			Collections.reverse(value);
+			
 			standings.addAll(value);
 		}
 		

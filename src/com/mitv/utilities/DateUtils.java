@@ -33,17 +33,6 @@ public abstract class DateUtils
 	
 	
 	
-	/**
-	 * Converts a string input to a Calendar object
-	 * The input string format should be in the format: "yyyy-MM-dd"
-	 * 
-	 */
-	public static Calendar convertFromYearAndDateStringToCalendar(final String inputString)
-	{
-		return convertFromStringToUTC0CalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString);
-	}
-	
-	
 	
 	/**
 	 * Creates a Calendar object from the string representation of a TVDate. The calendar
@@ -54,7 +43,8 @@ public abstract class DateUtils
 	 */
 	public static Calendar getCalendarForStartOfTVDay(final String inputString)
 	{
-		Calendar startOfTVDayCalendar = convertFromYearAndDateStringToCalendar(inputString);
+		Calendar startOfTVDayCalendar = convertFromStringToUTC0CalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString);
+		
 		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		
 		startOfTVDayCalendar.set(Calendar.HOUR_OF_DAY, firstHourOfTVDay);
@@ -93,7 +83,7 @@ public abstract class DateUtils
 	 * The input string format should be in the ISO 8601 date format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
-	public static Calendar convertFromYearDateAndTimeStringToCalendar2(final String inputString)
+	public static Calendar convertISO8601StringToCalendar(final String inputString)
 	{
 		return convertFromStringToUTC0CalendarWithFormat(Constants.ISO_8601_DATE_FORMAT, inputString);
 	}

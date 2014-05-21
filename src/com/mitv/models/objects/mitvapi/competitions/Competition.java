@@ -53,7 +53,7 @@ public class Competition
 	 */
 	public Calendar getBeginTimeCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearAndDateStringToCalendar(startDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(startDate);
 		
 		return beginTimeCalendarGMT;
 	}
@@ -65,7 +65,7 @@ public class Competition
 	 */
 	public Calendar getEndTimeCalendarGMT()
 	{
-		Calendar endTimeCalendarGMT = DateUtils.convertFromYearAndDateStringToCalendar(endDate);
+		Calendar endTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(endDate);
 		
 		return endTimeCalendarGMT;
 	}

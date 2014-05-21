@@ -1319,10 +1319,11 @@ public abstract class ContentManagerBase
 		
 		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
 		
+		// TODO - Remove commented code
 		for (EventLineUp lineup : lineupsAll)
 		{
-			if (lineup.isInStartingLineUp() == false && 
-				lineup.getTeamId() == teamID.longValue()) 
+			if (lineup.isInStartingLineUp() == false //&& 
+				/*lineup.getTeamId() == teamID.longValue()*/) 
 			{
 				lineups.add(lineup);
 			}
@@ -1341,10 +1342,11 @@ public abstract class ContentManagerBase
 		
 		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
 		
+		// TODO - Remove commented code
 		for (EventLineUp lineup : lineupsAll) 
 		{
-			if (lineup.isInStartingLineUp() && 
-				lineup.getTeamId() == teamID.longValue()) 
+			if (lineup.isInStartingLineUp() //&& 
+				/*lineup.getTeamId() == teamID.longValue()*/) 
 			{
 				lineups.add(lineup);
 			}

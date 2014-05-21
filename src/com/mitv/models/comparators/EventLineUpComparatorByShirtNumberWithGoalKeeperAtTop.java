@@ -20,7 +20,30 @@ public class EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop
 		{
 			return 1;
 		}
-		
-		return left.compareTo(right);
+		else
+		{
+			Integer leftInteger;
+			Integer rightInteger;
+			
+			try
+			{
+				leftInteger = Integer.parseInt(left);
+			}
+			catch(NumberFormatException nfex)
+			{
+				leftInteger = Integer.valueOf(0);
+			}
+			
+			try
+			{
+				rightInteger = Integer.parseInt(right);
+			}
+			catch(NumberFormatException nfex)
+			{
+				rightInteger = Integer.valueOf(0);
+			}
+			
+			return leftInteger.compareTo(rightInteger);
+		}
 	}
 }

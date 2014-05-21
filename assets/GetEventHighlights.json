@@ -133,7 +133,7 @@
 	  team: "Grecia",
 	  personId: 834696,
 	  person: "Lazaros Christodoulopoulos",
-	  person: "L.Christodoulopoulos",
+	  personShort: "L.Christodoulopoulos",
 	  subPersonId: 745558,
 	  subPerson: "Dimitrios Salpingidis",
 	  subPersonShort: "D.Salpingidis"

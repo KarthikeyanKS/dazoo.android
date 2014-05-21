@@ -251,36 +251,21 @@ public class CompetitionEventEventsByGroupListAdapter
 					
 					Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 					
-					if(team1 != null)
-					{
-						ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
-							
-						String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
-							
-						SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
-					}
-					else
-					{
-						Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
-					}
-						
+					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
 					
+					ImageAware imageAwareForTeam1 = new ImageViewAware(holder.team1flag, false);
+					
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareForTeam1);
+						
 					long team2ID = event.getAwayTeamId();
 					
 					Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
 					
-					if(team2 != null)
-					{
-						ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
+					ImageAware imageAwareForTeam2 = new ImageViewAware(holder.team2flag, false);
 							
-						String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
 							
-						SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
-					}
-					else
-					{
-						Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
-					}
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareForTeam2);
 				}
 				
 				holder.team1name.setText(homeTeamName);

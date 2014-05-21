@@ -21,9 +21,8 @@ public abstract class Constants
 	
 	
 	/* BACKEND API BASE URLs */
-	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com" + FORWARD_SLASH;
-	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv" + FORWARD_SLASH;
-	public static final String BACKEND_IMAGE_PREFIX_PATH = "images.";
+	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com";
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv";
 	
 	
 	/* FRONTEND API BASE URLs */
@@ -83,42 +82,43 @@ public abstract class Constants
 		
 	/* "Static", don't need to change those */
 	public static final String URL_BACKEND_BASE_API					= "api.";
+	public static final String URL_BACKEND_IMAGE_PREFIX_PATH 		= "images.";
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
 	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
-	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "track/unique";
+	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "/track/unique";
 	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
 	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_ENVIRONMENT_USED;
 	
 	//public static final String URL_GUIDE_LEGACY 					= URL_SERVER + "epg/guide";
-	public static final String URL_GUIDE 							= URL_SERVER + "epg/slimguide";
-	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
-	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "epg/channels";
-	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "epg/channels/default";
-	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER + "auth/login/facebook";
-	public static final String URL_LOGIN_WITH_PLAINTEXT_PASSWORD 	= URL_SERVER + "auth/login/dazoo";
-	public static final String URL_LOGIN_WITH_HASHED_PASSWORD 		= URL_SERVER + "auth/login/dazoo/hash";
-	public static final String URL_REGISTER_WITH_PLAINTEXT_PASSWORD = URL_SERVER + "auth/login/dazoo/register";
-	public static final String URL_REGISTER_WITH_HASHED_PASSWORD 	= URL_SERVER + "auth/login/dazoo/register/hash";
-	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER + "auth/login/dazoo/sendResetPasswordEmail";
-	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER + "auth/login/dazoo/resetPassword";
-	public static final String URL_TAGS_PAGE 						= URL_SERVER + "epg/tags/visible";
-	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "my/channels";
-	public static final String URL_LIKES 							= URL_SERVER + "my/likes";
-	public static final String URL_LIKES_WITH_UPCOMING 				= URL_SERVER + "my/likes/broadcasts";
-	public static final String URL_ACTIVITY_FEED 					= URL_SERVER + "my/feed";
-	public static final String URL_PROGRAMS 						= URL_SERVER + "epg/programs/";
-	public static final String URL_SERIES 							= URL_SERVER + "epg/series/";
-	public static final String URL_POPULAR 							= URL_SERVER + "epg/broadcasts/popular/";
-	public static final String URL_CONFIGURATION 					= URL_SERVER + "configuration";
-	public static final String URL_SEARCH		 					= URL_SERVER + "search";
-	public static final String URL_SEARCH_OLD		 				= URL_SERVER + "search?query=%s*";
-	public static final String URL_API_VERSION						= URL_SERVER + "versions";
-	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
-	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
+	public static final String URL_GUIDE 							= URL_SERVER + "/epg/slimguide";
+	public static final String URL_DATES 							= URL_SERVER + "/epg/dates";
+	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "/epg/channels";
+	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "/epg/channels/default";
+	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER + "/auth/login/facebook";
+	public static final String URL_LOGIN_WITH_PLAINTEXT_PASSWORD 	= URL_SERVER + "/auth/login/dazoo";
+	public static final String URL_LOGIN_WITH_HASHED_PASSWORD 		= URL_SERVER + "/auth/login/dazoo/hash";
+	public static final String URL_REGISTER_WITH_PLAINTEXT_PASSWORD = URL_SERVER + "/auth/login/dazoo/register";
+	public static final String URL_REGISTER_WITH_HASHED_PASSWORD 	= URL_SERVER + "/auth/login/dazoo/register/hash";
+	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER + "/auth/login/dazoo/sendResetPasswordEmail";
+	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER + "/auth/login/dazoo/resetPassword";
+	public static final String URL_TAGS_PAGE 						= URL_SERVER + "/epg/tags/visible";
+	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "/my/channels";
+	public static final String URL_LIKES 							= URL_SERVER + "/my/likes";
+	public static final String URL_LIKES_WITH_UPCOMING 				= URL_SERVER + "/my/likes/broadcasts";
+	public static final String URL_ACTIVITY_FEED 					= URL_SERVER + "/my/feed";
+	public static final String URL_PROGRAMS 						= URL_SERVER + "/epg/programs/";
+	public static final String URL_SERIES 							= URL_SERVER + "/epg/series/";
+	public static final String URL_POPULAR 							= URL_SERVER + "/epg/broadcasts/popular/";
+	public static final String URL_CONFIGURATION 					= URL_SERVER + "/configuration";
+	public static final String URL_SEARCH		 					= URL_SERVER + "/search";
+	public static final String URL_SEARCH_OLD		 				= URL_SERVER + "/search?query=%s*";
+	public static final String URL_API_VERSION						= URL_SERVER + "/versions";
+	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "/epg/channels/";
+	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "/auth/tokens/";
 	
 	/* API request strings for competitions module */
-	public static final String URL_SPORTS_MODULE					= "api/sports"; 
+	public static final String URL_SPORTS_MODULE					= "/api/sports"; 
 	public static final String URL_COMPETITIONS 					= "/competitions";
 	public static final String URL_PHASES 					 		= "/phases";
 	public static final String URL_COMPETITIONS_FULL 			    = URL_SERVER + URL_SPORTS_MODULE + URL_COMPETITIONS;
@@ -514,7 +514,11 @@ public abstract class Constants
 	
 	
 	/* Competitions */
-	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + BACKEND_IMAGE_PREFIX_PATH + URL_STADIUMS;
+	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
+	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_100";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_400";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_800";
+	public static final String EVENT_STADIUM_IMAGE_EXTENSION = ".jpg";
 	public static final String INTENT_COMPETITION_ID = "competitionID";
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";

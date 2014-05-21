@@ -42,19 +42,19 @@ public class Event
 			EventBroadcastDetailsJSON sdf;
 			
 			channelId = "co_d9ff9f53-fe42-45d2-b532-e74932de5f82";
-			beginTime = "2014-05-21T08:00:00Z";
-			beginTimeMillis = 1400122800000l;
+			beginTime = "2014-05-21T21:00:00Z";
+			beginTimeMillis = 1400706000000L;
 			broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
-			endTime = "2014-05-21T10:00:00Z";
+			endTime = "2014-05-21T22:00:00Z";
 			sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
 			broadcastDetails = new ArrayList<EventBroadcastDetailsJSON>();
 			broadcastDetails.add(sdf);
 			
 			channelId = "co_d9ff9f53-fe42-45d2-b532-e74932de5f82";
-			beginTime = "2014-06-13T04:00:00Z";
-			beginTimeMillis = 1402632000000l;
+			beginTime = "2014-05-21T12:00:00Z";
+			beginTimeMillis = 1400677200000L;
 			broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
-			endTime = "2014-06-13T06:00:00Z";
+			endTime = "2014-05-21T13:30:00Z";
 			sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
 			
 			broadcastDetails.add(sdf);
@@ -111,6 +111,8 @@ public class Event
 		sb.append(Constants.EVENT_STADIUM_IMAGE_PATH);
 		sb.append(Constants.FORWARD_SLASH);
 		sb.append(stadiumId);
+		sb.append(Constants.EVENT_STADIUM_IMAGE_SIZE_LARGE);
+		sb.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
 		
 		return sb.toString();
 	}
@@ -208,7 +210,7 @@ public class Event
 	 */
 	public Calendar getEventDateCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearAndDateStringToCalendar(eventDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(eventDate);
 		
 		return beginTimeCalendarGMT;
 	}
@@ -370,6 +372,5 @@ public class Event
 		long beginTimeMillis = this.getEventDateCalendarLocal().getTimeInMillis();
 		
 		return beginTimeMillis;
-	}
-	
+	}	
 }
