@@ -315,11 +315,11 @@ public class CompetitionPageActivity
 			
 			liveGroupHeader.setText(groupHeaderName);
 				
-			String score = event.getScoreAsString();
+			String score = liveEvent.getScoreAsString();
 			
 			liveOngoingStandings.setText(score);
 			
-			String timeInGame = event.getGameTimeAndStatusAsString(true);
+			String timeInGame = liveEvent.getGameTimeAndStatusAsString(true);
 			
 			liveTimeLeft.setText(timeInGame);
 			
