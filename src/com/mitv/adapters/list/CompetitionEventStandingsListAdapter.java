@@ -4,9 +4,6 @@ package com.mitv.adapters.list;
 
 
 import java.util.List;
-
-import javax.crypto.spec.PSource;
-
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;

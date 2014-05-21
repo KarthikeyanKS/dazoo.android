@@ -144,8 +144,8 @@
     <!-- ROW DIVIDER -->	
     <View
         android:id="@+id/row_competition_event_row_divider"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:layout_below="@id/row_competition_event_group_header_container"
         android:background="@color/grey1" />
     
