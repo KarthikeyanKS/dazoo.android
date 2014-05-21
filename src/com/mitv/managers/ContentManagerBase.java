@@ -355,6 +355,13 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public boolean getFromCacheHasTeamData(Long competitionID)
+	{
+		return getCache().getCompetitionsData().containsTeamData(competitionID);
+	}
+	
+	
+	
 	public boolean getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition()
 	{
 		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();

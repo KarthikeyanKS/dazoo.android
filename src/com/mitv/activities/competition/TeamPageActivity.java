@@ -2,6 +2,8 @@ package com.mitv.activities.competition;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
@@ -13,12 +15,33 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Team;
 
 public class TeamPageActivity extends BaseContentActivity implements ViewCallbackListener, FetchDataProgressCallbackListener {
 	
 	private static final String TAG = TeamPageActivity.class.getName();
 	
+	private long teamID;
+	private long competitionID;
+	private Team team;
+	
+	/* Main content */
 	private Event event;
+	private ImageView teamFlagImage;
+	private TextView teamName;
+	private TextView teamFootballNational;
+	private ImageView teamImage;
+	private TextView about;
+	private TextView founded;
+	private TextView coach;
+	private TextView location;
+	private TextView arenas;
+	private TextView photoFrom;
+	
+	/* Squad */
+	/* Standings */
+	/* Schedule */
+	
 	
 	
 	@Override
@@ -34,13 +57,13 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 		
 		Intent intent = getIntent();
 		
-		long teamID = intent.getLongExtra(Constants.INTENT_COMPETITION_TEAM_ID, 0);
+		teamID = intent.getLongExtra(Constants.INTENT_COMPETITION_TEAM_ID, 0);
+		
+		competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
 		
 		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
 		
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
-				
-		long phaseID = event.getPhaseId();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 		
@@ -96,16 +119,16 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-//		boolean forceRefreshOfHighlights = true;
+		boolean forceRefreshOfHighlights = true;
 		
-//		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
+		ContentManager.sharedInstance().getElseFetchFromServiceTeamData(this, forceRefreshOfHighlights, competitionID);
 	}
 
 	
 	
 	@Override
 	protected boolean hasEnoughDataToShowContent() {
-		boolean hasData = true; //ContentManager.sharedInstance().getFromCacheHasEventData(event.getCompetitionId(), event.getEventId());
+		boolean hasData = ContentManager.sharedInstance().getFromCacheHasTeamData(competitionID);
 		
 		return hasData;
 	}
@@ -116,8 +139,10 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		if(fetchRequestResult.wasSuccessful())
 		{
+			
 			if(event == null)
 			{
+				team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
 				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 			} 
 			else
@@ -134,7 +159,18 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	private void initLayout() {
-		/* Basic layout */
+		/* Main content */
+		teamFlagImage = (ImageView) findViewById(R.id.competition_team_page_header_flag_img);
+		teamName = (TextView) findViewById(R.id.competition_team_page_team_name);
+		teamFootballNational = (TextView) findViewById(R.id.competition_team_page_info_national);
+		teamImage = (ImageView) findViewById(R.id.competition_team_page_team_img);
+		about = (TextView) findViewById(R.id.competition_team_page_about);
+		founded = (TextView) findViewById(R.id.competition_team_page_founded);
+		coach = (TextView) findViewById(R.id.competition_team_page_coach);
+		location = (TextView) findViewById(R.id.competition_team_page_location);
+		arenas = (TextView) findViewById(R.id.competition_team_page_arenas);
+		photoFrom = (TextView) findViewById(R.id.competition_team_page_photo_from);
+		
 		/* Squad */
 		/* Standings for Group X */
 		/* Schedule for Group X */
@@ -143,14 +179,22 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	private void setTeamInfoLayout() {
-		
 	}
+	
+	
+	
 	private void setSquadLayout() {
 		
 	}
+	
+	
+	
 	private void setStandingsLayout() {
 		
 	}
+	
+	
+	
 	private void setScheduleLayout() {
 		
 	}

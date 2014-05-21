@@ -358,7 +358,7 @@ public class CompetitionsCacheData
 	public synchronized boolean containsEventData(Long competitionID, Long eventID) 
 	{
 		boolean containsEventData = false;
-	
+		
 		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
 		
 		if(competitionCacheData != null)
@@ -367,6 +367,22 @@ public class CompetitionsCacheData
 		}
 		
 		return containsEventData;
+	}
+	
+	
+	
+	public synchronized boolean containsTeamData(Long competitionID) 
+	{
+		boolean containsTeamData = false;
+		
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			containsTeamData = competitionCacheData.hasTeamData();
+		}
+		
+		return containsTeamData;
 	}
 	
 	

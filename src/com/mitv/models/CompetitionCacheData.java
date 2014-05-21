@@ -227,6 +227,15 @@ public class CompetitionCacheData
 	
 	
 	
+	public boolean hasTeamData()
+	{
+		boolean hasTeamData = (teams.isEmpty() == false);
+		
+		return hasTeamData;
+	}
+	
+	
+	
 	public boolean hasLineUpData(Long eventID)
 	{
 		boolean hasLineUpData = (lineupByEvent.isEmpty() == false && lineupByEvent.containsKey(eventID));
