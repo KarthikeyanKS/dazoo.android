@@ -9,13 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,7 +27,6 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -39,13 +35,11 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class CompetitionEventEventsByGroupListAdapter 
-	extends BaseAdapter
+	extends BaseAdapterWithShowMoreAdapter 
 {
 	private static final String TAG = CompetitionEventEventsByGroupListAdapter.class.getName();
 	
 	
-	private LayoutInflater layoutInflater;
-	private Activity activity;
 	private List<Event> events;
 	private long phaseIdToShow;
 	
@@ -54,9 +48,12 @@ public class CompetitionEventEventsByGroupListAdapter
 	public CompetitionEventEventsByGroupListAdapter(
 			final Activity activity,
 			final long phaseIdToShow,
-			final Map<Long, List<Event>> eventsByGroup)
+			final Map<Long, List<Event>> eventsByGroup,
+			final boolean enableMoreViewAtBottom,
+			final String viewBottomMessage, 
+			final Runnable viewBottomConfirmProcedure)
 	{
-		super();
+		super(activity, enableMoreViewAtBottom, viewBottomMessage, viewBottomConfirmProcedure);
 		
 		this.events = new ArrayList<Event>();
 		
@@ -67,11 +64,7 @@ public class CompetitionEventEventsByGroupListAdapter
 			events.addAll(value);
 		}
 		
-		this.activity = activity;
-		
 		this.phaseIdToShow = phaseIdToShow;
-
-		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 
@@ -79,11 +72,11 @@ public class CompetitionEventEventsByGroupListAdapter
 	@Override
 	public int getCount()
 	{
-		int count = 0;
+		int count = super.getCount();
 		
 		if (events != null) 
 		{
-			count = events.size();
+			count += events.size();
 		}
 		
 		return count;
@@ -117,6 +110,11 @@ public class CompetitionEventEventsByGroupListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
+		if(isShowMoreView(position))
+		{
+			return super.getView(position, convertView, parent);
+		}
+		
 		View rowView = convertView;
 
 		if (rowView == null)

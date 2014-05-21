@@ -157,7 +157,9 @@ public class CompetitionEventTabFragmentGroupStandings
 				
 				Collections.reverse(standings);
 				
-				listAdapter = new CompetitionEventStandingsListAdapter(activity, standings);
+				String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
+				
+				listAdapter = new CompetitionEventStandingsListAdapter(activity, standings, true, viewBottomMessage, null);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{

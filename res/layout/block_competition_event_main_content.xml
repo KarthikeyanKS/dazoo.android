@@ -262,7 +262,6 @@
             android:layout_below="@id/competition_event_stadium_name" />
 
         <!-- DIVIDER -->
-
         <View
             android:id="@+id/divider_after_synopsis"
             android:layout_width="match_parent"
@@ -271,8 +270,8 @@
             android:background="@color/grey1"
             android:visibility="visible" />
 
+        
         <!-- INCLUDING THE SOCIAL INTERACTION PANEL -->
-
         <include
             android:id="@+id/competition_event_social_panel"
             android:layout_width="match_parent"

@@ -515,9 +515,9 @@ public abstract class Constants
 	
 	/* Competitions */
 	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
-	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_100";
-	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_400";
-	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_800";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_S";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_M";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_L";
 	public static final String EVENT_STADIUM_IMAGE_EXTENSION = ".jpg";
 	public static final String INTENT_COMPETITION_ID = "competitionID";
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";

@@ -4,7 +4,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey0">
+    android:background="@color/white">
     
     <!-- HEADER -->
     <RelativeLayout
@@ -77,7 +77,6 @@
         android:layout_marginRight="5dp"
         android:background="@color/grey1" />
     
-    
 	<!-- FLAG, NAME AND STANDINGS -->
     <RelativeLayout
         android:id="@+id/row_competition_row_container"
@@ -142,4 +141,12 @@
 
 	</RelativeLayout>
 
+    <!-- ROW DIVIDER -->	
+    <View
+        android:id="@+id/row_competition_event_row_divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/row_competition_event_group_header_container"
+        android:background="@color/grey1" />
+    
 </RelativeLayout>

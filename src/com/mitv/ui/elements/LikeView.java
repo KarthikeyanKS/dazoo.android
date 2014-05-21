@@ -30,9 +30,13 @@ import com.mitv.utilities.NetworkUtils;
 
 
 
-public class LikeView extends RelativeLayout implements ViewCallbackListener, OnClickListener {
+public class LikeView 
+	extends RelativeLayout 
+	implements ViewCallbackListener, OnClickListener
+{
 	private static final String TAG = LikeView.class.toString();
 
+	
 	private LayoutInflater inflater;
 	private FontTextView iconView;
 	private BaseActivity activity;
@@ -40,33 +44,50 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	private UserLike likeFromBroadcast;
 	private ViewCallbackListener viewCallbackListener;
 
-	public LikeView(Context context) {
+	
+	
+	public LikeView(Context context) 
+	{
 		super(context);
+		
 		setup(context);
 	}
 
-	public LikeView(Context context, AttributeSet attrs) {
+	
+	
+	public LikeView(Context context, AttributeSet attrs) 
+	{
 		super(context, attrs);
+		
 		setup(context);
 	}
 
-	public LikeView(Context context, AttributeSet attrs, int defStyle) {
+	
+	
+	public LikeView(Context context, AttributeSet attrs, int defStyle) 
+	{
 		super(context, attrs, defStyle);
+		
 		setup(context);
 	}
 
-	private void setup(Context context) {
+	
+	
+	private void setup(Context context) 
+	{
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		this.containerView = inflater.inflate(R.layout.element_like_view, this);
-
 		this.iconView = (FontTextView) this.findViewById(R.id.element_like_image_View);
 		this.activity = (BaseActivity) context;
 		this.viewCallbackListener = (ViewCallbackListener) context;
 
 		this.setClickable(true);
+		
 		this.setOnClickListener(this);
 	}
 
+	
 	
 	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
 	{
@@ -91,10 +112,12 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	}
 	
 	
+	
 	private void removeLike() 
 	{
 		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), null);
 	}
+	
 	
 	
 	private void addLike() 
@@ -109,53 +132,72 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	}
 
 	
+	
 	@Override
 	public void onClick(View v) 
 	{
-		RateAppManager.significantEvent(activity);
-		
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-
-		final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);
-
-		if (isLoggedIn) 
+		if(likeFromBroadcast != null)
 		{
-			boolean isConnected = NetworkUtils.isConnected();
+			RateAppManager.significantEvent(activity);
 			
-			if(isConnected == false)
+			boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+	
+			final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);
+	
+			if (isLoggedIn) 
 			{
-				ToastHelper.createAndShowNoInternetConnectionToast();
-			}
-			else
-			{
-				if (isLiked) 
+				boolean isConnected = NetworkUtils.isConnected();
+				
+				if(isConnected == false)
 				{
-					removeLike();
-				} 
-				else 
-				{
-					addLike();
+					ToastHelper.createAndShowNoInternetConnectionToast();
 				}
+				else
+				{
+					if (isLiked) 
+					{
+						removeLike();
+					} 
+					else 
+					{
+						addLike();
+					}
+				}
+			} 
+			else 
+			{
+				DialogHelper.showPromptSignInDialog(activity, yesLikeProc(), null);
 			}
-		} 
-		else 
+		}
+		else
 		{
-			DialogHelper.showPromptSignInDialog(activity, yesLikeProc(), null);
+			Log.w(TAG, "UserLike is null");
 		}
 	}
 	
-	private void setImageToLiked() {
+	
+	
+	private void setImageToLiked() 
+	{
 		iconView.setTextColor(getResources().getColor(R.color.blue1));
 	}
 	
-	private void setImageToNotLiked() {
+	
+	
+	private void setImageToNotLiked() 
+	{
 		iconView.setTextColor(getResources().getColor(R.color.grey3));
 	}
 	
+	
+	
 	/* Remove like dialog */
-	private Runnable yesRemoveLike() {
-		return new Runnable() {
-			public void run() {
+	private Runnable yesRemoveLike() 
+	{
+		return new Runnable() 
+		{
+			public void run() 
+			{
 				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
 				setImageToNotLiked();
 				
@@ -165,60 +207,81 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		};
 	}
 	
+	
 
 	/* Sign in dialog */
-	private Runnable yesLikeProc() {
-		return new Runnable() {
-			public void run() {
+	private Runnable yesLikeProc() 
+	{
+		return new Runnable() 
+		{
+			public void run() 
+			{
 				/* We are not logged in, but we want the Like to be added after we log in, so set it
 				 * After login is complete the ContentManager will perform the adding of the like to backend */
 				ContentManager.sharedInstance().setLikeToAddAfterLogin(likeFromBroadcast);
 				
 				Intent intent = new Intent(activity, SignUpSelectionActivity.class);			
+				
 				activity.startActivity(intent);
 			}
 		};
 	}
 
 
+	
 	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
 		viewCallbackListener.onResult(fetchRequestResult, requestIdentifier);
+		
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		
-		if(fetchRequestResult.wasSuccessful()) {
-			switch (requestIdentifier) {
-			case USER_ADD_LIKE: {
-				Log.d(TAG, "Successfully added like");
+		if(fetchRequestResult.wasSuccessful())
+		{
+			switch (requestIdentifier) 
+			{
+				case USER_ADD_LIKE:
+				{
+					Log.d(TAG, "Successfully added like");
+					
+					StringBuilder sb = new StringBuilder();
+					sb.append(activity.getString(R.string.like_set_text_row1));
+					sb.append(" ");
+					sb.append(activity.getString(R.string.like_set_text_row2));
+					
+					ToastHelper.createAndShowShortToast(sb.toString());
+					
+					break;
+				}
 				
-				StringBuilder sb = new StringBuilder();
-				sb.append(activity.getString(R.string.like_set_text_row1));
-				sb.append(" ");
-				sb.append(activity.getString(R.string.like_set_text_row2));
+				case USER_REMOVE_LIKE:
+				{
+					Log.d(TAG, "Successfully removed like");
+					break;
+				}
 				
-				ToastHelper.createAndShowShortToast(sb.toString());
+				default:{/* Do nothing */break;}
+			}
+		} 
+		else 
+		{
+			switch (requestIdentifier) 
+			{
+				case USER_ADD_LIKE:
+				{
+					Log.w(TAG, "Warning, adding of like failed");
+					setImageToNotLiked();
+					break;
+				}
 				
-				break;
-			}
-			case USER_REMOVE_LIKE: {
-				Log.d(TAG, "Successfully removed like");
-				break;
-			}
-			default:{/* Do nothing */break;}
-			}
-		} else {
-			switch (requestIdentifier) {
-			case USER_ADD_LIKE: {
-				Log.w(TAG, "Warning, adding of like failed");
-				setImageToNotLiked();
-				break;
-			}
-			case USER_REMOVE_LIKE: {
-				Log.w(TAG, "Warning, removing of like failed");
-				setImageToLiked();
-				break;
-			}
-			default:{/* Do nothing */break;}
+				case USER_REMOVE_LIKE:
+				{
+					Log.w(TAG, "Warning, removing of like failed");
+					setImageToLiked();
+					break;
+				}
+				
+				default:{/* Do nothing */break;}
 			}
 		}
 		

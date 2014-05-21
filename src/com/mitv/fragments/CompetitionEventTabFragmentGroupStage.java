@@ -139,7 +139,9 @@ public class CompetitionEventTabFragmentGroupStage
 				
 				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
 	
-				listAdapter = new CompetitionEventEventsByGroupListAdapter(activity, phaseId, eventsByGroups);
+				String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
+				
+				listAdapter = new CompetitionEventEventsByGroupListAdapter(activity, phaseId, eventsByGroups, true, viewBottomMessage, null);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{

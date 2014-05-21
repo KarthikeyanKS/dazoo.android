@@ -19,8 +19,12 @@ public class UserLike
 {
 	private static final String	TAG	= UserLike.class.getName();
 	
+	
+	
 	protected String contentId;
 	protected boolean wasAddedManually = false;
+	
+	
 	
 	public static UserLike userLikeFromTVProgram(TVProgram tvProgram)
 	{

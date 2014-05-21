@@ -5,13 +5,12 @@ package com.mitv.adapters.list;
 
 import java.util.List;
 
+import javax.crypto.spec.PSource;
+
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,26 +26,25 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class CompetitionEventStandingsListAdapter 
-	extends BaseAdapter 
+	extends BaseAdapterWithShowMoreAdapter 
 {
 	private static final String TAG = CompetitionEventStandingsListAdapter.class.getName();
 	
 	
-	private LayoutInflater layoutInflater;
-	private Activity activity;
 	private List<Standings> standings;
 		
 	
 	
 	public CompetitionEventStandingsListAdapter(
 			final Activity activity,
-			final List<Standings> standings)
+			final List<Standings> standings,
+			final boolean enableMoreViewAtBottom,
+			final String viewBottomMessage, 
+			final Runnable viewBottomConfirmProcedure)
 	{
-		this.standings = standings;
+		super(activity, enableMoreViewAtBottom, viewBottomMessage, viewBottomConfirmProcedure);
 		
-		this.activity = activity;
-	
-		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.standings = standings;
 	}
 	
 	
@@ -54,7 +52,9 @@ public class CompetitionEventStandingsListAdapter
 	@Override
 	public int getCount()
 	{
-		int count = standings.size();
+		int count = super.getCount();
+		
+		count += standings.size();
 		
 		return count;
 	}
@@ -87,8 +87,13 @@ public class CompetitionEventStandingsListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
+		if(isShowMoreView(position))
+		{
+			return super.getView(position, convertView, parent);
+		}
+		
 		View rowView = convertView;
-	
+		
 		final Standings element = getItem(position);
 	
 		if (rowView == null) 
@@ -104,6 +109,8 @@ public class CompetitionEventStandingsListAdapter
 			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_gp);
 			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_plus_minus);
 			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_pts);
+			
+			viewHolder.rowDividerView = (View) rowView.findViewById(R.id.row_competition_event_row_divider);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -145,6 +152,15 @@ public class CompetitionEventStandingsListAdapter
 			holder.teamPoints.setText(teamPointsAsString);
 			
 			holder.teamName.setText(element.getTeam());
+			
+			if((position > 0) && (position % 2) == 0)
+			{
+				holder.rowDividerView.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				holder.rowDividerView.setVisibility(View.GONE);
+			}
 		}
 		else
 		{
@@ -165,5 +181,7 @@ public class CompetitionEventStandingsListAdapter
 		private TextView teamGP;
 		private TextView teamPlusMinus;
 		private TextView teamPoints;
+		
+		private View rowDividerView;
 	}
 }

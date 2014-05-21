@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/competition_element_social_buttons_container"
@@ -6,8 +7,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
+    
     <!-- LIKE BUTTON -->
-
     <com.mitv.ui.elements.LikeView
         android:id="@+id/competition_element_social_buttons_like_view"
         android:layout_width="0dp"
@@ -16,8 +17,8 @@
         android:layout_weight="1"
         android:background="@drawable/background_color_selector" />
 
-    <!-- DIVIDER -->
-	
+    
+    <!-- DIVIDER -->	
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
@@ -28,7 +29,6 @@
         
 
     <!-- SHARE BUTTON -->
-
     <RelativeLayout
         android:id="@+id/competition_element_social_buttons_share_button_container"
         android:layout_width="0dp"
@@ -46,6 +46,7 @@
             android:textColor="@color/grey3"
             android:textSize="30sp"
             font:fonttextview="roboto_mitv_regular.ttf" />
+    
     </RelativeLayout>
     
 </LinearLayout>
