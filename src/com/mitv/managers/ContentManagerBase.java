@@ -1076,6 +1076,45 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public List<Event> getFromCacheNextUpcomingEventsForSelectedCompetition(boolean filterFinishedEvents, boolean filterLiveEvents, int limit) {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		List<Event> eventsTrimmed = new ArrayList<Event>();
+		Event matchingEvent = null;
+		
+		if (events != null) {
+			
+			if (filterFinishedEvents) {
+				events = filterFinishedEvents(events);
+			}
+			
+			if (filterLiveEvents) {
+				events = filterLiveEvents(events);
+			}
+		
+			if (events.size() > limit) {
+				matchingEvent = events.get(0);
+				
+				for (int i = 0; i < limit; i++) {
+					
+					Event event = events.get(i);
+					
+					Calendar eventStartTimeCalendar = event.getEventDateCalendarLocal();
+					
+					if(eventStartTimeCalendar.after(matchingEvent.getEventDateCalendarLocal()) || eventStartTimeCalendar.equals(matchingEvent.getEventDateCalendarLocal()))
+					{
+						eventsTrimmed.add(events.get(i));
+					}
+				}
+				
+				return eventsTrimmed;
+			}
+		}
+		
+		return events;
+	}
+	
+	
+	
 	private List<Event> filterLiveEvents(List<Event> events) {
 		List<Event> filteredEvents = new ArrayList<Event>();
 		
@@ -1087,6 +1126,8 @@ public abstract class ContentManagerBase
 		
 		return filteredEvents;
 	}
+	
+	
 	
 	private List<Event> filterFinishedEvents(List<Event> events) {
 		List<Event> filteredEvents = new ArrayList<Event>();
