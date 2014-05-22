@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/white" >
 
     <!-- HEADER -->
 
@@ -21,6 +22,7 @@
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:src="@drawable/competitions_contry_flag_default" />
 
@@ -28,6 +30,7 @@
             android:id="@+id/competition_team_page_info_text_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/competition_team_page_header_flag_img" >
 
@@ -39,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:maxLines="2" />
+                android:maxLines="2"
+                android:textSize="30sp" />
 
             <!-- National football team text -->
 
@@ -49,12 +53,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="@string/team_page_team_info_header"
-                android:layout_below="@id/competition_team_page_team_name" />
+                android:layout_below="@id/competition_team_page_team_name"
+                android:text="@string/team_page_team_info_header" />
         </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/competition_team_page_team_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/competition_team_page_header_container"
@@ -67,9 +72,7 @@
         <ImageView
             android:id="@+id/competition_team_page_team_img"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="180dp"
             android:layout_marginTop="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/competitions_contry_flag_default" />
@@ -81,7 +84,9 @@
             style="@style/meta2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/competition_team_page_team_img"
+            android:layout_marginTop="10dp" />
 
         <!-- TEAM INFO: Founded -->
 
@@ -99,6 +104,7 @@
             style="@style/meta2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/competition_team_page_about"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/competition_team_page_founded_header" />
@@ -118,6 +124,7 @@
             style="@style/meta2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/competition_team_page_founded_header"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/competition_team_page_coach_header" />
 
@@ -136,6 +143,7 @@
             style="@style/meta2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/competition_team_page_coach_header"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/competition_team_page_location_header" />
 
@@ -155,6 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_below="@id/competition_team_page_location_header"
             android:layout_toRightOf="@id/competition_team_page_arenas_header" />
 
         <!-- TEAM INFO: Photo from -->
@@ -175,6 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
+            android:layout_below="@id/competition_team_page_arenas_header"
             android:layout_toRightOf="@id/competition_team_page_photo_from_header" />
     </RelativeLayout>
 
@@ -184,6 +194,8 @@
         android:id="@+id/competition_team_page_social_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/competition_team_page_team_info_container"
         layout="@layout/element_competition_event_social_buttons" />
 
 </RelativeLayout>
