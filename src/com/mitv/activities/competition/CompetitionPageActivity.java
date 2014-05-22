@@ -48,8 +48,6 @@ public class CompetitionPageActivity
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
-	private int STARTING_TAB_INDEX_FOR_GROUP_STAGE = 0;
-	private int STARTING_TAB_INDEX_FOR_SECOND_STAGE = 1;
 	
 	private Competition competition;
 	private Event event;
@@ -122,6 +120,8 @@ public class CompetitionPageActivity
 		Intent intent = getIntent();
 		
 		long competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
+
+		this.selectedTabIndex = intent.getIntExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, 0);
 		
 		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 		
@@ -693,18 +693,6 @@ public class CompetitionPageActivity
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
-		
-		// TODO - Hardcoded - Set this with variable from the competition 
-		boolean isGroupStage = true;
-		
-		if(isGroupStage)
-		{
-			selectedTabIndex = STARTING_TAB_INDEX_FOR_GROUP_STAGE;
-		}
-		else
-		{
-			selectedTabIndex = STARTING_TAB_INDEX_FOR_SECOND_STAGE;
-		}
 	}
 	
 	

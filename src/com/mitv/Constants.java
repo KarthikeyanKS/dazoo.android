@@ -523,6 +523,7 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";
 	public static final String INTENT_COMPETITION_NAME = "competitionName";
+	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
 	
 	public static final String GOAL_KEEPER_FUNCTION_SORT = "GC";
 	public static final EnumSet<EventHighlightActionEnum> EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE = EnumSet.of(
