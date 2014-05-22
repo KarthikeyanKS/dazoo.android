@@ -9,9 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,6 +49,7 @@ public class TVGuideTabFragmentCompetition
 	
 	private EventCountDownTimer eventCountDownTimer;
 	
+	private RelativeLayout countDownLayout;
 	private RelativeLayout countDownAreaContainer;
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInHours;
@@ -257,6 +261,8 @@ public class TVGuideTabFragmentCompetition
 	
 	private void initView()
 	{
+		countDownLayout = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_layout);
+				
 		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.time_left_section);
 		
 		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_days_number);
@@ -302,22 +308,43 @@ public class TVGuideTabFragmentCompetition
 		
 		if (isOngoing)
 		{
-			title.setText(activity.getString(R.string.competition_page_time_left_title));
+			title.setText("");
 		
+			LayoutParams parameters = countDownLayout.getLayoutParams();
+			
+			int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+			
+			parameters.height = height;
+			
+			countDownLayout.setLayoutParams(parameters);
+			
+			countDownLayout.setVisibility(View.VISIBLE);
+			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 			
-			countDownAreaContainer.setVisibility(View.INVISIBLE);
+			countDownAreaContainer.setVisibility(View.GONE);
 			
 			setListOfEvents();
 		}
 		
-		else if (hasEnded) {
+		else if (hasEnded) 
+		{
 			
 		}
 		
 		else
 		{
 			title.setText(activity.getString(R.string.competition_page_time_left_title));
+		
+			LayoutParams parameters = countDownLayout.getLayoutParams();
+			
+			int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 230, getResources().getDisplayMetrics());
+			
+			parameters.height = height;
+			
+			countDownLayout.setLayoutParams(parameters);
+			
+			countDownLayout.setVisibility(View.VISIBLE);
 			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 			
