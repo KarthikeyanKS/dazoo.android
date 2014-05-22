@@ -1,7 +1,11 @@
+
 package com.mitv.activities.competition;
+
+
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,21 +19,25 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TeamPageActivity extends BaseContentActivity implements ViewCallbackListener, FetchDataProgressCallbackListener {
-	
+
+
+public class TeamPageActivity 
+	extends BaseContentActivity 
+	implements ViewCallbackListener, FetchDataProgressCallbackListener
+{	
 	private static final String TAG = TeamPageActivity.class.getName();
+
 	
+	private Team team;
 	private long teamID;
 	private long competitionID;
-	private Team team;
+	
 	
 	/* Main content */
-	private Event event;
 	private ImageView teamFlagImage;
 	private TextView teamName;
 	private TextView teamFootballNational;
@@ -60,17 +68,11 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 		
 		Intent intent = getIntent();
 		
-		teamID = intent.getLongExtra(Constants.INTENT_COMPETITION_TEAM_ID, 0);
-		
 		competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
 		
-		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+		teamID = intent.getLongExtra(Constants.INTENT_COMPETITION_TEAM_ID, 0);
 		
-		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
-		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAMS);
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
 		
 		initLayout();
 	}
@@ -91,7 +93,8 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	@Override
-	protected void updateUI(UIStatusEnum status) {
+	protected void updateUI(UIStatusEnum status) 
+	{
 		super.updateUIBaseElements(status);
 		
 		switch (status) 
@@ -116,23 +119,25 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	@Override
-	protected void loadData() {
+	protected void loadData() 
+	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		String loadingString = getString(R.string.competition_event_loading_text);
+		String loadingString = getString(R.string.competition_team_loading_text);
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
 		boolean forceRefreshOfHighlights = true;
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceTeamData(this, forceRefreshOfHighlights, competitionID);
+		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefreshOfHighlights, competitionID, teamID);
 	}
 
 	
 	
 	@Override
-	protected boolean hasEnoughDataToShowContent() {
+	protected boolean hasEnoughDataToShowContent() 
+	{
 		boolean hasData = ContentManager.sharedInstance().getFromCacheHasTeamData(competitionID);
 		
 		return hasData;
@@ -141,33 +146,26 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	@Override
-	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			
-			if(event == null)
-			{
-				team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
-				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-			} 
-			else
-			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-			}
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
-		}	
+		}
 	}
 	
 	
 	
-	private void initLayout() {
+	private void initLayout() 
+	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		StringBuilder eventName = new StringBuilder();
-		eventName.append(team.getDisplayName());
+		eventName.append(getTeam().getDisplayName());
 		
 		actionBar.setTitle(eventName.toString());
 		
@@ -190,16 +188,20 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	
-	private void setTeamInfoLayout() {
-		if (team != null) {
-			ImageAware imageAware = new ImageViewAware(teamFlagImage, false);
-			ImageAware imageAware2 = new ImageViewAware(teamImage, false);
+	private void setTeamInfoLayout() 
+	{
+		if (getTeam() != null) 
+		{
+			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
+			ImageAware imageAwareForTeamBanner = new ImageViewAware(teamImage, false);
 				
 			String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
-			String teamImageUrl = team.getImages().getBanner().getImageURLForDeviceDensityDPI();
 				
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamImageUrl, imageAware2);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAwareForTeamFlag);
+			
+			String teamBannerUrl = "";
+			
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionTeamBannerOptions(teamBannerUrl, imageAwareForTeamBanner);
 			
 			String name = team.getDisplayName();
 			teamName.setText(name);
@@ -224,6 +226,20 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	private void setScheduleLayout() {
 		
+	}
+	
+	
+	
+	private Team getTeam()
+	{
+		if(this.team == null)
+		{
+			Log.d(TAG, "Team ID is: " + teamID);
+			
+			this.team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
+		}
+		
+		return team;
 	}
 
 }

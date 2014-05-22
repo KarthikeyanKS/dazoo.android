@@ -46,16 +46,17 @@ public enum RequestIdentifierEnum {
 	COMPETITION_INITIAL_DATA(43, "Competition initial data agregation"),
 	COMPETITION_BY_ID(44, "Specific Competition by ID"),
 	COMPETITION_TEAMS(45, "All teams present in a specific competition"),
-	COMPETITION_TEAM_DETAILS(46, "Details for a team present in a specific competition"),
-	COMPETITION_PHASES(47, "All phases for a specific competition"),
-	COMPETITION_PHASE_BY_ID(48, "A phase for a specific competition"),
-	COMPETITION_EVENTS(49, "All events for a specific competition"),
-	COMPETITION_EVENT_BY_ID(50, "An event for a specific competition"),
-	COMPETITION_STANDINGS_BY_PHASE_ID(51, "All standings for a specific phase"),
-	COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID(52, "All standings for multiple specific phases"),
-	COMPETITION_POST_PROCESSING(53, "Competition post processing"),
-	COMPETITION_EVENT_HIGHLIGHTS(54, "Competition event highlights"),
-	COMPETITION_EVENT_LINEUP(55, "Competition event line");
+	COMPETITION_TEAM_BY_ID(46, "Specific team by ID"),
+	COMPETITION_TEAM_DETAILS(47, "Details for a team present in a specific competition"),
+	COMPETITION_PHASES(48, "All phases for a specific competition"),
+	COMPETITION_PHASE_BY_ID(49, "A phase for a specific competition"),
+	COMPETITION_EVENTS(50, "All events for a specific competition"),
+	COMPETITION_EVENT_BY_ID(51, "An event for a specific competition"),
+	COMPETITION_STANDINGS_BY_PHASE_ID(52, "All standings for a specific phase"),
+	COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID(53, "All standings for multiple specific phases"),
+	COMPETITION_POST_PROCESSING(54, "Competition post processing"),
+	COMPETITION_EVENT_HIGHLIGHTS(55, "Competition event highlights"),
+	COMPETITION_EVENT_LINEUP(56, "Competition event line");
 	
 	
 	

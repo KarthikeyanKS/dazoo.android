@@ -174,6 +174,25 @@ public class ImageLoaderManager
 	
 	
 	
+	/* Used in views where we don't want to reset the view itself and we always want to use memory cache */
+	private DisplayImageOptions getDisplayImageOptionsForTeamBanner()
+	{		
+		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.competition_team_banner_default)
+        .showImageForEmptyUri(R.drawable.competition_team_banner_default)
+        .showImageOnFail(R.drawable.competition_team_banner_default)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.bitmapConfig(Bitmap.Config.RGB_565)
+		.imageScaleType(ImageScaleType.EXACTLY)
+		.displayer(new FadeInBitmapDisplayer(1000))
+		.build();
+
+		return displayImageOptions;
+	}
+	
+	
+	
 	public void displayImageWithOptionsForTVGuideImages(String url, ImageAware imageAware)
 	{
 		DisplayImageOptions displayImageOptions = getDisplayImageDefaultOptions();
@@ -195,6 +214,15 @@ public class ImageLoaderManager
 	public void displayImageWithCompetitionEventStadiumOptions(String url, ImageAware imageAware)
 	{
 		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitionEventStadium();
+		
+		imageLoader.displayImage(url, imageAware, displayImageOptions);
+	}
+	
+	
+	
+	public void displayImageWithCompetitionTeamBannerOptions(String url, ImageAware imageAware)
+	{
+		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForTeamBanner();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions);
 	}

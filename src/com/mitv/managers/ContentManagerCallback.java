@@ -303,6 +303,12 @@ public abstract class ContentManagerCallback
 				break;
 			}
 			
+			case COMPETITION_TEAM_BY_ID:
+			{
+				handleCompetitionEventTeamByIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
 			case COMPETITION_EVENT_HIGHLIGHTS:
 			{
 				handleCompetitionEventHighlightsResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
@@ -948,6 +954,27 @@ public abstract class ContentManagerCallback
 			}
 		}
 	}
+	
+
+	
+	private void handleCompetitionEventTeamByIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			Team team = (Team) content;
+			
+			getCache().getCompetitionsData().addOrModifyTeamForSelectedCompetition(team);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
 	
 	
 	
