@@ -2,6 +2,7 @@ package com.mitv.activities.competition;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -98,7 +99,7 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				setTeamInfoLayout();
+				setMainLayoutLayout();
 				setSquadLayout();
 				setStandingsLayout();
 				setScheduleLayout();
@@ -190,21 +191,36 @@ public class TeamPageActivity extends BaseContentActivity implements ViewCallbac
 	
 	
 	
-	private void setTeamInfoLayout() {
+	private void setMainLayoutLayout() {
 		if (team != null) {
+			
 			ImageAware imageAware = new ImageViewAware(teamFlagImage, false);
-			ImageAware imageAware2 = new ImageViewAware(teamImage, false);
-				
 			String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
-			String teamImageUrl = team.getImages().getBanner().getImageURLForDeviceDensityDPI();
-				
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamImageUrl, imageAware2);
+
+			if (team.getImages().getBanner().getImageURLForDeviceDensityDPI() != null) {
+				ImageAware imageAware2 = new ImageViewAware(teamImage, false);
+				String teamImageUrl = team.getImages().getBanner().getImageURLForDeviceDensityDPI();
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamImageUrl, imageAware2);
+				
+			} else {
+				teamImage.setVisibility(View.GONE);
+			}
 			
 			String name = team.getDisplayName();
 			teamName.setText(name);
 			
 			teamFootballNational.setText(this.getResources().getString(R.string.team_page_team_info_header));
+			
+			/* TODO Change to real data */
+			String textAbout = this.getResources().getString(R.string.team_page_team_info_about_hard_coded);
+			about.setText(textAbout);
+			
+			founded.setText(this.getResources().getString(R.string.team_page_team_founded_hard_coded));
+			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
+			location.setText(this.getResources().getString(R.string.team_page_team_location_hard_coded));
+			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
+			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 		}
 	}
 	
