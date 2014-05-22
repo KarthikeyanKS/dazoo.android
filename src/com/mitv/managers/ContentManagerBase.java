@@ -1286,6 +1286,12 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	/* TODO */
+	public Phase getFromCachePhaseByTeamIDForSelectedCompetition(long teamID) {
+		return null;
+	}
+	
+	
 	
 	public Event getFromCacheEventByIDForSelectedCompetition(Long eventID)
 	{

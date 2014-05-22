@@ -29,6 +29,8 @@ public class CompetitionCacheData
 	private List<Team> teams;
 	private List<Phase> phases;
 	private List<Event> events;
+	
+	private Map<Long, Phase> currentPhaseForTeam;
 
 	private Map<Long, List<Standings>> standingsByPhase;
 	
@@ -83,6 +85,8 @@ public class CompetitionCacheData
 		this.lineupByEventFetchTime = null;
 		
 		this.teamSquads = new ArrayList<TeamSquad>();
+		
+		this.currentPhaseForTeam = new TreeMap<Long, Phase>();
 	}
 	
 	
@@ -386,4 +390,5 @@ public class CompetitionCacheData
 	public void setLineupByEventFetchTime(Long lineupByEventFetchTime) {
 		this.lineupByEventFetchTime = lineupByEventFetchTime;
 	}
+	
 }
