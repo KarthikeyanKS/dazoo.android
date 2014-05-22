@@ -4,19 +4,17 @@ package com.mitv.adapters.list;
 
 
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 
@@ -118,8 +116,8 @@ public class CompetitionEventLineUpTeamsListAdapter
 		
 		if (holder != null) 
 		{
-			if (eventLineUp != null) {
-				
+			if (eventLineUp != null) 
+			{	
 				String shirtNr = eventLineUp.getShirtNr();
 				String positionShort = eventLineUp.getFunctionShort();
 				String playerNameFull = eventLineUp.getPerson();

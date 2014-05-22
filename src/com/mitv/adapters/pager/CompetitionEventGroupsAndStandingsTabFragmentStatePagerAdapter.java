@@ -47,7 +47,7 @@ public class CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter
 		
 		Context context = SecondScreenApplication.sharedInstance();
 		
-		this.tabs = new ArrayList<String>();
+		this.tabs = new ArrayList<String>(2);
 		this.eventID = eventID;
 		this.phaseId = phaseId;
 		this.viewPager = viewPager;

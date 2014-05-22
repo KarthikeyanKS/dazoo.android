@@ -46,7 +46,7 @@ public class CompetitionTabFragmentStatePagerAdapter
 		
 		Context context = SecondScreenApplication.sharedInstance();
 		
-		this.tabs = new ArrayList<String>();
+		this.tabs = new ArrayList<String>(3);
 		this.competitionID = competitionID;
 		this.viewPager = viewPager;
 		

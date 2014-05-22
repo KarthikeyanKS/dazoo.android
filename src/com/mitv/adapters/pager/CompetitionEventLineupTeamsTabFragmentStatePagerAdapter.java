@@ -1,5 +1,5 @@
 
-package com.mitv.adapters.list;
+package com.mitv.adapters.pager;
 
 
 
@@ -45,7 +45,7 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 	{
 		super(fm);
 		
-		this.tabs = new ArrayList<String>();
+		this.tabs = new ArrayList<String>(2);
 		this.eventID = eventID;
 		this.viewPager = viewPager;
 		this.homeTeamID = homeTeamID;

@@ -410,6 +410,20 @@ public class CompetitionsCacheData
 	{
 		return selectedCompetition.getEventsGroupedByFirstPhase();
 	}
+	
+	
+	
+	public List<Event> getEventsForPhase(long phaseID) 
+	{
+		List<Event> events = selectedCompetition.getEventsGroupedByFirstPhase().get(phaseID);
+		
+		if(events == null)
+		{
+			events = selectedCompetition.getEventsGroupedBySecondPhase().get(phaseID);
+		}
+		
+		return events;
+	}
 
 
 

@@ -1182,6 +1182,12 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	public List<Event> getFromCacheEventsForPhaseInSelectedCompetition(long phaseID)
+	{
+		return getCache().getCompetitionsData().getEventsForPhase(phaseID);
+	}
+	
+	
 	
 	public Map<Long, List<Standings>> getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition()
 	{

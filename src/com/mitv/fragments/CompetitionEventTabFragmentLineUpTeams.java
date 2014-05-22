@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter;
-import com.mitv.adapters.list.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
+import com.mitv.adapters.pager.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -200,8 +200,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 				
 				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
 				
-				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) {
-					
+				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) 
+				{	
 					eventListOfSubs.removeAllViews();
 					
 					whiteDivider.setVisibility(View.VISIBLE);
@@ -231,19 +231,24 @@ public class CompetitionEventTabFragmentLineUpTeams
 					
 					eventListOfSubs.measure(0, 0);
 					
-					if(getType() == EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM)
-					{
-						viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
-						
-						viewPager.onPageScrolled(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
-					}
-					else
-					{
-						viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
-					}
-					
 					subsHeader.setVisibility(View.VISIBLE);
 					eventListOfSubs.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					subsHeader.setVisibility(View.GONE);
+					eventListOfSubs.setVisibility(View.GONE);
+				}
+				
+				if(getType() == EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM)
+				{
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
+					
+					viewPager.onPageScrolled(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				}
+				else
+				{
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
 				}
 				
 				break;

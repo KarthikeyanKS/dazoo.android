@@ -49,21 +49,34 @@
                 android:visibility="visible"
                 font:fonttextview="roboto_mitv_bold.ttf" />
 
-            <!-- Channels airing on channels: -->
-
+            <!-- Score when game is finished -->
             <com.mitv.ui.elements.FontTextView
-                android:id="@+id/row_competition_airing_channels_for_broadcast"
+                android:id="@+id/row_competition_page_game_past_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_competition_page_begin_time_broadcast"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/grey1"
-                android:textSize="10sp"
-                android:text="Channels"
-                android:visibility="gone" />
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="gone"
+                font:fonttextview="roboto_mitv_bold.ttf" />
+            
         </RelativeLayout>
 
+        
+        <!-- Channels airing on channels: -->
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_airing_channels_for_broadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/row_competition_page_begin_time_broadcast_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/grey1"
+            android:textSize="10sp"
+            android:visibility="gone" />
+        
+        
         <!-- TEAM HOME -->
         <RelativeLayout
             android:id="@+id/row_competition_page_team_one_flag_container"

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="70dp" >
 
     <!-- GROUP -->
-
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_competition_header_group_event"
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
         android:textColor="@color/grey3"
         android:textSize="20sp" />
 
+    
     <!-- HEADER DAY -->
-
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_competition_start_day_of_week"
         android:layout_width="match_parent"
@@ -53,7 +53,6 @@
             android:paddingRight="5dp" >
 
             <!-- Start time of game -->
-
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_competition_page_begin_time_broadcast"
                 android:layout_width="wrap_content"
@@ -64,7 +63,6 @@
                 font:fonttextview="roboto_mitv_bold.ttf" />
 
             <!-- Score when game is finished -->
-
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_competition_page_game_past_score"
                 android:layout_width="wrap_content"
@@ -75,8 +73,8 @@
                 font:fonttextview="roboto_mitv_bold.ttf" />
         </RelativeLayout>
 
+        
         <!-- Channels airing on channels: -->
-
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/row_competition_airing_channels_for_broadcast"
             android:layout_width="wrap_content"
@@ -90,8 +88,8 @@
             android:textSize="10sp"
             android:visibility="gone" />
 
+        
         <!-- TEAM HOME -->
-
         <ImageView
             android:id="@+id/row_competition_team_one_flag"
             android:layout_width="50dp"
