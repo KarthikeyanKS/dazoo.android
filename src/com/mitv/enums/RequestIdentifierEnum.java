@@ -56,7 +56,8 @@ public enum RequestIdentifierEnum {
 	COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID(53, "All standings for multiple specific phases"),
 	COMPETITION_POST_PROCESSING(54, "Competition post processing"),
 	COMPETITION_EVENT_HIGHLIGHTS(55, "Competition event highlights"),
-	COMPETITION_EVENT_LINEUP(56, "Competition event line");
+	COMPETITION_EVENT_LINEUP(56, "Competition event line"),
+	COMPETITION_TEAM_SQUADS(57, "Competition team squad");
 	
 	
 	

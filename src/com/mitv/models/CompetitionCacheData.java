@@ -269,6 +269,15 @@ public class CompetitionCacheData
 		
 		return hasStandingsData;
 	}
+	
+	
+	
+	public boolean hasSquadData(Long teamID)
+	{
+		boolean hasStandingsData = (teamSquads.isEmpty() == false && teamSquads.contains(teamID));
+		
+		return hasStandingsData;
+	}
 
 	
 
@@ -386,9 +395,18 @@ public class CompetitionCacheData
 	}
 
 
-
 	public void setLineupByEventFetchTime(Long lineupByEventFetchTime) {
 		this.lineupByEventFetchTime = lineupByEventFetchTime;
+	}
+	
+	
+	public List<TeamSquad> getSquadsByTeam() {
+		return teamSquads;
+	}
+	
+	
+	public void setSquadsByTeam(List<TeamSquad> teamSquads) {
+		this.teamSquads = teamSquads;
 	}
 	
 }
