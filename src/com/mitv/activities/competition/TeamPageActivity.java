@@ -18,9 +18,9 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
-import com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter;
+import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
+import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
 import com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter;
-import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -28,6 +28,7 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -48,6 +49,8 @@ public class TeamPageActivity
 	private long teamID;
 	private long competitionID;
 	private Phase phase;
+	private long phaseID;
+	private List<Event> events;
 	
 	/* Main content */
 	private ImageView teamFlagImage;
@@ -77,7 +80,9 @@ public class TeamPageActivity
 	private TextView standingsHeader;
 	
 	/* Schedule */
-	
+	private TextView scheduleHeader;
+	private LinearLayout scheduleListContainer;
+	private CompetitionTagEventsListAdapter scheduleListAdapter;
 	
 	
 	@Override
@@ -214,17 +219,27 @@ public class TeamPageActivity
 		/* Squad */
 		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
 		
-		/* Standings for Group X */
+		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);
 		standingsHeader = (TextView) findViewById(R.id.competition_team_page_standings_header);
 		
-		/* Schedule for Group X */
+		/* Schedule */
+		scheduleHeader = (TextView) findViewById(R.id.competition_team_page_schedule_header);
+		scheduleListContainer = (LinearLayout) findViewById(R.id.competition_team_page_schedule_list);
 	}
 	
 	
 	
 	private void setMainLayoutLayout() {
 		if (team != null) {
+			
+			boolean filterFinishedEvents = true;
+			boolean filterLiveEvents = false;
+			events = ContentManager.sharedInstance().getFromCacheEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
+			
+			// TODO
+			phaseID = events.get(0).getPhaseId(); //95404;
+			phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 			
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
@@ -266,6 +281,7 @@ public class TeamPageActivity
 	private void setSquadLayout() {
 		squadListContainer.removeAllViews();
 		
+		/* TODO */
 //		teamSquads = ContentManager.sharedInstance().getFromCacheTeamSquadsDataByTeamID(teamID);
 		
 		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
@@ -286,10 +302,6 @@ public class TeamPageActivity
 	
 	
 	private void setStandingsLayout() {
-		long phaseID = 0;
-		
-		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
-		
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.getResources().getString(R.string.event_page_header_standings))
 			.append(" ")
@@ -309,6 +321,7 @@ public class TeamPageActivity
 		
 		Runnable procedure = getNavigateToCompetitionPageProcedure();
 		
+		/* Using the same list adapter as the evens */
 		standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
 		
 		for (int i = 0; i < standingsListAdapter.getCount(); i++) 
@@ -327,7 +340,28 @@ public class TeamPageActivity
 	
 	
 	private void setScheduleLayout() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.getResources().getString(R.string.team_page_squad_schedule_header))
+			.append(" ")
+			.append(phase.getPhase());
 		
+		scheduleHeader.setText(sb.toString());
+		
+		scheduleListContainer.removeAllViews();
+
+		scheduleListAdapter = new CompetitionTagEventsListAdapter(this, events);
+		
+		for (int i = 0; i < scheduleListAdapter.getCount(); i++) 
+		{
+            View listItem = scheduleListAdapter.getView(i, null, scheduleListContainer);
+           
+            if (listItem != null) 
+            {
+            	scheduleListContainer.addView(listItem);
+            }
+        }
+		
+		scheduleListContainer.measure(0, 0);
 	}
 	
 	

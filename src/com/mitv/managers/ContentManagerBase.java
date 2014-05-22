@@ -1293,6 +1293,35 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public List<Event> getFromCacheEventsByTeamIDForSelectedCompetition(boolean filterFinishedEvents, boolean filterLiveEvents, long teamID) {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		List<Event> eventsByTeamID = new ArrayList<Event>();
+		
+		if (events != null) {
+			
+			if (filterFinishedEvents) {
+				events = filterFinishedEvents(events);
+			}
+			
+			if (filterLiveEvents) {
+				events = filterLiveEvents(events);
+			}
+			
+			for (Event ev : events) {
+				
+				if (ev.getHomeTeamId() == teamID || ev.getAwayTeamId() == teamID) {
+					eventsByTeamID.add(ev);
+				}
+			}
+			
+			events = eventsByTeamID;
+		}
+		
+		return events;
+	}
+	
+	
+	
 	public Event getFromCacheEventByIDForSelectedCompetition(Long eventID)
 	{
 		Event event = null;

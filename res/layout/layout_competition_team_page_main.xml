@@ -12,7 +12,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp" >
 
             <!-- MAIN CONTENT -->
 
@@ -94,6 +95,37 @@
             </RelativeLayout>
 
             <!-- SCHEDULE -->
+            
+            <RelativeLayout
+                android:id="@+id/competition_team_page_schedule_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_team_page_standings_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_team_page_schedule_header"
+                    style="@style/header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp" />
+
+                <!-- The list -->
+
+                <LinearLayout
+                    android:id="@+id/competition_team_page_schedule_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/competition_team_page_schedule_header"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+                </LinearLayout>
+            </RelativeLayout>
 
         </RelativeLayout>
     </ScrollView>
