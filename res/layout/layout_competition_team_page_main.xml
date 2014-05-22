@@ -13,7 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <!-- Include the main info -->
+            <!-- MAIN CONTENT -->
+
             <include
                 android:id="@+id/competition_team_page_main_content"
                 android:layout_width="match_parent"
@@ -21,15 +22,47 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="10dp"
                 layout="@layout/element_competition_team_page_main_content" />
-            
-            <!-- Include the squad -->
+
+            <!-- SQUAD -->
+
+            <RelativeLayout
+                android:id="@+id/competition_team_page_squad_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/competition_event_block_tabs_highlights_teams_container"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/competition_team_page_squad_header"
+                    style="@style/header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team_page_squad_header" />
+
+                <!-- The list -->
+
+                <LinearLayout
+                    android:id="@+id/competition_team_page_squad_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/competition_team_page_squad_header"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+                </LinearLayout>
+            </RelativeLayout>
+
             <!-- Include the standings -->
             <!-- Include the schedule -->
-            
+
         </RelativeLayout>
-        
     </ScrollView>
-    
+
     <!-- NAVIGATION TABS -->
 
     <include

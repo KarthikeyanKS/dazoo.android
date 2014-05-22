@@ -17,6 +17,7 @@ import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 import com.mitv.utilities.DateUtils;
 
 
@@ -39,6 +40,8 @@ public class CompetitionCacheData
 	
 	private TreeMap<Long, List<EventLineUp>> lineupByEvent;
 	private Long lineupByEventFetchTime;
+	
+	private List<TeamSquad> teamSquads;
 	
 	
 	public Map<Long, List<Event>> getEventsForFirstStages()
@@ -78,6 +81,8 @@ public class CompetitionCacheData
 		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
 		
 		this.lineupByEventFetchTime = null;
+		
+		this.teamSquads = new ArrayList<TeamSquad>();
 	}
 	
 	

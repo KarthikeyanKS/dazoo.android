@@ -422,6 +422,7 @@ public class CompetitionsCacheData
 	}
 	
 	
+	
 	public synchronized List<Standings> getEventStandingsForPhaseInSelectedCompetition(Long phaseID)
 	{
 		return selectedCompetition.getStandingsByPhase().get(phaseID);
