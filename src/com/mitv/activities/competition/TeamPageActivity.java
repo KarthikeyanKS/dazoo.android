@@ -48,6 +48,11 @@ public class TeamPageActivity
 	private TextView teamFootballNational;
 	private ImageView teamImage;
 	private TextView about;
+	private TextView foundedHeader;
+	private TextView coachHeader;
+	private TextView locationHeader;
+	private TextView arenasHeader;
+	private TextView photoFromHeader;
 	private TextView founded;
 	private TextView coach;
 	private TextView location;
@@ -184,6 +189,11 @@ public class TeamPageActivity
 		teamFootballNational = (TextView) findViewById(R.id.competition_team_page_info_national);
 		teamImage = (ImageView) findViewById(R.id.competition_team_page_team_img);
 		about = (TextView) findViewById(R.id.competition_team_page_about);
+		foundedHeader = (TextView) findViewById(R.id.competition_team_page_founded_header);
+		coachHeader = (TextView) findViewById(R.id.competition_team_page_coach_header);
+		locationHeader = (TextView) findViewById(R.id.competition_team_page_location_header);
+		arenasHeader = (TextView) findViewById(R.id.competition_team_page_arenas_header);
+		photoFromHeader = (TextView) findViewById(R.id.competition_team_page_photo_from_header);
 		founded = (TextView) findViewById(R.id.competition_team_page_founded);
 		coach = (TextView) findViewById(R.id.competition_team_page_coach);
 		location = (TextView) findViewById(R.id.competition_team_page_location);
@@ -222,6 +232,12 @@ public class TeamPageActivity
 			/* TODO Change to real data */
 			String textAbout = this.getResources().getString(R.string.team_page_team_info_about_hard_coded);
 			about.setText(textAbout);
+			
+			foundedHeader.setText(this.getResources().getString(R.string.team_page_team_founded_header));
+			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
+			locationHeader.setText(this.getResources().getString(R.string.team_page_team_location_header));
+			arenasHeader.setText(this.getResources().getString(R.string.team_page_team_arenas_header));
+//			photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 			
 			founded.setText(this.getResources().getString(R.string.team_page_team_founded_hard_coded));
 			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
