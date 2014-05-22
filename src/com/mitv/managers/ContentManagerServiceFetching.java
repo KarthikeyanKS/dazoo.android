@@ -538,6 +538,23 @@ public abstract class ContentManagerServiceFetching
 	}
 	
 	
+	/* TODO */
+	public void getElseFetchFromServicePhaseForTeamData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long teamID)
+	{
+//		if (!forceDownload && getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID))
+//		{
+//			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS);
+//		} 
+//		else 
+//		{
+//			getAPIClient().GetEventHighlights(activityCallbackListener, competitionID, eventID);
+//		}
+	}
+	
+	
 	
 	public void getElseFetchFromServiceTeamData(
 			ViewCallbackListener activityCallbackListener, 
