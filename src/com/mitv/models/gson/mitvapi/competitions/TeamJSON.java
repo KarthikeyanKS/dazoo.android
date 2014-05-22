@@ -9,7 +9,6 @@ public class TeamJSON
 	protected String displayName;
 	protected String nation;
 	protected String nationCode;
-	protected TeamImageSetJSON images;
 	
 	
 	
@@ -36,11 +35,5 @@ public class TeamJSON
 
 	public String getNationCode() {
 		return nationCode;
-	}
-
-
-
-	public TeamImageSetJSON getImages() {
-		return images;
 	}
 }

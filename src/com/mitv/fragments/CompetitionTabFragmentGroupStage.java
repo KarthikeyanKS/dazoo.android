@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
+import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -59,8 +60,8 @@ public class CompetitionTabFragmentGroupStage
 	{
 		super(tabId, tabTitle, tabType);
 		
-		this.competitionID = competitionID;
 		this.viewPager = viewPager;
+		this.competitionID = competitionID;
 	}
 	
 	
@@ -158,8 +159,9 @@ public class CompetitionTabFragmentGroupStage
 				
 				listContainerLayout.measure(0, 0);
 				
-				viewPager.heightsMap.put(0, listContainerLayout.getMeasuredHeight());
-				viewPager.onPageScrolled(0, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
+				
+				viewPager.onPageScrolled(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION, 0, 0);
 				
 				break;
 			}

@@ -1,52 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_event_table_container_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/grey0" >
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey0"
+    android:orientation="vertical" >
 
-    <!-- List of all players in starting line -->
-    
-    <LinearLayout
-        android:id="@+id/competition_event_table_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-    </LinearLayout>
-
-    <!-- DIVIDER -->
-
-    <View
-        android:id="@+id/competition_event_header_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/competition_event_table_container"
-        android:background="@color/white"
-        android:visibility="gone" />
-    
-    <!-- Substitute header -->
-
-    <com.mitv.ui.elements.FontTextView
-        android:id="@+id/competition_event_subs_header"
-        style="@style/header1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/competition_event_header_divider"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/grey2"
-        android:layout_marginLeft="15dp"
-        android:visibility="gone" />
-    
-    <!-- List of all substitute players -->
-    
-    <LinearLayout
-        android:id="@+id/competition_event_table_substitute_players_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/competition_event_subs_header"
-        android:orientation="vertical"
-        android:visibility="gone" >
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

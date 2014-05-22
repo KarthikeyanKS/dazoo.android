@@ -63,12 +63,12 @@ public class EventPageActivity
 	
 	private int selectedTabIndexForLineupTeams;
 	private TabPageIndicator pageTabIndicatorForLineupTeams;
-	public static CustomViewPager viewPagerForLineupTeams;
+	private CustomViewPager viewPagerForLineupTeams;
 	private CompetitionEventLineupTeamsTabFragmentStatePagerAdapter pagerAdapterForLineupTeams;
 	
 	private int selectedTabIndexForGroupAndStandings;
 	private TabPageIndicator pageTabIndicatorForGroupAndStandings;
-	public static CustomViewPager viewPagerForGroupAndStandings;
+	private CustomViewPager viewPagerForGroupAndStandings;
 	private CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter pagerAdapterForGroupAndStandings;
 
 	private ImageView stadiumImage;
@@ -226,7 +226,7 @@ public class EventPageActivity
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
 				ImageAware imageAwareHighlights = new ImageViewAware(team1FlagHighlights, false);
 					
-				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				String team1FlagUrl = team1.getFlagImageURL();
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
@@ -254,7 +254,7 @@ public class EventPageActivity
 				ImageAware imageAware = new ImageViewAware(team2Flag, false);
 				ImageAware imageAwareHighlights = new ImageViewAware(team2FlagHighlights, false);
 					
-				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				String team2FlagUrl = team2.getFlagImageURL();
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
@@ -449,6 +449,7 @@ public class EventPageActivity
 	{
 		pagerAdapterForLineupTeams = new CompetitionEventLineupTeamsTabFragmentStatePagerAdapter(
 				getSupportFragmentManager(),
+				viewPagerForLineupTeams,
 				event.getEventId(),
 				event.getHomeTeam(),
 				event.getHomeTeamId(),
@@ -482,7 +483,12 @@ public class EventPageActivity
 		StringBuilder groupName = new StringBuilder();
 		groupName.append(phase.getPhase());
 		
-		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(getSupportFragmentManager(), phase.getPhaseId(), groupName.toString(), event.getEventId());
+		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(
+				getSupportFragmentManager(), 
+				viewPagerForGroupAndStandings,
+				phase.getPhaseId(),
+				groupName.toString(),
+				event.getEventId());
 	
 		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
 		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);

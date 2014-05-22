@@ -180,7 +180,7 @@ public class CompetitionStandingsByGroupListAdapter
 			{
 				ImageAware imageAware = new ImageViewAware(holder.teamFlag, false);
 
-				String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				String teamFlagUrl = team.getFlagImageURL();
 
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
 			}

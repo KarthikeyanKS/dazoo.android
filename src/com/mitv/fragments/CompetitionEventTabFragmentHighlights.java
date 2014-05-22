@@ -66,7 +66,7 @@ public class CompetitionEventTabFragmentHighlights
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container, null);
 		
-		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container);
+		listContainerLayout = (LinearLayout) rootView.findViewById(R.id.competition_event_table_container_layout);
 	
 		super.initRequestCallbackLayouts(rootView);
 		

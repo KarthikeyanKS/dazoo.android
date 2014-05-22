@@ -274,7 +274,7 @@ public class CompetitionPageActivity
 				{						
 					ImageAware imageAware = new ImageViewAware(liveTeam1FlagOngoing, false);
 						
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					String team1FlagUrl = team1.getFlagImageURL();
 						
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				}
@@ -291,7 +291,7 @@ public class CompetitionPageActivity
 				{
 					ImageAware imageAware = new ImageViewAware(liveTeam2FlagOngoing, false);
 						
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					String team2FlagUrl = team2.getFlagImageURL();
 						
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				}
@@ -379,7 +379,7 @@ public class CompetitionPageActivity
 						
 					ImageAware imageAware = new ImageViewAware(team1FlagOngoing, false);
 						
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					String team1FlagUrl = team1.getFlagImageURL();
 						
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				}
@@ -396,7 +396,7 @@ public class CompetitionPageActivity
 				{
 					ImageAware imageAware = new ImageViewAware(team2FlagOngoing, false);
 						
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					String team2FlagUrl = team2.getFlagImageURL();
 						
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				}
@@ -514,7 +514,7 @@ public class CompetitionPageActivity
 					
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
 					
-				String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				String team1FlagUrl = team1.getFlagImageURL();
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 			}
@@ -531,7 +531,7 @@ public class CompetitionPageActivity
 			{
 				ImageAware imageAware = new ImageViewAware(team2Flag, false);
 					
-				String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+				String team2FlagUrl = team2.getFlagImageURL();
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 			}

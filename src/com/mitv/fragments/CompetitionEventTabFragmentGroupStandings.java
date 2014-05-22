@@ -17,8 +17,8 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
-import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
+import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -29,6 +29,7 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
+import com.mitv.ui.elements.CustomViewPager;
 
 
 
@@ -43,6 +44,7 @@ public class CompetitionEventTabFragmentGroupStandings
 	
 	private long eventID;
 	
+	private CustomViewPager viewPager;
 	private LinearLayout listContainerLayout;
 	private CompetitionEventStandingsListAdapter listAdapter;
 	
@@ -56,10 +58,16 @@ public class CompetitionEventTabFragmentGroupStandings
 	
 	
 	
-	public CompetitionEventTabFragmentGroupStandings(long eventID, String tabId, String tabTitle, EventTabTypeEnum tabType)
+	public CompetitionEventTabFragmentGroupStandings(
+			final CustomViewPager viewPager,
+			long eventID, 
+			String tabId, 
+			String tabTitle, 
+			EventTabTypeEnum tabType)
 	{
 		super(tabId, tabTitle, tabType);
 		
+		this.viewPager = viewPager;
 		this.eventID = eventID;
 	}
 	
@@ -70,7 +78,7 @@ public class CompetitionEventTabFragmentGroupStandings
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container, null);
 		
-		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container);
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container_layout);
 	
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -178,7 +186,7 @@ public class CompetitionEventTabFragmentGroupStandings
 				
 				listContainerLayout.measure(0, 0);
 				
-				EventPageActivity.viewPagerForGroupAndStandings.heightsMap.put(1, listContainerLayout.getMeasuredHeight());
+				viewPager.heightsMap.put(CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
 				
 				break;
 			}

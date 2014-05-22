@@ -102,7 +102,6 @@ public class CompetitionEventPageBroadcastListAdapter
 
 		if (rowView == null)
 		{	
-
 			rowView = layoutInflater.inflate(R.layout.row_competition_event_broadcast_list_item, null);
 
 			ViewHolder viewHolder = new ViewHolder();

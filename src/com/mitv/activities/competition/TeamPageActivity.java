@@ -252,7 +252,7 @@ public class TeamPageActivity
 			
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
-			String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
+			String teamFlagUrl = team.getFlagImageURL();
 			
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAwareForTeamFlag);
 
