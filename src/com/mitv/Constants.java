@@ -130,6 +130,7 @@ public abstract class Constants
 	public static final String URL_LINE_UP 					 		= "/lineup";
 	public static final String URL_POLLS 					 		= "/polls";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
+	public static final String URL_FLAGS 					 		= "/sports/flags";
 	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
@@ -514,10 +515,11 @@ public abstract class Constants
 	
 	
 	/* Competitions */
+	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_FLAGS;
 	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
-	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_S";
-	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_M";
-	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_L";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_s";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_m";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_l";
 	public static final String EVENT_STADIUM_IMAGE_EXTENSION = ".jpg";
 	public static final String INTENT_COMPETITION_ID = "competitionID";
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";

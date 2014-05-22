@@ -15,7 +15,6 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
-import com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter;
 import com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -204,7 +203,7 @@ public class TeamPageActivity
 			
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
-			String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
+			String teamFlagUrl = team.getFlagImageURL();
 			
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAwareForTeamFlag);
 

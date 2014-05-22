@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter;
+import com.mitv.adapters.list.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -27,6 +27,7 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
+import com.mitv.ui.elements.CustomViewPager;
 
 
 
@@ -36,6 +37,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 {
 	private static final String TAG = CompetitionTabFragmentGroupStage.class.getName();
 	
+	
+	private CustomViewPager viewPager;
 	
 	private Event event;
 	
@@ -61,6 +64,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	
 	public CompetitionEventTabFragmentLineUpTeams(
+			final CustomViewPager viewPager,
 			final long eventID,
 			final long teamID,
 			final String tabId, 
@@ -71,6 +75,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 		
 		this.eventID = eventID;
 		this.teamID = teamID;
+		
+		this.viewPager = viewPager;
 	}
 	
 	
@@ -78,7 +84,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container, null);
+		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container_lineup, null);
 		
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container);
 		
@@ -225,9 +231,16 @@ public class CompetitionEventTabFragmentLineUpTeams
 					
 					eventListOfSubs.measure(0, 0);
 					
-					//TODO: This is not using the correct id for this tab.
-					EventPageActivity.viewPagerForLineupTeams.heightsMap.put(0, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
-					EventPageActivity.viewPagerForLineupTeams.onPageScrolled(0, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+					if(getType() == EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM)
+					{
+						viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
+						
+						viewPager.onPageScrolled(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+					}
+					else
+					{
+						viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight());
+					}
 					
 					subsHeader.setVisibility(View.VISIBLE);
 					eventListOfSubs.setVisibility(View.VISIBLE);

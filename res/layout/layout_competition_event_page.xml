@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_event_scrollable_layout"
     android:layout_width="fill_parent"
@@ -6,7 +7,7 @@
     android:background="@color/grey1"
     android:orientation="vertical" >
 
-    <ScrollView
+    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container" >
@@ -102,7 +103,6 @@
                         android:src="@drawable/competitions_contry_flag_default" />
 
                     <!-- Team two name -->
-
                     <com.mitv.ui.elements.FontTextView
                         android:id="@+id/competition_event_highlights_team_two_name"
                         style="@style/text1"
@@ -115,7 +115,6 @@
                 </RelativeLayout>
 
                 <!-- LIST OF HIGHLIGHTS -->
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -166,8 +165,8 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/grey0" />
 
+                
                 <!-- TABS: Team1 & Team2 -->
-
                 <RelativeLayout
                     android:id="@+id/competition_event_block_tabs_lineup_teams"
                     android:layout_width="match_parent"
@@ -199,8 +198,8 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            
             <!-- TABS: GROUPS & STANDINGS -->
-
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_standings_teams_container"
                 android:layout_width="match_parent"
@@ -228,7 +227,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/grey0" />
+                    android:background="@color/grey0"/>
 
                 <RelativeLayout
                     android:id="@+id/competition_event_block_tabs_group_and_standings"
@@ -244,8 +243,7 @@
                         android:id="@+id/tab_event_indicator_for_group_and_standings"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
-                        android:background="@color/white"
-                        android:tag="sticky" />
+                        android:background="@color/white"/>
 
                     <View
                         android:id="@+id/tab_event_divider_for_group_and_standings"
@@ -257,22 +255,23 @@
                     <com.mitv.ui.elements.CustomViewPager
                         android:id="@+id/tab_event_pager_for_group_and_standings"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_below="@id/tab_event_divider_for_group_and_standings" />
                 </RelativeLayout>
             </RelativeLayout>
+            
         </RelativeLayout>
-    </ScrollView>
+    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
 
+    
     <!-- NAVIGATION TABS -->
-
     <include
         android:id="@+id/tab_selector_container"
         android:layout_alignParentBottom="true"
         layout="@layout/block_bottom_tabs" />
 
+    
     <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
-
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"

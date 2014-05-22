@@ -259,7 +259,7 @@ public class CompetitionEventsByGroupListAdapter
 				{
 					ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
 						
-					String team1FlagUrl = team1.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					String team1FlagUrl = team1.getFlagImageURL();
 						
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				}
@@ -277,7 +277,7 @@ public class CompetitionEventsByGroupListAdapter
 				{
 					ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
 						
-					String team2FlagUrl = team2.getImages().getFlag().getImageURLForDeviceDensityDPI();
+					String team2FlagUrl = team2.getFlagImageURL();
 						
 					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				}

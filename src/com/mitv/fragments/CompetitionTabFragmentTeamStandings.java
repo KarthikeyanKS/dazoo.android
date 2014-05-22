@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter;
+import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -216,7 +217,7 @@ public class CompetitionTabFragmentTeamStandings
 
 				listContainerLayout.measure(0, 0);
 				
-				viewPager.heightsMap.put(2, listContainerLayout.getMeasuredHeight());
+				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION, listContainerLayout.getMeasuredHeight());
 				
 				break;
 			}

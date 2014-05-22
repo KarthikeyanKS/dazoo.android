@@ -15,6 +15,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams;
+import com.mitv.ui.elements.CustomViewPager;
 
 
 
@@ -27,13 +28,15 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 	private long homeTeamID;
 	private long awayTeamID;
 	private List<String> tabs;
+	private CustomViewPager viewPager;
 	
-	private static final int HOME_TEAM_POSITION = 0;
-	private static final int AWAY_TEAM_POSITION = 1;
+	public static final int HOME_TEAM_POSITION = 0;
+	public static final int AWAY_TEAM_POSITION = 1;
 	
 	
 	public CompetitionEventLineupTeamsTabFragmentStatePagerAdapter(
 			final FragmentManager fm,
+			final CustomViewPager viewPager,
 			final long eventID,
 			final String eventHomeTeamName,
 			final Long homeTeamID,
@@ -44,6 +47,7 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 		
 		this.tabs = new ArrayList<String>();
 		this.eventID = eventID;
+		this.viewPager = viewPager;
 		this.homeTeamID = homeTeamID;
 		this.awayTeamID = awayTeamID;
 		
@@ -69,13 +73,13 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 		{
 			case HOME_TEAM_POSITION:
 			{		
-				fragment = new CompetitionEventTabFragmentLineUpTeams(eventID, homeTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM);
+				fragment = new CompetitionEventTabFragmentLineUpTeams(viewPager, eventID, homeTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM);
 				break;
 			}
 			
 			case AWAY_TEAM_POSITION:
 			{
-				fragment = new CompetitionEventTabFragmentLineUpTeams(eventID, awayTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_AWAY_TEAM);
+				fragment = new CompetitionEventTabFragmentLineUpTeams(viewPager, eventID, awayTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_AWAY_TEAM);
 				break;
 			}
 			
