@@ -21,6 +21,7 @@ public abstract class BaseAdapterWithShowMoreAdapter
 	@SuppressWarnings("unused")
 	private static final String TAG = BaseAdapterWithShowMoreAdapter.class.getName();
 
+	
 	protected LayoutInflater layoutInflater;
 	protected Activity activity;
 	protected boolean enableMoreViewAtBottom;

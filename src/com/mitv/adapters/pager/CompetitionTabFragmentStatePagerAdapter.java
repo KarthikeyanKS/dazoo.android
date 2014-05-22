@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventTabTypeEnum;
@@ -33,9 +32,9 @@ public class CompetitionTabFragmentStatePagerAdapter
 	private long competitionID;
 	private CustomViewPager viewPager;
 	
-	private static final int GROUP_STAGE_POSITION = 0;
-	private static final int SECOND_STAGE_POSITION = 1;
-	private static final int TEAM_STANDINGS_POSITION = 2;
+	public static final int GROUP_STAGE_POSITION = 0;
+	public static final int SECOND_STAGE_POSITION = 1;
+	public static final int TEAM_STANDINGS_POSITION = 2;
 	
 	
 	public CompetitionTabFragmentStatePagerAdapter(

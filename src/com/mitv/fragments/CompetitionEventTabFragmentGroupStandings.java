@@ -6,6 +6,7 @@ package com.mitv.fragments;
 import java.util.Collections;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +16,10 @@ import android.widget.LinearLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
+import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -159,7 +162,9 @@ public class CompetitionEventTabFragmentGroupStandings
 				
 				String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
 				
-				listAdapter = new CompetitionEventStandingsListAdapter(activity, standings, true, viewBottomMessage, null);
+				Runnable procedure = getNavigateToCompetitionPageProcedure();
+				
+				listAdapter = new CompetitionEventStandingsListAdapter(activity, standings, true, viewBottomMessage, procedure);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{
@@ -198,5 +203,23 @@ public class CompetitionEventTabFragmentGroupStandings
 		}
 		
 		return event;
+	}
+	
+	
+	
+	private Runnable getNavigateToCompetitionPageProcedure()
+	{
+		return new Runnable() 
+		{
+			public void run() 
+			{
+				Intent intent = new Intent(activity, CompetitionPageActivity.class);			
+				
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
+                
+				activity.startActivity(intent);
+			}
+		};
 	}
 }
