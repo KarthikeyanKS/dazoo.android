@@ -1,18 +1,22 @@
 
 package com.mitv.activities.competition;
 
-
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter;
+import com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -20,6 +24,7 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -50,6 +55,10 @@ public class TeamPageActivity
 	private TextView photoFrom;
 	
 	/* Squad */
+	private List<TeamSquad> teamSquads;
+	private LinearLayout squadListContainer;
+	private CompetitionTeamSquadsTeamsListAdapter squadListAdapter;
+	
 	/* Standings */
 	/* Schedule */
 	
@@ -102,7 +111,7 @@ public class TeamPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setMainLayoutLayout();
-				setSquadLayout();
+//				setSquadLayout();
 				setStandingsLayout();
 				setScheduleLayout();
 				break;
@@ -182,6 +191,8 @@ public class TeamPageActivity
 		photoFrom = (TextView) findViewById(R.id.competition_team_page_photo_from);
 		
 		/* Squad */
+		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
+		
 		/* Standings for Group X */
 		/* Schedule for Group X */
 	}
@@ -223,7 +234,23 @@ public class TeamPageActivity
 	
 	
 	private void setSquadLayout() {
+		squadListContainer.removeAllViews();
 		
+//		teamSquads = ContentManager.sharedInstance().getFromCacheTeamSquadsDataByTeamID(teamID);
+		
+		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
+		
+		for (int i = 0; i < squadListAdapter.getCount(); i++) 
+		{
+            View listItem = squadListAdapter.getView(i, null, squadListContainer);
+           
+            if (listItem != null) 
+            {
+            	squadListContainer.addView(listItem);
+            }
+        }
+		
+		squadListContainer.measure(0, 0);
 	}
 	
 	
