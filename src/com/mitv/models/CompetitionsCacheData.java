@@ -283,6 +283,25 @@ public class CompetitionsCacheData
 	
 	
 	
+	public synchronized void addOrModifyTeamForSelectedCompetition(Team team) 
+	{
+		if(selectedCompetition != null)
+		{
+			boolean containsTeam = selectedCompetition.getTeams().contains(team);
+			
+			if(containsTeam == false)
+			{
+				selectedCompetition.getTeams().add(team);
+			}
+		}
+		else
+		{
+			Log.w(TAG, "Selected competition is null");
+		}
+	}
+	
+	
+	
 	public synchronized boolean containsCompetitionsData()
 	{
 		boolean containsCompetitionsData = (allCompetitions.isEmpty() == false);

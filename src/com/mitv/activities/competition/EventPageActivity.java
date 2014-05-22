@@ -215,7 +215,7 @@ public class EventPageActivity
 			
 		if(containsTeamInfo)
 		{	
-			long team1ID = event.getHomeTeamId();
+			final long team1ID = event.getHomeTeamId();
 			
 			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
 			
@@ -231,12 +231,21 @@ public class EventPageActivity
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
 			}
-			else
-			{
-				Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
-			}
 			
-			long team2ID = event.getAwayTeamId();
+			team1Flag.setOnClickListener(new View.OnClickListener() 
+	        {
+	            public void onClick(View v)
+	            {
+	                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+	                
+	                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+	                
+	                startActivity(intent);
+	            }
+	        });
+			
+			final long team2ID = event.getAwayTeamId();
 			
 			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
 
@@ -250,10 +259,19 @@ public class EventPageActivity
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
 			}
-			else
-			{
-				Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
-			}
+			
+			team2Flag.setOnClickListener(new View.OnClickListener() 
+	        {
+	            public void onClick(View v)
+	            {
+	                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+	                
+	                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
+	                
+	                startActivity(intent);
+	            }
+	        });
 		}
 		
 		team1Name.setText(homeTeamName);

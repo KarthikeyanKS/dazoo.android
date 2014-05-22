@@ -36,6 +36,7 @@ import com.mitv.asynctasks.mitvapi.competitions.GetCompetitions;
 import com.mitv.asynctasks.mitvapi.competitions.GetEvents;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhaseByID;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhases;
+import com.mitv.asynctasks.mitvapi.competitions.GetTeamByID;
 import com.mitv.asynctasks.mitvapi.competitions.GetTeamDetails;
 import com.mitv.asynctasks.mitvapi.competitions.GetTeams;
 import com.mitv.asynctasks.mitvapi.competitions.GetStandingsForPhase;
@@ -628,6 +629,13 @@ public class APIClient
 	public void getTeams(ViewCallbackListener activityCallbackListener, long competitionID)
 	{
 		GetTeams task = new GetTeams(contentCallbackListener, activityCallbackListener, competitionID);
+		task.execute();
+	}
+	
+	
+	public void getTeamByID(ViewCallbackListener activityCallbackListener, long competitionID, long teamID)
+	{
+		GetTeamByID task = new GetTeamByID(contentCallbackListener, activityCallbackListener, competitionID, teamID);
 		task.execute();
 	}
 	

@@ -555,6 +555,25 @@ public abstract class ContentManagerServiceFetching
 	}
 	
 	
+
+	public void getElseFetchFromServiceTeamByID(
+			final ViewCallbackListener activityCallbackListener, 
+			final boolean forceDownload,
+			final Long competitionID,
+			final Long teamID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsTeamData(competitionID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
+		} 
+		else 
+		{
+			getAPIClient().getTeamByID(activityCallbackListener, competitionID, teamID);
+		}
+	}
+	
+	
+	
 	
 	public void getElseFetchFromServiceEventStandingsData(
 			ViewCallbackListener activityCallbackListener, 

@@ -4,15 +4,20 @@ package com.mitv.adapters.list;
 
 
 import java.util.List;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -117,7 +122,7 @@ public class CompetitionEventStandingsListAdapter
 		{
 			boolean isFirstposition = (position == 0);
 			
-			if (isFirstposition) 
+			if (isFirstposition)
 			{
 				holder.headerContainer.setVisibility(View.VISIBLE);
 			}
@@ -126,7 +131,7 @@ public class CompetitionEventStandingsListAdapter
 				holder.headerContainer.setVisibility(View.GONE);
 			}
 			
-			long teamID = element.getTeamId();
+			final long teamID = element.getTeamId();
 			
 			Team team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
 			
@@ -137,6 +142,19 @@ public class CompetitionEventStandingsListAdapter
 				String teamFlagUrl = team.getImages().getFlag().getImageURLForDeviceDensityDPI();
 						
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
+				
+				holder.teamFlag.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(activity, TeamPageActivity.class);
+		                
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamID);
+		                
+		                activity.startActivity(intent);
+		            }
+		        });
 			}
 
 			String teamGPAsString = Integer.valueOf(element.getMatches()).toString();
