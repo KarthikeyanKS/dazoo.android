@@ -104,6 +104,8 @@ public class TeamPageActivity
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
 		
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUADS);
+		
 		initLayout();
 	}
 	
@@ -132,7 +134,7 @@ public class TeamPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setMainLayoutLayout();
-//				setSquadLayout();
+				setSquadLayout();
 				setStandingsLayout();
 				setScheduleLayout();
 				break;
@@ -158,9 +160,11 @@ public class TeamPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfHighlights = true;
+		boolean forceRefresh = true;
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefreshOfHighlights, competitionID, teamID);
+		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefresh, competitionID, teamID);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceSquadByTeamID(this, forceRefresh, teamID);
 	}
 
 	
@@ -180,7 +184,12 @@ public class TeamPageActivity
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			if (teamSquads != null) {
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				
+			} else {
+				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+			}
 		}
 		else
 		{
@@ -281,7 +290,7 @@ public class TeamPageActivity
 	private void setSquadLayout() {
 		squadListContainer.removeAllViews();
 		
-		/* TODO */
+		/* TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 //		teamSquads = ContentManager.sharedInstance().getFromCacheTeamSquadsDataByTeamID(teamID);
 		
 		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
