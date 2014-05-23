@@ -7,9 +7,8 @@ import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
-import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
 
 public class CustomViewPager extends ViewPager {
@@ -29,7 +28,7 @@ public class CustomViewPager extends ViewPager {
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) this.getLayoutParams();
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) this.getLayoutParams();
 		int newPos = arg0;
 		//Find out which page is scrolled to
 		if (arg1 > 0) {
