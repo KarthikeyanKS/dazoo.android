@@ -4,8 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@color/grey0"
-    android:orientation="vertical"
-    android:layout_marginBottom="50dp" >
+    android:orientation="vertical" >
 
     <!-- List of all players in starting line -->
 

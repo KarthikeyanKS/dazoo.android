@@ -102,7 +102,7 @@ public class TeamPageActivity
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUADS);
+//		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUADS);
 		
 		initLayout();
 	}
@@ -132,7 +132,7 @@ public class TeamPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setMainLayoutLayout();
-				setSquadLayout();
+//				setSquadLayout();
 				setStandingsLayout();
 				setScheduleLayout();
 				break;
@@ -219,7 +219,7 @@ public class TeamPageActivity
 		photoFrom = (TextView) findViewById(R.id.competition_team_page_photo_from);
 		
 		/* Squad */
-		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
+//		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
 		
 		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);
@@ -273,7 +273,7 @@ public class TeamPageActivity
 			founded.setText("");
 			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
 			location.setText("");
-			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
+//			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
 			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 		}
 	}
