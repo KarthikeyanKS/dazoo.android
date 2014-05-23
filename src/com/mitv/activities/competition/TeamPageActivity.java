@@ -273,7 +273,7 @@ public class TeamPageActivity
 			founded.setText("");
 			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
 			location.setText("");
-			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
+//			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
 			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 		}
 	}

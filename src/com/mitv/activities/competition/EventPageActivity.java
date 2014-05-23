@@ -19,10 +19,13 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter;
 import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
+import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
+import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventMatchStatusEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -32,10 +35,12 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventBroadcastDetailsByStartTime;
 import com.mitv.models.comparators.EventHighlightComparatorByTime;
+import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.ui.elements.LikeView;
@@ -58,7 +63,9 @@ public class EventPageActivity
 	
 
 	private Event event;
+	private List<Event> events;
 	private Phase phase;
+	private List<Standings> standings;
 	private CompetitionEventPageBroadcastListAdapter listAdapter;
 	
 	private int selectedTabIndexForLineupTeams;
@@ -91,6 +98,7 @@ public class EventPageActivity
 	private TextView headerCompetitionName;
 	private String competitionName;
 	private TextView headerStandings;
+	private TextView headerGroups;
 	
 	private RelativeLayout highlightsContainerLayout;
 	private RelativeLayout lineupContainerLayout;
@@ -101,6 +109,11 @@ public class EventPageActivity
 	private ImageView team1FlagHighlights;
 	private TextView team2NameHighlights;
 	private ImageView team2FlagHighlights;
+	
+	private LinearLayout groupListContainer;
+	private LinearLayout standingsListContainer;
+	private CompetitionEventEventsByGroupListAdapter groupListAdapter;
+	private CompetitionEventStandingsListAdapter standingsListAdapter;
 	
 	
 	@Override
@@ -129,11 +142,16 @@ public class EventPageActivity
 		
 		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 		
+		events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
+		
+		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
+		
 		initLayout();
 		
 		setAdapterForLineupTeams(selectedTabIndexForLineupTeams);
 		
-		setAdapterForGroupAndStandings(selectedTabIndexForGroupAndStandings);
+		setAdapterForStandingsList();
+		setAdapterForGroupList();
 	}
 		
 	
@@ -389,7 +407,8 @@ public class EventPageActivity
 		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
 		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
-		headerStandings = (TextView) findViewById(R.id.competition_standings_header_group);
+		headerStandings = (TextView) findViewById(R.id.competition_standings_header);
+		headerGroups = (TextView) findViewById(R.id.competition_group_header_group);
 		
 		stadiumName = (TextView) findViewById(R.id.competition_event_stadium_name);
 		stadiumImageCopyright = (TextView) findViewById(R.id.competition_event_stadium_photo_credits);
@@ -407,9 +426,8 @@ public class EventPageActivity
 		viewPagerForLineupTeams = (CustomViewPager) findViewById(R.id.tab_event_pager_for_lineup_teams);
 		selectedTabIndexForLineupTeams = STARTING_TAB_INDEX;
 		
-		pageTabIndicatorForGroupAndStandings = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_group_and_standings);
-		viewPagerForGroupAndStandings = (CustomViewPager) findViewById(R.id.tab_event_pager_for_group_and_standings);
-		selectedTabIndexForGroupAndStandings = STARTING_TAB_INDEX;
+		groupListContainer = (LinearLayout) findViewById(R.id.competition_event_group_list);
+		standingsListContainer = (LinearLayout) findViewById(R.id.competition_event_standings_list);
 	}
 	
 
@@ -478,36 +496,68 @@ public class EventPageActivity
 	
 	
 	
-	private void setAdapterForGroupAndStandings(int selectedIndex) 
+	private void setAdapterForGroupList() 
 	{
-		StringBuilder groupName = new StringBuilder(); 
-		groupName.append(phase.getPhase());
+		StringBuilder header = new StringBuilder(); 
+		header.append(this.getResources().getString(R.string.team_page_squad_schedule_header))
+			.append(" ")
+			.append(phase.getPhase());
 		
-		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(
-				getSupportFragmentManager(), 
-				viewPagerForGroupAndStandings,
-				phase.getPhaseId(),
-				groupName.toString(),
-				event.getEventId());
-	
-		viewPagerForGroupAndStandings.setAdapter(pagerAdapterForGroupAndStandings);
-		viewPagerForGroupAndStandings.setOffscreenPageLimit(1);
-//		viewPagerForGroupAndStandings.setBoundaryCaching(true);
-		viewPagerForGroupAndStandings.setCurrentItem(selectedIndex);
-		viewPagerForGroupAndStandings.setVisibility(View.VISIBLE);
-		viewPagerForGroupAndStandings.setEnabled(false);
+		headerGroups.setText(header.toString());
+		
+		groupListContainer.removeAllViews();
 
-		pagerAdapterForGroupAndStandings.notifyDataSetChanged();
+		String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
 		
-		pageTabIndicatorForGroupAndStandings.setVisibility(View.VISIBLE);
-		pageTabIndicatorForGroupAndStandings.setViewPager(viewPagerForGroupAndStandings);
-		viewPagerForGroupAndStandings.setScreenHeight(GenericUtils.getScreenHeight(this));
+		Runnable procedure = getNavigateToCompetitionPageProcedure();
 		
-		pagerAdapterForGroupAndStandings.notifyDataSetChanged();
-		pageTabIndicatorForGroupAndStandings.setCurrentItem(selectedIndex);
+		groupListAdapter = new CompetitionEventEventsByGroupListAdapter(this, events, true, viewBottomMessage, procedure);
 		
-		pageTabIndicatorForGroupAndStandings.setInitialStyleOnAllTabs();
-		pageTabIndicatorForGroupAndStandings.setStyleOnTabViewAtIndex(selectedIndex);
+		for (int i = 0; i < groupListAdapter.getCount(); i++) 
+		{
+            View listItem = groupListAdapter.getView(i, null, groupListContainer);
+           
+            if (listItem != null) 
+            {
+            	groupListContainer.addView(listItem);
+            }
+        }
+		
+		groupListContainer.measure(0, 0);
+	}
+	
+	
+	private void setAdapterForStandingsList() {
+		StringBuilder header = new StringBuilder(); 
+		header.append(this.getResources().getString(R.string.event_page_header_standings))
+			.append(" ")
+			.append(phase.getPhase());
+		
+		headerStandings.setText(header.toString());
+		
+		standingsListContainer.removeAllViews();
+		
+		Collections.sort(standings, new EventStandingsComparatorByPoints());
+		
+		Collections.reverse(standings);
+		
+		String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
+		
+		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		
+		standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
+		
+		for (int i = 0; i < standingsListAdapter.getCount(); i++) 
+		{
+            View listItem = standingsListAdapter.getView(i, null, standingsListContainer);
+           
+            if (listItem != null) 
+            {
+            	standingsListContainer.addView(listItem);
+            }
+        }
+		
+		standingsListContainer.measure(0, 0);
 	}
 
 
@@ -582,6 +632,23 @@ public class EventPageActivity
         }
 		
 		broadcastListView.measure(0, 0);
+	}
+	
+	
+	private Runnable getNavigateToCompetitionPageProcedure()
+	{
+		return new Runnable() 
+		{
+			public void run() 
+			{
+//				Intent intent = new Intent(this, CompetitionPageActivity.class);			
+//				
+//				intent.putExtra(Constants.INTENT_COMPETITION_ID, getEvent().getCompetitionId());
+//                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
+//                
+//				this.startActivity(intent);
+			}
+		};
 	}
 
 
