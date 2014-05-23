@@ -30,10 +30,10 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.comparators.EventBroadcastDetailsByStartTime;
+import com.mitv.models.comparators.EventBroadcastByStartTime;
 import com.mitv.models.comparators.EventHighlightComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -565,11 +565,11 @@ public class EventPageActivity
 	{
 		broadcastListView.removeAllViews();
 		
-		List<EventBroadcastDetails> broadcastDetails = event.getEventBroadcastDetails();
+		List<EventBroadcast> broadcasts = event.getEventBroadcasts();
 		
-		Collections.sort(broadcastDetails, new EventBroadcastDetailsByStartTime());
+		Collections.sort(broadcasts, new EventBroadcastByStartTime());
 		
-		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, broadcastDetails);
+		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, broadcasts);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{

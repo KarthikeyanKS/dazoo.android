@@ -13,7 +13,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventMatchStatusEnum;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
@@ -62,13 +62,13 @@ public class Event
 	
 	
 	
-	public List<EventBroadcastDetails> getEventBroadcastDetails()
+	public List<EventBroadcast> getEventBroadcasts()
 	{
-		List<EventBroadcastDetails> list = new ArrayList<EventBroadcastDetails>();
+		List<EventBroadcast> list = new ArrayList<EventBroadcast>();
 		
-		for (EventBroadcastDetailsJSON ev : broadcastDetails) 
+		for (EventBroadcastJSON ev : eventBroadcasts) 
 		{
-			EventBroadcastDetails element = new EventBroadcastDetails(ev);
+			EventBroadcast element = new EventBroadcast(ev);
 			list.add(element);
 		}
 		
@@ -133,7 +133,7 @@ public class Event
 	
 	public boolean containsBroadcastDetails()
 	{
-		return (broadcastDetails != null);
+		return (eventBroadcasts != null && eventBroadcasts.isEmpty() == false);
 	}
 	
 	
