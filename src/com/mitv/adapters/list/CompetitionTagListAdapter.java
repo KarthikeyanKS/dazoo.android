@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,12 +23,12 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -35,10 +36,10 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class CompetitionTagEventsListAdapter 
-	extends BaseAdapterWithShowMoreAdapter
+public class CompetitionTagListAdapter 
+	extends BaseAdapter
 {
-	private static final String TAG = CompetitionTagEventsListAdapter.class.getName();
+	private static final String TAG = CompetitionTagListAdapter.class.getName();
 	
 	
 	private LayoutInflater layoutInflater;
@@ -47,14 +48,14 @@ public class CompetitionTagEventsListAdapter
 	
 	
 	
-	public CompetitionTagEventsListAdapter(
+	public CompetitionTagListAdapter(
 			final Activity activity,
 			final List<Event> events,
 			final boolean enableMoreViewAtBottom,
 			final String viewBottomMessage, 
 			final Runnable viewBottomConfirmProcedure)
 	{
-		super(activity, enableMoreViewAtBottom, viewBottomMessage, viewBottomConfirmProcedure);
+		super();
 		
 		this.events = events;
 		
@@ -259,23 +260,23 @@ public class CompetitionTagEventsListAdapter
 			
 			holder.team2name.setText(awayTeamName);
 			
-			holder.container.setOnClickListener(new View.OnClickListener() 
-	        {
-	            public void onClick(View v)
-	            {
-	                Intent intent = new Intent(activity, EventPageActivity.class);
-	                
-	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-	                
-	                long competitionID = event.getCompetitionId();
-	                
-	                Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-	                
-	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
-	                
-	                activity.startActivity(intent);
-	            }
-	        });
+//			holder.container.setOnClickListener(new View.OnClickListener() 
+//	        {
+//	            public void onClick(View v)
+//	            {
+//	                Intent intent = new Intent(activity, EventPageActivity.class);
+//	                
+//	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+//	                
+//	                long competitionID = event.getCompetitionId();
+//	                
+//	                Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+//	                
+//	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+//	                
+//	                activity.startActivity(intent);
+//	            }
+//	        });
 			
 			/* Score if game is finished or ongoing */
 			if (event.isLive() || event.isFinished()) {
@@ -320,13 +321,13 @@ public class CompetitionTagEventsListAdapter
 			
 			if(containsBroadcastDetails)
 			{
-				List<EventBroadcast> eventBroadcastDetailsList = event.getEventBroadcasts();
+				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
 				
 				int totalChannelCount = eventBroadcastDetailsList.size();
 				
 				List<String> channelNames = new ArrayList<String>(totalChannelCount);
 				
-				for(EventBroadcastJSON eventBroadcastDetails : eventBroadcastDetailsList)
+				for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
 				{
 					String channelID = eventBroadcastDetails.getChannelId();
 					
