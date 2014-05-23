@@ -22,7 +22,7 @@ import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 
@@ -63,14 +63,14 @@ public class NotificationHelper
 			final Context context, 
 			TVBroadcastWithChannelInfo broadcast,
 			Event event,
-			EventBroadcastDetails eventDetails,
+			EventBroadcast eventBroadcast,
 			boolean isTVBroadcast,
 			int notificationId)
 	{
 		/* TODO isTVBroadcast is set to true, notifications for the events is not yet finished */
 		isTVBroadcast = true;
 		
-		Intent intent = getAlarmIntent(notificationId, broadcast, event, eventDetails, isTVBroadcast);
+		Intent intent = getAlarmIntent(notificationId, broadcast, event, eventBroadcast, isTVBroadcast);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		
@@ -86,7 +86,7 @@ public class NotificationHelper
 	public static void scheduleAlarm(
 			final Context context,
 			Event event,
-			EventBroadcastDetails eventDetails,
+			EventBroadcast eventBroadcast,
 			boolean isTVBroadcast,
 			TVBroadcastWithChannelInfo broadcast) 
 	{
@@ -124,7 +124,12 @@ public class NotificationHelper
 	
 	
 	
-	private static Intent getAlarmIntent(int notificationId, TVBroadcastWithChannelInfo broadcast, Event event, EventBroadcastDetails eventDetails, boolean isTVBroadcast) 
+	private static Intent getAlarmIntent(
+			final int notificationId, 
+			final TVBroadcastWithChannelInfo broadcast, 
+			final Event event, 
+			final EventBroadcast eventDetails, 
+			final boolean isTVBroadcast) 
 	{
 		String broadcastName = "";
 		

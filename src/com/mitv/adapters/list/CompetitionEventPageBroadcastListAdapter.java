@@ -18,8 +18,7 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.models.objects.mitvapi.TVChannel;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
@@ -38,13 +37,13 @@ public class CompetitionEventPageBroadcastListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	
-	private List<EventBroadcastDetails> broadcastDetails;
+	private List<EventBroadcast> broadcastDetails;
 	
 	
 	
 	public CompetitionEventPageBroadcastListAdapter(
 			final Activity activity,
-			final List<EventBroadcastDetails> broadcastDetails)
+			final List<EventBroadcast> broadcastDetails)
 	{
 		super();
 		
@@ -73,16 +72,16 @@ public class CompetitionEventPageBroadcastListAdapter
 	
 	
 	@Override
-	public EventBroadcastDetails getItem(int position) 
+	public EventBroadcast getItem(int position) 
 	{
-		EventBroadcastDetails detail = null;
+		EventBroadcast item = null;
 		
 		if (broadcastDetails != null)
 		{
-			detail = broadcastDetails.get(position);
+			item = broadcastDetails.get(position);
 		}
 		
-		return detail;
+		return item;
 	}
 	
 	
@@ -120,32 +119,30 @@ public class CompetitionEventPageBroadcastListAdapter
 
 		if (holder != null)
 		{
-			final EventBroadcastDetails details = getItem(position);
+			final EventBroadcast element = getItem(position);
 
-			boolean isAiring = details.isAiring();
-			boolean hasEnded = details.hasEnded();
+			boolean isAiring = element.isAiring();
+			boolean hasEnded = element.hasEnded();
 
 			ImageAware imageAwareForChannelLogo = new ImageViewAware(holder.channelLogo, false);
 
-			TVChannel tvChannel = details.getTVChannelForEventBroadcast();
-
-			String logoUrl = tvChannel.getLogo().getSmall();
+			String logoUrl = element.getChannelLogoUrl();
 
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(logoUrl, imageAwareForChannelLogo);
 
 			/* Set airing date and time */
 			StringBuilder sb = new StringBuilder();
 
-			String startTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastBeginTimeLocal());
+			String startTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(element.getEventBroadcastBeginTimeLocal());
 
-			String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(details.getEventBroadcastEndTimeLocal());
+			String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(element.getEventBroadcastEndTimeLocal());
 
 			/* Event has ended */
 			if(hasEnded) 
 			{
 				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.grey1));
 
-				sb.append(details.getEventTimeDayOfTheWeekAsString())
+				sb.append(element.getEventTimeDayOfTheWeekAsString())
 				.append(",  ")
 				.append(startTimeHourAndMinuteAsString)
 				.append(" - ")
@@ -160,11 +157,11 @@ public class CompetitionEventPageBroadcastListAdapter
 			{
 				Calendar now = DateUtils.getNow();
 
-				int totalMinutes = details.getTotalAiringTimeInMinutes();
+				int totalMinutes = element.getTotalAiringTimeInMinutes();
 
-				int currentMinutes = DateUtils.calculateDifferenceBetween(details.getEventBroadcastBeginTimeLocal(), now, Calendar.MINUTE, false, 0);
+				int currentMinutes = DateUtils.calculateDifferenceBetween(element.getEventBroadcastBeginTimeLocal(), now, Calendar.MINUTE, false, 0);
 
-				sb.append(details.getEventTimeDayOfTheWeekAsString())
+				sb.append(element.getEventTimeDayOfTheWeekAsString())
 				.append(",  ")
 				.append(startTimeHourAndMinuteAsString)
 				.append(" - ")

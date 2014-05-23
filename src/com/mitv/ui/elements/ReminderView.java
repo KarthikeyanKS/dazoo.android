@@ -20,7 +20,7 @@ import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.ui.helpers.DialogHelper;
@@ -41,7 +41,7 @@ public class ReminderView
 	private FontTextView iconView;
 	private Activity activity;
 	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
-	private EventBroadcastDetails eventDetails;
+	private EventBroadcast eventDetails;
 	private int notificationId;
 	private NotificationDataSource notificationDataSource;
 	private boolean isSet;
@@ -133,7 +133,7 @@ public class ReminderView
 	
 	
 	
-	public void setCompetitionEventBroadcast(Event event, EventBroadcastDetails eventDetails) 
+	public void setCompetitionEventBroadcast(Event event, EventBroadcast eventDetails) 
 	{
 		this.event = event;
 		this.eventDetails = eventDetails;
