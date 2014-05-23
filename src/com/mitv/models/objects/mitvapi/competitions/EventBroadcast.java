@@ -36,7 +36,6 @@ public class EventBroadcast
 	public EventBroadcast(EventBroadcastJSON ev) 
 	{
 		this.eventBroadcastId = ev.getEventBroadcastId();
-		this.eventId = ev.getEventId();
 		this.programId = ev.getProgramId();
 		this.beginTime = ev.getBeginTime();
 		this.beginTimeMillis = ev.getBeginTimeMillis();
