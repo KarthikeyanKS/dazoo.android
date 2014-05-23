@@ -72,11 +72,6 @@ public class EventPageActivity
 	private TabPageIndicator pageTabIndicatorForLineupTeams;
 	private CustomViewPager viewPagerForLineupTeams;
 	private CompetitionEventLineupTeamsTabFragmentStatePagerAdapter pagerAdapterForLineupTeams;
-	
-	private int selectedTabIndexForGroupAndStandings;
-	private TabPageIndicator pageTabIndicatorForGroupAndStandings;
-	private CustomViewPager viewPagerForGroupAndStandings;
-	private CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter pagerAdapterForGroupAndStandings;
 
 	private ImageView stadiumImage;
 	private TextView team1Name;
@@ -495,7 +490,7 @@ public class EventPageActivity
 	}
 	
 	
-	
+	/* Schedule for group */
 	private void setAdapterForGroupList() 
 	{
 		StringBuilder header = new StringBuilder(); 
@@ -527,6 +522,7 @@ public class EventPageActivity
 	}
 	
 	
+	/* Standings for group */
 	private void setAdapterForStandingsList() {
 		StringBuilder header = new StringBuilder(); 
 		header.append(this.getResources().getString(R.string.event_page_header_standings))
@@ -641,12 +637,12 @@ public class EventPageActivity
 		{
 			public void run() 
 			{
-//				Intent intent = new Intent(this, CompetitionPageActivity.class);			
-//				
-//				intent.putExtra(Constants.INTENT_COMPETITION_ID, getEvent().getCompetitionId());
-//                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
-//                
-//				this.startActivity(intent);
+				Intent intent = new Intent(EventPageActivity.this, CompetitionPageActivity.class);
+				
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
+                
+				startActivity(intent);
 			}
 		};
 	}

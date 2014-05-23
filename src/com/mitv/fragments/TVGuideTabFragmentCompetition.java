@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
-import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
+import com.mitv.adapters.list.CompetitionTagListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.TVGuideTabTypeEnum;
@@ -61,7 +60,7 @@ public class TVGuideTabFragmentCompetition
 	private RelativeLayout competitionGoToScheduleLayout;
 	
 	private LinearLayout listContainerLayout;
-	private CompetitionTagEventsListAdapter listAdapter;
+	private CompetitionTagListAdapter listAdapter;
 	
 	private RelativeLayout competitionBannerLayout;
 	
@@ -385,7 +384,7 @@ public class TVGuideTabFragmentCompetition
 		
 		listContainerLayout.removeAllViews();
 
-		listAdapter = new CompetitionTagEventsListAdapter(activity, events);
+		listAdapter = new CompetitionTagListAdapter(activity, events, false, null, null);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{

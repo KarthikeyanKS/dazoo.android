@@ -19,6 +19,7 @@ import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
 import com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter;
+import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -352,8 +353,12 @@ public class TeamPageActivity
 		scheduleHeader.setText(sb.toString());
 		
 		scheduleListContainer.removeAllViews();
+		
+		String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
+		
+		Runnable procedure = getNavigateToCompetitionPageProcedure();
 
-		scheduleListAdapter = new CompetitionTagEventsListAdapter(this, events);
+		scheduleListAdapter = new CompetitionTagEventsListAdapter(this, events, true, viewBottomMessage, procedure);
 		
 		for (int i = 0; i < scheduleListAdapter.getCount(); i++) 
 		{
@@ -390,12 +395,12 @@ public class TeamPageActivity
 		{
 			public void run() 
 			{
-//				Intent intent = new Intent(this, CompetitionPageActivity.class);		
-//				
-//				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-//                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
-//                
-//				startActivity(intent);
+				Intent intent = new Intent(TeamPageActivity.this, CompetitionPageActivity.class);		
+				
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionID);
+                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
+                
+				startActivity(intent);
 			}
 		};
 	}
