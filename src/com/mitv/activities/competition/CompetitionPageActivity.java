@@ -29,7 +29,7 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
@@ -425,13 +425,13 @@ public class CompetitionPageActivity
 			
 			if(containsBroadcastDetails)
 			{
-				List<EventBroadcastDetails> eventBroadcastDetailsList = nextEvent.getEventBroadcastDetails();
+				List<EventBroadcast> eventBroadcastDetailsList = nextEvent.getEventBroadcasts();
 				
 				int totalChannelCount = eventBroadcastDetailsList.size();
 				
 				List<String> channelNames = new ArrayList<String>(totalChannelCount);
 				
-				for(EventBroadcastDetails eventBroadcastDetails : eventBroadcastDetailsList)
+				for(EventBroadcast eventBroadcastDetails : eventBroadcastDetailsList)
 				{
 					String channelID = eventBroadcastDetails.getChannelId();
 					
@@ -564,13 +564,13 @@ public class CompetitionPageActivity
 		
 		if(containsBroadcastDetails)
 		{
-			List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
+			List<EventBroadcast> eventBroadcastDetailsList = event.getEventBroadcasts();
 			
 			int totalChannelCount = eventBroadcastDetailsList.size();
 			
 			List<String> channelNames = new ArrayList<String>(totalChannelCount);
 			
-			for(EventBroadcastDetails eventBroadcastDetails : eventBroadcastDetailsList)
+			for(EventBroadcast eventBroadcastDetails : eventBroadcastDetailsList)
 			{
 				String channelID = eventBroadcastDetails.getChannelId();
 				

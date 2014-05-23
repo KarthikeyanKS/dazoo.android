@@ -5,8 +5,11 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 import java.util.Calendar;
 
+import android.util.Log;
+
+import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.sql.NotificationSQLElement;
@@ -14,30 +17,36 @@ import com.mitv.utilities.DateUtils;
 
 
 
-public class EventBroadcastDetails 
-	extends EventBroadcastDetailsJSON 
-{	
+public class EventBroadcast 
+	extends EventBroadcastJSON
+{
+	private static final String TAG = EventBroadcast.class.getName();
+	
+	
+	
 	protected Calendar beginTimeCalendar;
 	protected Calendar endTimeCalendar;
 	
 	
 	
-	public EventBroadcastDetails() {}
+	public EventBroadcast(){}
 	
 	
 	
-	public EventBroadcastDetails(EventBroadcastDetailsJSON ev) 
+	public EventBroadcast(EventBroadcastJSON ev) 
 	{
+		this.eventBroadcastId = ev.getEventBroadcastId();
+		this.eventId = ev.getEventId();
+		this.programId = ev.getProgramId();
 		this.beginTime = ev.getBeginTime();
 		this.beginTimeMillis = ev.getBeginTimeMillis();
-		this.channelId = ev.getChannelId();
 		this.endTime = ev.getEndTime();
-		this.broadcastId = ev.getBroadcastId();
+		this.channelId = ev.getChannelId();
 	}
 	
 	
 	
-	public EventBroadcastDetails(NotificationSQLElement item)
+	public EventBroadcast(NotificationSQLElement item)
 	{
 //		TVChannel tvChannel = new TVChannel(item);
 //		this.channel = tvChannel;
@@ -106,7 +115,8 @@ public class EventBroadcastDetails
 	 * 
 	 * @return int
 	 */
-	public Integer getTotalAiringTimeInMinutes() {
+	public Integer getTotalAiringTimeInMinutes() 
+	{
 		int totalMinutes = DateUtils.calculateDifferenceBetween(
 				beginTimeCalendar, endTimeCalendar, Calendar.MINUTE, false, 0);
 		
@@ -115,7 +125,8 @@ public class EventBroadcastDetails
 	
 	
 	
-	public TVChannelId getTVChannelIdForEventBroadcast() {
+	public TVChannelId getTVChannelIdForEventBroadcast() 
+	{
 		TVChannelId tvChannelId = new TVChannelId(this.getChannelId());
 		
 		return tvChannelId;
@@ -123,28 +134,79 @@ public class EventBroadcastDetails
 	
 	
 	
-	public TVChannel getTVChannelForEventBroadcast() {
+	private TVChannel getTVChannelForEventBroadcast() 
+	{
 		TVChannelId tvChannelId = getTVChannelIdForEventBroadcast();
 		
 		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+		
+		if(tvChannel == null)
+		{
+			Log.w(TAG, "TVChannel is null");
+		}
 		
 		return tvChannel;
 	}
 	
 	
 	
-	public String getChannelName() {
+	public String getChannelName() 
+	{
+		String channelName;
+		
 		TVChannel tvChannel = getTVChannelForEventBroadcast();
 		
-		return tvChannel.getName();
+		if(tvChannel != null)
+		{
+			channelName = tvChannel.getName();
+		}
+		else
+		{
+			channelName = "";
+		}
+		
+		return channelName;
 	}
 	
 	
 	
-	public String getImageUrl() {
+	
+	public String getChannelLogoUrl() 
+	{
+		String imageURL;
+		
 		TVChannel tvChannel = getTVChannelForEventBroadcast();
 		
-		return tvChannel.getImageUrl();
+		if(tvChannel != null)
+		{
+			imageURL = tvChannel.getLogo().getImageURLForDeviceDensityDPI();
+		}
+		else
+		{
+			imageURL = "";
+		}
+		
+		return imageURL;
+	}
+	
+	
+	
+	public String getImageUrl() 
+	{
+		String imageURL;
+		
+		TVChannel tvChannel = getTVChannelForEventBroadcast();
+		
+		if(tvChannel != null)
+		{
+			imageURL = tvChannel.getImageUrl();
+		}
+		else
+		{
+			imageURL = "";
+		}
+		
+		return imageURL;
 	}
 	
 	
@@ -220,5 +282,4 @@ public class EventBroadcastDetails
 		
 		return beginTimeDayAndMonthRepresentation;
 	}
-	
 }

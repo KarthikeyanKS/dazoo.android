@@ -51,12 +51,12 @@
 
                 <!-- Fake squad -->
                 <ImageView
-                    android:id="@+id/competition_logo"
+                    android:id="@+id/competition_team_page_squad_list_fake"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/competition_team_page_squad_header"
                     android:background="@drawable/competition_team_squad_fake"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitStart" />
                 
                 <!-- The list -->
                 <LinearLayout

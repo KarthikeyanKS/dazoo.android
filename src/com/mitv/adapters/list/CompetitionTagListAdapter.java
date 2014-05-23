@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,7 +20,6 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -32,26 +33,32 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class CompetitionEventEventsByGroupListAdapter 
-	extends BaseAdapterWithShowMoreAdapter 
+public class CompetitionTagListAdapter 
+	extends BaseAdapter
 {
-	private static final String TAG = CompetitionEventEventsByGroupListAdapter.class.getName();
+	private static final String TAG = CompetitionTagListAdapter.class.getName();
 	
 	
+	private LayoutInflater layoutInflater;
+	private Activity activity;
 	private List<Event> events;
 	
 	
 	
-	public CompetitionEventEventsByGroupListAdapter(
+	public CompetitionTagListAdapter(
 			final Activity activity,
 			final List<Event> events,
 			final boolean enableMoreViewAtBottom,
 			final String viewBottomMessage, 
 			final Runnable viewBottomConfirmProcedure)
 	{
-		super(activity, enableMoreViewAtBottom, viewBottomMessage, viewBottomConfirmProcedure);
+		super();
 		
 		this.events = events;
+		
+		this.activity = activity;
+
+		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 
@@ -59,11 +66,11 @@ public class CompetitionEventEventsByGroupListAdapter
 	@Override
 	public int getCount()
 	{
-		int count = super.getCount();
+		int count = 0;
 		
 		if (events != null) 
 		{
-			count += events.size();
+			count = events.size();
 		}
 		
 		return count;
@@ -97,22 +104,19 @@ public class CompetitionEventEventsByGroupListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
-		if(isShowMoreView(position))
-		{
-			return super.getView(position, convertView, parent);
-		}
-		
 		View rowView = convertView;
 
 		if (rowView == null)
 		{
 			// We are reusing the same row layout from the competition page
-			rowView = layoutInflater.inflate(R.layout.row_competition_event_group_events_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_group_events_list_item, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_row_container);
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
 
+			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event);
+			
 			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
 			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_row_divider);
 			
@@ -137,22 +141,13 @@ public class CompetitionEventEventsByGroupListAdapter
 		{
 			holder.startWeekDayHeader.setVisibility(View.GONE);
 			holder.dividerView.setVisibility(View.GONE);
-
+			holder.group.setVisibility(View.GONE);
+			
 			final Event event = getItem(position);
 			
 			boolean isFirstposition = (position == 0);
 
-			boolean isLastPosition;
-			
-			if(enableMoreViewAtBottom)
-			{
-				isLastPosition = (position == (getCount() - 2));
-			}
-			else
-			{
-				isLastPosition = (position == (getCount() - 1));
-			}
-			
+			boolean isLastPosition = (position == (getCount() - 1));
 
 			boolean isCurrentEventDayEqualToPreviousEventDay;
 
@@ -196,7 +191,7 @@ public class CompetitionEventEventsByGroupListAdapter
 					sb.append(" ");
 					sb.append(event.getEventTimeDayAndMonthAsString());
 				}
-
+				
 				/* Capitalized letters in header */
 				String headerText = sb.toString();
 				holder.startWeekDayHeader.setText(headerText.toUpperCase());
@@ -207,65 +202,81 @@ public class CompetitionEventEventsByGroupListAdapter
 			{
 				holder.dividerView.setVisibility(View.VISIBLE);
 			}
-
-			if (isFirstposition)
-			{
-				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
-			}
-
+			
+			
 			if (isLastPosition == false && isBeginTimeEqualToNextItem)
 			{
 				holder.dividerView.setVisibility(View.VISIBLE);
 			}			
-
+			
 			String homeTeamName = event.getHomeTeam();
-
+			
 			String awayTeamName = event.getAwayTeam();
-
+			
 			boolean containsTeamInfo = event.containsTeamInfo();
-
+			
 			if(containsTeamInfo)
 			{
 				long team1ID = event.getHomeTeamId();
-
+				
 				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
-
-				String team1FlagUrl = team1.getFlagImageURL();
-
-				ImageAware imageAwareForTeam1 = new ImageViewAware(holder.team1flag, false);
-
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareForTeam1);
-
-				long team2ID = event.getAwayTeamId();
-
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
-
-				ImageAware imageAwareForTeam2 = new ImageViewAware(holder.team2flag, false);
-
-				String team2FlagUrl = team2.getFlagImageURL();
-
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareForTeam2);
-			}
-
-			holder.team1name.setText(homeTeamName);
-
-			holder.team2name.setText(awayTeamName);
-
-			holder.container.setOnClickListener(new View.OnClickListener() 
-			{
-				public void onClick(View v)
+				
+				if(team1 != null)
 				{
-					Intent intent = new Intent(activity, EventPageActivity.class);
-
-					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-
-					activity.startActivity(intent);
+					ImageAware imageAware = new ImageViewAware(holder.team1flag, false);
+						
+					String team1FlagUrl = team1.getFlagImageURL();
+						
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				}
-			});
+				else
+				{
+					Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+				}
+					
+				
+				long team2ID = event.getAwayTeamId();
+				
+				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+				
+				if(team2 != null)
+				{
+					ImageAware imageAware = new ImageViewAware(holder.team2flag, false);
+						
+					String team2FlagUrl = team2.getFlagImageURL();
+						
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
+				}
+				else
+				{
+					Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
+				}
+			}
+			
+			holder.team1name.setText(homeTeamName);
+			
+			holder.team2name.setText(awayTeamName);
+			
+//			holder.container.setOnClickListener(new View.OnClickListener() 
+//	        {
+//	            public void onClick(View v)
+//	            {
+//	                Intent intent = new Intent(activity, EventPageActivity.class);
+//	                
+//	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+//	                
+//	                long competitionID = event.getCompetitionId();
+//	                
+//	                Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+//	                
+//	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+//	                
+//	                activity.startActivity(intent);
+//	            }
+//	        });
 			
 			/* Score if game is finished or ongoing */
-			if (event.isLive() || event.isFinished()) 
-			{
+			if (event.isLive() || event.isFinished()) {
 				int homeGoals = event.getHomeGoals();
 				int awayGoals = event.getAwayGoals();
 				
@@ -279,8 +290,7 @@ public class CompetitionEventEventsByGroupListAdapter
 				holder.score.setVisibility(View.VISIBLE);
 				holder.startTime.setVisibility(View.GONE);
 				
-				if (event.isFinished()) 
-				{
+				if (event.isFinished()) {
 					holder.score.setTextColor(activity.getResources().getColor(R.color.grey2));
 					holder.team1name.setTextColor(activity.getResources().getColor(R.color.grey2));
 					holder.team2name.setTextColor(activity.getResources().getColor(R.color.grey2));
@@ -295,8 +305,7 @@ public class CompetitionEventEventsByGroupListAdapter
 			}
 			
 			/* Before a game has started, show time: XX:XX */
-			else 
-			{
+			else {
 				String start = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 				holder.startTime.setText(start);
 				holder.score.setVisibility(View.GONE);
@@ -349,8 +358,9 @@ public class CompetitionEventEventsByGroupListAdapter
 					channelsSB.append(channelNames.get(j));
 				}
 			}
-
+			
 			holder.broadcastChannels.setText(channelsSB.toString());
+			
 		}
 		else
 		{
@@ -364,6 +374,7 @@ public class CompetitionEventEventsByGroupListAdapter
 	
 	private static class ViewHolder 
 	{
+		private TextView group;
 		private TextView startWeekDayHeader;
 		private TextView team1name;
 		private ImageView team1flag;

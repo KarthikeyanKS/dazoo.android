@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,12 +22,12 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -37,7 +36,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class CompetitionTagEventsListAdapter 
-	extends BaseAdapter
+	extends BaseAdapterWithShowMoreAdapter
 {
 	private static final String TAG = CompetitionTagEventsListAdapter.class.getName();
 	
@@ -50,9 +49,12 @@ public class CompetitionTagEventsListAdapter
 	
 	public CompetitionTagEventsListAdapter(
 			final Activity activity,
-			final List<Event> events)
+			final List<Event> events,
+			final boolean enableMoreViewAtBottom,
+			final String viewBottomMessage, 
+			final Runnable viewBottomConfirmProcedure)
 	{
-		super();
+		super(activity, enableMoreViewAtBottom, viewBottomMessage, viewBottomConfirmProcedure);
 		
 		this.events = events;
 		
@@ -318,13 +320,13 @@ public class CompetitionTagEventsListAdapter
 			
 			if(containsBroadcastDetails)
 			{
-				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
+				List<EventBroadcast> eventBroadcastDetailsList = event.getEventBroadcasts();
 				
 				int totalChannelCount = eventBroadcastDetailsList.size();
 				
 				List<String> channelNames = new ArrayList<String>(totalChannelCount);
 				
-				for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+				for(EventBroadcastJSON eventBroadcastDetails : eventBroadcastDetailsList)
 				{
 					String channelID = eventBroadcastDetails.getChannelId();
 					
