@@ -66,7 +66,7 @@ public class Event
 	{
 		List<EventBroadcast> list = new ArrayList<EventBroadcast>();
 		
-		for (EventBroadcastJSON ev : eventBroadcasts) 
+		for (EventBroadcastJSON ev : broadcasts) 
 		{
 			EventBroadcast element = new EventBroadcast(ev);
 			list.add(element);
@@ -133,7 +133,7 @@ public class Event
 	
 	public boolean containsBroadcastDetails()
 	{
-		return (eventBroadcasts != null && eventBroadcasts.isEmpty() == false);
+		return (broadcasts != null && broadcasts.isEmpty() == false);
 	}
 	
 	

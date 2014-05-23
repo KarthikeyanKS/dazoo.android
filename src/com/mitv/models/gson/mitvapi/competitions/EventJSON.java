@@ -42,7 +42,7 @@ public class EventJSON
 	protected boolean dataEntryLiveScore;
 	protected boolean dataEntryLiveGoal;
 	protected boolean dataEntryLiveLineUp;
-	protected List<EventBroadcastJSON> eventBroadcasts;
+	protected List<EventBroadcastJSON> broadcasts;
 	
 	
 	
