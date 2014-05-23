@@ -6,7 +6,6 @@ package com.mitv.models.gson.mitvapi.competitions;
 public class EventBroadcastJSON 
 {
 	protected String eventBroadcastId;
-	protected long eventId;
 	protected String programId;
 	protected String beginTime;
 	protected long beginTimeMillis;
@@ -21,12 +20,6 @@ public class EventBroadcastJSON
 
 	public String getEventBroadcastId() {
 		return eventBroadcastId;
-	}
-
-
-
-	public long getEventId() {
-		return eventId;
 	}
 
 
