@@ -214,7 +214,7 @@ public class EventPageActivity
 		boolean containsTeamInfo = event.containsTeamInfo();
 			
 		if(containsTeamInfo)
-		{	
+		{
 			final long team1ID = event.getHomeTeamId();
 			
 			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
@@ -480,7 +480,7 @@ public class EventPageActivity
 	
 	private void setAdapterForGroupAndStandings(int selectedIndex) 
 	{
-		StringBuilder groupName = new StringBuilder();
+		StringBuilder groupName = new StringBuilder(); 
 		groupName.append(phase.getPhase());
 		
 		pagerAdapterForGroupAndStandings = new CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter(

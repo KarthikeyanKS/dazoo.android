@@ -281,9 +281,6 @@ public class CompetitionEventEventsByGroupListAdapter
 				
 				if (event.isFinished()) 
 				{
-					// holder.container.setBackgroundColor(activity.getResources().getColor(R.color.bright_foreground_disabled_holo_dark));
-					
-					/* Add a new container with transparent overlay, TODO How??????????? */
 					holder.score.setTextColor(activity.getResources().getColor(R.color.grey2));
 					holder.team1name.setTextColor(activity.getResources().getColor(R.color.grey2));
 					holder.team2name.setTextColor(activity.getResources().getColor(R.color.grey2));

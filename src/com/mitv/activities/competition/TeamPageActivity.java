@@ -104,7 +104,7 @@ public class TeamPageActivity
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUADS);
+//		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUADS);
 		
 		initLayout();
 	}
@@ -134,7 +134,7 @@ public class TeamPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setMainLayoutLayout();
-				setSquadLayout();
+//				setSquadLayout();
 				setStandingsLayout();
 				setScheduleLayout();
 				break;
@@ -184,12 +184,7 @@ public class TeamPageActivity
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			if (teamSquads != null) {
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-				
-			} else {
-				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-			}
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 		else
 		{
@@ -226,7 +221,7 @@ public class TeamPageActivity
 		photoFrom = (TextView) findViewById(R.id.competition_team_page_photo_from);
 		
 		/* Squad */
-		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
+//		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
 		
 		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);

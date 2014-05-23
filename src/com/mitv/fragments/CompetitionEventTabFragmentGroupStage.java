@@ -4,7 +4,6 @@ package com.mitv.fragments;
 
 
 import java.util.List;
-import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -169,7 +168,7 @@ public class CompetitionEventTabFragmentGroupStage
 				
 				listContainerLayout.measure(0, 0);
 				
-				viewPager.heightsMap.put(CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
+				viewPager.heightsMap.put(CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION, listContainerLayout.getMeasuredHeight() + 200);
 				
 				viewPager.onPageScrolled(CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION, 0, 0);
 				
