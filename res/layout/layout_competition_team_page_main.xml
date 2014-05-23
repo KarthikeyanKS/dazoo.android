@@ -49,8 +49,16 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/team_page_squad_header" />
 
+                <!-- Fake squad -->
+                <ImageView
+                    android:id="@+id/competition_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/competition_team_page_squad_header"
+                    android:background="@drawable/competition_team_squad_fake"
+                    android:scaleType="fitXY" />
+                
                 <!-- The list -->
-
                 <LinearLayout
                     android:id="@+id/competition_team_page_squad_list"
                     android:layout_width="match_parent"

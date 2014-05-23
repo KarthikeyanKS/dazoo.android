@@ -3,7 +3,6 @@ package com.mitv.activities.competition;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
 import com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -184,12 +182,7 @@ public class TeamPageActivity
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			if (teamSquads != null) {
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-				
-			} else {
-				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-			}
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 		else
 		{
@@ -271,15 +264,15 @@ public class TeamPageActivity
 			String textAbout = this.getResources().getString(R.string.team_page_team_info_about_hard_coded);
 			about.setText(textAbout);
 			
-			foundedHeader.setText(this.getResources().getString(R.string.team_page_team_founded_header));
+			foundedHeader.setText("");
 			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
-			locationHeader.setText(this.getResources().getString(R.string.team_page_team_location_header));
-			arenasHeader.setText(this.getResources().getString(R.string.team_page_team_arenas_header));
+			locationHeader.setText("");
+			arenasHeader.setText("");
 //			photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 			
-			founded.setText(this.getResources().getString(R.string.team_page_team_founded_hard_coded));
+			founded.setText("");
 			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
-			location.setText(this.getResources().getString(R.string.team_page_team_location_hard_coded));
+			location.setText("");
 			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
 			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 		}
@@ -287,7 +280,8 @@ public class TeamPageActivity
 	
 	
 	
-	private void setSquadLayout() {
+	private void setSquadLayout() 
+	{
 		squadListContainer.removeAllViews();
 		
 		/* TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
@@ -310,7 +304,8 @@ public class TeamPageActivity
 	
 	
 	
-	private void setStandingsLayout() {
+	private void setStandingsLayout() 
+	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.getResources().getString(R.string.event_page_header_standings))
 			.append(" ")

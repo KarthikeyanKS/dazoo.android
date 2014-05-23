@@ -4,7 +4,6 @@ package com.mitv.fragments;
 
 
 import java.util.List;
-import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -208,7 +207,7 @@ public class CompetitionEventTabFragmentGroupStage
 			{
 				Intent intent = new Intent(activity, CompetitionPageActivity.class);			
 				
-				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, getEvent().getCompetitionId());
                 intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
                 
 				activity.startActivity(intent);

@@ -375,10 +375,11 @@ public class TVGuideTabFragmentCompetition
 	}
 	
 	
-	private void setListOfEvents() {
+	private void setListOfEvents() 
+	{
 		boolean filterFinishedEvents = true;
 		boolean filterLiveEvents = false;
-		int limit = 10;
+		int limit = 2;
 		
 		List<Event> events = ContentManager.sharedInstance().getFromCacheNextUpcomingEventsForSelectedCompetition(filterFinishedEvents, filterLiveEvents, limit);
 		

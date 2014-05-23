@@ -26,18 +26,8 @@ public class EventBroadcastDetailsJSON
 	
 	
 	
-	public EventBroadcastDetailsJSON(String channelid, String beginTime, long beginTimeMillis, String broadcastId, String endTime) 
+	public String getBeginTime() 
 	{
-		this.beginTime = beginTime;
-		this.channelId = channelid;
-		this.beginTimeMillis = beginTimeMillis;
-		this.broadcastId = broadcastId;
-		this.endTime = endTime;
-	}
-
-	
-	
-	public String getBeginTime() {
 		return beginTime;
 	}
 

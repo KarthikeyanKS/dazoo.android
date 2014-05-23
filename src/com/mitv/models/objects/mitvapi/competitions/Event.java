@@ -31,35 +31,7 @@ public class Event
 	
 	
 	public Event()
-	{
-		if (broadcastDetails == null) 
-		{
-			String channelId;
-			String beginTime;
-			long beginTimeMillis;
-			String broadcastId;
-			String endTime;
-			EventBroadcastDetailsJSON sdf;
-			
-			channelId = "co_d9ff9f53-fe42-45d2-b532-e74932de5f82";
-			beginTime = "2014-05-21T21:00:00Z";
-			beginTimeMillis = 1400706000000L;
-			broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
-			endTime = "2014-05-21T22:00:00Z";
-			sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
-			broadcastDetails = new ArrayList<EventBroadcastDetailsJSON>();
-			broadcastDetails.add(sdf);
-			
-			channelId = "co_d9ff9f53-fe42-45d2-b532-e74932de5f82";
-			beginTime = "2014-05-21T12:00:00Z";
-			beginTimeMillis = 1400677200000L;
-			broadcastId = "co_98693b86-0dbc-45e9-af4b-9547e620fb08"; //programid
-			endTime = "2014-05-21T13:30:00Z";
-			sdf = new EventBroadcastDetailsJSON(channelId, beginTime, beginTimeMillis, broadcastId, endTime);
-			
-			broadcastDetails.add(sdf);
-		}
-	}
+	{}
 	
 	
 	
@@ -72,6 +44,7 @@ public class Event
 	
 	public Event(NotificationSQLElement item)
 	{
+		// TODO
 //		TVChannel tvChannel = new TVChannel(item);
 //		this.channel = tvChannel;
 //		
