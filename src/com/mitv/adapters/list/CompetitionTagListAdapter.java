@@ -8,7 +8,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +20,12 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.gson.mitvapi.competitions.EventBroadcastDetailsJSON;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcastDetails;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -321,13 +318,13 @@ public class CompetitionTagListAdapter
 			
 			if(containsBroadcastDetails)
 			{
-				List<EventBroadcastDetails> eventBroadcastDetailsList = event.getEventBroadcastDetails();
+				List<EventBroadcast> eventBroadcastDetailsList = event.getEventBroadcasts();
 				
 				int totalChannelCount = eventBroadcastDetailsList.size();
 				
 				List<String> channelNames = new ArrayList<String>(totalChannelCount);
 				
-				for(EventBroadcastDetailsJSON eventBroadcastDetails : eventBroadcastDetailsList)
+				for(EventBroadcastJSON eventBroadcastDetails : eventBroadcastDetailsList)
 				{
 					String channelID = eventBroadcastDetails.getChannelId();
 					
