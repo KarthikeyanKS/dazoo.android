@@ -89,9 +89,9 @@ public class Team
 			.append(Constants.URL_SHARE_SPORT_SPANISH)
 			.append(Constants.URL_COMPETITIONS_SPANISH)
 			.append(Constants.FIFA_COMPETITION_ID)
-			.append(Constants.FORWARD_SLASH)
+			.append(Constants.URL_SHARE_SPORT_team_SPANISH)
 			.append(this.getTeamId())
-			.append(Constants.URL_SHARE_SPORT_team_SPANISH);
+			.append(Constants.FORWARD_SLASH);
 		
 		String url = sb.toString();
 		
