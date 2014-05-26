@@ -1,6 +1,8 @@
 
 package com.mitv.activities.competition;
 
+
+
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
@@ -32,6 +35,7 @@ import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
+import com.mitv.ui.elements.LikeView;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -68,6 +72,10 @@ public class TeamPageActivity
 	private TextView arenas;
 	private TextView photoFrom;
 	
+	/* Like and Reminder */
+	private LikeView likeView;
+	private RelativeLayout shareContainer;
+	
 	/* Squad */
 	private List<TeamSquad> teamSquads;
 	private LinearLayout squadListContainer;
@@ -84,8 +92,10 @@ public class TeamPageActivity
 	private CompetitionTagEventsListAdapter scheduleListAdapter;
 	
 	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		
 		if (super.isRestartNeeded())
@@ -103,7 +113,7 @@ public class TeamPageActivity
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
 		
-//		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUADS);
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUAD);
 		
 		initLayout();
 	}
@@ -113,9 +123,11 @@ public class TeamPageActivity
 	@Override
 	protected void onResume() 
 	{
+		updateStatusOfLikeView();
+				
 		super.onResume();
 	}
-
+	
 	
 	
 	@Override
@@ -133,7 +145,6 @@ public class TeamPageActivity
 			case SUCCESS_WITH_CONTENT:
 			{
 				setMainLayoutLayout();
-//				setSquadLayout();
 				setStandingsLayout();
 				setScheduleLayout();
 				break;
@@ -163,7 +174,7 @@ public class TeamPageActivity
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefresh, competitionID, teamID);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceSquadByTeamID(this, forceRefresh, teamID);
+		ContentManager.sharedInstance().getElseFetchFromServiceSquadByTeamID(this, forceRefresh, competitionID, teamID);
 	}
 
 	
@@ -171,7 +182,8 @@ public class TeamPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent() 
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasTeamData(competitionID);
+		boolean hasData = ContentManager.sharedInstance().getFromCacheHasTeamData(competitionID) && 
+				          ContentManager.sharedInstance().getFromCacheHasSquadForTeamID(teamID);
 		
 		return hasData;
 	}
@@ -181,13 +193,41 @@ public class TeamPageActivity
 	@Override
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if(fetchRequestResult.wasSuccessful())
+		switch(requestIdentifier)
 		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		}
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
+			case COMPETITION_TEAM_BY_ID:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);		
+				}
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+			}
+	
+			case COMPETITION_TEAM_SQUAD:
+			{
+				// TODO - Enable this to get the Squad from the API
+//				if(fetchRequestResult.wasSuccessful())
+//				{
+//					setSquadLayout();
+//				}
+				break;
+			}
+	
+			case USER_ADD_LIKE: 
+			{
+				updateStatusOfLikeView();
+				break;
+			}
+	
+			default:
+			{
+				Log.w(TAG, "Unknown request identifier");
+				break;
+			}
 		}
 	}
 	
@@ -220,7 +260,7 @@ public class TeamPageActivity
 		photoFrom = (TextView) findViewById(R.id.competition_team_page_photo_from);
 		
 		/* Squad */
-//		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
+		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
 		
 		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);
@@ -233,9 +273,10 @@ public class TeamPageActivity
 	
 	
 	
-	private void setMainLayoutLayout() {
-		if (team != null) {
-			
+	private void setMainLayoutLayout() 
+	{
+		if (team != null) 
+		{	
 			boolean filterFinishedEvents = true;
 			boolean filterLiveEvents = false;
 			events = ContentManager.sharedInstance().getFromCacheEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
@@ -276,6 +317,11 @@ public class TeamPageActivity
 			location.setText("");
 //			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
 			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+			
+			likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
+			shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
+			
+			likeView.setUserLike(team);
 		}
 	}
 	
@@ -285,8 +331,7 @@ public class TeamPageActivity
 	{
 		squadListContainer.removeAllViews();
 		
-		/* TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-//		teamSquads = ContentManager.sharedInstance().getFromCacheTeamSquadsDataByTeamID(teamID);
+		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID);
 		
 		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
 		
@@ -344,7 +389,8 @@ public class TeamPageActivity
 	
 	
 	
-	private void setScheduleLayout() {
+	private void setScheduleLayout() 
+	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.getResources().getString(R.string.team_page_squad_schedule_header))
 			.append(" ")
@@ -371,6 +417,16 @@ public class TeamPageActivity
         }
 		
 		scheduleListContainer.measure(0, 0);
+	}
+	
+	
+	
+	private void updateStatusOfLikeView() 
+	{
+		if (likeView != null) 
+		{
+			likeView.updateImage();
+		}
 	}
 	
 	

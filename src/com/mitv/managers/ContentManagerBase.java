@@ -430,6 +430,21 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public boolean getFromCacheHasSquadForTeamID(Long teamID)
+	{
+		boolean hasData = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasData = getCache().getCompetitionsData().containsSquadData(competitionID, teamID);
+		
+		return hasData;
+	}
+	
+	
+	
 	/* GETTERS & SETTERS */
 	
 	/* TVDate getters and setters */
@@ -1031,20 +1046,18 @@ public abstract class ContentManagerBase
 	
 	public Team getFromCacheTeamByID(long teamID)
 	{
-		Team matchingTeam = null;
-		
-		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
-		
-		for(Team team : teams)
-		{
-			if(team.getTeamId() == teamID)
-			{
-				matchingTeam = team;
-				break;
-			}
-		}
+		Team matchingTeam = getCache().getCompetitionsData().getTeamByIDForSelectedCompetition(teamID);
 		
 		return matchingTeam;
+	}
+	
+	
+	
+	public List<TeamSquad> getFromCacheSquadByTeamID(long teamID)
+	{
+		List<TeamSquad> squad = getCache().getCompetitionsData().getSquadByTeamIDForSelectedCompetition(teamID);
+		
+		return squad;
 	}
 	
 	

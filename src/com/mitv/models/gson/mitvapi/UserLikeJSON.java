@@ -66,6 +66,14 @@ public class UserLikeJSON
 	@Expose (deserialize = false)
 	protected String category;
 	
+
+	/* This variable is used if likeType == "COMPETITION" */
+	protected long competitionID;
+	
+	
+	/* This variable is used if likeType == "COMPETITION_TEAM" */
+	protected long teamID;
+	
 	
 	
 	/*
@@ -120,6 +128,17 @@ public class UserLikeJSON
 			}
 			break;
 			
+			case COMPETITION:
+			{
+				break;
+			}
+			
+			case COMPETITION_TEAM:
+			{
+				
+				break;
+			}
+			
 			default:
 			case PROGRAM:
 			{
@@ -161,14 +180,22 @@ public class UserLikeJSON
 		return baseObject;
 	}
 	
-	public LikeTypeResponseEnum getLikeType() {
-		return LikeTypeResponseEnum.getLikeTypeEnumFromStringRepresentation(likeType);
+	
+	
+	public LikeTypeResponseEnum getLikeType() 
+	{
+		return LikeTypeResponseEnum.getTypeEnumFromStringRepresentation(likeType);
 	}
 	
-	public ProgramTypeEnum getProgramType() {
+	
+	
+	public ProgramTypeEnum getProgramType() 
+	{
 		return ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(programType);
 	}
 
+	
+	
 	public String getTitle() {
 		return title;
 	}
@@ -197,17 +224,23 @@ public class UserLikeJSON
 		return sportTypeId;
 	}
 
-
-
 	public Integer getBroadcastCount() {
 		return broadcastCount;
 	}
 
-
-
 	public UserLikeNextBroadcast getNextBroadcast() {
 		return nextBroadcast;
 	}
-	
-	
+
+
+
+	public long getCompetitionID() {
+		return competitionID;
+	}
+
+
+
+	public long getTeamID() {
+		return teamID;
+	}	
 }

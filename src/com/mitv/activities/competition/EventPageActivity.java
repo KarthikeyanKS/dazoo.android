@@ -23,7 +23,6 @@ import com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter;
 import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
-import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventMatchStatusEnum;
@@ -36,6 +35,7 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventBroadcastByStartTime;
 import com.mitv.models.comparators.EventHighlightComparatorByTime;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
@@ -133,8 +133,6 @@ public class EventPageActivity
 				
 		long phaseID = event.getPhaseId();
 		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
-		
 		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 		
 		events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
@@ -154,6 +152,8 @@ public class EventPageActivity
 	@Override
 	protected void onResume() 
 	{
+		updateStatusOfLikeView();
+		
 		super.onResume();
 	}
 	
@@ -372,6 +372,19 @@ public class EventPageActivity
 			beginTime.setVisibility(View.VISIBLE);
 			beginTimeDate.setVisibility(View.VISIBLE);
 		}
+		
+		long competitionID = event.getCompetitionId();
+		
+		Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+		
+		if(competition != null)
+		{
+			likeView.setUserLike(competition);
+		}
+		else
+		{
+			Log.w(TAG, "Competition was not found. User like will not be set");
+		}
 	}
 	
 	
@@ -490,6 +503,7 @@ public class EventPageActivity
 	}
 	
 	
+	
 	/* Schedule for group */
 	private void setAdapterForGroupList() 
 	{
@@ -522,9 +536,12 @@ public class EventPageActivity
 	}
 	
 	
+	
 	/* Standings for group */
-	private void setAdapterForStandingsList() {
+	private void setAdapterForStandingsList() 
+	{
 		StringBuilder header = new StringBuilder(); 
+		
 		header.append(this.getResources().getString(R.string.event_page_header_standings))
 			.append(" ")
 			.append(phase.getPhase());
@@ -587,22 +604,41 @@ public class EventPageActivity
 
 	@Override
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
-	{
-		if(fetchRequestResult.wasSuccessful())
+	{	
+		switch (requestIdentifier) 
 		{
-			if(event == null)
+			case COMPETITION_EVENT_HIGHLIGHTS:
 			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-			} 
-			else
+				if(fetchRequestResult.wasSuccessful())
+				{
+					if(event == null)
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+					} 
+					else
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					}
+				}
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+				break;
+			}
+	
+			case USER_ADD_LIKE:
 			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				updateStatusOfLikeView();
+				break;
+			}
+	
+			default:
+			{
+				Log.w(TAG, "Unknown request identifier");
+				break;
 			}
 		}
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}	
 	}
 	
 	
@@ -629,6 +665,17 @@ public class EventPageActivity
 		
 		broadcastListView.measure(0, 0);
 	}
+	
+	
+	
+	private void updateStatusOfLikeView() 
+	{
+		if (likeView != null) 
+		{
+			likeView.updateImage();
+		}
+	}
+	
 	
 	
 	private Runnable getNavigateToCompetitionPageProcedure()

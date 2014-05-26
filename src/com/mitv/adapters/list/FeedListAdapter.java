@@ -555,7 +555,7 @@ public class FeedListAdapter
 				holderBC.progressBar.setVisibility(View.GONE);
 			}
 
-			holderBC.likeView.setBroadcast(broadcast);
+			holderBC.likeView.setUserLike(program);
 			
 			holderBC.container.setOnClickListener(new View.OnClickListener() 
 			{

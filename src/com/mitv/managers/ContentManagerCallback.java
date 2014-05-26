@@ -45,6 +45,7 @@ import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 
 
 
@@ -318,6 +319,12 @@ public abstract class ContentManagerCallback
 			case COMPETITION_EVENT_LINEUP:
 			{
 				handleCompetitionEventLineUpResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
+			case COMPETITION_TEAM_SQUAD:
+			{
+				handleCompetitionTeamSquadResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
 				break;
 			}
 			
@@ -1038,6 +1045,28 @@ public abstract class ContentManagerCallback
 			Long eventID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY);
 			
 			getCache().getCompetitionsData().setLineUpForEventInSelectedCompetition(eventID, eventLineUp);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	private void handleCompetitionTeamSquadResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<TeamSquad> squad = (ArrayList<TeamSquad>) content;
+			
+			Long teamID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_TEAM_ID_KEY);
+			
+			getCache().getCompetitionsData().setSquadForTeamInSelectedCompetition(teamID, squad);
 		}
 		
 		activityCallbackListener.onResult(result, requestIdentifier);

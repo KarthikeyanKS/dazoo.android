@@ -121,12 +121,14 @@ public abstract class Constants
 	public static final String URL_SPORTS_MODULE					= "/api/sports"; 
 	public static final String URL_COMPETITIONS 					= "/competitions";
 	public static final String URL_PHASES 					 		= "/phases";
+	public static final String URL_TEAMS 					 		= "/teams";
 	public static final String URL_COMPETITIONS_FULL 			    = URL_SERVER + URL_SPORTS_MODULE + URL_COMPETITIONS;
 	public static final String URL_PHASES_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_PHASES;
-	public static final String URL_TEAMS 					 		= "/teams";
+	public static final String URL_TEAMS_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_TEAMS;
 	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
+	public static final String URL_SQUAD 					 		= "/squad";
 	public static final String URL_LINE_UP 					 		= "/lineup";
 	public static final String URL_POLLS 					 		= "/polls";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
@@ -539,6 +541,7 @@ public abstract class Constants
 	
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
+	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";
 	public static final String GROUP_STAGE = "Fase de Grupos";
 	public static final int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON = 1;
 }

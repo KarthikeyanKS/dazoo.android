@@ -22,7 +22,11 @@ import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
@@ -37,14 +41,15 @@ public class LikeView
 	private static final String TAG = LikeView.class.toString();
 
 	
+	private BaseActivity activity;
 	private LayoutInflater inflater;
 	private FontTextView iconView;
-	private BaseActivity activity;
 	private View containerView;
-	private UserLike likeFromBroadcast;
 	private ViewCallbackListener viewCallbackListener;
 
+	private UserLike userLike;
 	
+
 	
 	public LikeView(Context context) 
 	{
@@ -86,12 +91,12 @@ public class LikeView
 		
 		this.setOnClickListener(this);
 	}
-
 	
 	
-	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
+	
+	public void setUserLike(Competition competition) 
 	{
-		this.likeFromBroadcast = UserLike.userLikeFromBroadcast(broadcast);
+		userLike = new UserLike(competition);
 
 		updateImage();
 
@@ -99,9 +104,32 @@ public class LikeView
 	}
 	
 	
+	
+	public void setUserLike(Team team) 
+	{
+		userLike = new UserLike(team);
+
+		updateImage();
+
+		containerView.setBackgroundResource(R.drawable.background_color_selector);
+	}
+
+	
+	
+	public void setUserLike(TVProgram program) 
+	{
+		userLike = new UserLike(program);
+
+		updateImage();
+
+		containerView.setBackgroundResource(R.drawable.background_color_selector);
+	}
+	
+	
+	
 	public void updateImage() 
 	{
-		if (ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast)) 
+		if (ContentManager.sharedInstance().isContainedInUserLikes(userLike)) 
 		{
 			setImageToLiked();
 		} 
@@ -115,7 +143,7 @@ public class LikeView
 	
 	private void removeLike() 
 	{
-		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), null);
+		DialogHelper.showRemoveLikeDialog(activity, removeLikeProcedure(), null);
 	}
 	
 	
@@ -126,9 +154,9 @@ public class LikeView
 		
 		setImageToLiked();
 		
-		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
+		ContentManager.sharedInstance().addUserLike(this, userLike);
 
-		TrackingGAManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, false);
+		TrackingGAManager.sharedInstance().sendUserLikesEvent(userLike, false);
 	}
 
 	
@@ -136,15 +164,15 @@ public class LikeView
 	@Override
 	public void onClick(View v) 
 	{
-		if(likeFromBroadcast != null)
+		if(userLike != null)
 		{
 			RateAppManager.significantEvent(activity);
 			
 			boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 	
-			final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);
+			final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(userLike);
 	
-			if (isLoggedIn) 
+			if (isLoggedIn)
 			{
 				boolean isConnected = NetworkUtils.isConnected();
 				
@@ -166,7 +194,7 @@ public class LikeView
 			} 
 			else 
 			{
-				DialogHelper.showPromptSignInDialog(activity, yesLikeProc(), null);
+				DialogHelper.showPromptSignInDialog(activity, loginBeforeLikeProcedure(), null);
 			}
 		}
 		else
@@ -192,17 +220,17 @@ public class LikeView
 	
 	
 	/* Remove like dialog */
-	private Runnable yesRemoveLike() 
+	private Runnable removeLikeProcedure() 
 	{
 		return new Runnable() 
 		{
 			public void run() 
 			{
-				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
+				ContentManager.sharedInstance().removeUserLike(activity, userLike);
 				setImageToNotLiked();
 				
 				setImageToNotLiked();
-				TrackingGAManager.sharedInstance().sendUserLikesEvent(likeFromBroadcast, true);
+				TrackingGAManager.sharedInstance().sendUserLikesEvent(userLike, true);
 			}
 		};
 	}
@@ -210,7 +238,7 @@ public class LikeView
 	
 
 	/* Sign in dialog */
-	private Runnable yesLikeProc() 
+	private Runnable loginBeforeLikeProcedure() 
 	{
 		return new Runnable() 
 		{
@@ -218,7 +246,7 @@ public class LikeView
 			{
 				/* We are not logged in, but we want the Like to be added after we log in, so set it
 				 * After login is complete the ContentManager will perform the adding of the like to backend */
-				ContentManager.sharedInstance().setLikeToAddAfterLogin(likeFromBroadcast);
+				ContentManager.sharedInstance().setLikeToAddAfterLogin(userLike);
 				
 				Intent intent = new Intent(activity, SignUpSelectionActivity.class);			
 				
@@ -269,14 +297,14 @@ public class LikeView
 			{
 				case USER_ADD_LIKE:
 				{
-					Log.w(TAG, "Warning, adding of like failed");
+					Log.w(TAG, "Adding of like failed");
 					setImageToNotLiked();
 					break;
 				}
 				
 				case USER_REMOVE_LIKE:
 				{
-					Log.w(TAG, "Warning, removing of like failed");
+					Log.w(TAG, "Removing of like failed");
 					setImageToLiked();
 					break;
 				}
@@ -284,6 +312,5 @@ public class LikeView
 				default:{/* Do nothing */break;}
 			}
 		}
-		
 	}
 }

@@ -187,8 +187,8 @@
             android:layout_toRightOf="@id/competition_team_page_photo_from_header" />
     </RelativeLayout>
 
+    
     <!-- DIVIDER -->
-
     <View
         android:id="@+id/divider_before_social_buttons"
         android:layout_width="match_parent"
@@ -198,8 +198,8 @@
         android:background="@color/grey1"
         android:visibility="visible" />
 
+    
     <!-- Include Social interaction panel -->
-
     <include
         android:id="@+id/competition_team_page_social_panel"
         android:layout_width="match_parent"

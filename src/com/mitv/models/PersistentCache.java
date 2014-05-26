@@ -570,14 +570,15 @@ public abstract class PersistentCache
 
 	
 	
-	public synchronized void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) {
-		
-		if (this.activityFeed == null) {
+	public synchronized void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) 
+	{	
+		if (this.activityFeed == null) 
+		{
 			activityFeed = new ArrayList<TVFeedItem>();
 		}
 		
-		if (additionalActivityFeedItems != null && !additionalActivityFeedItems.isEmpty()) {
-			
+		if (additionalActivityFeedItems != null && !additionalActivityFeedItems.isEmpty()) 
+		{	
 			activityFeed.addAll(additionalActivityFeedItems);
 			
 			if (feedItemsToDelete != null && !feedItemsToDelete.isEmpty()) {
@@ -593,21 +594,25 @@ public abstract class PersistentCache
 	 * 
 	 * @param like
 	 */
-	private void deleteFeedItemUsingLike(UserLike like) {
-		if (activityFeed != null && !activityFeed.isEmpty()) {
-
+	private void deleteFeedItemUsingLike(UserLike like) 
+	{
+		if (activityFeed != null && !activityFeed.isEmpty()) 
+		{
 			/* Making a copy of the array list, we can not modify the list in the for-loop */
 			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed;
 			
-			for (TVFeedItem feedItem : activityFeedCopy) {
-				
-				if (feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+			for (TVFeedItem feedItem : activityFeedCopy) 
+			{	
+				if (feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) 
+				{
 					TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
 					
 					TVProgram program = broadcast.getProgram();
+					
 					String contentIdFromProgram = UserLike.getContentIdFromTVProgram(program);
 					
-					if(contentIdFromProgram.equals(like.getContentId())) {
+					if(contentIdFromProgram.equals(like.getContentId()))
+					{
 						feedItemsToDelete.add(feedItem);
 						
 						Log.d(TAG, "Removing liked broadcasts from list!! Item: " + program.getTitle());

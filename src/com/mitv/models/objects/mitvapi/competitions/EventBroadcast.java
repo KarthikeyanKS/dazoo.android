@@ -7,7 +7,6 @@ import java.util.Calendar;
 
 import android.util.Log;
 
-import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;

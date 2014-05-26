@@ -43,7 +43,8 @@ public class CompetitionCacheData
 	private TreeMap<Long, List<EventLineUp>> lineupByEvent;
 	private Long lineupByEventFetchTime;
 	
-	private List<TeamSquad> teamSquads;
+	private TreeMap<Long, List<TeamSquad>> squadByTeam;
+	
 	
 	
 	public Map<Long, List<Event>> getEventsForFirstStages()
@@ -84,7 +85,7 @@ public class CompetitionCacheData
 		
 		this.lineupByEventFetchTime = null;
 		
-		this.teamSquads = new ArrayList<TeamSquad>();
+		this.squadByTeam = new TreeMap<Long, List<TeamSquad>>();
 		
 		this.currentPhaseForTeam = new TreeMap<Long, Phase>();
 	}
@@ -274,7 +275,7 @@ public class CompetitionCacheData
 	
 	public boolean hasSquadData(Long teamID)
 	{
-		boolean hasStandingsData = (teamSquads.isEmpty() == false && teamSquads.contains(teamID));
+		boolean hasStandingsData = (squadByTeam.isEmpty() == false && squadByTeam.containsKey(teamID));
 		
 		return hasStandingsData;
 	}
@@ -400,13 +401,13 @@ public class CompetitionCacheData
 	}
 	
 	
-	public List<TeamSquad> getSquadsByTeam() {
-		return teamSquads;
+	public TreeMap<Long, List<TeamSquad>> getSquadByTeam() {
+		return squadByTeam;
 	}
 	
 	
-	public void setSquadsByTeam(List<TeamSquad> teamSquads) {
-		this.teamSquads = teamSquads;
+	public void setSquadByTeam(TreeMap<Long, List<TeamSquad>> squadByTeam) {
+		this.squadByTeam = squadByTeam;
 	}
 	
 }
