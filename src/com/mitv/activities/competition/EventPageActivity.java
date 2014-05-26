@@ -35,6 +35,7 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventBroadcastByStartTime;
 import com.mitv.models.comparators.EventHighlightComparatorByTime;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
@@ -43,6 +44,7 @@ import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.ui.elements.LikeView;
+import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -93,6 +95,7 @@ public class EventPageActivity
 	private String competitionName;
 	private TextView headerStandings;
 	private TextView headerGroups;
+	private String shareUrl;
 	
 	private RelativeLayout highlightsContainerLayout;
 	private RelativeLayout lineupContainerLayout;
@@ -139,6 +142,8 @@ public class EventPageActivity
 		events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
 		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
+		
+		shareUrl = "http://gitrgitr.com/deportes/events/1657995";
 		
 		initLayout();
 		
@@ -397,7 +402,38 @@ public class EventPageActivity
 			beginTime.setVisibility(View.VISIBLE);
 			beginTimeDate.setVisibility(View.VISIBLE);
 		}
+		
+		/* Share event */
+		shareContainer.setTag(event);
+		shareContainer.setOnClickListener(this);
 	}
+	
+	
+	@Override
+	public void onClick(View v) 
+	{
+		/* Important to call super, else tabs wont work */
+		super.onClick(v);
+
+		int viewId = v.getId();
+
+		Event shareEvent = (Event) v.getTag();
+
+		switch (viewId) 
+		{
+			case R.id.competition_element_social_buttons_share_button_container: 
+			{
+				GenericUtils.startShareActivity(this, shareEvent);
+				break;
+			}
+			default: 
+			{
+				Log.w(TAG, "Unhandled onClick action");
+				break;
+			}
+		}
+	}
+
 	
 	
 	

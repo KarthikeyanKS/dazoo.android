@@ -346,4 +346,26 @@ public class Event
 		
 		return beginTimeMillis;
 	}	
+	
+	
+	
+	/* TODO */
+	public String getShareUrl() {
+		StringBuilder sb = new StringBuilder();
+//		sb.append("http://gitrgitr.com/deportes/events/{eventID}")
+		sb.append(Constants.HTTP_SCHEME)
+//		.append(Constants.FRONTEND_PRODUCTION_ENVIRONMENT)
+		.append(Constants.FRONTEND_TEST_ENVIRONMENT)				/* TODO change me later */
+		.append(Constants.URL_SHARE_SPORT_SPANISH)
+		.append(Constants.URL_EVENTS)
+		.append(Constants.FORWARD_SLASH)
+		.append(Constants.FIFA_COMPETITION_ID)
+		.append(Constants.FORWARD_SLASH)
+		.append(this.getEventId())
+		.append(Constants.FORWARD_SLASH);
+		
+		String url = sb.toString();
+		
+		return url;
+	}
 }
