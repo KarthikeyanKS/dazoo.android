@@ -172,9 +172,7 @@ public class CompetitionEventPageBroadcastListAdapter
 					int minutesLeft = Math.abs(totalMinutes - currentMinutes);
 
 					StringBuilder sbMinutesLeft = new StringBuilder();
-					sbMinutesLeft.append(minutesLeft)
-					.append(" ")
-					.append(LanguageUtils.getRemainingTimeAsString(activity, minutesLeft));
+					sbMinutesLeft.append(LanguageUtils.getRemainingTimeAsString(activity, minutesLeft));
 
 					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.red));
 
