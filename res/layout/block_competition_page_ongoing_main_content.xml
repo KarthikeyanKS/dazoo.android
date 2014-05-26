@@ -169,7 +169,7 @@
             
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/competition_ongoing_next_game_text"
-                style="@style/header3"
+                style="@style/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
