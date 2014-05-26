@@ -72,7 +72,7 @@ public class TeamPageActivity
 	private TextView location;
 	private TextView arenas;
 	private TextView photoFrom;
-	private RelativeLayout shareContainer;
+	private RelativeLayout rowStandingsContainer;
 	
 	/* Like and Reminder */
 	private LikeView likeView;
@@ -272,6 +272,8 @@ public class TeamPageActivity
 		/* Schedule */
 		scheduleHeader = (TextView) findViewById(R.id.competition_team_page_schedule_header);
 		scheduleListContainer = (LinearLayout) findViewById(R.id.competition_team_page_schedule_list);
+
+		rowStandingsContainer = (RelativeLayout) findViewById(R.id.competition_team_page_standings_container);
 	}
 	
 	
@@ -322,7 +324,6 @@ public class TeamPageActivity
 			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 			
 			likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
-			shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 			
 			likeView.setUserLike(team);
 			

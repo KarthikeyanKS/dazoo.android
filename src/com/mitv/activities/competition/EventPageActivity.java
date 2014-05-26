@@ -44,7 +44,6 @@ import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.ui.elements.LikeView;
-import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -95,7 +94,6 @@ public class EventPageActivity
 	private String competitionName;
 	private TextView headerStandings;
 	private TextView headerGroups;
-	private String shareUrl;
 	
 	private RelativeLayout highlightsContainerLayout;
 	private RelativeLayout lineupContainerLayout;
@@ -140,8 +138,6 @@ public class EventPageActivity
 		events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
 		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
-		
-		shareUrl = "http://gitrgitr.com/deportes/events/1657995";
 		
 		initLayout();
 		
