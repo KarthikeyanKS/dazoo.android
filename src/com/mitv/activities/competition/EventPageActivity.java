@@ -411,7 +411,38 @@ public class EventPageActivity
 		{
 			Log.w(TAG, "Competition was not found. User like will not be set");
 		}
+		
+		/* Share event */
+		shareContainer.setTag(event);
+		shareContainer.setOnClickListener(this);
 	}
+	
+	
+	@Override
+	public void onClick(View v) 
+	{
+		/* Important to call super, else tabs wont work */
+		super.onClick(v);
+
+		int viewId = v.getId();
+
+		Event shareEvent = (Event) v.getTag();
+
+		switch (viewId) 
+		{
+			case R.id.competition_element_social_buttons_share_button_container: 
+			{
+				GenericUtils.startShareActivity(this, shareEvent);
+				break;
+			}
+			default: 
+			{
+				Log.w(TAG, "Unhandled onClick action");
+				break;
+			}
+		}
+	}
+
 	
 	
 	

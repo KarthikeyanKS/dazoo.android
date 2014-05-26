@@ -134,6 +134,11 @@ public abstract class Constants
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
 	
+	/* Share */
+	public static final String URL_COMPETITIONS_SPANISH				= "/competicion/";
+	public static final String URL_SHARE_SPORT_SPANISH		 		= "/deportes";
+	public static final String URL_SHARE_SPORT_team_SPANISH		 	= "/equipos/";
+	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
 	public static final String	API_CHANNEL_ID						= "channelId";

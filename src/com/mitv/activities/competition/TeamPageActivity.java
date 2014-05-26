@@ -34,6 +34,7 @@ import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 import com.mitv.ui.elements.LikeView;
+import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -69,6 +70,7 @@ public class TeamPageActivity
 	private TextView location;
 	private TextView arenas;
 	private TextView photoFrom;
+	private RelativeLayout rowStandingsContainer;
 	
 	/* Like and Reminder */
 	private LikeView likeView;
@@ -256,6 +258,7 @@ public class TeamPageActivity
 		location = (TextView) findViewById(R.id.competition_team_page_location);
 		arenas = (TextView) findViewById(R.id.competition_team_page_arenas);
 		photoFrom = (TextView) findViewById(R.id.competition_team_page_photo_from);
+		shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 		
 		/* Squad */
 		//squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
@@ -267,6 +270,8 @@ public class TeamPageActivity
 		/* Schedule */
 		scheduleHeader = (TextView) findViewById(R.id.competition_team_page_schedule_header);
 		scheduleListContainer = (LinearLayout) findViewById(R.id.competition_team_page_schedule_list);
+
+		rowStandingsContainer = (RelativeLayout) findViewById(R.id.competition_team_page_standings_container);
 	}
 	
 	
@@ -317,9 +322,39 @@ public class TeamPageActivity
 			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 			
 			likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
-			shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 			
 			likeView.setUserLike(team);
+			
+			/* Share team */
+			shareContainer.setTag(team);
+			shareContainer.setOnClickListener(this);
+		}
+	}
+	
+	
+	
+	@Override
+	public void onClick(View v) 
+	{
+		/* Important to call super, else tabs wont work */
+		super.onClick(v);
+
+		int viewId = v.getId();
+
+		Team shareTeam = (Team) v.getTag();
+
+		switch (viewId) 
+		{
+			case R.id.competition_element_social_buttons_share_button_container:
+			{
+				GenericUtils.startShareActivity(this, shareTeam);
+				break;
+			}
+			default: 
+			{
+				Log.w(TAG, "Unhandled onClick action");
+				break;
+			}
 		}
 	}
 	
