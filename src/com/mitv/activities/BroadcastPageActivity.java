@@ -748,7 +748,7 @@ public class BroadcastPageActivity
 		 * Set tag with broadcast object so that we can get that object from the view in onClickListener and perform add
 		 * or remove like for broadcast
 		 */
-		likeView.setBroadcast(broadcast);
+		likeView.setUserLike(program);
 
 		/*
 		 * Set tag with broadcast object so that we can get that object from the view in onClickListener and perform

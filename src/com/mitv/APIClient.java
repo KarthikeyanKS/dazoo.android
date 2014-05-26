@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+
 import android.os.AsyncTask;
+
 import com.mitv.asynctasks.CustomThreadedPoolExecutor;
 import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
 import com.mitv.asynctasks.disqus.GetDisqusThreadPosts;
@@ -33,15 +35,16 @@ import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetSendEmail;
 import com.mitv.asynctasks.mitvapi.PerformUserSignUp;
 import com.mitv.asynctasks.mitvapi.competitions.GetCompetitionByID;
 import com.mitv.asynctasks.mitvapi.competitions.GetCompetitions;
+import com.mitv.asynctasks.mitvapi.competitions.GetEventHighlights;
+import com.mitv.asynctasks.mitvapi.competitions.GetEventLineUp;
 import com.mitv.asynctasks.mitvapi.competitions.GetEvents;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhaseByID;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhases;
+import com.mitv.asynctasks.mitvapi.competitions.GetSquadForTeam;
+import com.mitv.asynctasks.mitvapi.competitions.GetStandingsForPhase;
 import com.mitv.asynctasks.mitvapi.competitions.GetTeamByID;
 import com.mitv.asynctasks.mitvapi.competitions.GetTeamDetails;
 import com.mitv.asynctasks.mitvapi.competitions.GetTeams;
-import com.mitv.asynctasks.mitvapi.competitions.GetStandingsForPhase;
-import com.mitv.asynctasks.mitvapi.competitions.GetEventHighlights;
-import com.mitv.asynctasks.mitvapi.competitions.GetEventLineUp;
 import com.mitv.asynctasks.mitvapi.usertoken.AddUserLike;
 import com.mitv.asynctasks.mitvapi.usertoken.GetUserLikes;
 import com.mitv.asynctasks.mitvapi.usertoken.GetUserTVChannelIds;
@@ -695,6 +698,14 @@ public class APIClient
 	public void GetEventHighlights(final ViewCallbackListener activityCallbackListener, final Long competitionID, final Long phaseID)
 	{
 		GetEventHighlights task = new GetEventHighlights(contentCallbackListener, activityCallbackListener, competitionID, phaseID);
+		task.execute();
+	}
+	
+	
+	
+	public void getSquadForTeam(final ViewCallbackListener activityCallbackListener, final Long teamID)
+	{
+		GetSquadForTeam task = new GetSquadForTeam(contentCallbackListener, activityCallbackListener, teamID);
 		task.execute();
 	}
 }

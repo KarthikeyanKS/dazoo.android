@@ -10,6 +10,7 @@ public class CompetitionJSON
 {
 	protected long competitionId;
 	protected String displayName;
+	protected String displayCompetitionType;
 	protected String startDate;
 	protected String endDate;
 	protected boolean visible;
@@ -18,7 +19,10 @@ public class CompetitionJSON
 	
 	
 	public CompetitionJSON()
-	{}
+	{
+		// TODO - Remove hardcoded string
+		displayCompetitionType = "Futebol";
+	}
 
 
 
@@ -55,5 +59,11 @@ public class CompetitionJSON
 
 	public ImageSetSizeJSON getBanner() {
 		return banner;
+	}
+
+
+
+	public String getDisplayCompetitionType() {
+		return displayCompetitionType;
 	}
 }

@@ -19,6 +19,7 @@ import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 import com.mitv.utilities.DateUtils;
 
 
@@ -125,6 +126,42 @@ public class CompetitionsCacheData
 		}
 		
 		return phaseFound;
+	}
+	
+	
+	
+	public synchronized Team getTeamByIDForSelectedCompetition(Long teamID) 
+	{
+		Team teamFound = null;
+		
+		List<Team> teams = getTeamsForSelectedCompetition();
+		
+		for(Team team : teams)
+		{
+			if(team.getTeamId() == teamID)
+			{
+				teamFound = team;
+				break;
+			}
+		}
+		
+		return teamFound;
+	}
+	
+	
+	
+	public synchronized List<TeamSquad> getSquadByTeamIDForSelectedCompetition(Long teamID) 
+	{
+		List<TeamSquad> squad = null;
+		
+		Team team = getTeamByIDForSelectedCompetition(teamID);
+		
+		if(team != null)
+		{
+			squad = selectedCompetition.getSquadByTeam().get(teamID);
+		}
+		
+		return squad;
 	}
 
 	
@@ -406,6 +443,24 @@ public class CompetitionsCacheData
 	
 	
 	
+	public synchronized boolean containsSquadData(
+			Long competitionID,
+			Long teamID)
+	{
+		boolean containsTeamData = false;
+		
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			containsTeamData = competitionCacheData.hasSquadData(teamID);
+		}
+		
+		return containsTeamData;
+	}
+	
+	
+	
 	public Map<Long, List<Event>> getEventsGroupedByFirstPhase() 
 	{
 		return selectedCompetition.getEventsGroupedByFirstPhase();
@@ -483,6 +538,13 @@ public class CompetitionsCacheData
 		selectedCompetition.setLineupByEventFetchTime(nowInMillis);
 	}
 	
+	
+	
+	public synchronized void setSquadForTeamInSelectedCompetition(Long teamID, List<TeamSquad> squad)
+	{
+		selectedCompetition.getSquadByTeam().put(teamID, squad);
+	}
+
 	
 	
 	public synchronized void clearCompetition(Long competitionID)

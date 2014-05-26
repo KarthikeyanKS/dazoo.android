@@ -16,39 +16,40 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 
 
 
-public class GetTeamSquads 
+public class GetSquadForTeam 
 	extends AsyncTaskBase<TeamSquad[]>
 {
-	private static final String TAG = GetTeamSquads.class.getName();
+	private static final String TAG = GetSquadForTeam.class.getName();
 	
 	
 	
-	private static String buildURL(final long competitionID)
+	private static String buildURL(final long teamID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS_FULL);
+		url.append(Constants.URL_TEAMS_FULL);
 		url.append(Constants.FORWARD_SLASH);
 		
-		url.append(competitionID);
+		url.append(teamID);
 		
-		url.append(Constants.URL_TEAMS);
+		url.append(Constants.URL_SQUAD);
 
 		return url.toString();
 	}
 	
 	
 	
-	public GetTeamSquads(
+	public GetSquadForTeam(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final long teamID)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_SQUADS, TeamSquad[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(teamID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_SQUAD, TeamSquad[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(teamID), false);
+	
+		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_TEAM_ID_KEY, teamID);
 	}
 	
 	

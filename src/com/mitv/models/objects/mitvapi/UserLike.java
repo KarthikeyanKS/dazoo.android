@@ -10,6 +10,8 @@ import com.mitv.enums.LikeTypeRequestEnum;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.UserLikeJSON;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Team;
 
 
 
@@ -26,34 +28,62 @@ public class UserLike
 	
 	
 	
-	public static UserLike userLikeFromTVProgram(TVProgram tvProgram)
+	
+	public UserLike(final Competition competition)
 	{
-		String title = tvProgram.getTitle();
-		
-		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromTVProgram(tvProgram);
-		
-		String contentId = getContentIdFromTVProgram(tvProgram);
-		
-		UserLike userLikeFromTVProgram = new UserLike(title, likeTypeFromBroadcast, contentId);
-		
-		return userLikeFromTVProgram;
-	}
-	
-	
-	
-	public static UserLike userLikeFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo)
-	{
-		return userLikeFromTVProgram(broadcastWithChannelInfo.getProgram());
-	}
-	
-	
-	
-	public UserLike(String title, LikeTypeResponseEnum likeType, String contentId)
-	{
-		this.likeType = likeType.toString();	
-		this.title = title;
 		this.wasAddedManually = true;
 		
+		this.title = competition.getDisplayName();
+		this.likeType = LikeTypeResponseEnum.COMPETITION.toString();
+		
+		setIDFieldWithLikeType(LikeTypeResponseEnum.COMPETITION);
+	}
+	
+	
+	
+	public UserLike(final Team team)
+	{
+		this.wasAddedManually = true;
+		
+		this.title = team.getDisplayName();
+		this.likeType = LikeTypeResponseEnum.COMPETITION_TEAM.toString();
+		
+		setIDFieldWithLikeType(LikeTypeResponseEnum.COMPETITION_TEAM);
+	}
+	
+	
+	
+	public UserLike(final TVProgram tvProgram)
+	{
+		this.wasAddedManually = true;
+		
+		this.title = tvProgram.getTitle();
+		this.likeType = LikeTypeResponseEnum.getLikeTypeEnumFromTVProgram(tvProgram).toString();
+		
+		this.programId = getContentIdFromTVProgram(tvProgram);
+	}
+	
+	
+	
+	public UserLike(
+			final boolean wasAddedManually,
+			final String title,
+			final LikeTypeResponseEnum likeType,
+			final String contentId)
+	{
+		this.wasAddedManually = wasAddedManually;
+		
+		this.title = title;
+		this.likeType = likeType.toString();
+		
+		setIDFieldWithLikeType(likeType);
+	}
+	
+	
+	
+	
+	private void setIDFieldWithLikeType(final LikeTypeResponseEnum likeType)
+	{
 		switch(likeType)
 		{
 			case PROGRAM:
@@ -74,6 +104,38 @@ public class UserLike
 				break;
 			}
 			
+			case COMPETITION:
+			{
+				try
+				{
+					this.competitionID = Long.parseLong(contentId);
+				}
+				catch(NumberFormatException nfex)
+				{
+					this.competitionID = 0;
+					
+					Log.w(TAG, "Failed to parse competitionID");
+				}
+				
+				break;
+			}
+			
+			case COMPETITION_TEAM:
+			{
+				try
+				{
+					this.teamID = Long.parseLong(contentId);
+				}
+				catch(NumberFormatException nfex)
+				{
+					this.teamID = 0;
+					
+					Log.w(TAG, "Failed to parse teamID");
+				}
+			
+				break;
+			}
+			
 			default:
 			{
 				Log.w(TAG, "Unhandled like type.");
@@ -82,9 +144,7 @@ public class UserLike
 		}
 	}
 	
-	public boolean wasAddedManually() {
-		return wasAddedManually;
-	}
+
 	
 	public static String getContentIdFromTVProgram(TVProgram tvProgarm) 
 	{
@@ -127,37 +187,37 @@ public class UserLike
 	
 	public String getContentId()
 	{
-		if(contentId == null) {
-		
-		LikeTypeResponseEnum likeType = getLikeType();
-		
-		switch(likeType)
+		if(contentId == null)
 		{
-				case PROGRAM:
-				{
-					contentId = this.programId;
-					break;
+			LikeTypeResponseEnum likeType = getLikeType();
+			
+			switch(likeType)
+			{
+					case PROGRAM:
+					{
+						contentId = this.programId;
+						break;
+					}
+					
+					case SERIES:
+					{
+						contentId = this.seriesId;
+						break;
+					}
+					
+					case SPORT_TYPE:
+					{
+						contentId = this.sportTypeId;
+						break;
+					}
+					
+					default:
+					{
+						Log.w(TAG, "Unhandled like type.");
+						contentId = "";
+						break;
+					}
 				}
-				
-				case SERIES:
-				{
-					contentId = this.seriesId;
-					break;
-				}
-				
-				case SPORT_TYPE:
-				{
-					contentId = this.sportTypeId;
-					break;
-				}
-				
-				default:
-				{
-					Log.w(TAG, "Unhandled like type.");
-					contentId = "";
-					break;
-				}
-			}
 		}
 		
 		return contentId;
@@ -177,13 +237,27 @@ public class UserLike
 				break;
 			}
 		
-			case SPORT_TYPE: {
+			case SPORT_TYPE: 
+			{
 				likeTypeRequest = LikeTypeRequestEnum.SPORT_TYPE;
 				break;
 			}
+			
 			case PROGRAM:
 			{
 				likeTypeRequest = LikeTypeRequestEnum.PROGRAM;
+				break;
+			}
+			
+			case COMPETITION:
+			{
+				likeTypeRequest = LikeTypeRequestEnum.COMPETITION;
+				break;
+			}
+			
+			case COMPETITION_TEAM:
+			{
+				likeTypeRequest = LikeTypeRequestEnum.COMPETITION_TEAM;
 				break;
 			}
 			
@@ -197,6 +271,14 @@ public class UserLike
 		
 		return likeTypeRequest;
 	}
+	
+	
+	
+	public boolean wasAddedManually() 
+	{
+		return wasAddedManually;
+	}
+	
 	
 	
 	@Override
@@ -236,13 +318,12 @@ public class UserLike
 
 	
 	@Override
-	public boolean areDataFieldsValid() {
+	public boolean areDataFieldsValid() 
+	{
 		boolean commonFieldsOk = (
 				getTitle() != null && getLikeType() != null
 				);
 		
-		
-
 		boolean specificFieldsOk = false;
 		switch (getLikeType())
 		{
@@ -295,6 +376,4 @@ public class UserLike
 				
 		return areDataFieldsValid;
 	}
-	
-	
 }
