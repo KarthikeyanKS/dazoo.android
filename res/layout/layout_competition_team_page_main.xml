@@ -49,24 +49,37 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/team_page_squad_header" />
 
-                <!-- Fake squad -->
+                <!-- Fake squad 
+
                 <ImageView
                     android:id="@+id/competition_team_page_squad_list_fake"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_below="@id/competition_team_page_squad_header"
-                    android:background="@drawable/competition_team_squad_fake"
-                    android:scaleType="fitStart" />
-                
-                <!-- The list -->
+                    android:scaleType="fitXY"
+                    android:src="@drawable/competition_team_squad_fake"
+                    android:visibility="visible" />-->
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000dp"
+                    android:layout_below="@id/competition_team_page_squad_header"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/competition_team_squad_fake" />
+
+                <!--
+                The list 
+
                 <LinearLayout
                     android:id="@+id/competition_team_page_squad_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/competition_team_page_squad_header"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:visibility="gone" >
                 </LinearLayout>
+                -->
             </RelativeLayout>
 
             <!-- STANDINGS -->
@@ -103,7 +116,7 @@
             </RelativeLayout>
 
             <!-- SCHEDULE -->
-            
+
             <RelativeLayout
                 android:id="@+id/competition_team_page_schedule_container"
                 android:layout_width="match_parent"
@@ -134,7 +147,6 @@
                     android:orientation="vertical" >
                 </LinearLayout>
             </RelativeLayout>
-
         </RelativeLayout>
     </ScrollView>
 

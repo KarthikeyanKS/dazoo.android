@@ -243,20 +243,33 @@ public class EventPageActivity
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
+				
+				team1Flag.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+		                
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                
+		                startActivity(intent);
+		            }
+		        });
+				
+				team1FlagHighlights.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+		                
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                
+		                startActivity(intent);
+		            }
+		        });
 			}
-			
-			team1Flag.setOnClickListener(new View.OnClickListener() 
-	        {
-	            public void onClick(View v)
-	            {
-	                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-	                
-	                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
-	                
-	                startActivity(intent);
-	            }
-	        });
 			
 			final long team2ID = event.getAwayTeamId();
 			
@@ -271,20 +284,33 @@ public class EventPageActivity
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
+				
+				team2Flag.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+		                
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
+		                
+		                startActivity(intent);
+		            }
+		        });
+				
+				team2FlagHighlights.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+		                
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                
+		                startActivity(intent);
+		            }
+		        });
 			}
-			
-			team2Flag.setOnClickListener(new View.OnClickListener() 
-	        {
-	            public void onClick(View v)
-	            {
-	                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-	                
-	                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
-	                
-	                startActivity(intent);
-	            }
-	        });
 		}
 		
 		team1Name.setText(homeTeamName);

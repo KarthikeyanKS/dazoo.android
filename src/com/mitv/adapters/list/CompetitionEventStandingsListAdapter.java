@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
@@ -110,7 +111,7 @@ public class CompetitionEventStandingsListAdapter
 			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_gp);
 			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_plus_minus);
 			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_pts);
-			
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
 			viewHolder.rowDividerView = (View) rowView.findViewById(R.id.row_competition_event_row_divider);
 			
 			rowView.setTag(viewHolder);
@@ -142,19 +143,6 @@ public class CompetitionEventStandingsListAdapter
 				String teamFlagUrl = team.getFlagImageURL();
 						
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
-				
-				holder.teamFlag.setOnClickListener(new View.OnClickListener() 
-		        {
-		            public void onClick(View v)
-		            {
-		                Intent intent = new Intent(activity, TeamPageActivity.class);
-		                
-		                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
-		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamID);
-		                
-		                activity.startActivity(intent);
-		            }
-		        });
 			}
 
 			String teamGPAsString = Integer.valueOf(element.getMatches()).toString();
@@ -166,6 +154,19 @@ public class CompetitionEventStandingsListAdapter
 			holder.teamPoints.setText(teamPointsAsString);
 			
 			holder.teamName.setText(element.getTeam());
+			
+			holder.container.setOnClickListener(new View.OnClickListener() 
+	        {
+	            public void onClick(View v)
+	            {
+	            	Intent intent = new Intent(activity, TeamPageActivity.class);
+	                
+	                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
+	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamID);
+	                
+	                activity.startActivity(intent);
+	            }
+	        });
 			
 			if((position > 0) && (position % 2) == 0)
 			{
@@ -195,7 +196,7 @@ public class CompetitionEventStandingsListAdapter
 		private TextView teamGP;
 		private TextView teamPlusMinus;
 		private TextView teamPoints;
-		
+		private RelativeLayout container;
 		private View rowDividerView;
 	}
 }
