@@ -8,7 +8,7 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 
 
 
-public class BroadcastJSON 
+public class TVBroadcastJSON 
 {
 	protected TVProgram program;
 	protected Long beginTimeMillis;
@@ -17,6 +17,9 @@ public class BroadcastJSON
 	protected BroadcastTypeEnum broadcastType = BroadcastTypeEnum.UNKNOWN;
 	protected String shareUrl;
 		
+	
+	public TVBroadcastJSON(){}
+	
 	
 	
 	public TVProgram getProgram() {
@@ -38,6 +41,7 @@ public class BroadcastJSON
 	public BroadcastTypeEnum getBroadcastType() {
 		return broadcastType;
 	}
+	
 	public String getShareUrl() {
 		return shareUrl;
 	}

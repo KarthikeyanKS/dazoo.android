@@ -17,9 +17,8 @@ import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 
 public class TVBroadcastWithChannelInfoORM 
-	extends AbstractOrmLiteClassWithAsyncSave<TVBroadcastWithChannelInfoORM> {
-	
-	
+	extends AbstractOrmLiteClassWithAsyncSave<TVBroadcastWithChannelInfoORM> 
+{	
 	/* TVChannel */
 	@DatabaseField()
 	protected String channelId;
@@ -134,8 +133,8 @@ public class TVBroadcastWithChannelInfoORM
 	
 	
 	
-	public TVBroadcastWithChannelInfoORM(TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) {
-		
+	public TVBroadcastWithChannelInfoORM(TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo) 
+	{	
 		/* TVChannel */
 		this.channelId = tvBroadcastWithChannelInfo.getChannel().getChannelId().getChannelId();
 		this.channelName = tvBroadcastWithChannelInfo.getChannel().getName();

@@ -11,6 +11,7 @@ import android.util.Log;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVProgramJSON;
+import com.mitv.models.orm.TVProgramORM;
 import com.mitv.models.sql.NotificationSQLElement;
 
 
@@ -20,6 +21,32 @@ public class TVProgram
 	implements GSONDataFieldValidation
 {
 	private static final String TAG = TVProgram.class.getName();
+	
+	
+	
+	public TVProgram(){}
+	
+	
+	
+	public TVProgram(TVProgramORM ormData)
+	{
+		this.programType = ormData.getProgramType();
+		this.programId = ormData.getProgramId();
+		this.title = ormData.getTitle();
+		this.synopsisShort = ormData.getSynopsisShort();
+		this.synopsisLong = ormData.getSynopsisLong();
+		this.images = ormData.getImages();
+		this.tags = ormData.getTags();
+		this.credits = ormData.getCredits();
+		this.season = ormData.getSeason();
+		this.episodeNumber = ormData.getEpisodeNumber();
+		this.year = ormData.getYear();
+		this.genre = ormData.getGenre();
+		this.sportType = ormData.getSportType();
+		this.tournament = ormData.getTournament();
+	}
+	
+	
 	
 	public void setProgramId(String programId) 
 	{
