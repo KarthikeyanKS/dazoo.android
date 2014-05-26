@@ -143,19 +143,6 @@ public class CompetitionEventStandingsListAdapter
 				String teamFlagUrl = team.getFlagImageURL();
 						
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
-				
-//				holder.teamFlag.setOnClickListener(new View.OnClickListener() 
-//		        {
-//		            public void onClick(View v)
-//		            {
-//		                Intent intent = new Intent(activity, TeamPageActivity.class);
-//		                
-//		                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
-//		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamID);
-//		                
-//		                activity.startActivity(intent);
-//		            }
-//		        });
 			}
 
 			String teamGPAsString = Integer.valueOf(element.getMatches()).toString();
