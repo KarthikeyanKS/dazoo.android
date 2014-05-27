@@ -11,6 +11,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
@@ -120,7 +123,7 @@ public class CompetitionStandingsByGroupListAdapter
 			
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container);
 			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_name);
-			
+			viewHolder.rowContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
 			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_team_name);
 			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_team_flag);
 			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_team_table_gp);
@@ -185,6 +188,20 @@ public class CompetitionStandingsByGroupListAdapter
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
 			}
 			
+			holder.rowContainer.setOnClickListener(new View.OnClickListener() 
+	        {
+	            public void onClick(View v)
+	            {
+	            	Intent intent = new Intent(activity, TeamPageActivity.class);
+	                
+	                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
+	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, element.getTeamId());
+	                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, element.getPhaseId());
+	                
+	                activity.startActivity(intent);
+	            }
+	        });
+			
 		}
 			
 		return rowView;
@@ -195,7 +212,7 @@ public class CompetitionStandingsByGroupListAdapter
 	private static class ViewHolder 
 	{
 		private RelativeLayout headerContainer;
-		
+		private RelativeLayout rowContainer;
 		private TextView group;
 		private TextView teamName;
 		private ImageView teamFlag;
