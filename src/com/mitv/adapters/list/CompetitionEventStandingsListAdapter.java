@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.competitions.Standings;

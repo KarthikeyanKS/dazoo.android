@@ -40,9 +40,6 @@ public class CompetitionTagEventsListAdapter
 {
 	private static final String TAG = CompetitionTagEventsListAdapter.class.getName();
 	
-	
-	private LayoutInflater layoutInflater;
-	private Activity activity;
 	private List<Event> events;
 	
 	
@@ -57,10 +54,6 @@ public class CompetitionTagEventsListAdapter
 		super(activity, enableMoreViewAtBottom, viewBottomMessage, viewBottomConfirmProcedure);
 		
 		this.events = events;
-		
-		this.activity = activity;
-
-		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 
@@ -68,11 +61,13 @@ public class CompetitionTagEventsListAdapter
 	@Override
 	public int getCount()
 	{
-		int count = 0;
+		int count = super.getCount();
+//		int count = 0;
 		
 		if (events != null) 
 		{
-			count = events.size();
+			count += events.size();
+//			count = events.size();
 		}
 		
 		return count;
@@ -106,6 +101,11 @@ public class CompetitionTagEventsListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
+		if(isShowMoreView(position))
+		{
+			return super.getView(position, convertView, parent);
+		}
+		
 		View rowView = convertView;
 
 		if (rowView == null)
@@ -149,7 +149,16 @@ public class CompetitionTagEventsListAdapter
 			
 			boolean isFirstposition = (position == 0);
 
-			boolean isLastPosition = (position == (getCount() - 1));
+			boolean isLastPosition;
+			
+			if(enableMoreViewAtBottom)
+			{
+				isLastPosition = (position == (getCount() - 2));
+			}
+			else
+			{
+				isLastPosition = (position == (getCount() - 1));
+			}
 
 			boolean isCurrentEventDayEqualToPreviousEventDay;
 
