@@ -59,7 +59,8 @@ public abstract class GenericUtils {
 	
 	
 	public static void startShareActivity(final Activity activity, final TVBroadcast broadcast) {
-		startShareActivity(activity, broadcast.getShareUrl());
+		String shareComment = activity.getResources().getString(R.string.share_comment);
+		startShareActivity(activity, broadcast.getShareUrl(), shareComment);
 
 		/* Send sharing event to Google Analytics */
 		TrackingGAManager.sharedInstance().sendUserSharedEvent(broadcast);
@@ -68,7 +69,8 @@ public abstract class GenericUtils {
 	
 	
 	public static void startShareActivity(final Activity activity, final Event event) {
-		startShareActivity(activity, event.getShareUrl());
+		String shareComment = activity.getResources().getString(R.string.share_comment_event);
+		startShareActivity(activity, event.getShareUrl(), shareComment);
 
 		/* TODO Send sharing event to Google Analytics */
 //		TrackingGAManager.sharedInstance().sendUserSharedEvent(event);
@@ -77,7 +79,13 @@ public abstract class GenericUtils {
 	
 	
 	public static void startShareActivity(final Activity activity, final Team team) {
-		startShareActivity(activity, team.getShareUrl());
+		StringBuilder sb = new StringBuilder();
+		sb.append(activity.getResources().getString(R.string.share_comment_team))
+			.append(" ")
+			.append(team.getDisplayName());
+		
+		String shareComment = sb.toString();
+		startShareActivity(activity, team.getShareUrl(), shareComment);
 
 		/* TODO Send sharing event to Google Analytics */
 //		TrackingGAManager.sharedInstance().sendUserSharedEvent(team);
@@ -85,11 +93,11 @@ public abstract class GenericUtils {
 	
 	
 	
-	private static void startShareActivity(final Activity activity, String url) {
+	private static void startShareActivity(final Activity activity, String url, String shareComment) {
 		RateAppManager.significantEvent(activity);
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(activity.getString(R.string.share_comment));
+		sb.append(shareComment);
 		sb.append(" ");
 		sb.append(url);
 
