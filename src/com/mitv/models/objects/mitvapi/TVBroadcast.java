@@ -15,7 +15,9 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
-import com.mitv.models.gson.mitvapi.BroadcastJSON;
+import com.mitv.models.gson.mitvapi.TVBroadcastJSON;
+import com.mitv.models.orm.TVBroadcastORM;
+import com.mitv.models.orm.TVProgramORM;
 import com.mitv.utilities.DateUtils;
 
 
@@ -29,7 +31,7 @@ import com.mitv.utilities.DateUtils;
  * 
  */
 public class TVBroadcast 
-	extends BroadcastJSON 
+	extends TVBroadcastJSON
 	implements GSONDataFieldValidation 
 {
 	@SuppressWarnings("unused")
@@ -54,6 +56,20 @@ public class TVBroadcast
 		this.isPopular = false;
 	}
 	
+	
+	
+	public TVBroadcast(TVBroadcastORM ormData)
+	{
+		this.isPopular = false;
+		
+		this.program = TVProgramORM.getTVProgramByID(ormData.getProgram().getProgramId());
+		
+		this.beginTimeMillis = ormData.getBeginTimeMillis();
+		this.beginTime = ormData.getBeginTime();
+		this.endTime = ormData.getEndTime();
+		this.broadcastType = ormData.getBroadcastType();
+		this.shareUrl = ormData.getShareUrl();
+	}
 	
 	
 	
@@ -542,7 +558,7 @@ public class TVBroadcast
 		if (getClass() != obj.getClass())
 			return false;
 		
-		BroadcastJSON other = (BroadcastJSON) obj;
+		TVBroadcastJSON other = (TVBroadcastJSON) obj;
 		
 		if (beginTimeMillis == null)
 		{

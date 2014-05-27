@@ -5,7 +5,6 @@ package com.mitv.activities.competition;
 
 import java.util.Collections;
 import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -263,7 +261,7 @@ public class TeamPageActivity
 		shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 		
 		/* Squad */
-		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
+		//squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
 		
 		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);

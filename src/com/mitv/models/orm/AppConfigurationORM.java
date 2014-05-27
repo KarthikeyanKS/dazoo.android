@@ -77,8 +77,7 @@ public class AppConfigurationORM
 	
 	
 	
-	private AppConfigurationORM()
-	{}
+	private AppConfigurationORM(){}
 	
 	
 	
