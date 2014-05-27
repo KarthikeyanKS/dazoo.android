@@ -161,7 +161,8 @@ public class CompetitionEventStandingsListAdapter
 	            	Intent intent = new Intent(activity, TeamPageActivity.class);
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
-	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamID);
+	                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, element.getTeamId());
+	                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, element.getPhaseId());
 	                
 	                activity.startActivity(intent);
 	            }
@@ -189,7 +190,6 @@ public class CompetitionEventStandingsListAdapter
 	private static class ViewHolder 
 	{
 		private RelativeLayout headerContainer;
-		
 		private ImageView teamFlag;
 		private TextView teamName;		
 		private TextView teamGP;

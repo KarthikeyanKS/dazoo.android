@@ -110,6 +110,8 @@ public class TeamPageActivity
 		
 		teamID = intent.getLongExtra(Constants.INTENT_COMPETITION_TEAM_ID, 0);
 		
+		phaseID = intent.getLongExtra(Constants.INTENT_COMPETITION_PHASE_ID, 0);
+		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUAD);
@@ -275,16 +277,14 @@ public class TeamPageActivity
 	
 	private void setMainLayoutLayout() 
 	{
+		boolean filterFinishedEvents = true;
+		boolean filterLiveEvents = false;
+		events = ContentManager.sharedInstance().getFromCacheEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
+		
+		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
+		
 		if (team != null) 
 		{	
-			boolean filterFinishedEvents = true;
-			boolean filterLiveEvents = false;
-			events = ContentManager.sharedInstance().getFromCacheEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
-			
-			// TODO
-			phaseID = events.get(0).getPhaseId(); //95404;
-			phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
-			
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
 			String teamFlagUrl = team.getFlagImageURL();

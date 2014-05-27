@@ -137,7 +137,7 @@ public class EventPageActivity
 		
 		events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
-		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
+		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
 		initLayout();
 		
@@ -249,9 +249,9 @@ public class EventPageActivity
 		            public void onClick(View v)
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
 		            }
@@ -265,6 +265,7 @@ public class EventPageActivity
 		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
 		            }
@@ -293,6 +294,7 @@ public class EventPageActivity
 		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
 		            }
@@ -306,6 +308,7 @@ public class EventPageActivity
 		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
 		            }
