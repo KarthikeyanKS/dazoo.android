@@ -294,7 +294,7 @@ public class EventPageActivity
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
 		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
