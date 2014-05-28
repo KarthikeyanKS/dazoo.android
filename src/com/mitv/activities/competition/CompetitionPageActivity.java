@@ -211,7 +211,7 @@ public class CompetitionPageActivity
 		else 
 		{
 			beforeLayout.setVisibility(View.VISIBLE);
-			nextGameLayoutOngoing.setVisibility(View.GONE); // Still showing some views... TODO
+			nextGameLayoutOngoing.setVisibility(View.GONE);
 			liveHeaderOngoing.setVisibility(View.GONE);
 			countDownLayout.setVisibility(View.VISIBLE);
 			nextGameLayout.setVisibility(View.VISIBLE);
