@@ -88,7 +88,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.layout_competition_page_main, null);
+		rootView = inflater.inflate(R.layout.layout_competition_tab, null);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -172,13 +172,14 @@ public class TVGuideTabFragmentCompetition
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-//		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionsData(this, false);
+		String loadingString = getString(R.string.competition_tab_loading_text);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
 		boolean forceRefreshOfCompetitionInitialData = true;
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, getCompetition().getCompetitionId());
-		
 	}
 	
 	
@@ -302,8 +303,8 @@ public class TVGuideTabFragmentCompetition
 		boolean hasBegun = currentCompetition.hasBegun();
 		boolean hasEnded = currentCompetition.hasEnded();
 		boolean isVisible = currentCompetition.isVisible();
-		boolean isOngoing = true;
-//		boolean isOngoing = hasBegun && !hasEnded && isVisible; TODO
+		
+		boolean isOngoing = hasBegun && !hasEnded && isVisible;
 		
 		if (isOngoing)
 		{
@@ -328,9 +329,8 @@ public class TVGuideTabFragmentCompetition
 		
 		else if (hasEnded) 
 		{
-			
+			// TODO
 		}
-		
 		else
 		{
 			title.setText(activity.getString(R.string.competition_page_time_left_title));

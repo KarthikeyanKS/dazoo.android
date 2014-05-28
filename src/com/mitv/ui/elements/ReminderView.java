@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.managers.RateAppManager;

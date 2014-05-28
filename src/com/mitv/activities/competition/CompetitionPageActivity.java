@@ -150,14 +150,6 @@ public class CompetitionPageActivity
 	
 	
 	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-	}
-	
-	
-	
-	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
@@ -190,7 +182,8 @@ public class CompetitionPageActivity
 		boolean isOngoing = true; //hasBegun && !hasEnded;
 		
 		/* Ongoing */
-		if (isOngoing) {
+		if (isOngoing) 
+		{
 			beforeLayout.setVisibility(View.GONE);
 			countDownLayout.setVisibility(View.GONE);
 			ongoingLayout.setVisibility(View.VISIBLE);
@@ -203,7 +196,8 @@ public class CompetitionPageActivity
 		}
 		
 		/* Has ended */
-		else if (hasEnded) {
+		else if (hasEnded)
+		{
 			countDownLayout.setVisibility(View.GONE);
 			beforeLayout.setVisibility(View.GONE);
 			ongoingLayout.setVisibility(View.GONE);
@@ -214,7 +208,8 @@ public class CompetitionPageActivity
 		}
 		
 		/* Before */
-		else {
+		else 
+		{
 			beforeLayout.setVisibility(View.VISIBLE);
 			nextGameLayoutOngoing.setVisibility(View.GONE); // Still showing some views... TODO
 			liveHeaderOngoing.setVisibility(View.GONE);

@@ -427,16 +427,16 @@ public abstract class Constants
 	public static final String SYSTEM_APP_PATH = "/system/app/";
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
-	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
-	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 10000;
+	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 15000;
+	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 15000;
 	
 	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
+    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 4000;
     
     /* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
-    public static final String HOST_FOR_NTP_CHECK = "se.pool.ntp.org";
+    public static final String HOST_FOR_NTP_CHECK = "us.pool.ntp.org";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 4000;
     
     
