@@ -23,8 +23,8 @@ import com.mitv.utilities.DateUtils;
 
 
 public class ActionBarDropDownDateListAdapter 
-extends BaseAdapter 
-implements SpinnerAdapter 
+	extends BaseAdapter 
+	implements SpinnerAdapter 
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = ActionBarDropDownDateListAdapter.class.getName();
@@ -150,7 +150,8 @@ implements SpinnerAdapter
 
 			try 
 			{
-				Calendar calendar = tvDate.getStartOfTVDayCalendar();
+				Calendar calendar = tvDate.getStartOfTVDayCalendarLocal();
+				
 				if (isHeader) 
 				{
 					StringBuilder sb = new StringBuilder();
@@ -168,7 +169,9 @@ implements SpinnerAdapter
 			catch (Exception e) 
 			{
 				e.printStackTrace();
+				
 				dayName.setText("");
+				
 				if (isHeader == false) 
 				{
 					dayAndMonth.setText("");
@@ -176,6 +179,7 @@ implements SpinnerAdapter
 			}
 
 			dayName.setVisibility(View.VISIBLE);
+			
 			if (isHeader == false) 
 			{
 				dayAndMonth.setVisibility(View.VISIBLE);

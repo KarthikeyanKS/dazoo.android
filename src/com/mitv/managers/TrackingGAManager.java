@@ -266,7 +266,8 @@ public class TrackingGAManager
 		}
 	}
 
-	public void sendUserHourSelectionEvent(int lastSelectedHour) {
+	public void sendUserHourSelectionEvent(int lastSelectedHour) 
+	{
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
 		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
@@ -322,7 +323,7 @@ public class TrackingGAManager
 		if (dates != null && !dates.isEmpty() && dayIndex < dates.size()) {
 			TVDate tvDate = dates.get(dayIndex);
 
-			Calendar calendar = tvDate.getStartOfTVDayCalendar();
+			Calendar calendar = tvDate.getStartOfTVDayCalendarGMT();
 			String displayName = tvDate.getDisplayName();
 			String dayMonth = DateUtils.buildDayAndMonthCompositionAsString(calendar, false);
 

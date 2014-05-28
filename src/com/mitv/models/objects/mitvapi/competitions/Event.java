@@ -27,7 +27,7 @@ public class Event
 	private static final String TAG = Event.class.getName();
 	
 	
-	protected Calendar startCalendar;
+	protected Calendar eventCalendar;
 	
 	
 	public Event()
@@ -106,9 +106,9 @@ public class Event
 				.append(" ");
 			}
 			
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 			
-			Integer gameMinutes = DateUtils.calculateDifferenceBetween(getEventDateCalendarLocal(), now, Calendar.MINUTE, false, 0);
+			Integer gameMinutes = DateUtils.calculateDifferenceBetween(getEventDateCalendarGMT(), now, Calendar.MINUTE, false, 0);
 			
 			if(abandoned)
 			{
@@ -181,7 +181,7 @@ public class Event
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */
-	public Calendar getEventDateCalendarGMT() 
+	public Calendar getEventDateCalendarGMT()
 	{
 		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(eventDate);
 		
@@ -196,23 +196,22 @@ public class Event
 	 */
 	public Calendar getEventDateCalendarLocal() 
 	{
-		if(startCalendar == null)
+		if(eventCalendar == null)
 		{	
-			startCalendar = getEventDateCalendarGMT();
+			eventCalendar = getEventDateCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			startCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			eventCalendar = DateUtils.setTimeZoneAndOffsetToLocal(eventCalendar);
 		}
 		
-		return startCalendar;
+		return eventCalendar;
 	}
 	
 	
 	
 	public boolean isTheSameDayAs(Event other)
 	{
-		Calendar beginTime1 = this.getEventDateCalendarLocal();
-		Calendar beginTime2 = other.getEventDateCalendarLocal();
+		Calendar beginTime1 = this.getEventDateCalendarGMT();
+		Calendar beginTime2 = other.getEventDateCalendarGMT();
 		
 		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
 	}
@@ -221,9 +220,9 @@ public class Event
 	
 	public boolean isEventTimeTodayOrTomorrow()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		Calendar beginTime = this.getEventDateCalendarLocal();
+		Calendar beginTime = this.getEventDateCalendarGMT();
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
@@ -336,12 +335,14 @@ public class Event
 	}
 	
 	
+	
 	/**
 	 * Maybe remove this if we get the timeMillis from BE!!!!!!!!!!!!!!!!!!!!!!!!
 	 * 
 	 * @return
 	 */
-	public long getBeginTimeLocalInMillis() {
+	public long getBeginTimeLocalInMillis() 
+	{
 		long beginTimeMillis = this.getEventDateCalendarLocal().getTimeInMillis();
 		
 		return beginTimeMillis;
@@ -350,8 +351,10 @@ public class Event
 	
 	
 	/* TODO */
-	public String getShareUrl() {
+	public String getShareUrl() 
+	{
 		StringBuilder sb = new StringBuilder();
+		
 //		http://gitrgitr.com/deportes/events/{eventID}
 		sb.append(Constants.HTTP_SCHEME_USED)
 		.append(Constants.BACKEND_ENVIRONMENT_USED)

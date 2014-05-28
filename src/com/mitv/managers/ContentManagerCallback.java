@@ -898,8 +898,11 @@ public abstract class ContentManagerCallback
 			
 			case SNTP_CALL:
 			{
-				Calendar calendar = (Calendar) content;
-				getCache().setInitialCallSNTPCalendar(calendar);
+				if(result.wasSuccessful())
+				{
+					Calendar calendar = (Calendar) content;
+					getCache().setInitialCallSNTPCalendar(calendar);
+				}
 				break;
 			}
 			
@@ -936,7 +939,6 @@ public abstract class ContentManagerCallback
 			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
 		}
 		
-		
 		if(getAPIClient().areAllTasksCompletedForTVGuideInitialCall())
 		{
 			isUpdatingGuide = false;
@@ -947,13 +949,20 @@ public abstract class ContentManagerCallback
 		}
 		else
 		{
-			if(!result.wasSuccessful() || content == null)
+			if(result.wasSuccessful() == false || content == null)
 			{
-				isUpdatingGuide = false;
-				
-				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
-				
-				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
+				if(requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
+				{
+					isUpdatingGuide = false;
+					
+					getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
+					
+					notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
+				}
+				else
+				{
+					Log.d(TAG, "Ignoring SNTP failure.");
+				}
 			}
 			else
 			{

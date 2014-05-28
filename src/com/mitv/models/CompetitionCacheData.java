@@ -122,7 +122,7 @@ public class CompetitionCacheData
 		
 		if(lineupByEventFetchTime != null)
 		{
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 			
 			Long nowInMillis = now.getTimeInMillis();
 			
@@ -147,7 +147,7 @@ public class CompetitionCacheData
 		
 		if(highlightsByEventFetchTime != null)
 		{
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 			
 			Long nowInMillis = now.getTimeInMillis();
 			

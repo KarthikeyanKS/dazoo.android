@@ -522,7 +522,7 @@ public class CompetitionsCacheData
 	{
 		selectedCompetition.getHighlightsByEvent().put(eventID, eventHighligths);
 		
-		Long nowInMillis = DateUtils.getNow().getTimeInMillis();
+		Long nowInMillis = DateUtils.getNowWithGMTTimeZone().getTimeInMillis();
 		
 		selectedCompetition.setHighlightsByEventFetchTime(nowInMillis);
 	}
@@ -533,7 +533,7 @@ public class CompetitionsCacheData
 	{
 		selectedCompetition.getLineupByEvent().put(eventID, eventLineup);
 		
-		Long nowInMillis = DateUtils.getNow().getTimeInMillis();
+		Long nowInMillis = DateUtils.getNowWithGMTTimeZone().getTimeInMillis();
 		
 		selectedCompetition.setLineupByEventFetchTime(nowInMillis);
 	}

@@ -155,11 +155,11 @@ public class CompetitionEventPageBroadcastListAdapter
 			}
 			else
 			{
-				Calendar now = DateUtils.getNow();
+				Calendar now = DateUtils.getNowWithGMTTimeZone();
 
 				int totalMinutes = element.getTotalAiringTimeInMinutes();
 
-				int currentMinutes = DateUtils.calculateDifferenceBetween(element.getEventBroadcastBeginTimeLocal(), now, Calendar.MINUTE, false, 0);
+				int currentMinutes = DateUtils.calculateDifferenceBetween(element.getEventBroadcastBeginTimeGMT(), now, Calendar.MINUTE, false, 0);
 
 				sb.append(element.getEventTimeDayOfTheWeekAsString())
 				.append(",  ")

@@ -179,7 +179,7 @@ public class CompetitionPageActivity
 		
 		boolean hasBegun = competition.hasBegun();
 		boolean hasEnded = competition.hasEnded();
-		boolean isOngoing = true; //hasBegun && !hasEnded;
+		boolean isOngoing = hasBegun && !hasEnded;
 		
 		/* Ongoing */
 		if (isOngoing) 
@@ -219,7 +219,7 @@ public class CompetitionPageActivity
 			
 			long competitionStartTimeInMiliseconds = competition.getBeginTimeCalendarGMT().getTimeInMillis();
 			
-			long millisecondsUntilEventStart = (competitionStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+			long millisecondsUntilEventStart = (competitionStartTimeInMiliseconds - DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 			
 			eventCountDownTimer = new EventCountDownTimer(
 					competitionName, 

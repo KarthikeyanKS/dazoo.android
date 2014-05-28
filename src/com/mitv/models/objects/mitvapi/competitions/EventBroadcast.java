@@ -67,10 +67,26 @@ public class EventBroadcast
 	 * 
 	 * @return Calendar
 	 */
-	public Calendar getEventBroadcastBeginTimeLocal() {	
-		beginTimeCalendar = getEventBroadcastCalendar(beginTime);
+	public Calendar getEventBroadcastBeginTimeLocal()
+	{	
+		if(beginTimeCalendar == null)
+		{	
+			beginTimeCalendar = getEventBroadcastBeginTimeGMT();
+			
+			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
+			beginTimeCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+		}
 		
 		return beginTimeCalendar;
+	}
+	
+	
+	
+	public Calendar getEventBroadcastBeginTimeGMT() 
+	{
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(beginTime);
+		
+		return beginTimeCalendarGMT;
 	}
 	
 	
@@ -80,32 +96,28 @@ public class EventBroadcast
 	 * 
 	 * @return Calendar
 	 */
-	public Calendar getEventBroadcastEndTimeLocal() {
-		endTimeCalendar = getEventBroadcastCalendar(endTime);
+	public Calendar getEventBroadcastEndTimeLocal() 
+	{
+		if(endTimeCalendar == null)
+		{	
+			endTimeCalendar = getEventBroadcastEndTimeGMT();
+			
+			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
+			endTimeCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+		}
 		
 		return endTimeCalendar;
 	}
 	
 	
 	
-	/**
-	 * Get local time of begin and end time of an event.
-	 * Taking time zone offset into account.
-	 * 
-	 * @param date
-	 * @return
-	 */
-	private Calendar getEventBroadcastCalendar(String date) 
+	public Calendar getEventBroadcastEndTimeGMT() 
 	{
-		Calendar cal = DateUtils.convertISO8601StringToCalendar(date);
+		Calendar endTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(endTime);
 		
-		int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-		
-		cal.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
-		
-		return cal;
+		return endTimeCalendarGMT;
 	}
-	
+
 	
 	
 	/**
@@ -115,8 +127,7 @@ public class EventBroadcast
 	 */
 	public Integer getTotalAiringTimeInMinutes() 
 	{
-		int totalMinutes = DateUtils.calculateDifferenceBetween(
-				beginTimeCalendar, endTimeCalendar, Calendar.MINUTE, false, 0);
+		int totalMinutes = DateUtils.calculateDifferenceBetween(beginTimeCalendar, endTimeCalendar, Calendar.MINUTE, false, 0);
 		
 		return totalMinutes;
 	}
@@ -229,10 +240,10 @@ public class EventBroadcast
 	
 	public boolean isEventAiringInOrInLessThan(int minutes) 
 	{
-		Calendar nowWithIncrement = (Calendar) DateUtils.getNow().clone();
+		Calendar nowWithIncrement = (Calendar) DateUtils.getNowWithGMTTimeZone().clone();
 		nowWithIncrement.add(Calendar.MINUTE, minutes);
 		
-		boolean isBroadcastStartingInPeriod = this.getEventBroadcastBeginTimeLocal().before(nowWithIncrement);
+		boolean isBroadcastStartingInPeriod = this.getEventBroadcastBeginTimeGMT().before(nowWithIncrement);
 	    
 	    return isBroadcastStartingInPeriod;
 	}
@@ -241,9 +252,9 @@ public class EventBroadcast
 	
 	public boolean isAiring() 
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 
-		boolean isAiring = this.getEventBroadcastBeginTimeLocal().before(now) && this.getEventBroadcastEndTimeLocal().after(now);
+		boolean isAiring = this.getEventBroadcastBeginTimeGMT().before(now) && this.getEventBroadcastEndTimeGMT().after(now);
 
 		return isAiring;
 	}
@@ -252,9 +263,9 @@ public class EventBroadcast
 	
 	public boolean hasEnded() 
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		boolean hasEnded = now.after(this.getEventBroadcastEndTimeLocal());
+		boolean hasEnded = now.after(this.getEventBroadcastEndTimeGMT());
 		
 		return hasEnded;
 	}

@@ -138,7 +138,8 @@ public class BuildTVBroadcastsForTags
 					ArrayList<TVBroadcastWithChannelInfo> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tagName);
 
 					/* If it is null (this is the first broadcast for this tag), instantiate it! */
-					if (broadcastsForTag == null) {
+					if (broadcastsForTag == null) 
+					{
 						broadcastsForTag = new ArrayList<TVBroadcastWithChannelInfo>();
 					}
 					
@@ -153,21 +154,25 @@ public class BuildTVBroadcastsForTags
 					mapTagToTaggedBroadcastForDate.put(tagName, broadcastsForTag);
 				}
 			}
-			
-
 		}
-		for (String tag : tvTagsAsStrings) {
+		
+		for (String tag : tvTagsAsStrings) 
+		{
 			ArrayList<TVBroadcastWithChannelInfo> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tag);
 
-			if (broadcastsForTag != null) {
+			if (broadcastsForTag != null)
+			{
 				Collections.sort(broadcastsForTag, new TVBroadcastComparatorByTime());
 			}
 		}
 
         double endTime = System.currentTimeMillis();
+        
         Log.d(TAG, "Time:" + (endTime-startTime));
-		return mapTagToTaggedBroadcastForDate;
+		
+        return mapTagToTaggedBroadcastForDate;
 	}
+	
 	
 	
 	private ArrayList<String> tvTagIds() 

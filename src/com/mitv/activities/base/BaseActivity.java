@@ -335,7 +335,8 @@ public abstract class BaseActivity
 		/*
 		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
 		 */
-		if (indexOfTodayFromTVDates > 0) {
+		if (indexOfTodayFromTVDates > 0) 
+		{
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
 			if(isTimeOffSync == false) {
@@ -371,7 +372,7 @@ public abstract class BaseActivity
 				
 				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
 				
-				if(isTVDateNow) 
+				if(isTVDateNow)
 				{
 					indexOfTodayFromTVDates = i;
 					break;

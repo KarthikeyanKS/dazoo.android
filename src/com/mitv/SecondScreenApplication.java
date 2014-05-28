@@ -341,7 +341,7 @@ public class SecondScreenApplication
 		
 		String lastOpenAppAsString = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
 		
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
 		if (hasUserSeenTutorial && hasUserSeenTutorialOnceFromFile)
 		{	

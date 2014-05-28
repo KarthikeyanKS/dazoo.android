@@ -44,6 +44,8 @@ public class TVChannelGuide
 		return getBroadcastsFromPosition(startIndex, broadcasts.size());
 	}
 	
+	
+	
 	/**
 	 *  This method does not use the selected TV Hour, it uses the current time and returns
 	 *  the current broadcast and the upcoming ones.
@@ -69,16 +71,16 @@ public class TVChannelGuide
 	
 	public List<TVBroadcast> getBroadcastPlayingAtSimilarTimeAs(final TVBroadcast inputBroadcast)
 	{
-		final Calendar inputBegin = inputBroadcast.getBeginTimeCalendarLocal();
+		final Calendar inputBegin = inputBroadcast.getBeginTimeCalendarGMT();
 		
 		ArrayList<TVBroadcast> airingBroadcasts = new ArrayList<TVBroadcast>();
 
 		for(TVBroadcast broadcast : broadcasts)
 		{
-			Calendar broadcastBegin = broadcast.getBeginTimeCalendarLocal();
-			Calendar broadcastEnd = broadcast.getEndTimeCalendarLocal();
+			Calendar broadcastBegin = broadcast.getBeginTimeCalendarGMT();
+			Calendar broadcastEnd = broadcast.getEndTimeCalendarGMT();
 	
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 			
 			Calendar broadcastBeginWithMinutesSubtracted = (Calendar) broadcastBegin.clone();
 			broadcastBeginWithMinutesSubtracted.add(Calendar.MINUTE, -30);
@@ -146,13 +148,13 @@ public class TVChannelGuide
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		Calendar tvDateWithHourCalendar = DateUtils.buildCalendarWithTVDateAndSpecificHour(tvDate, hour);
-		
 		for(int i = 0; i < broadcasts.size(); ++i)
 		{
 			TVBroadcast broadcast = broadcasts.get(i);
+		
+			Calendar tvDateWithHourCalendarLocal = DateUtils.buildLocalCalendarWithTVDateAndSpecificHour(tvDate, hour);
 			
-			boolean isEndTimeAfterTvDateWithHour = broadcast.isEndTimeAfter(tvDateWithHourCalendar);
+			boolean isEndTimeAfterTvDateWithHour = broadcast.isEndTimeAfter(tvDateWithHourCalendarLocal);
 			
 			if(isEndTimeAfterTvDateWithHour)
 			{

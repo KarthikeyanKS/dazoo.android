@@ -28,9 +28,9 @@ public class Competition
 	
 	public boolean hasBegun()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		boolean hasBegun = getBeginTimeCalendarLocal().before(now);
+		boolean hasBegun = getBeginTimeCalendarGMT().before(now);
 		
 		return hasBegun;
 	}
@@ -39,9 +39,9 @@ public class Competition
 	
 	public boolean hasEnded()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		boolean hasEnded = getEndTimeCalendarLocal().before(now);
+		boolean hasEnded = getEndTimeCalendarGMT().before(now);
 		
 		return hasEnded;
 	}

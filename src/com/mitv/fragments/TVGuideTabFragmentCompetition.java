@@ -357,7 +357,7 @@ public class TVGuideTabFragmentCompetition
 			
 			long eventStartTimeInMiliseconds = getCompetition().getBeginTimeCalendarGMT().getTimeInMillis();
 				
-			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 
 			eventCountDownTimer = new EventCountDownTimer(
 					competitionName, 

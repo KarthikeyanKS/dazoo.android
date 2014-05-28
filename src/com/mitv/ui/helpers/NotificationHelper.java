@@ -161,7 +161,7 @@ public class NotificationHelper
 			intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, broadcast.getChannel().getImageUrl());
 			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcastName);
 			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, broadcast.getBeginTimeHourAndMinuteLocalAsString());
-			intent.putExtra(Constants.INTENT_ALARM_EXTRA_DATE_DATE, broadcast.getBeginTimeDateRepresentation());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_DATE_DATE, broadcast.getBeginTimeDateRepresentationFromLocal());
 			
 		} else {
 			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, eventDetails.getBeginTimeMillis());
