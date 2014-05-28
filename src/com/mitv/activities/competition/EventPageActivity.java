@@ -357,10 +357,24 @@ public class EventPageActivity
 				break;
 			}
 		}
-				
-		stadiumName.setText(event.getStadium());
-		stadiumImageCopyright.setText(event.getStadiumImageCopyright());
-		description.setText(event.getDescription());
+		
+		String stadium = event.getStadium();
+		if (stadium != null && !stadium.isEmpty()) {
+			stadiumName.setText(stadium);
+			stadiumName.setVisibility(View.VISIBLE);
+		}
+		
+		String copyright = event.getStadiumImageCopyright();
+		if (copyright != null && !copyright.isEmpty()) {
+			stadiumImageCopyright.setText(copyright);
+			stadiumImageCopyright.setVisibility(View.VISIBLE);
+		}
+		
+		String descriptionText = event.getDescription();
+		if (descriptionText != null && !descriptionText.isEmpty()) {
+			description.setText(descriptionText);
+			description.setVisibility(View.VISIBLE);
+		}
 		
 		boolean isOngoing = event.hasStarted();
 		boolean isFinished = event.isFinished();
