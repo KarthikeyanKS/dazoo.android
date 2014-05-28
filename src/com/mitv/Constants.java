@@ -134,6 +134,7 @@ public abstract class Constants
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
 	public static final String URL_EVENTS_SPANISH			 		= "/eventos";
+	public static final String URL_TEAMS_IMAGE				 		= "/sports/teams";
 	
 	/* Share */
 	public static final String URL_COMPETITIONS_SPANISH				= "/competicion/";
@@ -525,6 +526,7 @@ public abstract class Constants
 	/* Competitions */
 	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_FLAGS;
 	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
+	public static final String TEAM_PAGE_TEAM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_TEAMS_IMAGE;
 	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_s";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_m";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_l";

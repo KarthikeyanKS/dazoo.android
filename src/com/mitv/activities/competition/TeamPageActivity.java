@@ -286,22 +286,24 @@ public class TeamPageActivity
 		
 		if (team != null) 
 		{
+			/* Team flag */
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
 			String teamFlagUrl = team.getFlagImageURL();
 			
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAwareForTeamFlag);
 
-			ImageAware imageAwareForTeamBanner = new ImageViewAware(teamImage, false);
-				
-			String teamBannerUrl = "";
-				
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionTeamBannerOptions(teamBannerUrl, imageAwareForTeamBanner);	
-
 			String name = team.getDisplayName();
 			teamName.setText(name);
 			
 			teamFootballNational.setText(this.getResources().getString(R.string.team_page_team_info_header));
+			
+			/* Team image */
+			ImageAware imageAwareForTeamBanner = new ImageViewAware(teamImage, false);
+
+			String teamBannerUrl = team.getTeamImageURL();
+				
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionTeamBannerOptions(teamBannerUrl, imageAwareForTeamBanner);
 			
 			/* Description */
 			String textAbout = team.getDescription();
