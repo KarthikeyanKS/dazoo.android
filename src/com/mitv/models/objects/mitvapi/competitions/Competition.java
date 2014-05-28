@@ -81,8 +81,7 @@ public class Competition
 		{	
 			beginCalendar = getBeginTimeCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			beginCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			beginCalendar = DateUtils.setTimeZoneAndOffsetToLocal(beginCalendar);
 		}
 		
 		return beginCalendar;
@@ -100,8 +99,7 @@ public class Competition
 		{	
 			endCalendar = getEndTimeCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			endCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			endCalendar = DateUtils.setTimeZoneAndOffsetToLocal(endCalendar);
 		}
 		
 		return endCalendar;

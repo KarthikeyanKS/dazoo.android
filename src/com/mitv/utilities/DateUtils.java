@@ -90,64 +90,6 @@ public abstract class DateUtils
 		
 	
 	
-	/**
-	 * This calculation of timezone offset takes in daylight time in consideration.
-	 * 
-	 * @return
-	 */
-	public static Integer getTimeZoneOffsetInMinutes() 
-	{
-		Integer timeZoneOffsetInMinutes = 0;
-		
-		TimeZone timeZone = TimeZone.getDefault();
-		
-		Calendar cal = DateUtils.getNowWithGMTTimeZone();
-		
-		int era = cal.get(Calendar.ERA);
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		int timeOfDayMillis = cal.get(Calendar.MILLISECOND);
-		
-		int offsetNEW = timeZone.getOffset(era, year, month, day, dayOfWeek, timeOfDayMillis);
-		
-		int  timeZoneOffsetInMinutesAlternative = (int)(offsetNEW / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
-			
-		timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAlternative);
-
-		return timeZoneOffsetInMinutes;
-	}
-	
-	
-	
-	/**
-	 * This calculation of timezone offset takes in daylight time in consideration.
-	 * 
-	 * @return
-	 */
-	private static Long getTimeZoneOffsetInMillis()
-	{
-		Long offsetInMillis = 0L;
-		
-		TimeZone timeZone = TimeZone.getDefault();
-		
-		Calendar cal = DateUtils.getNowWithGMTTimeZone();
-		
-		int era = cal.get(Calendar.ERA);
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		int timeOfDayMillis = cal.get(Calendar.MILLISECOND);
-		
-		offsetInMillis = (long) timeZone.getOffset(era, year, month, day, dayOfWeek, timeOfDayMillis);
-		
-		return offsetInMillis;
-	}
-	
-	
-	
 	private static Calendar convertFromStringToUTC0CalendarWithFormat(
 			final String dateFormatString,
 			final String inputString)
@@ -156,7 +98,9 @@ public abstract class DateUtils
 		
 		if (!TextUtils.isEmpty(inputString))
 		{
-			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString);
+			TimeZone gmtTimeZone = TimeZone.getTimeZone("GMT");
+			
+			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString, gmtTimeZone);
 			
 			try 
 			{
@@ -164,7 +108,7 @@ public abstract class DateUtils
 				
 				cal.setTime(date);
 				
-				cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+				cal.setTimeZone(gmtTimeZone);
 			} 
 			catch (ParseException e) 
 			{
@@ -523,7 +467,7 @@ public abstract class DateUtils
 	{
 		String pattern = Constants.DATE_FORMAT_DATE;
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern);
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -550,7 +494,7 @@ public abstract class DateUtils
 	{
 		Date dateFromCalendar = inputCalendar.getTime();
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.CALENDAR_TO_STRING_FOR_DEBUG);
+		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.CALENDAR_TO_STRING_FOR_DEBUG, inputCalendar.getTimeZone());
 		String toString = formatter.format(dateFromCalendar);
 		
 		return toString;
@@ -607,8 +551,7 @@ public abstract class DateUtils
 			pattern = Constants.DATE_FORMAT_HOUR_AND_MINUTE;
 		}
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern);
-		formatter.setTimeZone(inputCalendar.getTimeZone());
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -627,7 +570,7 @@ public abstract class DateUtils
 	{
 		String pattern = Constants.DATE_FORMAT_DAY_AND_MONTH;
 				
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern);
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
 		
 		Calendar calendar = (Calendar) inputCalendar.clone();
 		
@@ -748,11 +691,18 @@ public abstract class DateUtils
 	 * Generates a SimpleDateFormat instance with a set pattern, timeZone and locale
 	 * 
 	 */
-	private static SimpleDateFormat getSimpleDateFormatWith(final String pattern) 
+	private static SimpleDateFormat getSimpleDateFormatWith(
+			final String pattern,
+			final TimeZone timeZone) 
 	{
 		Locale locale = LanguageUtils.getCurrentLocale();
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
+		
+		if(timeZone != null)
+		{
+			dateFormat.setTimeZone(timeZone);
+		}
 		
 		return dateFormat;
 	}	

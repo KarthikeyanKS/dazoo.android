@@ -73,8 +73,7 @@ public class EventBroadcast
 		{	
 			beginTimeCalendar = getEventBroadcastBeginTimeGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			beginTimeCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			beginTimeCalendar = DateUtils.setTimeZoneAndOffsetToLocal(beginTimeCalendar);
 		}
 		
 		return beginTimeCalendar;
@@ -102,8 +101,7 @@ public class EventBroadcast
 		{	
 			endTimeCalendar = getEventBroadcastEndTimeGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			endTimeCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			endTimeCalendar = DateUtils.setTimeZoneAndOffsetToLocal(endTimeCalendar);
 		}
 		
 		return endTimeCalendar;
