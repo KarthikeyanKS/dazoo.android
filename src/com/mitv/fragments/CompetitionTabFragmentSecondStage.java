@@ -159,7 +159,7 @@ public class CompetitionTabFragmentSecondStage
 
 				listContainerLayout.measure(0, 0);
 				
-				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
+				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, listContainerLayout.getMeasuredHeight() + 20);
 
 				break;
 			}

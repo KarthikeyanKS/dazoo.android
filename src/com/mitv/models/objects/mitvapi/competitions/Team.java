@@ -34,6 +34,20 @@ public class Team
 	}
 	
 	
+	public String getTeamImageURL()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(Constants.TEAM_PAGE_TEAM_IMAGE_PATH);
+		sb.append(Constants.FORWARD_SLASH);
+		sb.append(teamId);
+		sb.append(Constants.EVENT_STADIUM_IMAGE_SIZE_LARGE);
+		sb.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
+		
+		return sb.toString();
+	}
+	
+	
 	
 	@Override
 	public int hashCode() 

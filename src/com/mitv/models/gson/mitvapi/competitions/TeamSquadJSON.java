@@ -38,7 +38,6 @@ public class TeamSquadJSON {
 	}
 	
 	public String getPersonShort() {
-		personShort = "Herhalter";
 		return personShort;
 	}
 
@@ -59,7 +58,6 @@ public class TeamSquadJSON {
 	}
 	
 	public int getShirtNumber() {
-		shirtNumber = 23;
 		return shirtNumber;
 	}
 

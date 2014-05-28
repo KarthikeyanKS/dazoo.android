@@ -6,6 +6,7 @@ package com.mitv.activities.competition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.AboutUsActivity;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
@@ -284,39 +285,68 @@ public class TeamPageActivity
 		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 		
 		if (team != null) 
-		{	
+		{
+			/* Team flag */
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
 			String teamFlagUrl = team.getFlagImageURL();
 			
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAwareForTeamFlag);
 
-			ImageAware imageAwareForTeamBanner = new ImageViewAware(teamImage, false);
-				
-			String teamBannerUrl = "";
-				
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionTeamBannerOptions(teamBannerUrl, imageAwareForTeamBanner);	
-
 			String name = team.getDisplayName();
 			teamName.setText(name);
 			
 			teamFootballNational.setText(this.getResources().getString(R.string.team_page_team_info_header));
 			
-			/* TODO Change to real data */
-			String textAbout = this.getResources().getString(R.string.team_page_team_info_about_hard_coded);
-			about.setText(textAbout);
+			/* Team image */
+			ImageAware imageAwareForTeamBanner = new ImageViewAware(teamImage, false);
+
+			String teamBannerUrl = team.getTeamImageURL();
+				
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionTeamBannerOptions(teamBannerUrl, imageAwareForTeamBanner);
 			
-			foundedHeader.setText("");
-			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
-			locationHeader.setText("");
-			arenasHeader.setText("");
-//			photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+			/* Description */
+			String textAbout = team.getDescription();
+			if (textAbout != null && !textAbout.isEmpty()) {
+				about.setText(textAbout);
+				about.setVisibility(View.VISIBLE);
+			}
 			
-			founded.setText("");
-			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
-			location.setText("");
+			/*
+			 * TODO
+			 * 
+			 *  Add checks if we have the missing data below
+			 *  
+			 */
+			
+//			foundedHeader.setText("");
+			
+//			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
+
+//			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
+			
+//			locationHeader.setText("");
+			
+//			arenasHeader.setText("");
+			
+//			founded.setText("");
+			
+//			location.setText("");
+			
 //			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
-			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+			
+			/* photo credit */
+			String credit = team.getTeamImageCopyright();
+			if (credit != null && !credit.isEmpty()) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))
+					.append(" ")
+					.append(team.getTeamImageCopyright());
+				
+//				photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+				photoFrom.setText(sb.toString());
+				photoFrom.setVisibility(View.VISIBLE);
+			}
 			
 			likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
 			
@@ -361,7 +391,6 @@ public class TeamPageActivity
 	{
 		squadListContainer.removeAllViews();
 		
-		/* TODO: teamSquads is null here */
 		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID);
 		
 		filterCoachFromSquad();

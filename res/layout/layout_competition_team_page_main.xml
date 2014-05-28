@@ -6,15 +6,15 @@
     android:background="@color/grey1"
     android:orientation="vertical" >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
 	    android:id="@+id/request_successful_layout"
 	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent">
+	    android:layout_height="fill_parent"
+	    android:layout_above="@id/tab_selector_container" >
 	       
 	    <ScrollView
 	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_above="@id/tab_selector_container" >
+	        android:layout_height="match_parent" >
 	
 	        <RelativeLayout
 	            android:layout_width="match_parent"
@@ -80,8 +80,8 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_below="@id/competition_team_page_squad_header"
 	                    android:layout_marginTop="10dp"
-	                    android:orientation="vertical"
-	                    android:visibility="gone" >
+	                    android:paddingBottom="10dp"
+	                    android:orientation="vertical" >
 	                </LinearLayout>
 	                
 	            </RelativeLayout>
