@@ -305,31 +305,46 @@ public class TeamPageActivity
 			
 			/* Description */
 			String textAbout = team.getDescription();
-			about.setText(textAbout);
+			if (textAbout != null && !textAbout.isEmpty()) {
+				about.setText(textAbout);
+				about.setVisibility(View.VISIBLE);
+			}
 			
-			foundedHeader.setText("");
+			/*
+			 * TODO
+			 * 
+			 *  Add checks if we have the missing data below
+			 *  
+			 */
 			
-			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
+//			foundedHeader.setText("");
 			
-			locationHeader.setText("");
+//			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
+
+//			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
 			
-			arenasHeader.setText("");
+//			locationHeader.setText("");
 			
-			founded.setText("");
+//			arenasHeader.setText("");
 			
-			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
+//			founded.setText("");
 			
-			location.setText("");
+//			location.setText("");
 			
 //			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
 			
-			StringBuilder sb = new StringBuilder();
-			sb.append(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded))
-				.append(" ")
-				.append(team.getTeamImageCopyright());
-			
-//			photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
-			photoFrom.setText(sb.toString());
+			/* photo credit */
+			String credit = team.getTeamImageCopyright();
+			if (credit != null && !credit.isEmpty()) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))
+					.append(" ")
+					.append(team.getTeamImageCopyright());
+				
+//				photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+				photoFrom.setText(sb.toString());
+				photoFrom.setVisibility(View.VISIBLE);
+			}
 			
 			likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
 			
