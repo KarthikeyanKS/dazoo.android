@@ -53,12 +53,11 @@
 
                 <RelativeLayout
                     android:id="@+id/competition_event_highlights_team_one_flag_container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/competition_events_header"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp" >
 
                     <!-- Flag team one -->
@@ -87,11 +86,10 @@
 
                 <RelativeLayout
                     android:id="@+id/competition_event_highlights_team_two_flag_container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/competition_events_header"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp" >
 

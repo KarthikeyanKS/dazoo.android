@@ -98,6 +98,9 @@ public class EventPageActivity
 	private RelativeLayout highlightsContainerLayout;
 	private RelativeLayout lineupContainerLayout;
 	
+	private RelativeLayout highlightsFlagAndNameContainerOne;
+	private RelativeLayout highlightsFlagAndNameContainerTwo;
+	
 	private LinearLayout listContainerLayoutHighlights;
 	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
 	private TextView team1NameHighlights;
@@ -244,25 +247,11 @@ public class EventPageActivity
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
 				
-				team1Flag.setOnClickListener(new View.OnClickListener() 
+				highlightsFlagAndNameContainerOne.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
-		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
-		                
-		                startActivity(intent);
-		            }
-		        });
-				
-				team1FlagHighlights.setOnClickListener(new View.OnClickListener() 
-		        {
-		            public void onClick(View v)
-		            {
-		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
 		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
@@ -286,7 +275,7 @@ public class EventPageActivity
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
 				
-				team2Flag.setOnClickListener(new View.OnClickListener() 
+				highlightsFlagAndNameContainerTwo.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
@@ -294,20 +283,6 @@ public class EventPageActivity
 		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
-		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
-		                
-		                startActivity(intent);
-		            }
-		        });
-				
-				team2FlagHighlights.setOnClickListener(new View.OnClickListener() 
-		        {
-		            public void onClick(View v)
-		            {
-		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
-		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
 		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
@@ -496,6 +471,9 @@ public class EventPageActivity
 		
 		groupListContainer = (LinearLayout) findViewById(R.id.competition_event_group_list);
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_event_standings_list);
+		
+		highlightsFlagAndNameContainerOne = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_one_flag_container);
+		highlightsFlagAndNameContainerTwo = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_two_flag_container);
 	}
 	
 
