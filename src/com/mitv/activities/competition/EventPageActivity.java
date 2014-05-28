@@ -247,6 +247,19 @@ public class EventPageActivity
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
 				
+				team1Flag.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
+		                
+		                startActivity(intent);
+		            }
+		        });
+
 				highlightsFlagAndNameContainerOne.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
@@ -274,6 +287,19 @@ public class EventPageActivity
 					
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
+				
+				team2Flag.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
+		                
+		                startActivity(intent);
+		            }
+		        });
 				
 				highlightsFlagAndNameContainerTwo.setOnClickListener(new View.OnClickListener() 
 		        {
