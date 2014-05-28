@@ -284,7 +284,7 @@ public class TeamPageActivity
 		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
 		
 		if (team != null) 
-		{	
+		{
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
 			String teamFlagUrl = team.getFlagImageURL();
@@ -361,7 +361,6 @@ public class TeamPageActivity
 	{
 		squadListContainer.removeAllViews();
 		
-		/* TODO: teamSquads is null here */
 		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID);
 		
 		filterCoachFromSquad();

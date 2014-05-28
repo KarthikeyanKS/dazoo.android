@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 
 
@@ -135,22 +138,35 @@ public class CompetitionTeamSquadsTeamsListAdapter
 			if (teamSquad != null) {
 				/* check if position is odd or not. change background color on that row.. */
 				
-				/* Headers */
-				holder.redCardHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_red_card));
-				holder.yellowCardHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_yellow_card));
-				holder.fotballHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_goal));
-				holder.playerShirtNumberHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_shirt_number));
-				holder.playerNameHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_player));
-				holder.pjHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_pj));
+				boolean isFirstposition = (position == 0);
+				
+				if(isFirstposition) {
+					/* Headers */
+					holder.redCardHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_red_card));
+					holder.yellowCardHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_yellow_card));
+					holder.fotballHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_goal));
+					holder.playerShirtNumberHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_shirt_number));
+					holder.playerNameHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_player));
+					holder.pjHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_pj));
+					
+					holder.headersContainer.setVisibility(View.VISIBLE);
+					
+				} else {
+					holder.headersContainer.setVisibility(View.GONE);
+				}
 				
 				/* Row */
 				int shirtNr = teamSquad.getShirtNumber();
-				holder.playerShirtNumber.setText(Integer.valueOf(shirtNr).toString());
+				if (shirtNr > 0) {
+					holder.playerShirtNumber.setText(Integer.valueOf(shirtNr).toString());
+				} else {
+					holder.playerShirtNumber.setText("-");
+				}
 				
-				String playerNameFull = teamSquad.getPersonShort();
+				String playerNameShort = teamSquad.getPersonShort();
 				
 				/* Needed? */
-				holder.playerName.setText(playerNameFull);
+				holder.playerName.setText(playerNameShort);
 				holder.playerName.setEllipsize(TextUtils.TruncateAt.END);
 				holder.playerName.setHorizontallyScrolling(false);
 				holder.playerName.setSingleLine();
@@ -190,8 +206,20 @@ public class CompetitionTeamSquadsTeamsListAdapter
 					holder.redCards.setText(" ");
 				}
 				
+				/* Change to different background if position is odd or not */
+				if ((position > 0) && (position % 2) == 0)
+				{
+					holder.rowContainer.setBackgroundColor(activity.getResources().getColor(R.color.white));
+				}
+				else if (position == 0) {
+//					holder.rowContainer.setBackgroundColor(activity.getResources().getColor(R.color.white));
+				}
+				else {
+					holder.rowContainer.setBackgroundColor(activity.getResources().getColor(R.color.grey0));
+				}
+				
 				holder.rowContainer.setVisibility(View.VISIBLE);
-				holder.headersContainer.setVisibility(View.VISIBLE);
+				
 					
 			} else {
 				Log.w(TAG, "EventLineUp is null");
