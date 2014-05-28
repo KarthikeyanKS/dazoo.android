@@ -59,12 +59,11 @@
 	                <!-- TEAM ONE -->
 	                <RelativeLayout
 	                    android:id="@+id/competition_event_highlights_team_one_flag_container"
-	                    android:layout_width="wrap_content"
+	                    android:layout_width="150dp"
 	                    android:layout_height="wrap_content"
 	                    android:layout_alignParentLeft="true"
 	                    android:layout_below="@id/competition_events_header"
 	                    android:layout_marginLeft="10dp"
-	                    android:layout_marginRight="10dp"
 	                    android:layout_marginTop="10dp" >
 	
 	                    
@@ -93,16 +92,14 @@
 	                <!-- TEAM TWO -->
 	                <RelativeLayout
 	                    android:id="@+id/competition_event_highlights_team_two_flag_container"
-	                    android:layout_width="wrap_content"
+	                    android:layout_width="150dp"
 	                    android:layout_height="wrap_content"
 	                    android:layout_alignParentRight="true"
 	                    android:layout_below="@id/competition_events_header"
-	                    android:layout_marginLeft="10dp"
 	                    android:layout_marginRight="10dp"
 	                    android:layout_marginTop="10dp" >
 	
 	                    <!-- Flag team two -->
-	
 	                    <ImageView
 	                        android:id="@+id/competition_event_highlights_team_two_flag"
 	                        android:layout_width="50dp"
@@ -111,8 +108,8 @@
 	                        android:scaleType="fitXY"
 	                        android:src="@drawable/competitions_contry_flag_default" />
 	
+	                    
 	                    <!-- Team two name -->
-	
 	                    <com.mitv.ui.elements.FontTextView
 	                        android:id="@+id/competition_event_highlights_team_two_name"
 	                        style="@style/text1"

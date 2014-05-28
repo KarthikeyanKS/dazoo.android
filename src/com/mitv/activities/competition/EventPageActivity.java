@@ -98,6 +98,9 @@ public class EventPageActivity
 	private RelativeLayout highlightsContainerLayout;
 	private RelativeLayout lineupContainerLayout;
 	
+	private RelativeLayout highlightsFlagAndNameContainerOne;
+	private RelativeLayout highlightsFlagAndNameContainerTwo;
+	
 	private LinearLayout listContainerLayoutHighlights;
 	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
 	private TextView team1NameHighlights;
@@ -256,13 +259,12 @@ public class EventPageActivity
 		                startActivity(intent);
 		            }
 		        });
-				
-				team1FlagHighlights.setOnClickListener(new View.OnClickListener() 
+
+				highlightsFlagAndNameContainerOne.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
 		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
@@ -291,7 +293,6 @@ public class EventPageActivity
 		            public void onClick(View v)
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
 		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
@@ -300,14 +301,14 @@ public class EventPageActivity
 		            }
 		        });
 				
-				team2FlagHighlights.setOnClickListener(new View.OnClickListener() 
+				highlightsFlagAndNameContainerTwo.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
 		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
@@ -496,6 +497,9 @@ public class EventPageActivity
 		
 		groupListContainer = (LinearLayout) findViewById(R.id.competition_event_group_list);
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_event_standings_list);
+		
+		highlightsFlagAndNameContainerOne = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_one_flag_container);
+		highlightsFlagAndNameContainerTwo = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_two_flag_container);
 	}
 	
 
@@ -578,7 +582,7 @@ public class EventPageActivity
 
 		String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
 		
 		groupListAdapter = new CompetitionEventEventsByGroupListAdapter(this, events, true, viewBottomMessage, procedure);
 		
@@ -616,7 +620,7 @@ public class EventPageActivity
 		
 		String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
 		
 		standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
 		
@@ -738,7 +742,7 @@ public class EventPageActivity
 	
 	
 	
-	private Runnable getNavigateToCompetitionPageProcedure()
+	private Runnable getNavigateToCompetitionPageProcedure(final int tabToNavigateTo)
 	{
 		return new Runnable() 
 		{
@@ -747,7 +751,7 @@ public class EventPageActivity
 				Intent intent = new Intent(EventPageActivity.this, CompetitionPageActivity.class);
 				
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
+                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, tabToNavigateTo);
                 
 				startActivity(intent);
 			}

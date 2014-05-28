@@ -129,6 +129,7 @@ public class CompetitionStandingsByGroupListAdapter
 			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_team_table_gp);
 			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_team_table_plus_minus);
 			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
+			viewHolder.rowDivider = (View) rowView.findViewById(R.id.row_competition_standings_row_divider);
 
 			rowView.setTag(viewHolder);
 		}
@@ -202,6 +203,14 @@ public class CompetitionStandingsByGroupListAdapter
 	            }
 	        });
 			
+			if((position % 2) == 0 && !isFirstposition && isCurrentPhaseEqualToPreviousPhase)
+			{
+				holder.rowDivider.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				holder.rowDivider.setVisibility(View.GONE);
+			}
 		}
 			
 		return rowView;
@@ -219,5 +228,6 @@ public class CompetitionStandingsByGroupListAdapter
 		private TextView teamGP;
 		private TextView teamPlusMinus;
 		private TextView teamPoints;
+		private View rowDivider;
 	}
 }
