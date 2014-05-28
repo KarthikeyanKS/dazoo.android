@@ -578,7 +578,7 @@ public class EventPageActivity
 
 		String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
 		
 		groupListAdapter = new CompetitionEventEventsByGroupListAdapter(this, events, true, viewBottomMessage, procedure);
 		
@@ -616,7 +616,7 @@ public class EventPageActivity
 		
 		String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
 		
 		standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
 		
@@ -738,7 +738,7 @@ public class EventPageActivity
 	
 	
 	
-	private Runnable getNavigateToCompetitionPageProcedure()
+	private Runnable getNavigateToCompetitionPageProcedure(final int tabToNavigateTo)
 	{
 		return new Runnable() 
 		{
@@ -747,7 +747,7 @@ public class EventPageActivity
 				Intent intent = new Intent(EventPageActivity.this, CompetitionPageActivity.class);
 				
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
+                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, tabToNavigateTo);
                 
 				startActivity(intent);
 			}
