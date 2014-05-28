@@ -352,7 +352,7 @@ public class Event
 	/* TODO */
 	public String getShareUrl() {
 		StringBuilder sb = new StringBuilder();
-//		http://gitrgitr.com/deportes/events/{eventID}
+//		http://gitrgitr.com/deportes/eventos/{eventID}
 		sb.append(Constants.HTTP_SCHEME_USED)
 		.append(Constants.BACKEND_ENVIRONMENT_USED)
 		.append(Constants.URL_SHARE_SPORT_SPANISH)

@@ -133,6 +133,7 @@ public abstract class Constants
 	public static final String URL_POLLS 					 		= "/polls";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
+	public static final String URL_EVENTS_SPANISH			 		= "/eventos";
 	
 	/* Share */
 	public static final String URL_COMPETITIONS_SPANISH				= "/competicion/";
