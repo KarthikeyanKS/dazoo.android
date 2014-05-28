@@ -6,6 +6,7 @@ package com.mitv.activities.competition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.AboutUsActivity;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
@@ -302,21 +303,33 @@ public class TeamPageActivity
 			
 			teamFootballNational.setText(this.getResources().getString(R.string.team_page_team_info_header));
 			
-			/* TODO Change to real data */
-			String textAbout = this.getResources().getString(R.string.team_page_team_info_about_hard_coded);
+			/* Description */
+			String textAbout = team.getDescription();
 			about.setText(textAbout);
 			
 			foundedHeader.setText("");
+			
 			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
+			
 			locationHeader.setText("");
+			
 			arenasHeader.setText("");
-//			photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 			
 			founded.setText("");
+			
 			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
+			
 			location.setText("");
+			
 //			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
-			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded))
+				.append(" ")
+				.append(team.getTeamImageCopyright());
+			
+//			photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+			photoFrom.setText(sb.toString());
 			
 			likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
 			
