@@ -4,21 +4,20 @@ package com.mitv.adapters.list;
 
 
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 
 
@@ -106,11 +105,25 @@ public class CompetitionTeamSquadsTeamsListAdapter
 		{
 			ViewHolder viewHolder = new ViewHolder();
 	
-			rowView = layoutInflater.inflate(R.layout.row_competition_event_lineup_teams_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_team_squad_list_item, null);
+			viewHolder.rowContainer = (RelativeLayout) rowView.findViewById(R.id.row_squad_container);
+			viewHolder.headersContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container);
+
+			/* Headers */
+			viewHolder.playerShirtNumberHeader = (TextView) rowView.findViewById(R.id.row_squad_header_shirt_number);
+			viewHolder.playerNameHeader = (TextView) rowView.findViewById(R.id.row_squad_header_player);
+			viewHolder.pjHeader = (TextView) rowView.findViewById(R.id.row_squad_header_pj);
+			viewHolder.redCardHeader = (ImageView) rowView.findViewById(R.id.row_squad_red_flag_icon);
+			viewHolder.yellowCardHeader = (ImageView) rowView.findViewById(R.id.row_squad_yellow_flag_icon);
+			viewHolder.fotballHeader = (ImageView) rowView.findViewById(R.id.row_squad_football_icon);
 	
-			viewHolder.playerShirtNumber = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_shirt_number);
-			viewHolder.playerPosition = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_position);
-			viewHolder.playerName = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_name);
+			/* Row */
+			viewHolder.playerShirtNumber = (TextView) rowView.findViewById(R.id.row_squad_row_shirt_number);
+			viewHolder.playerName = (TextView) rowView.findViewById(R.id.row_squad_row_player);
+			viewHolder.pj = (TextView) rowView.findViewById(R.id.row_squad_row_pj);
+			viewHolder.goals = (TextView) rowView.findViewById(R.id.row_squad_row_goals);
+			viewHolder.redCards = (TextView) rowView.findViewById(R.id.row_squad_row_red_cards);
+			viewHolder.yellowCrads = (TextView) rowView.findViewById(R.id.row_squad_row_yellow_cards);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -120,18 +133,65 @@ public class CompetitionTeamSquadsTeamsListAdapter
 		if (holder != null) 
 		{
 			if (teamSquad != null) {
+				/* check if position is odd or not. change background color on that row.. */
 				
-//				String shirtNr = teamSquad.getShirtNr();
-//				String positionShort = teamSquad.getFunctionShort();
-				String playerNameFull = teamSquad.getPerson();
+				/* Headers */
+				holder.redCardHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_red_card));
+				holder.yellowCardHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_yellow_card));
+				holder.fotballHeader.setImageDrawable(activity.getResources().getDrawable(R.drawable.competition_event_highlight_goal));
+				holder.playerShirtNumberHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_shirt_number));
+				holder.playerNameHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_player));
+				holder.pjHeader.setText(activity.getResources().getString(R.string.team_page_squad_header_pj));
 				
-//				holder.playerShirtNumber.setText(shirtNr);
-//				holder.playerPosition.setText(positionShort);
+				/* Row */
+				int shirtNr = teamSquad.getShirtNumber();
+				holder.playerShirtNumber.setText(Integer.valueOf(shirtNr).toString());
 				
+				String playerNameFull = teamSquad.getPersonShort();
+				
+				/* Needed? */
 				holder.playerName.setText(playerNameFull);
 				holder.playerName.setEllipsize(TextUtils.TruncateAt.END);
 				holder.playerName.setHorizontallyScrolling(false);
 				holder.playerName.setSingleLine();
+				
+				
+				/* GAMES PLAYED */
+				int gamesPlayed = teamSquad.getMatches();
+				holder.pj.setText(Integer.valueOf(gamesPlayed).toString());
+				
+				
+				/* GOALS */
+				int goals = teamSquad.getGoals();
+				if (goals > 0) {
+					holder.goals.setText(Integer.valueOf(goals).toString());
+					
+				} else {
+					holder.goals.setText(" ");
+				}
+				
+				
+				/* YELLOW CARDS */
+				int yellowC = teamSquad.getYellowCards();
+				if (yellowC > 0) {
+					holder.yellowCrads.setText(Integer.valueOf(yellowC).toString());
+					
+				} else {
+					holder.yellowCrads.setText(" ");
+				}
+				
+				
+				/* RED CARDS */
+				int redC = teamSquad.getRedCards();
+				if (redC > 0) {
+					holder.redCards.setText(Integer.valueOf(redC).toString());
+					
+				} else {
+					holder.redCards.setText(" ");
+				}
+				
+				holder.rowContainer.setVisibility(View.VISIBLE);
+				holder.headersContainer.setVisibility(View.VISIBLE);
 					
 			} else {
 				Log.w(TAG, "EventLineUp is null");
@@ -150,8 +210,19 @@ public class CompetitionTeamSquadsTeamsListAdapter
 	
 	private static class ViewHolder 
 	{
-		private TextView playerName;
-		private TextView playerPosition;
+		private RelativeLayout headersContainer;
+		private RelativeLayout rowContainer;
+		private TextView playerNameHeader;
+		private TextView playerShirtNumberHeader;
+		private TextView pjHeader;
+		private ImageView redCardHeader;
+		private ImageView yellowCardHeader;
+		private ImageView fotballHeader;
 		private TextView playerShirtNumber;
+		private TextView playerName;
+		private TextView pj;
+		private TextView goals;
+		private TextView redCards;
+		private TextView yellowCrads;
 	}
 }

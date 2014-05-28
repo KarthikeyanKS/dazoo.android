@@ -58,14 +58,14 @@
                     android:layout_below="@id/competition_team_page_squad_header"
                     android:scaleType="fitXY"
                     android:src="@drawable/competition_team_squad_fake"
-                    android:visibility="visible" />-->
+                    android:visibility="visible" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1000dp"
                     android:layout_below="@id/competition_team_page_squad_header"
                     android:scaleType="fitStart"
-                    android:src="@drawable/competition_team_squad_fake" />
+                    android:src="@drawable/competition_team_squad_fake" /> -->
 
                 <!-- The list -->
 

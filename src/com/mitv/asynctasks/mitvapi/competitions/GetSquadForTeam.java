@@ -32,9 +32,7 @@ public class GetSquadForTeam
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_TEAMS_FULL);
 		url.append(Constants.FORWARD_SLASH);
-		
 		url.append(teamID);
-		
 		url.append(Constants.URL_SQUAD);
 
 		return url.toString();

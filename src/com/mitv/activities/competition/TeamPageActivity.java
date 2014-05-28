@@ -3,6 +3,7 @@ package com.mitv.activities.competition;
 
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.AboutUsActivity;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
@@ -45,7 +47,6 @@ public class TeamPageActivity
 	implements ViewCallbackListener, FetchDataProgressCallbackListener
 {	
 	private static final String TAG = TeamPageActivity.class.getName();
-
 	
 	private Team team;
 	private long teamID;
@@ -210,11 +211,10 @@ public class TeamPageActivity
 	
 			case COMPETITION_TEAM_SQUAD:
 			{
-				// TODO - Enable this to get the Squad from the API
-//				if(fetchRequestResult.wasSuccessful())
-//				{
-//					setSquadLayout();
-//				}
+				if(fetchRequestResult.wasSuccessful())
+				{
+					setSquadLayout();
+				}
 				break;
 			}
 	
@@ -262,7 +262,7 @@ public class TeamPageActivity
 		shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 		
 		/* Squad */
-		//squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
+		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
 		
 		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);
@@ -361,7 +361,10 @@ public class TeamPageActivity
 	{
 		squadListContainer.removeAllViews();
 		
+		/* TODO: teamSquads is null here */
 		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID);
+		
+		filterCoachFromSquad();
 		
 		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
 		
@@ -376,6 +379,25 @@ public class TeamPageActivity
         }
 		
 		squadListContainer.measure(0, 0);
+	}
+	
+	
+	
+	private void filterCoachFromSquad() {
+		List<TeamSquad> squadsToRemove = new ArrayList<TeamSquad>();
+		
+		if (teamSquads != null) {
+			
+			for (TeamSquad squad : teamSquads) {
+				if (squad.getFunction().equals(Constants.FUNCTION_COACH)) {
+					squadsToRemove.add(squad);
+				}
+			}
+			
+			if (squadsToRemove != null && !squadsToRemove.isEmpty()) {
+				teamSquads.removeAll(squadsToRemove);
+			}
+		}
 	}
 	
 	
