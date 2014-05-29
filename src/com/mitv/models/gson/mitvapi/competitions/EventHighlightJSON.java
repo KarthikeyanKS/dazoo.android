@@ -5,11 +5,24 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 public class EventHighlightJSON
 {
-	private String highlightId;
-	private String highlightType;
-	private String description;
-	private String beginTime;
-	private String endTime;
+	protected long highlightId;
+	protected long eventId;
+	protected long highlightCode;
+	protected String action;
+	protected int actionCode;
+	protected long actionInfo;
+	protected long actionTime;
+	protected long teamId;
+	protected String team;
+	protected long personId;
+	protected String actionMinute;
+	protected String person;
+	private String personShort;
+	protected long subPersonId;
+	protected String subPerson;
+	protected String subPersonShort;
+	protected long subActionReasonId;
+	protected String subActionReason;
 	
 	
 	
@@ -17,31 +30,96 @@ public class EventHighlightJSON
 
 
 
-	public String getHighlightId() {
+	public long getHighlightId() {
 		return highlightId;
 	}
 
 
 
-	public String getHighlightType() {
-		return highlightType;
+	public String getAction() {
+		return action;
+	}
+
+
+	
+	public long getActionTime() {
+		return actionTime;
 	}
 
 
 
-	public String getDescription() {
-		return description;
+	public long getTeamId() {
+		return teamId;
 	}
 
 
 
-	public String getBeginTime() {
-		return beginTime;
+	public String getTeam() {
+		return team;
 	}
 
 
 
-	public String getEndTime() {
-		return endTime;
+	public long getPersonId() {
+		return personId;
+	}
+
+
+
+	public String getActionMinute() {
+		return actionMinute;
+	}
+
+
+
+	public String getPerson() {
+		return person;
+	}
+
+	
+	
+	public String getPersonShort() {
+		return personShort;
+	}
+
+
+	public long getSubPersonId() {
+		return subPersonId;
+	}
+
+
+
+	public String getSubPerson() {
+		return subPerson;
+	}
+
+
+
+	public long getSubActionReasonId() {
+		return subActionReasonId;
+	}
+
+
+
+	public String getSubActionReason() {
+		return subActionReason;
+	}
+
+
+
+	public long getEventId() {
+		return eventId;
+	}
+
+
+
+	public String getSubPersonShort() {
+		return subPersonShort;
+	}
+
+
+
+	public long getActionInfo() {
+		return actionInfo;
 	}
 }

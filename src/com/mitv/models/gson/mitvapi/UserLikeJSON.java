@@ -66,6 +66,14 @@ public class UserLikeJSON
 	@Expose (deserialize = false)
 	protected String category;
 	
+
+	/* This variable is used if likeType == "COMPETITION" */
+	protected Long competitionId;
+	
+	
+	/* This variable is used if likeType == "COMPETITION_TEAM" */
+	protected Long teamId;
+	
 	
 	
 	/*
@@ -93,9 +101,12 @@ public class UserLikeJSON
 		
 		Integer broadcastCount = jsonObject.get(Constants.LIKE_NEXT_BROADCAST_COUNT).getAsInt();
 		
-		if(broadcastCount != null) {
+		if(broadcastCount != null) 
+		{
 			baseObject.broadcastCount = broadcastCount;
-			if(baseObject.broadcastCount  > 0) {
+			
+			if(baseObject.broadcastCount  > 0) 
+			{
 				JsonElement nextBroadcastJsonElement = jsonObject.get(Constants.LIKE_NEXT_BROADCAST);
 				UserLikeNextBroadcast userLikeNextBroadcast = new Gson().fromJson(nextBroadcastJsonElement, UserLikeNextBroadcast.class);
 				baseObject.nextBroadcast = userLikeNextBroadcast;
@@ -119,6 +130,17 @@ public class UserLikeJSON
 				baseObject.sportTypeId = jsonSportTypeElement.getAsString();
 			}
 			break;
+			
+			case COMPETITION:
+			{
+				break;
+			}
+			
+			case TEAM:
+			{
+				
+				break;
+			}
 			
 			default:
 			case PROGRAM:
@@ -161,14 +183,22 @@ public class UserLikeJSON
 		return baseObject;
 	}
 	
-	public LikeTypeResponseEnum getLikeType() {
-		return LikeTypeResponseEnum.getLikeTypeEnumFromStringRepresentation(likeType);
+	
+	
+	public LikeTypeResponseEnum getLikeType() 
+	{
+		return LikeTypeResponseEnum.getTypeEnumFromStringRepresentation(likeType);
 	}
 	
-	public ProgramTypeEnum getProgramType() {
+	
+	
+	public ProgramTypeEnum getProgramType() 
+	{
 		return ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(programType);
 	}
 
+	
+	
 	public String getTitle() {
 		return title;
 	}
@@ -197,17 +227,23 @@ public class UserLikeJSON
 		return sportTypeId;
 	}
 
-
-
 	public Integer getBroadcastCount() {
 		return broadcastCount;
 	}
 
-
-
 	public UserLikeNextBroadcast getNextBroadcast() {
 		return nextBroadcast;
 	}
-	
-	
+
+
+
+	public Long getCompetitionId() {
+		return competitionId;
+	}
+
+
+
+	public Long getTeamId() {
+		return teamId;
+	}	
 }

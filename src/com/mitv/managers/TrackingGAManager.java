@@ -26,6 +26,7 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -212,6 +213,22 @@ public class TrackingGAManager
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder);
 	}
+	
+	public void sendUserReminderEventCompetition(Event event, boolean didJustRemoveReminder) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(event.getHomeTeam())
+			.append(" - ")
+			.append(event.getAwayTeam());
+		
+		String title = sb.toString();
+
+		Long addedReminder = 1L;
+		if (didJustRemoveReminder) {
+			addedReminder = 0L;
+		}
+
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, title, addedReminder);
+	}
 
 	public void sendTimeOffSyncEvent() {
 		sendSystemEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED);
@@ -249,7 +266,8 @@ public class TrackingGAManager
 		}
 	}
 
-	public void sendUserHourSelectionEvent(int lastSelectedHour) {
+	public void sendUserHourSelectionEvent(int lastSelectedHour) 
+	{
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
 		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
@@ -305,7 +323,7 @@ public class TrackingGAManager
 		if (dates != null && !dates.isEmpty() && dayIndex < dates.size()) {
 			TVDate tvDate = dates.get(dayIndex);
 
-			Calendar calendar = tvDate.getStartOfTVDayCalendar();
+			Calendar calendar = tvDate.getStartOfTVDayCalendarGMT();
 			String displayName = tvDate.getDisplayName();
 			String dayMonth = DateUtils.buildDayAndMonthCompositionAsString(calendar, false);
 

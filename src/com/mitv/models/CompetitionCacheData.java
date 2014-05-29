@@ -4,7 +4,7 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,9 +12,13 @@ import java.util.TreeMap;
 import com.mitv.Constants;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
+import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -25,10 +29,21 @@ public class CompetitionCacheData
 	private List<Team> teams;
 	private List<Phase> phases;
 	private List<Event> events;
+	
+	private Map<Long, Phase> currentPhaseForTeam;
+
 	private Map<Long, List<Standings>> standingsByPhase;
 	
 	private TreeMap<Long, List<Event>> eventsGroupedByFirstPhase;
 	private TreeMap<Long, List<Event>> eventsGroupedBySecondPhase;
+	
+	private TreeMap<Long, List<EventHighlight>> highlightsByEvent;
+	private Long highlightsByEventFetchTime;
+	
+	private TreeMap<Long, List<EventLineUp>> lineupByEvent;
+	private Long lineupByEventFetchTime;
+	
+	private TreeMap<Long, List<TeamSquad>> squadByTeam;
 	
 	
 	
@@ -61,25 +76,92 @@ public class CompetitionCacheData
 		this.eventsGroupedByFirstPhase = new TreeMap<Long, List<Event>>();
 		
 		this.eventsGroupedBySecondPhase = new TreeMap<Long, List<Event>>();
+		
+		this.highlightsByEvent = new TreeMap<Long, List<EventHighlight>>();
+		
+		this.highlightsByEventFetchTime = null;
+		
+		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
+		
+		this.lineupByEventFetchTime = null;
+		
+		this.squadByTeam = new TreeMap<Long, List<TeamSquad>>();
+		
+		this.currentPhaseForTeam = new TreeMap<Long, Phase>();
 	}
 	
 	
 	
 	public CompetitionCacheData(Competition competition)
 	{
+		this();
+		
 		this.competition = competition;
+	}
+	
+	
+	
+	public void clear()
+	{
+		teams.clear();
+		phases.clear();
+		events.clear();
+		standingsByPhase.clear();
+		eventsGroupedByFirstPhase.clear();
+		eventsGroupedBySecondPhase.clear();
+		highlightsByEvent.clear();
+		lineupByEvent.clear();
+	}
+	
+	
+	
+	
+	public boolean hasPeriodElapsedSinceLineUpFetchTime(long minutes)
+	{
+		boolean hasPeriodElapsed = false;
 		
-		this.teams = new ArrayList<Team>();
+		if(lineupByEventFetchTime != null)
+		{
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+			
+			Long nowInMillis = now.getTimeInMillis();
+			
+			Long elapsedMillis = (nowInMillis - lineupByEventFetchTime);
+			
+			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
+			
+			if(elapsedMillis > elapsedLimitInMillis)
+			{
+				hasPeriodElapsed = true;
+			}
+		}
 		
-		this.phases = new ArrayList<Phase>();
+		return hasPeriodElapsed;
+	}
+	
+	
+	
+	public boolean hasPeriodElapsedSinceHighlightsFetchTime(long minutes)
+	{
+		boolean hasPeriodElapsed = false;
 		
-		this.events = new ArrayList<Event>();
+		if(highlightsByEventFetchTime != null)
+		{
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+			
+			Long nowInMillis = now.getTimeInMillis();
+			
+			Long elapsedMillis = (nowInMillis - highlightsByEventFetchTime);
+			
+			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
+			
+			if(elapsedMillis > elapsedLimitInMillis)
+			{
+				hasPeriodElapsed = true;
+			}
+		}
 		
-		this.standingsByPhase = new HashMap<Long, List<Standings>>();
-		
-		this.eventsGroupedByFirstPhase = new TreeMap<Long, List<Event>>();
-		
-		this.eventsGroupedBySecondPhase = new TreeMap<Long, List<Event>>();
+		return hasPeriodElapsed;
 	}
 	
 	
@@ -143,8 +225,62 @@ public class CompetitionCacheData
 		
 		return hasCompetitionInitialData;
 	}
+	
+	
+	
+	public boolean hasEventData()
+	{
+		boolean hasEventData = (events.isEmpty() == false);
+		
+		return hasEventData;
+	}
+	
+	
+	
+	public boolean hasTeamData()
+	{
+		boolean hasTeamData = (teams.isEmpty() == false);
+		
+		return hasTeamData;
+	}
+	
+	
+	
+	public boolean hasLineUpData(Long eventID)
+	{
+		boolean hasLineUpData = (lineupByEvent.isEmpty() == false && lineupByEvent.containsKey(eventID));
+		
+		return hasLineUpData;
+	}
 
+	
+	
+	public boolean hasHighlightsData(Long eventID)
+	{
+		boolean hasHighlightsData = (highlightsByEvent.isEmpty() == false && highlightsByEvent.containsKey(eventID));
+		
+		return hasHighlightsData;
+	}
+	
+	
+	
+	public boolean hasStandingsData(Long phaseID)
+	{
+		boolean hasStandingsData = (standingsByPhase.isEmpty() == false && standingsByPhase.containsKey(phaseID));
+		
+		return hasStandingsData;
+	}
+	
+	
+	
+	public boolean hasSquadData(Long teamID)
+	{
+		boolean hasStandingsData = (squadByTeam.isEmpty() == false && squadByTeam.containsKey(teamID));
+		
+		return hasStandingsData;
+	}
 
+	
 
 	public List<Phase> getPhases() {
 		return phases;
@@ -215,4 +351,63 @@ public class CompetitionCacheData
 	public Map<Long, List<Event>> getEventsGroupedBySecondPhase() {
 		return eventsGroupedBySecondPhase;
 	}
+
+
+
+	public TreeMap<Long, List<EventHighlight>> getHighlightsByEvent() {
+		return highlightsByEvent;
+	}
+
+
+
+	public void setHighlightsByEvent(
+			TreeMap<Long, List<EventHighlight>> highlightsByEvent) {
+		this.highlightsByEvent = highlightsByEvent;
+	}
+
+
+
+	public TreeMap<Long, List<EventLineUp>> getLineupByEvent() {
+		return lineupByEvent;
+	}
+
+
+
+	public void setLineupByEvent(TreeMap<Long, List<EventLineUp>> lineupByEvent) {
+		this.lineupByEvent = lineupByEvent;
+	}
+
+
+
+	public Long getHighlightsByEventFetchTime() {
+		return highlightsByEventFetchTime;
+	}
+
+
+
+	public void setHighlightsByEventFetchTime(Long highlightsByEventFetchTime) {
+		this.highlightsByEventFetchTime = highlightsByEventFetchTime;
+	}
+
+
+
+	public Long getLineupByEventFetchTime() {
+		return lineupByEventFetchTime;
+	}
+
+
+	public void setLineupByEventFetchTime(Long lineupByEventFetchTime) {
+		this.lineupByEventFetchTime = lineupByEventFetchTime;
+	}
+	
+	
+	public TreeMap<Long, List<TeamSquad>> getSquadByTeam() {
+		return squadByTeam;
+	}
+	
+	
+	public void setSquadByTeam(TreeMap<Long, List<TeamSquad>> squadByTeam) {
+		this.squadByTeam = squadByTeam;
+	}
+	
 }

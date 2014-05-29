@@ -13,12 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.ui.helpers.DialogHelper;
@@ -39,10 +40,12 @@ public class ReminderView
 	private FontTextView iconView;
 	private Activity activity;
 	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
+	private EventBroadcast eventDetails;
 	private int notificationId;
 	private NotificationDataSource notificationDataSource;
 	private boolean isSet;
 	private View containerView;
+	private Event event;
 	
 	
 	public ReminderView(Context context)
@@ -129,6 +132,54 @@ public class ReminderView
 	
 	
 	
+	public void setCompetitionEventBroadcast(Event event, EventBroadcast eventDetails) 
+	{
+		this.event = event;
+		this.eventDetails = eventDetails;
+		
+		if (eventDetails != null && 
+			eventDetails.isAiring() == false &&
+			eventDetails.isEventAiringInOrInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
+		{
+			NotificationSQLElement dbItem = notificationDataSource.getNotification(eventDetails.getTVChannelIdForEventBroadcast(), eventDetails.getBeginTime());
+
+			if (dbItem != null && dbItem.getNotificationId() != 0) 
+			{
+				Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
+				
+				notificationId = dbItem.getNotificationId();
+				
+				isSet = true;
+			} 
+			else 
+			{
+				isSet = false;
+			}
+			if (isSet)
+			{
+				iconView.setTextColor(getResources().getColor(R.color.blue1));
+			} 
+			else 
+			{
+				iconView.setTextColor(getResources().getColor(R.color.grey3));
+			}
+			
+			containerView.setBackgroundResource(R.drawable.background_color_selector);
+			
+			containerView.setClickable(true);
+			containerView.setOnClickListener(this);
+		} 
+		else 
+		{
+			iconView.setTextColor(getResources().getColor(R.color.grey1));
+			containerView.setBackgroundColor(getResources().getColor(R.color.transparent));
+			
+			containerView.setClickable(true);
+		}
+	}
+	
+	
+	
 	public void setSizeOfIcon(boolean useSmallSize) 
 	{
 		int size;
@@ -150,15 +201,23 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
-		
-		
 		RateAppManager.significantEvent(activity);
+		boolean isTVBroadcast;
 		
 		if (isSet == false) 
 		{
-			TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, false);
-			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
-
+			if (tvBroadcastWithChannelInfo != null) {
+				TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, false);
+				isTVBroadcast = true;
+				NotificationHelper.scheduleAlarm(activity, null, null, isTVBroadcast, tvBroadcastWithChannelInfo);
+			}
+			
+			else {
+				isTVBroadcast = false;
+				TrackingGAManager.sharedInstance().sendUserReminderEventCompetition(event, false);
+				NotificationHelper.scheduleAlarm(activity, event, eventDetails, isTVBroadcast, null);
+			}
+			
 			StringBuilder sb = new StringBuilder();
 			sb.append(activity.getString(R.string.reminder_text_set_top));
 			sb.append(" <b> ");

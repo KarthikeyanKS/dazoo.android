@@ -21,6 +21,8 @@ import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
 
@@ -43,7 +45,14 @@ public class NotificationHelper
 		{
 			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(element);
 			
-			NotificationHelper.scheduleAlarm(context, broadcast, element.getNotificationId());
+			if (broadcast != null) {
+				NotificationHelper.scheduleAlarm(context, broadcast, null, null, true, element.getNotificationId());
+				
+			} else {
+				/* TODO This is need to get the notifications to work */
+//				Event event = new Event(element);
+//				NotificationHelper.scheduleAlarm(context, broadcast, null, null, false, element.getNotificationId());
+			}
 		}
 	}
 	
@@ -52,10 +61,16 @@ public class NotificationHelper
 		
 	private static void scheduleAlarm(
 			final Context context, 
-			TVBroadcastWithChannelInfo broadcast, 
+			TVBroadcastWithChannelInfo broadcast,
+			Event event,
+			EventBroadcast eventBroadcast,
+			boolean isTVBroadcast,
 			int notificationId)
 	{
-		Intent intent = getAlarmIntent(notificationId, broadcast);
+		/* TODO isTVBroadcast is set to true, notifications for the events is not yet finished */
+		isTVBroadcast = true;
+		
+		Intent intent = getAlarmIntent(notificationId, broadcast, event, eventBroadcast, isTVBroadcast);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		
@@ -70,13 +85,27 @@ public class NotificationHelper
 	
 	public static void scheduleAlarm(
 			final Context context,
+			Event event,
+			EventBroadcast eventBroadcast,
+			boolean isTVBroadcast,
 			TVBroadcastWithChannelInfo broadcast) 
 	{
 		Random random = new Random();
 		
 		int notificationId = random.nextInt(Integer.MAX_VALUE);
 		
-		Intent intent = getAlarmIntent(notificationId, broadcast);
+		
+		/* TODO
+		 * 
+		 * WARNING WARNING WARNING
+		 * 
+		 * The notifications for event is not finished  */
+//		holder.reminderView.setCompetitionEventBroadcast(event, details);
+		
+//		Intent intent = getAlarmIntent(notificationId, broadcast, event, eventDetails, isTVBroadcast);
+		
+		/* We are always sending notifications for the broadcast */
+		Intent intent = getAlarmIntent(notificationId, broadcast, null, null, true);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		
@@ -95,26 +124,55 @@ public class NotificationHelper
 	
 	
 	
-	private static Intent getAlarmIntent(int notificationId, TVBroadcastWithChannelInfo broadcast) 
+	private static Intent getAlarmIntent(
+			final int notificationId, 
+			final TVBroadcastWithChannelInfo broadcast, 
+			final Event event, 
+			final EventBroadcast eventDetails, 
+			final boolean isTVBroadcast) 
 	{
 		String broadcastName = "";
-		if (broadcast.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
-			broadcastName = broadcast.getProgram().getSeries().getName();
-		}
-		else {
-			broadcastName = broadcast.getProgram().getTitle();
+		
+		if (isTVBroadcast) {
+			
+			if (broadcast.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
+				broadcastName = broadcast.getProgram().getSeries().getName();
+			}
+			else {
+				broadcastName = broadcast.getProgram().getTitle();
+			}
+			
+		} else {
+			StringBuilder sb = new StringBuilder();
+			sb.append(event.getHomeTeam())
+				.append(" - ")
+				.append(event.getAwayTeam());
+			
+			broadcastName = sb.toString();
 		}
 		
 		Intent intent = new Intent(Constants.INTENT_NOTIFICATION);
 
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillis());
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNELID, broadcast.getChannel().getChannelId().getChannelId());
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_NAME, broadcast.getChannel().getName());
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, broadcast.getChannel().getImageUrl());
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcastName);
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, broadcast.getBeginTimeHourAndMinuteLocalAsString());
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_DATE_DATE, broadcast.getBeginTimeDateRepresentation());
+		if (isTVBroadcast) {
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillis());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNELID, broadcast.getChannel().getChannelId().getChannelId());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_NAME, broadcast.getChannel().getName());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, broadcast.getChannel().getImageUrl());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcastName);
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, broadcast.getBeginTimeHourAndMinuteLocalAsString());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_DATE_DATE, broadcast.getBeginTimeDateRepresentationFromLocal());
+			
+		} else {
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, eventDetails.getBeginTimeMillis());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNELID, eventDetails.getChannelId());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_NAME, eventDetails.getChannelName());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, eventDetails.getImageUrl());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcastName);
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, eventDetails.getBeginTimeHourAndMinuteLocalAsString());
+			intent.putExtra(Constants.INTENT_ALARM_EXTRA_DATE_DATE, eventDetails.getBeginTimeDateRepresentation());
+		}
 		
 		return intent;
 	}

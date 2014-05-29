@@ -190,7 +190,7 @@ public class TrackingManager
 	
 	private void setStartValue(String eventName)
 	{
-		Long now = new Long(DateUtils.getNow().getTimeInMillis());
+		Long now = new Long(DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 		
 		measureEventStartTimes.put(eventName, now);
 	}
@@ -199,7 +199,7 @@ public class TrackingManager
 	
 	private long calculateValueSincePrevious(String previousEventName)
 	{
-		Long now = new Long(DateUtils.getNow().getTimeInMillis());
+		Long now = new Long(DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 		
 		Long startTime = measureEventStartTimes.get(previousEventName);
 		

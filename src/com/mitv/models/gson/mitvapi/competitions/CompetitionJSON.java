@@ -10,6 +10,7 @@ public class CompetitionJSON
 {
 	protected long competitionId;
 	protected String displayName;
+	protected String competitionCategory;
 	protected String startDate;
 	protected String endDate;
 	protected boolean visible;
@@ -17,8 +18,7 @@ public class CompetitionJSON
 	
 	
 	
-	public CompetitionJSON()
-	{}
+	public CompetitionJSON(){}
 
 
 

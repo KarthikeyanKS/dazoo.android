@@ -3,19 +3,25 @@ package com.mitv.fragments;
 
 
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
+import com.mitv.adapters.list.CompetitionTagListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.TVGuideTabTypeEnum;
@@ -23,6 +29,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
 
@@ -41,6 +48,7 @@ public class TVGuideTabFragmentCompetition
 	
 	private EventCountDownTimer eventCountDownTimer;
 	
+	private RelativeLayout countDownLayout;
 	private RelativeLayout countDownAreaContainer;
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInHours;
@@ -51,6 +59,10 @@ public class TVGuideTabFragmentCompetition
 	private TextView title;
 	private RelativeLayout competitionGoToScheduleLayout;
 	
+	private LinearLayout listContainerLayout;
+	private CompetitionTagListAdapter listAdapter;
+	
+	private RelativeLayout competitionBannerLayout;
 	
 	
 	
@@ -67,6 +79,8 @@ public class TVGuideTabFragmentCompetition
 		super(new Long(competitionID).toString(), competitionDisplayName, TVGuideTabTypeEnum.COMPETITION);
 
 		this.competitionID = competitionID;
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 	}
 	
 	
@@ -74,7 +88,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.layout_competition_page_main, null);
+		rootView = inflater.inflate(R.layout.layout_competition_tab, null);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -82,6 +96,8 @@ public class TVGuideTabFragmentCompetition
 		activity = getActivity();
 		
 		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
+		
+		initView();
 		
         learnMoreButton.setOnClickListener(new View.OnClickListener() 
         {
@@ -107,7 +123,7 @@ public class TVGuideTabFragmentCompetition
             }
         });
         
-        RelativeLayout competitionBannerLayout = (RelativeLayout) rootView.findViewById(R.id.competition_banner_layout);
+        competitionBannerLayout = (RelativeLayout) rootView.findViewById(R.id.competition_banner_layout);
         
         competitionBannerLayout.setOnClickListener(new View.OnClickListener() 
         {	
@@ -120,10 +136,8 @@ public class TVGuideTabFragmentCompetition
         if (savedInstanceState != null) 
         {
             // Restore last state for checked position.
-        	competitionID = savedInstanceState.getLong("competitionID", 0);
+        	competitionID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_ID, 0);
         }
-        
-        initView();
 		
 		return rootView;
 	}
@@ -135,7 +149,7 @@ public class TVGuideTabFragmentCompetition
 	{
         super.onSaveInstanceState(outState);
         
-        outState.putLong("competitionID", competitionID);
+        outState.putLong(Constants.INTENT_COMPETITION_ID, competitionID);
     }
 	
 	
@@ -158,7 +172,14 @@ public class TVGuideTabFragmentCompetition
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionsData(this, false);
+		String loadingString = getString(R.string.competition_tab_loading_text);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
+		
+		/* Always re-fetch the data from the service */
+		boolean forceRefreshOfCompetitionInitialData = true;
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, getCompetition().getCompetitionId());
 	}
 	
 	
@@ -240,7 +261,9 @@ public class TVGuideTabFragmentCompetition
 	
 	private void initView()
 	{
-		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
+		countDownLayout = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_layout);
+				
+		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.time_left_section);
 		
 		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_days_number);
 		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_hours_number);
@@ -252,7 +275,9 @@ public class TVGuideTabFragmentCompetition
 		
 		title = (TextView) rootView.findViewById(R.id.competition_title);
 		
-		competitionGoToScheduleLayout = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);	
+		competitionGoToScheduleLayout = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
+		
+		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_tag_list_events);
 	}
 	
 	
@@ -273,25 +298,66 @@ public class TVGuideTabFragmentCompetition
 	
 	private void setData()
 	{
-		if (getCompetition().hasBegun())
-		{
-			title.setText(activity.getString(R.string.competition_page_time_left_title));
+		Competition currentCompetition = getCompetition();
 		
+		boolean hasBegun = currentCompetition.hasBegun();
+		boolean hasEnded = currentCompetition.hasEnded();
+		boolean isVisible = currentCompetition.isVisible();
+		
+		boolean isOngoing = hasBegun && !hasEnded && isVisible;
+		
+		if (isOngoing)
+		{
+			title.setText("");
+		
+			LayoutParams parameters = countDownLayout.getLayoutParams();
+			
+			int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+			
+			parameters.height = height;
+			
+			countDownLayout.setLayoutParams(parameters);
+			
+			countDownLayout.setVisibility(View.VISIBLE);
+			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 			
 			countDownAreaContainer.setVisibility(View.GONE);
+			
+			setListOfEvents();
+		}
+		
+		else if (hasEnded) 
+		{
+			// TODO
 		}
 		else
 		{
 			title.setText(activity.getString(R.string.competition_page_time_left_title));
+		
+			LayoutParams parameters = countDownLayout.getLayoutParams();
+			
+			int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 230, getResources().getDisplayMetrics());
+			
+			parameters.height = height;
+			
+			countDownLayout.setLayoutParams(parameters);
+			
+			countDownLayout.setVisibility(View.VISIBLE);
 			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
+			
+			countDownAreaContainer.setVisibility(View.VISIBLE);
+			
+			listContainerLayout.setVisibility(View.GONE);
+			
+			competitionBannerLayout.setBackgroundColor(activity.getResources().getColor(R.color.white));
 		
 			String competitionName = getCompetition().getDisplayName();
 			
-			long eventStartTimeInMiliseconds = getCompetition().getBeginTimeCalendarLocal().getTimeInMillis();
+			long eventStartTimeInMiliseconds = getCompetition().getBeginTimeCalendarGMT().getTimeInMillis();
 				
-			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 
 			eventCountDownTimer = new EventCountDownTimer(
 					competitionName, 
@@ -306,4 +372,31 @@ public class TVGuideTabFragmentCompetition
 			eventCountDownTimer.start();
 		}
 	}
+	
+	
+	private void setListOfEvents() 
+	{
+		boolean filterFinishedEvents = true;
+		boolean filterLiveEvents = false;
+		int limit = 2;
+		
+		List<Event> events = ContentManager.sharedInstance().getFromCacheNextUpcomingEventsForSelectedCompetition(filterFinishedEvents, filterLiveEvents, limit);
+		
+		listContainerLayout.removeAllViews();
+
+		listAdapter = new CompetitionTagListAdapter(activity, events, false, null, null);
+		
+		for (int i = 0; i < listAdapter.getCount(); i++) 
+		{
+            View listItem = listAdapter.getView(i, null, listContainerLayout);
+           
+            if (listItem != null) 
+            {
+            	listContainerLayout.addView(listItem);
+            }
+        }
+		
+		listContainerLayout.measure(0, 0);
+	}
+	
 }

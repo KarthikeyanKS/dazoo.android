@@ -1,7 +1,10 @@
 
 package com.mitv;
 
+import java.util.EnumSet;
+
 import com.mitv.activities.FeedActivity;
+import com.mitv.enums.EventHighlightActionEnum;
 
 
 
@@ -16,9 +19,11 @@ public abstract class Constants
 	public static final String HTTPS_SCHEME	= "https://";
 	public static final String FORWARD_SLASH = "/";
 	
+	
 	/* BACKEND API BASE URLs */
-	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com" + FORWARD_SLASH;
-	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv" + FORWARD_SLASH;
+	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com";
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv";
+	
 	
 	/* FRONTEND API BASE URLs */
 	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
@@ -27,10 +32,10 @@ public abstract class Constants
 	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME = "59b039d2c0c0a7fbe173";
@@ -52,9 +57,10 @@ public abstract class Constants
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
 	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
-	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
+	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
+	
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -76,48 +82,64 @@ public abstract class Constants
 		
 	/* "Static", don't need to change those */
 	public static final String URL_BACKEND_BASE_API					= "api.";
+	public static final String URL_BACKEND_IMAGE_PREFIX_PATH 		= "images.";
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
 	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
-	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "track/unique";
+	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "/track/unique";
 	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
 	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_ENVIRONMENT_USED;
 	
 	//public static final String URL_GUIDE_LEGACY 					= URL_SERVER + "epg/guide";
-	public static final String URL_GUIDE 							= URL_SERVER + "epg/slimguide";
-	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
-	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "epg/channels";
-	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "epg/channels/default";
-	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER + "auth/login/facebook";
-	public static final String URL_LOGIN_WITH_PLAINTEXT_PASSWORD 	= URL_SERVER + "auth/login/dazoo";
-	public static final String URL_LOGIN_WITH_HASHED_PASSWORD 		= URL_SERVER + "auth/login/dazoo/hash";
-	public static final String URL_REGISTER_WITH_PLAINTEXT_PASSWORD = URL_SERVER + "auth/login/dazoo/register";
-	public static final String URL_REGISTER_WITH_HASHED_PASSWORD 	= URL_SERVER + "auth/login/dazoo/register/hash";
-	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER + "auth/login/dazoo/sendResetPasswordEmail";
-	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER + "auth/login/dazoo/resetPassword";
-	public static final String URL_TAGS_PAGE 						= URL_SERVER + "epg/tags/visible";
-	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "my/channels";
-	public static final String URL_LIKES 							= URL_SERVER + "my/likes";
-	public static final String URL_LIKES_WITH_UPCOMING 				= URL_SERVER + "my/likes/broadcasts";
-	public static final String URL_ACTIVITY_FEED 					= URL_SERVER + "my/feed";
-	public static final String URL_PROGRAMS 						= URL_SERVER + "epg/programs/";
-	public static final String URL_SERIES 							= URL_SERVER + "epg/series/";
-	public static final String URL_POPULAR 							= URL_SERVER + "epg/broadcasts/popular/";
-	public static final String URL_CONFIGURATION 					= URL_SERVER + "configuration";
-	public static final String URL_SEARCH		 					= URL_SERVER + "search";
-	public static final String URL_SEARCH_OLD		 				= URL_SERVER + "search?query=%s*";
-	public static final String URL_API_VERSION						= URL_SERVER + "versions";
-	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
-	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
+	public static final String URL_GUIDE 							= URL_SERVER + "/epg/slimguide";
+	public static final String URL_DATES 							= URL_SERVER + "/epg/dates";
+	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "/epg/channels";
+	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "/epg/channels/default";
+	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER + "/auth/login/facebook";
+	public static final String URL_LOGIN_WITH_PLAINTEXT_PASSWORD 	= URL_SERVER + "/auth/login/dazoo";
+	public static final String URL_LOGIN_WITH_HASHED_PASSWORD 		= URL_SERVER + "/auth/login/dazoo/hash";
+	public static final String URL_REGISTER_WITH_PLAINTEXT_PASSWORD = URL_SERVER + "/auth/login/dazoo/register";
+	public static final String URL_REGISTER_WITH_HASHED_PASSWORD 	= URL_SERVER + "/auth/login/dazoo/register/hash";
+	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER + "/auth/login/dazoo/sendResetPasswordEmail";
+	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER + "/auth/login/dazoo/resetPassword";
+	public static final String URL_TAGS_PAGE 						= URL_SERVER + "/epg/tags/visible";
+	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "/my/channels";
+	public static final String URL_LIKES 							= URL_SERVER + "/my/likes";
+	public static final String URL_LIKES_WITH_UPCOMING 				= URL_SERVER + "/my/likes/broadcasts";
+	public static final String URL_ACTIVITY_FEED 					= URL_SERVER + "/my/feed";
+	public static final String URL_PROGRAMS 						= URL_SERVER + "/epg/programs/";
+	public static final String URL_SERIES 							= URL_SERVER + "/epg/series/";
+	public static final String URL_POPULAR 							= URL_SERVER + "/epg/broadcasts/popular/";
+	public static final String URL_CONFIGURATION 					= URL_SERVER + "/configuration";
+	public static final String URL_SEARCH		 					= URL_SERVER + "/search";
+	public static final String URL_SEARCH_OLD		 				= URL_SERVER + "/search?query=%s*";
+	public static final String URL_API_VERSION						= URL_SERVER + "/versions";
+	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "/epg/channels/";
+	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "/auth/tokens/";
 	
 	/* API request strings for competitions module */
-	public static final String URL_COMPETITIONS 					= URL_SERVER + "api/sports/competitions";
-	public static final String URL_TEAMS 					 		= "/teams";
+	public static final String URL_SPORTS_MODULE					= "/api/sports"; 
+	public static final String URL_COMPETITIONS 					= "/competitions";
 	public static final String URL_PHASES 					 		= "/phases";
-	public static final String URL_PHASES_FULL 					 	= "/api/sports/phases";
+	public static final String URL_TEAMS 					 		= "/teams";
+	public static final String URL_COMPETITIONS_FULL 			    = URL_SERVER + URL_SPORTS_MODULE + URL_COMPETITIONS;
+	public static final String URL_PHASES_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_PHASES;
+	public static final String URL_TEAMS_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_TEAMS;
 	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
+	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
+	public static final String URL_SQUAD 					 		= "/squad";
+	public static final String URL_LINE_UP 					 		= "/lineup";
 	public static final String URL_POLLS 					 		= "/polls";
+	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
+	public static final String URL_FLAGS 					 		= "/sports/flags";
+	public static final String URL_TEAMS_IMAGE				 		= "/sports/teams";
+	
+	/* Share URLs for the frontend */
+	public static final String URL_COMPETITIONS_SPANISH				= "/competicion/";
+	public static final String URL_EVENTS_SPANISH					= "/eventos/";
+	public static final String URL_SHARE_SPORT_SPANISH		 		= "/deportes";
+	public static final String URL_SHARE_SPORT_team_SPANISH		 	= "/equipos/";
 	
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
@@ -407,16 +429,16 @@ public abstract class Constants
 	public static final String SYSTEM_APP_PATH = "/system/app/";
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
-	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
-	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 10000;
+	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 15000;
+	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 15000;
 	
 	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
+    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 4000;
     
     /* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
-    public static final String HOST_FOR_NTP_CHECK = "se.pool.ntp.org";
+    public static final String HOST_FOR_NTP_CHECK = "us.pool.ntp.org";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 4000;
     
     
@@ -471,6 +493,7 @@ public abstract class Constants
 	public static final String DISQUS_COMMENTS_PARAMETER_USER_EMAIL = "email";
 	public static final String DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE = "avatar";
 	
+	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS API CALLS */
 	public static final String DISQUS_API_URL = "https://disqus.com/api";
 	public static final String DISQUS_API_VERSION = "3.0";
@@ -485,6 +508,7 @@ public abstract class Constants
 	public static final String DISQUS_API_FORUM_NAME = "mitvexample";
 	public static final String DISQUS_API_FORUM_SECRET_KEY = "VdUJEM6UxNrvz8tvwbgpm2Q4EiupswNYMs57DoxMuTlzKTKonLnMEZEIdG3UoBL8";
 	
+	
 	/* CONFIGURATIONS FOR FACEBOOK */
 	public static final String FACEBOOK_APP_PACKAGE_NAME = "com.facebook.katana";
 	public static final int MINIMUM_REQUIRED_FACEBOOK_APP_VERSION_CODE = 9000;
@@ -493,12 +517,41 @@ public abstract class Constants
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
 	
+	
 	/* Ad mob stuff */
 	public static final String AD_UNIT_ID_FEED_ACTIVITY = "ca-app-pub-3190252107510485/6151464254";
 	public static final String AD_UNIT_ID_GUIDE_ACTIVITY = "ca-app-pub-3190252107510485/9244531457";
 	
 	
+	/* Competitions */
+	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_FLAGS;
+	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
+	public static final String TEAM_PAGE_TEAM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_TEAMS_IMAGE;
+	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_s";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_m";
+	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_l";
+	public static final String EVENT_STADIUM_IMAGE_EXTENSION = ".jpg";
 	public static final String INTENT_COMPETITION_ID = "competitionID";
+	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
+	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";
+	public static final String INTENT_COMPETITION_PHASE_ID = "phaseID";
+	public static final String INTENT_COMPETITION_NAME = "competitionName";
+	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
+	
+	public static final String GOAL_KEEPER_FUNCTION_SORT = "GC";
+	public static final EnumSet<EventHighlightActionEnum> EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE = EnumSet.of(
+								EventHighlightActionEnum.KICK_OFF_2H, 
+								EventHighlightActionEnum.END_OF_PERIOD_2H, 
+								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_1,
+								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_1,
+								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_2,
+								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_2,
+								EventHighlightActionEnum.END_OF_PERIOD_PENALTIES);
+	
+	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
+	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
+	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";
 	public static final String GROUP_STAGE = "Fase de Grupos";
 	public static final int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON = 1;
+	public static final String FUNCTION_COACH = "Coach";
 }

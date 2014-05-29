@@ -21,7 +21,13 @@ public enum LikeTypeResponseEnum
 	PROGRAM(2),
 	
 	@SerializedName("SPORT_TYPE")
-	SPORT_TYPE(3);
+	SPORT_TYPE(3),
+	
+	@SerializedName("COMPETITION")
+	COMPETITION(3),
+	
+	@SerializedName("TEAM")
+	TEAM(4);
 	
 	
 
@@ -43,6 +49,7 @@ public enum LikeTypeResponseEnum
 	{
 		return id;
 	}
+	
 	
 	
 	public static LikeTypeResponseEnum getLikeTypeEnumFromTVProgram(TVProgram tvProgram) 
@@ -72,8 +79,8 @@ public enum LikeTypeResponseEnum
 			
 			default:
 			{
-				likeTypeFromBroadcast = LikeTypeResponseEnum.PROGRAM;
-				Log.w(TAG, "Using the default program type.");
+				likeTypeFromBroadcast = LikeTypeResponseEnum.UNKNOWN;
+				Log.w(TAG, "The program type is unknown");
 				break;
 			}
 		}
@@ -83,7 +90,7 @@ public enum LikeTypeResponseEnum
 
 	
 
-	public static LikeTypeResponseEnum getLikeTypeEnumFromCode(int code)
+	public static LikeTypeResponseEnum getTypeEnumFromCode(int code)
 	{
 		for(LikeTypeResponseEnum result: LikeTypeResponseEnum.values())
 		{
@@ -93,14 +100,14 @@ public enum LikeTypeResponseEnum
 			}
 		}
 
-		return LikeTypeResponseEnum.SERIES;
+		return LikeTypeResponseEnum.UNKNOWN;
 	}
 
 
 
-	public static LikeTypeResponseEnum getLikeTypeEnumFromCode(String codeAsString)
+	public static LikeTypeResponseEnum getTypeEnumFromCode(String codeAsString)
 	{
-		int value = LikeTypeResponseEnum.SERIES.getId();
+		int value = LikeTypeResponseEnum.UNKNOWN.getId();
 
 		try
 		{
@@ -108,15 +115,15 @@ public enum LikeTypeResponseEnum
 		}
 		catch(NumberFormatException nfex)
 		{
-			return LikeTypeResponseEnum.SERIES;
+			return LikeTypeResponseEnum.UNKNOWN;
 		}
 
-		return getLikeTypeEnumFromCode(value);
+		return getTypeEnumFromCode(value);
 	}
 	
 	
 	
-	public static LikeTypeResponseEnum getLikeTypeEnumFromStringRepresentation(String enumStringRepresentation)
+	public static LikeTypeResponseEnum getTypeEnumFromStringRepresentation(String enumStringRepresentation)
 	{
 		LikeTypeResponseEnum likeType = LikeTypeResponseEnum.valueOf(enumStringRepresentation);
 

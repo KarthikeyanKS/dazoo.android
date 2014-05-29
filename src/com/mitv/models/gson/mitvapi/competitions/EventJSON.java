@@ -20,6 +20,8 @@ public class EventJSON
 	protected String awayTeam;
 	protected int stadiumId;
 	protected String stadium;
+	protected String stadiumImageCopyright;
+	protected String description;
 	protected int cityId;
 	protected String city;
 	protected String country;
@@ -40,9 +42,7 @@ public class EventJSON
 	protected boolean dataEntryLiveScore;
 	protected boolean dataEntryLiveGoal;
 	protected boolean dataEntryLiveLineUp;
-	protected List<EventBroadcastDetailsJSON> broadcastDetails;
-	
-	protected boolean isOngoing;
+	protected List<EventBroadcastJSON> broadcasts;
 	
 	
 	
@@ -163,13 +163,7 @@ public class EventJSON
 		return matchStatusId;
 	}
 
-
-
-	public String getMatchStatus() {
-		return matchStatus;
-	}
-
-
+	
 
 	public boolean isPostponed() {
 		return postponed;
@@ -237,13 +231,13 @@ public class EventJSON
 
 
 
-	public List<EventBroadcastDetailsJSON> getBroadcastDetails() {
-		return broadcastDetails;
+	public String getStadiumImageCopyright() {
+		return stadiumImageCopyright;
 	}
 
 
 
-	public boolean isOngoing() {
-		return isOngoing;
+	public String getDescription() {
+		return description;
 	}
 }

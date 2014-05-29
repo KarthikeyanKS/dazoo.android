@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/competition_scrollable_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey1"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+	    android:id="@+id/request_successful_layout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_above="@id/tab_selector_container" >
+    
+	    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" >
+	
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp" >
+	
+	            <RelativeLayout
+	                android:id="@+id/competition_before_or_ongoing_layout_container"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentTop="true" >
+	
+	                <include
+	                    android:id="@+id/competition_page_before_block_container_layout"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentTop="true"
+	                    layout="@layout/block_competition_page_before_main_content" />
+	
+	                <include
+	                    android:id="@+id/competition_page_ongoing_block_container_layout"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentTop="true"
+	                    android:layout_below="@id/competition_page_before_block_container_layout"
+	                    layout="@layout/block_competition_page_ongoing_main_content" />
+	            </RelativeLayout>
+	
+	            <com.viewpagerindicator.TabPageIndicator
+	                android:id="@+id/tab_event_indicator"
+	                android:layout_width="match_parent"
+	                android:layout_height="44dp"
+	                android:layout_below="@id/competition_before_or_ongoing_layout_container"
+	                android:background="@color/white"
+	                android:tag="sticky" />
+	
+	            <com.mitv.ui.elements.CustomViewPager
+	                android:id="@+id/tab_event_pager"
+	                android:layout_width="match_parent"
+	                android:layout_height="0dp"
+	                android:layout_below="@id/tab_event_indicator" />
+	        </LinearLayout>
+	    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
+	    
+    </RelativeLayout>
+    
+    
+    <!-- NAVIGATION TABS -->
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+
+    
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout" />
+
+</RelativeLayout>

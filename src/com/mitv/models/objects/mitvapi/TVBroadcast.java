@@ -15,7 +15,9 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
-import com.mitv.models.gson.mitvapi.BroadcastJSON;
+import com.mitv.models.gson.mitvapi.TVBroadcastJSON;
+import com.mitv.models.orm.TVBroadcastORM;
+import com.mitv.models.orm.TVProgramORM;
 import com.mitv.utilities.DateUtils;
 
 
@@ -29,7 +31,7 @@ import com.mitv.utilities.DateUtils;
  * 
  */
 public class TVBroadcast 
-	extends BroadcastJSON 
+	extends TVBroadcastJSON
 	implements GSONDataFieldValidation 
 {
 	@SuppressWarnings("unused")
@@ -54,6 +56,20 @@ public class TVBroadcast
 		this.isPopular = false;
 	}
 	
+	
+	
+	public TVBroadcast(TVBroadcastORM ormData)
+	{
+		this.isPopular = false;
+		
+		this.program = TVProgramORM.getTVProgramByID(ormData.getProgram().getProgramId());
+		
+		this.beginTimeMillis = ormData.getBeginTimeMillis();
+		this.beginTime = ormData.getBeginTime();
+		this.endTime = ormData.getEndTime();
+		this.broadcastType = ormData.getBroadcastType();
+		this.shareUrl = ormData.getShareUrl();
+	}
 	
 	
 	
@@ -134,7 +150,8 @@ public class TVBroadcast
 	 */
 	public Calendar getBeginTimeCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(beginTime);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(beginTime);
+		
 		return beginTimeCalendarGMT;
 	}
 
@@ -145,7 +162,8 @@ public class TVBroadcast
 	 */
 	public Calendar getEndTimeCalendarGMT()
 	{
-		Calendar endTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(endTime);
+		Calendar endTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(endTime);
+		
 		return endTimeCalendarGMT;
 	}
 
@@ -161,8 +179,7 @@ public class TVBroadcast
 		{	
 			beginTimeCalendarLocal = getBeginTimeCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			beginTimeCalendarLocal.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			beginTimeCalendarLocal = DateUtils.setTimeZoneAndOffsetToLocal(beginTimeCalendarLocal);
 		}
 		
 		return beginTimeCalendarLocal;
@@ -180,12 +197,12 @@ public class TVBroadcast
 		{	
 			endTimeCalendarLocal = getEndTimeCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			endTimeCalendarLocal.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			endTimeCalendarLocal = DateUtils.setTimeZoneAndOffsetToLocal(endTimeCalendarLocal);
 		}
 		
 		return endTimeCalendarLocal;
 	}
+	
 	
 	
 	/* Used when creating new TVBroadcast objects at tag generation */
@@ -206,9 +223,9 @@ public class TVBroadcast
 	
 	public boolean isBroadcastCurrentlyAiring() 
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		boolean isRunning = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);
+		boolean isRunning = getBeginTimeCalendarGMT().before(now) && getEndTimeCalendarGMT().after(now);
 
 		return isRunning;
 	}
@@ -219,7 +236,7 @@ public class TVBroadcast
 	{
 		if(durationInMinutes == NO_INT_VALUE_SET)
 		{		    
-		    durationInMinutes = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), getEndTimeCalendarLocal(), Calendar.MINUTE, false, 0);
+		    durationInMinutes = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), getEndTimeCalendarGMT(), Calendar.MINUTE, false, 0);
 		}
 
 	    return durationInMinutes;
@@ -229,9 +246,9 @@ public class TVBroadcast
 	
 	public Integer getElapsedMinutesSinceBroadcastStarted() 
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.MINUTE, false, 0);
+		Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), now, Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
@@ -240,9 +257,9 @@ public class TVBroadcast
 	
 	public Integer getRemainingMinutesUntilBroadcastEnds() 
 	{	    
-	    Calendar now = DateUtils.getNow();
+	    Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-	    Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendarLocal(), Calendar.MINUTE, false, 0);
+	    Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendarGMT(), Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
@@ -265,10 +282,10 @@ public class TVBroadcast
 	
 	public boolean isBroadcastAiringInOrInLessThan(int minutes) 
 	{
-		Calendar nowWithIncrement = (Calendar) DateUtils.getNow().clone();
+		Calendar nowWithIncrement = (Calendar) DateUtils.getNowWithGMTTimeZone().clone();
 		nowWithIncrement.add(Calendar.MINUTE, minutes);
 		
-		boolean isBroadcastStartingInPeriod = getBeginTimeCalendarLocal().before(nowWithIncrement);
+		boolean isBroadcastStartingInPeriod = getBeginTimeCalendarGMT().before(nowWithIncrement);
 	    
 	    return isBroadcastStartingInPeriod;
 	}
@@ -286,9 +303,9 @@ public class TVBroadcast
 	
 	public boolean isAiring() 
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 
-		boolean isAiring = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);
+		boolean isAiring = getBeginTimeCalendarGMT().before(now) && getEndTimeCalendarGMT().after(now);
 
 		return isAiring;
 	}
@@ -297,9 +314,9 @@ public class TVBroadcast
 	
 	public boolean hasEnded()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		boolean hasEnded = now.after(getEndTimeCalendarLocal());
+		boolean hasEnded = now.after(getEndTimeCalendarGMT());
 		
 		return hasEnded;
 	}
@@ -308,9 +325,9 @@ public class TVBroadcast
 	
 	public boolean hasNotAiredYet()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		boolean hasNotAiredYet = now.before(getBeginTimeCalendarLocal());
+		boolean hasNotAiredYet = now.before(getBeginTimeCalendarGMT());
 		
 		return hasNotAiredYet;
 	}
@@ -320,7 +337,7 @@ public class TVBroadcast
 	/*
 	 * Returns a string representation of the begin time calendar in the format "yyyy-MM-dd"
 	 */
-	public String getBeginTimeDateRepresentation() 
+	public String getBeginTimeDateRepresentationFromLocal() 
 	{
 		String beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendarLocal());
 		
@@ -359,9 +376,9 @@ public class TVBroadcast
 	
 	public boolean isBeginTimeTodayOrTomorrow()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		Calendar beginTime = this.getBeginTimeCalendarLocal();
+		Calendar beginTime = this.getBeginTimeCalendarGMT();
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
@@ -390,8 +407,8 @@ public class TVBroadcast
 	
 	public boolean isTheSameDayAs(TVBroadcast other)
 	{
-		Calendar beginTime1 = this.getBeginTimeCalendarLocal();
-		Calendar beginTime2 = other.getBeginTimeCalendarLocal();
+		Calendar beginTime1 = this.getBeginTimeCalendarGMT();
+		Calendar beginTime2 = other.getBeginTimeCalendarGMT();
 		
 		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
 	}
@@ -454,9 +471,9 @@ public class TVBroadcast
 		
 		StringBuilder sb = new StringBuilder();
 		
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 
-		int daysLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.DAY_OF_MONTH, false, 0);
+		int daysLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarGMT(), Calendar.DAY_OF_MONTH, false, 0);
 
 		if(daysLeft > 0)
 		{
@@ -468,7 +485,7 @@ public class TVBroadcast
 		} 
 		else 
 		{
-			int hoursLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.HOUR_OF_DAY, false, 0);
+			int hoursLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarGMT(), Calendar.HOUR_OF_DAY, false, 0);
 
 			if(hoursLeft > 0) 
 			{
@@ -480,7 +497,7 @@ public class TVBroadcast
 			} 
 			else 
 			{
-				int minutesLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.MINUTE, false, 0);
+				int minutesLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarGMT(), Calendar.MINUTE, false, 0);
 
 				if(minutesLeft > 0) 
 				{
@@ -542,7 +559,7 @@ public class TVBroadcast
 		if (getClass() != obj.getClass())
 			return false;
 		
-		BroadcastJSON other = (BroadcastJSON) obj;
+		TVBroadcastJSON other = (TVBroadcastJSON) obj;
 		
 		if (beginTimeMillis == null)
 		{
@@ -571,10 +588,10 @@ public class TVBroadcast
 				);
 		
 		boolean additionalFieldsOk = (
-						getBeginTimeCalendarLocal() != null && (getBeginTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarLocal() != null &&
-						(getEndTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  &&
+						getBeginTimeCalendarGMT() != null && (getBeginTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarGMT() != null &&
+						(getEndTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)  &&
 						getBroadcastDurationInMinutes() != null &&
-						!TextUtils.isEmpty(getBeginTimeDateRepresentation()) && !TextUtils.isEmpty(getBeginTimeDayAndMonthAsString()) &&
+						!TextUtils.isEmpty(getBeginTimeDateRepresentationFromLocal()) && !TextUtils.isEmpty(getBeginTimeDayAndMonthAsString()) &&
 						!TextUtils.isEmpty(getBeginTimeHourAndMinuteLocalAsString()) && !TextUtils.isEmpty(getEndTimeHourAndMinuteLocalAsString())
 						);
 		

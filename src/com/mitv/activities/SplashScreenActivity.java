@@ -158,7 +158,7 @@ public class SplashScreenActivity
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
 	{
-		if (!isViewingTutorial) 
+		if(isViewingTutorial == false)
 		{
 			waitingForData = true;
 			
@@ -270,7 +270,7 @@ public class SplashScreenActivity
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
 		
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
 		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);
 		
@@ -398,7 +398,7 @@ public class SplashScreenActivity
 				break;
 			}
 			
-			case R.id.button_tutorial_skip: 
+			case R.id.skip_button_container: 
 			{
 				skipButtonContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				skipButtonProgressBar.setVisibility(View.VISIBLE);
@@ -414,7 +414,7 @@ public class SplashScreenActivity
 				break;
 			}
 			
-			case R.id.button_tutorial_start_primary_activity: 
+			case R.id.start_primary_button_container: 
 			{
 				startPrimaryActivityContainer.setPadding(leftpx, topBottompx, rightpx, topBottompx);
 				startPrimaryButtonProgressBar.setVisibility(View.VISIBLE);

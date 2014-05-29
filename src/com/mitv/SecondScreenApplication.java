@@ -341,7 +341,7 @@ public class SecondScreenApplication
 		
 		String lastOpenAppAsString = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
 		
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
 		if (hasUserSeenTutorial && hasUserSeenTutorialOnceFromFile)
 		{	
@@ -351,7 +351,7 @@ public class SecondScreenApplication
 					lastOpenAppAsString.isEmpty() == false)
 				{
 					/* Get calendar from the string lastOpenApp */
-					Calendar cal = DateUtils.convertFromYearAndDateStringToCalendar(lastOpenAppAsString);
+					Calendar cal = DateUtils.convertISO8601StringToCalendar(lastOpenAppAsString);
 					
 					/* 
 					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
@@ -405,6 +405,7 @@ public class SecondScreenApplication
 		return true;
 	}
 	
+
 	
 	
 	public void setIsViewingTutorial(boolean isViewingTutorial)
@@ -432,7 +433,7 @@ public class SecondScreenApplication
 	
 	public void setDateUserLastOpenedApp(Calendar calendar) 
 	{
-		String calendarRepresentationAsString = DateUtils.buildDateCompositionAsString(calendar);
+		String calendarRepresentationAsString = DateUtils.convertFromCalendarToISO8601String(calendar);
 		
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, calendarRepresentationAsString, false);
 	}

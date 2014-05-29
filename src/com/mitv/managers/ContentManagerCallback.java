@@ -20,6 +20,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.objects.disqus.DisqusThreadDetails;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
@@ -39,8 +40,12 @@ import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
+import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 
 
 
@@ -244,7 +249,8 @@ public abstract class ContentManagerCallback
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier, 
 			FetchRequestResultEnum result,
-			Object content)
+			Object content,
+			RequestParameters requestParameters)
 	{
 		switch (requestIdentifier) 
 		{
@@ -283,6 +289,42 @@ public abstract class ContentManagerCallback
 			case COMPETITIONS_ALL_STANDALONE:
 			{
 				handleCompetitionsStandaloneResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
+			case COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID:
+			{
+				handleCompetitionStandingsMultipleByPhaseIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
+			case COMPETITION_STANDINGS_BY_PHASE_ID:
+			{
+				handleCompetitionStandingsByPhaseIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
+			case COMPETITION_TEAM_BY_ID:
+			{
+				handleCompetitionEventTeamByIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
+			case COMPETITION_EVENT_HIGHLIGHTS:
+			{
+				handleCompetitionEventHighlightsResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
+			case COMPETITION_EVENT_LINEUP:
+			{
+				handleCompetitionEventLineUpResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+				break;
+			}
+			
+			case COMPETITION_TEAM_SQUAD:
+			{
+				handleCompetitionTeamSquadResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
 				break;
 			}
 			
@@ -452,6 +494,65 @@ public abstract class ContentManagerCallback
 	
 	
 	/* HANDLES */
+	
+	private void handleCompetitionStandingsMultipleByPhaseIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters) 
+	{
+		if(getAPIClient().areMultipleStandingsPendingRequestsCanceled())
+		{
+			return;
+		}
+		
+		getAPIClient().incrementCompletedTasksForMultipleStandingsCall();
+		
+		switch (requestIdentifier) 
+		{
+			case COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID:
+			{
+				@SuppressWarnings("unchecked")
+				ArrayList<Standings> standings = (ArrayList<Standings>) content;
+				
+				Long phaseID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY);
+				
+				getCache().getCompetitionsData().addStandingsForPhaseIDForSelectedCompetition(standings, phaseID);
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unhandled request identifier.");
+				break;
+			}
+		}
+				
+		if(getAPIClient().areAllTasksCompletedForMultipleStandingsCall())
+		{
+			notifyListenersOfRequestResult(RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID, result);
+						
+			getAPIClient().cancelAllMultipleStandingsCallPendingRequests();
+		}
+		else
+		{
+			if(!result.wasSuccessful() || content == null)
+			{
+				getAPIClient().cancelAllMultipleStandingsCallPendingRequests();
+				
+				notifyListenersOfRequestResult(RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID, FetchRequestResultEnum.UNKNOWN_ERROR);
+			}
+			else
+			{
+				Log.d(TAG, "There are pending tasks still running.");
+			}
+		}
+	}
+	
+	
+	
+	
 	
 	private void handleCompetitionInitialDataResponse(
 			ViewCallbackListener activityCallbackListener,
@@ -797,8 +898,11 @@ public abstract class ContentManagerCallback
 			
 			case SNTP_CALL:
 			{
-				Calendar calendar = (Calendar) content;
-				getCache().setInitialCallSNTPCalendar(calendar);
+				if(result.wasSuccessful())
+				{
+					Calendar calendar = (Calendar) content;
+					getCache().setInitialCallSNTPCalendar(calendar);
+				}
 				break;
 			}
 			
@@ -835,7 +939,6 @@ public abstract class ContentManagerCallback
 			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
 		}
 		
-		
 		if(getAPIClient().areAllTasksCompletedForTVGuideInitialCall())
 		{
 			isUpdatingGuide = false;
@@ -846,13 +949,20 @@ public abstract class ContentManagerCallback
 		}
 		else
 		{
-			if(!result.wasSuccessful() || content == null)
+			if(result.wasSuccessful() == false || content == null)
 			{
-				isUpdatingGuide = false;
-				
-				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
-				
-				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
+				if(requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
+				{
+					isUpdatingGuide = false;
+					
+					getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
+					
+					notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
+				}
+				else
+				{
+					Log.d(TAG, "Ignoring SNTP failure.");
+				}
 			}
 			else
 			{
@@ -861,7 +971,117 @@ public abstract class ContentManagerCallback
 		}
 	}
 	
+
 	
+	private void handleCompetitionEventTeamByIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			Team team = (Team) content;
+			
+			getCache().getCompetitionsData().addOrModifyTeamForSelectedCompetition(team);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	
+	
+	private void handleCompetitionStandingsByPhaseIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<Standings> standings = (ArrayList<Standings>) content;
+			
+			Long phaseID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY);
+			
+			getCache().getCompetitionsData().addStandingsForPhaseIDForSelectedCompetition(standings, phaseID);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	
+	private void handleCompetitionEventHighlightsResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<EventHighlight> highlights = (ArrayList<EventHighlight>) content;
+			
+			Long eventID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY);
+			
+			getCache().getCompetitionsData().setHighlightsForEventInSelectedCompetition(eventID, highlights);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	private void handleCompetitionEventLineUpResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<EventLineUp> eventLineUp = (ArrayList<EventLineUp>) content;
+			
+			Long eventID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY);
+			
+			getCache().getCompetitionsData().setLineUpForEventInSelectedCompetition(eventID, eventLineUp);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	private void handleCompetitionTeamSquadResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<TeamSquad> squad = (ArrayList<TeamSquad>) content;
+			
+			Long teamID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_TEAM_ID_KEY);
+			
+			getCache().getCompetitionsData().setSquadForTeamInSelectedCompetition(teamID, squad);
+		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+
 	
 	private void handleCompetitionsStandaloneResponse(
 			ViewCallbackListener activityCallbackListener,
@@ -1002,7 +1222,7 @@ public abstract class ContentManagerCallback
 					/* Filter the feed items */
 					if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) 
 					{
-						Log.d(TAG, "MMM Starting filtering old broadcasts");
+						Log.d(TAG, "Starting to filter old broadcasts");
 						
 						feedItems = filterOldBroadcasts(feedItems, null);
 						

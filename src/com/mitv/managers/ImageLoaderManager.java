@@ -136,12 +136,51 @@ public class ImageLoaderManager
 	
 	
 	/* Used in views where we don't want to reset the view itself and we always want to use memory cache */
-	private DisplayImageOptions getDisplayImageOptionsForCompetitions()
+	private DisplayImageOptions getDisplayImageOptionsForCompetitionFlags()
 	{		
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
 		.showImageOnLoading(R.drawable.competitions_contry_flag_default)
         .showImageForEmptyUri(R.drawable.competitions_contry_flag_default)
         .showImageOnFail(R.drawable.competitions_contry_flag_default)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.bitmapConfig(Bitmap.Config.RGB_565)
+		.imageScaleType(ImageScaleType.EXACTLY)
+		.displayer(new FadeInBitmapDisplayer(1000))
+		.build();
+
+		return displayImageOptions;
+	}
+	
+	
+	
+	
+	/* Used in views where we don't want to reset the view itself and we always want to use memory cache */
+	private DisplayImageOptions getDisplayImageOptionsForCompetitionEventStadium()
+	{		
+		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.competition_event_stadium_default)
+        .showImageForEmptyUri(R.drawable.competition_event_stadium_default)
+        .showImageOnFail(R.drawable.competition_event_stadium_default)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.bitmapConfig(Bitmap.Config.RGB_565)
+		.imageScaleType(ImageScaleType.EXACTLY)
+		.displayer(new FadeInBitmapDisplayer(1000))
+		.build();
+
+		return displayImageOptions;
+	}
+	
+	
+	
+	/* Used in views where we don't want to reset the view itself and we always want to use memory cache */
+	private DisplayImageOptions getDisplayImageOptionsForTeamBanner()
+	{		
+		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.competition_team_banner_default)
+        .showImageForEmptyUri(R.drawable.competition_team_banner_default)
+        .showImageOnFail(R.drawable.competition_team_banner_default)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 		.bitmapConfig(Bitmap.Config.RGB_565)
@@ -163,13 +202,30 @@ public class ImageLoaderManager
 	
 	
 	
-	public void displayImageWithCompetitionOptions(String url, ImageAware imageAware)
+	public void displayImageWithOptionsForTeamFlags(String url, ImageAware imageAware)
 	{
-		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitions();
+		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitionFlags();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions);
 	}
 	
+	
+	
+	public void displayImageWithCompetitionEventStadiumOptions(String url, ImageAware imageAware)
+	{
+		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitionEventStadium();
+		
+		imageLoader.displayImage(url, imageAware, displayImageOptions);
+	}
+	
+	
+	
+	public void displayImageWithCompetitionTeamBannerOptions(String url, ImageAware imageAware)
+	{
+		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForTeamBanner();
+		
+		imageLoader.displayImage(url, imageAware, displayImageOptions);
+	}
 	
 	
 	

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/competition_event_scrollable_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grey1"
+    android:orientation="vertical" >
+    
+    <!-- Header -->
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/competition_event_poll_header"
+        style="@style/header1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:text="@string/event_page_poll_title"
+        android:textColor="@color/black"
+        android:textAllCaps="true"/>
+    
+    <!-- Make three boxes: 1, X and 2 -->
+    
+    
+    <!-- Total votes -->
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/competition_event_poll_votes"
+        style="@style/header3"
+        android:textColor="@color/grey1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_below="@id/competition_event_poll_header"
+        android:text="@string/event_page_poll_title"
+        android:textAllCaps="true" />
+
+</RelativeLayout>

@@ -26,7 +26,7 @@ public class GetCompetitions
 	private static final String TAG = GetCompetitions.class.getName();
 	
 	
-	private static String url = Constants.URL_COMPETITIONS;
+	private static String url = Constants.URL_COMPETITIONS_FULL;
 	
 	
 	

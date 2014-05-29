@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="138"
-    android:versionName="1.0.138" >
+    android:versionCode="144"
+    android:versionName="1.0.144" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -326,11 +326,29 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         
-        <!-- COMPETITION PAGE -->
+        <!-- COMPETITION MAIN PAGE -->
         <activity
             android:name="com.mitv.activities.competition.CompetitionPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/CompetitionPage" >
+        </activity>
+        
+        <!-- COMPETITION EVENT PAGE -->
+        <activity
+            android:name="com.mitv.activities.competition.EventPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/CompetitionPage" >
+        </activity>
+        
+        <!-- COMPETITION TEAM PAGE -->
+        <activity
+            android:name="com.mitv.activities.competition.TeamPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/CompetitionPage" >
         </activity>

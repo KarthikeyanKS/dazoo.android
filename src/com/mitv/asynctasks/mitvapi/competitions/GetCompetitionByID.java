@@ -25,7 +25,7 @@ public class GetCompetitionByID
 	private static String buildURL(final String competitionID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS);
+		url.append(Constants.URL_COMPETITIONS_FULL);
 		url.append(Constants.FORWARD_SLASH);
 		
 		if(competitionID != null)

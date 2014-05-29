@@ -24,6 +24,7 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
+import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -102,6 +103,7 @@ public abstract class ContentManagerServiceFetching
 		
 		getAPIClient().getDisqusThreadPosts(activityCallbackListener, contentID);
 	}
+	
 	
 	
 	public void fetchFromServiceDisqusThreadDetails(ViewCallbackListener activityCallbackListener, String contentID) 
@@ -519,6 +521,130 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
+	public void getElseFetchFromServiceEventHighlighstData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long competitionID,
+			Long eventID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS);
+		} 
+		else 
+		{
+			getAPIClient().GetEventHighlights(activityCallbackListener, competitionID, eventID);
+		}
+	}
+	
+	
+	/* TODO */
+	public void getElseFetchFromServicePhaseForTeamData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long teamID)
+	{
+//		if (!forceDownload && getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID))
+//		{
+//			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS);
+//		} 
+//		else 
+//		{
+//			getAPIClient().GetEventHighlights(activityCallbackListener, competitionID, eventID);
+//		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceTeamData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long competitionID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsTeamData(competitionID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_TEAMS);
+		} 
+		else 
+		{
+			getAPIClient().getTeams(activityCallbackListener, competitionID);
+		}
+	}
+	
+	
+
+	public void getElseFetchFromServiceTeamByID(
+			final ViewCallbackListener activityCallbackListener, 
+			final boolean forceDownload,
+			final Long competitionID,
+			final Long teamID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsTeamData(competitionID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
+		} 
+		else 
+		{
+			getAPIClient().getTeamByID(activityCallbackListener, competitionID, teamID);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceSquadByTeamID(
+			final ViewCallbackListener activityCallbackListener, 
+			final boolean forceDownload,
+			final Long competitionID,
+			final Long teamID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsSquadData(competitionID, teamID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_TEAM_SQUAD);
+		} 
+		else 
+		{
+			getAPIClient().getSquadForTeam(activityCallbackListener, teamID);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceEventStandingsData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long competitionID,
+			Long phaseID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsStandingsData(competitionID, phaseID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID);
+		}
+		else 
+		{
+			getAPIClient().GetStandingsForPhase(activityCallbackListener, phaseID);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceEventLineUpData(
+			ViewCallbackListener activityCallbackListener, 
+			boolean forceDownload,
+			Long competitionID,
+			Long eventID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsEventLineUpData(competitionID, eventID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_EVENT_LINEUP);
+		} 
+		else 
+		{
+			getAPIClient().GetEventLineUp(activityCallbackListener, competitionID, eventID);
+		}
+	}
+	
+	
+	
 	public void getElseFetchFromServiceCompetitionInitialData(ViewCallbackListener activityCallbackListener, boolean forceDownload, long competitionID)
 	{
 		if (!forceDownload && getFromCacheHasCompetitionData(competitionID)) 
@@ -527,7 +653,37 @@ public abstract class ContentManagerServiceFetching
 		} 
 		else 
 		{
+			getCache().getCompetitionsData().clearCompetition(competitionID);
+			
 			getAPIClient().getCompetitionInitialDataOnPoolExecutor(activityCallbackListener, competitionID);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServiceStandingsForMultiplePhases(ViewCallbackListener activityCallbackListener, boolean forceDownload, List<Phase> phases)
+	{
+		List<Phase> phasesToFetch = new ArrayList<Phase>();
+		
+		for(Phase phase : phases)
+		{
+			long phaseID = phase.getPhaseId();
+			
+			boolean containsStanding = getFromCacheHasStandingsForPhaseInSelectedCompetition(phaseID);
+			
+			if(containsStanding == false)
+			{
+				phasesToFetch.add(phase);
+			}
+		}
+		
+		if (!forceDownload && phasesToFetch.isEmpty()) 
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID);
+		} 
+		else 
+		{
+			getAPIClient().getMultipleStandingsOnCallPoolExecutor(activityCallbackListener, phases);
 		}
 	}
 	

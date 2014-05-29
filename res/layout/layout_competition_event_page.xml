@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/competition_event_scrollable_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey1"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+	    android:id="@+id/request_successful_layout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_above="@id/tab_selector_container" >
+	    
+	    <ScrollView
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" >
+	
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical"
+	            android:paddingBottom="10dp" >
+	
+	            <!-- ONGOING GAME -->
+	
+	            <include
+	                android:id="@+id/competition_event_block_container_layout"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentTop="true"
+	                android:layout_marginBottom="10dp"
+	                layout="@layout/block_competition_event_main_content" />
+	
+	            <!-- HIGHLIGHTS -->
+	
+	            <RelativeLayout
+	                android:id="@+id/competition_event_block_tabs_highlights_teams_container"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/competition_event_block_container_layout"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:background="@color/white"
+	                android:orientation="vertical"
+	                android:paddingBottom="10dp" >
+	
+	                <com.mitv.ui.elements.FontTextView
+	                    android:id="@+id/competition_events_header"
+	                    style="@style/header1"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10dp"
+	                    android:layout_marginTop="10dp"
+	                    android:text="@string/event_page_tab_highlights" />
+	
+	                
+	                <!-- TEAM ONE -->
+	                <RelativeLayout
+	                    android:id="@+id/competition_event_highlights_team_one_flag_container"
+	                    android:layout_width="150dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentLeft="true"
+	                    android:layout_below="@id/competition_events_header"
+	                    android:layout_marginLeft="10dp"
+	                    android:layout_marginTop="10dp" >
+	
+	                    
+	                    <!-- Flag team one -->
+	                    <ImageView
+	                        android:id="@+id/competition_event_highlights_team_one_flag"
+	                        android:layout_width="50dp"
+	                        android:layout_height="34dp"
+	                        android:scaleType="fitXY"
+	                        android:src="@drawable/competitions_contry_flag_default" />
+	
+	                    <!-- Team one name -->
+	
+	                    <com.mitv.ui.elements.FontTextView
+	                        android:id="@+id/competition_event_highlights_team_one_name"
+	                        style="@style/text1"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_centerVertical="true"
+	                        android:layout_marginLeft="5dp"
+	                        android:layout_toRightOf="@id/competition_event_highlights_team_one_flag"
+	                        android:maxLines="2" />
+	                </RelativeLayout>
+	
+	                
+	                <!-- TEAM TWO -->
+	                <RelativeLayout
+	                    android:id="@+id/competition_event_highlights_team_two_flag_container"
+	                    android:layout_width="150dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_below="@id/competition_events_header"
+	                    android:layout_marginRight="10dp"
+	                    android:layout_marginTop="10dp" >
+	
+	                    <!-- Flag team two -->
+	                    <ImageView
+	                        android:id="@+id/competition_event_highlights_team_two_flag"
+	                        android:layout_width="50dp"
+	                        android:layout_height="34dp"
+	                        android:layout_alignParentRight="true"
+	                        android:scaleType="fitXY"
+	                        android:src="@drawable/competitions_contry_flag_default" />
+	
+	                    
+	                    <!-- Team two name -->
+	                    <com.mitv.ui.elements.FontTextView
+	                        android:id="@+id/competition_event_highlights_team_two_name"
+	                        style="@style/text1"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_centerVertical="true"
+	                        android:layout_marginRight="5dp"
+	                        android:layout_toLeftOf="@id/competition_event_highlights_team_two_flag"
+	                        android:maxLines="2" />
+	                </RelativeLayout>
+	
+	                
+	                <!-- LIST OF HIGHLIGHTS -->
+	                <RelativeLayout
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_below="@id/competition_event_highlights_team_one_flag_container"
+	                    android:layout_marginTop="10dp"
+	                    android:layout_marginLeft="10dp"
+	                    android:layout_marginRight="10dp"
+	                    android:background="@color/grey0" >
+	
+	                    <LinearLayout
+	                        android:id="@+id/competition_event_highlights_table_container"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="wrap_content"
+	                        android:layout_margin="10dp"
+	                        android:orientation="vertical" >
+	                    </LinearLayout>
+	                </RelativeLayout>
+	            </RelativeLayout>
+	
+	            
+	            <!-- LINEUP -->
+	            <RelativeLayout
+	                android:id="@+id/competition_event_block_tabs_lineup_teams_container"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/competition_event_block_tabs_highlights_teams_container"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:layout_marginTop="10dp"
+	                android:background="@color/white"
+	                android:orientation="vertical" >
+	
+	                <com.mitv.ui.elements.FontTextView
+	                    android:id="@+id/competition_lineup_header"
+	                    style="@style/header1"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10dp"
+	                    android:layout_marginTop="10dp"
+	                    android:text="@string/event_page_tab_line_up" />
+	
+	                <View
+	                    android:id="@+id/container_divider_lineup"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="1dp"
+	                    android:layout_below="@id/competition_lineup_header"
+	                    android:layout_centerVertical="true"
+	                    android:layout_marginLeft="10dp"
+	                    android:layout_marginRight="10dp"
+	                    android:layout_marginTop="10dp"
+	                    android:background="@color/grey0" />
+	
+	                
+	                <!-- TABS: Team1 & Team2 -->
+	                <LinearLayout
+	                    android:id="@+id/competition_event_block_tabs_lineup_teams"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_below="@id/container_divider_lineup"
+	                    android:orientation="vertical"
+	                    android:paddingBottom="10dp"
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp" >
+	
+	                    <com.viewpagerindicator.TabPageIndicator
+	                        android:id="@+id/tab_event_indicator_for_lineup_teams"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="44dp"
+	                        android:background="@color/white" />
+	
+	                    <View
+	                        android:id="@+id/tab_event_divider_for_lineup_teams"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="1dp"
+	                        android:layout_below="@id/tab_event_indicator_for_lineup_teams"
+	                        android:background="@color/home_divider" />
+	
+	                    <com.mitv.ui.elements.CustomViewPager
+	                        android:id="@+id/tab_event_pager_for_lineup_teams"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="wrap_content"
+	                        android:layout_below="@id/tab_event_divider_for_lineup_teams" />
+	                </LinearLayout>
+	            </RelativeLayout>
+	
+	            
+	            <!-- STANDINGS -->
+	            <RelativeLayout
+	                android:id="@+id/competition_event_block_standings_teams_container"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/competition_event_block_tabs_lineup_teams_container"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:layout_marginTop="10dp"
+	                android:background="@color/white"
+	                android:orientation="vertical" >
+	
+	                <com.mitv.ui.elements.FontTextView
+	                    android:id="@+id/competition_standings_header"
+	                    style="@style/header1"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10dp"
+	                    android:layout_marginRight="10dp"
+	                    android:layout_marginTop="10dp" />
+	
+	                <RelativeLayout
+	                    android:id="@+id/competition_event_block_standings"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_below="@id/competition_standings_header"
+	                    android:layout_marginTop="10dp"
+	                    android:orientation="vertical"
+	                    android:paddingBottom="10dp"
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp" >
+	
+	                    <LinearLayout
+	                        android:id="@+id/competition_event_standings_list"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="wrap_content"
+	                        android:background="@color/white"
+	                        android:orientation="vertical" >
+	                    </LinearLayout>
+	                </RelativeLayout>
+	            </RelativeLayout>
+	
+	            
+	            <!-- GROUPS SCHEDULE -->
+	            <RelativeLayout
+	                android:id="@+id/competition_event_block_group_teams_container"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/competition_event_block_standings_teams_container"
+	                android:layout_marginLeft="10dp"
+	                android:layout_marginRight="10dp"
+	                android:layout_marginTop="10dp"
+	                android:background="@color/white"
+	                android:orientation="vertical" >
+	
+	                <com.mitv.ui.elements.FontTextView
+	                    android:id="@+id/competition_group_header_group"
+	                    style="@style/header1"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10dp"
+	                    android:layout_marginRight="10dp"
+	                    android:layout_marginTop="10dp" />
+	
+	                <RelativeLayout
+	                    android:id="@+id/competition_event_block_group"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_below="@id/competition_group_header_group"
+	                    android:layout_marginTop="10dp"
+	                    android:orientation="vertical"
+	                    android:paddingBottom="10dp"
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp" >
+	
+	                    <LinearLayout
+	                        android:id="@+id/competition_event_group_list"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="wrap_content"
+	                        android:background="@color/white"
+	                        android:orientation="vertical" >
+	                    </LinearLayout>
+	                </RelativeLayout>
+	            </RelativeLayout>
+	        </LinearLayout>
+	    </ScrollView>
+    
+    </RelativeLayout>
+
+    
+    <!-- NAVIGATION TABS -->
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+
+    
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout" />
+
+</RelativeLayout>

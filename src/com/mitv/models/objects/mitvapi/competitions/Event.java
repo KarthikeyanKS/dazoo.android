@@ -3,10 +3,19 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
+import android.content.Context;
+
+import com.mitv.Constants;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
+import com.mitv.enums.EventMatchStatusEnum;
+import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
+import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
 
@@ -18,7 +27,7 @@ public class Event
 	private static final String TAG = Event.class.getName();
 	
 	
-	protected Calendar startCalendar;
+	protected Calendar eventCalendar;
 	
 	
 	public Event()
@@ -26,9 +35,105 @@ public class Event
 	
 	
 	
+	public EventMatchStatusEnum getMatchStatus()
+	{
+		return EventMatchStatusEnum.getTypeEnumFromCode(matchStatusId);
+	}
+	
+	
+	
+	public Event(NotificationSQLElement item)
+	{
+		// TODO
+//		TVChannel tvChannel = new TVChannel(item);
+//		this.channel = tvChannel;
+//		
+//		TVProgram tvProgram = new TVProgram(item);
+//		this.program = tvProgram;
+//		
+//		String broadcastTypeAsString = item.getBroadcastType();
+//		
+//		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
+//		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
+//		this.beginTime = item.getBroadcastBeginTime();
+//		this.endTime = item.getBroadcastEndTime();
+//		this.shareUrl = item.getShareUrl();
+	}
+	
+	
+	
+	public List<EventBroadcast> getEventBroadcasts()
+	{
+		List<EventBroadcast> list = new ArrayList<EventBroadcast>();
+		
+		for (EventBroadcastJSON ev : broadcasts) 
+		{
+			EventBroadcast element = new EventBroadcast(ev);
+			list.add(element);
+		}
+		
+		return list;
+	}
+	
+	
+	
+	public String getStadiumImageURL()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(Constants.EVENT_STADIUM_IMAGE_PATH);
+		sb.append(Constants.FORWARD_SLASH);
+		sb.append(stadiumId);
+		sb.append(Constants.EVENT_STADIUM_IMAGE_SIZE_LARGE);
+		sb.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
+		
+		return sb.toString();
+	}
+	
+	
+	
+	public String getGameTimeAndStatusAsString(boolean includeIcon)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		if(finished == false && postponed == false)
+		{
+			if(includeIcon)
+			{	
+				sb.append(context.getResources().getString(R.string.icon_time_is_ongoing))
+				.append(" ");
+			}
+			
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+			
+			Integer gameMinutes = DateUtils.calculateDifferenceBetween(getEventDateCalendarGMT(), now, Calendar.MINUTE, false, 0);
+			
+			if(abandoned)
+			{
+				sb.append(gameMinutes)
+				.append(" ")
+				.append(context.getResources().getString(R.string.event_page_abandoned));
+			}
+			else
+			{
+				sb.append(gameMinutes);
+			}
+		}
+		else
+		{
+			sb.append(context.getResources().getString(R.string.event_page_completed));
+		}
+		
+		return sb.toString();
+	}
+	
+	
+	
 	public boolean containsBroadcastDetails()
 	{
-		return (broadcastDetails != null);
+		return (broadcasts != null && broadcasts.isEmpty() == false);
 	}
 	
 	
@@ -46,13 +151,39 @@ public class Event
 	}
 	
 	
+	public boolean hasStarted()
+	{
+		return live;
+	}
+	
+	
+	
+	public boolean hasEnded()
+	{
+		return finished;
+	}
+	
+	
+	
+	public String getScoreAsString()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(homeGoals);
+		sb.append(" - ");
+		sb.append(awayGoals);
+		
+		return sb.toString();
+	}
+	
+	
 	
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */
-	public Calendar getEventDateCalendarGMT() 
+	public Calendar getEventDateCalendarGMT()
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(eventDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(eventDate);
 		
 		return beginTimeCalendarGMT;
 	}
@@ -65,23 +196,22 @@ public class Event
 	 */
 	public Calendar getEventDateCalendarLocal() 
 	{
-		if(startCalendar == null)
+		if(eventCalendar == null)
 		{	
-			startCalendar = getEventDateCalendarGMT();
+			eventCalendar = getEventDateCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			startCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			eventCalendar = DateUtils.setTimeZoneAndOffsetToLocal(eventCalendar);
 		}
 		
-		return startCalendar;
+		return eventCalendar;
 	}
 	
 	
 	
 	public boolean isTheSameDayAs(Event other)
 	{
-		Calendar beginTime1 = this.getEventDateCalendarLocal();
-		Calendar beginTime2 = other.getEventDateCalendarLocal();
+		Calendar beginTime1 = this.getEventDateCalendarGMT();
+		Calendar beginTime2 = other.getEventDateCalendarGMT();
 		
 		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
 	}
@@ -90,9 +220,9 @@ public class Event
 	
 	public boolean isEventTimeTodayOrTomorrow()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		Calendar beginTime = this.getEventDateCalendarLocal();
+		Calendar beginTime = this.getEventDateCalendarGMT();
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
@@ -202,5 +332,38 @@ public class Event
 		}
 		
 		return isSamePhase;
+	}
+	
+	
+	
+	/**
+	 * Maybe remove this if we get the timeMillis from BE!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
+	 * @return
+	 */
+	public long getBeginTimeLocalInMillis() 
+	{
+		long beginTimeMillis = this.getEventDateCalendarLocal().getTimeInMillis();
+		
+		return beginTimeMillis;
+	}	
+	
+	
+	
+
+	public String getShareUrl() 
+	{
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(Constants.HTTP_SCHEME_USED)
+		.append(Constants.BACKEND_ENVIRONMENT_USED)
+		.append(Constants.URL_SHARE_SPORT_SPANISH)
+		.append(Constants.URL_EVENTS_SPANISH)
+		.append(Constants.FORWARD_SLASH)
+		.append(this.getEventId());
+		
+		String url = sb.toString();
+		
+		return url;
 	}
 }
