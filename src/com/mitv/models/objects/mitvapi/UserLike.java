@@ -35,8 +35,9 @@ public class UserLike
 		
 		this.title = competition.getDisplayName();
 		this.likeType = LikeTypeResponseEnum.COMPETITION.toString();
+		this.contentId = Long.valueOf(competition.getCompetitionId()).toString();
 		
-		setIDFieldWithLikeType(LikeTypeResponseEnum.COMPETITION);
+		setIDFieldWithLikeType();
 	}
 	
 	
@@ -46,9 +47,10 @@ public class UserLike
 		this.wasAddedManually = true;
 		
 		this.title = team.getDisplayName();
-		this.likeType = LikeTypeResponseEnum.COMPETITION_TEAM.toString();
+		this.likeType = LikeTypeResponseEnum.TEAM.toString();
+		this.contentId = Long.valueOf(team.getTeamId()).toString();
 		
-		setIDFieldWithLikeType(LikeTypeResponseEnum.COMPETITION_TEAM);
+		setIDFieldWithLikeType();
 	}
 	
 	
@@ -59,8 +61,9 @@ public class UserLike
 		
 		this.title = tvProgram.getTitle();
 		this.likeType = LikeTypeResponseEnum.getLikeTypeEnumFromTVProgram(tvProgram).toString();
+		this.contentId = getContentIdFromTVProgram(tvProgram);
 		
-		this.programId = getContentIdFromTVProgram(tvProgram);
+		setIDFieldWithLikeType();
 	}
 	
 	
@@ -75,16 +78,19 @@ public class UserLike
 		
 		this.title = title;
 		this.likeType = likeType.toString();
+		this.contentId = contentId;
 		
-		setIDFieldWithLikeType(likeType);
+		setIDFieldWithLikeType();
 	}
 	
 	
 	
 	
-	private void setIDFieldWithLikeType(final LikeTypeResponseEnum likeType)
+	private void setIDFieldWithLikeType()
 	{
-		switch(likeType)
+		LikeTypeResponseEnum linkeType = getLikeType();
+		
+		switch(linkeType)
 		{
 			case PROGRAM:
 			{
@@ -108,11 +114,11 @@ public class UserLike
 			{
 				try
 				{
-					this.competitionID = Long.parseLong(contentId);
+					this.competitionId = Long.parseLong(contentId);
 				}
 				catch(NumberFormatException nfex)
 				{
-					this.competitionID = 0;
+					this.competitionId = Long.valueOf(0);
 					
 					Log.w(TAG, "Failed to parse competitionID");
 				}
@@ -120,15 +126,15 @@ public class UserLike
 				break;
 			}
 			
-			case COMPETITION_TEAM:
+			case TEAM:
 			{
 				try
 				{
-					this.teamID = Long.parseLong(contentId);
+					this.teamId = Long.parseLong(contentId);
 				}
 				catch(NumberFormatException nfex)
 				{
-					this.teamID = 0;
+					this.teamId = Long.valueOf(0);
 					
 					Log.w(TAG, "Failed to parse teamID");
 				}
@@ -211,6 +217,18 @@ public class UserLike
 						break;
 					}
 					
+					case COMPETITION:
+					{
+						contentId = competitionId.toString();
+						break;
+					}
+					
+					case TEAM:
+					{
+						contentId = teamId.toString();
+						break;
+					}
+					
 					default:
 					{
 						Log.w(TAG, "Unhandled like type.");
@@ -255,9 +273,9 @@ public class UserLike
 				break;
 			}
 			
-			case COMPETITION_TEAM:
+			case TEAM:
 			{
-				likeTypeRequest = LikeTypeRequestEnum.COMPETITION_TEAM;
+				likeTypeRequest = LikeTypeRequestEnum.TEAM;
 				break;
 			}
 			
@@ -282,7 +300,8 @@ public class UserLike
 	
 	
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((likeType == null) ? 0 : likeType.hashCode());
@@ -294,24 +313,49 @@ public class UserLike
 
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
+		{
 			return true;
+		}
+		
 		if (obj == null)
+		{
 			return false;
+		}
+		
 		if (getClass() != obj.getClass())
+		{
 			return false;
+		}
+		
 		UserLike other = (UserLike) obj;
-		if (getLikeType() == null) {
+		
+		if (getLikeType() == null) 
+		{
 			if (other.getLikeType() != null)
+			{
 				return false;
-		} else if (!getLikeType().equals(other.getLikeType()))
+			}
+		} 
+		else if (getLikeType().equals(other.getLikeType()) == false)
+		{
 			return false;
-		if (getContentId() == null) {
+		}
+		
+		if (getContentId() == null) 
+		{
 			if (other.getContentId() != null)
+			{
 				return false;
-		} else if (!getContentId().equals(other.getContentId()))
+			}
+		} 
+		else if (getContentId().equals(other.getContentId()) == false)
+		{
 			return false;
+		}
+		
 		return true;
 	}
 

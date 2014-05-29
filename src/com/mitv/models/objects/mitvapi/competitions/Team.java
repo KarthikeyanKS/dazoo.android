@@ -10,11 +10,7 @@ import com.mitv.models.gson.mitvapi.competitions.TeamJSON;
 
 public class Team 
 	extends TeamJSON
-{
-//	private static final String FLAG_FILE_PREFIX = "flag_";
-
-
-	
+{	
 	public Team()
 	{}
 	
@@ -32,6 +28,7 @@ public class Team
 		
 		return sb.toString();
 	}
+	
 	
 	
 	public String getTeamImageURL()

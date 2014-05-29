@@ -350,20 +350,17 @@ public class Event
 	
 	
 	
-	/* TODO */
+
 	public String getShareUrl() 
 	{
 		StringBuilder sb = new StringBuilder();
-//		http://gitrgitr.com/deportes/eventos/{eventID}
+
 		sb.append(Constants.HTTP_SCHEME_USED)
 		.append(Constants.BACKEND_ENVIRONMENT_USED)
 		.append(Constants.URL_SHARE_SPORT_SPANISH)
-		.append(Constants.URL_EVENTS)
+		.append(Constants.URL_EVENTS_SPANISH)
 		.append(Constants.FORWARD_SLASH)
-		.append(Constants.FIFA_COMPETITION_ID)
-		.append(Constants.FORWARD_SLASH)
-		.append(this.getEventId())
-		.append(Constants.FORWARD_SLASH);
+		.append(this.getEventId());
 		
 		String url = sb.toString();
 		

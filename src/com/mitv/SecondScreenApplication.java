@@ -433,7 +433,7 @@ public class SecondScreenApplication
 	
 	public void setDateUserLastOpenedApp(Calendar calendar) 
 	{
-		String calendarRepresentationAsString = DateUtils.buildDateCompositionAsString(calendar);
+		String calendarRepresentationAsString = DateUtils.convertFromCalendarToISO8601String(calendar);
 		
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, calendarRepresentationAsString, false);
 	}

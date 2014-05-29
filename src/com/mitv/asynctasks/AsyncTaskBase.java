@@ -23,6 +23,7 @@ import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.TrackingManager;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
 import com.mitv.utilities.LanguageUtils;
 
@@ -155,6 +156,10 @@ public abstract class AsyncTaskBase<T>
 			{
 				Log.w(TAG, "Locale has null value.");
 			}
+			
+			/* Add the timezone offset */
+			Integer timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
+			urlParameters.add(Constants.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();

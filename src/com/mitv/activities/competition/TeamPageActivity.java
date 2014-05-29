@@ -291,7 +291,7 @@ public class TeamPageActivity
 			
 			String teamFlagUrl = team.getFlagImageURL();
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAwareForTeamFlag);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(teamFlagUrl, imageAwareForTeamFlag);
 
 			String name = team.getDisplayName();
 			teamName.setText(name);
@@ -307,7 +307,8 @@ public class TeamPageActivity
 			
 			/* Description */
 			String textAbout = team.getDescription();
-			if (textAbout != null && !textAbout.isEmpty()) {
+			if (textAbout != null && !textAbout.isEmpty()) 
+			{
 				about.setText(textAbout);
 				about.setVisibility(View.VISIBLE);
 			}

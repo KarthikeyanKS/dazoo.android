@@ -133,11 +133,11 @@ public abstract class Constants
 	public static final String URL_POLLS 					 		= "/polls";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
-	public static final String URL_EVENTS_SPANISH			 		= "/eventos";
 	public static final String URL_TEAMS_IMAGE				 		= "/sports/teams";
 	
-	/* Share */
+	/* Share URLs for the frontend */
 	public static final String URL_COMPETITIONS_SPANISH				= "/competicion/";
+	public static final String URL_EVENTS_SPANISH					= "/eventos/";
 	public static final String URL_SHARE_SPORT_SPANISH		 		= "/deportes";
 	public static final String URL_SHARE_SPORT_team_SPANISH		 	= "/equipos/";
 	

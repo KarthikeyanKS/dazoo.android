@@ -68,11 +68,11 @@ public class UserLikeJSON
 	
 
 	/* This variable is used if likeType == "COMPETITION" */
-	protected long competitionID;
+	protected Long competitionId;
 	
 	
 	/* This variable is used if likeType == "COMPETITION_TEAM" */
-	protected long teamID;
+	protected Long teamId;
 	
 	
 	
@@ -101,9 +101,12 @@ public class UserLikeJSON
 		
 		Integer broadcastCount = jsonObject.get(Constants.LIKE_NEXT_BROADCAST_COUNT).getAsInt();
 		
-		if(broadcastCount != null) {
+		if(broadcastCount != null) 
+		{
 			baseObject.broadcastCount = broadcastCount;
-			if(baseObject.broadcastCount  > 0) {
+			
+			if(baseObject.broadcastCount  > 0) 
+			{
 				JsonElement nextBroadcastJsonElement = jsonObject.get(Constants.LIKE_NEXT_BROADCAST);
 				UserLikeNextBroadcast userLikeNextBroadcast = new Gson().fromJson(nextBroadcastJsonElement, UserLikeNextBroadcast.class);
 				baseObject.nextBroadcast = userLikeNextBroadcast;
@@ -133,7 +136,7 @@ public class UserLikeJSON
 				break;
 			}
 			
-			case COMPETITION_TEAM:
+			case TEAM:
 			{
 				
 				break;
@@ -234,13 +237,13 @@ public class UserLikeJSON
 
 
 
-	public long getCompetitionID() {
-		return competitionID;
+	public Long getCompetitionId() {
+		return competitionId;
 	}
 
 
 
-	public long getTeamID() {
-		return teamID;
+	public Long getTeamId() {
+		return teamId;
 	}	
 }

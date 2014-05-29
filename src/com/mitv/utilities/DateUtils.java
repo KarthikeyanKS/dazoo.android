@@ -46,6 +46,21 @@ public abstract class DateUtils
 	
 	
 	
+	public static String convertFromCalendarToISO8601String(final Calendar inputCalendar) 
+	{
+		Date dateFromCalendar = inputCalendar.getTime();
+		
+		TimeZone timeZone = inputCalendar.getTimeZone();
+		
+		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.ISO_8601_DATE_FORMAT, timeZone);
+		
+		String calendarStringRepresentation = formatter.format(dateFromCalendar);
+		
+		return calendarStringRepresentation;
+	}
+	
+	
+	
 	/**
 	 * Creates a Calendar object from the string representation of a TVDate. The calendar
 	 * represents the start time of the TV Day. 
@@ -253,19 +268,24 @@ public abstract class DateUtils
 	
 	
 	/**
-	 * Checks if TVDate is today, according to the 
+	 * Checks if TVDate is today, according to the rules
 	 * @param tvDate
 	 * @return
 	 */
 	public static boolean isTodayUsingTVDate(final TVDate tvDate)
 	{
-		Calendar now = getNowWithGMTTimeZone();
+		/** Since we are passing the minutes offset in the call, we should always use the local calendars when comparing dates */
+		Calendar now = getNowWithLocalTimezone();
 		
-		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendarGMT();
+		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendarLocal();
 		
-		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendarGMT();
+		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendarLocal();
 		
-		boolean isTVDateNow = (now.after(startOfTVDay) || now.equals(startOfTVDay)) && now.before(endOfTVDay);
+		boolean isNowAfterStartOfTVDay = now.after(startOfTVDay);
+		boolean isNowEqualToTVDay = now.equals(startOfTVDay);
+		boolean isNowBeforeEndOfTVDay = now.before(endOfTVDay);
+		
+		boolean isTVDateNow = (isNowAfterStartOfTVDay || isNowEqualToTVDay) && isNowBeforeEndOfTVDay;
 		
 		return isTVDateNow;
 	}
@@ -383,7 +403,8 @@ public abstract class DateUtils
 	
 	
 	
-	private static String getDayOfWeekStringUsingFirstHourOfTVDay(Calendar inputCalendar) {
+	private static String getDayOfWeekStringUsingFirstHourOfTVDay(Calendar inputCalendar) 
+	{
 		String dayOfTheWeekAsString = null;
 		
 		Locale locale = LanguageUtils.getCurrentLocale();
@@ -391,10 +412,15 @@ public abstract class DateUtils
 		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		
 		int startHour = inputCalendar.get(Calendar.HOUR_OF_DAY);
-		if(startHour >= 0 && startHour < firstHourOfTVDay) {
+		
+		if(startHour >= 0 && startHour < firstHourOfTVDay) 
+		{
 			inputCalendar.add(Calendar.DAY_OF_MONTH, -1);
+			
 			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
-		} else {
+		} 
+		else 
+		{
 			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
 		}
 		
@@ -486,18 +512,6 @@ public abstract class DateUtils
 		String hourAndMinuteCompositionAsString = getHourAndMinuteCompositionAsString(inputCalendar, true);
 		
 		return hourAndMinuteCompositionAsString;
-	}
-	
-	
-	
-	public static String calendarToStringForDebug(final Calendar inputCalendar) 
-	{
-		Date dateFromCalendar = inputCalendar.getTime();
-		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.CALENDAR_TO_STRING_FOR_DEBUG, inputCalendar.getTimeZone());
-		String toString = formatter.format(dateFromCalendar);
-		
-		return toString;
 	}
 	
 	
@@ -602,24 +616,41 @@ public abstract class DateUtils
 	 * Builds a calendar from a specific date, sets the hour to the specified value and the minutes, seconds and milliseconds to the current time values
 	 * 
 	 */
-	public static Calendar buildLocalCalendarWithTVDateAndSpecificHour(
+	public static Calendar buildLocalCalendarWithTVDateAndSelectedHour(
 			final TVDate tvDate, 
-			final int hour) 
+			final int selectedHour) 
 	{
 		Calendar now = getNowWithLocalTimezone();
 		
 		Calendar startOfTVDate = (Calendar) tvDate.getStartOfTVDayCalendarLocal().clone();
 		
-		int hoursValue = hour;
+		int currentHour = now.get(Calendar.HOUR_OF_DAY);
+		int currentMinute = now.get(Calendar.MINUTE);		
+				
+		int hoursValue = selectedHour;
 		
 		int firstHourOfTheDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		
-		if(hour >= 0 && hour < firstHourOfTheDay) 
+		
+//		if(currentHour >= 0 && currentHour < firstHourOfTheDay)
+//		{
+//			startOfTVDate.add(Calendar.DATE, -1);
+//		}
+		
+		if(hoursValue >= 0 && hoursValue < firstHourOfTheDay) 
 		{
 			startOfTVDate.add(Calendar.DATE, 1);
 		}
 		
-		if(hour < 0)
+		if(hoursValue == firstHourOfTheDay)
+		{
+			if(currentHour == (hoursValue-1) && currentMinute < 60)
+			{
+				hoursValue = currentHour;
+			}
+		}
+		
+		if(hoursValue < 0)
 		{
 			hoursValue = 0;
 		}
@@ -683,6 +714,37 @@ public abstract class DateUtils
 		calendar.setTimeZone(deviceTimeZone);
 		
 		return calendar;
+	}
+	
+	
+	
+	/**
+	 * This calculation of timezone offset takes in daylight time in consideration.
+	 * 
+	 * @return
+	 */
+	public static Integer getTimeZoneOffsetInMinutes() 
+	{
+		Integer timeZoneOffsetInMinutes = 0;
+		
+		TimeZone timeZone = TimeZone.getDefault();
+		
+		Calendar cal = DateUtils.getNowWithGMTTimeZone();
+		
+		int era = cal.get(Calendar.ERA);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		int timeOfDayMillis = cal.get(Calendar.MILLISECOND);
+		
+		int offsetNEW = timeZone.getOffset(era, year, month, day, dayOfWeek, timeOfDayMillis);
+		
+		int  timeZoneOffsetInMinutesAlternative = (int)(offsetNEW / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+			
+		timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAlternative);
+
+		return timeZoneOffsetInMinutes;
 	}
 	
 	

@@ -1222,7 +1222,7 @@ public abstract class ContentManagerCallback
 					/* Filter the feed items */
 					if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) 
 					{
-						Log.d(TAG, "MMM Starting filtering old broadcasts");
+						Log.d(TAG, "Starting to filter old broadcasts");
 						
 						feedItems = filterOldBroadcasts(feedItems, null);
 						

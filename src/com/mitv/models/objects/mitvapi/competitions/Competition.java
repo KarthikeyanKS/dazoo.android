@@ -5,6 +5,7 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 import java.util.Calendar;
 
+import com.mitv.enums.CompetitionCategoryEnum;
 import com.mitv.models.gson.mitvapi.competitions.CompetitionJSON;
 import com.mitv.utilities.DateUtils;
 
@@ -103,5 +104,12 @@ public class Competition
 		}
 		
 		return endCalendar;
+	}
+	
+	
+	
+	public CompetitionCategoryEnum getCompetitionCategory()
+	{
+		return CompetitionCategoryEnum.getTypeEnumFromCode(competitionCategory);
 	}
 }

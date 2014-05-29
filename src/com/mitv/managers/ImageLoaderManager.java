@@ -136,7 +136,7 @@ public class ImageLoaderManager
 	
 	
 	/* Used in views where we don't want to reset the view itself and we always want to use memory cache */
-	private DisplayImageOptions getDisplayImageOptionsForCompetitions()
+	private DisplayImageOptions getDisplayImageOptionsForCompetitionFlags()
 	{		
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
 		.showImageOnLoading(R.drawable.competitions_contry_flag_default)
@@ -202,9 +202,9 @@ public class ImageLoaderManager
 	
 	
 	
-	public void displayImageWithCompetitionOptions(String url, ImageAware imageAware)
+	public void displayImageWithOptionsForTeamFlags(String url, ImageAware imageAware)
 	{
-		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitions();
+		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitionFlags();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions);
 	}

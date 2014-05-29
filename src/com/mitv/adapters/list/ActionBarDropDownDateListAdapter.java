@@ -125,7 +125,7 @@ public class ActionBarDropDownDateListAdapter
 
 			lastDividerDropdownDates = (View) row.findViewById(R.id.last_divider_dropdown_dates);
 
-			if (position == 6) 
+			if (position == 6)
 			{
 				lastDividerDropdownDates.setVisibility(View.VISIBLE);
 			}

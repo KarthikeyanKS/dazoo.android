@@ -1,4 +1,7 @@
+
 package com.mitv.utilities;
+
+
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,16 +38,25 @@ import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 
-public abstract class GenericUtils {
+
+
+public abstract class GenericUtils 
+{
 	private static final String TAG = GenericUtils.class.getName();
 
+	
 	private static final String TEXT_PLAIN = "text/plain";
 
-	public static int getRandomNumberBetween() {
+	
+	public static int getRandomNumberBetween() 
+	{
 		return getRandomNumberBetween(0, Integer.MAX_VALUE);
 	}
 
-	public static int getRandomNumberBetween(final int min, final int max) {
+	
+	
+	public static int getRandomNumberBetween(final int min, final int max) 
+	{
 		Random foo = new Random();
 
 		int randomNumber = foo.nextInt(max - min) + min;
@@ -58,7 +70,8 @@ public abstract class GenericUtils {
 
 	
 	
-	public static void startShareActivity(final Activity activity, final TVBroadcast broadcast) {
+	public static void startShareActivity(final Activity activity, final TVBroadcast broadcast) 
+	{
 		String shareComment = activity.getResources().getString(R.string.share_comment);
 		startShareActivity(activity, broadcast.getShareUrl(), shareComment);
 
@@ -68,8 +81,10 @@ public abstract class GenericUtils {
 	
 	
 	
-	public static void startShareActivity(final Activity activity, final Event event) {
+	public static void startShareActivity(final Activity activity, final Event event) 
+	{
 		String shareComment = activity.getResources().getString(R.string.share_comment_event);
+		
 		startShareActivity(activity, event.getShareUrl(), shareComment);
 
 		/* TODO Send sharing event to Google Analytics */

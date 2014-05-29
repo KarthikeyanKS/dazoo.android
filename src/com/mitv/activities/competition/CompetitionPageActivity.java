@@ -271,7 +271,7 @@ public class CompetitionPageActivity
 						
 					String team1FlagUrl = team1.getFlagImageURL();
 						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
 				}
 				else
 				{
@@ -288,7 +288,7 @@ public class CompetitionPageActivity
 						
 					String team2FlagUrl = team2.getFlagImageURL();
 						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
 				}
 				else
 				{
@@ -370,17 +370,11 @@ public class CompetitionPageActivity
 				
 				if(team1 != null)
 				{
-					Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
-						
 					ImageAware imageAware = new ImageViewAware(team1FlagOngoing, false);
 						
 					String team1FlagUrl = team1.getFlagImageURL();
 						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
-				}
-				else
-				{
-					Log.w(TAG, "Team with id: " + team1ID + " not found in cache");
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
 				}
 				
 				long team2ID = nextEvent.getAwayTeamId();
@@ -393,11 +387,7 @@ public class CompetitionPageActivity
 						
 					String team2FlagUrl = team2.getFlagImageURL();
 						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
-				}
-				else
-				{
-					Log.w(TAG, "Team with id: " + team2ID + " not found in cache");
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
 				}
 			}
 			
@@ -505,13 +495,11 @@ public class CompetitionPageActivity
 			
 			if(team1 != null)
 			{
-				Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
-					
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
 					
 				String team1FlagUrl = team1.getFlagImageURL();
 					
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
 			}
 			else
 			{
@@ -528,7 +516,7 @@ public class CompetitionPageActivity
 					
 				String team2FlagUrl = team2.getFlagImageURL();
 					
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
 			}
 			else
 			{

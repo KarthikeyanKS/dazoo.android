@@ -244,8 +244,8 @@ public class EventPageActivity
 					
 				String team1FlagUrl = team1.getFlagImageURL();
 					
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAwareHighlights);
 				
 				team1Flag.setOnClickListener(new View.OnClickListener() 
 		        {
@@ -285,8 +285,8 @@ public class EventPageActivity
 					
 				String team2FlagUrl = team2.getFlagImageURL();
 					
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAwareHighlights);
 				
 				team2Flag.setOnClickListener(new View.OnClickListener() 
 		        {

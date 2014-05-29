@@ -128,7 +128,7 @@ public class CompetitionEventPageBroadcastListAdapter
 
 			String logoUrl = element.getChannelLogoUrl();
 
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(logoUrl, imageAwareForChannelLogo);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(logoUrl, imageAwareForChannelLogo);
 
 			/* Set airing date and time */
 			StringBuilder sb = new StringBuilder();

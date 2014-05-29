@@ -141,7 +141,7 @@ public class CompetitionEventStandingsListAdapter
 					
 				String teamFlagUrl = team.getFlagImageURL();
 						
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(teamFlagUrl, imageAware);
 			}
 
 			String teamGPAsString = Integer.valueOf(element.getMatches()).toString();

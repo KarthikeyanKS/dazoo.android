@@ -20,11 +20,7 @@ public class TVDate
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = TVDate.class.getName();
-	
-	
-	protected Calendar startOfTVDayCalendar;
-	protected Calendar endOfTVDayCalendar;
-	
+		
 	
 	
 	public TVDate(String dateRepresentation)
@@ -61,7 +57,7 @@ public class TVDate
 	
 	public Calendar getStartOfTVDayCalendarGMT() 
 	{
-		startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
+		Calendar startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
 		
 		return startOfTVDayCalendar;
 	}
@@ -70,7 +66,7 @@ public class TVDate
 	
 	public Calendar getStartOfTVDayCalendarLocal() 
 	{
-		startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
+		Calendar startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
 		
 		startOfTVDayCalendar = DateUtils.setTimeZoneAndOffsetToLocal(startOfTVDayCalendar);
 		
@@ -81,7 +77,18 @@ public class TVDate
 	
 	public Calendar getEndOfTVDayCalendarGMT() 
 	{
-		endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendarGMT());
+		Calendar endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendarGMT());
+		
+		return endOfTVDayCalendar;
+	}
+	
+	
+	
+	public Calendar getEndOfTVDayCalendarLocal() 
+	{
+		Calendar endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getEndOfTVDayCalendarGMT());
+		
+		endOfTVDayCalendar = DateUtils.setTimeZoneAndOffsetToLocal(endOfTVDayCalendar);
 		
 		return endOfTVDayCalendar;
 	}

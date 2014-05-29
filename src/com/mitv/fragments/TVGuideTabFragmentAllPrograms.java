@@ -6,7 +6,6 @@ package com.mitv.fragments;
 import java.util.ArrayList;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,7 @@ import com.mitv.models.objects.mitvapi.TVTag;
 public class TVGuideTabFragmentAllPrograms
 	extends TVGuideTabFragment
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTabFragmentAllPrograms.class.getName();
 	
 	
@@ -155,8 +155,6 @@ public class TVGuideTabFragmentAllPrograms
 				listView.setAdapter(listAdapter);
 					
 				listAdapter.notifyDataSetChanged();
-					
-				Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
 					
 				break;
 			}

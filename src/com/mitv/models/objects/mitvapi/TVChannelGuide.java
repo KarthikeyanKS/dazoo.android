@@ -24,19 +24,27 @@ public class TVChannelGuide
 	}
 	
 	public ArrayList<TVBroadcast> getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(
-			final int hour, 
-			final TVDate tvDate) {
-		return getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(hour, tvDate, Constants.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+			final int selectedHour,
+			final TVDate tvDate) 
+	{
+		return getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(selectedHour, tvDate, Constants.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 	}
 	
+	
+	
 	public ArrayList<TVBroadcast> getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(
-			final int hour, 
+			final int selectedHour,
 			final TVDate tvDate,
-			int howManyIncludingCurrent) {
-		int indexOfNearestBroadcast = getClosestBroadcastIndex(hour, tvDate, -1);
+			int howManyIncludingCurrent)
+	{
+		int indexOfNearestBroadcast = getClosestBroadcastIndex(selectedHour, tvDate, -1);
+		
 		ArrayList<TVBroadcast> threeNextBroadcasts = getBroadcastsFromPosition(indexOfNearestBroadcast, howManyIncludingCurrent);
+		
 		return threeNextBroadcasts;
 	}
+	
+	
 	
 	public ArrayList<TVBroadcast> getBroadcastsFromPosition(
 			final int startIndex) 
@@ -142,7 +150,7 @@ public class TVChannelGuide
 	
 	
 	public int getClosestBroadcastIndex(
-			final int hour, 
+			final int selectedHour,
 			final TVDate tvDate,
 			final int defaultValueIfNotFound)
 	{
@@ -152,7 +160,7 @@ public class TVChannelGuide
 		{
 			TVBroadcast broadcast = broadcasts.get(i);
 		
-			Calendar tvDateWithHourCalendarLocal = DateUtils.buildLocalCalendarWithTVDateAndSpecificHour(tvDate, hour);
+			Calendar tvDateWithHourCalendarLocal = DateUtils.buildLocalCalendarWithTVDateAndSelectedHour(tvDate, selectedHour);
 			
 			boolean isEndTimeAfterTvDateWithHour = broadcast.isEndTimeAfter(tvDateWithHourCalendarLocal);
 			
