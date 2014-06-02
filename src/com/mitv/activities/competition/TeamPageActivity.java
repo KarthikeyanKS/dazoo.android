@@ -173,8 +173,11 @@ public class TeamPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-//		boolean forceRefresh = true;
 		boolean forceRefresh = false;
+		
+		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
+			forceRefresh = true;
+		}
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefresh, competitionID, teamID);
 		

@@ -711,10 +711,13 @@ public class CompetitionPageActivity
 		String loadingString = getString(R.string.competition_loading_text);
 		
 		setLoadingLayoutDetailsMessage(loadingString);
-		
+
 		/* Always re-fetch the data from the service */
-//		boolean forceRefreshOfCompetitionInitialData = true;
 		boolean forceRefreshOfCompetitionInitialData = false;
+		
+		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
+			forceRefreshOfCompetitionInitialData = true;
+		}
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, competition.getCompetitionId());
 	}
