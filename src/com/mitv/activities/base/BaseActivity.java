@@ -842,21 +842,16 @@ public abstract class BaseActivity
 	
 	@Override
 	public void onBackPressed() 
-	{
-		//int activityCount = GenericUtils.getActivityCount();
-
-//		if(activityCount <= 1 && isTabActivity())
-//		{
-//			Intent intent = new Intent(Intent.ACTION_MAIN);
-//			intent.addCategory(Intent.CATEGORY_HOME);
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			startActivity(intent);
-//		}
-//		else
-//		{
-//			super.onBackPressed();
-//		}
+	{		
 		updateUI(UIStatusEnum.LOADING);
+		
+		if (this instanceof BaseContentCompetitionActivity) {
+			String loadingString = getString(R.string.competition_tab_loading_text);
+			
+			setLoadingLayoutDetailsMessage(loadingString);
+		}
+		
+		
 		super.onBackPressed();
 	}
 	

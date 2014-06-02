@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseContentCompetitionActivity;
 import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -43,7 +43,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 
 public class CompetitionPageActivity 
-	extends BaseContentActivity
+	extends BaseContentCompetitionActivity
 	implements ViewCallbackListener, FetchDataProgressCallbackListener 
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
@@ -239,9 +239,7 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setOngoingLayoutForLiveEvent() {
-//		liteTVBroadcastChannelsOngoing;
-		
+	private void setOngoingLayoutForLiveEvent() {		
 		/* LIVE GAME */
 		final Event liveEvent = ContentManager.sharedInstance().getFromCacheLiveEventForSelectedCompetition();
 		
@@ -653,7 +651,6 @@ public class CompetitionPageActivity
 		liveOngoingLayout = (RelativeLayout) findViewById(R.id.competition_ongoing_live_game_layout);
 		liveGroupHeader = (TextView) findViewById(R.id.competition_ongoing_group_header);
 		liveOngoingStandings = (TextView) findViewById(R.id.competition_ongoing_live_standing);
-//		liteTVBroadcastChannelsOngoing = findViewById(R.id.);
 		liveTeam1NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_one_name);
 		liveTeam1FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_team_one_flag);
 		liveTeam2NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_two_name);
