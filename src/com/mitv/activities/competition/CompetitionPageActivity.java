@@ -716,7 +716,8 @@ public class CompetitionPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfCompetitionInitialData = true;
+//		boolean forceRefreshOfCompetitionInitialData = true;
+		boolean forceRefreshOfCompetitionInitialData = false;
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, competition.getCompetitionId());
 	}
