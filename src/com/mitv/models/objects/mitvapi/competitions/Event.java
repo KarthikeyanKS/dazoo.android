@@ -210,8 +210,8 @@ public class Event
 	
 	public boolean isTheSameDayAs(Event other)
 	{
-		Calendar beginTime1 = this.getEventDateCalendarGMT();
-		Calendar beginTime2 = other.getEventDateCalendarGMT();
+		Calendar beginTime1 = this.getEventDateCalendarLocal();
+		Calendar beginTime2 = other.getEventDateCalendarLocal();
 		
 		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
 	}
@@ -220,9 +220,9 @@ public class Event
 	
 	public boolean isEventTimeTodayOrTomorrow()
 	{
-		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		Calendar now = DateUtils.getNowWithLocalTimezone();
 		
-		Calendar beginTime = this.getEventDateCalendarGMT();
+		Calendar beginTime = this.getEventDateCalendarLocal();
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
