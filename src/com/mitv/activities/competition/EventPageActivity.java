@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.base.BaseContentCompetitionActivity;
+import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter;
 import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
@@ -53,7 +53,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 
 public class EventPageActivity 
-	extends BaseContentCompetitionActivity
+	extends BaseContentActivity
 	implements ViewCallbackListener, FetchDataProgressCallbackListener 
 {
 	private static final String TAG = EventPageActivity.class.getName();

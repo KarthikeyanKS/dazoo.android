@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.base.BaseContentCompetitionActivity;
+import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
 import com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter;
@@ -44,7 +44,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class TeamPageActivity 
-	extends BaseContentCompetitionActivity 
+	extends BaseContentActivity 
 	implements ViewCallbackListener, FetchDataProgressCallbackListener
 {	
 	private static final String TAG = TeamPageActivity.class.getName();

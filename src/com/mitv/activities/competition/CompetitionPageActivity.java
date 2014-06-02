@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.base.BaseContentCompetitionActivity;
+import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -43,7 +43,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 
 public class CompetitionPageActivity 
-	extends BaseContentCompetitionActivity
+	extends BaseContentActivity
 	implements ViewCallbackListener, FetchDataProgressCallbackListener 
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
