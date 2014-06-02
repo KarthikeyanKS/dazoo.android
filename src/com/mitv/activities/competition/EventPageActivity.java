@@ -378,7 +378,6 @@ public class EventPageActivity
 		
 		boolean isOngoing = event.hasStarted();
 		boolean isFinished = event.isFinished();
-		
 
 		/* The event is ongoing or finished */
 		if (isOngoing || isFinished)
