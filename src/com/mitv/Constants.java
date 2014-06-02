@@ -60,6 +60,7 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
+	public static final boolean USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES = false;
 	
 	
 	
