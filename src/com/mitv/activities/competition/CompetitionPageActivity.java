@@ -239,9 +239,7 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setOngoingLayoutForLiveEvent() {
-//		liteTVBroadcastChannelsOngoing;
-		
+	private void setOngoingLayoutForLiveEvent() {		
 		/* LIVE GAME */
 		final Event liveEvent = ContentManager.sharedInstance().getFromCacheLiveEventForSelectedCompetition();
 		
@@ -653,7 +651,6 @@ public class CompetitionPageActivity
 		liveOngoingLayout = (RelativeLayout) findViewById(R.id.competition_ongoing_live_game_layout);
 		liveGroupHeader = (TextView) findViewById(R.id.competition_ongoing_group_header);
 		liveOngoingStandings = (TextView) findViewById(R.id.competition_ongoing_live_standing);
-//		liteTVBroadcastChannelsOngoing = findViewById(R.id.);
 		liveTeam1NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_one_name);
 		liveTeam1FlagOngoing = (ImageView) findViewById(R.id.competition_ongoing_team_one_flag);
 		liveTeam2NameOngoing = (TextView) findViewById(R.id.competition_ongoing_team_two_name);
@@ -714,9 +711,13 @@ public class CompetitionPageActivity
 		String loadingString = getString(R.string.competition_loading_text);
 		
 		setLoadingLayoutDetailsMessage(loadingString);
-		
+
 		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfCompetitionInitialData = true;
+		boolean forceRefreshOfCompetitionInitialData = false;
+		
+		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
+			forceRefreshOfCompetitionInitialData = true;
+		}
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, competition.getCompetitionId());
 	}

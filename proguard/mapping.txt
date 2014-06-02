@@ -31729,6 +31729,7 @@ com.mitv.Constants -> com.mitv.Constants:
     boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE -> FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE
     boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER -> FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER
     boolean USE_INITIAL_METRICS_ANALTYTICS -> USE_INITIAL_METRICS_ANALTYTICS
+    boolean USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES -> USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES
     java.lang.String AMAZON_INSIGHTS_IDENTIFIER -> AMAZON_INSIGHTS_IDENTIFIER
     java.lang.String AMAZON_INSIGHTS_PUBLIC_KEY -> AMAZON_INSIGHTS_PUBLIC_KEY
     java.lang.String AMAZON_INSIGHTS_PRIVATE_KEY -> AMAZON_INSIGHTS_PRIVATE_KEY
@@ -32589,6 +32590,7 @@ com.mitv.R$drawable -> com.mitv.R$drawable:
     int competition_tag_banner -> competition_tag_banner
     int competition_tag_logo -> competition_tag_logo
     int competition_team_banner_default -> competition_team_banner_default
+    int competition_team_squad_fake -> competition_team_squad_fake
     int competition_upcoming_icon -> competition_upcoming_icon
     int competitions_contry_flag_default -> competitions_contry_flag_default
     int competitions_default_banner -> competitions_default_banner
@@ -33750,6 +33752,7 @@ com.mitv.R$string -> com.mitv.R$string:
     int forgot_password -> forgot_password
     int forgot_your_password -> forgot_your_password
     int from -> from
+    int general_back_press_loading_message -> general_back_press_loading_message
     int general_error_message_button -> general_error_message_button
     int general_error_message_message -> general_error_message_message
     int general_error_message_title -> general_error_message_title
@@ -35061,15 +35064,15 @@ com.mitv.activities.base.BaseActivity -> com.mitv.activities.base.BaseActivity:
     812:817:void onPause() -> onPause
     824:827:void onStop() -> onStop
     834:839:void onDestroy() -> onDestroy
-    860:861:void onBackPressed() -> onBackPressed
-    868:878:void setContentView(int) -> setContentView
-    884:912:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
-    919:989:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
-    995:1066:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
-    1072:1096:void hideRequestStatusLayouts() -> h
-    1102:1129:void initCallbackLayouts() -> i
-    1135:1140:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
-    1146:1151:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
+    846:853:void onBackPressed() -> onBackPressed
+    860:870:void setContentView(int) -> setContentView
+    876:904:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
+    911:981:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    987:1058:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
+    1064:1088:void hideRequestStatusLayouts() -> h
+    1094:1121:void initCallbackLayouts() -> i
+    1127:1132:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
+    1138:1143:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
     57:57:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> f
     57:57:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> g
 com.mitv.activities.base.BaseActivity$1 -> ayl:
@@ -35162,29 +35165,29 @@ com.mitv.activities.competition.CompetitionPageActivity -> com.mitv.activities.c
     142:148:void onPause() -> onPause
     155:172:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
     178:238:void setData() -> c
-    246:339:void setOngoingLayoutForLiveEvent() -> d
-    345:479:void setOngoingLayoutForNextEvent() -> e
-    484:620:void setBeforeLayout() -> h
-    626:679:void initLayout() -> i
-    685:705:void setAdapter(int) -> b
-    712:722:void loadData() -> loadData
-    729:731:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    739:758:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    763:763:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    244:337:void setOngoingLayoutForLiveEvent() -> d
+    343:477:void setOngoingLayoutForNextEvent() -> e
+    482:618:void setBeforeLayout() -> h
+    624:676:void initLayout() -> i
+    682:702:void setAdapter(int) -> b
+    709:723:void loadData() -> loadData
+    730:732:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    740:759:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    764:764:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
     45:45:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     52:52:com.mitv.models.objects.mitvapi.competitions.Competition access$1(com.mitv.activities.competition.CompetitionPageActivity) -> a
     53:53:com.mitv.models.objects.mitvapi.competitions.Event access$2(com.mitv.activities.competition.CompetitionPageActivity) -> b
 com.mitv.activities.competition.CompetitionPageActivity$1 -> aym:
     com.mitv.activities.competition.CompetitionPageActivity this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$liveEvent -> b
-    325:331:void onClick(android.view.View) -> onClick
+    323:329:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.CompetitionPageActivity$2 -> ayn:
     com.mitv.activities.competition.CompetitionPageActivity this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$nextEvent -> b
-    470:476:void onClick(android.view.View) -> onClick
+    468:474:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.CompetitionPageActivity$3 -> ayo:
     com.mitv.activities.competition.CompetitionPageActivity this$0 -> a
-    612:618:void onClick(android.view.View) -> onClick
+    610:616:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competition.EventPageActivity:
     java.lang.String TAG -> o
     com.mitv.models.objects.mitvapi.competitions.Event event -> p
@@ -35234,23 +35237,23 @@ com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competi
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> ah
     int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum -> ai
     int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> aj
-    120:151:void onCreate(android.os.Bundle) -> onCreate
-    158:161:void onResume() -> onResume
-    168:193:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    199:436:void setData() -> e
+    120:152:void onCreate(android.os.Bundle) -> onCreate
+    159:162:void onResume() -> onResume
+    169:195:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    201:436:void setData() -> e
     443:462:void onClick(android.view.View) -> onClick
     469:517:void initLayout() -> h
     523:548:void setAdapterForHighlights() -> i
     554:581:void setAdapterForLineupTeams(int) -> b
     588:614:void setAdapterForGroupList() -> j
     621:652:void setAdapterForStandingsList() -> k
-    659:669:void loadData() -> loadData
-    676:678:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    686:720:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    726:745:void setListView() -> l
-    751:755:void updateStatusOfLikeView() -> m
-    761:761:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> c
-    778:778:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    659:673:void loadData() -> loadData
+    680:682:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    690:724:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    730:749:void setListView() -> l
+    755:759:void updateStatusOfLikeView() -> m
+    765:765:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> c
+    782:782:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
     55:55:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     65:65:com.mitv.models.objects.mitvapi.competitions.Event access$1(com.mitv.activities.competition.EventPageActivity) -> a
     55:55:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> c
@@ -35258,23 +35261,23 @@ com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competi
 com.mitv.activities.competition.EventPageActivity$1 -> ayp:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team1ID -> b
-    254:260:void onClick(android.view.View) -> onClick
+    255:261:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$2 -> ayq:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team1ID -> b
-    267:273:void onClick(android.view.View) -> onClick
+    268:274:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$3 -> ayr:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team2ID -> b
-    295:301:void onClick(android.view.View) -> onClick
+    296:302:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$4 -> ays:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team2ID -> b
-    308:315:void onClick(android.view.View) -> onClick
+    309:316:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$5 -> ayt:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    765:771:void run() -> run
+    769:775:void run() -> run
 com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competition.TeamPageActivity:
     java.lang.String TAG -> o
     com.mitv.models.objects.mitvapi.competitions.Team team -> p
@@ -35315,26 +35318,26 @@ com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competit
     129:132:void onResume() -> onResume
     137:137:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
     144:162:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    169:181:void loadData() -> loadData
-    188:191:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    199:234:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    240:275:void initLayout() -> d
-    281:360:void setMainLayoutLayout() -> e
-    368:387:void onClick(android.view.View) -> onClick
-    393:412:void setSquadLayout() -> h
-    417:431:void filterCoachFromSquad() -> i
-    437:470:void setStandingsLayout() -> j
-    476:502:void setScheduleLayout() -> k
-    508:512:void updateStatusOfLikeView() -> l
-    518:525:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> m
-    532:532:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
+    169:185:void loadData() -> loadData
+    192:195:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    203:238:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    244:279:void initLayout() -> d
+    285:364:void setMainLayoutLayout() -> e
+    372:391:void onClick(android.view.View) -> onClick
+    397:416:void setSquadLayout() -> h
+    421:435:void filterCoachFromSquad() -> i
+    441:474:void setStandingsLayout() -> j
+    480:506:void setScheduleLayout() -> k
+    512:516:void updateStatusOfLikeView() -> l
+    522:529:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> m
+    536:536:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
     46:46:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     46:46:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> c
     54:54:long access$2(com.mitv.activities.competition.TeamPageActivity) -> a
 com.mitv.activities.competition.TeamPageActivity$1 -> ayu:
     com.mitv.activities.competition.TeamPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    536:542:void run() -> run
+    540:546:void run() -> run
 com.mitv.adapters.list.ActionBarDropDownDateListAdapter -> com.mitv.adapters.list.ActionBarDropDownDateListAdapter:
     java.lang.String TAG -> a
     android.content.Context context -> b
@@ -36455,9 +36458,9 @@ com.mitv.asynctasks.AsyncTaskBase -> com.mitv.asynctasks.AsyncTaskBase:
     boolean isMiTVAPICall -> isMiTVAPICall
     boolean reportMetricsToTracker -> h
     204:207:void onPreExecute() -> onPreExecute
-    214:306:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
-    314:324:void onPostExecute(java.lang.Void) -> onPostExecute
-    330:330:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier() -> getRequestIdentifier
+    214:310:java.lang.Void doInBackground(java.lang.String[]) -> doInBackground
+    318:328:void onPostExecute(java.lang.Void) -> onPostExecute
+    334:334:com.mitv.enums.RequestIdentifierEnum getRequestIdentifier() -> getRequestIdentifier
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.mitv.asynctasks.CustomThreadedPoolExecutor -> com.mitv.asynctasks.CustomThreadedPoolExecutor:
@@ -37155,13 +37158,13 @@ com.mitv.fragments.CompetitionTabFragmentGroupStage -> com.mitv.fragments.Compet
     android.widget.LinearLayout listContainerLayout -> d
     com.mitv.adapters.list.CompetitionEventsByGroupListAdapter listAdapter -> e
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> f
-    72:89:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    97:100:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    107:108:void loadData() -> loadData
-    115:115:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    123:131:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    138:173:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    30:30:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
+    73:90:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    98:101:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    108:109:void loadData() -> loadData
+    116:116:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    124:132:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    139:177:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    31:31:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
 com.mitv.fragments.CompetitionTabFragmentSecondStage -> com.mitv.fragments.CompetitionTabFragmentSecondStage:
     java.lang.String TAG -> a
     long competitionID -> b
@@ -37169,13 +37172,13 @@ com.mitv.fragments.CompetitionTabFragmentSecondStage -> com.mitv.fragments.Compe
     android.widget.LinearLayout listContainerLayout -> d
     com.mitv.adapters.list.CompetitionEventsByGroupListAdapter listAdapter -> e
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> f
-    72:89:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    97:100:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    107:108:void loadData() -> loadData
-    115:115:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    123:131:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    138:173:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    30:30:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
+    73:90:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    98:101:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    108:109:void loadData() -> loadData
+    116:116:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    124:132:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    139:177:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    31:31:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
 com.mitv.fragments.CompetitionTabFragmentTeamStandings -> com.mitv.fragments.CompetitionTabFragmentTeamStandings:
     java.lang.String TAG -> a
     long competitionID -> b
@@ -37184,15 +37187,15 @@ com.mitv.fragments.CompetitionTabFragmentTeamStandings -> com.mitv.fragments.Com
     com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter listAdapter -> e
     int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> f
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> g
-    74:94:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    102:105:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    112:115:void onResume() -> onResume
-    122:138:void loadData() -> loadData
-    145:145:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    153:189:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    196:231:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    32:32:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> l
-    32:32:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> m
+    75:95:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
+    103:106:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    113:116:void onResume() -> onResume
+    123:139:void loadData() -> loadData
+    146:146:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    154:190:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    197:235:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    33:33:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> l
+    33:33:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> m
 com.mitv.fragments.TVGuideHolderFragment -> com.mitv.fragments.TVGuideHolderFragment:
     java.lang.String TAG -> a
     com.viewpagerindicator.TabPageIndicator pageTabIndicator -> b
@@ -37280,19 +37283,19 @@ com.mitv.fragments.TVGuideTabFragmentCompetition -> com.mitv.fragments.TVGuideTa
     91:142:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     150:153:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     160:166:void onPause() -> onPause
-    173:183:void loadData() -> loadData
-    190:190:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    198:206:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    213:229:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    234:234:void onTimeChange(int) -> onTimeChange
-    248:248:void onPageSelected(int) -> onPageSelected
-    253:253:void onPageScrolled(int,float,int) -> onPageScrolled
-    258:258:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
-    264:281:void initView() -> m
-    287:294:com.mitv.models.objects.mitvapi.competitions.Competition getCompetition() -> p
-    301:374:void setData() -> q
-    379:400:void setListOfEvents() -> r
-    285:285:com.mitv.models.objects.mitvapi.competitions.Competition access$0(com.mitv.fragments.TVGuideTabFragmentCompetition) -> a
+    173:184:void loadData() -> loadData
+    191:191:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    199:207:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    214:230:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    235:235:void onTimeChange(int) -> onTimeChange
+    249:249:void onPageSelected(int) -> onPageSelected
+    254:254:void onPageScrolled(int,float,int) -> onPageScrolled
+    259:259:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
+    265:282:void initView() -> m
+    288:295:com.mitv.models.objects.mitvapi.competitions.Competition getCompetition() -> p
+    302:375:void setData() -> q
+    380:401:void setListOfEvents() -> r
+    286:286:com.mitv.models.objects.mitvapi.competitions.Competition access$0(com.mitv.fragments.TVGuideTabFragmentCompetition) -> a
     38:38:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
 com.mitv.fragments.TVGuideTabFragmentCompetition$1 -> baz:
     com.mitv.fragments.TVGuideTabFragmentCompetition this$0 -> a
@@ -39276,7 +39279,7 @@ com.mitv.models.objects.mitvapi.competitions.Team -> com.mitv.models.objects.mit
     36:44:java.lang.String getTeamImageURL() -> getTeamImageURL
     52:58:int hashCode() -> hashCode
     66:88:boolean equals(java.lang.Object) -> equals
-    95:108:java.lang.String getShareUrl() -> getShareUrl
+    95:105:java.lang.String getShareUrl() -> getShareUrl
 com.mitv.models.objects.mitvapi.competitions.TeamDetails -> com.mitv.models.objects.mitvapi.competitions.TeamDetails:
     20:26:int hashCode() -> hashCode
     34:63:boolean equals(java.lang.Object) -> equals

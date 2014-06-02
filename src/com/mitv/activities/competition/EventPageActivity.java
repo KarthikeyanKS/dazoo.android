@@ -147,6 +147,7 @@ public class EventPageActivity
 		setAdapterForLineupTeams(selectedTabIndexForLineupTeams);
 		
 		setAdapterForStandingsList();
+		
 		setAdapterForGroupList();
 	}
 		
@@ -179,6 +180,7 @@ public class EventPageActivity
 				}
 				
 				setData();
+				
 				setAdapterForHighlights();
 				
 				break;
@@ -200,7 +202,6 @@ public class EventPageActivity
 			
 		String awayTeamName = event.getAwayTeam();
 		
-		/* Headr img and text: Team1 va Team2 */
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
 			.append(" ")	
@@ -378,7 +379,6 @@ public class EventPageActivity
 		
 		boolean isOngoing = event.hasStarted();
 		boolean isFinished = event.isFinished();
-		
 
 		/* The event is ongoing or finished */
 		if (isOngoing || isFinished)
@@ -663,7 +663,11 @@ public class EventPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfHighlights = true;
+		boolean forceRefreshOfHighlights = false;
+		
+		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
+			forceRefreshOfHighlights = true;
+		}
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
 	}

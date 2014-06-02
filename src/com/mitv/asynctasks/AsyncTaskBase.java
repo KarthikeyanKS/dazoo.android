@@ -236,6 +236,10 @@ public abstract class AsyncTaskBase<T>
 			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		}
 		
+		
+		if(clazz.getName().contains("Compet")){
+			Log.d(TAG, String.format("%s onPreExecute - Performing HTTP request: %s", clazz.getName(), requestIdentifier.getDescription()));
+		}
 		if(reportMetricsToTracker)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(this.getClass().getSimpleName());
