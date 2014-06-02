@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_scrollable_layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/grey1"
     android:orientation="vertical" >
 
@@ -22,8 +22,7 @@
             <RelativeLayout
                 android:id="@+id/competition_before_or_ongoing_layout_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true" >
+                android:layout_height="wrap_content" >
 
                 <include
                     android:id="@+id/competition_page_before_block_container_layout"
@@ -51,7 +50,7 @@
             <com.mitv.ui.elements.CustomViewPager
                 android:id="@+id/tab_event_pager"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
         </LinearLayout>
     </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
 
