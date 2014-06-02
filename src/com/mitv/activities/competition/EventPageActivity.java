@@ -663,7 +663,8 @@ public class EventPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfHighlights = true;
+//		boolean forceRefreshOfHighlights = true;
+		boolean forceRefreshOfHighlights = false;
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
 	}

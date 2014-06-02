@@ -93,15 +93,12 @@ public class Team
 	/* TODO */
 	public String getShareUrl() {
 		StringBuilder sb = new StringBuilder();
-//		http://gitrgitr.com/deportes/competicion/{competitionID}/equipos/{teamID}
+//		http://gitrgitr.com/deportes/equipos/1035
 		sb.append(Constants.HTTP_SCHEME_USED)
 			.append(Constants.BACKEND_ENVIRONMENT_USED)
 			.append(Constants.URL_SHARE_SPORT_SPANISH)
-			.append(Constants.URL_COMPETITIONS_SPANISH)
-			.append(Constants.FIFA_COMPETITION_ID)
 			.append(Constants.URL_SHARE_SPORT_team_SPANISH)
-			.append(this.getTeamId())
-			.append(Constants.FORWARD_SLASH);
+			.append(this.getTeamId());
 		
 		String url = sb.toString();
 		

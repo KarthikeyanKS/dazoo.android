@@ -173,7 +173,8 @@ public class TeamPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-		boolean forceRefresh = true;
+//		boolean forceRefresh = true;
+		boolean forceRefresh = false;
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefresh, competitionID, teamID);
 		

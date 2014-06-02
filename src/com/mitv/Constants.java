@@ -137,7 +137,7 @@ public abstract class Constants
 	
 	/* Share URLs for the frontend */
 	public static final String URL_COMPETITIONS_SPANISH				= "/competicion/";
-	public static final String URL_EVENTS_SPANISH					= "/eventos/";
+	public static final String URL_EVENTS_SPANISH					= "/eventos";
 	public static final String URL_SHARE_SPORT_SPANISH		 		= "/deportes";
 	public static final String URL_SHARE_SPORT_team_SPANISH		 	= "/equipos/";
 	
