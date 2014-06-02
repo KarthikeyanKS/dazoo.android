@@ -856,7 +856,7 @@ public abstract class BaseActivity
 //		{
 //			super.onBackPressed();
 //		}
-		
+		updateUI(UIStatusEnum.LOADING);
 		super.onBackPressed();
 	}
 	

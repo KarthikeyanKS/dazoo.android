@@ -147,6 +147,7 @@ public class EventPageActivity
 		setAdapterForLineupTeams(selectedTabIndexForLineupTeams);
 		
 		setAdapterForStandingsList();
+		
 		setAdapterForGroupList();
 	}
 		
@@ -179,6 +180,7 @@ public class EventPageActivity
 				}
 				
 				setData();
+				
 				setAdapterForHighlights();
 				
 				break;
@@ -200,7 +202,6 @@ public class EventPageActivity
 			
 		String awayTeamName = event.getAwayTeam();
 		
-		/* Headr img and text: Team1 va Team2 */
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
 			.append(" ")	
