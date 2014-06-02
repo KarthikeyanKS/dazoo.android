@@ -12,8 +12,6 @@
         android:id="@+id/row_competition_header_group_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:paddingBottom="5dp"
         android:paddingLeft="5dp"
         android:paddingTop="25dp"
@@ -26,7 +24,6 @@
         android:id="@+id/row_competition_start_day_of_week"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_competition_header_group_event"
         android:background="@color/grey0"
         android:gravity="center_horizontal"
         android:paddingBottom="5dp"
@@ -39,7 +36,6 @@
         android:id="@+id/row_competition_row_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_competition_start_day_of_week"
         android:background="@drawable/background_color_selector_white"
         android:padding="5dp" >
 
@@ -149,7 +145,6 @@
         android:id="@+id/row_competition_row_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@id/row_competition_start_day_of_week"
         android:background="@color/grey1"
         android:visibility="gone" />
 

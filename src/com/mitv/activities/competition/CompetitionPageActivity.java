@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,7 +59,7 @@ public class CompetitionPageActivity
 	private int selectedTabIndex;
 	
 	/* Before */
-	private RelativeLayout beforeLayout;
+	private LinearLayout beforeLayout;
 	private RelativeLayout countDownLayout;
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInDaysTitle;
@@ -637,7 +638,7 @@ public class CompetitionPageActivity
 		remainingTimeInMinutesTitle = (TextView) findViewById(R.id.competition_minutes_title);
 		
 		/* Before */
-		beforeLayout = (RelativeLayout) findViewById(R.id.competition_page_before_layout);
+		beforeLayout = (LinearLayout) findViewById(R.id.competition_page_before_block_container_layout);
 		nextGameLayout = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
 		eventStartTime = (TextView) findViewById(R.id.competition_page_begin_time_broadcast);
 		tvBroadcastChannels = (TextView) findViewById(R.id.competition_airing_channels_for_broadcast);
