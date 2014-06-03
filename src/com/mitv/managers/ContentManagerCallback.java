@@ -95,6 +95,8 @@ public abstract class ContentManagerCallback
 	private boolean competitionPhasesFetchFinished;
 	private boolean competitionEventsFetchFinished;
 	
+	private int tvGuideInitialRetryCount = 0;
+	
 	
 	
 	public ContentManagerCallback()
@@ -894,6 +896,7 @@ public abstract class ContentManagerCallback
 			case TV_BROADCASTS_POUPULAR_PROCESSING:
 			{
 				// Do nothing
+				break;
 			}
 			
 			case SNTP_CALL:
@@ -934,40 +937,51 @@ public abstract class ContentManagerCallback
 		
 		if(isAPIVersionTooOld)
 		{
+			Log.d(TAG, "MC: API version too old");
 			getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 			
 			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
 		}
 		
-		if(getAPIClient().areAllTasksCompletedForTVGuideInitialCall())
+		/* If result was unsuccessful or data was null, retry.
+		 * 
+		 * TODO: Remove requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING 
+		 * check when popular broadcast processing is implemented. */
+		if((result.wasSuccessful() == false || content == null) && requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING)
 		{
-			isUpdatingGuide = false;
+			// Retry threshold reached, notify SplashScreen.
+			if (tvGuideInitialRetryCount >= Constants.RETRY_COUNT_THRESHOLD) 
+			{
+				Log.d(TAG, "Retry threshold reached");
+				isUpdatingGuide = false;
+				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
+				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.RETRY_COUNT_THRESHOLD_REACHED);
+			}
+			// Retry all tasks except for SNTP task.
+			else if(requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
+			{
+				Log.d(TAG, "Task failed: " + requestIdentifier);
+				getAPIClient().rerunTVGuideInitialTask(requestIdentifier, activityCallbackListener);
+				tvGuideInitialRetryCount++;
+			}
+			else
+			{
+				Log.d(TAG, "Ignoring SNTP failure.");
+			}
+		}
+		// If task succeeded and all tasks are completed, notify SplashScreen.
+		else if (getAPIClient().areAllTasksCompletedForTVGuideInitialCall()) 
+		{
+			Log.d(TAG, "Task finished: " + requestIdentifier);
+			Log.d(TAG, "All initial tasks finished");
 			
+			isUpdatingGuide = false;
 			notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
-						
 			getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 		}
 		else
 		{
-			if(result.wasSuccessful() == false || content == null)
-			{
-				if(requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
-				{
-					isUpdatingGuide = false;
-					
-					getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
-					
-					notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
-				}
-				else
-				{
-					Log.d(TAG, "Ignoring SNTP failure.");
-				}
-			}
-			else
-			{
-				Log.d(TAG, "There are pending tasks still running.");
-			}
+			Log.d(TAG, "Task finished: " + requestIdentifier + ". There are pending tasks still running.");
 		}
 	}
 	

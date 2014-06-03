@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mitv.Constants;
 import com.mitv.R;
@@ -201,10 +202,18 @@ public class SplashScreenActivity
 				updateUI(UIStatusEnum.API_VERSION_TOO_OLD);
 				break;
 			}
-			
-			default:
+			case SUCCESS: 
 			{
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				break;
+			}
+			case RETRY_COUNT_THRESHOLD_REACHED:
+				//TODO: Implement retry count treshold operation
+				Toast.makeText(this, "Retry threshold reached.", Toast.LENGTH_LONG).show();
+				break;
+			default:
+			{
+				//Do nothing
 				break;
 			}
 		}

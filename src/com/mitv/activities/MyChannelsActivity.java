@@ -182,7 +182,7 @@ public class MyChannelsActivity
 	
 	private ArrayList<TVChannelId> getOnlyNewTVChannelIds() 
 	{
-		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
 		
 		ArrayList<TVChannelId> onlyNewTVChannelIdsIfAny = new ArrayList<TVChannelId>();
 		
@@ -201,7 +201,7 @@ public class MyChannelsActivity
 	
 	private boolean channelsHaveChanged() 
 	{
-		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
 		
 		boolean listIdentical = ListUtils.deepEquals(idsInCache, checkedChannelIds, new TVChannelIdComparatorById());
 		
@@ -230,7 +230,7 @@ public class MyChannelsActivity
 		}
 		
 		/* Important, we need a copy, not the referenced list, since we dont want to change it. */
-		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUser());
+		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed());
 		
 		checkedChannelIds = myChannelIds;
 		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);

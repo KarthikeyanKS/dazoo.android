@@ -9,6 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.mitv.asynctasks.CustomThreadedPoolExecutor;
 import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
@@ -59,6 +60,7 @@ import com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -366,6 +368,71 @@ public class APIClient
 		return competitionsInitialCallPoolExecutor.areAllTasksCompleted();
 	}
 	
+	
+	/**
+	 * Re-runs the tasks specified by RequestIdentifierEnum.
+	 * Only for TVGuide initial tasks.
+	 * 
+	 * */
+	public void rerunTVGuideInitialTask(RequestIdentifierEnum requestIdentifierEnum, ViewCallbackListener activityCallbackListener) 
+	{
+		Log.d("APIClient", "Re-running task:" + requestIdentifierEnum);
+		switch (requestIdentifierEnum) 
+		{
+		case APP_CONFIGURATION:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetAppConfigurationData(contentCallbackListener, activityCallbackListener));
+			break;
+			
+		case APP_VERSION: 
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetAppVersionData(contentCallbackListener, activityCallbackListener));
+			break;
+			
+		case TV_DATE:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetTVDates(contentCallbackListener, activityCallbackListener));
+			break;
+			
+		case TV_TAG:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetTVTags(contentCallbackListener, activityCallbackListener));
+			break;
+			
+		case TV_CHANNEL:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetTVChannelsAll(contentCallbackListener, activityCallbackListener));
+			break;
+			
+		case TV_CHANNEL_IDS_DEFAULT:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener));
+			break;
+			
+		case TV_CHANNEL_IDS_USER_INITIAL_CALL:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, false));
+			break;
+			
+		case TV_GUIDE_INITIAL_CALL:
+			TVDate tvDate = ContentManager.sharedInstance().getFromCacheTVDateSelected();
+			List<TVChannelId> tvChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
+			getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+			break;
+			
+		case SNTP_CALL:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new SNTPAsyncTask(contentCallbackListener, activityCallbackListener));
+			break;
+			
+		case POPULAR_ITEMS_INITIAL_CALL:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false));
+			break;
+			
+		case TV_BROADCASTS_POUPULAR_PROCESSING:
+			//Do nothing
+			break;
+			
+		case COMPETITIONS_ALL_INITIAL:
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(new GetCompetitions(contentCallbackListener, activityCallbackListener, false));
+			break;
+			
+		default:
+			break;
+		}
+	}
 	
 	
 	/* TASK EXECUTION METHODS */

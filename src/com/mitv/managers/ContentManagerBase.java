@@ -195,7 +195,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<TVChannelId> getFromCacheTVChannelIdsUser() 
+	public List<TVChannelId> getFromCacheTVChannelIdsUsed() 
 	{
 		List<TVChannelId> tvChannelIdsUser = getCache().getTvChannelIdsUsed();
 		

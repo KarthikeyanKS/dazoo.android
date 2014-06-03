@@ -35,6 +35,8 @@ public enum FetchRequestResultEnum
    
    JSON_PARSING_ERROR(1009, "Error parsing json"),
    
+   RETRY_COUNT_THRESHOLD_REACHED(1010, "Retry count treshold reached"),
+   
    /** 
     * DO NOT change the string on these request enumerations. Those are NOT real errors returned by the server.
     * The string is used in comparison to the response string.

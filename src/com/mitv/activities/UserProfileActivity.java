@@ -345,7 +345,7 @@ public class UserProfileActivity
 			
 			updateUserLikesGUI();
 
-			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
 			
 			if (userChannelIds != null && !userChannelIds.isEmpty()) 
 			{

@@ -177,6 +177,7 @@ public abstract class Constants
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int USER_LASTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
+	public static final int RETRY_COUNT_THRESHOLD 					= 10; //Or other appropriate limit
 
 	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String  CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
