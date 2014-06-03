@@ -396,8 +396,6 @@ public class TVGuideTabFragmentCompetition
             	listContainerLayout.addView(listItem);
             }
         }
-		
-		listContainerLayout.measure(0, 0);
 	}
 	
 }

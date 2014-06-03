@@ -411,8 +411,6 @@ public class TeamPageActivity
             	squadListContainer.addView(listItem);
             }
         }
-		
-		squadListContainer.measure(0, 0);
 	}
 	
 	
@@ -469,8 +467,6 @@ public class TeamPageActivity
             	standingsListContainer.addView(listItem);
             }
         }
-		
-		standingsListContainer.measure(0, 0);
 	}
 	
 	
@@ -501,8 +497,6 @@ public class TeamPageActivity
             	scheduleListContainer.addView(listItem);
             }
         }
-		
-		scheduleListContainer.measure(0, 0);
 	}
 	
 	

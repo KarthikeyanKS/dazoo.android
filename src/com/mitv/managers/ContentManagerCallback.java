@@ -943,11 +943,11 @@ public abstract class ContentManagerCallback
 			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
 		}
 		
-		/* If result was unsuccessful or data was null, retry.
+		/* If result was unsuccessful or data was null, retry. Ignore SNTP failures.
 		 * 
 		 * TODO: Remove requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING 
-		 * check when popular broadcast processing is implemented. */
-		if((result.wasSuccessful() == false || content == null) && requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING)
+		 * check when popular broadcast processing is implemented. Right now content will always be null. */
+		if((result.wasSuccessful() == false || content == null) && requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING && requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
 		{
 			// Retry threshold reached, notify SplashScreen.
 			if (tvGuideInitialRetryCount >= Constants.RETRY_COUNT_THRESHOLD) 
@@ -957,16 +957,11 @@ public abstract class ContentManagerCallback
 				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.RETRY_COUNT_THRESHOLD_REACHED);
 			}
-			// Retry all tasks except for SNTP task.
-			else if(requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
+			else 
 			{
 				Log.d(TAG, "Task failed: " + requestIdentifier);
 				getAPIClient().rerunTVGuideInitialTask(requestIdentifier, activityCallbackListener);
 				tvGuideInitialRetryCount++;
-			}
-			else
-			{
-				Log.d(TAG, "Ignoring SNTP failure.");
 			}
 		}
 		// If task succeeded and all tasks are completed, notify SplashScreen.
@@ -981,7 +976,7 @@ public abstract class ContentManagerCallback
 		}
 		else
 		{
-			Log.d(TAG, "Task finished: " + requestIdentifier + ". There are pending tasks still running.");
+			Log.d(TAG, "Task finished: " + requestIdentifier);
 		}
 	}
 	

@@ -325,6 +325,10 @@ public abstract class BannerListAdapter<T>
 					
 					rowView.setTag(viewHolder);
 				}
+				
+				if (this instanceof FeedListAdapter) {
+					rowView.findViewById(R.id.ad_space_separator).setBackgroundColor(activity.getResources().getColor(R.color.grey2));
+				}
 			}
 		}
 

@@ -542,8 +542,6 @@ public class EventPageActivity
 	            	listContainerLayoutHighlights.addView(listItem);
 	            }
 	        }
-			
-			listContainerLayoutHighlights.measure(0, 0);
 		}
 	}
 	
@@ -609,8 +607,6 @@ public class EventPageActivity
             	groupListContainer.addView(listItem);
             }
         }
-		
-		groupListContainer.measure(0, 0);
 	}
 	
 	
@@ -647,8 +643,6 @@ public class EventPageActivity
             	standingsListContainer.addView(listItem);
             }
         }
-		
-		standingsListContainer.measure(0, 0);
 	}
 
 
@@ -744,8 +738,6 @@ public class EventPageActivity
             	broadcastListView.addView(listItem);
             }
         }
-		
-		broadcastListView.measure(0, 0);
 	}
 	
 	
