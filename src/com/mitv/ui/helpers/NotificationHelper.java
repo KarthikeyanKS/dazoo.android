@@ -5,6 +5,7 @@ package com.mitv.ui.helpers;
 
 import java.util.List;
 import java.util.Random;
+
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,17 +16,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.TVChannel;
-import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 
 
 
@@ -111,16 +108,11 @@ public class NotificationHelper
 					intent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					
-					String channelId = notification.getChannelId();
-					Long beginTimeMilliseconds = notification.getBeginTimeInMilliseconds();
+					notificationTitleSB.append(notification.getBroadcastTitle());
 					
-					TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(channelId, beginTimeMilliseconds);
+					String broadcastHourAndMinuteRepresentation = notification.getBeginTimeHourAndMinuteLocalAsString();
 					
-					notificationTitleSB.append(broadcast.getTitle());
-					
-					String broadcastHourAndMinuteRepresentation = broadcast.getBeginTimeHourAndMinuteLocalAsString();
-					
-					String channelName = broadcast.getChannel().getName();
+					String channelName = notification.getBroadcastChannelName();
 					
 					notificationTextSB.append(broadcastHourAndMinuteRepresentation)
 					.append(" ")
@@ -136,26 +128,11 @@ public class NotificationHelper
 
 					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					
-					Long competitionId = notification.getCompetitionId();
-					Long eventId = notification.getEventId();
+					notificationTitleSB.append(notification.getBroadcastTitle());
 					
-					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
+					String broadcastHourAndMinuteRepresentation = notification.getBeginTimeHourAndMinuteLocalAsString();
 					
-					notificationTitleSB.append(event.getTitle());
-					
-					Long beginTimeMillis = notification.getBeginTimeInMilliseconds();
-					
-					EventBroadcast broadcast = event.getEventBroadcastMatchingBeginTimeMillis(beginTimeMillis);
-					
-					String broadcastHourAndMinuteRepresentation = broadcast.getBeginTimeHourAndMinuteLocalAsString();
-					
-					String channelId = broadcast.getChannelId();
-					
-					TVChannelId tvChannelId = new TVChannelId(channelId);
-					
-					TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-					
-					String channelName = channel.getName();
+					String channelName = notification.getBroadcastChannelName();
 					
 					notificationTextSB.append(broadcastHourAndMinuteRepresentation)
 					.append(" ")

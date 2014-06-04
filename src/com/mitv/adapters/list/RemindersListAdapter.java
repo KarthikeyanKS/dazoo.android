@@ -142,18 +142,11 @@ public class RemindersListAdapter
 			String channelId = element.getChannelId();
 			Long beginTimeMilliseconds = element.getBeginTimeInMilliseconds();
 
-			final TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(channelId, beginTimeMilliseconds);
-			
 			if(isFirstposition == false)
 			{
 				Notification previousElementInList = getItem(position - 1);
 
-				String previousChannelId = previousElementInList.getChannelId();
-				Long previousBeginTimeMilliseconds = previousElementInList.getBeginTimeInMilliseconds();
-				
-				TVBroadcastWithChannelInfo previousBroadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(previousChannelId, previousBeginTimeMilliseconds);
-				
-				isCurrentBroadcastDayEqualToPreviousBroadcastDay = broadcast.isTheSameDayAs(previousBroadcast);
+				isCurrentBroadcastDayEqualToPreviousBroadcastDay = element.isTheSameDayAs(previousElementInList);
 			}
 			else
 			{
@@ -166,12 +159,7 @@ public class RemindersListAdapter
 			{
 				Notification nextElementInList = getItem(position + 1);
 
-				String nextChannelId = nextElementInList.getChannelId();
-				Long nextBeginTimeMilliseconds = nextElementInList.getBeginTimeInMilliseconds();
-				
-				TVBroadcastWithChannelInfo nextBroadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(nextChannelId, nextBeginTimeMilliseconds);
-				
-				isBeginTimeEqualToNextItem = broadcast.isTheSameDayAs(nextBroadcast);
+				isBeginTimeEqualToNextItem = element.isTheSameDayAs(nextElementInList);
 			}
 			else
 			{
@@ -220,62 +208,57 @@ public class RemindersListAdapter
 
 			channelSB.append(tvChannel.getName());
 
-			TVProgram tvProgram = broadcast.getProgram();
+			titleSB.append(element.getBroadcastTitle());
 
-			if (tvProgram != null)
+			ProgramTypeEnum programType = tvProgram.getProgramType();
+
+			switch(programType)
 			{
-				titleSB.append(broadcast.getTitle());
-
-				ProgramTypeEnum programType = tvProgram.getProgramType();
-
-				switch(programType)
+				case TV_EPISODE:
 				{
-					case TV_EPISODE:
+					String seasonAndEpisodeString = broadcast.buildSeasonAndEpisodeString();
+	
+					detailsSB.append(seasonAndEpisodeString);
+	
+					break;
+				}
+	
+				case MOVIE:
+				{
+					detailsSB.append(tvProgram.getGenre())
+					.append(" ")
+					.append(tvProgram.getYear());
+	
+					break;
+				}
+	
+				case SPORT:
+				{
+					if (tvProgram.getTournament() != null) 
 					{
-						String seasonAndEpisodeString = broadcast.buildSeasonAndEpisodeString();
-	
-						detailsSB.append(seasonAndEpisodeString);
-	
-						break;
+						detailsSB.append(tvProgram.getTournament());
 					}
-	
-					case MOVIE:
+					else 
 					{
-						detailsSB.append(tvProgram.getGenre())
-						.append(" ")
-						.append(tvProgram.getYear());
-	
-						break;
+						detailsSB.append(tvProgram.getSportType().getName());
 					}
+					break;
+				}
 	
-					case SPORT:
-					{
-						if (tvProgram.getTournament() != null) 
-						{
-							detailsSB.append(tvProgram.getTournament());
-						}
-						else 
-						{
-							detailsSB.append(tvProgram.getSportType().getName());
-						}
-						break;
-					}
+				case OTHER:
+				{
+					String category = tvProgram.getCategory();
 	
-					case OTHER:
-					{
-						String category = tvProgram.getCategory();
+					detailsSB.append(category);
 	
-						detailsSB.append(category);
+					break;
+				}
 	
-						break;
-					}
-	
-					case UNKNOWN:
-					default:
-					{
-						Log.w(TAG, "Unhandled program type.");
-						break;
-					}
+				case UNKNOWN:
+				default:
+				{
+					Log.w(TAG, "Unhandled program type.");
+					break;
 				}
 			}
 

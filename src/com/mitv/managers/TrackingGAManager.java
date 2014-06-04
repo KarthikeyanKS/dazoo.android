@@ -19,17 +19,14 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
-import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
-import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -210,44 +207,8 @@ public class TrackingGAManager
 
 	
 	public void sendUserReminderEvent(Notification notification, boolean didJustRemoveReminder) 
-	{
-		String title;
-		
-		NotificationTypeEnum notificationType = notification.getNotificationType();
-		
-		switch (notificationType)
-		{
-			case TV_BROADCAST:
-			{
-				String channelId = notification.getChannelId();
-				Long beginTimeMilliseconds = notification.getBeginTimeInMilliseconds();
-				
-				TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(channelId, beginTimeMilliseconds);
-				
-				title = broadcast.getTitle();
-				
-				break;
-			}
-			
-			case COMPETITION_EVENT:
-			{
-				Long competitionId = notification.getCompetitionId();
-				Long eventId = notification.getEventId();
-				
-				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
-				
-				title = event.getTitle();
-
-				break;
-			}
-			
-			default:
-			{
-				title = "";
-				
-				break;
-			}
-		}
+	{		
+		String title = notification.getBroadcastTitle();
 		
 		Long addedReminder = 1L;
 		

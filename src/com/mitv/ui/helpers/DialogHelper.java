@@ -115,11 +115,9 @@ public class DialogHelper
 				String channelId = notification.getChannelId();
 				Long beginTimeMilliseconds = notification.getBeginTimeInMilliseconds();
 				
-				TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(channelId, beginTimeMilliseconds);
-				
 				ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
 				
-				switch (programType) 
+				switch (programType)
 				{
 					case TV_EPISODE:
 					{
@@ -179,14 +177,9 @@ public class DialogHelper
 			
 			case COMPETITION_EVENT:
 			{
-				Long competitionId = notification.getCompetitionId();
-				Long eventId = notification.getEventId();
-				
-				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
-				
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(" ");
-				reminderSB.append(event.getTitle());
+				reminderSB.append(notification.getBroadcastTitle());
 				reminderSB.append("?");
 				
 				break;
