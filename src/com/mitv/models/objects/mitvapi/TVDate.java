@@ -24,12 +24,29 @@ public class TVDate
 	protected Calendar endOfTVDayCalendar;
 	
 	
+	
+	public TVDate(long timeinMilliseconds)
+	{	
+		Calendar calendar = DateUtils.getCalendarForStartOfTVDay(timeinMilliseconds);
+		
+		String calendarDateRepresentation = DateUtils.buildDateCompositionAsString(calendar);
+		
+		this.id = calendarDateRepresentation;
+		this.date = calendarDateRepresentation;
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
+	}
+	
+	
+	/*
+	 * The input string format should be in the format: "yyyy-MM-dd"
+	 */
 	public TVDate(String dateRepresentation)
 	{	
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
 		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
 	}
+	
 	
 	
 	public TVDate(TVDateORM tvDateORM)
@@ -61,6 +78,8 @@ public class TVDate
 		
 		return startOfTVDayCalendar;
 	}
+	
+	
 	
 	public Calendar getEndOfTVDayCalendar() 
 	{

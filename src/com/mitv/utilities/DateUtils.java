@@ -35,8 +35,8 @@ public abstract class DateUtils
 	
 	
 	/**
-	 * Creates a Calendar object from the string representation of a TVDate. The calendar
-	 * represents the start time of the TV Day. 
+	 * Creates a Calendar object from the string representation of a TVDate. 
+	 * The calendar represents the start time of the TV Day. 
 	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
 	 * The minute, second and millisecond components are all set to 0.
 	 * The input string format should be in the format: "yyyy-MM-dd"
@@ -44,6 +44,31 @@ public abstract class DateUtils
 	public static Calendar getCalendarForStartOfTVDay(final String inputString)
 	{
 		Calendar startOfTVDayCalendar = convertFromStringToUTC0CalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString);
+		
+		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		
+		startOfTVDayCalendar.set(Calendar.HOUR_OF_DAY, firstHourOfTVDay);
+		startOfTVDayCalendar.set(Calendar.MINUTE, 0);
+		startOfTVDayCalendar.set(Calendar.SECOND, 0);
+		startOfTVDayCalendar.set(Calendar.MILLISECOND, 0);
+		
+		return startOfTVDayCalendar;
+	}
+	
+	
+	
+	
+	/**
+	 * Creates a Calendar object from the long representation of milliseconds. 
+	 * The calendar represents the start time of the TV Day. 
+	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
+	 * The minute, second and millisecond components are all set to 0.
+	 * The input string format should be in the format: "yyyy-MM-dd"
+	 */
+	public static Calendar getCalendarForStartOfTVDay(final long inputMilliseconds)
+	{
+		Calendar startOfTVDayCalendar = getNow();
+		startOfTVDayCalendar.setTimeInMillis(inputMilliseconds);
 		
 		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		
@@ -438,22 +463,31 @@ public abstract class DateUtils
 	
 	
 	
-	private static String getDayOfWeekStringUsingFirstHourOfTVDay(Calendar inputCalendar) {
+	private static String getDayOfWeekStringUsingFirstHourOfTVDay(Calendar inputCalendar) 
+	{
 		String dayOfTheWeekAsString = null;
 		
 		Locale locale = LanguageUtils.getCurrentLocale();
+		
 		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		
 		int startHour = inputCalendar.get(Calendar.HOUR_OF_DAY);
-		if(startHour >= 0 && startHour < firstHourOfTVDay) {
+		
+		if(startHour >= 0 && startHour < firstHourOfTVDay) 
+		{
 			inputCalendar.add(Calendar.DAY_OF_MONTH, -1);
+			
 			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
-		} else {
+		} 
+		else 
+		{
 			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
 		}
 		
 		return dayOfTheWeekAsString;
 	}
+	
+	
 	
 	/**
 	 * Builds a string representation for the day of the week of the input calendar.

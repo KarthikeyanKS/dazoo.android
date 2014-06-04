@@ -18,6 +18,7 @@ public class TVBroadcastJSON
 	protected String shareUrl;
 		
 	
+	
 	public TVBroadcastJSON(){}
 	
 	

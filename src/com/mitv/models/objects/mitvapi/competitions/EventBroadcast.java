@@ -11,7 +11,6 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
 
@@ -41,25 +40,7 @@ public class EventBroadcast
 		this.endTime = ev.getEndTime();
 		this.channelId = ev.getChannelId();
 	}
-	
-	
-	
-	public EventBroadcast(NotificationSQLElement item)
-	{
-//		TVChannel tvChannel = new TVChannel(item);
-//		this.channel = tvChannel;
-//		
-//		TVProgram tvProgram = new TVProgram(item);
-//		this.program = tvProgram;
-//		
-//		String broadcastTypeAsString = item.getBroadcastType();
-//		
-//		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
-//		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
-//		this.beginTime = item.getBroadcastBeginTime();
-//		this.endTime = item.getBroadcastEndTime();
-//		this.shareUrl = item.getShareUrl();
-	}
+
 	
 	
 	/**
@@ -67,7 +48,8 @@ public class EventBroadcast
 	 * 
 	 * @return Calendar
 	 */
-	public Calendar getEventBroadcastBeginTimeLocal() {	
+	public Calendar getEventBroadcastBeginTimeLocal()
+	{	
 		beginTimeCalendar = getEventBroadcastCalendar(beginTime);
 		
 		return beginTimeCalendar;
@@ -80,7 +62,8 @@ public class EventBroadcast
 	 * 
 	 * @return Calendar
 	 */
-	public Calendar getEventBroadcastEndTimeLocal() {
+	public Calendar getEventBroadcastEndTimeLocal()
+	{
 		endTimeCalendar = getEventBroadcastCalendar(endTime);
 		
 		return endTimeCalendar;
@@ -115,15 +98,14 @@ public class EventBroadcast
 	 */
 	public Integer getTotalAiringTimeInMinutes() 
 	{
-		int totalMinutes = DateUtils.calculateDifferenceBetween(
-				beginTimeCalendar, endTimeCalendar, Calendar.MINUTE, false, 0);
+		int totalMinutes = DateUtils.calculateDifferenceBetween(beginTimeCalendar, endTimeCalendar, Calendar.MINUTE, false, 0);
 		
 		return totalMinutes;
 	}
 	
 	
 	
-	public TVChannelId getTVChannelIdForEventBroadcast() 
+	public TVChannelId getTVChannelIdForEventBroadcast()
 	{
 		TVChannelId tvChannelId = new TVChannelId(this.getChannelId());
 		
@@ -269,6 +251,7 @@ public class EventBroadcast
 	{	
 		return DateUtils.buildDayOfTheWeekAsString(this.getEventBroadcastBeginTimeLocal());
 	}
+	
 	
 	
 	/**

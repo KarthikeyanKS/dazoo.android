@@ -708,7 +708,10 @@ public class EventPageActivity
 		
 		Collections.sort(broadcasts, new EventBroadcastByStartTime());
 		
-		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, broadcasts);
+		long competitionId = event.getCompetitionId();
+		long eventId = event.getEventId();
+		
+		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, competitionId, eventId, broadcasts);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{

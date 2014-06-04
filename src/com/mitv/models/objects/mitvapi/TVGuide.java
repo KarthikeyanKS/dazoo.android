@@ -25,13 +25,21 @@ public class TVGuide
 		this.tvChannelGuides = tvChannelGuides;
 	}
 	
-	public TVDate getTvDate() {
+	
+	
+	public TVDate getTvDate()
+	{
 		return tvDate;
 	}
 
-	public ArrayList<TVChannelGuide> getTvChannelGuides() {
+	
+	
+	public ArrayList<TVChannelGuide> getTvChannelGuides() 
+	{
 		return tvChannelGuides;
 	}
+	
+	
 	
 	/**
 	 * Ugly fix, used in Cache in order to remove duplicates (that should not happen in the first place if the code would be better...)

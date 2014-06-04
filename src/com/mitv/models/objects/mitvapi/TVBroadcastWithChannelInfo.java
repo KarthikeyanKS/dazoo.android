@@ -8,10 +8,8 @@ import java.util.Calendar;
 
 import android.util.Log;
 
-import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVBroadcastWithChannelInfoJSON;
-import com.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -102,23 +100,6 @@ public class TVBroadcastWithChannelInfo
 	}
 
 	
-	
-	public TVBroadcastWithChannelInfo(NotificationSQLElement item)
-	{
-		TVChannel tvChannel = new TVChannel(item);
-		this.channel = tvChannel;
-		
-		TVProgram tvProgram = new TVProgram(item);
-		this.program = tvProgram;
-		
-		String broadcastTypeAsString = item.getBroadcastType();
-		
-		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
-		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
-		this.beginTime = item.getBroadcastBeginTime();
-		this.endTime = item.getBroadcastEndTime();
-		this.shareUrl = item.getShareUrl();
-	}
 
 	@Override
 	public int hashCode() {

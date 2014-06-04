@@ -18,31 +18,43 @@ public class TVChannelGuide
 	extends TVChannelGuideJSON
 {
 
-	public boolean hasBroadcasts() {
+	public boolean hasBroadcasts() 
+	{
 		boolean hasBroadcasts = broadcasts != null && !broadcasts.isEmpty();
 		return hasBroadcasts;
 	}
 	
+	
+	
 	public ArrayList<TVBroadcast> getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(
 			final int hour, 
-			final TVDate tvDate) {
+			final TVDate tvDate) 
+			{
 		return getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(hour, tvDate, Constants.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 	}
+	
+	
 	
 	public ArrayList<TVBroadcast> getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(
 			final int hour, 
 			final TVDate tvDate,
-			int howManyIncludingCurrent) {
+			int howManyIncludingCurrent) 
+	{
 		int indexOfNearestBroadcast = getClosestBroadcastIndex(hour, tvDate, -1);
+		
 		ArrayList<TVBroadcast> threeNextBroadcasts = getBroadcastsFromPosition(indexOfNearestBroadcast, howManyIncludingCurrent);
+		
 		return threeNextBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcast> getBroadcastsFromPosition(
-			final int startIndex) 
+	
+	
+	public ArrayList<TVBroadcast> getBroadcastsFromPosition(final int startIndex) 
 	{
 		return getBroadcastsFromPosition(startIndex, broadcasts.size());
 	}
+	
+	
 	
 	/**
 	 *  This method does not use the selected TV Hour, it uses the current time and returns
@@ -174,8 +186,7 @@ public class TVChannelGuide
 	 * SIBLING METHOD IS IN TVBROADCAST CLASS
 	 * WITH TVCHANNEL INFO THAT SUBCLASSES TVBROADCAST
 	 */
-	public int getClosestBroadcastIndex(
-			final int defaultValueIfNotFound) 
+	public int getClosestBroadcastIndex(final int defaultValueIfNotFound) 
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
@@ -194,6 +205,8 @@ public class TVChannelGuide
 		
 		return closestIndexFound;
 	}
+	
+	
 	
 	@Override
 	public int hashCode() {
