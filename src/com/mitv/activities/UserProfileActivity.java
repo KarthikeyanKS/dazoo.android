@@ -73,7 +73,8 @@ public class UserProfileActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
+		if (super.isRestartNeeded()) 
+		{
 			return;
 		}
 
@@ -82,11 +83,11 @@ public class UserProfileActivity
 		initLayout();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE);
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LIKES);
-		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 	}
 	
 
@@ -365,6 +366,8 @@ public class UserProfileActivity
 		}
 	}
 	
+	
+	
 	private void updateUserLikesGUI() 
 	{
 		List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
@@ -401,9 +404,10 @@ public class UserProfileActivity
 		{
 			case R.id.myprofile_person_container_signed_in: 
 			{
-				
 				TrackingGAManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
-				if(Constants.ENABLE_USER_PROFILE_CONFIGURATION) {
+				
+				if(Constants.ENABLE_USER_PROFILE_CONFIGURATION)
+				{
 					intent = new Intent(UserProfileActivity.this, UserProfileConfigurationActivity.class);
 				}
 				break;

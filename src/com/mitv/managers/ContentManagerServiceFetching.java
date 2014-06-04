@@ -295,13 +295,6 @@ public abstract class ContentManagerServiceFetching
 	{
 		getAPIClient().performUserLoginWithFacebookToken(activityCallbackListener, facebookToken);
 	}
-
-	
-	
-	public void performSetUserChannels(ViewCallbackListener activityCallbackListener, List<TVChannelId> tvChannelIds) 
-	{
-		getAPIClient().performSetUserTVChannelIds(activityCallbackListener, tvChannelIds);
-	}
 	
 	
 	
