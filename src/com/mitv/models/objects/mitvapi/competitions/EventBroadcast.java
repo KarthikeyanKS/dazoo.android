@@ -217,14 +217,22 @@ public class EventBroadcast
 	
 	
 	
-	public boolean isEventAiringInOrInLessThan(int minutes) 
+	public boolean isEventAiringInLessThan(int minutes) 
 	{
-		Calendar nowWithIncrement = (Calendar) DateUtils.getNowWithGMTTimeZone().clone();
-		nowWithIncrement.add(Calendar.MINUTE, minutes);
+		Calendar eventBroadcastBeginTimeGMT = getEventBroadcastBeginTimeGMT();
 		
-		boolean isBroadcastStartingInPeriod = this.getEventBroadcastBeginTimeGMT().before(nowWithIncrement);
+		Calendar eventBroadcastBeginTimeGMTWithNegativeIncrement = (Calendar) (eventBroadcastBeginTimeGMT.clone());
+
+		eventBroadcastBeginTimeGMTWithNegativeIncrement.add(Calendar.MINUTE, -minutes);
+		
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		
+		boolean isNowAfter = now.after(eventBroadcastBeginTimeGMTWithNegativeIncrement);
+	    boolean isNowBefore = now.before(eventBroadcastBeginTimeGMT);
+		
+	    boolean isEventAiringInPeriod = (isNowAfter && isNowBefore);
 	    
-	    return isBroadcastStartingInPeriod;
+	    return isEventAiringInPeriod;
 	}
 	
 	

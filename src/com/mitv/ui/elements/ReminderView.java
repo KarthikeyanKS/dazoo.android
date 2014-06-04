@@ -95,7 +95,7 @@ public class ReminderView
 	{
 		if (broadcast != null && 
 			broadcast.isAiring() == false &&
-			broadcast.isBroadcastAiringInOrInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
+			broadcast.isEventAiringInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
 		{
 			String channelId = broadcast.getChannel().getChannelId().getChannelId();
 			String programId = broadcast.getProgram().getProgramId();
@@ -143,7 +143,7 @@ public class ReminderView
 	{
 		if (eventBroadcast != null && 
 			eventBroadcast.isAiring() == false &&
-			eventBroadcast.isEventAiringInOrInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
+			eventBroadcast.isEventAiringInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
 		{
 			long competitionId = event.getCompetitionId();
 			long eventId = event.getEventId();

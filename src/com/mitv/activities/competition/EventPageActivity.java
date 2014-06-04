@@ -114,6 +114,7 @@ public class EventPageActivity
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
 	
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -238,8 +239,6 @@ public class EventPageActivity
 			
 			if(team1 != null)
 			{
-				Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
-					
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
 				ImageAware imageAwareHighlights = new ImageViewAware(team1FlagHighlights, false);
 					

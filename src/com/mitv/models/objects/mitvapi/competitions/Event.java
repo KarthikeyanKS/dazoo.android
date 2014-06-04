@@ -46,6 +46,7 @@ public class Event
 	}
 	
 	
+	
 	public EventMatchStatusEnum getMatchStatus()
 	{
 		return EventMatchStatusEnum.getTypeEnumFromCode(matchStatusId);

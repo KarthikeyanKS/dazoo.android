@@ -199,11 +199,11 @@ public class CompetitionEventPageBroadcastListAdapter
 				{
 					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
 
-					holder.reminderView.setBroadcast(null);
-
 					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
 					
+					holder.reminderView.setVisibility(View.VISIBLE);
 					holder.reminderView.setCompetitionEventBroadcast(event, element);
+					
 					boolean iconSizeSmall = true;
 					holder.reminderView.setSizeOfIcon(iconSizeSmall);
 
