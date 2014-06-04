@@ -37,9 +37,9 @@ public class NotificationHelper
 	
 	public static void scheduleNotifications(final Context context) 
 	{
-		List<com.mitv.models.Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
+		List<com.mitv.models.objects.mitvapi.Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
 		
-		for(com.mitv.models.Notification element : notifications)
+		for(com.mitv.models.objects.mitvapi.Notification element : notifications)
 		{
 			NotificationHelper.scheduleNotification(context, element);
 		}
@@ -49,7 +49,7 @@ public class NotificationHelper
 	
 	public static void scheduleNotification(
 			final Context context,
-			final com.mitv.models.Notification notification) 
+			final com.mitv.models.objects.mitvapi.Notification notification) 
 	{
 		Random random = new Random();
 		
@@ -72,7 +72,7 @@ public class NotificationHelper
 	
 	
 	
-	private static Intent getAlarmIntent(final com.mitv.models.Notification notification) 
+	private static Intent getAlarmIntent(final com.mitv.models.objects.mitvapi.Notification notification) 
 	{
 		int notificationId = notification.getNotificationId();
 		
@@ -90,7 +90,7 @@ public class NotificationHelper
 	{	
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		com.mitv.models.Notification notification = ContentManager.sharedInstance().getFromCacheNotificationWithId(notificationID);
+		com.mitv.models.objects.mitvapi.Notification notification = ContentManager.sharedInstance().getFromCacheNotificationWithId(notificationID);
 		
 		if(notification != null)
 		{

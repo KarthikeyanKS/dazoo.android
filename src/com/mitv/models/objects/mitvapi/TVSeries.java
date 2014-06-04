@@ -18,6 +18,7 @@ public class TVSeries
 	public boolean areDataFieldsValid()
 	{
 		boolean areDataFieldsValid = (!TextUtils.isEmpty(getSeriesId()) && !TextUtils.isEmpty(getName()));		
+		
 		return areDataFieldsValid;
 	}
 }

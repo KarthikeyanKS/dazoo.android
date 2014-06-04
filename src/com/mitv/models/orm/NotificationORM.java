@@ -12,7 +12,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.enums.NotificationTypeEnum;
-import com.mitv.models.Notification;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 

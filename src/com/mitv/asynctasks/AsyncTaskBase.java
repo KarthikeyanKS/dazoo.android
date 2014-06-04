@@ -157,7 +157,7 @@ public abstract class AsyncTaskBase<T>
 				Log.w(TAG, "Locale has null value.");
 			}
 			
-			/* Add the timezone to the url parameters */
+			/* Add the timezone offset */
 			Integer timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
 			urlParameters.add(Constants.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
@@ -236,6 +236,10 @@ public abstract class AsyncTaskBase<T>
 			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		}
 		
+		
+		if(clazz.getName().contains("Compet")){
+			Log.d(TAG, String.format("%s onPreExecute - Performing HTTP request: %s", clazz.getName(), requestIdentifier.getDescription()));
+		}
 		if(reportMetricsToTracker)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(this.getClass().getSimpleName());

@@ -270,7 +270,7 @@ public class SplashScreenActivity
 			SecondScreenApplication.setAppIsRestarting(false);
 		}
 		
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
 		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);
 		

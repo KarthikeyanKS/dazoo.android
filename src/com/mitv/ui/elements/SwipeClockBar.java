@@ -98,10 +98,12 @@ public class SwipeClockBar
 		if (indexOfHour > HOUR_NOT_FOUND_IN_LIST_OF_HOURS) 
 		{
 			seekBar.setProgress(indexOfHour);
+			
 			styleSelectedHour(indexOfHour);
 		}
 	}
 
+	
 	
 	public static int hourToProgress(int hour) 
 	{
@@ -115,27 +117,40 @@ public class SwipeClockBar
 		{
 			index = (HOURS_PER_DAY - firstHourOfDay + hour);
 		}
+		
 		return index;
 	}
 
 	
-	public static int progressToHour(int progress) {
+	public static int progressToHour(int progress) 
+	{
 		int hour = hoursOfTheDay.get(progress);
+		
 		return hour;
 	}
 	
 	
-	public void setTimeSelectedListener(SwipeClockTimeSelectedCallbackListener timeSelectedListener) {
+	
+	public void setTimeSelectedListener(SwipeClockTimeSelectedCallbackListener timeSelectedListener) 
+	{
 		this.timeSelectedListener = timeSelectedListener;
 	}
 
-	public void setSelectedHourTextView(FontTextView selectedHourTextView) {
+	
+	
+	public void setSelectedHourTextView(FontTextView selectedHourTextView) 
+	{
 		seekBar.setSelectedHourTextView(selectedHourTextView);
 	}
 
-	public void setup(Context context) {
+	
+	
+	public void setup(Context context) 
+	{
 		this.activity = (Activity) context;
+		
 		int firstHourOfDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		
 		SwipeClockBar.firstHourOfDay = firstHourOfDay;
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -164,19 +179,24 @@ public class SwipeClockBar
 		this.seekBar.setParentClockbar(this);
 
 		this.seekBar.setValues(HOURS_PER_DAY, firstHourOfDay);
+		
 		this.timeListView = (ListView) this.findViewById(R.id.timebar_listview);
 
 		SwipeClockBar.hoursOfTheDay = generate24Hours();
 
 		this.screenHeight = GenericUtils.getScreenHeight((Activity) context);
 		
-		if(screenHeight <= SCREEN_HEIGHT_SMALL) {
+		if(screenHeight <= SCREEN_HEIGHT_SMALL)
+		{
 			smallScreenMode = true;
-		} else {
+		}
+		else 
+		{
 			smallScreenMode = false;
 		}
 		
-		if (timeListView != null) {
+		if (timeListView != null)
+		{
 			this.listAdapter = new TimeListAdapter(HOURS_PER_DAY, firstHourOfDay, hoursOfTheDay);
 			this.timeListView.setAdapter(listAdapter);
 		}
@@ -186,10 +206,11 @@ public class SwipeClockBar
 		 * height of each row and change visibility to visible
 		 */
 		this.setVisibility(View.INVISIBLE);
-		this.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
+		this.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() 
+		{
 			@Override
-			public void onGlobalLayout() {
+			public void onGlobalLayout() 
+			{
 				// gets called after layout has been done but before it gets displayed, so we can get the height of the view
 				int selfHeigt = SwipeClockBar.this.timeListView.getHeight();
 				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.timeListView.getAdapter());
@@ -220,6 +241,7 @@ public class SwipeClockBar
 	}
 
 	
+	
 	public static List<Integer> generate24Hours() 
 	{
 		List<Integer> hours = new ArrayList<Integer>();
@@ -237,6 +259,7 @@ public class SwipeClockBar
 	}	
 
 	
+	
 	private class TimeListAdapter 
 		extends BaseAdapter 
 	{
@@ -246,11 +269,14 @@ public class SwipeClockBar
 		private int listViewHeight;
 		private int index24OfSelectedHour;
 
-		private void setSelectedHour(int indexOfSelectedHour) {
+		
+		private void setSelectedHour(int indexOfSelectedHour)
+		{
 			this.index24OfSelectedHour = indexOfSelectedHour;
 		}
 
-		public void setListViewHeight(int listViewHeight) {
+		public void setListViewHeight(int listViewHeight)
+		{
 			this.listViewHeight = listViewHeight;
 		}
 
@@ -376,11 +402,15 @@ public class SwipeClockBar
 				}
 			}
 
-			if (isHighlighted) {
-				if (indexToCheckForColor == index24OfSelectedHour) {
+			if (isHighlighted) 
+			{
+				if (indexToCheckForColor == index24OfSelectedHour) 
+				{
 					textColorId = R.color.white;
 					parentBackgroundColorId = R.color.red;
-				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
+				} 
+				else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) 
+				{
 					textColorId = R.color.grey3;
 					parentBackgroundColorId = R.color.transparent;
 				} else {
@@ -451,6 +481,7 @@ public class SwipeClockBar
 		styleSelectedHour(indexToStyle);
 	}
 
+	
 	
 	private void styleSelectedHour(int index) 
 	{

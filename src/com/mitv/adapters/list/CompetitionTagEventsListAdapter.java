@@ -238,7 +238,7 @@ public class CompetitionTagEventsListAdapter
 						
 					String team1FlagUrl = team1.getFlagImageURL();
 						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
 				}
 				else
 				{
@@ -256,7 +256,7 @@ public class CompetitionTagEventsListAdapter
 						
 					String team2FlagUrl = team2.getFlagImageURL();
 						
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
+					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
 				}
 				else
 				{

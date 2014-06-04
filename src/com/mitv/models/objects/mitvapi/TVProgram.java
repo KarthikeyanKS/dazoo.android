@@ -145,9 +145,13 @@ public class TVProgram
 		boolean imagesOk = getImages().areDataFieldsValid();
 		
 		boolean allCreditEntriesOk = true;
-		for(TVCredit tvCredit : getCredits()) {
+		
+		for(TVCredit tvCredit : getCredits()) 
+		{
 			boolean creditEntryOk = tvCredit.areDataFieldsValid();
-			if(!creditEntryOk) {
+			
+			if(!creditEntryOk)
+			{
 				allCreditEntriesOk = false;
 				break;
 			}
@@ -159,10 +163,11 @@ public class TVProgram
 				(getTags() != null) && !getTags().isEmpty() && imagesOk && allCreditEntriesOk
 				);
 		
-
 		/* Test depending on programType */
 		ProgramTypeEnum programType = getProgramType();
+		
 		boolean typeDependantFieldsOk = false;
+		
 		switch (programType) 
 		{
 			case MOVIE: 
@@ -170,20 +175,26 @@ public class TVProgram
 				typeDependantFieldsOk = ((getYear() != null) && !TextUtils.isEmpty(getGenre()));
 				break;
 			}
-			case TV_EPISODE: {
+			
+			case TV_EPISODE:
+			{
 				boolean tvSeriesOk = getSeries().areDataFieldsValid();
 				boolean tvSeasonOk = getSeason().areDataFieldsValid();
 				boolean episodeNumberOk = (getEpisodeNumber() != null);
 				typeDependantFieldsOk = tvSeriesOk && tvSeasonOk && episodeNumberOk;
 				break;
 			}
-			case SPORT: {
+			
+			case SPORT:
+			{
 				boolean sportTypeOk = getSportType().areDataFieldsValid();
 				boolean tournamentOk = !TextUtils.isEmpty(getTournament());
 				typeDependantFieldsOk = sportTypeOk && tournamentOk;
 				break;
 			}
-			case OTHER: {
+			
+			case OTHER:
+			{
 				typeDependantFieldsOk = !TextUtils.isEmpty(getCategory());
 				break;
 			}

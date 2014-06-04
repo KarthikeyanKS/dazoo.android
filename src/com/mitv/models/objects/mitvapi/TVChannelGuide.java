@@ -27,20 +27,20 @@ public class TVChannelGuide
 	
 	
 	public ArrayList<TVBroadcast> getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(
-			final int hour, 
+			final int selectedHour,
 			final TVDate tvDate) 
-			{
-		return getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(hour, tvDate, Constants.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+	{
+		return getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(selectedHour, tvDate, Constants.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 	}
 	
 	
 	
 	public ArrayList<TVBroadcast> getCurrentAndUpcomingBroadcastsUsingSelectedDayAndHour(
-			final int hour, 
+			final int selectedHour,
 			final TVDate tvDate,
-			int howManyIncludingCurrent) 
+			int howManyIncludingCurrent)
 	{
-		int indexOfNearestBroadcast = getClosestBroadcastIndex(hour, tvDate, -1);
+		int indexOfNearestBroadcast = getClosestBroadcastIndex(selectedHour, tvDate, -1);
 		
 		ArrayList<TVBroadcast> threeNextBroadcasts = getBroadcastsFromPosition(indexOfNearestBroadcast, howManyIncludingCurrent);
 		
@@ -81,16 +81,16 @@ public class TVChannelGuide
 	
 	public List<TVBroadcast> getBroadcastPlayingAtSimilarTimeAs(final TVBroadcast inputBroadcast)
 	{
-		final Calendar inputBegin = inputBroadcast.getBeginTimeCalendarLocal();
+		final Calendar inputBegin = inputBroadcast.getBeginTimeCalendarGMT();
 		
 		ArrayList<TVBroadcast> airingBroadcasts = new ArrayList<TVBroadcast>();
 
 		for(TVBroadcast broadcast : broadcasts)
 		{
-			Calendar broadcastBegin = broadcast.getBeginTimeCalendarLocal();
-			Calendar broadcastEnd = broadcast.getEndTimeCalendarLocal();
+			Calendar broadcastBegin = broadcast.getBeginTimeCalendarGMT();
+			Calendar broadcastEnd = broadcast.getEndTimeCalendarGMT();
 	
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 			
 			Calendar broadcastBeginWithMinutesSubtracted = (Calendar) broadcastBegin.clone();
 			broadcastBeginWithMinutesSubtracted.add(Calendar.MINUTE, -30);
@@ -152,19 +152,19 @@ public class TVChannelGuide
 	
 	
 	public int getClosestBroadcastIndex(
-			final int hour, 
+			final int selectedHour,
 			final TVDate tvDate,
 			final int defaultValueIfNotFound)
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		Calendar tvDateWithHourCalendar = DateUtils.buildCalendarWithTVDateAndSpecificHour(tvDate, hour);
-		
 		for(int i = 0; i < broadcasts.size(); ++i)
 		{
 			TVBroadcast broadcast = broadcasts.get(i);
+		
+			Calendar tvDateWithHourCalendarLocal = DateUtils.buildLocalCalendarWithTVDateAndSelectedHour(tvDate, selectedHour);
 			
-			boolean isEndTimeAfterTvDateWithHour = broadcast.isEndTimeAfter(tvDateWithHourCalendar);
+			boolean isEndTimeAfterTvDateWithHour = broadcast.isEndTimeAfter(tvDateWithHourCalendarLocal);
 			
 			if(isEndTimeAfterTvDateWithHour)
 			{

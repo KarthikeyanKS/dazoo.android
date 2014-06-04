@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import com.mitv.R;
 import com.mitv.enums.TVGuideTabTypeEnum;
+import com.mitv.fragments.base.BaseFragment;
 import com.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;

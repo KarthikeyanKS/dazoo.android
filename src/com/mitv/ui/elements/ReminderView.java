@@ -17,7 +17,7 @@ import com.mitv.R;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.models.Notification;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;

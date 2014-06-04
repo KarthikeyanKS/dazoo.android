@@ -26,7 +26,7 @@ public class Event
 	private static final String TAG = Event.class.getName();
 	
 	
-	protected Calendar startCalendar;
+	protected Calendar eventCalendar;
 	
 	
 	public Event()
@@ -117,9 +117,9 @@ public class Event
 				.append(" ");
 			}
 			
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 			
-			Integer gameMinutes = DateUtils.calculateDifferenceBetween(getEventDateCalendarLocal(), now, Calendar.MINUTE, false, 0);
+			Integer gameMinutes = DateUtils.calculateDifferenceBetween(getEventDateCalendarGMT(), now, Calendar.MINUTE, false, 0);
 			
 			if(abandoned)
 			{
@@ -192,7 +192,7 @@ public class Event
 	/**
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */
-	public Calendar getEventDateCalendarGMT() 
+	public Calendar getEventDateCalendarGMT()
 	{
 		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(eventDate);
 		
@@ -207,15 +207,14 @@ public class Event
 	 */
 	public Calendar getEventDateCalendarLocal() 
 	{
-		if(startCalendar == null)
+		if(eventCalendar == null)
 		{	
-			startCalendar = getEventDateCalendarGMT();
+			eventCalendar = getEventDateCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			startCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			eventCalendar = DateUtils.setTimeZoneAndOffsetToLocal(eventCalendar);
 		}
 		
-		return startCalendar;
+		return eventCalendar;
 	}
 	
 	
@@ -232,7 +231,7 @@ public class Event
 	
 	public boolean isEventTimeTodayOrTomorrow()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithLocalTimezone();
 		
 		Calendar beginTime = this.getEventDateCalendarLocal();
 		
@@ -347,12 +346,14 @@ public class Event
 	}
 	
 	
+	
 	/**
 	 * Maybe remove this if we get the timeMillis from BE!!!!!!!!!!!!!!!!!!!!!!!!
 	 * 
 	 * @return
 	 */
-	public long getBeginTimeLocalInMillis() {
+	public long getBeginTimeLocalInMillis() 
+	{
 		long beginTimeMillis = this.getEventDateCalendarLocal().getTimeInMillis();
 		
 		return beginTimeMillis;
@@ -360,19 +361,17 @@ public class Event
 	
 	
 	
-	/* TODO */
-	public String getShareUrl() {
+
+	public String getShareUrl() 
+	{
 		StringBuilder sb = new StringBuilder();
-//		http://gitrgitr.com/deportes/events/{eventID}
+
 		sb.append(Constants.HTTP_SCHEME_USED)
 		.append(Constants.BACKEND_ENVIRONMENT_USED)
 		.append(Constants.URL_SHARE_SPORT_SPANISH)
-		.append(Constants.URL_EVENTS)
+		.append(Constants.URL_EVENTS_SPANISH)
 		.append(Constants.FORWARD_SLASH)
-		.append(Constants.FIFA_COMPETITION_ID)
-		.append(Constants.FORWARD_SLASH)
-		.append(this.getEventId())
-		.append(Constants.FORWARD_SLASH);
+		.append(this.getEventId());
 		
 		String url = sb.toString();
 		

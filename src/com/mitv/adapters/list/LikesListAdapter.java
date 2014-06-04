@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
+import com.mitv.enums.CompetitionCategoryEnum;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
@@ -169,17 +170,34 @@ public class LikesListAdapter
 				
 				case COMPETITION:
 				{
-					long competitionID = item.getCompetitionID();
+					long competitionID = item.getCompetitionId();
 					
 					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 					
-					String displayCompetitionType = competition.getDisplayCompetitionType();
+					CompetitionCategoryEnum competitionCategory = competition.getCompetitionCategory();
+					
+					String displayCompetitionType;
+					
+					switch (competitionCategory) 
+					{
+						case SOCCER:
+						{
+							displayCompetitionType = activity.getString(R.string.competition_event_like_description);
+							break;
+						}
+						
+						default:
+						{
+							displayCompetitionType = "";
+							break;
+						}
+					}
 					
 					holder.description.setText(displayCompetitionType);
 					break;
 				}
 				
-				case COMPETITION_TEAM:
+				case TEAM:
 				{
 					holder.description.setText(activity.getString(R.string.team_page_team_info_header));
 					break;

@@ -7,8 +7,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tab_selector_container" >
+        android:layout_height="match_parent" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -49,25 +48,27 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/team_page_squad_header" />
 
-                <!-- Fake squad 
+                <!--
+                    Fake squad
+	                <ImageView
+	                    android:id="@+id/competition_team_page_squad_list_fake"
+	                    android:layout_width="70dp"
+	                    android:layout_height="70dp"
+	                    android:layout_below="@id/competition_team_page_squad_header"
+	                    android:scaleType="fitXY"
+	                    android:src="@drawable/competition_team_squad_fake"
+	                    android:visibility="visible" />
+	
+	                <ImageView
+	                    android:layout_width="match_parent"
+	                    android:layout_height="1000dp"
+	                    android:layout_below="@id/competition_team_page_squad_header"
+	                    android:scaleType="fitStart"
+	                    android:src="@drawable/competition_team_squad_fake" />
+                -->
 
-                <ImageView
-                    android:id="@+id/competition_team_page_squad_list_fake"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_below="@id/competition_team_page_squad_header"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/competition_team_squad_fake"
-                    android:visibility="visible" />-->
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:layout_below="@id/competition_team_page_squad_header"
-                    android:scaleType="fitStart"
-                    android:src="@drawable/competition_team_squad_fake" />
-
-                <!-- The list -->
+                <!-- The squad list -->
 
                 <LinearLayout
                     android:id="@+id/competition_team_page_squad_list"
@@ -76,9 +77,8 @@
                     android:layout_below="@id/competition_team_page_squad_header"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
-                    android:visibility="gone" >
+                    android:paddingBottom="10dp" >
                 </LinearLayout>
-                
             </RelativeLayout>
 
             <!-- STANDINGS -->

@@ -16,7 +16,11 @@ public class TVChannel
 {
 	protected transient TVChannelId tvChannelIdObject;
 	
+	
+	
 	public TVChannel(){}
+	
+	
 	
 	public TVChannelId getChannelId() 
 	{
@@ -61,7 +65,8 @@ public class TVChannel
 
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)

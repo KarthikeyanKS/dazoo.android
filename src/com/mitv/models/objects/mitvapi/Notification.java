@@ -1,11 +1,10 @@
 
 
-package com.mitv.models;
+package com.mitv.models.objects.mitvapi;
 
 
 
 import com.mitv.enums.NotificationTypeEnum;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.orm.NotificationORM;

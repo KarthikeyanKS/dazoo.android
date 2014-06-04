@@ -60,6 +60,7 @@ public abstract class BaseActivity
 {
 	private static final String TAG = BaseActivity.class.getName();
 	
+	
 	private static final int TV_DATE_NOT_FOUND = -1;
 
 	private static final int SELECTED_TAB_FONT_SIZE = 12;
@@ -79,8 +80,8 @@ public abstract class BaseActivity
 	protected FontTextView tabProfileText;
 	protected View tabDividerLeft;
 	protected View tabDividerRight;
-//	protected View undoBarlayoutView;
 
+	private RelativeLayout requestSuccessfulLayout;
 	private RelativeLayout requestEmptyLayout;
 	private FontTextView requestEmptyLayoutDetails;
 	private FontTextView requestLoadingLayoutDetails;
@@ -91,7 +92,6 @@ public abstract class BaseActivity
 	private Button requestFailedRetryButton;
 
 	protected ActionBar actionBar;
-//	protected UndoBarController undoBarController;
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
@@ -148,6 +148,7 @@ public abstract class BaseActivity
 				if (isConnected) 
 				{
 					restartTheApp();
+					
 					return true;
 				}
 			} 
@@ -162,66 +163,71 @@ public abstract class BaseActivity
 	
 	
 	
-	public void restartTheApp() {
-		if (!SecondScreenApplication.isAppRestarting()) {
+	public void restartTheApp() 
+	{
+		if (!SecondScreenApplication.isAppRestarting())
+		{
 			Log.e(TAG, "Restarting the app");
+			
 			SecondScreenApplication.setAppIsRestarting(true);
 
 			Intent intent = new Intent(this, SplashScreenActivity.class);
+			
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
 			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+			
 			Context context = app.getApplicationContext();
 			
 			context.startActivity(intent);
 
 			killAllActivitiesIncludingThis();
+			
 			finish();
-		} else {
+		} 
+		else 
+		{
 			Log.e(TAG, "App is already being restarted");
 		}
 	}
 	
+	
+	
 	@Override
-	public boolean onKeyDown(int keycode, KeyEvent e) {
-	    switch(keycode) {
+	public boolean onKeyDown(int keycode, KeyEvent e)
+	{
+	    switch(keycode) 
+	    {
 	        case KeyEvent.KEYCODE_MENU:
+	        {
 	        	TrackingGAManager.sharedInstance().sendUserPressedMenuButtonEvent();
-	            return true;
+	          
+	        	return true;
+	        }
+	        
+	        default:
+	        {
+	        	return super.onKeyDown(keycode, e);
+	        }
 	    }
-
-	    return super.onKeyDown(keycode, e);
 	}
 		
 
+	
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
 	}
 	
-	protected void unregisterListenerFromAllRequests() {
+	
+	
+	protected void unregisterListenerFromAllRequests()
+	{
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 	}
 
 	
-//	@Override
-//	public void onUndo(Parcelable token) 
-//	{
-//		if (undoBarController != null) 
-//		{
-//			undoBarController.hideUndoBar(true);
-//			undoBarController = new UndoBarController(undoBarlayoutView, this);
-//		} 
-//		else 
-//		{
-//			Log.w(TAG, "Undo bar component is null.");
-//		}
-//		
-//		loadDataWithConnectivityCheck();
-//	}
-
 	
-	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{
 		CrashManager.register(this, Constants.HOCKEY_APP_TOKEN);
@@ -229,11 +235,12 @@ public abstract class BaseActivity
 
 	
 	
-	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForUpdates() 
 	{
 		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
 	}
+	
+	
 	
 	@Override
 	protected void onResume() 
@@ -268,22 +275,31 @@ public abstract class BaseActivity
 		/* Log in states */
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
-		if (isLoggedIn) {
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
+		if (isLoggedIn)
+		{
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN))
+			{
 				userHasJustLoggedIn = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
-			} else {
+			} 
+			else
+			{
 				userHasJustLoggedIn = false;
 			}
-		} else {
+		} 
+		else 
+		{
 			userHasJustLoggedIn = false;
 
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) {
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) 
+			{
 				userHasJustLoggedOut = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT);
-			} else {
+			} 
+			else 
+			{
 				userHasJustLoggedOut = false;
 			}
 		}
@@ -302,6 +318,7 @@ public abstract class BaseActivity
 			if (userHasJustLoggedOut) 
 			{
 				StringBuilder sb = new StringBuilder();
+				
 				sb.append(getString(R.string.logout_succeeded));
 
 				ToastHelper.createAndShowShortToast(sb.toString());
@@ -318,7 +335,8 @@ public abstract class BaseActivity
 		/*
 		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
 		 */
-		if (indexOfTodayFromTVDates > 0) {
+		if (indexOfTodayFromTVDates > 0) 
+		{
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
 			if(isTimeOffSync == false) {
@@ -329,27 +347,32 @@ public abstract class BaseActivity
 	}
 	
 	
+	
 	private void killAllActivitiesIncludingThis() 
 	{
-		for(Activity activity : activityStack) {
+		for(Activity activity : activityStack) 
+		{
 			activity.finish();
 		}
 	}
 
 	
-	private int getIndexOfTodayFromTVDates() {
+	
+	private int getIndexOfTodayFromTVDates() 
+	{
 		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
 
 		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
 		
-		if(tvDates != null) {
+		if(tvDates != null)
+		{
 			for(int i = 0; i < tvDates.size(); ++i) 
 			{
 				TVDate tvDate = tvDates.get(i);
 				
 				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
 				
-				if(isTVDateNow) 
+				if(isTVDateNow)
 				{
 					indexOfTodayFromTVDates = i;
 					break;
@@ -360,30 +383,40 @@ public abstract class BaseActivity
 		return indexOfTodayFromTVDates;
 	}
 
-	private static void pushActivityToStack(BaseActivity activity) {
-
+	
+	
+	private static void pushActivityToStack(BaseActivity activity) 
+	{
 		/*
 		 * If we got to this activity using the backpress button, then the Android OS will resume the latest activity,
 		 * since we are pushing the activity to the stack in this method, we need to make sure that we are pushing
 		 * ourselves to the stack if we already are in top of it.
 		 */
-		if (activityStack.isEmpty()) {
+		if (activityStack.isEmpty()) 
+		{
 			activityStack.push(activity);
-		} else if (activityStack.peek() != activity) {
+		} 
+		else if (activityStack.peek() != activity) 
+		{
 			activityStack.push(activity);
 		}
 
 		printActivityStack();
 	};
 
+	
+	
 	/* Used for debugging only */
-	private static void printActivityStack() {
+	private static void printActivityStack()
+	{
 		Log.d(TAG, ".");
 		Log.d(TAG, ".");
 		Log.d(TAG, "---<<<*** ActivityStack ***>>>---");
 
-		for (int i = activityStack.size() - 1; i >= 0; --i) {
+		for (int i = activityStack.size() - 1; i >= 0; --i)
+		{
 			Activity activityInStack = activityStack.get(i);
+			
 			Log.d(TAG, activityInStack.getClass().getSimpleName());
 		}
 	}
@@ -406,8 +439,12 @@ public abstract class BaseActivity
 		printActivityStack();
 	}
 
-	private static void removeActivitiesThatRequiresLoginFromStack(Activity activity) {
-		if (activity instanceof BaseActivityLoginRequired) {
+	
+	
+	private static void removeActivitiesThatRequiresLoginFromStack(Activity activity)
+	{
+		if (activity instanceof BaseActivityLoginRequired)
+		{
 			removeFromStackOnDestroy(activity);
 		}
 	}
@@ -440,6 +477,7 @@ public abstract class BaseActivity
 	private static boolean isTabActivity(Activity activity) 
 	{
 		boolean isTabActivity = (activity instanceof HomeActivity || activity instanceof FeedActivity || activity instanceof UserProfileActivity);
+		
 		return isTabActivity;
 	}
 
@@ -612,8 +650,8 @@ public abstract class BaseActivity
 			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
 
-		if (tabActivity != null) {
-			// tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if (tabActivity != null)
+		{
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
 
@@ -624,8 +662,8 @@ public abstract class BaseActivity
 			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
 
-		if (tabProfile != null) {
-			// tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+		if (tabProfile != null)
+		{
 			tabProfileIcon.setTextColor(getResources().getColor(R.color.white));
 			tabProfileText.setTextColor(getResources().getColor(R.color.white));
 			tabProfileIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
@@ -638,68 +676,87 @@ public abstract class BaseActivity
 		}
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
 
-		switch (id) {
-		case R.id.tab_tv_guide: {
-			if (!(this instanceof HomeActivity)) {
-				Intent intentActivity = new Intent(this, HomeActivity.class);
-				startActivity(intentActivity);
+		switch (id) 
+		{
+			case R.id.tab_tv_guide: 
+			{
+				if (!(this instanceof HomeActivity)) 
+				{
+					Intent intentActivity = new Intent(this, HomeActivity.class);
+					
+					startActivity(intentActivity);
+				}
+				
+				break;
 			}
-			break;
-		}
-
-		case R.id.tab_activity: {
-			if (!(this instanceof FeedActivity)) {
-				Intent intentActivity = new Intent(this, FeedActivity.class);
-				startActivity(intentActivity);
+	
+			case R.id.tab_activity:
+			{
+				if (!(this instanceof FeedActivity))
+				{
+					Intent intentActivity = new Intent(this, FeedActivity.class);
+					
+					startActivity(intentActivity);
+				}
+				
+				break;
 			}
-			break;
-		}
-
-		case R.id.tab_me: {
-			if (!(this instanceof UserProfileActivity)) {
-				Intent intentMe = new Intent(this, UserProfileActivity.class);
-				startActivity(intentMe);
+	
+			case R.id.tab_me:
+			{
+				if (!(this instanceof UserProfileActivity))
+				{
+					Intent intentMe = new Intent(this, UserProfileActivity.class);
+					
+					startActivity(intentMe);
+				}
+				
+				break;
 			}
-			break;
-		}
-
-		case R.id.no_connection_reload_button: {
-			loadDataWithConnectivityCheck();
-
-			break;
-		}
-		
-		case R.id.request_failed_reload_button: {
-			updateUI(UIStatusEnum.LOADING);
-			ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
-			break;
-		}
-
-		default: {
-			Log.w(TAG, "Unknown onClick action");
-		}
+	
+			case R.id.no_connection_reload_button:
+			case R.id.request_failed_reload_button: 
+			{
+				loadDataWithConnectivityCheck();
+				
+				break;
+			}
+	
+			default: 
+			{
+				Log.w(TAG, "Unknown onClick action");
+			}
 		}
 	}
 
+	
+	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		MenuInflater inflater = getMenuInflater();
 		
 		/* The login, register and sign up pages will have the action bar menu without the search option */
-		if (!(this instanceof BaseActivityWithoutSearchOption)) {
+		if (!(this instanceof BaseActivityWithoutSearchOption))
+		{
 			inflater.inflate(R.menu.actionbar_menu, menu);
 			
 			MenuItem searchIcon = menu.findItem(R.id.action_start_search);
 	
 			View seachIconView = MenuItemCompat.getActionView(searchIcon);
 	
-			seachIconView.setOnClickListener(new OnClickListener() {
+			seachIconView.setOnClickListener(new OnClickListener() 
+			{
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v)
+				{
 					Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
 	
 					startActivity(toSearchPage);
@@ -714,30 +771,40 @@ public abstract class BaseActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	
+	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home: {
-			/* Pressing the Home, which here is used as "up", should be same as pressing back */
-			onBackPressed();
-			return true;
-		}
-
-		case R.id.action_start_search: // Might be dead with actionView instead of icon...
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		int itemId = item.getItemId();
+		
+		switch(itemId) 
 		{
-			Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-
-			return true;
-		}
-
-		default: 
-		{
-			return super.onOptionsItemSelected(item);
-		}
+			case android.R.id.home: 
+			{
+				/* Pressing the Home, which here is used as "up", should be same as pressing back */
+				onBackPressed();
+				
+				return true;
+			}
+	
+			case R.id.action_start_search: // Might be dead with actionView instead of icon...
+			{
+				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
+				
+				startActivity(toSearchPage);
+	
+				return true;
+			}
+	
+			default: 
+			{
+				return super.onOptionsItemSelected(item);
+			}
 		}
 	}
 
+	
 	
 	@Override
 	protected void onPause() 
@@ -750,6 +817,7 @@ public abstract class BaseActivity
 	}
 	
 	
+	
 	@Override
 	protected void onStop() 
 	{
@@ -758,6 +826,7 @@ public abstract class BaseActivity
 		TrackingManager.sharedInstance().reportActivityStop(this);
 	}
 
+	
 
 	@Override
 	protected void onDestroy() 
@@ -773,20 +842,12 @@ public abstract class BaseActivity
 	
 	@Override
 	public void onBackPressed() 
-	{
-		//int activityCount = GenericUtils.getActivityCount();
-
-//		if(activityCount <= 1 && isTabActivity())
-//		{
-//			Intent intent = new Intent(Intent.ACTION_MAIN);
-//			intent.addCategory(Intent.CATEGORY_HOME);
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			startActivity(intent);
-//		}
-//		else
-//		{
-//			super.onBackPressed();
-//		}
+	{		
+		updateUI(UIStatusEnum.LOADING);
+		
+		String loadingString = getString(R.string.general_back_press_loading_message);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
 		
 		super.onBackPressed();
 	}
@@ -794,7 +855,8 @@ public abstract class BaseActivity
 
 	
 	@Override
-	public void setContentView(int layoutResID) {
+	public void setContentView(int layoutResID)
+	{
 		super.setContentView(layoutResID);
 
 		actionBar = getSupportActionBar();
@@ -807,9 +869,8 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 	}
 
-	/*
-	 * This method checks for Internet connectivity before loading data
-	 */
+	
+	
 	protected void loadDataWithConnectivityCheck() 
 	{
 		boolean isConnected = NetworkUtils.isConnected();
@@ -825,6 +886,7 @@ public abstract class BaseActivity
 			else 
 			{
 				updateUI(UIStatusEnum.LOADING);
+				
 				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
 			}
 		} 
@@ -842,11 +904,10 @@ public abstract class BaseActivity
 	}
 	
 	
+	
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
-		Log.d(TAG, String.format("onDataAvailable FetchRequestResult: %s requestId: %s", fetchRequestResult.getDescription(), requestIdentifier.getDescription()));
-		
 		this.latestRequest = requestIdentifier;
 		
 		switch (fetchRequestResult) 
@@ -897,15 +958,6 @@ public abstract class BaseActivity
 					if (hasEnoughDataToShowContent() && isConnected == false) 
 					{
 						ToastHelper.createAndShowNoInternetConnectionToast();
-						
-//						if (undoBarController != null) 
-//						{
-//							undoBarController.showUndoBar(false, , null);
-//						} 
-//						else 
-//						{
-//							Log.w(TAG, "Undo bar component is null.");
-//						}
 					}
 	
 					onDataAvailable(fetchRequestResult, requestIdentifier);
@@ -920,15 +972,6 @@ public abstract class BaseActivity
 				if (hasEnoughDataToShowContent() && isConnected == false) 
 				{
 					ToastHelper.createAndShowNoInternetConnectionToast();
-					
-//					if (undoBarController != null) 
-//					{
-//						undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-//					} 
-//					else 
-//					{
-//						Log.w(TAG, "Undo bar component is null.");
-//					}
 				}
 
 				onDataAvailable(fetchRequestResult, requestIdentifier);
@@ -937,10 +980,10 @@ public abstract class BaseActivity
 		}
 	}
 
+	
+	
 	protected void updateUIBaseElements(UIStatusEnum status) 
 	{
-		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
-
 		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this);
 
 		if (activityNotNullAndNotFinishing) 
@@ -949,53 +992,63 @@ public abstract class BaseActivity
 
 			switch (status) 
 			{
-			case LOADING: {
-				if (requestLoadingLayout != null) {
-					requestLoadingLayout.setVisibility(View.VISIBLE);
-				}
-				break;
-			}
-
-			case API_VERSION_TOO_OLD: {
-				DialogHelper.showMandatoryAppUpdateDialog(this);
-				break;
-			}
-			
-			case USER_TOKEN_EXPIRED:
-			{
-				DialogHelper.showPromptTokenExpiredDialog(this);
-				break;
-			}
-
-			case FAILED:{
-				if (requestFailedLayout != null) 
+				case LOADING: 
 				{
-					requestFailedLayout.setVisibility(View.VISIBLE);
+					if (requestLoadingLayout != null) 
+					{
+						requestLoadingLayout.setVisibility(View.VISIBLE);
+					}
+					break;
 				}
-				break;
-			}
-			
-			case NO_CONNECTION_AVAILABLE: {
-				if (requestNoInternetConnectionLayout != null) {
-					requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
-				}
-				break;
-			}
-
-			case SUCCESS_WITH_NO_CONTENT: 
-			{
-				if (requestEmptyLayout != null) 
+	
+				case API_VERSION_TOO_OLD: 
 				{
-					requestEmptyLayout.setVisibility(View.VISIBLE);
+					DialogHelper.showMandatoryAppUpdateDialog(this);
+					break;
 				}
-				break;
-			}
-
-			case SUCCESS_WITH_CONTENT:
-			default: {
-				// Success or other cases should be handled by subclasses
-				break;
-			}
+				
+				case USER_TOKEN_EXPIRED:
+				{
+					DialogHelper.showPromptTokenExpiredDialog(this);
+					break;
+				}
+	
+				case FAILED:
+				{
+					if (requestFailedLayout != null) 
+					{
+						requestFailedLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+				
+				case NO_CONNECTION_AVAILABLE: 
+				{
+					if (requestNoInternetConnectionLayout != null) 
+					{
+						requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+	
+				case SUCCESS_WITH_NO_CONTENT: 
+				{
+					if (requestEmptyLayout != null) 
+					{
+						requestEmptyLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+	
+				case SUCCESS_WITH_CONTENT:
+				default: 
+				{
+					if (requestSuccessfulLayout != null) 
+					{
+						requestSuccessfulLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
 			}
 		} 
 		else 
@@ -1004,16 +1057,27 @@ public abstract class BaseActivity
 		}
 	}
 
-	private void hideRequestStatusLayouts() {
-		if (requestLoadingLayout != null) {
+	
+	
+	private void hideRequestStatusLayouts() 
+	{
+		if (requestSuccessfulLayout != null) 
+		{
+			requestSuccessfulLayout.setVisibility(View.GONE);
+		}
+		
+		if (requestLoadingLayout != null) 
+		{
 			requestLoadingLayout.setVisibility(View.GONE);
 		}
 
-		if (requestNoInternetConnectionLayout != null) {
+		if (requestNoInternetConnectionLayout != null) 
+		{
 			requestNoInternetConnectionLayout.setVisibility(View.GONE);
 		}
 
-		if (requestEmptyLayout != null) {
+		if (requestEmptyLayout != null)
+		{
 			requestEmptyLayout.setVisibility(View.GONE);
 		}
 		
@@ -1023,7 +1087,12 @@ public abstract class BaseActivity
 		}
 	}
 
-	private void initCallbackLayouts() {
+	
+	
+	private void initCallbackLayouts() 
+	{
+		requestSuccessfulLayout = (RelativeLayout) findViewById(R.id.request_successful_layout);
+		
 		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_not_transparent);
 
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
@@ -1038,37 +1107,36 @@ public abstract class BaseActivity
 		
 		requestFailedRetryButton = (Button) findViewById(R.id.request_failed_reload_button);
 		
-		if(requestFailedRetryButton != null) {
+		if(requestFailedRetryButton != null) 
+		{
 			requestFailedRetryButton.setOnClickListener(this);
 		}
 
 		requestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
 
-		if (requestNoInternetConnectionRetryButton != null) {
+		if (requestNoInternetConnectionRetryButton != null) 
+		{
 			requestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
-
-//		undoBarlayoutView = findViewById(R.id.undobar);
-//
-//		if (undoBarlayoutView != null) 
-//		{
-//			undoBarController = new UndoBarController(undoBarlayoutView, this);
-//		} 
-//		else 
-//		{
-//			Log.w(TAG, "Undo bar element not present.");
-//		}
 	}
 
-	protected void setEmptyLayoutDetailsMessage(String message) {
-		if (requestEmptyLayoutDetails != null) {
+	
+	
+	protected void setEmptyLayoutDetailsMessage(String message) 
+	{
+		if (requestEmptyLayoutDetails != null) 
+		{
 			requestEmptyLayoutDetails.setText(message);
 			requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 		}
 	}
 	
-	protected void setLoadingLayoutDetailsMessage(String message) {
-		if (requestLoadingLayoutDetails != null) {
+	
+	
+	protected void setLoadingLayoutDetailsMessage(String message) 
+	{
+		if (requestLoadingLayoutDetails != null)
+		{
 			requestLoadingLayoutDetails.setText(message);
 			requestLoadingLayoutDetails.setVisibility(View.VISIBLE);
 		}

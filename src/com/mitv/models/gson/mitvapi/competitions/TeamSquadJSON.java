@@ -6,10 +6,12 @@ public class TeamSquadJSON {
 	private long teamId;
 	private long personId;
 	private String person;
+	private String personShort;
 	private String nation;
 	private long birthDay;
 	private int functionType;
 	private String function;
+	private int shirtNumber;
 	private int matches;
 	private int matchesStart;
 	private int goals;
@@ -34,6 +36,10 @@ public class TeamSquadJSON {
 	public String getPerson() {
 		return person;
 	}
+	
+	public String getPersonShort() {
+		return personShort;
+	}
 
 	public String getNation() {
 		return nation;
@@ -49,6 +55,10 @@ public class TeamSquadJSON {
 
 	public String getFunction() {
 		return function;
+	}
+	
+	public int getShirtNumber() {
+		return shirtNumber;
 	}
 
 	public int getMatches() {

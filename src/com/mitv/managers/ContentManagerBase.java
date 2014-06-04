@@ -24,8 +24,8 @@ import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.Cache;
-import com.mitv.models.Notification;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
@@ -220,7 +220,7 @@ public abstract class ContentManagerBase
 		Log.d(TAG, "Contains AppVersionData " + containsAppVersionData);
 		Log.d(TAG, "Contains TVDates " + containsTVDates);
 		Log.d(TAG, "Contains TVTags " + containsTVTags);
-		Log.d(TAG, "Contains containsTVChannels " + containsTVChannels);
+		Log.d(TAG, "Contains TVChannels " + containsTVChannels);
 		Log.d(TAG, "Contains TVGuideForSelectedDay " + containsTVGuideForSelectedDay);
 		Log.d(TAG, "Contains Competitions " + containsCompetitions);
 		
@@ -1081,7 +1081,7 @@ public abstract class ContentManagerBase
 		{
 			isLocalDeviceCalendarOffSync = false;
 			
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 	
 			Calendar nowFromSNTP = getCache().getInitialCallSNTPCalendar();
 	
@@ -1280,27 +1280,7 @@ public abstract class ContentManagerBase
 	}
 	
 	
-	
-	public Calendar getSelectedCompetitionBeginTime()
-	{
-		Calendar cal;
 		
-		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
-		
-		if(selectedCompetition != null)
-		{
-			cal = selectedCompetition.getBeginTimeCalendarLocal();
-		}
-		else
-		{
-			cal = DateUtils.getNow();
-		}
-		
-		return cal;
-	}
-
-	
-	
 	public List<Competition> getFromCacheVisibleCompetitions()
 	{
 		return getFromCacheAllCompetitions(false);
@@ -1655,11 +1635,9 @@ public abstract class ContentManagerBase
 	{
 		boolean removeItem = false;
 		
-		Long timeZoneOffsetInMillis = DateUtils.getTimeZoneOffsetInMillis();
+		Calendar now = DateUtils.getNowWithLocalTimezone();
 		
-		Calendar now = DateUtils.getNow();
-		
-		Long nowLong = now.getTimeInMillis() + timeZoneOffsetInMillis;
+		Long nowLong = now.getTimeInMillis();
 		
 		Long beginTime = tvBroadcastWithChannelInfo.getBeginTimeMillis();
 		

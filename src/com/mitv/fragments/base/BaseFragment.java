@@ -1,5 +1,5 @@
 
-package com.mitv.fragments;
+package com.mitv.fragments.base;
 
 
 
@@ -33,6 +33,7 @@ public abstract class BaseFragment
 	private static final String TAG = BaseFragment.class.getName();
 
 	
+	private RelativeLayout requestSuccessfulLayout;
 	private RelativeLayout requestEmptyLayout;
 	private RelativeLayout requestLoadingLayout;
 	private FontTextView requestEmptyLayoutDetails;
@@ -40,6 +41,7 @@ public abstract class BaseFragment
 	private RelativeLayout requestFailedLayout;
 	private RelativeLayout requestNoInternetConnectionLayout;
 	private Button requestrequestNoInternetConnectionRetryButton;
+	private Button requestFailedRetryButton;
 
 
 	
@@ -79,11 +81,15 @@ public abstract class BaseFragment
 	}
 	
 	
+	
 	@Override
-	public void onDestroyView() {
+	public void onDestroyView() 
+	{
 		super.onDestroyView();
+		
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 	}
+	
 	
 	
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
@@ -93,9 +99,6 @@ public abstract class BaseFragment
 
 	
 	
-	/*
-	 * This method checks for Internet connectivity on the background thread
-	 */
 	protected void loadDataWithConnectivityCheck()
 	{
 		boolean isConnected = NetworkUtils.isConnected();
@@ -172,8 +175,6 @@ public abstract class BaseFragment
 	
 	protected void updateUIBaseElements(UIStatusEnum status) 
 	{
-		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
-
 		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(getActivity());
 		
 		if (activityNotNullAndNotFinishing) 
@@ -207,7 +208,8 @@ public abstract class BaseFragment
 			
 				case FAILED:
 				{
-					if (requestFailedLayout != null) {
+					if (requestFailedLayout != null) 
+					{
 						requestFailedLayout.setVisibility(View.VISIBLE);
 					}
 					break;
@@ -237,7 +239,10 @@ public abstract class BaseFragment
 				case SUCCESS_WITH_CONTENT:
 				default:
 				{
-					// Success or other cases should be handled by the subclasses
+					if (requestSuccessfulLayout != null) 
+					{
+						requestSuccessfulLayout.setVisibility(View.VISIBLE);
+					}
 					break;
 				}
 			}
@@ -254,6 +259,11 @@ public abstract class BaseFragment
 	// Set the initial state of all request layouts to GONE
 	public void hideRequestStatusLayouts() 
 	{
+		if (requestSuccessfulLayout != null) 
+		{
+			requestSuccessfulLayout.setVisibility(View.GONE);
+		}
+		
 		if (requestLoadingLayout != null) 
 		{
 			requestLoadingLayout.setVisibility(View.GONE);
@@ -280,6 +290,8 @@ public abstract class BaseFragment
 	
 	public void initRequestCallbackLayouts(View view) 
 	{
+		requestSuccessfulLayout = (RelativeLayout) view.findViewById(R.id.request_successful_layout);
+		
 		requestLoadingLayout = (RelativeLayout) view.findViewById(R.id.request_loading_not_transparent);
 		
 		requestLoadingLayoutDetails = (FontTextView) view.findViewById(R.id.request_loading_details_tv);
@@ -288,9 +300,16 @@ public abstract class BaseFragment
 
 		requestEmptyLayoutDetails = (FontTextView) view.findViewById(R.id.request_empty_details_tv);
 		
+		requestNoInternetConnectionLayout = (RelativeLayout) view.findViewById(R.id.no_connection_layout);
+		
 		requestFailedLayout = (RelativeLayout) view.findViewById(R.id.request_failed_main_layout);
 		
-		requestNoInternetConnectionLayout = (RelativeLayout) view.findViewById(R.id.no_connection_layout);
+		requestFailedRetryButton = (Button) view.findViewById(R.id.request_failed_reload_button);
+		
+		if(requestFailedRetryButton != null) 
+		{
+			requestFailedRetryButton.setOnClickListener(this);
+		}
 		
 		requestrequestNoInternetConnectionRetryButton = (Button) view.findViewById(R.id.no_connection_reload_button);
 		
@@ -300,18 +319,28 @@ public abstract class BaseFragment
 		}
 	}
 	
-	protected void setEmptyLayoutDetailsMessage(String message) {
-		if (requestEmptyLayoutDetails != null) {
+	
+	
+	protected void setEmptyLayoutDetailsMessage(String message)
+	{
+		if (requestEmptyLayoutDetails != null)
+		{
 			requestEmptyLayoutDetails.setText(message);
 			requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 		}
 	}
 	
-	protected void setLoadingLayoutDetailsMessage(String message) {
-		if (requestLoadingLayoutDetails != null) {
+	
+	
+	protected void setLoadingLayoutDetailsMessage(String message)
+	{
+		if (requestLoadingLayoutDetails != null)
+		{
 			requestLoadingLayoutDetails.setText(message);
 		}
 	}
+	
+	
 	
 	@Override
 	public void onClick(View v) 
@@ -321,6 +350,7 @@ public abstract class BaseFragment
 		switch (id)
 		{
 			case R.id.no_connection_reload_button:
+			case R.id.request_failed_reload_button:
 			{
 				loadDataWithConnectivityCheck();
 				break;

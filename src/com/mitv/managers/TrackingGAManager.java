@@ -20,7 +20,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.NotificationTypeEnum;
-import com.mitv.models.Notification;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -303,7 +303,8 @@ public class TrackingGAManager
 		}
 	}
 
-	public void sendUserHourSelectionEvent(int lastSelectedHour) {
+	public void sendUserHourSelectionEvent(int lastSelectedHour) 
+	{
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
 		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
@@ -359,7 +360,7 @@ public class TrackingGAManager
 		if (dates != null && !dates.isEmpty() && dayIndex < dates.size()) {
 			TVDate tvDate = dates.get(dayIndex);
 
-			Calendar calendar = tvDate.getStartOfTVDayCalendar();
+			Calendar calendar = tvDate.getStartOfTVDayCalendarGMT();
 			String displayName = tvDate.getDisplayName();
 			String dayMonth = DateUtils.buildDayAndMonthCompositionAsString(calendar, false);
 

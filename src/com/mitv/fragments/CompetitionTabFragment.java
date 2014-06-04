@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.view.View;
 
 import com.mitv.enums.EventTabTypeEnum;
+import com.mitv.fragments.base.BaseFragment;
 import com.mitv.interfaces.ViewCallbackListener;
 
 

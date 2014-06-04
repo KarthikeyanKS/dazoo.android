@@ -54,7 +54,9 @@ public class TVGuideListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private TVDate tvDate;
-	private int currentHour;
+	
+	private int selectedHour;
+	
 	private int rowWidth = -1;
 
 	
@@ -63,7 +65,7 @@ public class TVGuideListAdapter
 			final Activity activity, 
 			final ArrayList<TVChannelGuide> guide, 
 			final TVDate date, 
-			final int hour, 
+			final int selectedHour,
 			final boolean isToday) 
 	{
 		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide, Constants.AD_UNIT_ID_GUIDE_ACTIVITY, true);
@@ -72,8 +74,8 @@ public class TVGuideListAdapter
 		
 		this.tvDate = date;
 		
-		this.currentHour = hour;
-
+		this.selectedHour = selectedHour;
+		
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
@@ -212,7 +214,7 @@ public class TVGuideListAdapter
 
 		if (guide.hasBroadcasts()) 
 		{
-			ArrayList<TVBroadcast> nextBroadcasts = guide.getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(currentHour, tvDate);
+			ArrayList<TVBroadcast> nextBroadcasts = guide.getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(selectedHour, tvDate);
 
 			if (nextBroadcasts != null &&  !nextBroadcasts.isEmpty()) 
 			{
@@ -487,9 +489,9 @@ public class TVGuideListAdapter
 	
 	public void refreshList(int selectedHour) 
 	{
-		this.currentHour = selectedHour;
+		this.selectedHour = selectedHour;
 
-		ContentManager.sharedInstance().setSelectedHour(currentHour);
+		ContentManager.sharedInstance().setSelectedHour(selectedHour);
 		
 		notifyDataSetChanged();
 	}

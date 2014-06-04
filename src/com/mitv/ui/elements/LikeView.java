@@ -16,6 +16,7 @@ import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
+import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.RateAppManager;
@@ -273,9 +274,41 @@ public class LikeView
 					Log.d(TAG, "Successfully added like");
 					
 					StringBuilder sb = new StringBuilder();
-					sb.append(activity.getString(R.string.like_set_text_row1));
-					sb.append(" ");
-					sb.append(activity.getString(R.string.like_set_text_row2));
+					
+					LikeTypeResponseEnum likeType = userLike.getLikeType();
+					
+					switch(likeType)
+					{
+						case COMPETITION:
+						{
+							sb.append(activity.getString(R.string.like_set_text_competition));
+							break;
+						}
+						
+						case TEAM:
+						{
+							sb.append(activity.getString(R.string.like_set_text_team));
+							break;
+						}
+						
+						case SERIES:
+						{
+							sb.append(activity.getString(R.string.like_set_text_series));
+							break;
+						}
+						
+						case PROGRAM:
+						{
+							sb.append(activity.getString(R.string.like_set_text_program));
+							break;
+						}
+						
+						case UNKNOWN:
+						default:
+						{
+							break;
+						}
+					}
 					
 					ToastHelper.createAndShowShortToast(sb.toString());
 					

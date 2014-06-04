@@ -20,7 +20,7 @@ public enum LikeTypeRequestEnum
 	COMPETITION(3),
 	
 	@SerializedName("TEAM")
-	COMPETITION_TEAM(4);
+	TEAM(4);
 	
 	
 	

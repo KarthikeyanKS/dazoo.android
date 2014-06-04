@@ -98,6 +98,9 @@ public class EventPageActivity
 	private RelativeLayout highlightsContainerLayout;
 	private RelativeLayout lineupContainerLayout;
 	
+	private RelativeLayout highlightsFlagAndNameContainerOne;
+	private RelativeLayout highlightsFlagAndNameContainerTwo;
+	
 	private LinearLayout listContainerLayoutHighlights;
 	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
 	private TextView team1NameHighlights;
@@ -137,13 +140,14 @@ public class EventPageActivity
 		
 		events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
-		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
+		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
 		initLayout();
 		
 		setAdapterForLineupTeams(selectedTabIndexForLineupTeams);
 		
 		setAdapterForStandingsList();
+		
 		setAdapterForGroupList();
 	}
 		
@@ -176,6 +180,7 @@ public class EventPageActivity
 				}
 				
 				setData();
+				
 				setAdapterForHighlights();
 				
 				break;
@@ -197,7 +202,6 @@ public class EventPageActivity
 			
 		String awayTeamName = event.getAwayTeam();
 		
-		/* Headr img and text: Team1 va Team2 */
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
 			.append(" ")	
@@ -241,30 +245,30 @@ public class EventPageActivity
 					
 				String team1FlagUrl = team1.getFlagImageURL();
 					
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAware);
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareHighlights);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAwareHighlights);
 				
 				team1Flag.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
 		            }
 		        });
-				
-				team1FlagHighlights.setOnClickListener(new View.OnClickListener() 
+
+				highlightsFlagAndNameContainerOne.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
 		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
 		            }
@@ -282,10 +286,23 @@ public class EventPageActivity
 					
 				String team2FlagUrl = team2.getFlagImageURL();
 					
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAware);
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareHighlights);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAwareHighlights);
 				
 				team2Flag.setOnClickListener(new View.OnClickListener() 
+		        {
+		            public void onClick(View v)
+		            {
+		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
+		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
+		                
+		                startActivity(intent);
+		            }
+		        });
+				
+				highlightsFlagAndNameContainerTwo.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
@@ -293,19 +310,7 @@ public class EventPageActivity
 		                
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
-		                
-		                startActivity(intent);
-		            }
-		        });
-				
-				team2FlagHighlights.setOnClickListener(new View.OnClickListener() 
-		        {
-		            public void onClick(View v)
-		            {
-		                Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-		                
-		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-		                intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
+		                intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 		                
 		                startActivity(intent);
 		            }
@@ -353,14 +358,27 @@ public class EventPageActivity
 				break;
 			}
 		}
-				
-		stadiumName.setText(event.getStadium());
-		stadiumImageCopyright.setText(event.getStadiumImageCopyright());
-		description.setText(event.getDescription());
+		
+		String stadium = event.getStadium();
+		if (stadium != null && !stadium.isEmpty()) {
+			stadiumName.setText(stadium);
+			stadiumName.setVisibility(View.VISIBLE);
+		}
+		
+		String copyright = event.getStadiumImageCopyright();
+		if (copyright != null && !copyright.isEmpty()) {
+			stadiumImageCopyright.setText(copyright);
+			stadiumImageCopyright.setVisibility(View.VISIBLE);
+		}
+		
+		String descriptionText = event.getDescription();
+		if (descriptionText != null && !descriptionText.isEmpty()) {
+			description.setText(descriptionText);
+			description.setVisibility(View.VISIBLE);
+		}
 		
 		boolean isOngoing = event.hasStarted();
 		boolean isFinished = event.isFinished();
-		
 
 		/* The event is ongoing or finished */
 		if (isOngoing || isFinished)
@@ -493,6 +511,9 @@ public class EventPageActivity
 		
 		groupListContainer = (LinearLayout) findViewById(R.id.competition_event_group_list);
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_event_standings_list);
+		
+		highlightsFlagAndNameContainerOne = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_one_flag_container);
+		highlightsFlagAndNameContainerTwo = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_two_flag_container);
 	}
 	
 
@@ -575,7 +596,7 @@ public class EventPageActivity
 
 		String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
 		
 		groupListAdapter = new CompetitionEventEventsByGroupListAdapter(this, events, true, viewBottomMessage, procedure);
 		
@@ -613,7 +634,7 @@ public class EventPageActivity
 		
 		String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
 		
 		standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
 		
@@ -642,7 +663,11 @@ public class EventPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfHighlights = true;
+		boolean forceRefreshOfHighlights = false;
+		
+		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
+			forceRefreshOfHighlights = true;
+		}
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
 	}
@@ -738,7 +763,7 @@ public class EventPageActivity
 	
 	
 	
-	private Runnable getNavigateToCompetitionPageProcedure()
+	private Runnable getNavigateToCompetitionPageProcedure(final int tabToNavigateTo)
 	{
 		return new Runnable() 
 		{
@@ -747,7 +772,7 @@ public class EventPageActivity
 				Intent intent = new Intent(EventPageActivity.this, CompetitionPageActivity.class);
 				
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
+                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, tabToNavigateTo);
                 
 				startActivity(intent);
 			}

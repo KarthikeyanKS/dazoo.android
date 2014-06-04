@@ -234,7 +234,7 @@ public class CompetitionEventEventsByGroupListAdapter
 
 				ImageAware imageAwareForTeam1 = new ImageViewAware(holder.team1flag, false);
 
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team1FlagUrl, imageAwareForTeam1);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAwareForTeam1);
 
 				long team2ID = event.getAwayTeamId();
 
@@ -244,7 +244,7 @@ public class CompetitionEventEventsByGroupListAdapter
 
 				String team2FlagUrl = team2.getFlagImageURL();
 
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(team2FlagUrl, imageAwareForTeam2);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAwareForTeam2);
 			}
 
 			holder.team1name.setText(homeTeamName);

@@ -17,7 +17,7 @@ import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.Notification;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.FontTextView;

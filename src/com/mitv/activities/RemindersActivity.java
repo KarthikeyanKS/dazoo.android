@@ -18,8 +18,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.Notification;
 import com.mitv.models.comparators.NotificationComparatorByBeginTime;
+import com.mitv.models.objects.mitvapi.Notification;
 
 
 

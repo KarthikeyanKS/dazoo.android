@@ -12,7 +12,6 @@ import android.util.Log;
 
 public class RequestParameters 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = RequestParameters.class.getName();
 	
 	

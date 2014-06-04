@@ -29,7 +29,7 @@ import com.mitv.interfaces.ActivityWithTabs;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingAIManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.models.Notification;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.ui.elements.FontTextView;

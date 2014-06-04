@@ -3,8 +3,10 @@ package com.mitv.activities.competition;
 
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -45,7 +48,6 @@ public class TeamPageActivity
 	implements ViewCallbackListener, FetchDataProgressCallbackListener
 {	
 	private static final String TAG = TeamPageActivity.class.getName();
-
 	
 	private Team team;
 	private long teamID;
@@ -110,6 +112,8 @@ public class TeamPageActivity
 		
 		teamID = intent.getLongExtra(Constants.INTENT_COMPETITION_TEAM_ID, 0);
 		
+		phaseID = intent.getLongExtra(Constants.INTENT_COMPETITION_PHASE_ID, 0);
+		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_BY_ID);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUAD);
@@ -169,7 +173,11 @@ public class TeamPageActivity
 		setLoadingLayoutDetailsMessage(loadingString);
 		
 		/* Always re-fetch the data from the service */
-		boolean forceRefresh = true;
+		boolean forceRefresh = false;
+		
+		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
+			forceRefresh = true;
+		}
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefresh, competitionID, teamID);
 		
@@ -208,11 +216,10 @@ public class TeamPageActivity
 	
 			case COMPETITION_TEAM_SQUAD:
 			{
-				// TODO - Enable this to get the Squad from the API
-//				if(fetchRequestResult.wasSuccessful())
-//				{
-//					setSquadLayout();
-//				}
+				if(fetchRequestResult.wasSuccessful())
+				{
+					setSquadLayout();
+				}
 				break;
 			}
 	
@@ -260,7 +267,7 @@ public class TeamPageActivity
 		shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 		
 		/* Squad */
-		//squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
+		squadListContainer = (LinearLayout) findViewById(R.id.competition_team_page_squad_list);
 		
 		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);
@@ -275,48 +282,76 @@ public class TeamPageActivity
 	
 	private void setMainLayoutLayout() 
 	{
+		boolean filterFinishedEvents = true;
+		boolean filterLiveEvents = false;
+		events = ContentManager.sharedInstance().getFromCacheEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
+		
+		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
+		
 		if (team != null) 
-		{	
-			boolean filterFinishedEvents = true;
-			boolean filterLiveEvents = false;
-			events = ContentManager.sharedInstance().getFromCacheEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
-			
-			// TODO
-			phaseID = events.get(0).getPhaseId(); //95404;
-			phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
-			
+		{
+			/* Team flag */
 			ImageAware imageAwareForTeamFlag = new ImageViewAware(teamFlagImage, false);
 			
 			String teamFlagUrl = team.getFlagImageURL();
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionOptions(teamFlagUrl, imageAwareForTeamFlag);
-
-			ImageAware imageAwareForTeamBanner = new ImageViewAware(teamImage, false);
-				
-			String teamBannerUrl = "";
-				
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionTeamBannerOptions(teamBannerUrl, imageAwareForTeamBanner);	
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(teamFlagUrl, imageAwareForTeamFlag);
 
 			String name = team.getDisplayName();
 			teamName.setText(name);
 			
 			teamFootballNational.setText(this.getResources().getString(R.string.team_page_team_info_header));
 			
-			/* TODO Change to real data */
-			String textAbout = this.getResources().getString(R.string.team_page_team_info_about_hard_coded);
-			about.setText(textAbout);
+			/* Team image */
+			ImageAware imageAwareForTeamBanner = new ImageViewAware(teamImage, false);
+
+			String teamBannerUrl = team.getTeamImageURL();
+				
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionTeamBannerOptions(teamBannerUrl, imageAwareForTeamBanner);
 			
-			foundedHeader.setText("");
-			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
-			locationHeader.setText("");
-			arenasHeader.setText("");
-//			photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+			/* Description */
+			String textAbout = team.getDescription();
+			if (textAbout != null && !textAbout.isEmpty()) 
+			{
+				about.setText(textAbout);
+				about.setVisibility(View.VISIBLE);
+			}
 			
-			founded.setText("");
-			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
-			location.setText("");
+			/*
+			 * TODO
+			 * 
+			 *  Add checks if we have the missing data below
+			 *  
+			 */
+			
+//			foundedHeader.setText("");
+			
+//			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
+
+//			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
+			
+//			locationHeader.setText("");
+			
+//			arenasHeader.setText("");
+			
+//			founded.setText("");
+			
+//			location.setText("");
+			
 //			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
-			photoFrom.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+			
+			/* photo credit */
+			String credit = team.getTeamImageCopyright();
+			if (credit != null && !credit.isEmpty()) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))
+					.append(" ")
+					.append(team.getTeamImageCopyright());
+				
+//				photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
+				photoFrom.setText(sb.toString());
+				photoFrom.setVisibility(View.VISIBLE);
+			}
 			
 			likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
 			
@@ -363,6 +398,8 @@ public class TeamPageActivity
 		
 		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID);
 		
+		filterCoachFromSquad();
+		
 		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
 		
 		for (int i = 0; i < squadListAdapter.getCount(); i++) 
@@ -376,6 +413,25 @@ public class TeamPageActivity
         }
 		
 		squadListContainer.measure(0, 0);
+	}
+	
+	
+	
+	private void filterCoachFromSquad() {
+		List<TeamSquad> squadsToRemove = new ArrayList<TeamSquad>();
+		
+		if (teamSquads != null) {
+			
+			for (TeamSquad squad : teamSquads) {
+				if (squad.getFunction().equals(Constants.FUNCTION_COACH)) {
+					squadsToRemove.add(squad);
+				}
+			}
+			
+			if (squadsToRemove != null && !squadsToRemove.isEmpty()) {
+				teamSquads.removeAll(squadsToRemove);
+			}
+		}
 	}
 	
 	
@@ -399,7 +455,7 @@ public class TeamPageActivity
 		
 		String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
 		
 		/* Using the same list adapter as the evens */
 		standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
@@ -432,7 +488,7 @@ public class TeamPageActivity
 		
 		String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
 		
-		Runnable procedure = getNavigateToCompetitionPageProcedure();
+		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
 
 		scheduleListAdapter = new CompetitionTagEventsListAdapter(this, events, true, viewBottomMessage, procedure);
 		
@@ -475,7 +531,7 @@ public class TeamPageActivity
 	
 	
 	
-	private Runnable getNavigateToCompetitionPageProcedure()
+	private Runnable getNavigateToCompetitionPageProcedure(final int tabToNavigateTo)
 	{
 		return new Runnable() 
 		{
@@ -484,7 +540,7 @@ public class TeamPageActivity
 				Intent intent = new Intent(TeamPageActivity.this, CompetitionPageActivity.class);		
 				
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionID);
-                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
+                intent.putExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, tabToNavigateTo);
                 
 				startActivity(intent);
 			}

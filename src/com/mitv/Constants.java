@@ -32,10 +32,10 @@ public abstract class Constants
 	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME = "59b039d2c0c0a7fbe173";
@@ -60,6 +60,7 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
+	public static final boolean USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES = false;
 	
 	
 	
@@ -133,9 +134,11 @@ public abstract class Constants
 	public static final String URL_POLLS 					 		= "/polls";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
+	public static final String URL_TEAMS_IMAGE				 		= "/sports/teams";
 	
-	/* Share */
+	/* Share URLs for the frontend */
 	public static final String URL_COMPETITIONS_SPANISH				= "/competicion/";
+	public static final String URL_EVENTS_SPANISH					= "/eventos";
 	public static final String URL_SHARE_SPORT_SPANISH		 		= "/deportes";
 	public static final String URL_SHARE_SPORT_team_SPANISH		 	= "/equipos/";
 	
@@ -420,16 +423,16 @@ public abstract class Constants
 	public static final String SYSTEM_APP_PATH = "/system/app/";
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
-	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
-	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 10000;
+	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 15000;
+	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 15000;
 	
 	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
+    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 4000;
     
     /* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
-    public static final String HOST_FOR_NTP_CHECK = "se.pool.ntp.org";
+    public static final String HOST_FOR_NTP_CHECK = "us.pool.ntp.org";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 4000;
     
     
@@ -517,6 +520,7 @@ public abstract class Constants
 	/* Competitions */
 	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_FLAGS;
 	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
+	public static final String TEAM_PAGE_TEAM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_TEAMS_IMAGE;
 	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_s";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_m";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_l";
@@ -524,6 +528,7 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_ID = "competitionID";
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";
+	public static final String INTENT_COMPETITION_PHASE_ID = "phaseID";
 	public static final String INTENT_COMPETITION_NAME = "competitionName";
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
 	
@@ -542,4 +547,5 @@ public abstract class Constants
 	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";
 	public static final String GROUP_STAGE = "Fase de Grupos";
 	public static final int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON = 1;
+	public static final String FUNCTION_COACH = "Coach";
 }
