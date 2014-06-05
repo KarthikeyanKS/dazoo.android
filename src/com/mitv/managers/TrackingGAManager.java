@@ -189,18 +189,39 @@ public class TrackingGAManager
 		sendSystemEvent(Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION);
 	}
 	
-	public void sendUserSharedEvent(TVBroadcast broadcast) {
+	
+	
+	public void sendUserSharedEvent(TVBroadcast broadcast) 
+	{
 		String broadcastTitle = broadcast.getTitle();
+		
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
-
 	
 	
-	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) {
+	
+	public void sendUserNoDataRetryLayoutButtomPressed(String activityOrFragmentName) 
+	{
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_NO_DATA_LAYOUT_RETRY, activityOrFragmentName);
+	}
+	
+	
+	
+	public void sendUserNoConnectionRetryLayoutButtomPressed(String activityOrFragmentName) 
+	{
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_NO_CONNECTION_LAYOUT_RETRY, activityOrFragmentName);
+	}
+	
+	
+	
+	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) 
+	{
 		String broadcastTitle = userLike.getTitle();
 
 		Long addedLike = 1L;
-		if (didJustUnlike) {
+		
+		if (didJustUnlike) 
+		{
 			addedLike = 0L;
 		}
 
@@ -682,10 +703,11 @@ public class TrackingGAManager
 
 			sendEventWithLabel(category, action, label);
 
-		} else {
+		} 
+		else 
+		{
 			throw new IllegalArgumentException("String in sendGooglePlayCampaignToAnalytics: " + campaignData + " does not contain &");
 
 		}
 	}
-
 }
