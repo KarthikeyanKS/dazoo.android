@@ -21,10 +21,10 @@ public class AlarmSetter
 	@Override
 	public void onReceive(Context context, Intent intent) 
 	{
-		// Set the alarms when the phone reboots
+		/* Set the alarms when the phone reboots */
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) 
 		{
-			NotificationHelper.scheduleAlarms(context);
+			NotificationHelper.scheduleNotifications(context);
 		}
 	}
 }

@@ -107,12 +107,13 @@ public class CompetitionEventEventsByGroupListAdapter
 		if (rowView == null)
 		{
 			// We are reusing the same row layout from the competition page
-			rowView = layoutInflater.inflate(R.layout.row_competition_event_group_events_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_group_events_list_item, null);
 			
 			ViewHolder viewHolder = new ViewHolder();
 			
-			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_row_container);
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
 
+			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event);
 			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
 			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_row_divider);
 			
@@ -137,6 +138,7 @@ public class CompetitionEventEventsByGroupListAdapter
 		{
 			holder.startWeekDayHeader.setVisibility(View.GONE);
 			holder.dividerView.setVisibility(View.GONE);
+			holder.group.setVisibility(View.GONE);
 
 			final Event event = getItem(position);
 			
@@ -216,7 +218,11 @@ public class CompetitionEventEventsByGroupListAdapter
 			if (isLastPosition == false && isBeginTimeEqualToNextItem)
 			{
 				holder.dividerView.setVisibility(View.VISIBLE);
-			}			
+			}
+			else 
+			{
+				holder.dividerView.setVisibility(View.GONE);
+			}
 
 			String homeTeamName = event.getHomeTeam();
 
@@ -364,6 +370,7 @@ public class CompetitionEventEventsByGroupListAdapter
 	
 	private static class ViewHolder 
 	{
+		private TextView group;
 		private TextView startWeekDayHeader;
 		private TextView team1name;
 		private ImageView team1flag;

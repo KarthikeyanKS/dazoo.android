@@ -34,10 +34,6 @@ public class ResetPasswordConfirmationActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-		
 		setContentView(R.layout.layout_resetpasswordfinal_activity);
 
 		initViews();

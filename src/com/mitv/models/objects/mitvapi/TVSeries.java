@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVSeriesJSON;
-import com.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -21,13 +20,5 @@ public class TVSeries
 		boolean areDataFieldsValid = (!TextUtils.isEmpty(getSeriesId()) && !TextUtils.isEmpty(getName()));		
 		
 		return areDataFieldsValid;
-	}
-	
-	
-	
-	public TVSeries(NotificationSQLElement item)
-	{
-		this.seriesId = item.getSeriesId(); 
-		this.name = item.getSeriesName();
 	}
 }

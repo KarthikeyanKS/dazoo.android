@@ -10,12 +10,14 @@ import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 
 
+@DatabaseTable()
 public class TVBroadcastORM
 	extends AbstractOrmLiteClassWithAsyncSave<TVBroadcastORM> 
 {

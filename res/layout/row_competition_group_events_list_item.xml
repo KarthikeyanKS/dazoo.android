@@ -36,7 +36,7 @@
         android:id="@+id/row_competition_row_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_color_selector_white"
+        android:background="@drawable/background_color_selector"
         android:padding="5dp" >
 
         <RelativeLayout

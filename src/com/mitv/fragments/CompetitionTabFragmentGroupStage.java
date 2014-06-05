@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
-import com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventTabTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;

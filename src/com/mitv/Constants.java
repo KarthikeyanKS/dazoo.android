@@ -43,7 +43,7 @@ public abstract class Constants
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
-	public static final int CACHE_DATABASE_VERSION = 1;
+	public static final int CACHE_DATABASE_VERSION = 2;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
@@ -178,6 +178,7 @@ public abstract class Constants
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int USER_LASTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
+	public static final int RETRY_COUNT_THRESHOLD 					= 10; //Or other appropriate limit
 
 	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String  CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
@@ -193,14 +194,7 @@ public abstract class Constants
 
 	/* Alarm extras */
 	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION"; //WARNING do NOT change this without changing in the Android Manifest> <action android:name="NOTIFICATION" />
-	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.mitv.intent.alarm.extra.broadcast.begintimemillis";
-	public static final String	INTENT_ALARM_EXTRA_CHANNELID						= "com.mitv.intent.alarm.extra.channelid";
-	public static final String	INTENT_ALARM_EXTRA_NOTIFICIATION_ID					= "com.mitv.intent.alarm.extra.notification.id";
-	public static final String	INTENT_ALARM_EXTRA_BROADCAST_NAME					= "com.mitv.intent.alarm.extra.broadcast.name";
-	public static final String	INTENT_ALARM_EXTRA_CHANNEL_NAME						= "com.mitv.intent.alarm.extra.channel.name";
-	public static final String	INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL					= "com.mitv.intent.alarm.extra.channel.logo.url";
-	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.mitv.intent.alarm.extra.date.date";
-	public static final String	INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME	= "com.mitv.intent.alarm.extra.broadcast.time";
+	public static final String	INTENT_NOTIFICATION_EXTRA_NOTIFICATION_ID			= "com.mitv.intent.alarm.extra.notification.id";
 
 	public static final String	INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO	= "com.mitv.intent.extra.need.to.download.broadcast.with.channel.info";
 	
@@ -433,6 +427,8 @@ public abstract class Constants
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
 	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 15000;
 	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 15000;
+	public static final int HTTP_CORE_SECONDARY_CONNECTION_TIMEOUT_IN_MILISECONDS = 30000;
+	public static final int HTTP_CORE_SECONDARY_SOCKET_TIMEOUT_IN_MILISECONDS = 30000;
 	
 	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
@@ -476,7 +472,6 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
-	public static final String SHARED_PREFERENCES_APP_IS_RESTARTING = "app_is_restarting";
 	
 	/* Shared preferences for TUTORIAL */
 	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";

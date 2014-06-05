@@ -42,9 +42,10 @@ public class PerformUserSignUp
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			UserRegistrationData userRegistrationData,
-			boolean usingHashedPassword)
+			boolean usingHashedPassword,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword), false, isRetry);
 		
 		this.bodyContentData = gson.toJson(userRegistrationData);
 		

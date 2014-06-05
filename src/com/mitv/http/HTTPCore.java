@@ -73,12 +73,21 @@ public class HTTPCore
 			final String url,
 			final URLParameters urlParameters,
 			final HeaderParameters headerParameters,
-			final String bodyContentData)
+			final String bodyContentData,
+			final boolean isRetry)
 	{
 		StringBuilder messageSB = new StringBuilder();
         messageSB.append("HTTP Get request for url: ");
         messageSB.append(url);
         Log.d(TAG, messageSB.toString());
+        
+        int connectionTimeoutUsed = Constants.HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS;
+        int socketTimeoutUsed = Constants.HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS;
+        if (isRetry) 
+        {
+        	connectionTimeoutUsed = Constants.HTTP_CORE_SECONDARY_CONNECTION_TIMEOUT_IN_MILISECONDS;
+        	socketTimeoutUsed = Constants.HTTP_CORE_SECONDARY_SOCKET_TIMEOUT_IN_MILISECONDS;
+        }
 
         HTTPCoreResponse response = executeRequest(
         		httpRequestType,
@@ -88,8 +97,8 @@ public class HTTPCore
         		Constants.JSON_MIME_TYPE,
         		Constants.JSON_MIME_TYPE,
 				bodyContentData,
-				Constants.HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS,
-				Constants.HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS,
+				connectionTimeoutUsed,
+				socketTimeoutUsed,
 				false,
 				new String(),
 				0,

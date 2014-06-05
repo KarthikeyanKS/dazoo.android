@@ -37,9 +37,10 @@ public class RemoveUserLike
 	public RemoveUserLike(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			UserLike userLike)
+			UserLike userLike,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(userLike), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(userLike), false, isRetry);
 		
 		this.userLike = userLike;
 	}

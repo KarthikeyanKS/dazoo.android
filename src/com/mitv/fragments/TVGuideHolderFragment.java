@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.pager.TVGuideTagFragmentStatePagerAdapter;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
@@ -92,10 +91,7 @@ public class TVGuideHolderFragment
 		
 		pageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
 
-		if(!SecondScreenApplication.isAppRestarting()) 
-		{
-			setAdapter(selectedTabIndex);
-		}
+		setAdapter(selectedTabIndex);
 		
 		return v;
 	}

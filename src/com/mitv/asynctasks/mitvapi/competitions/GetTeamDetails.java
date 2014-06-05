@@ -63,8 +63,9 @@ public class GetTeamDetails
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final String competitionID,
-			final String teamID)
+			final String teamID,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_DETAILS, TeamDetails.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_DETAILS, TeamDetails.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID), false, isRetry);
 	}
 }

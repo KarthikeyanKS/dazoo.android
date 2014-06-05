@@ -64,11 +64,7 @@ public class FeedActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-					
+				
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM_MORE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN);

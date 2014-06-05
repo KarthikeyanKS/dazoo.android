@@ -43,9 +43,10 @@ public class GetDisqusThreadPosts
 	public GetDisqusThreadPosts(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			String contentID) 
+			String contentID,
+			boolean isRetry) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.DISQUS_THREAD_COMMENTS, DisqusBaseResponse.class, false, HTTPRequestTypeEnum.HTTP_GET, buildURL(), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.DISQUS_THREAD_COMMENTS, DisqusBaseResponse.class, false, HTTPRequestTypeEnum.HTTP_GET, buildURL(), false, isRetry);
 		
 		this.urlParameters.add(Constants.DISQUS_API_THREAD_IDENT_PARAMETER, contentID);
 		this.urlParameters.add(Constants.DISQUS_API_FORUM_PARAMETER, Constants.DISQUS_API_FORUM_NAME);

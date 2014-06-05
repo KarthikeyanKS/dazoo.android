@@ -18,9 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
-import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.competitions.Event;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 
 
@@ -35,7 +32,6 @@ public class CompetitionTeamSquadsTeamsListAdapter
 	private Activity activity;
 	
 	private List<TeamSquad> teamSquads;
-	private int rowWidth = -1;
 		
 	
 	
@@ -86,13 +82,6 @@ public class CompetitionTeamSquadsTeamsListAdapter
 	public long getItemId(int arg0) 
 	{
 		return -1;
-	}
-	
-	
-	
-	public void setRowWidth(int width) 
-	{
-		this.rowWidth = width;
 	}
 	
 	

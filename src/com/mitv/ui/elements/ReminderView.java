@@ -8,20 +8,19 @@ import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.managers.ContentManager;
 import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
-import com.mitv.models.sql.NotificationDataSource;
-import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.NotificationHelper;
 import com.mitv.ui.helpers.ToastHelper;
@@ -33,24 +32,25 @@ public class ReminderView
 	extends RelativeLayout 
 	implements OnClickListener 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = ReminderView.class.toString();
 
 	
 	private LayoutInflater inflater;
+	private View containerView;
 	private FontTextView iconView;
 	private Activity activity;
-	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
-	private EventBroadcast eventDetails;
-	private int notificationId;
-	private NotificationDataSource notificationDataSource;
+	
+	private Notification notification;
 	private boolean isSet;
-	private View containerView;
-	private Event event;
+	
+	
 	
 	
 	public ReminderView(Context context)
 	{
 		super(context);
+		
 		setup(context);
 	}
 
@@ -59,6 +59,7 @@ public class ReminderView
 	public ReminderView(Context context, AttributeSet attrs) 
 	{
 		super(context, attrs);		
+		
 		setup(context);
 	}
 
@@ -67,46 +68,52 @@ public class ReminderView
 	public ReminderView(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
+		
 		setup(context);
 	}
+
 
 	
 	private void setup(Context context) 
 	{
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		this.containerView = inflater.inflate(R.layout.element_reminder_view, this);
 		
-		this.iconView = (FontTextView) this.findViewById(R.id.element_reminder_image_View);
+		this.iconView = (FontTextView) findViewById(R.id.element_reminder_image_View);
 		
 		this.activity = (Activity) context;
 		
-		this.notificationDataSource = new NotificationDataSource(context);
+		this.notification = null;
+		
+		this.isSet = false;
 	}
+	
 	
 	
 	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
 	{
-		this.tvBroadcastWithChannelInfo = broadcast;
-		
-		if (tvBroadcastWithChannelInfo != null && 
-			tvBroadcastWithChannelInfo.isAiring() == false &&
-			tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
+		if (broadcast != null && 
+			broadcast.isAiring() == false &&
+			broadcast.isEventAiringInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
 		{
-			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
+			String channelId = broadcast.getChannel().getChannelId().getChannelId();
+			String programId = broadcast.getProgram().getProgramId();
+			long beginTimeInMilliseconds = broadcast.getBeginTimeMillis();
+			
+			Notification notification = ContentManager.sharedInstance().getFromCacheNotificationWithChannelIdAndProgramId(channelId, programId, beginTimeInMilliseconds);
 
-			if (dbItem != null && dbItem.getNotificationId() != 0) 
+			if (notification != null) 
 			{
-				Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
-				
-				notificationId = dbItem.getNotificationId();
-				
-				isSet = true;
-			} 
+				this.notification = notification;
+				this.isSet = true;
+			}
 			else 
 			{
-				isSet = false;
+				this.notification = new Notification(broadcast);
+				this.isSet = false;
 			}
+			
 			if (isSet)
 			{
 				iconView.setTextColor(getResources().getColor(R.color.blue1));
@@ -132,29 +139,29 @@ public class ReminderView
 	
 	
 	
-	public void setCompetitionEventBroadcast(Event event, EventBroadcast eventDetails) 
+	public void setCompetitionEventBroadcast(Event event, EventBroadcast eventBroadcast) 
 	{
-		this.event = event;
-		this.eventDetails = eventDetails;
-		
-		if (eventDetails != null && 
-			eventDetails.isAiring() == false &&
-			eventDetails.isEventAiringInOrInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
+		if (eventBroadcast != null && 
+			eventBroadcast.isAiring() == false &&
+			eventBroadcast.isEventAiringInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
 		{
-			NotificationSQLElement dbItem = notificationDataSource.getNotification(eventDetails.getTVChannelIdForEventBroadcast(), eventDetails.getBeginTime());
-
-			if (dbItem != null && dbItem.getNotificationId() != 0) 
-			{
-				Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
-				
-				notificationId = dbItem.getNotificationId();
-				
+			long competitionId = event.getCompetitionId();
+			long eventId = event.getEventId();
+			long beginTimeInMilliseconds = event.getBeginTimeLocalInMillis();
+			
+			Notification notificationFromCache = ContentManager.sharedInstance().getFromCacheNotificationWithCompetitionIdAndEventId(competitionId, eventId, beginTimeInMilliseconds);
+			
+			if (notificationFromCache != null) 
+			{	
+				notification = notificationFromCache;
 				isSet = true;
 			} 
 			else 
 			{
+				notification = new Notification(event, eventBroadcast);
 				isSet = false;
 			}
+			
 			if (isSet)
 			{
 				iconView.setTextColor(getResources().getColor(R.color.blue1));
@@ -202,21 +209,12 @@ public class ReminderView
 	public void onClick(View v) 
 	{
 		RateAppManager.significantEvent(activity);
-		boolean isTVBroadcast;
 		
 		if (isSet == false) 
 		{
-			if (tvBroadcastWithChannelInfo != null) {
-				TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, false);
-				isTVBroadcast = true;
-				NotificationHelper.scheduleAlarm(activity, null, null, isTVBroadcast, tvBroadcastWithChannelInfo);
-			}
-			
-			else {
-				isTVBroadcast = false;
-				TrackingGAManager.sharedInstance().sendUserReminderEventCompetition(event, false);
-				NotificationHelper.scheduleAlarm(activity, event, eventDetails, isTVBroadcast, null);
-			}
+			TrackingGAManager.sharedInstance().sendUserReminderEvent(notification, false);
+						
+			NotificationHelper.scheduleNotification(activity, notification);
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append(activity.getString(R.string.reminder_text_set_top));
@@ -231,36 +229,26 @@ public class ReminderView
 
 			iconView.setTextColor(getResources().getColor(R.color.blue1));
 
-			NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
-
-			notificationId = dbItemRemind.getNotificationId();
-
 			AnimationUtils.animationSet(this);
 
 			isSet = true;
 		} 
 		else 
 		{
-			if (notificationId != -1)
-			{
-				DialogHelper.showRemoveNotificationDialog(activity, tvBroadcastWithChannelInfo, notificationId, yesNotificationProcedure(), null);
-			}
-			else
-			{
-				Log.w(TAG, "Could not find remainder in database.");
-			}
+			DialogHelper.showRemoveNotificationDialog(activity, notification, removeNotificationProcedure(), null);
 		}
 	}
 
 	
 	
-	public Runnable yesNotificationProcedure() 
+	public Runnable removeNotificationProcedure() 
 	{
 		return new Runnable()
 		{
 			public void run()
 			{
-				TrackingGAManager.sharedInstance().sendUserReminderEvent(tvBroadcastWithChannelInfo, true);
+				TrackingGAManager.sharedInstance().sendUserReminderEvent(notification, true);
+				
 				iconView.setTextColor(getResources().getColor(R.color.grey3));
 				
 				isSet = false;

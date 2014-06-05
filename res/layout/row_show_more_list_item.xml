@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white"
-    android:foreground="@drawable/background_color_selector_banner" >
+    android:background="@drawable/background_color_selector">
 
     <View
         android:id="@+id/competition_event_broadcast_divider"
@@ -25,7 +24,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:singleLine="true"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textColor="@color/grey2"/>
     
 </RelativeLayout>

@@ -48,8 +48,9 @@ public class GetTeamByID
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final long competitionID,
-			final long teamID)
+			final long teamID,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_BY_ID, Team.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_BY_ID, Team.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID), false, isRetry);
 	}
 }

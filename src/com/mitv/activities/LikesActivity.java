@@ -41,11 +41,7 @@ public class LikesActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-		
+
 		setContentView(R.layout.layout_likes_activity);
 		
 		initLayout();

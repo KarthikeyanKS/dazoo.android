@@ -50,9 +50,10 @@ public class GetTVBroadcastsPopular
 	public GetTVBroadcastsPopular(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean standalone)
+			boolean standalone,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
 	}
 	
 	

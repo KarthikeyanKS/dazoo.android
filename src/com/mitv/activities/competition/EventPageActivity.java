@@ -114,15 +114,11 @@ public class EventPageActivity
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
 	
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded())
-		{
-			return;
-		}
 		
 		setContentView(R.layout.layout_competition_event_page);
 		
@@ -238,8 +234,6 @@ public class EventPageActivity
 			
 			if(team1 != null)
 			{
-				Log.w(TAG, "Local flag for team: " + team1.getNationCode() + " not found in cache");
-					
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
 				ImageAware imageAwareHighlights = new ImageViewAware(team1FlagHighlights, false);
 					
@@ -542,8 +536,6 @@ public class EventPageActivity
 	            	listContainerLayoutHighlights.addView(listItem);
 	            }
 	        }
-			
-			listContainerLayoutHighlights.measure(0, 0);
 		}
 	}
 	
@@ -609,8 +601,6 @@ public class EventPageActivity
             	groupListContainer.addView(listItem);
             }
         }
-		
-		groupListContainer.measure(0, 0);
 	}
 	
 	
@@ -647,8 +637,6 @@ public class EventPageActivity
             	standingsListContainer.addView(listItem);
             }
         }
-		
-		standingsListContainer.measure(0, 0);
 	}
 
 
@@ -733,7 +721,10 @@ public class EventPageActivity
 		
 		Collections.sort(broadcasts, new EventBroadcastByStartTime());
 		
-		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, broadcasts);
+		long competitionId = event.getCompetitionId();
+		long eventId = event.getEventId();
+		
+		listAdapter = new CompetitionEventPageBroadcastListAdapter(this, competitionId, eventId, broadcasts);
 		
 		for (int i = 0; i < listAdapter.getCount(); i++) 
 		{
@@ -744,8 +735,6 @@ public class EventPageActivity
             	broadcastListView.addView(listItem);
             }
         }
-		
-		broadcastListView.measure(0, 0);
 	}
 	
 	

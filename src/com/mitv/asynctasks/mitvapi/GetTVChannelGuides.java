@@ -67,9 +67,10 @@ public class GetTVChannelGuides
 			final ViewCallbackListener activityCallbackListener,
 			final boolean standalone,
 			final TVDate tvDate,
-			final List<TVChannelId> tvChannelIds) 
+			final List<TVChannelId> tvChannelIds,
+			boolean isRetry) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelGuide[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvDate), Constants.USE_INITIAL_METRICS_ANALTYTICS);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelGuide[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvDate), Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
 		
 		this.tvDate = tvDate;
 		

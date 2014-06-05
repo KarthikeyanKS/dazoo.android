@@ -49,9 +49,10 @@ public class GetTVBroadcastsFromSeries
 	public GetTVBroadcastsFromSeries(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			String tvSeriesId) 
+			String tvSeriesId,
+			boolean isRetry) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId), false, isRetry);
 	}
 	
 	

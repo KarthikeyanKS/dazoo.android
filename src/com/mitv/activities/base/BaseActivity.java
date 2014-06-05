@@ -3,13 +3,11 @@ package com.mitv.activities.base;
 
 
 
-import java.util.List;
 import java.util.Stack;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -29,26 +27,22 @@ import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.SearchPageActivity;
-import com.mitv.activities.SplashScreenActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.managers.TrackingManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.FontManager;
-import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.ImageLoaderManager;
-import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -61,8 +55,7 @@ public abstract class BaseActivity
 	private static final String TAG = BaseActivity.class.getName();
 	
 	
-	private static final int TV_DATE_NOT_FOUND = -1;
-
+	
 	private static final int SELECTED_TAB_FONT_SIZE = 12;
 	
 	private static Stack<BaseActivity> activityStack = new Stack<BaseActivity>();
@@ -129,67 +122,67 @@ public abstract class BaseActivity
 	
 	
 	
-	/**
-	 * If ContentManager is not null, and cache is not null and we have no initial data, then this activity got
-	 * recreated due to low memory and then we need to restart the app.
-	 * @return 
-	 * 
-	 */
-	protected boolean isRestartNeeded() 
-	{
-		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false) 
-		{
-			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
-
-			if (ContentManager.sharedInstance().isUpdatingGuide() == false) 
-			{
-				boolean isConnected = NetworkUtils.isConnected();
-
-				if (isConnected) 
-				{
-					restartTheApp();
-					
-					return true;
-				}
-			} 
-			else 
-			{
-				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
-			}
-		}
-		
-		return false;
-	}
-	
-	
-	
-	public void restartTheApp() 
-	{
-		if (!SecondScreenApplication.isAppRestarting())
-		{
-			Log.e(TAG, "Restarting the app");
-			
-			SecondScreenApplication.setAppIsRestarting(true);
-
-			Intent intent = new Intent(this, SplashScreenActivity.class);
-			
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
-			
-			Context context = app.getApplicationContext();
-			
-			context.startActivity(intent);
-
-			killAllActivitiesIncludingThis();
-			
-			finish();
-		} 
-		else 
-		{
-			Log.e(TAG, "App is already being restarted");
-		}
-	}
+//	/**
+//	 * If ContentManager is not null, and cache is not null and we have no initial data, then this activity got
+//	 * recreated due to low memory and then we need to restart the app.
+//	 * @return 
+//	 * 
+//	 */
+//	protected boolean isRestartNeeded() 
+//	{
+//		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false) 
+//		{
+//			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
+//
+//			if (ContentManager.sharedInstance().isUpdatingGuide() == false) 
+//			{
+//				boolean isConnected = NetworkUtils.isConnected();
+//
+//				if (isConnected) 
+//				{
+//					restartTheApp();
+//					
+//					return true;
+//				}
+//			} 
+//			else 
+//			{
+//				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
+//			}
+//		}
+//		
+//		return false;
+//	}
+//	
+//	
+//	
+//	public void restartTheApp() 
+//	{
+//		if (!SecondScreenApplication.isAppRestarting())
+//		{
+//			Log.e(TAG, "Restarting the app");
+//			
+//			SecondScreenApplication.setAppIsRestarting(true);
+//
+//			Intent intent = new Intent(this, SplashScreenActivity.class);
+//			
+//			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+//			
+//			Context context = app.getApplicationContext();
+//			
+//			context.startActivity(intent);
+//
+//			killAllActivitiesIncludingThis();
+//			
+//			finish();
+//		} 
+//		else 
+//		{
+//			Log.e(TAG, "App is already being restarted");
+//		}
+//	}
 	
 	
 	
@@ -266,10 +259,6 @@ public abstract class BaseActivity
 
 		setTabViews();
 
-		// We need the accurate time!!!!
-		
-		handleTimeAndDayOnResume();
-
 		Intent intent = getIntent();
 
 		/* Log in states */
@@ -327,26 +316,6 @@ public abstract class BaseActivity
 	}
 
 	
-	private void handleTimeAndDayOnResume() 
-	{
-		/* Handle day */
-		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
-		
-		/*
-		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
-		 */
-		if (indexOfTodayFromTVDates > 0) 
-		{
-			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
-
-			if(isTimeOffSync == false) {
-				
-				restartTheApp();
-			}
-		} 
-	}
-	
-	
 	
 	private void killAllActivitiesIncludingThis() 
 	{
@@ -356,34 +325,7 @@ public abstract class BaseActivity
 		}
 	}
 
-	
-	
-	private int getIndexOfTodayFromTVDates() 
-	{
-		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
 
-		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
-		
-		if(tvDates != null)
-		{
-			for(int i = 0; i < tvDates.size(); ++i) 
-			{
-				TVDate tvDate = tvDates.get(i);
-				
-				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
-				
-				if(isTVDateNow)
-				{
-					indexOfTodayFromTVDates = i;
-					break;
-				}
-			}
-		}
-
-		return indexOfTodayFromTVDates;
-	}
-
-	
 	
 	private static void pushActivityToStack(BaseActivity activity) 
 	{
@@ -555,6 +497,7 @@ public abstract class BaseActivity
 	}
 
 	
+	
 	protected void setSelectedTabAsTVGuide() 
 	{
 		if (tabTvGuide != null) 
@@ -594,6 +537,7 @@ public abstract class BaseActivity
 		}
 	}
 
+	
 	
 	protected void setSelectedTabAsActivityFeed() 
 	{

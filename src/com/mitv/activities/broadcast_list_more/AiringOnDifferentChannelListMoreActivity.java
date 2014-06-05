@@ -36,10 +36,6 @@ public class AiringOnDifferentChannelListMoreActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-		
 		setContentView(R.layout.layout_now_airing_more_list);
 		
 		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();

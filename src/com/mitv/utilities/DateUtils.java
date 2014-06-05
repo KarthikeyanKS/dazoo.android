@@ -85,6 +85,29 @@ public abstract class DateUtils
 	
 	
 	/**
+	 * Creates a Calendar object from the long representation of milliseconds. 
+	 * The calendar represents the start time of the TV Day. 
+	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
+	 * The minute, second and millisecond components are all set to 0.
+	 */
+	public static Calendar getCalendarForStartOfTVDay(final long inputMilliseconds)
+	{
+		Calendar startOfTVDayCalendar = getNowWithGMTTimeZone();
+		startOfTVDayCalendar.setTimeInMillis(inputMilliseconds);
+		
+		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		
+		startOfTVDayCalendar.set(Calendar.HOUR_OF_DAY, firstHourOfTVDay);
+		startOfTVDayCalendar.set(Calendar.MINUTE, 0);
+		startOfTVDayCalendar.set(Calendar.SECOND, 0);
+		startOfTVDayCalendar.set(Calendar.MILLISECOND, 0);
+		
+		return startOfTVDayCalendar;
+	}
+	
+	
+	
+	/**
 	 * Creates a Calendar object from the string representation of a TVDate. The calendar
 	 * represents the end time of the TV Day. 
 	 */

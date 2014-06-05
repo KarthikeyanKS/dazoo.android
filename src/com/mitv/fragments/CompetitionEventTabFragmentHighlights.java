@@ -180,8 +180,6 @@ public class CompetitionEventTabFragmentHighlights
 		            }
 		        }
 				
-				listContainerLayout.measure(0, 0);
-				
 				break;
 			}
 			
