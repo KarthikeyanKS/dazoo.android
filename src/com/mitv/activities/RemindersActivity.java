@@ -40,10 +40,6 @@ public class RemindersActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-		
 		setContentView(R.layout.layout_reminders_activity);
 
 		initLayout();

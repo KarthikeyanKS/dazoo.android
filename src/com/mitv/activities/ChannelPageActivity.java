@@ -61,11 +61,6 @@ public class ChannelPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) 
-		{
-			return;
-		}
-		
 		setContentView(R.layout.layout_channelpage_activity);
 
 		initLayout();

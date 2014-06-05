@@ -73,11 +73,6 @@ public class UserProfileActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) 
-		{
-			return;
-		}
-
 		setContentView(R.layout.layout_user_profile);
 
 		initLayout();

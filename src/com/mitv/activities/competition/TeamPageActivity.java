@@ -99,11 +99,6 @@ public class TeamPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded())
-		{
-			return;
-		}
-		
 		setContentView(R.layout.layout_competition_team_page_main);
 		
 		Intent intent = getIntent();

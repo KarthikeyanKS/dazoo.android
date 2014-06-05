@@ -42,10 +42,6 @@ public class SignUpSelectionActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-		
 		setContentView(R.layout.layout_signin_activity);
 		
 		initViews();

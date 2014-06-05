@@ -262,14 +262,7 @@ public class SplashScreenActivity
 	
 
 	private void startPrimaryActivity() 
-	{
-		if(SecondScreenApplication.isAppRestarting()) 
-		{
-			Log.d(TAG, "isAppRestarting is true => setting to false");
-			
-			SecondScreenApplication.setAppIsRestarting(false);
-		}
-		
+	{		
 		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
 		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);

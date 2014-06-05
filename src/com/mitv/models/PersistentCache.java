@@ -94,6 +94,17 @@ public abstract class PersistentCache
 	
 	
 	
+	public synchronized void clearGuideCacheData()
+	{
+		this.appVersionData = null;
+		this.appConfigurationData = null;
+		this.tvTags = null;
+		this.tvDates = null;
+		this.tvGuidesAll = new HashMap<String, TVGuide>();
+	}
+	
+	
+	
 	public synchronized boolean containsActivityFeedData() 
 	{
 		boolean containsActivityFeedData = (activityFeed != null && !activityFeed.isEmpty());

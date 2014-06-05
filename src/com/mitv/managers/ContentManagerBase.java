@@ -161,6 +161,13 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public void clearGuideCacheData()
+	{
+		cache.clearGuideCacheData();
+	}
+	
+	
+	
 	public void setNewTVChannelIdsAndFetchGuide(ViewCallbackListener activityCallbackListener, ArrayList<TVChannelId> tvChannelIdsOnlyNewOnes, ArrayList<TVChannelId> tvChannelIdsAll)
 	{
 		/* The change of guide will only affect the selected day, getElseFetchFromServiceTVGuideUsingTVDate will check the cache, and the cache verifies that we have all

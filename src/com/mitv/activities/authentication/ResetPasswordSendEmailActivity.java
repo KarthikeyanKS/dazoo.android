@@ -49,10 +49,6 @@ public class ResetPasswordSendEmailActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-
 		setContentView(R.layout.layout_resetpassword_activity);
 
 		initViews();

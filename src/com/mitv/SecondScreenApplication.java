@@ -79,14 +79,7 @@ public class SecondScreenApplication
 		super.onCreate();
 
 		sharedInstance = this;
-		
-		if(isAppRestarting()) 
-		{
-			Log.e(TAG, "AppIsRestarging was true, setting it false");
-			
-			setAppIsRestarting(false);
-		}
-		
+				
 		if(ContentManager.sharedInstance().isLoggedIn()) 
 		{
 			String userId = ContentManager.sharedInstance().getFromCacheUserId();
@@ -262,17 +255,18 @@ public class SecondScreenApplication
 	
 	
 	
-	public static void setAppIsRestarting(boolean value) 
-	{
-		AppDataUtils.sharedInstance(sharedInstance).setPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, value, true);
-	}
-
+//	public static void setAppIsRestarting(boolean value) 
+//	{
+//		AppDataUtils.sharedInstance(sharedInstance).setPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, value, true);
+//	}
+//
+//	
+//	
+//	public static boolean isAppRestarting() 
+//	{
+//		return AppDataUtils.sharedInstance(sharedInstance).getPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, false);
+//	}
 	
-	
-	public static boolean isAppRestarting() 
-	{
-		return AppDataUtils.sharedInstance(sharedInstance).getPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, false);
-	}
 	
 	private String getCurrentAppVersion()
 	{

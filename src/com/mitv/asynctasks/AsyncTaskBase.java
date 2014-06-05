@@ -184,17 +184,16 @@ public abstract class AsyncTaskBase<T>
 			}
 			
 			this.gson = gsonBuilder.create();
-		} 
+		}
 		catch (InstantiationException iex)
 		{
 			Log.e(TAG, iex.getMessage(), iex);
-		} 
+		}
 		catch (IllegalAccessException ilaex) 
 		{
 			Log.e(TAG, ilaex.getMessage(), ilaex);
 		}
 	}
-	
 	
 	
 	

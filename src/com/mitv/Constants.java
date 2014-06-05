@@ -468,7 +468,6 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
-	public static final String SHARED_PREFERENCES_APP_IS_RESTARTING = "app_is_restarting";
 	
 	/* Shared preferences for TUTORIAL */
 	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";

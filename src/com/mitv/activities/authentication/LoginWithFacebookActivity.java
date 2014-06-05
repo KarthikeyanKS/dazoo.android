@@ -50,10 +50,6 @@ public class LoginWithFacebookActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-		
 		setContentView(R.layout.layout_facebooklogin_activity);
 		
 		actionBar = getSupportActionBar();

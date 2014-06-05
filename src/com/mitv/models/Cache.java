@@ -91,7 +91,7 @@ public class Cache
 		context.deleteDatabase(Constants.CACHE_DATABASE_NAME);
 	}
 	
-	
+
 	
 	public synchronized boolean isUpdatingGuide() {
 		return nonPersistentFlagUpdatingGuide;
