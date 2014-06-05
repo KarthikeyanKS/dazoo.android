@@ -180,16 +180,9 @@ public class MyChannelsActivity
 		{
 			ArrayList<TVChannelId> tvChannelsForNewGuides = getOnlyNewTVChannelIds();
 			
-			if(tvChannelsForNewGuides.isEmpty() == false)
-			{
-				Log.d(TAG, "Adding " + tvChannelsForNewGuides.size() + " new channels");
-				
-				ContentManager.sharedInstance().setNewTVChannelIdsAndFetchGuide(this, tvChannelsForNewGuides, checkedChannelIds);
-			}
-			else
-			{
-				Log.w(TAG, "Internal inconsitency - no new channels are to be added");
-			}
+			Log.d(TAG, "Adding " + tvChannelsForNewGuides.size() + " new channels");
+			
+			ContentManager.sharedInstance().setNewTVChannelIdsAndFetchGuide(this, tvChannelsForNewGuides, checkedChannelIds);
 		}
 	}
 	
