@@ -51,10 +51,10 @@ public class HomeActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) 
-		{
-			return;
-		}
+//		if (super.isRestartNeeded()) 
+//		{
+//			return;
+//		}
 		
 		setContentView(R.layout.layout_home_activity);
 		

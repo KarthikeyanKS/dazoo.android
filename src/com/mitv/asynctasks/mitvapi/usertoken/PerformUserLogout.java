@@ -32,8 +32,9 @@ public class PerformUserLogout
 	
 	public PerformUserLogout(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener) 
+			ViewCallbackListener activityCallbackListener,
+			boolean isRetry) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(), false, isRetry);
 	}
 }

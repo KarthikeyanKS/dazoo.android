@@ -75,6 +75,8 @@ public abstract class ContentManagerBase
 	protected boolean isFetchingFeedItems;
 	protected boolean isGoingToMyChannelsFromSearch;
 	protected Boolean isLocalDeviceCalendarOffSync;
+
+	protected int tvGuideInitialRetryCount = 0;
 		
 	
 	
@@ -148,6 +150,10 @@ public abstract class ContentManagerBase
 	public boolean isUpdatingGuide() 
 	{
 		return isUpdatingGuide;
+	}
+	
+	public void resetTvGuideInitialRetryCount() {
+		tvGuideInitialRetryCount = 0;
 	}
 
 	

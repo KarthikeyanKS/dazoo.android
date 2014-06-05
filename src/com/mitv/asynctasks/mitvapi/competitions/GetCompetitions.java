@@ -51,9 +51,10 @@ public class GetCompetitions
 	public GetCompetitions(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean standalone)
+			boolean standalone,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true, isRetry);
 	}
 	
 	

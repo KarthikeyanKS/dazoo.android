@@ -65,9 +65,10 @@ public class GetEvents
 			final ViewCallbackListener activityCallbackListener,
 			final long competitionID,
 			final String teamID,
-			final String phaseID)
+			final String phaseID,
+			boolean isRetry)
 	{
-		this(contentCallbackListener, activityCallbackListener, competitionID, teamID, phaseID, false, false, null, false, null);
+		this(contentCallbackListener, activityCallbackListener, competitionID, teamID, phaseID, false, false, null, false, null, isRetry);
 	}
 	
 	
@@ -82,9 +83,10 @@ public class GetEvents
 			final boolean useBroadcastBeginTimeAfter,
 			final String broadcastBeginTimeAfter,
 			final boolean useBroadcastBeginTimeBefore,
-			final String broadcastBeginTimeBefore)
+			final String broadcastBeginTimeBefore,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENTS, Event[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENTS, Event[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID), false, isRetry);
 		
 		if(useOnlyOngoing)
 		{

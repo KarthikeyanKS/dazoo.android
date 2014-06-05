@@ -17,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mitv.Constants;
 import com.mitv.R;
@@ -60,7 +59,6 @@ public class SplashScreenActivity
 	
 	private boolean isViewingTutorial;
 	private boolean isDataFetched;
-	private boolean waitingForData;
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
@@ -83,8 +81,6 @@ public class SplashScreenActivity
 		super.onCreate(savedInstanceState);
 		
 		isDataFetched = false;
-		
-		waitingForData = false;
 		
 		if(Constants.ENABLE_FIRST_TIME_TUTORIAL_VIEW) 
 		{
@@ -161,8 +157,6 @@ public class SplashScreenActivity
 	{
 		if(isViewingTutorial == false)
 		{
-			waitingForData = true;
-			
 			fetchedDataCount++;
 			
 			StringBuilder sb = new StringBuilder();
@@ -208,8 +202,8 @@ public class SplashScreenActivity
 				break;
 			}
 			case RETRY_COUNT_THRESHOLD_REACHED:
-				//TODO: Implement retry count treshold operation
-				Toast.makeText(this, "Retry threshold reached.", Toast.LENGTH_LONG).show();
+				// Load HomeActivity anyway if the initial loading failed. The no data layout will handle re-fetches.
+				updateUI(UIStatusEnum.FAILED);
 				break;
 			default:
 			{
@@ -255,7 +249,7 @@ public class SplashScreenActivity
 				
 				isDataFetched = true;
 				
-				if (!isViewingTutorial && waitingForData) 
+				if (!isViewingTutorial)
 				{
 					if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
 						TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
@@ -272,13 +266,6 @@ public class SplashScreenActivity
 
 	private void startPrimaryActivity() 
 	{
-		if(SecondScreenApplication.isAppRestarting()) 
-		{
-			Log.d(TAG, "isAppRestarting is true => setting to false");
-			
-			SecondScreenApplication.setAppIsRestarting(false);
-		}
-		
 		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
 		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);
@@ -462,7 +449,6 @@ public class SplashScreenActivity
 		} 
 		else 
 		{
-			waitingForData = true;
 			isViewingTutorial = false;
 			
 			if (!isConnected) 

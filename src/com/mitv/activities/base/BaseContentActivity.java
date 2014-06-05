@@ -19,10 +19,10 @@ public abstract class BaseContentActivity
 	{
 		super.onResume();
 		
-		if(!SecondScreenApplication.isAppRestarting()) {
+//		if(!SecondScreenApplication.isAppRestarting()) {
 			loadDataWithConnectivityCheck();
-		} else {
-			Log.e(TAG, "Not loading data since we are restarting the app");
-		}
+//		} else {
+//			Log.e(TAG, "Not loading data since we are restarting the app");
+//		}
 	}
 }

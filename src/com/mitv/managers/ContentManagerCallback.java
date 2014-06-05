@@ -95,8 +95,6 @@ public abstract class ContentManagerCallback
 	private boolean competitionPhasesFetchFinished;
 	private boolean competitionEventsFetchFinished;
 	
-	private int tvGuideInitialRetryCount = 0;
-	
 	
 	
 	public ContentManagerCallback()
@@ -742,7 +740,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				break;
@@ -769,7 +767,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				break;
@@ -796,7 +794,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				else if(result.hasUserTokenExpired())
@@ -813,7 +811,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				break;
@@ -937,7 +935,7 @@ public abstract class ContentManagerCallback
 		
 		if(isAPIVersionTooOld)
 		{
-			Log.d(TAG, "MC: API version too old");
+			Log.d(TAG, "API version too old");
 			getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 			
 			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
@@ -952,14 +950,14 @@ public abstract class ContentManagerCallback
 			// Retry threshold reached, notify SplashScreen.
 			if (tvGuideInitialRetryCount >= Constants.RETRY_COUNT_THRESHOLD) 
 			{
-				Log.d(TAG, "Retry threshold reached");
+				Log.d(TAG, "Tasks failed: Retry threshold reached");
 				isUpdatingGuide = false;
 				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.RETRY_COUNT_THRESHOLD_REACHED);
 			}
 			else 
 			{
-				Log.d(TAG, "Task failed: " + requestIdentifier);
+				Log.d(TAG, "MC: Task failed: " + requestIdentifier);
 				getAPIClient().rerunTVGuideInitialTask(requestIdentifier, activityCallbackListener);
 				tvGuideInitialRetryCount++;
 			}
@@ -967,8 +965,8 @@ public abstract class ContentManagerCallback
 		// If task succeeded and all tasks are completed, notify SplashScreen.
 		else if (getAPIClient().areAllTasksCompletedForTVGuideInitialCall()) 
 		{
-			Log.d(TAG, "Task finished: " + requestIdentifier);
-			Log.d(TAG, "All initial tasks finished");
+			Log.d(TAG, "MC: Task finished: " + requestIdentifier);
+			Log.d(TAG, "MC: All initial tasks finished");
 			
 			isUpdatingGuide = false;
 			notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
@@ -976,7 +974,7 @@ public abstract class ContentManagerCallback
 		}
 		else
 		{
-			Log.d(TAG, "Task finished: " + requestIdentifier);
+			Log.d(TAG, "MC: Task finished: " + requestIdentifier);
 		}
 	}
 	

@@ -51,9 +51,10 @@ public class GetEventHighlights
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final Long competitionID,
-			final Long eventID)
+			final Long eventID,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS, EventHighlight[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, eventID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS, EventHighlight[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, eventID), false, isRetry);
 		
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY, eventID);
 	}

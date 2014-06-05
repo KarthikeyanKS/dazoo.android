@@ -43,9 +43,10 @@ public class GetSquadForTeam
 	public GetSquadForTeam(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final long teamID)
+			final long teamID,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_SQUAD, TeamSquad[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(teamID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_SQUAD, TeamSquad[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(teamID), false, isRetry);
 	
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_TEAM_ID_KEY, teamID);
 	}
