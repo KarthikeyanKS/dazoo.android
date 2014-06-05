@@ -210,6 +210,8 @@ public class RemindersListAdapter
 
 			titleSB.append(element.getBroadcastTitle());
 
+			TVProgram tvProgram = broadcast.getProgram();
+			
 			ProgramTypeEnum programType = tvProgram.getProgramType();
 
 			switch(programType)

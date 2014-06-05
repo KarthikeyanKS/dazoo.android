@@ -19,7 +19,7 @@ import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.utilities.GenericUtils;
 
@@ -115,50 +115,29 @@ public class DialogHelper
 				String channelId = notification.getChannelId();
 				Long beginTimeMilliseconds = notification.getBeginTimeInMilliseconds();
 				
-				ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
-				
+				ProgramTypeEnum programType = tvProgram.getProgramType();
+
 				switch (programType)
 				{
 					case TV_EPISODE:
 					{
 						reminderSB.append(activity.getString(R.string.reminder_text_remove));
+						
 						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getSeries().getName());
+						reminderSB.append(broadcast.getTitle());
 						reminderSB.append(", ");
-						reminderSB.append(activity.getString(R.string.season));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getSeason().getNumber());
-						reminderSB.append(", ");
-						reminderSB.append(activity.getString(R.string.episode));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getEpisodeNumber());
+						reminderSB.append(broadcast.buildSeasonAndEpisodeString());
 						reminderSB.append("?");
 						break;
 					}
 					
 					case MOVIE:
-					{
-						reminderSB.append(activity.getString(R.string.reminder_text_remove));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getTitle());
-						reminderSB.append("?");
-						break;
-					}
-					
 					case SPORT:
-					{
-						reminderSB.append(activity.getString(R.string.reminder_text_remove));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getTitle());
-						reminderSB.append("?");
-						break;
-					}
-					
 					case OTHER:
 					{
 						reminderSB.append(activity.getString(R.string.reminder_text_remove));
 						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getTitle());
+						reminderSB.append(broadcast.getTitle());
 						reminderSB.append("?");
 						break;
 					}

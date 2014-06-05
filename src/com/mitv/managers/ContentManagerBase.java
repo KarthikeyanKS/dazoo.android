@@ -535,6 +535,43 @@ public abstract class ContentManagerBase
 		return (getFromCacheAppConfiguration() != null);
 	}
 	
+	
+	
+//	public TVBroadcastWithChannelInfo getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(String channelId, Long beginTimeMillis)
+//	{
+//		TVBroadcastWithChannelInfo dataFound = null;
+//		
+//		TVChannelId tvChannelId = new TVChannelId(channelId); 
+//		
+//		TVDate tvDate = new TVDate(beginTimeMillis);
+//		
+//		TVChannelGuide channelGuide = getCache().getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, tvDate);
+//		
+//		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
+//		
+//		for(TVBroadcast broadcast : broadcasts)
+//		{
+//			boolean broadcastsMatchByMilliseconds = (broadcast.getBeginTimeMillis().equals(beginTimeMillis));
+//			
+//			if(broadcastsMatchByMilliseconds)
+//			{
+//				dataFound = new TVBroadcastWithChannelInfo(broadcast);
+//				
+//				TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+//				
+//				if(channel != null)
+//				{
+//					dataFound.setChannel(channel);
+//				}
+//				
+//				break;
+//			}
+//		}
+//		
+//		return dataFound;
+//	}
+//
+//	
 
 	
 	public TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 

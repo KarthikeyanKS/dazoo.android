@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.ui.elements.ReminderView;
@@ -201,8 +203,14 @@ public class CompetitionEventPageBroadcastListAdapter
 
 					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
 					
+					String channelId = element.getChannelId();
+					
+					TVChannelId tvChannelId = new TVChannelId(channelId);
+					
+					TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+					
 					holder.reminderView.setVisibility(View.VISIBLE);
-					holder.reminderView.setCompetitionEventBroadcast(event, element);
+					holder.reminderView.setCompetitionEventBroadcast(event, element, channel);
 					
 					boolean iconSizeSmall = true;
 					holder.reminderView.setSizeOfIcon(iconSizeSmall);
