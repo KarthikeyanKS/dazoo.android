@@ -845,12 +845,9 @@ public abstract class BaseActivity
 	{		
 		updateUI(UIStatusEnum.LOADING);
 		
-		if (this instanceof BaseContentCompetitionActivity) {
-			String loadingString = getString(R.string.competition_tab_loading_text);
-			
-			setLoadingLayoutDetailsMessage(loadingString);
-		}
+		String loadingString = getString(R.string.general_back_press_loading_message);
 		
+		setLoadingLayoutDetailsMessage(loadingString);
 		
 		super.onBackPressed();
 	}
