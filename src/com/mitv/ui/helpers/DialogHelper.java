@@ -16,10 +16,7 @@ import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.Notification;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.utilities.GenericUtils;
 
@@ -112,55 +109,29 @@ public class DialogHelper
 		{
 			case TV_BROADCAST:
 			{
-				String channelId = notification.getChannelId();
-				Long beginTimeMilliseconds = notification.getBeginTimeInMilliseconds();
-				
-				TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(channelId, beginTimeMilliseconds);
-				
-				ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
-				
-				switch (programType) 
+				ProgramTypeEnum programType = notification.getBroadcastProgramType();
+
+				switch (programType)
 				{
 					case TV_EPISODE:
 					{
 						reminderSB.append(activity.getString(R.string.reminder_text_remove));
+						
 						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getSeries().getName());
+						reminderSB.append(notification.getBroadcastTitle());
 						reminderSB.append(", ");
-						reminderSB.append(activity.getString(R.string.season));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getSeason().getNumber());
-						reminderSB.append(", ");
-						reminderSB.append(activity.getString(R.string.episode));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getEpisodeNumber());
+						reminderSB.append(notification.getBroadcastProgramDetails());
 						reminderSB.append("?");
 						break;
 					}
 					
 					case MOVIE:
-					{
-						reminderSB.append(activity.getString(R.string.reminder_text_remove));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getTitle());
-						reminderSB.append("?");
-						break;
-					}
-					
 					case SPORT:
-					{
-						reminderSB.append(activity.getString(R.string.reminder_text_remove));
-						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getTitle());
-						reminderSB.append("?");
-						break;
-					}
-					
 					case OTHER:
 					{
 						reminderSB.append(activity.getString(R.string.reminder_text_remove));
 						reminderSB.append(" ");
-						reminderSB.append(broadcast.getProgram().getTitle());
+						reminderSB.append(notification.getBroadcastTitle());
 						reminderSB.append("?");
 						break;
 					}
@@ -179,14 +150,9 @@ public class DialogHelper
 			
 			case COMPETITION_EVENT:
 			{
-				Long competitionId = notification.getCompetitionId();
-				Long eventId = notification.getEventId();
-				
-				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
-				
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(" ");
-				reminderSB.append(event.getTitle());
+				reminderSB.append(notification.getBroadcastTitle());
 				reminderSB.append("?");
 				
 				break;
