@@ -136,17 +136,19 @@ public class CompetitionEventPageBroadcastListAdapter
 			String startTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(element.getEventBroadcastBeginTimeLocal());
 
 			String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(element.getEventBroadcastEndTimeLocal());
+			
+			sb.append(element.getEventTimeDayOfTheWeekAsString())
+			.append(",  ")
+			.append(startTimeHourAndMinuteAsString)
+			.append(" - ")
+			.append(endTimeHourAndMinuteAsString);
+			
+			holder.beginTime.setText(sb.toString());
 
 			/* Event has ended */
 			if(hasEnded) 
 			{
 				holder.beginTime.setTextColor(activity.getResources().getColor(R.color.grey1));
-
-				sb.append(element.getEventTimeDayOfTheWeekAsString())
-				.append(",  ")
-				.append(startTimeHourAndMinuteAsString)
-				.append(" - ")
-				.append(endTimeHourAndMinuteAsString);
 
 				holder.progressBar.setVisibility(View.GONE);
 				holder.onGoingTimeLeft.setVisibility(View.GONE);
@@ -160,12 +162,6 @@ public class CompetitionEventPageBroadcastListAdapter
 				int totalMinutes = element.getTotalAiringTimeInMinutes();
 
 				int currentMinutes = DateUtils.calculateDifferenceBetween(element.getEventBroadcastBeginTimeGMT(), now, Calendar.MINUTE, false, 0);
-
-				sb.append(element.getEventTimeDayOfTheWeekAsString())
-				.append(",  ")
-				.append(startTimeHourAndMinuteAsString)
-				.append(" - ")
-				.append(endTimeHourAndMinuteAsString);
 
 				if (isAiring)
 				{
@@ -205,8 +201,6 @@ public class CompetitionEventPageBroadcastListAdapter
 					holder.onGoingTimeLeft.setVisibility(View.GONE);
 				}
 			}
-
-			holder.beginTime.setText(sb.toString());
 		}
 		
 		return rowView;
