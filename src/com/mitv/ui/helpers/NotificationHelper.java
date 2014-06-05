@@ -106,6 +106,7 @@ public class NotificationHelper
 					intent.putExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, notification.getBeginTimeInMilliseconds());
 					intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, notification.getChannelId());
 					intent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
+					
 					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					
 					notificationTitleSB.append(notification.getBroadcastTitle());

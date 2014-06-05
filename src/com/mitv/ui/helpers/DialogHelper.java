@@ -16,10 +16,7 @@ import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.Notification;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.utilities.GenericUtils;
 
@@ -112,10 +109,7 @@ public class DialogHelper
 		{
 			case TV_BROADCAST:
 			{
-				String channelId = notification.getChannelId();
-				Long beginTimeMilliseconds = notification.getBeginTimeInMilliseconds();
-				
-				ProgramTypeEnum programType = tvProgram.getProgramType();
+				ProgramTypeEnum programType = notification.getBroadcastProgramType();
 
 				switch (programType)
 				{
@@ -124,9 +118,9 @@ public class DialogHelper
 						reminderSB.append(activity.getString(R.string.reminder_text_remove));
 						
 						reminderSB.append(" ");
-						reminderSB.append(broadcast.getTitle());
+						reminderSB.append(notification.getBroadcastTitle());
 						reminderSB.append(", ");
-						reminderSB.append(broadcast.buildSeasonAndEpisodeString());
+						reminderSB.append(notification.getBroadcastProgramDetails());
 						reminderSB.append("?");
 						break;
 					}
@@ -137,7 +131,7 @@ public class DialogHelper
 					{
 						reminderSB.append(activity.getString(R.string.reminder_text_remove));
 						reminderSB.append(" ");
-						reminderSB.append(broadcast.getTitle());
+						reminderSB.append(notification.getBroadcastTitle());
 						reminderSB.append("?");
 						break;
 					}

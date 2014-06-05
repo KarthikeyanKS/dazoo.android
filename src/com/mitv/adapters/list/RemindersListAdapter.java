@@ -21,14 +21,11 @@ import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
-import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 
@@ -139,9 +136,6 @@ public class RemindersListAdapter
 
 			boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
 
-			String channelId = element.getChannelId();
-			Long beginTimeMilliseconds = element.getBeginTimeInMilliseconds();
-
 			if(isFirstposition == false)
 			{
 				Notification previousElementInList = getItem(position - 1);
@@ -170,17 +164,17 @@ public class RemindersListAdapter
 			{
 				StringBuilder headerSB = new StringBuilder();
 
-				boolean isBeginTimeTodayOrTomorrow = broadcast.isBeginTimeTodayOrTomorrow();
+				boolean isBeginTimeTodayOrTomorrow = element.isBeginTimeTodayOrTomorrow();
 
 				if(isBeginTimeTodayOrTomorrow)
 				{
-					headerSB.append(broadcast.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(element.getBeginTimeDayOfTheWeekAsString());
 				}
 				else
 				{
-					headerSB.append(broadcast.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(element.getBeginTimeDayOfTheWeekAsString());
 					headerSB.append(" ");
-					headerSB.append(broadcast.getBeginTimeDayAndMonthAsString());
+					headerSB.append(element.getBeginTimeDayAndMonthAsString());
 				}
 
 				/* Capitalized letters in header */
@@ -200,7 +194,7 @@ public class RemindersListAdapter
 			StringBuilder channelSB = new StringBuilder();
 			StringBuilder detailsSB = new StringBuilder();
 			
-			broadcastTimeSB.append(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
+			broadcastTimeSB.append(element.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
 			TVChannelId tvChannelId = new TVChannelId(element.getChannelId());
 
@@ -210,59 +204,7 @@ public class RemindersListAdapter
 
 			titleSB.append(element.getBroadcastTitle());
 
-			TVProgram tvProgram = broadcast.getProgram();
-			
-			ProgramTypeEnum programType = tvProgram.getProgramType();
-
-			switch(programType)
-			{
-				case TV_EPISODE:
-				{
-					String seasonAndEpisodeString = broadcast.buildSeasonAndEpisodeString();
-	
-					detailsSB.append(seasonAndEpisodeString);
-	
-					break;
-				}
-	
-				case MOVIE:
-				{
-					detailsSB.append(tvProgram.getGenre())
-					.append(" ")
-					.append(tvProgram.getYear());
-	
-					break;
-				}
-	
-				case SPORT:
-				{
-					if (tvProgram.getTournament() != null) 
-					{
-						detailsSB.append(tvProgram.getTournament());
-					}
-					else 
-					{
-						detailsSB.append(tvProgram.getSportType().getName());
-					}
-					break;
-				}
-	
-				case OTHER:
-				{
-					String category = tvProgram.getCategory();
-	
-					detailsSB.append(category);
-	
-					break;
-				}
-	
-				case UNKNOWN:
-				default:
-				{
-					Log.w(TAG, "Unhandled program type.");
-					break;
-				}
-			}
+			detailsSB.append(element.getBroadcastProgramDetails());
 
 			holder.mBroadcastTitleTv.setText(titleSB);
 			holder.mBroadcastTimeTv.setText(broadcastTimeSB);
@@ -287,7 +229,9 @@ public class RemindersListAdapter
 						{
 							intent = new Intent(activity, BroadcastPageActivity.class);
 							
-							ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcast);
+							intent.putExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, element.getBeginTimeInMilliseconds());
+							intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, element.getChannelId());
+							intent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 							
 							break;
 						}

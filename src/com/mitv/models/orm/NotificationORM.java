@@ -6,12 +6,15 @@ package com.mitv.models.orm;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.util.Log;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.enums.NotificationTypeEnum;
+import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
@@ -39,6 +42,12 @@ public class NotificationORM
 	
 	@DatabaseField()
 	private String broadcastChannelName;
+	
+	@DatabaseField()
+	private ProgramTypeEnum broadcastProgramType;
+	
+	@DatabaseField()
+	private String broadcastProgramDetails;
 	
 	@DatabaseField()
 	private Long competitionId;
@@ -69,6 +78,8 @@ public class NotificationORM
 		this.broadcastBeginTimeInMilliseconds = notification.getBeginTimeInMilliseconds();
 		this.broadcastTitle = notification.getBroadcastTitle();
 		this.broadcastChannelName = notification.getBroadcastChannelName();
+		this.broadcastProgramType = notification.getBroadcastProgramType();
+		this.broadcastProgramDetails = notification.getBroadcastProgramDetails();
 		
 		this.competitionId = notification.getCompetitionId();
 		this.eventId = notification.getEventId();
@@ -232,5 +243,17 @@ public class NotificationORM
 
 	public String getBroadcastChannelName() {
 		return broadcastChannelName;
+	}
+
+
+
+	public ProgramTypeEnum getBroadcastProgramType() {
+		return broadcastProgramType;
+	}
+
+
+
+	public String getBroadcastProgramDetails() {
+		return broadcastProgramDetails;
 	}
 }
