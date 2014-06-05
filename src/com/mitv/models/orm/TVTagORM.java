@@ -33,8 +33,8 @@ public class TVTagORM
 
 
 	
-	private TVTagORM()
-	{}
+	private TVTagORM(){}
+	
 	
 	
 	private TVTagORM(TVTag tvTag)
@@ -117,7 +117,9 @@ public class TVTagORM
 	}
 
 
-	public String getDisplayName() {
+	
+	public String getDisplayName() 
+	{
 		return displayName;
 	}
 }

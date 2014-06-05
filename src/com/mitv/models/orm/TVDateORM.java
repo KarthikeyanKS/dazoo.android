@@ -9,11 +9,13 @@ import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 
 
+@DatabaseTable()
 public class TVDateORM 
 	extends AbstractOrmLiteClassWithAsyncSave<TVDateORM>
 {

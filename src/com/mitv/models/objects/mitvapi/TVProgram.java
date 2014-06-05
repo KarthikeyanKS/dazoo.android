@@ -3,8 +3,6 @@ package com.mitv.models.objects.mitvapi;
 
 
 
-import java.util.ArrayList;
-
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -12,7 +10,6 @@ import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVProgramJSON;
 import com.mitv.models.orm.TVProgramORM;
-import com.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -86,70 +83,6 @@ public class TVProgram
 	public void setYear(Integer year) 
 	{
 		this.year = year;
-	}
-
-
-	public TVProgram(NotificationSQLElement item)
-	{
-		this.title = item.getProgramTitle();
-		this.synopsisShort = item.getSynopsisShort();
-		this.synopsisLong = item.getSynopsisLong();
-		
-		this.programId = item.getProgramId();
-		
-		ProgramTypeEnum programType = ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(item.getProgramType());
-		
-		this.programType = programType;
-		
-		switch(programType)
-		{
-			case TV_EPISODE:
-			{
-				this.series = new TVSeries(item);
-				this.season = new TVSeriesSeason(item);
-				this.episodeNumber = item.getProgramEpisodeNumber();
-				break;
-			}
-			
-			case SPORT:
-			{
-				this.sportType = new TVSportType(item);
-				this.genre = item.getProgramGenre();
-				break;
-			}
-			
-			case OTHER:
-			{
-				this.category = item.getProgramCategory();
-				break;
-			}
-			
-			case MOVIE:
-			{
-				this.year = item.getProgramYear();
-				this.genre = item.getProgramGenre();
-				break;
-			}
-			
-			case UNKNOWN:
-			default:
-			{
-				Log.w(TAG, "Unhandled program type.");
-				break;
-			}
-		}
-		
-		this.year = item.getProgramYear();
-
-		this.images = new ImageSetOrientation(item);
-		
-		// TODO Local Storage Support 
-		// Using empty tags representation as no data is available from the notification item.
-		this.tags = new ArrayList<String>();
-		
-		// TODO Local Storage Support 
-		// Using empty TVCredit representation as no data is available from the notification item.
-		this.credits = new ArrayList<TVCredit>();
 	}
 
 	

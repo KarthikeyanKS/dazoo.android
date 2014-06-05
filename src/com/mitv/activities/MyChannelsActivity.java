@@ -165,8 +165,6 @@ public class MyChannelsActivity
 	{
 		TrackingGAManager.sharedInstance().sendUserMyChannelsPageSearchEvent(search);
 		
-		Log.e(TAG, "onPause invoked");
-		
 		updateMyChannels();
 		
 		super.onPause();
@@ -184,13 +182,13 @@ public class MyChannelsActivity
 			
 			if(tvChannelsForNewGuides.isEmpty() == false)
 			{
-				Log.e(TAG, "Adding " + tvChannelsForNewGuides.size() + " new channels");
+				Log.d(TAG, "Adding " + tvChannelsForNewGuides.size() + " new channels");
 				
-				//ContentManager.sharedInstance().setNewTVChannelIdsAndFetchGuide(this, tvChannelsForNewGuides, checkedChannelIds);
+				ContentManager.sharedInstance().setNewTVChannelIdsAndFetchGuide(this, tvChannelsForNewGuides, checkedChannelIds);
 			}
 			else
 			{
-				Log.e(TAG, "Internal inconsitency - no new channels are to be added");
+				Log.w(TAG, "Internal inconsitency - no new channels are to be added");
 			}
 		}
 	}
@@ -403,9 +401,11 @@ public class MyChannelsActivity
 	}
 
 	
+	
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+	
 	
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {}

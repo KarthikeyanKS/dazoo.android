@@ -111,11 +111,6 @@ public class CompetitionPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded())
-		{
-			return;
-		}
-		
 		setContentView(R.layout.layout_competition_page);
 		
 		Intent intent = getIntent();

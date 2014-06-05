@@ -33,15 +33,13 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 	private Switch socialSwitchView;
 	private Switch notificationsSwitchView;
 
+	
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		
+	public void onCreate(Bundle savedInstanceState) 
+	{	
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-
 		setContentView(R.layout.layout_user_configuration);
 
 		initLayout();
@@ -49,7 +47,10 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 		populateViews();
 	}
 
-	private void initLayout() {
+	
+	
+	private void initLayout() 
+	{
 		actionBar.setTitle(getString(R.string.user_profile_config_title));
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -64,6 +65,8 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 		notificationsSwitchView.setOnCheckedChangeListener(this);
 	}
 
+	
+	
 	private void populateViews() {
 		/* Image */
 		ImageAware imageAware = new ImageViewAware(avatarImageView, false);

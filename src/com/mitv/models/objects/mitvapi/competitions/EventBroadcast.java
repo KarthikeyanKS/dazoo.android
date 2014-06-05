@@ -11,7 +11,6 @@ import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
 
@@ -41,25 +40,7 @@ public class EventBroadcast
 		this.endTime = ev.getEndTime();
 		this.channelId = ev.getChannelId();
 	}
-	
-	
-	
-	public EventBroadcast(NotificationSQLElement item)
-	{
-//		TVChannel tvChannel = new TVChannel(item);
-//		this.channel = tvChannel;
-//		
-//		TVProgram tvProgram = new TVProgram(item);
-//		this.program = tvProgram;
-//		
-//		String broadcastTypeAsString = item.getBroadcastType();
-//		
-//		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
-//		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
-//		this.beginTime = item.getBroadcastBeginTime();
-//		this.endTime = item.getBroadcastEndTime();
-//		this.shareUrl = item.getShareUrl();
-	}
+
 	
 	
 	/**
@@ -132,7 +113,7 @@ public class EventBroadcast
 	
 	
 	
-	public TVChannelId getTVChannelIdForEventBroadcast() 
+	public TVChannelId getTVChannelIdForEventBroadcast()
 	{
 		TVChannelId tvChannelId = new TVChannelId(this.getChannelId());
 		
@@ -236,14 +217,22 @@ public class EventBroadcast
 	
 	
 	
-	public boolean isEventAiringInOrInLessThan(int minutes) 
+	public boolean isEventAiringInLessThan(int minutes) 
 	{
-		Calendar nowWithIncrement = (Calendar) DateUtils.getNowWithGMTTimeZone().clone();
-		nowWithIncrement.add(Calendar.MINUTE, minutes);
+		Calendar eventBroadcastBeginTimeGMT = getEventBroadcastBeginTimeGMT();
 		
-		boolean isBroadcastStartingInPeriod = this.getEventBroadcastBeginTimeGMT().before(nowWithIncrement);
+		Calendar eventBroadcastBeginTimeGMTWithNegativeIncrement = (Calendar) (eventBroadcastBeginTimeGMT.clone());
+
+		eventBroadcastBeginTimeGMTWithNegativeIncrement.add(Calendar.MINUTE, -minutes);
+		
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		
+		boolean isNowAfter = now.after(eventBroadcastBeginTimeGMTWithNegativeIncrement);
+	    boolean isNowBefore = now.before(eventBroadcastBeginTimeGMT);
+		
+	    boolean isEventAiringInPeriod = (isNowAfter && isNowBefore);
 	    
-	    return isBroadcastStartingInPeriod;
+	    return isEventAiringInPeriod;
 	}
 	
 	
@@ -278,6 +267,7 @@ public class EventBroadcast
 	{	
 		return DateUtils.buildDayOfTheWeekAsString(this.getEventBroadcastBeginTimeLocal());
 	}
+	
 	
 	
 	/**

@@ -25,6 +25,7 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.Cache;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
@@ -35,6 +36,7 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.models.objects.mitvapi.TVGuide;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
@@ -161,6 +163,13 @@ public abstract class ContentManagerBase
 	public static void clearAllPersistentCacheData()
 	{
 		Cache.clearAllPersistentCacheData();
+	}
+	
+	
+	
+	public void clearGuideCacheData()
+	{
+		cache.clearGuideCacheData();
 	}
 	
 	
@@ -538,6 +547,76 @@ public abstract class ContentManagerBase
 	public boolean getFromCacheHasAppConfiguration()
 	{
 		return (getFromCacheAppConfiguration() != null);
+	}
+	
+	
+	
+	public TVProgram getFromCacheTVProgramByID(String channelId, Long beginTimeMillis, String programID)
+	{
+		TVProgram dataFound = null;
+		
+		TVChannelId tvChannelId = new TVChannelId(channelId); 
+		
+		TVDate tvDate = new TVDate(beginTimeMillis);
+		
+		TVChannelGuide channelGuide = getCache().getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, tvDate);
+		
+		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
+		
+		for(TVBroadcast broadcast : broadcasts)
+		{
+			boolean broadcastsMatchByProgramId = (broadcast.getProgram().getProgramId().equals(programID));
+		
+			if(broadcastsMatchByProgramId)
+			{
+				dataFound = broadcast.getProgram();
+						
+				break;
+			}
+		}
+		
+		if(dataFound == null)
+		{
+			Log.w(TAG, "Program with id " + programID + " was not found in cache");
+		}
+		
+		return dataFound;
+	}
+	
+	
+	
+	public TVBroadcastWithChannelInfo getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(String channelId, Long beginTimeMillis)
+	{
+		TVBroadcastWithChannelInfo dataFound = null;
+		
+		TVChannelId tvChannelId = new TVChannelId(channelId); 
+		
+		TVDate tvDate = new TVDate(beginTimeMillis);
+		
+		TVChannelGuide channelGuide = getCache().getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, tvDate);
+		
+		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
+		
+		for(TVBroadcast broadcast : broadcasts)
+		{
+			boolean broadcastsMatchByMilliseconds = (broadcast.getBeginTimeMillis().equals(beginTimeMillis));
+			
+			if(broadcastsMatchByMilliseconds)
+			{
+				dataFound = new TVBroadcastWithChannelInfo(broadcast);
+				
+				TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+				
+				if(channel != null)
+				{
+					dataFound.setChannel(channel);
+				}
+				
+				break;
+			}
+		}
+		
+		return dataFound;
 	}
 	
 	
@@ -1327,6 +1406,17 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public Event getFromCacheEventByID(
+			Long competitionID,
+			Long eventID)
+	{
+		Event event = getCache().getCompetitionsData().getEventByID(competitionID, eventID);
+		
+		return event;
+	}
+	
+	
+	
 	public Event getFromCacheEventByIDForSelectedCompetition(Long eventID)
 	{
 		Event event = null;
@@ -1433,6 +1523,58 @@ public abstract class ContentManagerBase
 	public List<Standings> getFromCacheStandingsForPhaseInSelectedCompetition(Long phaseID)
 	{
 		return getCache().getCompetitionsData().getEventStandingsForPhaseInSelectedCompetition(phaseID);
+	}
+	
+	
+	
+	public List<Notification> getFromCacheNotifications()
+	{
+		return getCache().getNotifications();
+	}
+	
+	
+	
+	public Notification getFromCacheNotificationWithCompetitionIdAndEventId(
+			long competitionId,
+			long eventId,
+			long beginTimeInMilliseconds)
+	{
+		Notification notification = getCache().getNotificationWithCompetitionIdAndEventId(competitionId, eventId, beginTimeInMilliseconds);
+		
+		return notification;
+	}
+	
+	
+	
+	public Notification getFromCacheNotificationWithChannelIdAndProgramId(
+			String channelId,
+			String progarmId,
+			long beginTimeInMilliseconds)
+	{
+		Notification notification = getCache().getNotificationWithChannelIdAndProgramId(channelId, progarmId, beginTimeInMilliseconds);
+		
+		return notification;
+	}
+	
+	
+	
+	public Notification getFromCacheNotificationWithId(int notificationId)
+	{
+		return getCache().getNotificationWithId(notificationId);
+	}
+	
+	
+	
+	public void addToCacheNotifications(Notification notification)
+	{
+		getCache().addNotification(notification);
+	}
+	
+	
+	
+	public void removeFromCacheNotificationWithID(int notificationID)
+	{
+		getCache().removeNotificationWithID(notificationID);
 	}
 	
 	

@@ -29,12 +29,14 @@ import com.mitv.interfaces.ActivityWithTabs;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingAIManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.UserLike;
-import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.ui.elements.FontTextView;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+
+
 
 public class UserProfileActivity 
 	extends BaseContentActivity 
@@ -71,11 +73,6 @@ public class UserProfileActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) 
-		{
-			return;
-		}
-
 		setContentView(R.layout.layout_user_profile);
 
 		initLayout();
@@ -317,12 +314,12 @@ public class UserProfileActivity
 			logoutContainer.setVisibility(View.GONE);
 		}
 		
-		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		List<Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
 
-		StringBuilder numberOfNotificationsSB = new StringBuilder();
-		numberOfNotificationsSB.append("(");
-		numberOfNotificationsSB.append(notificationDataSource.getNotificationCount());
-		numberOfNotificationsSB.append(")");
+		StringBuilder numberOfNotificationsSB = new StringBuilder()
+		.append("(")
+		.append(notifications.size())
+		.append(")");
 
 		reminderCountTv.setText(numberOfNotificationsSB.toString());
 

@@ -3,11 +3,13 @@ package com.mitv.models.orm;
 
 
 
+import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.models.objects.mitvapi.AppVersion;
 import com.mitv.models.objects.mitvapi.AppVersionElement;
 
 
 
+@DatabaseTable()
 public class AppVersionORM
 {
 	@SuppressWarnings("unused")

@@ -39,10 +39,6 @@ public class PopularPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-
 		setContentView(R.layout.layout_popular_list_activity);
 
 		initViews();
