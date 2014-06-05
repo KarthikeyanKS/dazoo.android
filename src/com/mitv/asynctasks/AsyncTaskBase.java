@@ -62,6 +62,7 @@ public abstract class AsyncTaskBase<T>
 	
 	private boolean reportMetricsToTracker;
 	
+	private boolean isRetry;
 	
 	
 	public AsyncTaskBase(
@@ -71,9 +72,10 @@ public abstract class AsyncTaskBase<T>
 			final Class<T> clazz,
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
-			final boolean reportMetricsToTracker)
+			final boolean reportMetricsToTracker,
+			final boolean isRetry)
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, isRetry);
 	}
 	
 	
@@ -86,9 +88,10 @@ public abstract class AsyncTaskBase<T>
 			final boolean manualDeserialization,
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
-			final boolean reportMetricsToTracker) 
+			final boolean reportMetricsToTracker,
+			final boolean isRetry) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, isRetry);
 	}
 	
 	
@@ -102,9 +105,10 @@ public abstract class AsyncTaskBase<T>
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			final boolean isMiTVAPICall,
-			final boolean reportMetricsToTracker)
+			final boolean reportMetricsToTracker,
+			final boolean isRetry)
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false, reportMetricsToTracker);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false, reportMetricsToTracker, isRetry);
 	}
 	
 
@@ -122,7 +126,8 @@ public abstract class AsyncTaskBase<T>
 			final HeaderParameters headerParameters,
 			final String bodyContentData,
 			final boolean isMiTVAPICall,
-			final boolean reportMetricsToTracker)
+			final boolean reportMetricsToTracker,
+			final boolean isRetry)
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
@@ -142,6 +147,8 @@ public abstract class AsyncTaskBase<T>
 		this.isMiTVAPICall = isMiTVAPICall;
 		
 		this.reportMetricsToTracker = reportMetricsToTracker;
+		
+		this.isRetry = isRetry;
 		
 		if(isMiTVAPICall)
 		{
@@ -184,17 +191,16 @@ public abstract class AsyncTaskBase<T>
 			}
 			
 			this.gson = gsonBuilder.create();
-		} 
+		}
 		catch (InstantiationException iex)
 		{
 			Log.e(TAG, iex.getMessage(), iex);
-		} 
+		}
 		catch (IllegalAccessException ilaex) 
 		{
 			Log.e(TAG, ilaex.getMessage(), ilaex);
 		}
 	}
-	
 	
 	
 	
@@ -228,12 +234,12 @@ public abstract class AsyncTaskBase<T>
 			}
 			else
 			{
-				response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+				response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData, isRetry);
 			}
 		}
 		else
 		{
-			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData, isRetry);
 		}
 		
 		

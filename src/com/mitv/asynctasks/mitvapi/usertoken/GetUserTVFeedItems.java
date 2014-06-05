@@ -42,9 +42,10 @@ public class GetUserTVFeedItems
 	
 	public GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener)
+			ViewCallbackListener activityCallbackListener,
+			boolean isRetry)
 	{
-		this(contentCallbackListener, activityCallbackListener, false, 0, false, 0);
+		this(contentCallbackListener, activityCallbackListener, false, 0, false, 0, isRetry);
 	}
 	
 	
@@ -53,9 +54,10 @@ public class GetUserTVFeedItems
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			int itemStartIndex,
-			int itemLimit)
+			int itemLimit,
+			boolean isRetry)
 	{
-		this(contentCallbackListener, activityCallbackListener, true, itemStartIndex, true, itemLimit);
+		this(contentCallbackListener, activityCallbackListener, true, itemStartIndex, true, itemLimit, isRetry);
 	}
 	
 	
@@ -66,9 +68,10 @@ public class GetUserTVFeedItems
 			boolean useItemStartIndex,
 			int itemStartIndex,
 			boolean useItemLimit,
-			int itemLimit)
+			int itemLimit,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(itemStartIndex), TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(itemStartIndex), TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false, isRetry);
 		
 		if(useItemStartIndex)
 		{

@@ -740,7 +740,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				break;
@@ -767,7 +767,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				break;
@@ -794,7 +794,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				else if(result.hasUserTokenExpired())
@@ -811,7 +811,7 @@ public abstract class ContentManagerCallback
 						
 						List<TVChannelId> tvChannelIds = getCache().getTvChannelIdsUsed();
 						
-						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
+						getAPIClient().getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds, false);
 					}
 				}
 				break;
@@ -894,6 +894,7 @@ public abstract class ContentManagerCallback
 			case TV_BROADCASTS_POUPULAR_PROCESSING:
 			{
 				// Do nothing
+				break;
 			}
 			
 			case SNTP_CALL:
@@ -934,40 +935,46 @@ public abstract class ContentManagerCallback
 		
 		if(isAPIVersionTooOld)
 		{
+			Log.d(TAG, "API version too old");
 			getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 			
 			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
 		}
 		
-		if(getAPIClient().areAllTasksCompletedForTVGuideInitialCall())
+		/* If result was unsuccessful or data was null, retry. Ignore SNTP failures.
+		 * 
+		 * TODO: Remove requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING 
+		 * check when popular broadcast processing is implemented. Right now content will always be null. */
+		if((result.wasSuccessful() == false || content == null) && requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING && requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
 		{
-			isUpdatingGuide = false;
+			// Retry threshold reached, notify SplashScreen.
+			if (tvGuideInitialRetryCount >= Constants.RETRY_COUNT_THRESHOLD) 
+			{
+				Log.d(TAG, "Tasks failed: Retry threshold reached");
+				isUpdatingGuide = false;
+				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
+				notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.RETRY_COUNT_THRESHOLD_REACHED);
+			}
+			else 
+			{
+				Log.d(TAG, "MC: Task failed: " + requestIdentifier);
+				getAPIClient().rerunTVGuideInitialTask(requestIdentifier, activityCallbackListener);
+				tvGuideInitialRetryCount++;
+			}
+		}
+		// If task succeeded and all tasks are completed, notify SplashScreen.
+		else if (getAPIClient().areAllTasksCompletedForTVGuideInitialCall()) 
+		{
+			Log.d(TAG, "MC: Task finished: " + requestIdentifier);
+			Log.d(TAG, "MC: All initial tasks finished");
 			
+			isUpdatingGuide = false;
 			notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, result);
-						
 			getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
 		}
 		else
 		{
-			if(result.wasSuccessful() == false || content == null)
-			{
-				if(requestIdentifier != RequestIdentifierEnum.SNTP_CALL)
-				{
-					isUpdatingGuide = false;
-					
-					getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
-					
-					notifyListenersOfRequestResult(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, FetchRequestResultEnum.UNKNOWN_ERROR);
-				}
-				else
-				{
-					Log.d(TAG, "Ignoring SNTP failure.");
-				}
-			}
-			else
-			{
-				Log.d(TAG, "There are pending tasks still running.");
-			}
+			Log.d(TAG, "MC: Task finished: " + requestIdentifier);
 		}
 	}
 	

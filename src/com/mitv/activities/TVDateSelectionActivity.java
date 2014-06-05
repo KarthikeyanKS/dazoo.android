@@ -7,9 +7,7 @@ import java.util.List;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.util.Log;
 
-import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.ActionBarDropDownDateListAdapter;
 import com.mitv.enums.UIStatusEnum;
@@ -46,10 +44,6 @@ public abstract class TVDateSelectionActivity
 	public void setContentView(int layoutResID) 
 	{
 		super.setContentView(layoutResID);
-		
-		if (super.isRestartNeeded()) {
-			return;
-		}
 
 		initDaySelection(ActionBar.NAVIGATION_MODE_STANDARD);
 		
@@ -113,24 +107,18 @@ public abstract class TVDateSelectionActivity
 
 		switch (currentNavigationMode) 
 		{
-		case ActionBar.NAVIGATION_MODE_LIST: 
-		{
-			if (SecondScreenApplication.isAppRestarting() == false) 
+			case ActionBar.NAVIGATION_MODE_LIST: 
 			{
 				setSelectedDayInAdapter();
-			} 
-			else 
-			{
-				Log.e(TAG, "Not attaching fragment, since we are restarting the app");
+				break;
 			}
-			break;
-		}
-
-		case ActionBar.NAVIGATION_MODE_STANDARD:
-		default: {
-			// Do nothing
-			break;
-		}
+	
+			case ActionBar.NAVIGATION_MODE_STANDARD:
+			default: 
+			{
+				// Do nothing
+				break;
+			}
 		}
 
 	}

@@ -101,17 +101,17 @@ public class CompetitionEventStandingsListAdapter
 		{
 			ViewHolder viewHolder = new ViewHolder();
 	
-			rowView = layoutInflater.inflate(R.layout.row_competition_event_team_standings_list_item, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_team_standings_list_item, null);
 	
-			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_event_group_header_container);
-					
-			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_event_lineup_team_flag);
-			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_name);
-			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_gp);
-			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_plus_minus);
-			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_team_pts);
+			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_competition_group_header_container);
+			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_name);
 			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
-			viewHolder.rowDividerView = (View) rowView.findViewById(R.id.row_competition_event_row_divider);
+			viewHolder.teamName = (TextView) rowView.findViewById(R.id.row_competition_team_name);
+			viewHolder.teamFlag = (ImageView) rowView.findViewById(R.id.row_competition_team_flag);
+			viewHolder.teamGP = (TextView) rowView.findViewById(R.id.row_competition_team_table_gp);
+			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_team_table_plus_minus);
+			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
+			viewHolder.rowDividerView = (View) rowView.findViewById(R.id.row_competition_standings_row_divider);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -130,6 +130,9 @@ public class CompetitionEventStandingsListAdapter
 			{
 				holder.headerContainer.setVisibility(View.GONE);
 			}
+			
+			holder.group.setText(activity.getResources().getString(R.string.event_page_standings_team));
+			holder.group.setTextSize(15);
 			
 			final long teamID = element.getTeamId();
 			
@@ -190,6 +193,7 @@ public class CompetitionEventStandingsListAdapter
 	private static class ViewHolder 
 	{
 		private RelativeLayout headerContainer;
+		private TextView group;
 		private ImageView teamFlag;
 		private TextView teamName;		
 		private TextView teamGP;
@@ -198,4 +202,5 @@ public class CompetitionEventStandingsListAdapter
 		private RelativeLayout container;
 		private View rowDividerView;
 	}
+	
 }

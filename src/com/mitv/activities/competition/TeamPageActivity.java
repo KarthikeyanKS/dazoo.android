@@ -99,11 +99,6 @@ public class TeamPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded())
-		{
-			return;
-		}
-		
 		setContentView(R.layout.layout_competition_team_page_main);
 		
 		Intent intent = getIntent();
@@ -411,8 +406,6 @@ public class TeamPageActivity
             	squadListContainer.addView(listItem);
             }
         }
-		
-		squadListContainer.measure(0, 0);
 	}
 	
 	
@@ -469,8 +462,6 @@ public class TeamPageActivity
             	standingsListContainer.addView(listItem);
             }
         }
-		
-		standingsListContainer.measure(0, 0);
 	}
 	
 	
@@ -501,8 +492,6 @@ public class TeamPageActivity
             	scheduleListContainer.addView(listItem);
             }
         }
-		
-		scheduleListContainer.measure(0, 0);
 	}
 	
 	

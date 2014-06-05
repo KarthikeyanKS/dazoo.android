@@ -4,9 +4,9 @@ package com.mitv.models.objects.mitvapi;
 
 
 import android.text.TextUtils;
+
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVChannelJSON;
-import com.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -33,14 +33,7 @@ public class TVChannel
 	}
 
 
-	public TVChannel(NotificationSQLElement item)
-	{
-		this.channelId = item.getChannelId();
-		this.name = item.getChannelName();
-		this.logo = new ImageSetSize(item);
-	}
-
-
+	
 	public void setChannelId(String channelId) 
 	{
 		this.channelId = channelId;

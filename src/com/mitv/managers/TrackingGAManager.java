@@ -19,7 +19,10 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.NotificationTypeEnum;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
@@ -186,16 +189,39 @@ public class TrackingGAManager
 		sendSystemEvent(Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION);
 	}
 	
-	public void sendUserSharedEvent(TVBroadcast broadcast) {
+	
+	
+	public void sendUserSharedEvent(TVBroadcast broadcast) 
+	{
 		String broadcastTitle = broadcast.getTitle();
+		
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
-
-	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) {
+	
+	
+	
+	public void sendUserNoDataRetryLayoutButtomPressed(String activityOrFragmentName) 
+	{
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_NO_DATA_LAYOUT_RETRY, activityOrFragmentName);
+	}
+	
+	
+	
+	public void sendUserNoConnectionRetryLayoutButtomPressed(String activityOrFragmentName) 
+	{
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_NO_CONNECTION_LAYOUT_RETRY, activityOrFragmentName);
+	}
+	
+	
+	
+	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) 
+	{
 		String broadcastTitle = userLike.getTitle();
 
 		Long addedLike = 1L;
-		if (didJustUnlike) {
+		
+		if (didJustUnlike) 
+		{
 			addedLike = 0L;
 		}
 
@@ -203,41 +229,73 @@ public class TrackingGAManager
 
 	}
 
-	public void sendUserReminderEvent(TVBroadcast broadcast, boolean didJustRemoveReminder) {
-		String broadcastTitle = broadcast.getTitle();
-
-		Long addedReminder = 1L;
-		if (didJustRemoveReminder) {
-			addedReminder = 0L;
-		}
-
-		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder);
-	}
 	
-	public void sendUserReminderEventCompetition(Event event, boolean didJustRemoveReminder) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(event.getHomeTeam())
-			.append(" - ")
-			.append(event.getAwayTeam());
+	public void sendUserReminderEvent(Notification notification, boolean didJustRemoveReminder) 
+	{
+		String title;
 		
-		String title = sb.toString();
+		NotificationTypeEnum notificationType = notification.getNotificationType();
+		
+		switch (notificationType)
+		{
+			case TV_BROADCAST:
+			{
+				String channelId = notification.getChannelId();
+				Long beginTimeMilliseconds = notification.getBeginTimeInMilliseconds();
+				
+				TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(channelId, beginTimeMilliseconds);
+				
+				title = broadcast.getTitle();
+				
+				break;
+			}
+			
+			case COMPETITION_EVENT:
+			{
+				Long competitionId = notification.getCompetitionId();
+				Long eventId = notification.getEventId();
+				
+				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
+				
+				title = event.getTitle();
 
+				break;
+			}
+			
+			default:
+			{
+				title = "";
+				
+				break;
+			}
+		}
+		
 		Long addedReminder = 1L;
-		if (didJustRemoveReminder) {
+		
+		if (didJustRemoveReminder) 
+		{
 			addedReminder = 0L;
 		}
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, title, addedReminder);
 	}
 
-	public void sendTimeOffSyncEvent() {
+	
+
+	public void sendTimeOffSyncEvent() 
+	{
 		sendSystemEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED);
 	}
 
-	public void sendFirstBootEvent() {
+	
+	
+	public void sendFirstBootEvent() 
+	{
 		sendSystemEventWithLabel(Constants.GA_EVENT_KEY_ACTION_FIRST_BOOT, Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT);
 	}
 
+	
+	
 	public void sendUserTagSelectionEvent(int tagPosition) 
 	{
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
@@ -645,10 +703,11 @@ public class TrackingGAManager
 
 			sendEventWithLabel(category, action, label);
 
-		} else {
+		} 
+		else 
+		{
 			throw new IllegalArgumentException("String in sendGooglePlayCampaignToAnalytics: " + campaignData + " does not contain &");
 
 		}
 	}
-
 }

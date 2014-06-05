@@ -23,9 +23,10 @@ public class GetAppConfigurationData
 	
 	public GetAppConfigurationData(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener)
+			ViewCallbackListener activityCallbackListener,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
 	}
 	
 	

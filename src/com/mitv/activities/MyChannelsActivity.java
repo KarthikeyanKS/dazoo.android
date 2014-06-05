@@ -68,15 +68,12 @@ public class MyChannelsActivity
 	private TVChannel selectedTVChannelFromSearch;
 	
 	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-		
+				
 		setContentView(R.layout.layout_mychannels_activity);
 		
 		initLayout();
@@ -122,14 +119,25 @@ public class MyChannelsActivity
 	
 	
 	private void populateViews() 
-	{		
+	{	
+		allChannelObjects = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
+		
+		/* Sort all channels by name */
+		Collections.sort(allChannelObjects, new TVChannelComparatorByName());
+		
+		/* Important, we need a copy, not the referenced list, since we dont want to change it. */
+		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed());
+		checkedChannelIds = myChannelIds;
+		
+		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);
+		
 		setSelectedChannelCount(checkedChannelIds.size());
 		
 		adapter = new MyChannelsListAdapter(this, channelsMatchingSearch, checkedChannelIds);
 		
 		listView.setAdapter(adapter);
 		
-		if (allChannelObjects != null && !allChannelObjects.isEmpty())
+		if (allChannelObjects.isEmpty() == false)
 		{
 			searchChannelField.addTextChangedListener(this);
 			
@@ -137,10 +145,6 @@ public class MyChannelsActivity
 			{
 				searchChannelField.setText(selectedTVChannelFromSearch.getName());
 			}
-		}
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 	
@@ -170,9 +174,13 @@ public class MyChannelsActivity
 	
 	private void updateMyChannels() 
 	{
-		if(channelsHaveChanged()) 
+		boolean channelsHaveChanged = channelsHaveChanged();
+		
+		if(channelsHaveChanged)
 		{
 			ArrayList<TVChannelId> tvChannelsForNewGuides = getOnlyNewTVChannelIds();
+			
+			Log.d(TAG, "Adding " + tvChannelsForNewGuides.size() + " new channels");
 			
 			ContentManager.sharedInstance().setNewTVChannelIdsAndFetchGuide(this, tvChannelsForNewGuides, checkedChannelIds);
 		}
@@ -180,9 +188,9 @@ public class MyChannelsActivity
 	
 	
 	
-	private ArrayList<TVChannelId> getOnlyNewTVChannelIds() 
+	private ArrayList<TVChannelId> getOnlyNewTVChannelIds()
 	{
-		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
 		
 		ArrayList<TVChannelId> onlyNewTVChannelIdsIfAny = new ArrayList<TVChannelId>();
 		
@@ -201,7 +209,7 @@ public class MyChannelsActivity
 	
 	private boolean channelsHaveChanged() 
 	{
-		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
 		
 		boolean listIdentical = ListUtils.deepEquals(idsInCache, checkedChannelIds, new TVChannelIdComparatorById());
 		
@@ -211,6 +219,7 @@ public class MyChannelsActivity
 	}
 
 	
+	
 	@Override
 	public void setSelectedChannelCount(int count) 
 	{
@@ -218,6 +227,7 @@ public class MyChannelsActivity
 	}
 	
 
+	
 	@Override
 	protected void loadData() 
 	{
@@ -230,12 +240,13 @@ public class MyChannelsActivity
 		}
 		
 		/* Important, we need a copy, not the referenced list, since we dont want to change it. */
-		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUser());
+		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed());
 		
 		checkedChannelIds = myChannelIds;
 		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);
+		updateUI(UIStatusEnum.LOADING);
 		
-		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);	
+		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 	}
 	
 	
@@ -383,9 +394,11 @@ public class MyChannelsActivity
 	}
 
 	
+	
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+	
 	
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {}

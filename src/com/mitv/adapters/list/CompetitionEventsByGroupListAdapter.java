@@ -161,19 +161,32 @@ extends BaseAdapter
 
 			boolean isCurrentEventDayEqualToPreviousEventDay;
 			boolean isCurrentEventGroupEqualToPreviousEventGroup;
+			
+			boolean isCurrentEventDayEqualToNextEventDay = false;
+			boolean isCurrentEventGroupEqualToNextEventGroup = false;
 
 			if(isFirstposition == false)
 			{
 				Event prevEvent = getItem(position - 1);
-
+				
 				isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
-
+				
 				isCurrentEventGroupEqualToPreviousEventGroup = event.isSamePhase(prevEvent);
+				
 			}
 			else
 			{
 				isCurrentEventDayEqualToPreviousEventDay = true;
 				isCurrentEventGroupEqualToPreviousEventGroup = true;
+			}
+			
+			if (isLastPosition == false) 
+			{
+				Event nextEvent = getItem(position + 1);
+				
+				isCurrentEventDayEqualToNextEventDay = event.isTheSameDayAs(nextEvent);
+				
+				isCurrentEventGroupEqualToNextEventGroup = event.isSamePhase(nextEvent);
 			}
 
 			boolean isBeginTimeEqualToNextItem;
@@ -211,6 +224,9 @@ extends BaseAdapter
 				holder.startWeekDayHeader.setText(headerText.toUpperCase());
 
 				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
+			}
+			else if (isCurrentEventDayEqualToNextEventDay == false && isCurrentEventGroupEqualToNextEventGroup == true) {
+				holder.dividerView.setVisibility(View.GONE);
 			}
 			else
 			{

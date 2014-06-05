@@ -44,8 +44,9 @@ public class GetCompetitionByID
 	public GetCompetitionByID(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final String competitionID)
+			final String competitionID,
+			boolean isRetry)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_BY_ID, Competition.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_BY_ID, Competition.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false, isRetry);
 	}
 }

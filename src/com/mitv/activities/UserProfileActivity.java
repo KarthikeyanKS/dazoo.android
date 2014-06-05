@@ -29,12 +29,14 @@ import com.mitv.interfaces.ActivityWithTabs;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingAIManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.UserLike;
-import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.ui.elements.FontTextView;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+
+
 
 public class UserProfileActivity 
 	extends BaseContentActivity 
@@ -71,20 +73,16 @@ public class UserProfileActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
-			return;
-		}
-
 		setContentView(R.layout.layout_user_profile);
 
 		initLayout();
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE);
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LIKES);
-		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 	}
 	
 
@@ -316,12 +314,12 @@ public class UserProfileActivity
 			logoutContainer.setVisibility(View.GONE);
 		}
 		
-		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		List<Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
 
-		StringBuilder numberOfNotificationsSB = new StringBuilder();
-		numberOfNotificationsSB.append("(");
-		numberOfNotificationsSB.append(notificationDataSource.getNotificationCount());
-		numberOfNotificationsSB.append(")");
+		StringBuilder numberOfNotificationsSB = new StringBuilder()
+		.append("(")
+		.append(notifications.size())
+		.append(")");
 
 		reminderCountTv.setText(numberOfNotificationsSB.toString());
 
@@ -345,7 +343,7 @@ public class UserProfileActivity
 			
 			updateUserLikesGUI();
 
-			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
 			
 			if (userChannelIds != null && !userChannelIds.isEmpty()) 
 			{
@@ -362,6 +360,8 @@ public class UserProfileActivity
 			}
 		}
 	}
+	
+	
 	
 	private void updateUserLikesGUI() 
 	{
@@ -399,9 +399,10 @@ public class UserProfileActivity
 		{
 			case R.id.myprofile_person_container_signed_in: 
 			{
-				
 				TrackingGAManager.sharedInstance().sendUserPressedUserProfilePageTopViewEvent();
-				if(Constants.ENABLE_USER_PROFILE_CONFIGURATION) {
+				
+				if(Constants.ENABLE_USER_PROFILE_CONFIGURATION)
+				{
 					intent = new Intent(UserProfileActivity.this, UserProfileConfigurationActivity.class);
 				}
 				break;

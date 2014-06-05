@@ -14,7 +14,8 @@ public class EventBroadcastJSON
 
     
     
-    public EventBroadcastJSON(){}
+    public EventBroadcastJSON()
+    {}
 
 
 

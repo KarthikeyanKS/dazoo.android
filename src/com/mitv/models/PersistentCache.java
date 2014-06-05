@@ -6,17 +6,16 @@ package com.mitv.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
@@ -28,6 +27,7 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
+import com.mitv.models.orm.NotificationORM;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
 
@@ -54,6 +54,8 @@ public abstract class PersistentCache
 	/* PERSISTENT USER DATA, WILL BE SAVED TO STORAGE ON EACH SET */
 	private UserLoginData userData;
 	private List<UserLike> userLikes;
+	
+	private List<Notification> notifications;
 	
 	private AppVersion appVersionData;
 	private AppConfiguration appConfigurationData;
@@ -84,8 +86,21 @@ public abstract class PersistentCache
 		this.appConfigurationData = null; //AppConfigurationORM.getAppConfiguration();
 		this.userData = UserLoginDataORM.getUserLoginData();
 		
+		this.notifications = NotificationORM.getNotifications();
+		
 		this.tvTags = null; //TVTagORM.getTVTags();
 		this.tvDates = null; //TVDateORM.getTVDates();
+	}
+	
+	
+	
+	public synchronized void clearGuideCacheData()
+	{
+		this.appVersionData = null;
+		this.appConfigurationData = null;
+		this.tvTags = null;
+		this.tvDates = null;
+		this.tvGuidesAll = new HashMap<String, TVGuide>();
 	}
 	
 	
@@ -215,6 +230,7 @@ public abstract class PersistentCache
 	}
 	
 	
+	
 	public synchronized void setUserData(UserLoginData userData) 
 	{
 		this.userData = userData;
@@ -227,6 +243,7 @@ public abstract class PersistentCache
 	}
 	
 	
+	
 	public synchronized void clearUserData() 
 	{
 		if(userData != null)
@@ -235,6 +252,121 @@ public abstract class PersistentCache
 			userLoginDataORM.delete();
 		
 			userData = null;
+		}
+	}
+	
+	
+	
+	/* NOTIFICATIONS */
+	
+	
+	public synchronized List<Notification> getNotifications() 
+	{		
+		return notifications;
+	}
+	
+	
+	
+	public synchronized Notification getNotificationWithId(int notificationId) 
+	{		
+		Notification elementFound = null;
+		
+		for(Notification element : notifications)
+		{
+			if(element.getNotificationId().intValue() == notificationId)
+			{
+				elementFound = element;
+				break;
+			}
+		}
+		
+		return elementFound;
+	}
+	
+	
+	
+	public synchronized Notification getNotificationWithCompetitionIdAndEventId(
+			long competitionId,
+			long eventId,
+			long beginTimeMillis)
+	{		
+		Notification elementFound = null;
+		
+		for(Notification element : notifications)
+		{
+			boolean matchesCompetitionId = (element.getCompetitionId() == competitionId);
+			boolean matchesEventId = (element.getEventId() == eventId);
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
+			
+			if(matchesCompetitionId && matchesEventId && matchesBeginTimeMillis)
+			{
+				elementFound = element;
+				break;
+			}
+		}
+		
+		if(elementFound == null)
+		{
+			Log.w(TAG, "Notification element not found in cache");
+		}
+		
+		return elementFound;
+	}
+	
+	
+	
+	public synchronized Notification getNotificationWithChannelIdAndProgramId(
+			String channelId,
+			String programId,
+			long beginTimeMillis)
+	{		
+		Notification elementFound = null;
+		
+		for(Notification element : notifications)
+		{
+			boolean matchesChannelId = (element.getChannelId().equals(channelId));
+			boolean matchesProgramId = (element.getProgramId().equals(programId));
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
+			
+			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis)
+			{
+				elementFound = element;
+				break;
+			}
+		}
+		
+		if(elementFound == null)
+		{
+			Log.w(TAG, "Notification element not found in cache");
+		}
+		
+		return elementFound;
+	}
+	
+	
+	
+	public synchronized void addNotification(Notification notification) 
+	{		
+		this.notifications.add(notification);
+		
+		NotificationORM.createAndSaveInAsyncTask(notifications);
+	}
+	
+	
+	
+	public synchronized void removeNotificationWithID(int notificationId) 
+	{
+		Notification elementFound = getNotificationWithId(notificationId);
+		
+		if(elementFound != null)
+		{
+			notifications.remove(elementFound);
+			
+			NotificationORM.createAndSaveInAsyncTask(notifications);
+		}
+		else
+		{
+			Log.w(TAG, "Notification not found.");
 		}
 	}
 	

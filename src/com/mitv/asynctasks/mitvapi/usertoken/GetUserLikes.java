@@ -42,9 +42,10 @@ public class GetUserLikes
 	public GetUserLikes(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean standaloneUserLikes) 
+			boolean standaloneUserLikes,
+			boolean isRetry) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false, isRetry);
 	}
 	
 	

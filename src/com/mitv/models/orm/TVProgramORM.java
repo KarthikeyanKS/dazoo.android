@@ -10,6 +10,7 @@ import android.util.Log;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVCredit;
@@ -21,6 +22,7 @@ import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 
 
+@DatabaseTable()
 public class TVProgramORM 
 	extends AbstractOrmLiteClassWithAsyncSave<TVProgram> 
 {

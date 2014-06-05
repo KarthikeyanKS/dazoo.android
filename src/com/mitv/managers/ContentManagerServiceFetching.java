@@ -55,6 +55,8 @@ public abstract class ContentManagerServiceFetching
 	
 	public void fetchFromServiceInitialCall(ViewCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener)
 	{	
+		resetTvGuideInitialRetryCount();
+		
 		setListenerForRequest(RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL, activityCallbackListener);
 		
 		if(!isUpdatingGuide) 
@@ -294,13 +296,6 @@ public abstract class ContentManagerServiceFetching
 	public void getUserTokenWithFacebookFBToken(ViewCallbackListener activityCallbackListener, String facebookToken) 
 	{
 		getAPIClient().performUserLoginWithFacebookToken(activityCallbackListener, facebookToken);
-	}
-
-	
-	
-	public void performSetUserChannels(ViewCallbackListener activityCallbackListener, List<TVChannelId> tvChannelIds) 
-	{
-		getAPIClient().performSetUserTVChannelIds(activityCallbackListener, tvChannelIds);
 	}
 	
 	

@@ -110,11 +110,6 @@ public class BroadcastPageActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) 
-		{
-			return;
-		}
-
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		initViews();

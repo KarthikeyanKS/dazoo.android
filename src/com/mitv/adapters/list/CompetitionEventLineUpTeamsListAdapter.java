@@ -30,7 +30,6 @@ public class CompetitionEventLineUpTeamsListAdapter
 	private Activity activity;
 	
 	private List<EventLineUp> lineups;
-	private int rowWidth = -1;
 		
 	
 	
@@ -83,14 +82,7 @@ public class CompetitionEventLineUpTeamsListAdapter
 		return -1;
 	}
 	
-	
-	
-	public void setRowWidth(int width) 
-	{
-		this.rowWidth = width;
-	}
-	
-	
+		
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 

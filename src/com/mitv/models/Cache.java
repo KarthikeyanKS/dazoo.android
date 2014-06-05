@@ -91,7 +91,7 @@ public class Cache
 		context.deleteDatabase(Constants.CACHE_DATABASE_NAME);
 	}
 	
-	
+
 	
 	public synchronized boolean isUpdatingGuide() {
 		return nonPersistentFlagUpdatingGuide;
@@ -147,7 +147,9 @@ public class Cache
 	{
 		boolean containsTVBroadcastWithChannelInfo = false;
 		
-		if(nonPersistentSelectedBroadcastsWithChannelInfo.isEmpty() == false && getNonPersistentLastSelectedBroadcastWithChannelInfo().getChannel().getChannelId().equals(channelId.getChannelId()) && beginTimeMillis == getNonPersistentLastSelectedBroadcastWithChannelInfo().getBeginTimeMillis().longValue())
+		if(nonPersistentSelectedBroadcastsWithChannelInfo.isEmpty() == false && 
+		   getNonPersistentLastSelectedBroadcastWithChannelInfo().getChannel().getChannelId().equals(channelId.getChannelId()) && 
+		   beginTimeMillis == getNonPersistentLastSelectedBroadcastWithChannelInfo().getBeginTimeMillis().longValue())
 		{
 			containsTVBroadcastWithChannelInfo = true;
 		}

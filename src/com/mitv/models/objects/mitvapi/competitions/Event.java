@@ -15,7 +15,6 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventMatchStatusEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.gson.mitvapi.competitions.EventJSON;
-import com.mitv.models.sql.NotificationSQLElement;
 import com.mitv.utilities.DateUtils;
 
 
@@ -35,29 +34,22 @@ public class Event
 	
 	
 	
-	public EventMatchStatusEnum getMatchStatus()
+	public String getTitle()
 	{
-		return EventMatchStatusEnum.getTypeEnumFromCode(matchStatusId);
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(homeTeam)
+		.append(" - ")
+		.append(awayTeam);
+		
+		return sb.toString();
 	}
 	
 	
 	
-	public Event(NotificationSQLElement item)
+	public EventMatchStatusEnum getMatchStatus()
 	{
-		// TODO
-//		TVChannel tvChannel = new TVChannel(item);
-//		this.channel = tvChannel;
-//		
-//		TVProgram tvProgram = new TVProgram(item);
-//		this.program = tvProgram;
-//		
-//		String broadcastTypeAsString = item.getBroadcastType();
-//		
-//		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
-//		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
-//		this.beginTime = item.getBroadcastBeginTime();
-//		this.endTime = item.getBroadcastEndTime();
-//		this.shareUrl = item.getShareUrl();
+		return EventMatchStatusEnum.getTypeEnumFromCode(matchStatusId);
 	}
 	
 	
@@ -73,6 +65,26 @@ public class Event
 		}
 		
 		return list;
+	}
+	
+	
+	
+	public EventBroadcast getEventBroadcastMatchingBeginTimeMillis(long beginTimeMillis)
+	{
+		EventBroadcast data = null;
+		
+		for (EventBroadcastJSON ev : broadcasts) 
+		{
+			boolean matchesBeginTimeMilliseconds = (ev.getBeginTimeMillis() == beginTimeMillis);
+			
+			if(matchesBeginTimeMilliseconds)
+			{
+				data = new EventBroadcast(ev);
+				break;
+			}
+		}
+		
+		return data;
 	}
 	
 	
@@ -210,8 +222,8 @@ public class Event
 	
 	public boolean isTheSameDayAs(Event other)
 	{
-		Calendar beginTime1 = this.getEventDateCalendarGMT();
-		Calendar beginTime2 = other.getEventDateCalendarGMT();
+		Calendar beginTime1 = this.getEventDateCalendarLocal();
+		Calendar beginTime2 = other.getEventDateCalendarLocal();
 		
 		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
 	}
@@ -220,9 +232,9 @@ public class Event
 	
 	public boolean isEventTimeTodayOrTomorrow()
 	{
-		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		Calendar now = DateUtils.getNowWithLocalTimezone();
 		
-		Calendar beginTime = this.getEventDateCalendarGMT();
+		Calendar beginTime = this.getEventDateCalendarLocal();
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;

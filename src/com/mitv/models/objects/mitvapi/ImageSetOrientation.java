@@ -5,7 +5,6 @@ package com.mitv.models.objects.mitvapi;
 
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.ImageSetOrientationJSON;
-import com.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -17,23 +16,7 @@ import com.mitv.models.sql.NotificationSQLElement;
 public class ImageSetOrientation 
 	extends ImageSetOrientationJSON 
 	implements GSONDataFieldValidation
-{
-	public ImageSetOrientation(NotificationSQLElement item) 
-	{
-		String smallLandscape = item.getProgramImageSmallLandscape();
-		String mediumLandscape = item.getProgramImageMediumLandscape();
-		String largeLandscape = item.getProgramImageLargeLandscape();
-		String smallPortrait = item.getProgramImageSmallPortrait();
-		String mediumPortrait = item.getProgramImageMediumPortrait();
-		String largePortrait = item.getProgramImageLargePortrait();
-		
-		this.landscape = new ImageSetSize(smallLandscape, mediumLandscape, largeLandscape);
-		
-		this.portrait = new ImageSetSize(smallPortrait, mediumPortrait, largePortrait);
-	}
-
-	
-	
+{	
 	@Override
 	public boolean areDataFieldsValid() 
 	{

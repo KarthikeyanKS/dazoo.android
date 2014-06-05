@@ -29,9 +29,10 @@ public class GetTVDates
 	
 	public GetTVDates(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener) 
+			ViewCallbackListener activityCallbackListener,
+			boolean isRetry) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_DATE, TVDate[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_DATE, TVDate[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
 	}
 	
 	
