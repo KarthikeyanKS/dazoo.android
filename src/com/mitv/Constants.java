@@ -57,7 +57,7 @@ public abstract class Constants
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
 	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
-	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = true;
+	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
 	public static final boolean USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES = false;
@@ -126,6 +126,7 @@ public abstract class Constants
 	public static final String URL_COMPETITIONS_FULL 			    = URL_SERVER + URL_SPORTS_MODULE + URL_COMPETITIONS;
 	public static final String URL_PHASES_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_PHASES;
 	public static final String URL_TEAMS_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_TEAMS;
+	public static final String URL_EVENT_LINEUP					 	= URL_SERVER  + URL_SPORTS_MODULE;
 	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";

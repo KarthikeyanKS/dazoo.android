@@ -30,16 +30,10 @@ public class GetEventHighlights
 			final Long eventID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS_FULL);
-		url.append(Constants.FORWARD_SLASH);
-		
-		url.append(competitionID);
-		
+		url.append(Constants.URL_EVENT_LINEUP);
 		url.append(Constants.URL_EVENTS);
 		url.append(Constants.FORWARD_SLASH);
-		
 		url.append(eventID);
-
 		url.append(Constants.URL_HIGHLIGHTS);
 		
 		return url.toString();
