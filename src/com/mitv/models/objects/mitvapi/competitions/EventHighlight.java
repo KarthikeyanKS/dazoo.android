@@ -23,7 +23,7 @@ public class EventHighlight
 	
 	public EventHighlightActionEnum getType()
 	{
-		return EventHighlightActionEnum.getTypeEnumFromCode(highlightCode);
+		return EventHighlightActionEnum.getTypeEnumFromCode(highlightCode); // TODO cannot use highlightCode
 	}
 	
 	

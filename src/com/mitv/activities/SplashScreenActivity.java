@@ -266,9 +266,7 @@ public class SplashScreenActivity
 
 	private void startPrimaryActivity() 
 	{
-		Calendar now = DateUtils.getNowWithGMTTimeZone();
-		
-		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);
+		ContentManager.sharedInstance().setDateUserLastOpenApp();
 		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 		
@@ -437,8 +435,6 @@ public class SplashScreenActivity
 	
 	private void finishTutorial() 
 	{
-		SecondScreenApplication.sharedInstance().setUserSeenTutorial();
-		
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
 		
 		boolean isConnected = NetworkUtils.isConnected();

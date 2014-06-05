@@ -7,7 +7,7 @@ public class EventHighlightJSON
 {
 	protected long highlightId;
 	protected long eventId;
-	protected long highlightCode;
+	protected long highlightCode; // TODO REMOVE
 	protected String action;
 	protected int actionCode;
 	protected long actionInfo;
