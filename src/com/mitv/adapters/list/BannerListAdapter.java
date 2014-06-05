@@ -351,7 +351,7 @@ public abstract class BannerListAdapter<T>
 		{
 			return BannerViewType.BANNER_VIEW_TYPE_AD;
 		}
-		else if(isCompetitionAdPosition(position))
+		else if(isCompetitionAdPosition(position, items))
 		{
 			return BannerViewType.BANNER_VIEW_TYPE_COMPETITION;
 		}
@@ -409,21 +409,32 @@ public abstract class BannerListAdapter<T>
 	
 	
 	
-	private boolean isCompetitionAdPosition(int position)
+	private boolean isCompetitionAdPosition(int position, List<T> items)
 	{
 		boolean isPosition = (position % (1 + CELL_BETWEEN_COMPETITION_BANNERS) == CELL_BETWEEN_COMPETITION_BANNERS);
 			
 		boolean isAfterFirstPosition = (position > CELL_BETWEEN_COMPETITION_BANNERS);
 		
+		boolean isAfterLastListPosition = (position >= items.size());
+		
+		boolean isListSizeLowerThanCellBetweenCount = (items.size() < CELL_BETWEEN_COMPETITION_BANNERS);
+		
 		boolean isBannerPosition = false;
 		
-		if(onlyDisplayCompetitionBannerOnce == false)
+		if(isListSizeLowerThanCellBetweenCount && isAfterLastListPosition)
 		{
-			isBannerPosition = (areCompetitionsEnabled && isPosition);
+			isBannerPosition = true;
 		}
 		else
 		{
-			isBannerPosition = (areCompetitionsEnabled && isPosition && !isAfterFirstPosition);
+			if(onlyDisplayCompetitionBannerOnce == false)
+			{
+				isBannerPosition = (areCompetitionsEnabled && isPosition);
+			}
+			else
+			{
+				isBannerPosition = (areCompetitionsEnabled && isPosition && !isAfterFirstPosition);
+			}
 		}
 		
 		return isBannerPosition;
