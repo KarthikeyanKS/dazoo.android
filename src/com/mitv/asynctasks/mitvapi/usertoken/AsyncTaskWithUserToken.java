@@ -31,9 +31,9 @@ public abstract class AsyncTaskWithUserToken<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String url,
 			final boolean reportMetricsToTracker,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, httpRequestType, url, reportMetricsToTracker, isRetry);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, httpRequestType, url, reportMetricsToTracker, retryThreshold);
 	}
 	
 	
@@ -47,9 +47,9 @@ public abstract class AsyncTaskWithUserToken<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String url,
 			final boolean reportMetricsToTracker,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, reportMetricsToTracker, isRetry);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, reportMetricsToTracker, retryThreshold);
 	}
 	
 	

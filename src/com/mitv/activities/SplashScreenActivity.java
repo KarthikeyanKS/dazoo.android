@@ -201,7 +201,7 @@ public class SplashScreenActivity
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
-			case RETRY_COUNT_THRESHOLD_REACHED:
+			case UNKNOWN_ERROR:
 				// Load HomeActivity anyway if the initial loading failed. The no data layout will handle re-fetches.
 				updateUI(UIStatusEnum.FAILED);
 				break;
@@ -271,6 +271,7 @@ public class SplashScreenActivity
 		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);
 		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, true);
 		
 		startActivity(intent);
 		

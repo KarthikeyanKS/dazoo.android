@@ -31,9 +31,9 @@ public class GetUserTVChannelIds
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			boolean standalone,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, retryThreshold);
 	}
 	
 	

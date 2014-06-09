@@ -29,9 +29,9 @@ public class PerformUserPasswordResetSendEmail
 			ContentCallbackListener contentCallbackListener, 
 			ViewCallbackListener activityCallbackListener,
 			String email,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, retryThreshold);
 		
 		UserPasswordResetPasswordData postData = new UserPasswordResetPasswordData();
 		postData.setEmail(email);

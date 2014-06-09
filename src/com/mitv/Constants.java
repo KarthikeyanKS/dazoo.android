@@ -178,7 +178,7 @@ public abstract class Constants
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int USER_LASTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
-	public static final int RETRY_COUNT_THRESHOLD 					= 10; //Or other appropriate limit
+	public static final int RETRY_COUNT_THRESHOLD 					= 1;
 
 	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String  CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
@@ -191,6 +191,7 @@ public abstract class Constants
 	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.mitv.intent.extra.channel.id";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.mitv.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_IS_FROM_SPLASHSCREEN					= "com.mitv.intent.extra.is.from.splashscreen";
 
 	/* Alarm extras */
 	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION"; //WARNING do NOT change this without changing in the Android Manifest> <action android:name="NOTIFICATION" />

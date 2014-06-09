@@ -90,6 +90,8 @@ public abstract class BaseActivity
 	private boolean userHasJustLoggedOut;
 
 	protected RequestIdentifierEnum latestRequest;
+	
+	private boolean isFromSplashScreen = false;
 
 	
 	
@@ -118,6 +120,8 @@ public abstract class BaseActivity
 		super.onCreate(savedInstanceState);
 		
 		TrackingManager.sharedInstance().reportActivityStart(this);
+		
+		isFromSplashScreen = getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, false);
 	}
 	
 	
@@ -829,9 +833,16 @@ public abstract class BaseActivity
 			} 
 			else 
 			{
+				if (isFromSplashScreen) 
+				{
+					isFromSplashScreen = false;
+					updateUI(UIStatusEnum.FAILED);
+				}
+				else {
 				updateUI(UIStatusEnum.LOADING);
 				
 				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+				}
 			}
 		} 
 		else 

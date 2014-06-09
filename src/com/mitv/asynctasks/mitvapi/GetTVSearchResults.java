@@ -32,9 +32,9 @@ public class GetTVSearchResults
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final String searchQuery,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false, retryThreshold);
 		
 		this.searchQuery = searchQuery.trim();
 				
