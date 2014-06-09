@@ -333,11 +333,11 @@ public abstract class PersistentCache
 	
 	
 	public synchronized Notification getNotificationWithParameters(
-			String channelId, 
-			String programId,
-			long beginTimeMillis,
-			long competitionId,
-			long eventId)
+			final String channelId, 
+			final String programId,
+			final Long beginTimeMillis,
+			final Long competitionId,
+			final Long eventId)
 	{		
 		Notification elementFound = null;
 		
@@ -345,9 +345,9 @@ public abstract class PersistentCache
 		{
 			boolean matchesChannelId = (element.getChannelId().equals(channelId));
 			boolean matchesProgramId = (element.getProgramId().equals(programId));
-			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
-			boolean matchesCompetitionId = (element.getCompetitionId() == competitionId);
-			boolean matchesEventId = (element.getEventId() == eventId);
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
+			boolean matchesCompetitionId = (element.getCompetitionId().equals(competitionId));
+			boolean matchesEventId = (element.getEventId().equals(eventId));
 			
 			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis && matchesCompetitionId && matchesEventId)
 			{
@@ -367,9 +367,9 @@ public abstract class PersistentCache
 	
 	
 	public synchronized Notification getNotificationWithParameters(
-			String channelId,
-			String programId,
-			long beginTimeMillis)
+			final String channelId,
+			final String programId,
+			final Long beginTimeMillis)
 	{		
 		Notification elementFound = null;
 		
@@ -377,7 +377,7 @@ public abstract class PersistentCache
 		{
 			boolean matchesChannelId = (element.getChannelId().equals(channelId));
 			boolean matchesProgramId = (element.getProgramId().equals(programId));
-			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
 			
 			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis)
 			{
@@ -400,7 +400,7 @@ public abstract class PersistentCache
 	{		
 		this.notifications.add(notification);
 		
-		NotificationORM.createAndSaveInAsyncTask(notifications);
+		NotificationORM.add(notification);
 	}
 	
 	
@@ -413,7 +413,7 @@ public abstract class PersistentCache
 		{
 			notifications.remove(elementFound);
 			
-			NotificationORM.createAndSaveInAsyncTask(notifications);
+			NotificationORM.remove(notificationId);
 		}
 		else
 		{

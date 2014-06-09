@@ -1487,9 +1487,9 @@ public abstract class ContentManagerBase
 	public Notification getNotificationWithParameters(
 			String channelId, 
 			String programId,
-			long competitionId,
-			long eventId,
-			long beginTimeInMilliseconds)
+			Long beginTimeInMilliseconds,
+			Long competitionId,
+			Long eventId)
 	{
 		Notification notification = getCache().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
 		
@@ -1501,7 +1501,7 @@ public abstract class ContentManagerBase
 	public Notification getNotificationWithParameters(
 			String channelId,
 			String progarmId,
-			long beginTimeInMilliseconds)
+			Long beginTimeInMilliseconds)
 	{
 		Notification notification = getCache().getNotificationWithParameters(channelId, progarmId, beginTimeInMilliseconds);
 		

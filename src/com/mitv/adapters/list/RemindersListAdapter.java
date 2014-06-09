@@ -299,10 +299,10 @@ public class RemindersListAdapter
 				{
 					Notification elementToDelete = notifications.get(currentPosition);
 					
-					notifications.remove(currentPosition);
-
 					TrackingGAManager.sharedInstance().sendUserReminderEvent(elementToDelete, true);
 
+					notifications.remove(elementToDelete);
+					
 					notifyDataSetChanged();
 				}
 				else

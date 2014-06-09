@@ -13,6 +13,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.orm.NotificationORM;
@@ -82,6 +83,7 @@ public class Notification
 	
 	
 	public Notification(
+			Competition competition,
 			Event event,
 			EventBroadcast broadcast,
 			TVChannel channel)
@@ -98,7 +100,7 @@ public class Notification
 		this.broadcastChannelName = channel.getName();
 		
 		this.broadcastProgramType = ProgramTypeEnum.UNKNOWN;
-		this.broadcastProgramDetails = "";
+		this.broadcastProgramDetails = competition.getDisplayName();
 				
 		this.competitionId = event.getCompetitionId();
 		this.eventId = event.getEventId();
