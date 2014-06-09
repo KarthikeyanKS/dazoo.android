@@ -114,7 +114,10 @@ public class BroadcastPageActivity
 
 		initViews();
 		
-		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		boolean areDisqusCommentsEnabled = false;
+		if (ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
+			areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		}
 		
 		if(areDisqusCommentsEnabled == false)
 		{
