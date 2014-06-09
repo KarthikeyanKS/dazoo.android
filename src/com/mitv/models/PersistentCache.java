@@ -718,13 +718,16 @@ public abstract class PersistentCache
     //TODO dont iterate through a list, change tvChannels to a Map instead?
     private  TVChannel getTVChannelByIdHelper(TVChannelId tvChannelId)
     {
-        for(TVChannel tvChannel : tvChannels)
-        {
-            if(tvChannel.getChannelId().equals(tvChannelId))
-            {
-                return tvChannel;
-            }
-        }
+    	if (tvChannels != null) 
+    	{
+	        for(TVChannel tvChannel : tvChannels)
+	        {
+	            if(tvChannel.getChannelId().equals(tvChannelId))
+	            {
+	                return tvChannel;
+	            }
+	        }
+    	}
 
         return null;
     }

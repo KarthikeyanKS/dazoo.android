@@ -84,9 +84,7 @@ public class HomeActivity
 	
 	@Override
 	protected void onResume()
-	{
-		handleTimeAndDayOnResume();
-		
+	{	
 		super.onResume();
 				
 		showWelcomeToast();
@@ -192,57 +190,8 @@ public class HomeActivity
 	protected void loadData() 
 	{
 		setGUIToLoading();
-		
+
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
-	}
-	
-	
-	
-	private void handleTimeAndDayOnResume() 
-	{
-		/* Handle day */
-		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
-		
-		/*
-		 * Index is not 0, that means that the actual day has changed since the application was launched for last time
-		 * In this case, the data in cache is no longer accurate and we must re-fetch it from the service
-		 */
-		if (indexOfTodayFromTVDates > 0) 
-		{
-			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
-
-			if(isTimeOffSync == false) 
-			{
-				ContentManager.sharedInstance().clearGuideCacheData();
-			}
-		} 
-	}
-	
-	
-	
-	private int getIndexOfTodayFromTVDates() 
-	{
-		int indexOfTodayFromTVDates = -1;
-
-		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
-		
-		if(tvDates != null)
-		{
-			for(int i = 0; i < tvDates.size(); ++i) 
-			{
-				TVDate tvDate = tvDates.get(i);
-				
-				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
-				
-				if(isTVDateNow)
-				{
-					indexOfTodayFromTVDates = i;
-					break;
-				}
-			}
-		}
-
-		return indexOfTodayFromTVDates;
 	}
 	
 	

@@ -32,9 +32,9 @@ public class SetUserTVChannelIds
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final List<TVChannelId> channelIds,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SET_CHANNELS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SET_CHANNELS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, retryThreshold);
 				
 		this.bodyContentData = gson.toJson(channelIds);
 		

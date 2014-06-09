@@ -55,8 +55,8 @@ public class GetPhaseByID
 			final ViewCallbackListener activityCallbackListener,
 			final long competitionID,
 			final String phaseID,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASE_BY_ID, Phase.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, phaseID), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASE_BY_ID, Phase.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, phaseID), false, retryThreshold);
 	}
 }

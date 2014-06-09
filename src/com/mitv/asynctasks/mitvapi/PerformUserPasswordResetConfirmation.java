@@ -31,9 +31,9 @@ public class PerformUserPasswordResetConfirmation
 			String email,
 			String newPassword,
 			String resetPasswordToken,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, retryThreshold);
 		
 		UserPasswordResetConfirmationData postData = new UserPasswordResetConfirmationData();
 		postData.setEmail(email);

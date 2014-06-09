@@ -44,9 +44,9 @@ public class GetSquadForTeam
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final long teamID,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_SQUAD, TeamSquad[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(teamID), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_SQUAD, TeamSquad[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(teamID), false, retryThreshold);
 	
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_TEAM_ID_KEY, teamID);
 	}
