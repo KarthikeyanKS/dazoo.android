@@ -4,15 +4,21 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import org.w3c.dom.UserDataHandler;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
 import com.mitv.models.objects.mitvapi.Notification;
@@ -29,7 +35,9 @@ import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.models.orm.NotificationORM;
 import com.mitv.models.orm.UserLoginDataORM;
+import com.mitv.models.orm.UserTutorialStatusORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -68,6 +76,8 @@ public abstract class PersistentCache
 	private ArrayList<TVFeedItem> activityFeed;
 	private ArrayList<TVFeedItem> feedItemsToDelete;
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
+
+	private UserTutorialStatus userTutorialStatus;
 	
 	
 	
@@ -89,7 +99,9 @@ public abstract class PersistentCache
 		this.notifications = NotificationORM.getNotifications();
 		
 		this.tvTags = null; //TVTagORM.getTVTags();
-		this.tvDates = null; //TVDateORM.getTVDates();
+		this.tvDates = null; //TVDateORM.getTVDates();		
+		
+		this.userTutorialStatus = UserTutorialStatusORM.getUserTutorial();
 	}
 	
 	
@@ -253,6 +265,42 @@ public abstract class PersistentCache
 		
 			userData = null;
 		}
+	}
+	
+	
+	
+	/* USER TUTORIAL STATUS */
+	
+	public synchronized void setUserTutorialStatus(UserTutorialStatusEnum status) {
+		userTutorialStatus.setStatus(status);
+		
+		UserTutorialStatusORM userTutorialORM = new UserTutorialStatusORM(userTutorialStatus);
+		
+		userTutorialORM.saveInAsyncTask();
+	}
+	
+	
+	
+	public synchronized void setUserTutorialDateOpenApp(Calendar lastOpen) {
+		String date = DateUtils.convertFromCalendarToISO8601String(lastOpen);
+
+		userTutorialStatus.setDateUserLastOpendApp(date);
+		
+		UserTutorialStatusORM userTutorialORM = new UserTutorialStatusORM(userTutorialStatus);
+		
+		userTutorialORM.saveInAsyncTask();
+	}
+		
+	
+	
+	public synchronized UserTutorialStatusEnum getUserTutorialStatusEnum() {
+		return userTutorialStatus.getUserTutorialStatus();
+	}
+	
+	
+	
+	public synchronized UserTutorialStatus getUserTutorialStatus() {
+		return userTutorialStatus;
 	}
 	
 	
