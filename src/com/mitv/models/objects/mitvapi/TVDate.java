@@ -102,7 +102,7 @@ public class TVDate
 	
 	public Calendar getEndOfTVDayCalendarLocal() 
 	{
-		Calendar endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getEndOfTVDayCalendarGMT());
+		Calendar endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendarGMT());
 		
 		endOfTVDayCalendar = DateUtils.setTimeZoneAndOffsetToLocal(endOfTVDayCalendar);
 		
