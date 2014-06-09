@@ -518,7 +518,7 @@ public class EventPageActivity
 		
 		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID))
 		{
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, Constants.EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 			
 			listContainerLayoutHighlights.removeAllViews();
 

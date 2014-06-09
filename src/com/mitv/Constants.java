@@ -1,10 +1,9 @@
 
 package com.mitv;
 
-import java.util.EnumSet;
+
 
 import com.mitv.activities.FeedActivity;
-import com.mitv.enums.EventHighlightActionEnum;
 
 
 
@@ -32,10 +31,10 @@ public abstract class Constants
 	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
+//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
+	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
+//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
@@ -59,7 +58,7 @@ public abstract class Constants
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
 	public static final boolean USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES = false;
-	
+	public static final int COMPETITION_PAGES_DEFAULT_RELOAD_TIME = 5;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -536,14 +535,6 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
 	
 	public static final String GOAL_KEEPER_FUNCTION_SORT = "GC";
-	public static final EnumSet<EventHighlightActionEnum> EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE = EnumSet.of(
-								EventHighlightActionEnum.KICK_OFF_2H, 
-								EventHighlightActionEnum.END_OF_PERIOD_2H, 
-								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_1,
-								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_1,
-								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_2,
-								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_2,
-								EventHighlightActionEnum.END_OF_PERIOD_PENALTIES);
 	
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";

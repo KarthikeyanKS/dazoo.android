@@ -111,7 +111,13 @@ public class EventJSON
 
 
 
-	public String getStadium() {
+	public String getStadium() 
+	{
+		if(stadium == null)
+		{
+			stadium = "";
+		}
+		
 		return stadium;
 	}
 

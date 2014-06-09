@@ -133,7 +133,7 @@ public class CompetitionEventTabFragmentHighlights
 		{
 			long eventID = getEvent().getEventId();
 			
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, Constants.EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 			
 			if(eventHighlights.isEmpty() == false)
 			{
@@ -163,7 +163,7 @@ public class CompetitionEventTabFragmentHighlights
 			{
 				long eventID = getEvent().getEventId();
 				
-				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, Constants.EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE);
+				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 	
 				Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
 				Collections.reverse(eventHighlights);
