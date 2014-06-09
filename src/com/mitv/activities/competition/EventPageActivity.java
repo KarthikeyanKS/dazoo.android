@@ -650,14 +650,19 @@ public class EventPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfHighlights = false;
+		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
 		
-		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
-			forceRefreshOfHighlights = true;
-		}
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefresh, event.getCompetitionId(), event.getEventId());
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 
 

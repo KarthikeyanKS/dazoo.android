@@ -2,8 +2,6 @@ package com.mitv.activities;
 
 
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,11 +16,9 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVGuideHolderFragment;
 import com.mitv.fragments.TVGuideHolderFragment.OnViewPagerIndexChangedListener;
-import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.managers.RateAppManager;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -192,6 +188,14 @@ public class HomeActivity
 		setGUIToLoading();
 
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

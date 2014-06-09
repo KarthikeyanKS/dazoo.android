@@ -116,6 +116,14 @@ public class LoginWithFacebookActivity
 			Log.e(TAG, "Facebook token was null.");
 		}
 	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
 
 	
 	

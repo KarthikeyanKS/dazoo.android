@@ -123,6 +123,14 @@ public class UserProfileActivity
 	
 	
 	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
+	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();

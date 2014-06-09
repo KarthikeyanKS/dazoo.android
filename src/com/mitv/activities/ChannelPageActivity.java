@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -160,6 +161,14 @@ public class ChannelPageActivity
 	{		
 		/* The data is fetched from the cache. Since there is no callback to the onDataAvailable function, we will invoke it manually */
 		onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.TV_CHANNEL);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

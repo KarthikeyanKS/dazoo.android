@@ -23,8 +23,10 @@ import com.mitv.ui.elements.FontTextView;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class UserProfileConfigurationActivity extends BaseActivity implements ActivityWithTabs, OnCheckedChangeListener {
-
+public class UserProfileConfigurationActivity 
+	extends BaseActivity
+	implements ActivityWithTabs, OnCheckedChangeListener
+{
 	private static final String TAG = UserProfileConfigurationActivity.class.getName();
 	
 	private ImageView avatarImageView;
@@ -115,10 +117,21 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 
 	}
 
+	
+	
 	@Override
-	protected void loadData() {
-	}
+	protected void loadData() {}
 
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
 	@Override
 	protected boolean hasEnoughDataToShowContent() {
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();

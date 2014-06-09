@@ -57,8 +57,10 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
-	public static final boolean USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES = false;
-	public static final int COMPETITION_PAGES_DEFAULT_RELOAD_TIME = 5;
+	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES = 10;
+	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES = 5;
+	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_MINUTES = 1;
+	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES = 120;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */

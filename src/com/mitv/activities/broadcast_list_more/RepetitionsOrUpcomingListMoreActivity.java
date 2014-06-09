@@ -107,6 +107,14 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 	
 	
 	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
+	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
 		return true;

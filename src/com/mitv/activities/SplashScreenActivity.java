@@ -3,8 +3,6 @@ package com.mitv.activities;
 
 
 
-import java.util.Calendar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -33,7 +31,6 @@ import com.mitv.managers.TrackingManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 import com.viewpagerindicator.CirclePageIndicator;

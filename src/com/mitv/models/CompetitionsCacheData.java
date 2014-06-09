@@ -20,7 +20,6 @@ import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
-import com.mitv.utilities.DateUtils;
 
 
 
@@ -521,10 +520,6 @@ public class CompetitionsCacheData
 	public synchronized void setHighlightsForEventInSelectedCompetition(Long eventID, List<EventHighlight> eventHighligths)
 	{
 		selectedCompetition.getHighlightsByEvent().put(eventID, eventHighligths);
-		
-		Long nowInMillis = DateUtils.getNowWithGMTTimeZone().getTimeInMillis();
-		
-		selectedCompetition.setHighlightsByEventFetchTime(nowInMillis);
 	}
 	
 	
@@ -532,10 +527,6 @@ public class CompetitionsCacheData
 	public synchronized void setLineUpForEventInSelectedCompetition(Long eventID, List<EventLineUp> eventLineup)
 	{
 		selectedCompetition.getLineupByEvent().put(eventID, eventLineup);
-		
-		Long nowInMillis = DateUtils.getNowWithGMTTimeZone().getTimeInMillis();
-		
-		selectedCompetition.setLineupByEventFetchTime(nowInMillis);
 	}
 	
 	

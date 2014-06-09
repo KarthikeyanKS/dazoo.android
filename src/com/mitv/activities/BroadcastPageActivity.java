@@ -201,6 +201,14 @@ public class BroadcastPageActivity
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, requiresDataReload, channelId, beginTimeInMillis);
 	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
 
 	
 	

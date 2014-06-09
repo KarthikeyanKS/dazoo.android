@@ -202,57 +202,62 @@ public class AppConfigurationJSON
 			welcomeToast = "";
 		}
 		
-		boolean hasCompetitionPageReloadInterval= jsonObject.has("api.configuration.android.event.page.reload.interval");
+		
+		boolean hasCompetitionPageReloadInterval= jsonObject.has("api.configuration.android.competition.page.reload.interval");
 		
 		if(hasCompetitionPageReloadInterval)
 		{
-			jsonObject.get("api.configuration.android.event.page.reload.interval");
+			jsonObject.get("api.configuration.android.competition.page.reload.interval");
 			
 			competitionPageReloadInterval = jsonElement.getAsInt();
 		}
 		else
 		{
-			competitionPageReloadInterval = Constants.COMPETITION_PAGES_DEFAULT_RELOAD_TIME;
+			competitionPageReloadInterval = Constants.COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES;
 		}
 		
-		boolean hasCompetitionTeamPageReloadInterval= jsonObject.has("api.configuration.android.highlight.page.reload.interval");
 		
-		if(hasCompetitionTeamPageReloadInterval)
-		{
-			jsonObject.get("api.configuration.android.highlight.page.reload.interval");
-			
-			competitionTeamPageReloadInterval = jsonElement.getAsInt();
-		}
-		else
-		{
-			competitionTeamPageReloadInterval = Constants.COMPETITION_PAGES_DEFAULT_RELOAD_TIME;
-		}
-		
-		boolean hasCompetitionEventPageReloadInterval= jsonObject.has("api.configuration.android.competition.page.reload.interval");
+		boolean hasCompetitionEventPageReloadInterval= jsonObject.has("api.configuration.android.event.page.reload.interval");
 		
 		if(hasCompetitionEventPageReloadInterval)
 		{
-			jsonObject.get("api.configuration.android.competition.page.reload.interval");
+			jsonObject.get("api.configuration.android.event.page.reload.interval");
 			
 			competitionEventPageReloadInterval = jsonElement.getAsInt();
 		}
 		else
 		{
-			competitionEventPageReloadInterval = Constants.COMPETITION_PAGES_DEFAULT_RELOAD_TIME;
+			competitionEventPageReloadInterval = Constants.COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES;
 		}
 		
-		boolean hasCompetitionEventPageHighlightReloadInterval= jsonObject.has("api.configuration.android.team.page.reload.interval");
+		
+		boolean hasCompetitionTeamPageReloadInterval= jsonObject.has("api.configuration.android.team.page.reload.interval");
+		
+		if(hasCompetitionTeamPageReloadInterval)
+		{
+			jsonObject.get("api.configuration.android.team.page.reload.interval");
+			
+			competitionTeamPageReloadInterval = jsonElement.getAsInt();
+		}
+		else
+		{
+			competitionTeamPageReloadInterval = Constants.COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES;
+		}
+		
+
+		boolean hasCompetitionEventPageHighlightReloadInterval= jsonObject.has("api.configuration.android.highlight.page.reload.interval");
 		
 		if(hasCompetitionEventPageHighlightReloadInterval)
 		{
-			jsonObject.get("api.configuration.android.team.page.reload.interval");
+			jsonObject.get("api.configuration.android.highlight.page.reload.interval");
 			
 			competitionEventPageHighlightReloadInterval = jsonElement.getAsInt();
 		}
 		else
 		{
-			competitionEventPageHighlightReloadInterval = Constants.COMPETITION_PAGES_DEFAULT_RELOAD_TIME;
+			competitionEventPageHighlightReloadInterval = Constants.COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_MINUTES;
 		}
+		
 		
 		jsonElement = jsonObject.get("adzerkLevel");
 		
@@ -393,5 +398,35 @@ public class AppConfigurationJSON
 
 	public boolean areDisqusCommentsEnabled() {
 		return areDisqusCommentsEnabled;
+	}
+
+
+
+	public boolean isPreventRateAppDialog() {
+		return preventRateAppDialog;
+	}
+
+
+
+	public int getCompetitionPageReloadInterval() {
+		return competitionPageReloadInterval;
+	}
+
+
+
+	public int getCompetitionTeamPageReloadInterval() {
+		return competitionTeamPageReloadInterval;
+	}
+
+
+
+	public int getCompetitionEventPageReloadInterval() {
+		return competitionEventPageReloadInterval;
+	}
+
+
+
+	public int getCompetitionEventPageHighlightReloadInterval() {
+		return competitionEventPageHighlightReloadInterval;
 	}
 }
