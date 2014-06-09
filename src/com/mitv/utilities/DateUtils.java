@@ -97,6 +97,13 @@ public abstract class DateUtils
 		
 		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		
+		int startHour = startOfTVDayCalendar.get(Calendar.HOUR_OF_DAY);
+		
+		if(startHour >= 0 && startHour < firstHourOfTVDay) 
+		{
+			startOfTVDayCalendar.add(Calendar.DAY_OF_MONTH, -1);
+		}
+		
 		startOfTVDayCalendar.set(Calendar.HOUR_OF_DAY, firstHourOfTVDay);
 		startOfTVDayCalendar.set(Calendar.MINUTE, 0);
 		startOfTVDayCalendar.set(Calendar.SECOND, 0);
@@ -290,6 +297,7 @@ public abstract class DateUtils
 	
 	
 	
+	
 	/**
 	 * Checks if TVDate is today, according to the rules
 	 * @param tvDate
@@ -297,7 +305,7 @@ public abstract class DateUtils
 	 */
 	public static boolean isTodayUsingTVDate(final TVDate tvDate)
 	{
-		/** Since we are passing the minutes offset in the call, we should always use the local calendars when comparing dates */
+		/** Since we are passing the minutes offset in the webservice call, we should always use the local calendars when comparing dates */
 		Calendar now = getNowWithLocalTimezone();
 		
 		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendarLocal();
@@ -313,7 +321,8 @@ public abstract class DateUtils
 		return isTVDateNow;
 	}
 	
-	
+		
+
 	
 	/**
 	 * Builds a string representation for the day of the week of the input calendar.

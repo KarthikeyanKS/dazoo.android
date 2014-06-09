@@ -14,9 +14,11 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.ImageLoaderManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -322,86 +324,67 @@ public class SecondScreenApplication
 	 * @return
 	 */
 	public boolean hasUserSeenTutorial() {
+		boolean hasSeenTutorial = true;
 		
-		/* Checking if user has seen tutorial before from file, needed to not show the tutorial every time the app updates to a new version */
-		File fileOnce = FileUtils.getFile(Constants.USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME);
-		File fileTwice = FileUtils.getFile(Constants.USER_HAS_SEEN_TUTORIAL_TWICE_FILE_NAME);
+		UserTutorialStatus userTutorialStatus = ContentManager.sharedInstance().getUserTutorialFromCache();
 		
-		boolean hasUserSeenTutorialOnceFromFile = FileUtils.fileExists(fileOnce);
-		boolean hasUserSeenTutorialTwiceFromFile = FileUtils.fileExists(fileTwice);
+		UserTutorialStatusEnum status = userTutorialStatus.getUserTutorialStatus();
 		
-		boolean hasUserSeenTutorial = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, false);
-		boolean neverShowTutorialAgain = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, false);
+		switch (status) {
 		
-		String lastOpenAppAsString = AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, "");
-		
-		Calendar now = DateUtils.getNowWithGMTTimeZone();
-		
-		if (hasUserSeenTutorial && hasUserSeenTutorialOnceFromFile)
-		{	
-			if (!neverShowTutorialAgain && !hasUserSeenTutorialTwiceFromFile)
-			{	
-				if (lastOpenAppAsString != null && 
-					lastOpenAppAsString.isEmpty() == false)
-				{
-					/* Get calendar from the string lastOpenApp */
-					Calendar cal = DateUtils.convertISO8601StringToCalendar(lastOpenAppAsString);
-					
-					/* 
-					 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
-					 * FALSE: if app has not been open in last two weeks, tutorial will show.
-					 */
-					boolean openLastTwoWeeks = checkIfUserOpenedAppLastTwoWeeks(now, cal);
-					
-					/* Sets user is viewing tutorial */
-					if (!openLastTwoWeeks)
-					{
-						setTutorialToNeverShowAgain();
-						
-						setIsViewingTutorial(true);
-						
-						FileUtils.saveFile(fileTwice);
-					}
-					
-					return openLastTwoWeeks;
-				}
+			case NEVER_SEEN_TUTORIAL:
+			{
+				hasSeenTutorial = false; 
+			
+				ContentManager.sharedInstance().setUserHasSeenTutorialOnce();
+				
+				break;
 			}
-		}
 		
-		if (!hasUserSeenTutorial && !hasUserSeenTutorialOnceFromFile) 
+			/* The user has seen the tutorial once, we now need to check if the user has open the app the last two weeks */
+			case SEEN_ONCE: {
+				
+				/* 
+				 * TRUE: If app has been open in last two weeks, tutorial will NOT show.
+				 * FALSE: if app has not been open in last two weeks, tutorial will show.
+				 */
+				boolean openLastTwoWeeks = ContentManager.sharedInstance().checkIfUserOpenedAppLastTwoWeeks();
+				
+				if (!openLastTwoWeeks) {
+					hasSeenTutorial = false;
+					
+					ContentManager.sharedInstance().setUserHasSeenTutorialTwice();
+				}
+				
+				break;
+			}
+			
+			case NEVER_SHOW_AGAIN: {
+				/* Do nothing, we just return false */
+				break;
+			}
+			
+			default:
+				break;
+		}
+			
+		
+		
+		if (!hasSeenTutorial) 
 		{
 			setIsViewingTutorial(true);
-			
-			FileUtils.saveFile(fileOnce);
 		}
 		
-		return hasUserSeenTutorial;
+		return hasSeenTutorial;
 	}
 	
 	
 	
-	/* No handling when new year, just returns true, which means that the tutorial will not show. */
-	private boolean checkIfUserOpenedAppLastTwoWeeks(Calendar now, Calendar lastTime)
-	{	
-		if (lastTime.before(now))
-		{
-			int a = now.get(Calendar.DAY_OF_YEAR);
-			int b = lastTime.get(Calendar.DAY_OF_YEAR);
-			
-			int difference = a-b;
-			
-			if (difference > 13) 
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-	
-
-	
-	
+	/**
+	 * Splashscreen activity uses this pref if onResumed in the middle of the tutorial.
+	 * 
+	 * @param isViewingTutorial
+	 */
 	public void setIsViewingTutorial(boolean isViewingTutorial)
 	{
 		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_IS_VIEWING_TUTORIAL, isViewingTutorial, true);
@@ -416,29 +399,6 @@ public class SecondScreenApplication
 		return isViewingTutorial;
 	}
 	
-	
-	
-	public void setUserSeenTutorial() 
-	{
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL, true, false);
-	}
-	
-	
-	
-	public void setDateUserLastOpenedApp(Calendar calendar) 
-	{
-		String calendarRepresentationAsString = DateUtils.convertFromCalendarToISO8601String(calendar);
-		
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_DATE_LAST_OPEN_APP, calendarRepresentationAsString, false);
-	}
-	
-	
-	
-	public void setTutorialToNeverShowAgain() 
-	{
-		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN, true, true);
-	}
-
 	
 	
 	public ContentManager getContentManager() 

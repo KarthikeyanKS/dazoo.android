@@ -19,6 +19,7 @@ import com.mitv.managers.RateAppManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.ui.helpers.DialogHelper;
@@ -139,7 +140,7 @@ public class ReminderView
 	
 	
 	
-	public void setCompetitionEventBroadcast(Event event, EventBroadcast eventBroadcast) 
+	public void setCompetitionEventBroadcast(Event event, EventBroadcast eventBroadcast, TVChannel channel) 
 	{
 		if (eventBroadcast != null && 
 			eventBroadcast.isAiring() == false &&
@@ -158,7 +159,7 @@ public class ReminderView
 			} 
 			else 
 			{
-				notification = new Notification(event, eventBroadcast);
+				notification = new Notification(event, eventBroadcast, channel);
 				isSet = false;
 			}
 			

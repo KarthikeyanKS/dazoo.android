@@ -126,70 +126,6 @@ public abstract class BaseActivity
 	
 	
 	
-//	/**
-//	 * If ContentManager is not null, and cache is not null and we have no initial data, then this activity got
-//	 * recreated due to low memory and then we need to restart the app.
-//	 * @return 
-//	 * 
-//	 */
-//	protected boolean isRestartNeeded() 
-//	{
-//		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false) 
-//		{
-//			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
-//
-//			if (ContentManager.sharedInstance().isUpdatingGuide() == false) 
-//			{
-//				boolean isConnected = NetworkUtils.isConnected();
-//
-//				if (isConnected) 
-//				{
-//					restartTheApp();
-//					
-//					return true;
-//				}
-//			} 
-//			else 
-//			{
-//				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
-//			}
-//		}
-//		
-//		return false;
-//	}
-//	
-//	
-//	
-//	public void restartTheApp() 
-//	{
-//		if (!SecondScreenApplication.isAppRestarting())
-//		{
-//			Log.e(TAG, "Restarting the app");
-//			
-//			SecondScreenApplication.setAppIsRestarting(true);
-//
-//			Intent intent = new Intent(this, SplashScreenActivity.class);
-//			
-//			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
-//			
-//			Context context = app.getApplicationContext();
-//			
-//			context.startActivity(intent);
-//
-//			killAllActivitiesIncludingThis();
-//			
-//			finish();
-//		} 
-//		else 
-//		{
-//			Log.e(TAG, "App is already being restarted");
-//		}
-//	}
-	
-	
-	
 	@Override
 	public boolean onKeyDown(int keycode, KeyEvent e)
 	{
@@ -670,8 +606,18 @@ public abstract class BaseActivity
 			}
 	
 			case R.id.no_connection_reload_button:
+			{
+				TrackingGAManager.sharedInstance().sendUserNoConnectionRetryLayoutButtomPressed(getClass().getSimpleName());
+				
+				loadDataWithConnectivityCheck();
+				
+				break;
+			}
+			
 			case R.id.request_failed_reload_button: 
 			{
+				TrackingGAManager.sharedInstance().sendUserNoDataRetryLayoutButtomPressed(getClass().getSimpleName());
+				
 				loadDataWithConnectivityCheck();
 				
 				break;

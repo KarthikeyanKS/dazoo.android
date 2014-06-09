@@ -233,8 +233,6 @@ public class TrackingManager
 		long duration = calculateValueSincePrevious(className);
 		
 		Log.v(TAG, "Duration for " + "SPLASH_SCREEN_ON_RESULT_REACHED" + " is " + duration);
-		
-		//TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ON_RESULT_REACHED", duration);
 	}
 	
 	

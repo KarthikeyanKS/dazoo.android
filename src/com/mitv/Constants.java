@@ -38,8 +38,6 @@ public abstract class Constants
 	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
-	public static final String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME = "59b039d2c0c0a7fbe173";
-	public static final String USER_HAS_SEEN_TUTORIAL_TWICE_FILE_NAME = "59b039d2c0c0a7fbe183";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
@@ -327,6 +325,8 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_MY_CHANNELS_PRESS	= "CHANNEL_CELL_IN_MY_CHANNELS_ACTIVITY_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_DAY_SELECTED					= "DAY_SELECTED";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SHARE					= "SHARE";
+	public static final String GA_EVENT_KEY_USER_EVENT_NO_DATA_LAYOUT_RETRY			= "NO_DATA_OR_FAILED_REQUEST_LAYOUT_RETRY";
+	public static final String GA_EVENT_KEY_USER_EVENT_NO_CONNECTION_LAYOUT_RETRY	= "NO_NETWORK_CONNECTION_LAYOUT_RETRY";
 	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_POPULAR_SINGLE		= "FEED_ITEM_SELECTED_POPULAR_SINGLE";
 	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_POPULAR_MULTIPLE	= "FEED_ITEM_SELECTED_POPULAR_MULTIPLE";
 	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_TWITTER			= "FEED_ITEM_SELECTED_TWITTER";
@@ -475,9 +475,9 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	
 	/* Shared preferences for TUTORIAL */
-	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";
-	public static final String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN = "com.mitv.app.tutorial.never.start.again";
-	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
+//	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";
+//	public static final String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN = "com.mitv.app.tutorial.never.start.again";
+//	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */

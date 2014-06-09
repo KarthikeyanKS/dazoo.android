@@ -19,6 +19,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.utilities.GenericUtils;
@@ -350,9 +351,20 @@ public abstract class BaseFragment
 		switch (id)
 		{
 			case R.id.no_connection_reload_button:
+			{
+				TrackingGAManager.sharedInstance().sendUserNoConnectionRetryLayoutButtomPressed(getClass().getSimpleName());
+				
+				loadDataWithConnectivityCheck();
+				
+				break;
+			}
+			
 			case R.id.request_failed_reload_button:
 			{
+				TrackingGAManager.sharedInstance().sendUserNoDataRetryLayoutButtomPressed(getClass().getSimpleName());
+				
 				loadDataWithConnectivityCheck();
+				
 				break;
 			}
 			

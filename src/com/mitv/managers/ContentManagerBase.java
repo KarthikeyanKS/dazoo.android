@@ -20,10 +20,12 @@ import com.mitv.APIClient;
 import com.mitv.Constants;
 import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.Cache;
+import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
@@ -36,7 +38,6 @@ import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.models.objects.mitvapi.TVGuide;
-import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
@@ -551,75 +552,42 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public TVProgram getFromCacheTVProgramByID(String channelId, Long beginTimeMillis, String programID)
-	{
-		TVProgram dataFound = null;
-		
-		TVChannelId tvChannelId = new TVChannelId(channelId); 
-		
-		TVDate tvDate = new TVDate(beginTimeMillis);
-		
-		TVChannelGuide channelGuide = getCache().getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, tvDate);
-		
-		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
-		
-		for(TVBroadcast broadcast : broadcasts)
-		{
-			boolean broadcastsMatchByProgramId = (broadcast.getProgram().getProgramId().equals(programID));
-		
-			if(broadcastsMatchByProgramId)
-			{
-				dataFound = broadcast.getProgram();
-						
-				break;
-			}
-		}
-		
-		if(dataFound == null)
-		{
-			Log.w(TAG, "Program with id " + programID + " was not found in cache");
-		}
-		
-		return dataFound;
-	}
-	
-	
-	
-	public TVBroadcastWithChannelInfo getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(String channelId, Long beginTimeMillis)
-	{
-		TVBroadcastWithChannelInfo dataFound = null;
-		
-		TVChannelId tvChannelId = new TVChannelId(channelId); 
-		
-		TVDate tvDate = new TVDate(beginTimeMillis);
-		
-		TVChannelGuide channelGuide = getCache().getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, tvDate);
-		
-		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
-		
-		for(TVBroadcast broadcast : broadcasts)
-		{
-			boolean broadcastsMatchByMilliseconds = (broadcast.getBeginTimeMillis().equals(beginTimeMillis));
-			
-			if(broadcastsMatchByMilliseconds)
-			{
-				dataFound = new TVBroadcastWithChannelInfo(broadcast);
-				
-				TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-				
-				if(channel != null)
-				{
-					dataFound.setChannel(channel);
-				}
-				
-				break;
-			}
-		}
-		
-		return dataFound;
-	}
-	
-	
+//	public TVBroadcastWithChannelInfo getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(String channelId, Long beginTimeMillis)
+//	{
+//		TVBroadcastWithChannelInfo dataFound = null;
+//		
+//		TVChannelId tvChannelId = new TVChannelId(channelId); 
+//		
+//		TVDate tvDate = new TVDate(beginTimeMillis);
+//		
+//		TVChannelGuide channelGuide = getCache().getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, tvDate);
+//		
+//		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
+//		
+//		for(TVBroadcast broadcast : broadcasts)
+//		{
+//			boolean broadcastsMatchByMilliseconds = (broadcast.getBeginTimeMillis().equals(beginTimeMillis));
+//			
+//			if(broadcastsMatchByMilliseconds)
+//			{
+//				dataFound = new TVBroadcastWithChannelInfo(broadcast);
+//				
+//				TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+//				
+//				if(channel != null)
+//				{
+//					dataFound.setChannel(channel);
+//				}
+//				
+//				break;
+//			}
+//		}
+//		
+//		return dataFound;
+//	}
+//
+//	
+
 	
 	public TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 
 	{
@@ -1585,6 +1553,72 @@ public abstract class ContentManagerBase
 		getCache().clearTVChannelIdsUser();
 		getCache().useDefaultChannelIds();
 		getCache().clearUserLikes();
+	}
+	
+	
+	
+	public UserTutorialStatus getUserTutorialFromCache() {		
+		return getCache().getUserTutorialStatus();
+	}
+	
+	
+	
+	/**
+	 * User has seen the tutorial only once.
+	 * If the user dont open the app for at least two
+	 * weeks, then show the tutorial again.
+	 * 
+	 */
+	public void setUserHasSeenTutorialOnce() {
+		getCache().setUserTutorialStatus(UserTutorialStatusEnum.SEEN_ONCE);
+	}
+	
+	
+	/**
+	 * Never show tutorial again.
+	 * 
+	 */
+	public void setUserHasSeenTutorialTwice() {
+		getCache().setUserTutorialStatus(UserTutorialStatusEnum.NEVER_SHOW_AGAIN);
+	}
+	
+	
+	
+	public void setDateUserLastOpenApp() {
+		UserTutorialStatusEnum status = getCache().getUserTutorialStatus().getUserTutorialStatus();
+		
+		if (status != UserTutorialStatusEnum.NEVER_SHOW_AGAIN) {
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+
+			getCache().setUserTutorialDateOpenApp(now);
+		}
+	}
+	
+	
+	
+	/* No handling when new year, just returns true, which means that the tutorial will not show. */
+	public boolean checkIfUserOpenedAppLastTwoWeeks()
+	{
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		
+		String date = getCache().getUserTutorialStatus().getDateUserLastOpendApp();
+		
+		Calendar lastTime = DateUtils.convertISO8601StringToCalendar(date);
+		
+		if (lastTime.before(now))
+		{
+			int a = now.get(Calendar.DAY_OF_YEAR);
+			int b = lastTime.get(Calendar.DAY_OF_YEAR);
+			
+			int difference = a-b;
+			
+			if (difference > 13) 
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 	
 	
