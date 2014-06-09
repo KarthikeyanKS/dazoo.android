@@ -8,11 +8,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import org.w3c.dom.UserDataHandler;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
@@ -333,20 +332,24 @@ public abstract class PersistentCache
 	
 	
 	
-	public synchronized Notification getNotificationWithCompetitionIdAndEventId(
+	public synchronized Notification getNotificationWithParameters(
+			String channelId, 
+			String programId,
+			long beginTimeMillis,
 			long competitionId,
-			long eventId,
-			long beginTimeMillis)
+			long eventId)
 	{		
 		Notification elementFound = null;
 		
 		for(Notification element : notifications)
 		{
+			boolean matchesChannelId = (element.getChannelId().equals(channelId));
+			boolean matchesProgramId = (element.getProgramId().equals(programId));
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
 			boolean matchesCompetitionId = (element.getCompetitionId() == competitionId);
 			boolean matchesEventId = (element.getEventId() == eventId);
-			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
 			
-			if(matchesCompetitionId && matchesEventId && matchesBeginTimeMillis)
+			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis && matchesCompetitionId && matchesEventId)
 			{
 				elementFound = element;
 				break;
@@ -363,7 +366,7 @@ public abstract class PersistentCache
 	
 	
 	
-	public synchronized Notification getNotificationWithChannelIdAndProgramId(
+	public synchronized Notification getNotificationWithParameters(
 			String channelId,
 			String programId,
 			long beginTimeMillis)

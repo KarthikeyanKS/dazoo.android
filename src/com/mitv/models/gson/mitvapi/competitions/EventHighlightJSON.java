@@ -7,16 +7,17 @@ public class EventHighlightJSON
 {
 	protected long highlightId;
 	protected long eventId;
-	protected long highlightCode; // TODO REMOVE
 	protected String action;
-	protected int actionCode;
-	protected long actionInfo;
-	protected long actionTime;
+	protected String highlightCode;
+	protected String period;
+	protected String periodShort;
+	protected int periodSort;
 	protected long teamId;
 	protected String team;
 	protected long personId;
-	protected String actionMinute;
 	protected String person;
+	protected long actionTime;
+	protected String actionMinute;
 	private String personShort;
 	protected long subPersonId;
 	protected String subPerson;
@@ -119,7 +120,7 @@ public class EventHighlightJSON
 
 
 
-	public long getActionInfo() {
-		return actionInfo;
+	public String getHighlightCode() {
+		return highlightCode;
 	}
 }

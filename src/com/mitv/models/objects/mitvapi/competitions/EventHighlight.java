@@ -13,6 +13,7 @@ public class EventHighlight
 	extends EventHighlightJSON
 {
 	public EventHighlight(){}
+
 	
 	
 	public boolean hasSubPerson()
@@ -21,16 +22,17 @@ public class EventHighlight
 	}
 	
 	
+	
 	public EventHighlightActionEnum getType()
 	{
-		return EventHighlightActionEnum.getTypeEnumFromCode(highlightCode); // TODO cannot use highlightCode
+		return EventHighlightActionEnum.getTypeEnumFromCode(getHighlightCode());
 	}
 	
 	
 	
-	public int getActionInfoInMinutes()
+	public int getActionTimeInMinutes()
 	{
-		long minutesAsLong = (actionInfo / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+		long minutesAsLong = (actionTime / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
 		
 		return (int) minutesAsLong;
 	}
