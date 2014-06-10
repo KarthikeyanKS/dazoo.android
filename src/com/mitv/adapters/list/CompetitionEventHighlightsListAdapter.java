@@ -161,56 +161,13 @@ public class CompetitionEventHighlightsListAdapter
 					
 					switch (eventActionType)
 					{
-						case KICK_OFF:
+						case KICK_OFF_PERIOD:
 						{
 							sb.append(activity.getString(R.string.event_page_highlight_kick_off));
 							break;
 						}
 						
-						case END_OF_PERIOD_1H:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_half_time));
-							sb.append(" (");
-							sb.append(event.getHomeGoalsHalfTime());
-							sb.append(" : ");
-							sb.append(event.getAwayGoalsHalfTime());
-							sb.append(")");
-							break;
-						}
-						
-						case INJURY_TIME_2H:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_overtime));
-							sb.append(" (");
-							sb.append(element.getActionInfoInMinutes());
-							sb.append(")");
-							break;
-						}
-						
-						case KICK_OFF_EXTRA_TIME_1:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_extra_time_1_started));
-							break;
-						}
-						
-						case KICK_OFF_EXTRA_TIME_2:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_extra_time_2_started));
-							sb.append(" (");
-							sb.append(event.getHomeGoals());
-							sb.append(" : ");
-							sb.append(event.getAwayGoals());
-							sb.append(")");
-							break;
-						}
-						
-						case KICK_OFF_PENALTIES:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_peanalties_started));
-							break;
-						}
-						
-						case END_OF_GAME:
+						case END_OF_PERIOD:
 						{
 							sb.append(activity.getString(R.string.event_page_highlight_end_of_game));
 							break;
@@ -262,7 +219,9 @@ public class CompetitionEventHighlightsListAdapter
 
 					holder.leftName.setText(element.getPersonShort());
 
-					if(element.hasSubPerson())
+					boolean isSubstitution = (eventActionType == EventHighlightActionEnum.SUBSTITUTION);
+					
+					if(isSubstitution && element.hasSubPerson())
 					{
 						holder.leftNameExtra.setVisibility(View.VISIBLE);
 						holder.leftNameExtra.setText(element.getSubPersonShort());
@@ -281,6 +240,7 @@ public class CompetitionEventHighlightsListAdapter
 						holder.leftNameExtra.setVisibility(View.GONE);
 
 						holder.leftDetails.setVisibility(View.VISIBLE);
+							
 						holder.leftDetails.setText(element.getAction());
 					}
 
@@ -298,7 +258,9 @@ public class CompetitionEventHighlightsListAdapter
 
 					holder.rightName.setText(element.getPersonShort());
 
-					if(element.hasSubPerson())
+					boolean isSubstitution = (eventActionType == EventHighlightActionEnum.SUBSTITUTION);
+					
+					if(isSubstitution && element.hasSubPerson())
 					{
 						holder.rightNameExtra.setVisibility(View.VISIBLE);
 						holder.rightNameExtra.setText(element.getSubPersonShort());
@@ -317,6 +279,8 @@ public class CompetitionEventHighlightsListAdapter
 						holder.rightNameExtra.setVisibility(View.GONE);
 
 						holder.rightDetails.setVisibility(View.VISIBLE);
+						
+						
 						holder.rightDetails.setText(element.getAction());
 					}
 
@@ -324,7 +288,7 @@ public class CompetitionEventHighlightsListAdapter
 				}
 				else
 				{
-					Log.w(TAG, "Hightlight " + element.getHighlightId() + " is not for home or away team");
+					Log.w(TAG, "Highlight " + element.getEventId() + " is not for home or away team");
 				}
 			}
 		}

@@ -37,6 +37,10 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_repeating_list_activity);
 		
@@ -102,6 +106,14 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

@@ -52,9 +52,9 @@ public class GetCompetitions
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			boolean standalone,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true, isRetry);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true, retryThreshold);
 	}
 	
 	

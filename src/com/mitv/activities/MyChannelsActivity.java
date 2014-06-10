@@ -73,6 +73,10 @@ public class MyChannelsActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 				
 		setContentView(R.layout.layout_mychannels_activity);
 		
@@ -247,6 +251,14 @@ public class MyChannelsActivity
 		updateUI(UIStatusEnum.LOADING);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

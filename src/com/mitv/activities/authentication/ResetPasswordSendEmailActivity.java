@@ -48,6 +48,10 @@ public class ResetPasswordSendEmailActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_resetpassword_activity);
 
@@ -86,6 +90,14 @@ public class ResetPasswordSendEmailActivity
 			
 			errorTextView.setText(getString(R.string.signup_with_email_error_email_incorrect));
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

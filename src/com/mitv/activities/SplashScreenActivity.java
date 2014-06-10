@@ -3,14 +3,13 @@ package com.mitv.activities;
 
 
 
-import java.util.Calendar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.test.suitebuilder.TestSuiteBuilder.FailedToCreateTests;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,7 +32,6 @@ import com.mitv.managers.TrackingManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -72,6 +70,8 @@ public class SplashScreenActivity
 	private TextView next_button;
 	
 	private CirclePageIndicator titleIndicator;
+	
+	private boolean failedLoading = false;
 	
 	
 	
@@ -201,8 +201,9 @@ public class SplashScreenActivity
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
-			case RETRY_COUNT_THRESHOLD_REACHED:
+			case UNKNOWN_ERROR:
 				// Load HomeActivity anyway if the initial loading failed. The no data layout will handle re-fetches.
+				failedLoading = true;
 				updateUI(UIStatusEnum.FAILED);
 				break;
 			default:
@@ -266,12 +267,13 @@ public class SplashScreenActivity
 
 	private void startPrimaryActivity() 
 	{
-		Calendar now = DateUtils.getNowWithGMTTimeZone();
-		
-		SecondScreenApplication.sharedInstance().setDateUserLastOpenedApp(now);
+		ContentManager.sharedInstance().setDateUserLastOpenApp();
 		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-		
+		if (failedLoading == false) 
+		{
+			intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, true);
+		}
 		startActivity(intent);
 		
 		finish();
@@ -437,8 +439,6 @@ public class SplashScreenActivity
 	
 	private void finishTutorial() 
 	{
-		SecondScreenApplication.sharedInstance().setUserSeenTutorial();
-		
 		SecondScreenApplication.sharedInstance().setIsViewingTutorial(false);
 		
 		boolean isConnected = NetworkUtils.isConnected();

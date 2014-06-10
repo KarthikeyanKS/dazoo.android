@@ -65,6 +65,10 @@ public class SignUpWithEmailActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_signup_activity);
 		
@@ -115,6 +119,14 @@ public class SignUpWithEmailActivity
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

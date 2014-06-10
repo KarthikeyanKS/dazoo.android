@@ -22,8 +22,8 @@ public class GetAdsAdzerk
 	public GetAdsAdzerk(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.ADS_ADZERK_GET, AdAdzerk.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.ADS_ADZERK_GET, AdAdzerk.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, retryThreshold);
 	}
 }

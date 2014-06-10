@@ -17,6 +17,26 @@ public class EventLineUp
 	
 	public boolean isGoalKeeper()
 	{
-		return getFunctionShort().equalsIgnoreCase(Constants.GOAL_KEEPER_FUNCTION_SORT);
+		boolean isGoalKeeper = (getFunctionType() == Constants.LINE_UP_GOAL_KEEPER_FUNCTION_TYPE);
+		
+		return isGoalKeeper;
+	}
+	
+	
+	
+	public boolean isReferee()
+	{
+		boolean isGoalKeeper = (getFunctionType() == Constants.LINE_UP_REFEREE_FUNCTION_TYPE);
+		
+		return isGoalKeeper;
+	}
+	
+	
+	
+	public boolean isCoach()
+	{
+		boolean isGoalKeeper = (getFunctionType() == Constants.LINE_UP_COACH_FUNCTION_TYPE);
+		
+		return isGoalKeeper;
 	}
 }

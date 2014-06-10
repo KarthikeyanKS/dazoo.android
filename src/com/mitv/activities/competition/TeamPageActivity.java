@@ -98,6 +98,10 @@ public class TeamPageActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_competition_team_page_main);
 		
@@ -114,6 +118,10 @@ public class TeamPageActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUAD);
 		
 		initLayout();
+		
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionTeamPageReloadInterval();
+		
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
 	}
 	
 	
@@ -167,16 +175,23 @@ public class TeamPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		/* Always re-fetch the data from the service */
-		boolean forceRefresh = false;
+		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionTeamPageReloadInterval();
 		
-		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
-			forceRefresh = true;
-		}
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefresh, competitionID, teamID);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceSquadByTeamID(this, forceRefresh, competitionID, teamID);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, true, competitionID, teamID);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceSquadByTeamID(this, true, competitionID, teamID);
 	}
 
 	
@@ -337,6 +352,7 @@ public class TeamPageActivity
 			
 			/* photo credit */
 			String credit = team.getTeamImageCopyright();
+			
 			if (credit != null && !credit.isEmpty()) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))

@@ -2,8 +2,6 @@ package com.mitv.activities;
 
 
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,11 +16,9 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVGuideHolderFragment;
 import com.mitv.fragments.TVGuideHolderFragment.OnViewPagerIndexChangedListener;
-import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.objects.mitvapi.TVDate;
+import com.mitv.managers.RateAppManager;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -84,9 +80,7 @@ public class HomeActivity
 	
 	@Override
 	protected void onResume()
-	{
-		handleTimeAndDayOnResume();
-		
+	{	
 		super.onResume();
 				
 		showWelcomeToast();
@@ -192,57 +186,16 @@ public class HomeActivity
 	protected void loadData() 
 	{
 		setGUIToLoading();
-		
+
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 	}
 	
 	
 	
-	private void handleTimeAndDayOnResume() 
+	@Override
+	protected void loadDataInBackground()
 	{
-		/* Handle day */
-		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
-		
-		/*
-		 * Index is not 0, that means that the actual day has changed since the application was launched for last time
-		 * In this case, the data in cache is no longer accurate and we must re-fetch it from the service
-		 */
-		if (indexOfTodayFromTVDates > 0) 
-		{
-			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
-
-			if(isTimeOffSync == false) 
-			{
-				ContentManager.sharedInstance().clearGuideCacheData();
-			}
-		} 
-	}
-	
-	
-	
-	private int getIndexOfTodayFromTVDates() 
-	{
-		int indexOfTodayFromTVDates = -1;
-
-		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
-		
-		if(tvDates != null)
-		{
-			for(int i = 0; i < tvDates.size(); ++i) 
-			{
-				TVDate tvDate = tvDates.get(i);
-				
-				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
-				
-				if(isTVDateNow)
-				{
-					indexOfTodayFromTVDates = i;
-					break;
-				}
-			}
-		}
-
-		return indexOfTodayFromTVDates;
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

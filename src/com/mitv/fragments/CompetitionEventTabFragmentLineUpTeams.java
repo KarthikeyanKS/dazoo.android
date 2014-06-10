@@ -24,8 +24,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop;
-import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.ui.elements.CustomViewPager;
 
@@ -40,8 +39,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	private CustomViewPager viewPager;
 	
-	private Event event;
-	
+	private long competitionID;
 	private long eventID;
 	private long teamID;
 
@@ -65,6 +63,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	public CompetitionEventTabFragmentLineUpTeams(
 			final CustomViewPager viewPager,
+			final long competitionID,
 			final long eventID,
 			final long teamID,
 			final String tabId, 
@@ -73,6 +72,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	{
 		super(tabId, tabTitle, tabType);
 		
+		this.competitionID = competitionID;
 		this.eventID = eventID;
 		this.teamID = teamID;
 		
@@ -131,20 +131,22 @@ public class CompetitionEventTabFragmentLineUpTeams
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		long competitionID = getEvent().getCompetitionId();
-		
-		long eventID = getEvent().getEventId();
-		
 		ContentManager.sharedInstance().getElseFetchFromServiceEventLineUpData(this, false, competitionID, eventID);
 	}
 	
 	
 	
 	@Override
-	protected boolean hasEnoughDataToShowContent()
+	protected void loadDataInBackground()
 	{
-		long eventID = getEvent().getEventId();
-		
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{		
 		return ContentManager.sharedInstance().getFromCacheHasLineUpDataByEventIDForSelectedCompetition(eventID);
 	}
 	
@@ -179,7 +181,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 				// Line up - main
 				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 	
-				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
+				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom());
 				
 				listAdapter = new CompetitionEventLineUpTeamsListAdapter(activity, eventLineUps);
 				
@@ -198,7 +200,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 				// Line up - Substitutes
 				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 				
-				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
+				Collections.sort(eventLineUpsSubs, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom());
 				
 				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) 
 				{	
@@ -207,13 +209,12 @@ public class CompetitionEventTabFragmentLineUpTeams
 					whiteDivider.setVisibility(View.VISIBLE);
 					
 					StringBuilder sb = new StringBuilder();
+
+					sb.append(activity.getResources().getString(R.string.event_page_lineup_subs_header));
 					
 					if (eventLineUpsSubs.size() > 1) {
-						sb.append(getString(R.string.event_page_lineup_subs_header))
-							.append("s");
-					} else {
-						sb.append(getString(R.string.event_page_lineup_subs_header));
-					}
+						sb.append("s");
+					} 
 					
 					subsHeader.setText(sb.toString());
 					
@@ -263,17 +264,4 @@ public class CompetitionEventTabFragmentLineUpTeams
 		}
 	}
 	
-	
-	
-	private Event getEvent()
-	{
-		if(this.event == null)
-		{
-			Log.d(TAG, "Event ID is: " + eventID);
-			
-			this.event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
-		}
-		
-		return event;
-	}
 }

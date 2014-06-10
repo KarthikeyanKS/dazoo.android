@@ -92,7 +92,6 @@ public class CompetitionPageActivity
 	/* Ongoing - Live */
 	private RelativeLayout liveOngoingLayout;
 	private TextView liveOngoingStandings;
-	private TextView liteTVBroadcastChannelsOngoing;
 	private TextView liveTeam1NameOngoing;
 	private ImageView liveTeam1FlagOngoing;
 	private TextView liveTeam2NameOngoing;
@@ -110,6 +109,10 @@ public class CompetitionPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_competition_page);
 		
@@ -128,9 +131,13 @@ public class CompetitionPageActivity
 		initLayout();
 		
 		setAdapter(selectedTabIndex);
+		
+		int reloadIntervalInSecond = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
+		
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInSecond);
 	}
 	
-	
+		
 	
 	@Override
 	public void onPause()
@@ -317,8 +324,11 @@ public class CompetitionPageActivity
 	            public void onClick(View v)
 	            {
 	                Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
+
+	                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, liveEvent.getEventId());
+	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 	                
 	                startActivity(intent);
@@ -708,14 +718,19 @@ public class CompetitionPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 
-		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfCompetitionInitialData = false;
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
 		
-		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
-			forceRefreshOfCompetitionInitialData = true;
-		}
-		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, competition.getCompetitionId());
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadIntervalInMinutes);
+
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefresh, competition.getCompetitionId());
+	}
+	
+
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, true, competition.getCompetitionId());
 	}
 
 
@@ -723,8 +738,10 @@ public class CompetitionPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
-		
+		boolean hasData = false;
+		if (competition != null) {
+			hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
+		}
 		return hasData;
 	}
 

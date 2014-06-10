@@ -4,9 +4,12 @@ package com.mitv.activities.broadcast_list_more;
 
 
 import java.util.ArrayList;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.adapters.list.AiringOnDifferentChannelListAdapter;
@@ -21,7 +24,6 @@ import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 public class AiringOnDifferentChannelListMoreActivity 
 	extends BaseActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = AiringOnDifferentChannelListMoreActivity.class.getName();
 
 	
@@ -35,6 +37,10 @@ public class AiringOnDifferentChannelListMoreActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_now_airing_more_list);
 		
@@ -65,10 +71,19 @@ public class AiringOnDifferentChannelListMoreActivity
 	}
 	
 	
+	
 	@Override
 	protected void loadData()
 	{
 		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

@@ -3,6 +3,9 @@ package com.mitv.fragments.base;
 
 
 
+import java.util.Calendar;
+import java.util.Timer;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,6 +25,8 @@ import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
+import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -44,6 +49,20 @@ public abstract class BaseFragment
 	private Button requestrequestNoInternetConnectionRetryButton;
 	private Button requestFailedRetryButton;
 
+	/* Initially null, but set to the current device time 
+	 * The assignment is done in the cases SUCCESS_WITH_NO_CONTENT or SUCCESS_WITH_CONTENT of the updateUIBaseElements **/
+	private Calendar lastDataUpdatedCalendar;
+	
+	/* Timer for re-fetching data in the background while the user is on the same activity */
+	private Timer backgroundLoadTimer;
+
+	/* Time value for the background timer.
+	 * The initial value is -1 if not used */
+	private int backgroundLoadTimerValueInSeconds;
+	
+
+	private boolean loadedFromBackground;
+
 
 	
 	/* Abstract Methods */
@@ -53,6 +72,9 @@ public abstract class BaseFragment
 
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
+	
+	/* This method implementation is OPTIONAL */
+	protected abstract void loadDataInBackground();
 	
 	/*
 	 * This method implementation should return true if all the data necessary to show the content view can be obtained
@@ -69,6 +91,10 @@ public abstract class BaseFragment
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+		lastDataUpdatedCalendar = null;
+		
+		backgroundLoadTimerValueInSeconds = -1;
 	}
 	
 	
@@ -78,7 +104,22 @@ public abstract class BaseFragment
 	{	
 		super.onResume();
 		
+		setBackgroundLoadingTimer();
+		
 		loadDataWithConnectivityCheck();
+	}
+	
+	
+	
+	@Override
+	public void onPause() 
+	{
+		super.onPause();
+ 
+		if(backgroundLoadTimer != null)
+		{
+			backgroundLoadTimer.cancel();
+		}
 	}
 	
 	
@@ -234,6 +275,9 @@ public abstract class BaseFragment
 						requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 						requestEmptyLayout.startAnimation(anim);
 					}
+					
+					lastDataUpdatedCalendar = DateUtils.getNowWithGMTTimeZone();
+					
 					break;
 				}
 				
@@ -244,6 +288,18 @@ public abstract class BaseFragment
 					{
 						requestSuccessfulLayout.setVisibility(View.VISIBLE);
 					}
+					
+					if(loadedFromBackground)
+					{
+						String message = getString(R.string.generic_content_updated);
+						
+						ToastHelper.createAndShowShortToast(message);
+						
+						loadedFromBackground = false;
+					}
+					
+					lastDataUpdatedCalendar = DateUtils.getNowWithGMTTimeZone();
+					
 					break;
 				}
 			}
@@ -374,5 +430,54 @@ public abstract class BaseFragment
 				break;
 			}
 		}
+	}
+	
+	
+	
+	protected boolean wasActivityDataUpdatedMoreThan(int minutes)
+	{
+		boolean wasDataUpdatedMoreThan = false;
+		
+		if(lastDataUpdatedCalendar != null)
+		{
+			Calendar lastDataUpdatedCalendarWithincrement = (Calendar) lastDataUpdatedCalendar.clone();
+			lastDataUpdatedCalendarWithincrement.add(Calendar.MINUTE, minutes);
+			
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+			
+			wasDataUpdatedMoreThan = lastDataUpdatedCalendarWithincrement.before(now);
+		}
+		
+		return wasDataUpdatedMoreThan;
+	}
+	
+	
+	
+	private void setBackgroundLoadingTimer()
+	{
+		if(backgroundLoadTimerValueInSeconds > -1)
+		{
+			int backgroundTimerValue = (int) (backgroundLoadTimerValueInSeconds*DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
+		
+			backgroundLoadTimer = new Timer();
+			
+			backgroundLoadTimer.schedule(new java.util.TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					loadedFromBackground = true;
+					
+					loadDataInBackground();
+				}
+			}, backgroundTimerValue, backgroundTimerValue);
+		}
+	}
+	
+	
+	
+	protected void setBackgroundLoadTimerValueInSeconds(int value)
+	{
+		backgroundLoadTimerValueInSeconds = value;
 	}
 }

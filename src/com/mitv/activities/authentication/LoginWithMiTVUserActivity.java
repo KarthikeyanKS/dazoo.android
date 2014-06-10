@@ -59,6 +59,10 @@ public class LoginWithMiTVUserActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_mitvlogin_activity);
 		
@@ -102,6 +106,14 @@ public class LoginWithMiTVUserActivity
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

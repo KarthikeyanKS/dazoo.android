@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 
@@ -27,7 +28,6 @@ public class RemindersActivity
 	extends BaseContentActivity 
 	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
 	
@@ -39,6 +39,10 @@ public class RemindersActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_reminders_activity);
 
@@ -80,6 +84,14 @@ public class RemindersActivity
 		listAdapter = new RemindersListAdapter(this, notifications);
 
 		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

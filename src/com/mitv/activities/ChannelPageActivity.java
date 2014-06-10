@@ -4,18 +4,22 @@ package com.mitv.activities;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.ChannelPageListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -27,6 +31,7 @@ import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -60,6 +65,10 @@ public class ChannelPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
@@ -131,6 +140,38 @@ public class ChannelPageActivity
 	
 					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 					
+					if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION) {
+						/* FIFA - Navigation to event page */
+						ArrayList<String> tags = broadcastSelected.getProgram().getTags();
+						
+						if (tags != null && !tags.isEmpty()) {
+							
+							for (int i = 0; i < tags.size(); i++) {
+								
+								if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
+									long eventId = broadcastSelected.getEventId();
+									
+									/*
+									 * WARNING WARNING WARNING
+									 * 
+									 * Hard coded competition ID used here.
+									 * 
+									 */
+									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+									
+									/* Changing the already existing intent to competition event page */
+									intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
+									
+									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+									
+									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+									
+									intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+								}
+							}
+						}
+					}
+					
 					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
 					ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
@@ -165,9 +206,21 @@ public class ChannelPageActivity
 	
 	
 	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
+	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		if (channel != null) 
+		{
+			return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		}
+		return false;
 	}
 
 	

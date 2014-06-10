@@ -64,6 +64,10 @@ public class FeedActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 				
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM_MORE);
@@ -220,6 +224,7 @@ public class FeedActivity
 	}
 	
 	
+	
 	@Override
 	protected void loadData() 
 	{		
@@ -234,6 +239,14 @@ public class FeedActivity
 		{
 			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

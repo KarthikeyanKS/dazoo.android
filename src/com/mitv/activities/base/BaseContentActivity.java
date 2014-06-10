@@ -3,7 +3,6 @@ package com.mitv.activities.base;
 
 
 
-
 public abstract class BaseContentActivity 
 	extends BaseActivity
 {
@@ -11,7 +10,7 @@ public abstract class BaseContentActivity
 	private static final String TAG = BaseContentActivity.class.getName();
 	
 	
-	
+
 	@Override
 	protected void onResume()
 	{

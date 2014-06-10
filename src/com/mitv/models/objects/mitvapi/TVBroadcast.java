@@ -8,8 +8,8 @@ import java.util.Calendar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
@@ -34,7 +34,6 @@ public class TVBroadcast
 	extends TVBroadcastJSON
 	implements GSONDataFieldValidation 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVBroadcast.class.getName();
 
 	
@@ -106,6 +105,70 @@ public class TVBroadcast
 			}
 		}
 		return title;
+	}
+	
+	
+	
+	
+	public String getProgramDetailsAsString()
+	{
+		StringBuilder detailsSB = new StringBuilder(); 
+		
+		TVProgram program = getProgram();
+		
+		ProgramTypeEnum programType = program.getProgramType();
+
+		switch(programType)
+		{
+			case TV_EPISODE:
+			{
+				String seasonAndEpisodeString = buildSeasonAndEpisodeString();
+
+				detailsSB.append(seasonAndEpisodeString);
+
+				break;
+			}
+
+			case MOVIE:
+			{
+				detailsSB.append(program.getGenre())
+				.append(" ")
+				.append(program.getYear());
+
+				break;
+			}
+
+			case SPORT:
+			{
+				if (program.getTournament() != null) 
+				{
+					detailsSB.append(program.getTournament());
+				}
+				else 
+				{
+					detailsSB.append(program.getSportType().getName());
+				}
+				break;
+			}
+
+			case OTHER:
+			{
+				String category = program.getCategory();
+
+				detailsSB.append(category);
+
+				break;
+			}
+
+			case UNKNOWN:
+			default:
+			{
+				Log.w(TAG, "Unhandled program type.");
+				break;
+			}
+		}
+		
+		return detailsSB.toString();
 	}
 	
 	
@@ -265,20 +328,6 @@ public class TVBroadcast
 	}
 	
 	
-	
-	
-	public Calendar getBroadcastBeginTimeForNotification()
-	{
-		Calendar calendar = (Calendar) getBeginTimeCalendarLocal().clone();
-
-		int minutesBeforeNotify = Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST;
-		
-		calendar.add(Calendar.MINUTE, -minutesBeforeNotify);
-		
-		return calendar;
-	}
-	
-
 	
 	public boolean isEventAiringInLessThan(int minutes) 
 	{

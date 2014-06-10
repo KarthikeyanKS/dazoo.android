@@ -33,6 +33,10 @@ public class ResetPasswordConfirmationActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_resetpasswordfinal_activity);
 
@@ -45,6 +49,14 @@ public class ResetPasswordConfirmationActivity
 	protected void loadData() 
 	{
 		// Do nothing
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

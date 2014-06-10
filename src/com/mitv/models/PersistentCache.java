@@ -4,15 +4,20 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
 import com.mitv.models.objects.mitvapi.Notification;
@@ -29,7 +34,9 @@ import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
 import com.mitv.models.orm.NotificationORM;
 import com.mitv.models.orm.UserLoginDataORM;
+import com.mitv.models.orm.UserTutorialStatusORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -68,6 +75,8 @@ public abstract class PersistentCache
 	private ArrayList<TVFeedItem> activityFeed;
 	private ArrayList<TVFeedItem> feedItemsToDelete;
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
+
+	private UserTutorialStatus userTutorialStatus;
 	
 	
 	
@@ -89,7 +98,9 @@ public abstract class PersistentCache
 		this.notifications = NotificationORM.getNotifications();
 		
 		this.tvTags = null; //TVTagORM.getTVTags();
-		this.tvDates = null; //TVDateORM.getTVDates();
+		this.tvDates = null; //TVDateORM.getTVDates();		
+		
+		this.userTutorialStatus = UserTutorialStatusORM.getUserTutorial();
 	}
 	
 	
@@ -257,6 +268,42 @@ public abstract class PersistentCache
 	
 	
 	
+	/* USER TUTORIAL STATUS */
+	
+	public synchronized void setUserTutorialStatus(UserTutorialStatusEnum status) {
+		userTutorialStatus.setStatus(status);
+		
+		UserTutorialStatusORM userTutorialORM = new UserTutorialStatusORM(userTutorialStatus);
+		
+		userTutorialORM.saveInAsyncTask();
+	}
+	
+	
+	
+	public synchronized void setUserTutorialDateOpenApp(Calendar lastOpen) {
+		String date = DateUtils.convertFromCalendarToISO8601String(lastOpen);
+
+		userTutorialStatus.setDateUserLastOpendApp(date);
+		
+		UserTutorialStatusORM userTutorialORM = new UserTutorialStatusORM(userTutorialStatus);
+		
+		userTutorialORM.saveInAsyncTask();
+	}
+		
+	
+	
+	public synchronized UserTutorialStatusEnum getUserTutorialStatusEnum() {
+		return userTutorialStatus.getUserTutorialStatus();
+	}
+	
+	
+	
+	public synchronized UserTutorialStatus getUserTutorialStatus() {
+		return userTutorialStatus;
+	}
+	
+	
+	
 	/* NOTIFICATIONS */
 	
 	
@@ -285,20 +332,24 @@ public abstract class PersistentCache
 	
 	
 	
-	public synchronized Notification getNotificationWithCompetitionIdAndEventId(
-			long competitionId,
-			long eventId,
-			long beginTimeMillis)
+	public synchronized Notification getNotificationWithParameters(
+			final String channelId, 
+			final String programId,
+			final Long beginTimeMillis,
+			final Long competitionId,
+			final Long eventId)
 	{		
 		Notification elementFound = null;
 		
 		for(Notification element : notifications)
 		{
-			boolean matchesCompetitionId = (element.getCompetitionId() == competitionId);
-			boolean matchesEventId = (element.getEventId() == eventId);
-			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
+			boolean matchesChannelId = (element.getChannelId().equals(channelId));
+			boolean matchesProgramId = (element.getProgramId().equals(programId));
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
+			boolean matchesCompetitionId = (element.getCompetitionId().equals(competitionId));
+			boolean matchesEventId = (element.getEventId().equals(eventId));
 			
-			if(matchesCompetitionId && matchesEventId && matchesBeginTimeMillis)
+			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis && matchesCompetitionId && matchesEventId)
 			{
 				elementFound = element;
 				break;
@@ -315,10 +366,10 @@ public abstract class PersistentCache
 	
 	
 	
-	public synchronized Notification getNotificationWithChannelIdAndProgramId(
-			String channelId,
-			String programId,
-			long beginTimeMillis)
+	public synchronized Notification getNotificationWithParameters(
+			final String channelId,
+			final String programId,
+			final Long beginTimeMillis)
 	{		
 		Notification elementFound = null;
 		
@@ -326,7 +377,7 @@ public abstract class PersistentCache
 		{
 			boolean matchesChannelId = (element.getChannelId().equals(channelId));
 			boolean matchesProgramId = (element.getProgramId().equals(programId));
-			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
 			
 			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis)
 			{
@@ -349,7 +400,7 @@ public abstract class PersistentCache
 	{		
 		this.notifications.add(notification);
 		
-		NotificationORM.createAndSaveInAsyncTask(notifications);
+		NotificationORM.add(notification);
 	}
 	
 	
@@ -362,7 +413,7 @@ public abstract class PersistentCache
 		{
 			notifications.remove(elementFound);
 			
-			NotificationORM.createAndSaveInAsyncTask(notifications);
+			NotificationORM.remove(notificationId);
 		}
 		else
 		{
@@ -667,13 +718,16 @@ public abstract class PersistentCache
     //TODO dont iterate through a list, change tvChannels to a Map instead?
     private  TVChannel getTVChannelByIdHelper(TVChannelId tvChannelId)
     {
-        for(TVChannel tvChannel : tvChannels)
-        {
-            if(tvChannel.getChannelId().equals(tvChannelId))
-            {
-                return tvChannel;
-            }
-        }
+    	if (tvChannels != null) 
+    	{
+	        for(TVChannel tvChannel : tvChannels)
+	        {
+	            if(tvChannel.getChannelId().equals(tvChannelId))
+	            {
+	                return tvChannel;
+	            }
+	        }
+    	}
 
         return null;
     }

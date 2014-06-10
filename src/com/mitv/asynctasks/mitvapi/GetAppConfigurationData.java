@@ -24,9 +24,9 @@ public class GetAppConfigurationData
 	public GetAppConfigurationData(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, retryThreshold);
 	}
 	
 	

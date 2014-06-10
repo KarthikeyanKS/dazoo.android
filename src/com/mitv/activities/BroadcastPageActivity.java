@@ -109,12 +109,19 @@ public class BroadcastPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (!getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		initViews();
 		
-		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		boolean areDisqusCommentsEnabled = false;
+		if (ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
+			areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		}
 		
 		if(areDisqusCommentsEnabled == false)
 		{
@@ -197,6 +204,14 @@ public class BroadcastPageActivity
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, requiresDataReload, channelId, beginTimeInMillis);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 
 	

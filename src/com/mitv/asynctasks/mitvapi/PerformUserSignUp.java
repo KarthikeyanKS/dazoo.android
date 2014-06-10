@@ -43,9 +43,9 @@ public class PerformUserSignUp
 			ViewCallbackListener activityCallbackListener,
 			UserRegistrationData userRegistrationData,
 			boolean usingHashedPassword,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword), false, retryThreshold);
 		
 		this.bodyContentData = gson.toJson(userRegistrationData);
 		

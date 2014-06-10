@@ -28,9 +28,9 @@ public class GetAppVersionData
 	public GetAppVersionData(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionElement[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionElement[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, retryThreshold);
 	}
 	
 	

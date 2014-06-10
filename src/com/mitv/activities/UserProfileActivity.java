@@ -71,7 +71,11 @@ public class UserProfileActivity
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState); 
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_user_profile);
 
@@ -118,6 +122,14 @@ public class UserProfileActivity
 		{
 			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

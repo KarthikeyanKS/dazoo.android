@@ -49,6 +49,10 @@ public class LoginWithFacebookActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_facebooklogin_activity);
 		
@@ -115,6 +119,14 @@ public class LoginWithFacebookActivity
 			
 			Log.e(TAG, "Facebook token was null.");
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 
 	

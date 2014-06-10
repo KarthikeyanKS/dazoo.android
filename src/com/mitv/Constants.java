@@ -1,10 +1,9 @@
 
 package com.mitv;
 
-import java.util.EnumSet;
+
 
 import com.mitv.activities.FeedActivity;
-import com.mitv.enums.EventHighlightActionEnum;
 
 
 
@@ -38,8 +37,6 @@ public abstract class Constants
 	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
-	public static final String USER_HAS_SEEN_TUTORIAL__ONCE_FILE_NAME = "59b039d2c0c0a7fbe173";
-	public static final String USER_HAS_SEEN_TUTORIAL_TWICE_FILE_NAME = "59b039d2c0c0a7fbe183";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
@@ -60,8 +57,11 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
-	public static final boolean USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES = false;
-	
+	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 600;
+	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
+	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
+	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
+	public static final boolean ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION = false;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -121,13 +121,14 @@ public abstract class Constants
 	/* API request strings for competitions module */
 	public static final String URL_SPORTS_MODULE					= "/api/sports"; 
 	public static final String URL_COMPETITIONS 					= "/competitions";
+	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_PHASES 					 		= "/phases";
 	public static final String URL_TEAMS 					 		= "/teams";
 	public static final String URL_COMPETITIONS_FULL 			    = URL_SERVER + URL_SPORTS_MODULE + URL_COMPETITIONS;
+	public static final String URL_EVENTS_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_EVENTS;
 	public static final String URL_PHASES_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_PHASES;
 	public static final String URL_TEAMS_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_TEAMS;
 	public static final String URL_EVENT_LINEUP					 	= URL_SERVER  + URL_SPORTS_MODULE;
-	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
 	public static final String URL_SQUAD 					 		= "/squad";
@@ -178,7 +179,7 @@ public abstract class Constants
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int USER_LASTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
-	public static final int RETRY_COUNT_THRESHOLD 					= 10; //Or other appropriate limit
+	public static final int RETRY_COUNT_THRESHOLD 					= 1;
 
 	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String  CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
@@ -191,6 +192,8 @@ public abstract class Constants
 	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.mitv.intent.extra.channel.id";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.mitv.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_IS_FROM_SPLASHSCREEN					= "com.mitv.intent.extra.is.from.splashscreen";
+	public static final String	INTENT_EXTRA_IS_FROM_NOTIFICATION 					= "com.mitv.intent.extra.is.from.notification";
 
 	/* Alarm extras */
 	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION"; //WARNING do NOT change this without changing in the Android Manifest> <action android:name="NOTIFICATION" />
@@ -476,9 +479,9 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	
 	/* Shared preferences for TUTORIAL */
-	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";
-	public static final String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN = "com.mitv.app.tutorial.never.start.again";
-	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
+//	public static final String SHARED_PREFERENCES_APP_USER_HAS_SEEN_TUTORIAL = "com.mitv.app.tutorial.has.seen";
+//	public static final String SHARED_PREFERENCES_APP_TUTORIAL_SHOULD_NEVER_START_AGAIN = "com.mitv.app.tutorial.never.start.again";
+//	public static String SHARED_PREFERENCES_DATE_LAST_OPEN_APP = "com.mitv.app.tutorial.date";
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */
@@ -515,6 +518,7 @@ public abstract class Constants
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
+	public static final String FIFA_EVENT_PAGE_HEADER = "Copa Mundial Brasil 2014";
 	
 	
 	/* Ad mob stuff */
@@ -537,15 +541,9 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_NAME = "competitionName";
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
 	
-	public static final String GOAL_KEEPER_FUNCTION_SORT = "GC";
-	public static final EnumSet<EventHighlightActionEnum> EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE = EnumSet.of(
-								EventHighlightActionEnum.KICK_OFF_2H, 
-								EventHighlightActionEnum.END_OF_PERIOD_2H, 
-								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_1,
-								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_1,
-								EventHighlightActionEnum.END_OF_PERIOD_EXTRA_TIME_2,
-								EventHighlightActionEnum.INJURY_TIME_EXTRA_TIME_2,
-								EventHighlightActionEnum.END_OF_PERIOD_PENALTIES);
+	public static final int LINE_UP_GOAL_KEEPER_FUNCTION_TYPE = 1;
+	public static final int LINE_UP_COACH_FUNCTION_TYPE = 16;
+	public static final int LINE_UP_REFEREE_FUNCTION_TYPE = 64;
 	
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
