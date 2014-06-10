@@ -57,10 +57,10 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
-	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES = 10;
-	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES = 5;
-	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_MINUTES = 1;
-	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES = 120;
+	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 600;
+	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
+	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
+	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -120,13 +120,14 @@ public abstract class Constants
 	/* API request strings for competitions module */
 	public static final String URL_SPORTS_MODULE					= "/api/sports"; 
 	public static final String URL_COMPETITIONS 					= "/competitions";
+	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_PHASES 					 		= "/phases";
 	public static final String URL_TEAMS 					 		= "/teams";
 	public static final String URL_COMPETITIONS_FULL 			    = URL_SERVER + URL_SPORTS_MODULE + URL_COMPETITIONS;
+	public static final String URL_EVENTS_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_EVENTS;
 	public static final String URL_PHASES_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_PHASES;
 	public static final String URL_TEAMS_FULL 					 	= URL_SERVER + URL_SPORTS_MODULE + URL_TEAMS;
 	public static final String URL_EVENT_LINEUP					 	= URL_SERVER  + URL_SPORTS_MODULE;
-	public static final String URL_EVENTS 					 		= "/events";
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
 	public static final String URL_SQUAD 					 		= "/squad";

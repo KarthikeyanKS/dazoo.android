@@ -5,6 +5,7 @@ package com.mitv.activities.competition;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +34,6 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventBroadcastByStartTime;
-import com.mitv.models.comparators.EventHighlightComparatorByTime;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
@@ -114,6 +114,10 @@ public class EventPageActivity
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
 	
 	
+	/* Timer for re-fetching data in the background while the user is on the same activity */
+	private Timer backgroundLoadTimerForHighlights;
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -145,6 +149,19 @@ public class EventPageActivity
 		setAdapterForStandingsList();
 		
 		setAdapterForGroupList();
+		
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+		
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
+		
+		boolean isEventLive = event.isLive();
+		
+		if(isEventLive)
+		{
+			int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+		
+			setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
+		}
 	}
 		
 	
@@ -157,6 +174,19 @@ public class EventPageActivity
 		super.onResume();
 	}
 	
+	
+	
+	@Override
+	protected void onPause() 
+	{
+		super.onPause();
+		
+		if(backgroundLoadTimerForHighlights != null)
+		{
+			backgroundLoadTimerForHighlights.cancel();
+		}
+	}
+
 	
 	
 	@Override
@@ -521,9 +551,6 @@ public class EventPageActivity
 			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 			
 			listContainerLayoutHighlights.removeAllViews();
-
-			Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
-			Collections.reverse(eventHighlights);
 			
 			listAdapterHighlights = new CompetitionEventHighlightsListAdapter(this, eventHighlights);
 			
@@ -662,7 +689,7 @@ public class EventPageActivity
 	@Override
 	protected void loadDataInBackground()
 	{
-		Log.w(TAG, "Not implemented in this class");
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, true, event.getCompetitionId(), event.getEventId());
 	}
 
 
@@ -774,4 +801,26 @@ public class EventPageActivity
 
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) {}
+	
+	
+	
+	
+	private void setBackgroundLoadingTimerForHighlights(int valueInSeconds)
+	{
+		if(valueInSeconds > -1)
+		{
+			int backgroundTimerValue = (int) (valueInSeconds*DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
+		
+			backgroundLoadTimerForHighlights = new Timer();
+			
+			backgroundLoadTimerForHighlights.schedule(new java.util.TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(EventPageActivity.this, true, event.getCompetitionId(), event.getEventId());
+				}
+			}, backgroundTimerValue, backgroundTimerValue);
+		}
+	}
 }

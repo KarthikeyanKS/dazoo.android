@@ -23,6 +23,7 @@ import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -60,8 +61,12 @@ public class NotificationHelper
 		
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 
+		long millisecondsBeforeNotification = (Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST * DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+		
 		long alarmTimeInMillis = notification.getBeginTimeInMilliseconds();
 
+		alarmTimeInMillis = alarmTimeInMillis - millisecondsBeforeNotification;
+		
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pendingIntent);
 
 		ContentManager.sharedInstance().addToCacheNotifications(notification);
@@ -166,6 +171,8 @@ public class NotificationHelper
 			
 			notificationManager.notify(notificationID, notificationBuilder.build());
 	
+			Log.d(TAG, "Notification with ID " + notificationID + " will be removed");
+			
 			ContentManager.sharedInstance().removeFromCacheNotificationWithID(notificationID);
 		}
 	}

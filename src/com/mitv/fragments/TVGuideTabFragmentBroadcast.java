@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +92,14 @@ public class TVGuideTabFragmentBroadcast
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		
 		ContentManager.sharedInstance().getElseBuildTaggedBroadcastsForSelectedTVDate(this, getTabTitle());
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

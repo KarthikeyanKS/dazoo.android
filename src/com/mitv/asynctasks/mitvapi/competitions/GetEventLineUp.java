@@ -26,16 +26,10 @@ public class GetEventLineUp
 	
 	
 	private static String buildURL(
-			final Long competitionID,
 			final Long eventID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS_FULL);
-		url.append(Constants.FORWARD_SLASH);
-		
-		url.append(competitionID);
-		
-		url.append(Constants.URL_EVENTS);
+		url.append(Constants.URL_EVENTS_FULL);
 		url.append(Constants.FORWARD_SLASH);
 		
 		url.append(eventID);
@@ -50,11 +44,10 @@ public class GetEventLineUp
 	public GetEventLineUp(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final Long competitionID,
 			final Long eventID,
 			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENT_LINEUP, EventLineUp[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, eventID), false, retryThreshold);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENT_LINEUP, EventLineUp[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(eventID), false, retryThreshold);
 		
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY, eventID);
 	}

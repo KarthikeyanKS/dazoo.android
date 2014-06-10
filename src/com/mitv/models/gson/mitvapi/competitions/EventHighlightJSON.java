@@ -5,122 +5,74 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 public class EventHighlightJSON
 {
-	protected long highlightId;
 	protected long eventId;
-	protected String action;
-	protected String highlightCode;
-	protected String period;
-	protected String periodShort;
-	protected int periodSort;
-	protected long teamId;
-	protected String team;
-	protected long personId;
-	protected String person;
-	protected long actionTime;
-	protected String actionMinute;
-	private String personShort;
-	protected long subPersonId;
-	protected String subPerson;
-	protected String subPersonShort;
-	protected long subActionReasonId;
-	protected String subActionReason;
-	
-	
-	
-	public EventHighlightJSON(){}
+    
+	/* Erik: This is the most important value of the class */
+    private String highlightCode;
+    
+    private String action;
+    private long actionTime;
+    private long teamId;
+    private String actionMinute;
+    private String personShort;
+    private String subPersonShort;
 
+    
+    
+    public EventHighlightJSON() {}
 
+    
+    
+    public String getAction() {
+    	if (action == null) {
+    		action = "";
+    	}
+    	return action;
+    }
 
-	public long getHighlightId() {
-		return highlightId;
-	}
+    
+    
+    public long getActionTime() {
+    	return actionTime;
+    }
 
+    
+    
+    public long getTeamId() {
+    	return teamId;
+    }
 
+    
+    public String getHighlightCode() {
+    	if (highlightCode == null) {
+    		highlightCode = "";
+    	}
+    	return highlightCode;
+    }
+    
+    
+    public String getActionMinute() {
+    	if (actionMinute == null) {
+    		actionMinute = "";
+    	}
+    	return actionMinute;
+    }
 
-	public String getAction() {
-		return action;
-	}
+    public String getPersonShort() {
+    	if (personShort == null) {
+    		personShort = "";
+    	}
+    	return personShort;
+    }
 
+    public long getEventId() {
+    	return eventId;
+    }
 
-	
-	public long getActionTime() {
-		return actionTime;
-	}
-
-
-
-	public long getTeamId() {
-		return teamId;
-	}
-
-
-
-	public String getTeam() {
-		return team;
-	}
-
-
-
-	public long getPersonId() {
-		return personId;
-	}
-
-
-
-	public String getActionMinute() {
-		return actionMinute;
-	}
-
-
-
-	public String getPerson() {
-		return person;
-	}
-
-	
-	
-	public String getPersonShort() {
-		return personShort;
-	}
-
-
-	public long getSubPersonId() {
-		return subPersonId;
-	}
-
-
-
-	public String getSubPerson() {
-		return subPerson;
-	}
-
-
-
-	public long getSubActionReasonId() {
-		return subActionReasonId;
-	}
-
-
-
-	public String getSubActionReason() {
-		return subActionReason;
-	}
-
-
-
-	public long getEventId() {
-		return eventId;
-	}
-
-
-
-	public String getSubPersonShort() {
-		return subPersonShort;
-	}
-
-
-
-	public String getHighlightCode() {
-		return highlightCode;
-	}
+    public String getSubPersonShort() {
+    	if (subPersonShort == null) {
+    		subPersonShort = "";
+    	}
+    	return subPersonShort;
+    }
 }

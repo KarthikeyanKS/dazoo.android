@@ -634,7 +634,7 @@ public abstract class ContentManagerServiceFetching
 		} 
 		else 
 		{
-			getAPIClient().GetEventLineUp(activityCallbackListener, competitionID, eventID);
+			getAPIClient().GetEventLineUp(activityCallbackListener, eventID);
 		}
 	}
 	

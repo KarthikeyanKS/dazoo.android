@@ -13,11 +13,13 @@ public enum EventHighlightActionEnum
 	
 	END_OF_PERIOD(14, "0-2048-0", -1),
 	
-	YELLOW_CARD(15, "2048-0-0-0", R.drawable.competition_event_highlight_yellow_card),
+	YELLOW_CARD(15, "2048-0-0", R.drawable.competition_event_highlight_yellow_card),
 	
 	GOAL(16, "4-0-0", R.drawable.competition_event_highlight_goal),
 	
 	GOAL_BY_FREE_KICK(17, "1028-0-0", R.drawable.competition_event_highlight_goal),
+	
+	GOAL_FROM_PENALTY(18, "12-0-0",  R.drawable.competition_event_highlight_penalty_scored),
 	
 	GOAL_BY_OWN_TEAM(19, "68-0-0",  R.drawable.competition_event_highlight_goal),
 	
@@ -84,7 +86,7 @@ public enum EventHighlightActionEnum
 	{
 		for(EventHighlightActionEnum result: EventHighlightActionEnum.values())
 		{
-			boolean matchesCode = (result.getCode() == code);
+			boolean matchesCode = result.getCode().equals(code);
 			
 			if(matchesCode)
 			{

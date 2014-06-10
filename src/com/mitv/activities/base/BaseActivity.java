@@ -107,7 +107,7 @@ public abstract class BaseActivity
 
 	/* Time value for the background timer.
 	 * The initial value is -1 if not used */
-	private int backgroundLoadTimerValueInMinutes;
+	private int backgroundLoadTimerValueInSeconds;
 	
 
 	private boolean loadedFromBackground;
@@ -147,9 +147,7 @@ public abstract class BaseActivity
 		
 		lastDataUpdatedCalendar = null;
 		
-		backgroundLoadTimer = new Timer();
-		
-		backgroundLoadTimerValueInMinutes = -1;
+		backgroundLoadTimerValueInSeconds = -1;
 	}
 	
 	
@@ -1040,10 +1038,10 @@ public abstract class BaseActivity
 					
 					if(loadedFromBackground)
 					{
-						String message = getString(R.string.generic_content_updated);
-						
-						ToastHelper.createAndShowShortToast(message);
-						
+//						String message = getString(R.string.generic_content_updated);
+//						
+//						ToastHelper.createAndShowShortToast(message);
+//						
 						loadedFromBackground = false;
 					}
 					
@@ -1167,9 +1165,11 @@ public abstract class BaseActivity
 	
 	private void setBackgroundLoadingTimer()
 	{
-		if(backgroundLoadTimerValueInMinutes > -1)
+		if(backgroundLoadTimerValueInSeconds > -1)
 		{
-			int backgroundTimerValue = (int) (backgroundLoadTimerValueInMinutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+			int backgroundTimerValue = (int) (backgroundLoadTimerValueInSeconds*DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
+		
+			backgroundLoadTimer = new Timer();
 			
 			backgroundLoadTimer.schedule(new java.util.TimerTask()
 			{
@@ -1186,8 +1186,8 @@ public abstract class BaseActivity
 	
 	
 	
-	protected void setBackgroundLoadTimerValueInMinutes(int value)
+	protected void setBackgroundLoadTimerValueInSeconds(int value)
 	{
-		backgroundLoadTimerValueInMinutes = value;
+		backgroundLoadTimerValueInSeconds = value;
 	}
 }

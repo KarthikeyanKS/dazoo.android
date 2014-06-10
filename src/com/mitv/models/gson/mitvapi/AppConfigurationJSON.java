@@ -213,7 +213,7 @@ public class AppConfigurationJSON
 		}
 		else
 		{
-			competitionPageReloadInterval = Constants.COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES;
+			competitionPageReloadInterval = Constants.COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
 		}
 		
 		
@@ -227,7 +227,7 @@ public class AppConfigurationJSON
 		}
 		else
 		{
-			competitionEventPageReloadInterval = Constants.COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES;
+			competitionEventPageReloadInterval = Constants.COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
 		}
 		
 		
@@ -241,7 +241,7 @@ public class AppConfigurationJSON
 		}
 		else
 		{
-			competitionTeamPageReloadInterval = Constants.COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_MINUTES;
+			competitionTeamPageReloadInterval = Constants.COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
 		}
 		
 
@@ -255,7 +255,7 @@ public class AppConfigurationJSON
 		}
 		else
 		{
-			competitionEventPageHighlightReloadInterval = Constants.COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_MINUTES;
+			competitionEventPageHighlightReloadInterval = Constants.COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS;
 		}
 		
 		

@@ -129,9 +129,9 @@ public class CompetitionPageActivity
 		
 		setAdapter(selectedTabIndex);
 		
-		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
+		int reloadIntervalInSecond = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
 		
-		setBackgroundLoadTimerValueInMinutes(reloadIntervalInMinutes);
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInSecond);
 	}
 	
 		

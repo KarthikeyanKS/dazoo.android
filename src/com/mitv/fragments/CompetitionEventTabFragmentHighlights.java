@@ -3,7 +3,6 @@ package com.mitv.fragments;
 
 
 
-import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.comparators.EventHighlightComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
 
@@ -57,6 +55,25 @@ public class CompetitionEventTabFragmentHighlights
 		super(tabId, tabTitle, tabType);
 		
 		this.eventID = eventID;
+	}
+	
+	
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) 
+	{
+		super.onCreate(savedInstanceState);
+		
+		Event event = getEvent();
+		
+		boolean isEventLive = event.isLive();
+		
+		if(isEventLive)
+		{
+			int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+		
+			setBackgroundLoadTimerValueInSeconds(reloadIntervalInSeconds);
+		}
 	}
 	
 	
@@ -117,6 +134,18 @@ public class CompetitionEventTabFragmentHighlights
 	
 	
 	@Override
+	protected void loadDataInBackground()
+	{
+		long competitionID = getEvent().getCompetitionId();
+		
+		long eventID = getEvent().getEventId();
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, competitionID, eventID);
+	}
+	
+	
+	
+	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
 		long eventID = getEvent().getEventId();
@@ -165,9 +194,6 @@ public class CompetitionEventTabFragmentHighlights
 				
 				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 	
-				Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
-				Collections.reverse(eventHighlights);
-				
 				listAdapter = new CompetitionEventHighlightsListAdapter(activity, eventHighlights);
 				
 				for (int i = 0; i < listAdapter.getCount(); i++)

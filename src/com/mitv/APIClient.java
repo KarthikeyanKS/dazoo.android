@@ -9,7 +9,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.mitv.asynctasks.CustomThreadedPoolExecutor;
 import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
@@ -44,7 +43,6 @@ import com.mitv.asynctasks.mitvapi.competitions.GetPhases;
 import com.mitv.asynctasks.mitvapi.competitions.GetSquadForTeam;
 import com.mitv.asynctasks.mitvapi.competitions.GetStandingsForPhase;
 import com.mitv.asynctasks.mitvapi.competitions.GetTeamByID;
-import com.mitv.asynctasks.mitvapi.competitions.GetTeamDetails;
 import com.mitv.asynctasks.mitvapi.competitions.GetTeams;
 import com.mitv.asynctasks.mitvapi.usertoken.AddUserLike;
 import com.mitv.asynctasks.mitvapi.usertoken.GetUserLikes;
@@ -60,7 +58,6 @@ import com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -645,12 +642,6 @@ public class APIClient
 	}
 	
 	
-	public void getTeamDetails(ViewCallbackListener activityCallbackListener, String competitionID, String teamID)
-	{
-		GetTeamDetails task = new GetTeamDetails(contentCallbackListener, activityCallbackListener, competitionID, teamID, Constants.RETRY_COUNT_THRESHOLD);
-		task.execute();
-	}
-	
 	
 	public void getPhases(ViewCallbackListener activityCallbackListener, long competitionID)
 	{
@@ -689,9 +680,9 @@ public class APIClient
 	
 	
 	
-	public void GetEventLineUp(final ViewCallbackListener activityCallbackListener, final Long competitionID, final Long phaseID)
+	public void GetEventLineUp(final ViewCallbackListener activityCallbackListener, final Long phaseID)
 	{
-		GetEventLineUp task = new GetEventLineUp(contentCallbackListener, activityCallbackListener, competitionID, phaseID, Constants.RETRY_COUNT_THRESHOLD);
+		GetEventLineUp task = new GetEventLineUp(contentCallbackListener, activityCallbackListener, phaseID, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	
