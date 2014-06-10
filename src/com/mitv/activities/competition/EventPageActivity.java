@@ -921,6 +921,11 @@ public class EventPageActivity
 		{
 			int backgroundTimerValue = (int) (valueInSeconds*DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
 		
+			if(backgroundLoadTimerForHighlights != null)
+			{
+				backgroundLoadTimerForHighlights.cancel();
+			}
+			
 			backgroundLoadTimerForHighlights = new Timer();
 			
 			backgroundLoadTimerForHighlights.schedule(new java.util.TimerTask()

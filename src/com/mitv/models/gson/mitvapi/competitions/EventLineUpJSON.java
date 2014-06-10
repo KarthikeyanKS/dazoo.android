@@ -3,150 +3,145 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+import android.util.Log;
+
+
+
 public class EventLineUpJSON 
 {
-	protected long lineUpId;
-	protected int actionSet; 		//Remove?
-	protected int actionId; 		//Remove?
-	protected String actionMinute;	//Remove?
-	protected long personId;
-	protected String person;
-	protected String personShort;
-	protected long teamId;
-	protected String team;
-	protected int functionCode;
-	protected String function; 
- 	protected String functionShort;
-	protected boolean isCaptain; 
-	protected String shirtNr;
-	protected String position; 
-	protected boolean inStartingLineUp;
-	protected int lineUpInMinute; 
-	protected String lineUpOutMinute;
-	protected long subPersonId;
-	protected String subPerson;
+	private static final String TAG = EventLineUpJSON.class.getName();
+	
+	
+	
+	private long teamId;
+	private String team;
+	private long personId;
+	private String person;
+	private String personShort;
+	private String nation;
+	private int functionType;
+	private String functionShort;
+ 	private String function;
+ 	private int shirtNumber;
+ 	private boolean inStartingLineUp;
 	
 	
 	
 	public EventLineUpJSON(){}
 
 
-
-	public long getLineUpId() {
-		return lineUpId;
-	}
-
-
-
-	public int getActionSet() {
-		return actionSet;
-	}
-
-
-
-	public int getActionId() {
-		return actionId;
-	}
-
-
-
-	public String getActionMinute() {
-		return actionMinute;
-	}
-
-
-
-	public long getPersonId() {
+	
+	public long getPersonId() 
+	{
 		return personId;
 	}
 
 
 
-	public String getPerson() {
+	public String getPerson() 
+	{
+		if(person == null)
+		{
+			person = "";
+			
+			Log.w(TAG, "person is null");
+		}
+		
 		return person;
 	}
 	
 	
 	
-	public String getPersonShort() {
+	public String getPersonShort() 
+	{
+		if(personShort == null)
+		{
+			personShort = "";
+			
+			Log.w(TAG, "personShort is null");
+		}
+		
 		return personShort;
 	}
 
 
 
-	public long getTeamId() {
+	public long getTeamId() 
+	{
 		return teamId;
 	}
 
 
 
-	public String getTeam() {
+	public String getTeam() 
+	{
+		if(team == null)
+		{
+			team = "";
+			
+			Log.w(TAG, "team is null");
+		}
+		
 		return team;
 	}
 
+	
 
-
-	public int getFunctionCode() {
-		return functionCode;
-	}
-
-
-
-	public String getFunction() {
+	public String getFunction()
+	{
+		if(function == null)
+		{
+			function = "";
+			
+			Log.w(TAG, "function is null");
+		}
+		
 		return function;
 	}
 
 
 
-	public String getFunctionShort() {
+	public String getFunctionShort() 
+	{
+		if(functionShort == null)
+		{
+			functionShort = "";
+			
+			Log.w(TAG, "functionShort is null");
+		}
+		
 		return functionShort;
 	}
 
-
-
-	public boolean isCaptain() {
-		return isCaptain;
+	
+	
+	public int getFunctionType() {
+		return functionType;
 	}
 
 
 
-	public String getShirtNr() {
-		return shirtNr;
+	public String getNation() 
+	{
+		if(nation == null)
+		{
+			nation = "";
+			
+			Log.w(TAG, "nation is null");
+		}
+		
+		return nation;
 	}
 
 
 
-	public String getPosition() {
-		return position;
+	public int getShirtNumber() {
+		return shirtNumber;
 	}
 
 
 
 	public boolean isInStartingLineUp() {
 		return inStartingLineUp;
-	}
-
-
-
-	public int getLineUpInMinute() {
-		return lineUpInMinute;
-	}
-
-
-
-	public String getLineUpOutMinute() {
-		return lineUpOutMinute;
-	}
-
-
-
-	public long getSubPersonId() {
-		return subPersonId;
-	}
-
-
-
-	public String getSubPerson() {
-		return subPerson;
 	}
 }

@@ -110,11 +110,23 @@ public class CompetitionEventLineUpTeamsListAdapter
 		{
 			if (eventLineUp != null) 
 			{	
-				String shirtNr = eventLineUp.getShirtNr();
+				String shirtNumberAsString;
+				
+				boolean isCoach = eventLineUp.isCoach();
+				
+				if(isCoach == false)
+				{
+					shirtNumberAsString = Integer.valueOf(eventLineUp.getShirtNumber()).toString();
+				}
+				else
+				{
+					shirtNumberAsString = "";
+				}
+				
 				String positionShort = eventLineUp.getFunctionShort();
 				String playerNameFull = eventLineUp.getPerson();
 				
-				holder.playerShirtNumber.setText(shirtNr);
+				holder.playerShirtNumber.setText(shirtNumberAsString);
 				holder.playerPosition.setText(positionShort);
 				
 				holder.playerName.setText(playerNameFull);
