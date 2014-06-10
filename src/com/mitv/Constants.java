@@ -540,7 +540,9 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_NAME = "competitionName";
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
 	
-	public static final String GOAL_KEEPER_FUNCTION_SORT = "GC";
+	public static final int LINE_UP_GOAL_KEEPER_FUNCTION_TYPE = 1;
+	public static final int LINE_UP_COACH_FUNCTION_TYPE = 16;
+	public static final int LINE_UP_REFEREE_FUNCTION_TYPE = 64;
 	
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";

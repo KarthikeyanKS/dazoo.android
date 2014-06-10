@@ -24,8 +24,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop;
-import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.ui.elements.CustomViewPager;
 
@@ -39,8 +38,6 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	
 	private CustomViewPager viewPager;
-	
-	private Event event;
 	
 	private long competitionID;
 	private long eventID;
@@ -184,7 +181,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 				// Line up - main
 				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 	
-				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
+				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom());
 				
 				listAdapter = new CompetitionEventLineUpTeamsListAdapter(activity, eventLineUps);
 				
@@ -203,7 +200,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 				// Line up - Substitutes
 				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 				
-				Collections.sort(eventLineUpsSubs, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
+				Collections.sort(eventLineUpsSubs, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom());
 				
 				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) 
 				{	

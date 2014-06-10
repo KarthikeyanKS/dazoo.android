@@ -1217,6 +1217,11 @@ public abstract class BaseActivity
 		{
 			int backgroundTimerValue = (int) (backgroundLoadTimerValueInSeconds*DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
 		
+			if(backgroundLoadTimer != null)
+			{
+				backgroundLoadTimer.cancel();
+			}
+			
 			backgroundLoadTimer = new Timer();
 			
 			backgroundLoadTimer.schedule(new java.util.TimerTask()

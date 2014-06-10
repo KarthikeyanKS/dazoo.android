@@ -8,7 +8,6 @@ public class EventHighlightJSON
 {
 	protected long eventId;
     
-	/* Erik: This is the most important value of the class */
     private String highlightCode;
     
     private long actionTime;
