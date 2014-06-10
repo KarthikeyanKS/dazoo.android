@@ -63,9 +63,9 @@ public class GetStandingsForPhase
 			final ViewCallbackListener activityCallbackListener,
 			final long phaseID,
 			final boolean multiple,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(multiple), Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(multiple), Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID), false, retryThreshold);
 		
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY, phaseID);
 	}

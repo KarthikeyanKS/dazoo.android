@@ -127,9 +127,13 @@ public class CompetitionPageActivity
 		initLayout();
 		
 		setAdapter(selectedTabIndex);
+		
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
+		
+		setBackgroundLoadTimerValueInMinutes(reloadIntervalInMinutes);
 	}
 	
-	
+		
 	
 	@Override
 	public void onPause()
@@ -710,14 +714,19 @@ public class CompetitionPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 
-		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfCompetitionInitialData = false;
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
 		
-		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
-			forceRefreshOfCompetitionInitialData = true;
-		}
-		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, competition.getCompetitionId());
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadIntervalInMinutes);
+
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefresh, competition.getCompetitionId());
+	}
+	
+
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, true, competition.getCompetitionId());
 	}
 
 

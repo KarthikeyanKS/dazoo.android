@@ -3,7 +3,10 @@ package com.mitv.activities.base;
 
 
 
+import java.util.Calendar;
+import java.util.List;
 import java.util.Stack;
+import java.util.Timer;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -40,9 +43,11 @@ import com.mitv.managers.FontManager;
 import com.mitv.managers.ImageLoaderManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
+import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -90,6 +95,22 @@ public abstract class BaseActivity
 	private boolean userHasJustLoggedOut;
 
 	protected RequestIdentifierEnum latestRequest;
+	
+	private boolean isFromSplashScreen = false;
+	
+	/* Initially null, but set to the current device time 
+	 * The assignment is done in the cases SUCCESS_WITH_NO_CONTENT or SUCCESS_WITH_CONTENT of the updateUIBaseElements **/
+	private Calendar lastDataUpdatedCalendar;
+	
+	/* Timer for re-fetching data in the background while the user is on the same activity */
+	private Timer backgroundLoadTimer;
+
+	/* Time value for the background timer.
+	 * The initial value is -1 if not used */
+	private int backgroundLoadTimerValueInMinutes;
+	
+
+	private boolean loadedFromBackground;
 
 	
 	
@@ -100,6 +121,9 @@ public abstract class BaseActivity
 
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
+	
+	/* This method implementation is OPTIONAL */
+	protected abstract void loadDataInBackground();
 
 	/*
 	 * This method implementation should return true if all the data necessary to show the content view can be obtained
@@ -118,6 +142,14 @@ public abstract class BaseActivity
 		super.onCreate(savedInstanceState);
 		
 		TrackingManager.sharedInstance().reportActivityStart(this);
+		
+		isFromSplashScreen = getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, false);
+		
+		lastDataUpdatedCalendar = null;
+		
+		backgroundLoadTimer = new Timer();
+		
+		backgroundLoadTimerValueInMinutes = -1;
 	}
 	
 	
@@ -176,6 +208,8 @@ public abstract class BaseActivity
 	{
 		super.onResume();
 		
+		setBackgroundLoadingTimer();
+		
 		ImageLoaderManager.sharedInstance(this).resume();
 		
 		TrackingManager.sharedInstance().onResume(this);
@@ -194,6 +228,8 @@ public abstract class BaseActivity
 		pushActivityToStack(this);
 
 		setTabViews();
+		
+		handleTimeAndDayOnResume();
 
 		Intent intent = getIntent();
 
@@ -249,6 +285,55 @@ public abstract class BaseActivity
 				ToastHelper.createAndShowShortToast(sb.toString());
 			}
 		}
+	}
+	
+	
+	
+	private void handleTimeAndDayOnResume() 
+	{
+		/* Handle day */
+		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
+		
+		/*
+		 * Index is not 0, that means that the actual day has changed since the application was launched for last time
+		 * In this case, the data in cache is no longer accurate and we must re-fetch it from the service
+		 */
+		if (indexOfTodayFromTVDates > 0) 
+		{
+			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
+
+			if(isTimeOffSync == false) 
+			{
+				ContentManager.sharedInstance().clearGuideCacheData();
+			}
+		} 
+	}
+	
+	
+	
+	private int getIndexOfTodayFromTVDates() 
+	{
+		int indexOfTodayFromTVDates = -1;
+
+		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+		
+		if(tvDates != null)
+		{
+			for(int i = 0; i < tvDates.size(); ++i) 
+			{
+				TVDate tvDate = tvDates.get(i);
+				
+				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
+				
+				if(isTVDateNow)
+				{
+					indexOfTodayFromTVDates = i;
+					break;
+				}
+			}
+		}
+
+		return indexOfTodayFromTVDates;
 	}
 
 	
@@ -701,6 +786,11 @@ public abstract class BaseActivity
 	{
 		super.onPause();
  
+		if(backgroundLoadTimer != null)
+		{
+			backgroundLoadTimer.cancel();
+		}
+		
 		TrackingManager.sharedInstance().onPause(this);
 		
 		ImageLoaderManager.sharedInstance(this).pause();
@@ -775,9 +865,16 @@ public abstract class BaseActivity
 			} 
 			else 
 			{
+				if (isFromSplashScreen) 
+				{
+					isFromSplashScreen = false;
+					updateUI(UIStatusEnum.FAILED);
+				}
+				else {
 				updateUI(UIStatusEnum.LOADING);
 				
 				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+				}
 			}
 		} 
 		else 
@@ -927,6 +1024,9 @@ public abstract class BaseActivity
 					{
 						requestEmptyLayout.setVisibility(View.VISIBLE);
 					}
+					
+					lastDataUpdatedCalendar = DateUtils.getNowWithGMTTimeZone();
+					
 					break;
 				}
 	
@@ -937,6 +1037,18 @@ public abstract class BaseActivity
 					{
 						requestSuccessfulLayout.setVisibility(View.VISIBLE);
 					}
+					
+					if(loadedFromBackground)
+					{
+						String message = getString(R.string.generic_content_updated);
+						
+						ToastHelper.createAndShowShortToast(message);
+						
+						loadedFromBackground = false;
+					}
+					
+					lastDataUpdatedCalendar = DateUtils.getNowWithGMTTimeZone();
+					
 					break;
 				}
 			}
@@ -1030,5 +1142,52 @@ public abstract class BaseActivity
 			requestLoadingLayoutDetails.setText(message);
 			requestLoadingLayoutDetails.setVisibility(View.VISIBLE);
 		}
+	}
+	
+	
+	
+	protected boolean wasActivityDataUpdatedMoreThan(int minutes)
+	{
+		boolean wasDataUpdatedMoreThan = false;
+		
+		if(lastDataUpdatedCalendar != null)
+		{
+			Calendar lastDataUpdatedCalendarWithincrement = (Calendar) lastDataUpdatedCalendar.clone();
+			lastDataUpdatedCalendarWithincrement.add(Calendar.MINUTE, minutes);
+			
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+			
+			wasDataUpdatedMoreThan = lastDataUpdatedCalendarWithincrement.before(now);
+		}
+		
+		return wasDataUpdatedMoreThan;
+	}
+	
+	
+	
+	private void setBackgroundLoadingTimer()
+	{
+		if(backgroundLoadTimerValueInMinutes > -1)
+		{
+			int backgroundTimerValue = (int) (backgroundLoadTimerValueInMinutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+			
+			backgroundLoadTimer.schedule(new java.util.TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					loadedFromBackground = true;
+					
+					loadDataInBackground();
+				}
+			}, backgroundTimerValue, backgroundTimerValue);
+		}
+	}
+	
+	
+	
+	protected void setBackgroundLoadTimerValueInMinutes(int value)
+	{
+		backgroundLoadTimerValueInMinutes = value;
 	}
 }

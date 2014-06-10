@@ -18,8 +18,8 @@ public class PerformUserHasSeenAdAdzerk
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			String url,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.ADS_ADZERK_SEEN, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, url, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.ADS_ADZERK_SEEN, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, url, false, retryThreshold);
 	}
 }

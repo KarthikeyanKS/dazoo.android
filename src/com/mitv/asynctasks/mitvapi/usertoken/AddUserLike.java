@@ -29,9 +29,9 @@ public class AddUserLike
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final UserLike userLike,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, retryThreshold);
 		
 		UserLikeData postData = new UserLikeData();
 		postData.setLikeType(userLike.getLikeTypeForRequest());

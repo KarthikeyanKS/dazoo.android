@@ -9,72 +9,51 @@ import com.mitv.R;
 
 public enum EventHighlightActionEnum 
 {
-	KICK_OFF(1, -1),
+	KICK_OFF_PERIOD(1, "0-1024-0", -1),
 	
-	END_OF_PERIOD_1H(2, -1),
+	END_OF_PERIOD(14, "0-2048-0", -1),
 	
-	KICK_OFF_2H(3, -1),
+	YELLOW_CARD(15, "2048-0-0-0", R.drawable.competition_event_highlight_yellow_card),
 	
-	END_OF_PERIOD_2H(4, -1),
+	GOAL(16, "4-0-0", R.drawable.competition_event_highlight_goal),
 	
-	INJURY_TIME_2H(5, -1),
+	GOAL_BY_FREE_KICK(17, "1028-0-0", R.drawable.competition_event_highlight_goal),
 	
-	KICK_OFF_EXTRA_TIME_1(6, -1),
+	GOAL_BY_OWN_TEAM(19, "68-0-0",  R.drawable.competition_event_highlight_goal),
 	
-	END_OF_PERIOD_EXTRA_TIME_1(7, -1),
+	RED_CARD_2_YELLOWS(20, "4096-0-0",  R.drawable.competition_event_highlight_red_card),
 	
-	INJURY_TIME_EXTRA_TIME_1(8, -1),
+	RED_CARD_DIRECT(21, "8192-0-0",  R.drawable.competition_event_highlight_red_card),
 	
-	KICK_OFF_EXTRA_TIME_2(9, -1),
+	SUBSTITUTION(22, "16384-0-0",  R.drawable.competition_event_highlight_substitution),
 	
-	END_OF_PERIOD_EXTRA_TIME_2(10, -1),
+	MATCH_SUSPENDED(24, "131072-262144-128", -1),
 	
-	INJURY_TIME_EXTRA_TIME_2(11, -1),
+	MATCH_ABANDONED(25, "131072-262144-256", -1),
 	
-	KICK_OFF_PENALTIES(12, -1),
+	PLAY_RESTARTED(26, "131072-262144-1024", -1),
 	
-	END_OF_PERIOD_PENALTIES(13, -1),
+	MATCH_RESCHEDULED_TO_BE_RESUMED(27, "131072-262144-2048",  -1),
 	
-	END_OF_GAME(14, -1),
+	PENALYTY_SAVED_BY_THE_GOALKEEPER(28, "264-0-0",  R.drawable.competition_event_highlight_penalty_missed),
 	
-	YELLOW_CARD(15, R.drawable.competition_event_highlight_yellow_card),
-	
-	GOAL(16, R.drawable.competition_event_highlight_goal),
-	
-	GOAL_BY_FREE_KICK(17, R.drawable.competition_event_highlight_goal),
-	
-	GOAL_BY_PENALTY(18, R.drawable.competition_event_highlight_penalty_scored),
-	
-	GOAL_BY_OWN_TEAM(19, R.drawable.competition_event_highlight_goal),
-	
-	RED_CARD_2_YELLOWS(20, R.drawable.competition_event_highlight_red_card),
-	
-	RED_CARD_DIRECT(21, R.drawable.competition_event_highlight_red_card),
-	
-	SUBSTITUTION(22, R.drawable.competition_event_highlight_substitution),
-	
-	MATCH_SUSPENDED(24, -1),
-	
-	MATCH_ABANDONED(25, -1),
-	
-	PLAY_RESTARTED(26, -1),
-	
-	MATCH_RESCHEDULED_TO_BE_RESUMED(27, -1),
-	
-	PENALYTY_SAVED_BY_THE_GOALKEEPER(28, R.drawable.competition_event_highlight_penalty_missed),
-	
-	PENALYTY_MISSED(29, R.drawable.competition_event_highlight_penalty_missed);
+	PENALYTY_MISSED(29, "65544-0-0",  R.drawable.competition_event_highlight_penalty_missed);
 	
 	
 	
 	private final int id;
+	private final String code;
 	private final int drawableResourceID;
 	
 	
 	
-	EventHighlightActionEnum(int id, int drawableResourceID) 
+	EventHighlightActionEnum(
+			int id, 
+			String code,
+			int drawableResourceID) 
 	{
 		this.id = id;
+		this.code = code;
 		this.drawableResourceID = drawableResourceID;
 	}
 	
@@ -87,6 +66,13 @@ public enum EventHighlightActionEnum
 	
 	
 	
+	public String getCode() 
+	{
+		return code;
+	}
+	
+		
+	
 	public int getDrawableResourceID()
 	{
 		return drawableResourceID;
@@ -94,11 +80,13 @@ public enum EventHighlightActionEnum
 	
 	
 	
-	public static EventHighlightActionEnum getTypeEnumFromCode(long code)
+	public static EventHighlightActionEnum getTypeEnumFromCode(String code)
 	{
 		for(EventHighlightActionEnum result: EventHighlightActionEnum.values())
 		{
-			if(result.getId() == code) 
+			boolean matchesCode = (result.getCode() == code);
+			
+			if(matchesCode)
 			{
 				return result;
 			}

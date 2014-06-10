@@ -4,7 +4,6 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,7 +17,6 @@ import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
-import com.mitv.utilities.DateUtils;
 
 
 
@@ -36,10 +34,8 @@ public class CompetitionCacheData
 	private TreeMap<Long, List<Event>> eventsGroupedBySecondPhase;
 	
 	private TreeMap<Long, List<EventHighlight>> highlightsByEvent;
-	private Long highlightsByEventFetchTime;
 	
 	private TreeMap<Long, List<EventLineUp>> lineupByEvent;
-	private Long lineupByEventFetchTime;
 	
 	private TreeMap<Long, List<TeamSquad>> squadByTeam;
 	
@@ -77,11 +73,7 @@ public class CompetitionCacheData
 		
 		this.highlightsByEvent = new TreeMap<Long, List<EventHighlight>>();
 		
-		this.highlightsByEventFetchTime = null;
-		
 		this.lineupByEvent = new TreeMap<Long, List<EventLineUp>>();
-		
-		this.lineupByEventFetchTime = null;
 		
 		this.squadByTeam = new TreeMap<Long, List<TeamSquad>>();
 	}
@@ -112,53 +104,53 @@ public class CompetitionCacheData
 	
 	
 	
-	public boolean hasPeriodElapsedSinceLineUpFetchTime(long minutes)
-	{
-		boolean hasPeriodElapsed = false;
-		
-		if(lineupByEventFetchTime != null)
-		{
-			Calendar now = DateUtils.getNowWithGMTTimeZone();
-			
-			Long nowInMillis = now.getTimeInMillis();
-			
-			Long elapsedMillis = (nowInMillis - lineupByEventFetchTime);
-			
-			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
-			
-			if(elapsedMillis > elapsedLimitInMillis)
-			{
-				hasPeriodElapsed = true;
-			}
-		}
-		
-		return hasPeriodElapsed;
-	}
-	
-	
-	
-	public boolean hasPeriodElapsedSinceHighlightsFetchTime(long minutes)
-	{
-		boolean hasPeriodElapsed = false;
-		
-		if(highlightsByEventFetchTime != null)
-		{
-			Calendar now = DateUtils.getNowWithGMTTimeZone();
-			
-			Long nowInMillis = now.getTimeInMillis();
-			
-			Long elapsedMillis = (nowInMillis - highlightsByEventFetchTime);
-			
-			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
-			
-			if(elapsedMillis > elapsedLimitInMillis)
-			{
-				hasPeriodElapsed = true;
-			}
-		}
-		
-		return hasPeriodElapsed;
-	}
+//	public boolean hasPeriodElapsedSinceLineUpFetchTime(long minutes)
+//	{
+//		boolean hasPeriodElapsed = false;
+//		
+//		if(lineupByEventFetchTime != null)
+//		{
+//			Calendar now = DateUtils.getNowWithGMTTimeZone();
+//			
+//			Long nowInMillis = now.getTimeInMillis();
+//			
+//			Long elapsedMillis = (nowInMillis - lineupByEventFetchTime);
+//			
+//			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
+//			
+//			if(elapsedMillis > elapsedLimitInMillis)
+//			{
+//				hasPeriodElapsed = true;
+//			}
+//		}
+//		
+//		return hasPeriodElapsed;
+//	}
+//	
+//	
+//	
+//	public boolean hasPeriodElapsedSinceHighlightsFetchTime(long minutes)
+//	{
+//		boolean hasPeriodElapsed = false;
+//		
+//		if(highlightsByEventFetchTime != null)
+//		{
+//			Calendar now = DateUtils.getNowWithGMTTimeZone();
+//			
+//			Long nowInMillis = now.getTimeInMillis();
+//			
+//			Long elapsedMillis = (nowInMillis - highlightsByEventFetchTime);
+//			
+//			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
+//			
+//			if(elapsedMillis > elapsedLimitInMillis)
+//			{
+//				hasPeriodElapsed = true;
+//			}
+//		}
+//		
+//		return hasPeriodElapsed;
+//	}
 	
 	
 	
@@ -373,28 +365,6 @@ public class CompetitionCacheData
 		this.lineupByEvent = lineupByEvent;
 	}
 
-
-
-	public Long getHighlightsByEventFetchTime() {
-		return highlightsByEventFetchTime;
-	}
-
-
-
-	public void setHighlightsByEventFetchTime(Long highlightsByEventFetchTime) {
-		this.highlightsByEventFetchTime = highlightsByEventFetchTime;
-	}
-
-
-
-	public Long getLineupByEventFetchTime() {
-		return lineupByEventFetchTime;
-	}
-
-
-	public void setLineupByEventFetchTime(Long lineupByEventFetchTime) {
-		this.lineupByEventFetchTime = lineupByEventFetchTime;
-	}
 	
 	
 	public TreeMap<Long, List<TeamSquad>> getSquadByTeam() {

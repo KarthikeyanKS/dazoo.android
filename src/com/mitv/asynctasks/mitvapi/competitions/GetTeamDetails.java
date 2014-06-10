@@ -64,8 +64,8 @@ public class GetTeamDetails
 			final ViewCallbackListener activityCallbackListener,
 			final String competitionID,
 			final String teamID,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_DETAILS, TeamDetails.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_DETAILS, TeamDetails.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID), false, retryThreshold);
 	}
 }

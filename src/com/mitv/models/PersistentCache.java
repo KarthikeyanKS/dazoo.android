@@ -8,11 +8,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import org.w3c.dom.UserDataHandler;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
@@ -333,20 +332,24 @@ public abstract class PersistentCache
 	
 	
 	
-	public synchronized Notification getNotificationWithCompetitionIdAndEventId(
-			long competitionId,
-			long eventId,
-			long beginTimeMillis)
+	public synchronized Notification getNotificationWithParameters(
+			final String channelId, 
+			final String programId,
+			final Long beginTimeMillis,
+			final Long competitionId,
+			final Long eventId)
 	{		
 		Notification elementFound = null;
 		
 		for(Notification element : notifications)
 		{
-			boolean matchesCompetitionId = (element.getCompetitionId() == competitionId);
-			boolean matchesEventId = (element.getEventId() == eventId);
-			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
+			boolean matchesChannelId = (element.getChannelId().equals(channelId));
+			boolean matchesProgramId = (element.getProgramId().equals(programId));
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
+			boolean matchesCompetitionId = (element.getCompetitionId().equals(competitionId));
+			boolean matchesEventId = (element.getEventId().equals(eventId));
 			
-			if(matchesCompetitionId && matchesEventId && matchesBeginTimeMillis)
+			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis && matchesCompetitionId && matchesEventId)
 			{
 				elementFound = element;
 				break;
@@ -363,10 +366,10 @@ public abstract class PersistentCache
 	
 	
 	
-	public synchronized Notification getNotificationWithChannelIdAndProgramId(
-			String channelId,
-			String programId,
-			long beginTimeMillis)
+	public synchronized Notification getNotificationWithParameters(
+			final String channelId,
+			final String programId,
+			final Long beginTimeMillis)
 	{		
 		Notification elementFound = null;
 		
@@ -374,7 +377,7 @@ public abstract class PersistentCache
 		{
 			boolean matchesChannelId = (element.getChannelId().equals(channelId));
 			boolean matchesProgramId = (element.getProgramId().equals(programId));
-			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds() == beginTimeMillis);
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
 			
 			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis)
 			{
@@ -397,7 +400,7 @@ public abstract class PersistentCache
 	{		
 		this.notifications.add(notification);
 		
-		NotificationORM.createAndSaveInAsyncTask(notifications);
+		NotificationORM.add(notification);
 	}
 	
 	
@@ -410,7 +413,7 @@ public abstract class PersistentCache
 		{
 			notifications.remove(elementFound);
 			
-			NotificationORM.createAndSaveInAsyncTask(notifications);
+			NotificationORM.remove(notificationId);
 		}
 		else
 		{
@@ -715,13 +718,16 @@ public abstract class PersistentCache
     //TODO dont iterate through a list, change tvChannels to a Map instead?
     private  TVChannel getTVChannelByIdHelper(TVChannelId tvChannelId)
     {
-        for(TVChannel tvChannel : tvChannels)
-        {
-            if(tvChannel.getChannelId().equals(tvChannelId))
-            {
-                return tvChannel;
-            }
-        }
+    	if (tvChannels != null) 
+    	{
+	        for(TVChannel tvChannel : tvChannels)
+	        {
+	            if(tvChannel.getChannelId().equals(tvChannelId))
+	            {
+	                return tvChannel;
+	            }
+	        }
+    	}
 
         return null;
     }

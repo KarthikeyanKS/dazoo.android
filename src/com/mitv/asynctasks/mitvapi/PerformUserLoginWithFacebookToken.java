@@ -29,9 +29,9 @@ public class PerformUserLoginWithFacebookToken
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			String facebookToken,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX, false, retryThreshold);
 		
 		UserFacebookTokenData userFacebookTokenData = new UserFacebookTokenData();
 		userFacebookTokenData.setFacebookToken(facebookToken);

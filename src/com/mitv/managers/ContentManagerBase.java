@@ -6,7 +6,6 @@ package com.mitv.managers;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import android.util.Log;
 
 import com.mitv.APIClient;
 import com.mitv.Constants;
-import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.interfaces.ContentCallbackListener;
@@ -551,43 +549,6 @@ public abstract class ContentManagerBase
 	}
 	
 	
-	
-//	public TVBroadcastWithChannelInfo getFromCacheTVBroadcastByBeginTimeinMillisAndChannelId(String channelId, Long beginTimeMillis)
-//	{
-//		TVBroadcastWithChannelInfo dataFound = null;
-//		
-//		TVChannelId tvChannelId = new TVChannelId(channelId); 
-//		
-//		TVDate tvDate = new TVDate(beginTimeMillis);
-//		
-//		TVChannelGuide channelGuide = getCache().getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, tvDate);
-//		
-//		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
-//		
-//		for(TVBroadcast broadcast : broadcasts)
-//		{
-//			boolean broadcastsMatchByMilliseconds = (broadcast.getBeginTimeMillis().equals(beginTimeMillis));
-//			
-//			if(broadcastsMatchByMilliseconds)
-//			{
-//				dataFound = new TVBroadcastWithChannelInfo(broadcast);
-//				
-//				TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-//				
-//				if(channel != null)
-//				{
-//					dataFound.setChannel(channel);
-//				}
-//				
-//				break;
-//			}
-//		}
-//		
-//		return dataFound;
-//	}
-//
-//	
-
 	
 	public TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 
 	{
@@ -1463,27 +1424,11 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(
-			final Long eventID,
-			final EnumSet<EventHighlightActionEnum> actionsToExclude)
+	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(final Long eventID)
 	{
-		List<EventHighlight> highlightsToReturn = new ArrayList<EventHighlight>();
-		
 		List<EventHighlight> highlights = getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
-		
-		for(EventHighlight highlight : highlights)
-		{
-			EventHighlightActionEnum highlightAction = highlight.getType();
-			
-			boolean matchesActionsToExclude = actionsToExclude.contains(highlightAction);
-			
-			if(matchesActionsToExclude == false)
-			{
-				highlightsToReturn.add(highlight);
-			}
-		}
-		
-		return highlightsToReturn;
+				
+		return highlights;
 	}
 	
 	
@@ -1502,24 +1447,26 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public Notification getFromCacheNotificationWithCompetitionIdAndEventId(
-			long competitionId,
-			long eventId,
-			long beginTimeInMilliseconds)
+	public Notification getNotificationWithParameters(
+			String channelId, 
+			String programId,
+			Long beginTimeInMilliseconds,
+			Long competitionId,
+			Long eventId)
 	{
-		Notification notification = getCache().getNotificationWithCompetitionIdAndEventId(competitionId, eventId, beginTimeInMilliseconds);
+		Notification notification = getCache().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
 		
 		return notification;
 	}
 	
 	
 	
-	public Notification getFromCacheNotificationWithChannelIdAndProgramId(
+	public Notification getNotificationWithParameters(
 			String channelId,
 			String progarmId,
-			long beginTimeInMilliseconds)
+			Long beginTimeInMilliseconds)
 	{
-		Notification notification = getCache().getNotificationWithChannelIdAndProgramId(channelId, progarmId, beginTimeInMilliseconds);
+		Notification notification = getCache().getNotificationWithParameters(channelId, progarmId, beginTimeInMilliseconds);
 		
 		return notification;
 	}

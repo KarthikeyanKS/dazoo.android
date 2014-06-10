@@ -167,16 +167,21 @@ public class TeamPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		/* Always re-fetch the data from the service */
-		boolean forceRefresh = false;
+		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionTeamPageReloadInterval();
 		
-		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
-			forceRefresh = true;
-		}
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, forceRefresh, competitionID, teamID);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceSquadByTeamID(this, forceRefresh, competitionID, teamID);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 
 	

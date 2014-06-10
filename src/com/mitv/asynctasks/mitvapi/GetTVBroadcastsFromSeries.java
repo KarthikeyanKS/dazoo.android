@@ -50,9 +50,9 @@ public class GetTVBroadcastsFromSeries
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			String tvSeriesId,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.UPCOMING_BROADCASTS_FOR_SERIES, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId), false, retryThreshold);
 	}
 	
 	

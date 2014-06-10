@@ -20,6 +20,7 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.ui.helpers.DialogHelper;
@@ -92,7 +93,7 @@ public class ReminderView
 	
 	
 	
-	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
+	public void setBroadcast(final TVBroadcastWithChannelInfo broadcast) 
 	{
 		if (broadcast != null && 
 			broadcast.isAiring() == false &&
@@ -102,7 +103,7 @@ public class ReminderView
 			String programId = broadcast.getProgram().getProgramId();
 			long beginTimeInMilliseconds = broadcast.getBeginTimeMillis();
 			
-			Notification notification = ContentManager.sharedInstance().getFromCacheNotificationWithChannelIdAndProgramId(channelId, programId, beginTimeInMilliseconds);
+			Notification notification = ContentManager.sharedInstance().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds);
 
 			if (notification != null) 
 			{
@@ -140,26 +141,32 @@ public class ReminderView
 	
 	
 	
-	public void setCompetitionEventBroadcast(Event event, EventBroadcast eventBroadcast, TVChannel channel) 
+	public void setCompetitionEventBroadcast(
+			final Competition competition,
+			final Event event, 
+			final EventBroadcast eventBroadcast, 
+			final TVChannel channel) 
 	{
 		if (eventBroadcast != null && 
 			eventBroadcast.isAiring() == false &&
 			eventBroadcast.isEventAiringInLessThan(Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST) == false)
 		{
-			long competitionId = event.getCompetitionId();
-			long eventId = event.getEventId();
-			long beginTimeInMilliseconds = event.getBeginTimeLocalInMillis();
+			String channelId = eventBroadcast.getChannelId();
+			String programId = eventBroadcast.getProgramId();
+			Long beginTimeInMilliseconds = event.getBeginTimeLocalInMillis();
+			Long competitionId = event.getCompetitionId();
+			Long eventId = event.getEventId();
 			
-			Notification notificationFromCache = ContentManager.sharedInstance().getFromCacheNotificationWithCompetitionIdAndEventId(competitionId, eventId, beginTimeInMilliseconds);
+			Notification notificationFromCache = ContentManager.sharedInstance().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
 			
-			if (notificationFromCache != null) 
+			if (notificationFromCache != null)
 			{	
 				notification = notificationFromCache;
 				isSet = true;
 			} 
 			else 
 			{
-				notification = new Notification(event, eventBroadcast, channel);
+				notification = new Notification(competition, event, eventBroadcast, channel);
 				isSet = false;
 			}
 			
@@ -188,7 +195,7 @@ public class ReminderView
 	
 	
 	
-	public void setSizeOfIcon(boolean useSmallSize) 
+	public void setSizeOfIcon(final boolean useSmallSize) 
 	{
 		int size;
 		

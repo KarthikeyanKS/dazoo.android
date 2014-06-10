@@ -87,20 +87,38 @@ public class NotificationORM
 	
 	
 	
-	public static void createAndSaveInAsyncTask(List<Notification> notifications)
+	public static void remove(int notificationId)
 	{
-		List<AbstractOrmLiteClassWithAsyncSave<NotificationORM>> ormData = new ArrayList<AbstractOrmLiteClassWithAsyncSave<NotificationORM>>(notifications.size());
+		NotificationORM elementORM = new NotificationORM();
 		
-		for(Notification notification : notifications)
+		try
 		{
-			NotificationORM elementORM = new NotificationORM(notification);
-
-			ormData.add(elementORM);
+			String notificationIdAsString = Integer.valueOf(notificationId).toString();
+			
+			elementORM.deleteById("notificationId", notificationIdAsString);
 		}
-
-		new NotificationORM().saveListElementsInAsyncTask(ormData);
+		catch(SQLException sqlex)
+		{
+			Log.w(TAG, sqlex.getMessage(), sqlex);
+		}
 	}
 	
+	
+	
+	public static void add(Notification notification)
+	{
+		NotificationORM elementORM = new NotificationORM(notification);
+		
+		try
+		{
+			elementORM.save();
+		}
+		catch(SQLException sqlex)
+		{
+			Log.w(TAG, sqlex.getMessage(), sqlex);
+		}
+	}
+		
 	
 	
 	public static List<Notification> getNotifications()

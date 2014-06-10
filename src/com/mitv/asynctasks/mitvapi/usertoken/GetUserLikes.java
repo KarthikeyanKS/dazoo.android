@@ -43,9 +43,9 @@ public class GetUserLikes
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			boolean standaloneUserLikes,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, false, retryThreshold);
 	}
 	
 	

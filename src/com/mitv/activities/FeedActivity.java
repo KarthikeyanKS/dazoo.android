@@ -220,6 +220,7 @@ public class FeedActivity
 	}
 	
 	
+	
 	@Override
 	protected void loadData() 
 	{		
@@ -234,6 +235,14 @@ public class FeedActivity
 		{
 			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

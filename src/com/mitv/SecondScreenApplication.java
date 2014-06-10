@@ -3,9 +3,6 @@ package com.mitv;
 
 
 
-import java.io.File;
-import java.util.Calendar;
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
@@ -20,8 +17,6 @@ import com.mitv.managers.ImageLoaderManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.utilities.AppDataUtils;
-import com.mitv.utilities.DateUtils;
-import com.mitv.utilities.FileUtils;
 import com.mitv.utilities.GenericUtils;
 
 

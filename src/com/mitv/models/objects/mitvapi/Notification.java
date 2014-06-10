@@ -7,11 +7,13 @@ package com.mitv.models.objects.mitvapi;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.orm.NotificationORM;
@@ -21,8 +23,11 @@ import com.mitv.utilities.DateUtils;
 
 public class Notification 
 {
+	private static final String TAG = Notification.class.getName();
+	
+	
 	/*
-	 * This field is only set after the notification is scheduled
+	 * The notification ID is only set after the notification is scheduled
 	 */
 	private Integer notificationId;
 	
@@ -78,6 +83,7 @@ public class Notification
 	
 	
 	public Notification(
+			Competition competition,
 			Event event,
 			EventBroadcast broadcast,
 			TVChannel channel)
@@ -94,7 +100,7 @@ public class Notification
 		this.broadcastChannelName = channel.getName();
 		
 		this.broadcastProgramType = ProgramTypeEnum.UNKNOWN;
-		this.broadcastProgramDetails = "";
+		this.broadcastProgramDetails = competition.getDisplayName();
 				
 		this.competitionId = event.getCompetitionId();
 		this.eventId = event.getEventId();
@@ -287,7 +293,15 @@ public class Notification
 
 
 
-	public String getProgramId() {
+	public String getProgramId() 
+	{
+		if(programId == null)
+		{
+			programId = new String("");
+			
+			Log.w(TAG, "programId is null");
+		}
+		
 		return programId;
 	}
 
@@ -299,7 +313,15 @@ public class Notification
 
 
 
-	public String getChannelId() {
+	public String getChannelId() 
+	{
+		if(channelId == null)
+		{
+			channelId = new String("");
+			
+			Log.w(TAG, "channelId is null");
+		}
+		
 		return channelId;
 	}
 
@@ -321,6 +343,40 @@ public class Notification
 
 	public String getBroadcastProgramDetails() {
 		return broadcastProgramDetails;
+	}
+	
+	
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		
+		if (obj == null)
+		{
+			return false;
+		}
+		
+		if (getClass() != obj.getClass())
+		{
+			return false;
+		}
+		
+		Notification other = (Notification) obj;
+		
+		boolean areChannelIdsEqual = getChannelId().equals(other.getChannelId());
+		boolean areProgramIdEqual = getProgramId().equals(other.getProgramId());
+		boolean areBeginTimeMillisEqual = getBeginTimeInMilliseconds().equals(other.getBeginTimeInMilliseconds());
+		
+		if(areChannelIdsEqual && areProgramIdEqual && areBeginTimeMillisEqual)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 }

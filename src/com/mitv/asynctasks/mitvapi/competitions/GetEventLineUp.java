@@ -52,9 +52,9 @@ public class GetEventLineUp
 			final ViewCallbackListener activityCallbackListener,
 			final Long competitionID,
 			final Long eventID,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENT_LINEUP, EventLineUp[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, eventID), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENT_LINEUP, EventLineUp[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, eventID), false, retryThreshold);
 		
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_EVENT_ID_KEY, eventID);
 	}

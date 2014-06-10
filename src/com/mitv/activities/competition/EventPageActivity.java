@@ -574,7 +574,7 @@ public class EventPageActivity
 		
 		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID))
 		{
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, Constants.EVENT_HIGHLIGHT_ACTIONS_TO_EXCLUDE);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 			
 			listContainerLayoutHighlights.removeAllViews();
 
@@ -716,12 +716,9 @@ public class EventPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		/* Always re-fetch the data from the service */
-		boolean forceRefreshOfHighlights = false;
+		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
 		
-		if (Constants.USE_COMPETITION_FORCE_DOWNLOAD_ALL_TIMES) {
-			forceRefreshOfHighlights = true;
-		}
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
 		if (event != null) {
 			ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
@@ -729,6 +726,14 @@ public class EventPageActivity
 		} else {
 			ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
 		}
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 
 

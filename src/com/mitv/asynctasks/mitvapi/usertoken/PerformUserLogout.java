@@ -33,8 +33,8 @@ public class PerformUserLogout
 	public PerformUserLogout(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean isRetry) 
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(), false, retryThreshold);
 	}
 }

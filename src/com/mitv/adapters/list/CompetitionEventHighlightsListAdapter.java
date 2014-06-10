@@ -161,56 +161,13 @@ public class CompetitionEventHighlightsListAdapter
 					
 					switch (eventActionType)
 					{
-						case KICK_OFF:
+						case KICK_OFF_PERIOD:
 						{
 							sb.append(activity.getString(R.string.event_page_highlight_kick_off));
 							break;
 						}
 						
-						case END_OF_PERIOD_1H:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_half_time));
-							sb.append(" (");
-							sb.append(event.getHomeGoalsHalfTime());
-							sb.append(" : ");
-							sb.append(event.getAwayGoalsHalfTime());
-							sb.append(")");
-							break;
-						}
-						
-						case INJURY_TIME_2H:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_overtime));
-							sb.append(" (");
-							sb.append(element.getActionInfoInMinutes());
-							sb.append(")");
-							break;
-						}
-						
-						case KICK_OFF_EXTRA_TIME_1:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_extra_time_1_started));
-							break;
-						}
-						
-						case KICK_OFF_EXTRA_TIME_2:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_extra_time_2_started));
-							sb.append(" (");
-							sb.append(event.getHomeGoals());
-							sb.append(" : ");
-							sb.append(event.getAwayGoals());
-							sb.append(")");
-							break;
-						}
-						
-						case KICK_OFF_PENALTIES:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_peanalties_started));
-							break;
-						}
-						
-						case END_OF_GAME:
+						case END_OF_PERIOD:
 						{
 							sb.append(activity.getString(R.string.event_page_highlight_end_of_game));
 							break;

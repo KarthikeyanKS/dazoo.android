@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -26,7 +27,6 @@ import com.mitv.utilities.HyperLinkUtils;
 public class SignUpSelectionActivity 
 	extends BaseActivityWithoutSearchOption
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = SignUpSelectionActivity.class.getName();
 	
 	
@@ -52,6 +52,14 @@ public class SignUpSelectionActivity
 	protected void loadData() 
 	{
 		/* Do nothing (no data to load on this activity) */
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

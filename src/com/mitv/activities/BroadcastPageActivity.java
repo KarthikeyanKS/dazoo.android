@@ -114,7 +114,10 @@ public class BroadcastPageActivity
 
 		initViews();
 		
-		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		boolean areDisqusCommentsEnabled = false;
+		if (ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
+			areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		}
 		
 		if(areDisqusCommentsEnabled == false)
 		{
@@ -197,6 +200,14 @@ public class BroadcastPageActivity
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, requiresDataReload, channelId, beginTimeInMillis);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 
 	

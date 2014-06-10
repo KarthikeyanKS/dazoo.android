@@ -54,8 +54,8 @@ public class GetTVBroadcastDetails
 			ViewCallbackListener activityCallbackListener,
 			TVChannelId tvChannelId,
 			long beginTime,
-			boolean isRetry)
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, TVBroadcastWithChannelInfo.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvChannelId, beginTime), false, isRetry);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, TVBroadcastWithChannelInfo.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvChannelId, beginTime), false, retryThreshold);
 	}
 }

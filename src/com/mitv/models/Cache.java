@@ -236,7 +236,11 @@ public class Cache
 	
 	public synchronized HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) 
 	{
-		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = nonPersistentTaggedBroadcastsForAllDays.get(tvDateAsKey.getId());
+		
+		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = null;
+		if (nonPersistentTaggedBroadcastsForAllDays != null) {
+			taggedBroadcastForDay = nonPersistentTaggedBroadcastsForAllDays.get(tvDateAsKey.getId());
+		}
 		return taggedBroadcastForDay;
 	}
 	

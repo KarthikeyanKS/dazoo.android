@@ -91,6 +91,14 @@ public class ResetPasswordSendEmailActivity
 	
 	
 	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
+	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
 		return true;

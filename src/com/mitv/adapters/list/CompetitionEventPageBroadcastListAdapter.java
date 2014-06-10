@@ -21,6 +21,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.ui.elements.ReminderView;
@@ -197,6 +198,8 @@ public class CompetitionEventPageBroadcastListAdapter
 				{
 					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
 
+					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId);
+					
 					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
 					
 					String channelId = element.getChannelId();
@@ -206,7 +209,7 @@ public class CompetitionEventPageBroadcastListAdapter
 					TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
 					
 					holder.reminderView.setVisibility(View.VISIBLE);
-					holder.reminderView.setCompetitionEventBroadcast(event, element, channel);
+					holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channel);
 					
 					boolean iconSizeSmall = true;
 					holder.reminderView.setSizeOfIcon(iconSizeSmall);
