@@ -153,7 +153,7 @@ public class ReminderView
 		{
 			String channelId = eventBroadcast.getChannelId();
 			String programId = eventBroadcast.getProgramId();
-			Long beginTimeInMilliseconds = event.getBeginTimeLocalInMillis();
+			Long beginTimeInMilliseconds = eventBroadcast.getBeginTimeLocalInMillis();
 			Long competitionId = event.getCompetitionId();
 			Long eventId = event.getEventId();
 			

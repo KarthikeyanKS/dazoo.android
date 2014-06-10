@@ -279,4 +279,14 @@ public class EventBroadcast
 		
 		return beginTimeDayAndMonthRepresentation;
 	}
+	
+	
+	
+	public long getBeginTimeLocalInMillis() 
+	{
+//		long beginTimeMillis = this.getBeginTimeLocalInMillis();
+		long beginTimeMillis = this.getEventBroadcastBeginTimeLocal().getTimeInMillis();
+		
+		return beginTimeMillis;
+	}	
 }
