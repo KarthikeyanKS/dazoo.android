@@ -129,20 +129,31 @@ public class NotificationHelper
 				
 				case COMPETITION_EVENT:
 				{
-					intent = new Intent(context, EventPageActivity.class);
-					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, notification.getEventId());
-
-					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					
-					notificationTitleSB.append(notification.getBroadcastTitle());
-					
-					String broadcastHourAndMinuteRepresentation = notification.getBeginTimeHourAndMinuteLocalAsString();
-					
-					String channelName = notification.getBroadcastChannelName();
-					
-					notificationTextSB.append(broadcastHourAndMinuteRepresentation)
-					.append(" ")
-					.append(channelName);
+					if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION) {
+						intent = new Intent(context, EventPageActivity.class);
+	
+						intent.putExtra(Constants.INTENT_COMPETITION_ID, notification.getCompetitionId());
+						
+						intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, notification.getEventId());
+						
+						/* WARNING using constant here to get the competition.getDisplayName() */
+						intent.putExtra(Constants.INTENT_COMPETITION_NAME, Constants.FIFA_EVENT_PAGE_HEADER);
+	
+						intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						
+						notificationTitleSB.append(notification.getBroadcastTitle());
+						
+						String broadcastHourAndMinuteRepresentation = notification.getBeginTimeHourAndMinuteLocalAsString();
+						
+						String channelName = notification.getBroadcastChannelName();
+						
+						notificationTextSB.append(broadcastHourAndMinuteRepresentation)
+						.append(" ")
+						.append(channelName);
+						
+					} else {
+						intent = null;
+					}
 					
 					break;
 				}

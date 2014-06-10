@@ -61,6 +61,7 @@ public abstract class Constants
 	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
 	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
 	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
+	public static final boolean ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION = false;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -516,6 +517,7 @@ public abstract class Constants
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
+	public static final String FIFA_EVENT_PAGE_HEADER = "Copa Mundial Brasil 2014";
 	
 	
 	/* Ad mob stuff */

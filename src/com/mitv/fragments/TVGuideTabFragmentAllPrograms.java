@@ -67,8 +67,6 @@ public class TVGuideTabFragmentAllPrograms
 		updateSwipeClockBarWithDayAndTime();
 		
 		super.initRequestCallbackLayouts(rootView);
-		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();

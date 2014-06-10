@@ -24,6 +24,7 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 {
 	private static final String TAG = CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.class.getName();
 	
+	private long competitionID;
 	private long eventID;
 	private long homeTeamID;
 	private long awayTeamID;
@@ -37,6 +38,7 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 	public CompetitionEventLineupTeamsTabFragmentStatePagerAdapter(
 			final FragmentManager fm,
 			final CustomViewPager viewPager,
+			final long competitionID,
 			final long eventID,
 			final String eventHomeTeamName,
 			final Long homeTeamID,
@@ -46,6 +48,7 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 		super(fm);
 		
 		this.tabs = new ArrayList<String>(2);
+		this.competitionID = competitionID;
 		this.eventID = eventID;
 		this.viewPager = viewPager;
 		this.homeTeamID = homeTeamID;
@@ -73,13 +76,13 @@ public class CompetitionEventLineupTeamsTabFragmentStatePagerAdapter
 		{
 			case HOME_TEAM_POSITION:
 			{		
-				fragment = new CompetitionEventTabFragmentLineUpTeams(viewPager, eventID, homeTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM);
+				fragment = new CompetitionEventTabFragmentLineUpTeams(viewPager, competitionID, eventID, homeTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM);
 				break;
 			}
 			
 			case AWAY_TEAM_POSITION:
 			{
-				fragment = new CompetitionEventTabFragmentLineUpTeams(viewPager, eventID, awayTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_AWAY_TEAM);
+				fragment = new CompetitionEventTabFragmentLineUpTeams(viewPager, competitionID, eventID, awayTeamID, tab, tab, EventTabTypeEnum.EVENT_LINEUP_AWAY_TEAM);
 				break;
 			}
 			

@@ -42,6 +42,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	private Event event;
 	
+	private long competitionID;
 	private long eventID;
 	private long teamID;
 
@@ -65,6 +66,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	public CompetitionEventTabFragmentLineUpTeams(
 			final CustomViewPager viewPager,
+			final long competitionID,
 			final long eventID,
 			final long teamID,
 			final String tabId, 
@@ -73,6 +75,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	{
 		super(tabId, tabTitle, tabType);
 		
+		this.competitionID = competitionID;
 		this.eventID = eventID;
 		this.teamID = teamID;
 		
@@ -131,10 +134,6 @@ public class CompetitionEventTabFragmentLineUpTeams
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		long competitionID = getEvent().getCompetitionId();
-		
-		long eventID = getEvent().getEventId();
-		
 		ContentManager.sharedInstance().getElseFetchFromServiceEventLineUpData(this, false, competitionID, eventID);
 	}
 	
@@ -150,9 +149,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	
 	@Override
 	protected boolean hasEnoughDataToShowContent()
-	{
-		long eventID = getEvent().getEventId();
-		
+	{		
 		return ContentManager.sharedInstance().getFromCacheHasLineUpDataByEventIDForSelectedCompetition(eventID);
 	}
 	
@@ -271,17 +268,4 @@ public class CompetitionEventTabFragmentLineUpTeams
 		}
 	}
 	
-	
-	
-	private Event getEvent()
-	{
-		if(this.event == null)
-		{
-			Log.d(TAG, "Event ID is: " + eventID);
-			
-			this.event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
-		}
-		
-		return event;
-	}
 }
