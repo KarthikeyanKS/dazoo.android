@@ -31835,6 +31835,7 @@ com.mitv.Constants -> com.mitv.Constants:
     java.lang.String INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS -> INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS
     java.lang.String INTENT_EXTRA_LOG_IN_ACTION -> INTENT_EXTRA_LOG_IN_ACTION
     java.lang.String INTENT_EXTRA_IS_FROM_SPLASHSCREEN -> INTENT_EXTRA_IS_FROM_SPLASHSCREEN
+    java.lang.String INTENT_EXTRA_IS_FROM_NOTIFICATION -> INTENT_EXTRA_IS_FROM_NOTIFICATION
     java.lang.String INTENT_NOTIFICATION -> INTENT_NOTIFICATION
     java.lang.String INTENT_NOTIFICATION_EXTRA_NOTIFICATION_ID -> INTENT_NOTIFICATION_EXTRA_NOTIFICATION_ID
     java.lang.String INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO -> INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO
@@ -35070,16 +35071,16 @@ com.mitv.activities.base.BaseActivity -> com.mitv.activities.base.BaseActivity:
     860:865:void onDestroy() -> onDestroy
     872:879:void onBackPressed() -> onBackPressed
     886:896:void setContentView(int) -> setContentView
-    902:937:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
-    944:1014:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
-    1020:1106:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
-    1112:1136:void hideRequestStatusLayouts() -> h
-    1142:1169:void initCallbackLayouts() -> i
-    1175:1180:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
-    1186:1191:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
-    1197:1209:boolean wasActivityDataUpdatedMoreThan(int) -> wasActivityDataUpdatedMoreThan
-    1216:1238:void setBackgroundLoadingTimer() -> j
-    1244:1245:void setBackgroundLoadTimerValueInSeconds(int) -> setBackgroundLoadTimerValueInSeconds
+    902:938:void loadDataWithConnectivityCheck() -> loadDataWithConnectivityCheck
+    945:1015:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    1021:1107:void updateUIBaseElements(com.mitv.enums.UIStatusEnum) -> updateUIBaseElements
+    1113:1137:void hideRequestStatusLayouts() -> h
+    1143:1170:void initCallbackLayouts() -> i
+    1176:1181:void setEmptyLayoutDetailsMessage(java.lang.String) -> setEmptyLayoutDetailsMessage
+    1187:1192:void setLoadingLayoutDetailsMessage(java.lang.String) -> setLoadingLayoutDetailsMessage
+    1198:1210:boolean wasActivityDataUpdatedMoreThan(int) -> wasActivityDataUpdatedMoreThan
+    1217:1239:void setBackgroundLoadingTimer() -> j
+    1245:1246:void setBackgroundLoadTimerValueInSeconds(int) -> setBackgroundLoadTimerValueInSeconds
     59:59:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> f
     59:59:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> g
     116:116:void access$2(com.mitv.activities.base.BaseActivity,boolean) -> a
@@ -35088,7 +35089,7 @@ com.mitv.activities.base.BaseActivity$1 -> ayl:
     781:784:void onClick(android.view.View) -> onClick
 com.mitv.activities.base.BaseActivity$2 -> aym:
     com.mitv.activities.base.BaseActivity this$0 -> a
-    1232:1235:void run() -> run
+    1233:1236:void run() -> run
 com.mitv.activities.base.BaseActivityLoginRequired -> com.mitv.activities.base.BaseActivityLoginRequired:
 com.mitv.activities.base.BaseActivityWithoutSearchOption -> com.mitv.activities.base.BaseActivityWithoutSearchOption:
 com.mitv.activities.base.BaseContentActivity -> com.mitv.activities.base.BaseContentActivity:
@@ -35249,33 +35250,34 @@ com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competi
     android.widget.ImageView team2FlagHighlights -> af
     android.widget.LinearLayout groupListContainer -> ag
     android.widget.LinearLayout standingsListContainer -> ah
-    com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter groupListAdapter -> ai
-    com.mitv.adapters.list.CompetitionEventStandingsListAdapter standingsListAdapter -> aj
-    java.util.Timer backgroundLoadTimerForHighlights -> ak
-    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> al
-    int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum -> am
-    int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> an
-    129:178:void onCreate(android.os.Bundle) -> onCreate
-    185:188:void onResume() -> onResume
-    195:201:void onPause() -> onPause
-    208:249:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    260:292:void setAllAdapters() -> e
-    298:540:void setData() -> h
-    547:566:void onClick(android.view.View) -> onClick
-    573:612:void initLayout() -> i
-    618:638:void setAdapterForHighlights() -> j
-    650:678:void setAdapterForLineupTeams(int,long,java.lang.String,long,java.lang.String,long) -> a
-    685:709:void setAdapterForGroupList(java.util.List,java.lang.String) -> a
-    716:747:void setAdapterForStandingsList(java.util.List,java.lang.String) -> b
-    754:770:void loadData() -> loadData
-    777:778:void loadDataInBackground() -> loadDataInBackground
-    785:791:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    799:854:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    860:880:void setListView() -> k
-    886:890:void updateStatusOfLikeView() -> l
-    896:896:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
-    913:913:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
-    920:940:void setBackgroundLoadingTimerForHighlights(int) -> c
+    android.widget.RelativeLayout standingsListBlock -> ai
+    com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter groupListAdapter -> aj
+    com.mitv.adapters.list.CompetitionEventStandingsListAdapter standingsListAdapter -> ak
+    java.util.Timer backgroundLoadTimerForHighlights -> al
+    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> am
+    int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum -> an
+    int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> ao
+    130:179:void onCreate(android.os.Bundle) -> onCreate
+    186:189:void onResume() -> onResume
+    196:202:void onPause() -> onPause
+    209:250:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    261:293:void setAllAdapters() -> e
+    299:541:void setData() -> h
+    548:567:void onClick(android.view.View) -> onClick
+    574:614:void initLayout() -> i
+    620:640:void setAdapterForHighlights() -> j
+    652:680:void setAdapterForLineupTeams(int,long,java.lang.String,long,java.lang.String,long) -> a
+    687:711:void setAdapterForGroupList(java.util.List,java.lang.String) -> a
+    718:752:void setAdapterForStandingsList(java.util.List,java.lang.String) -> b
+    759:775:void loadData() -> loadData
+    782:783:void loadDataInBackground() -> loadDataInBackground
+    790:796:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    804:859:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    865:885:void setListView() -> k
+    891:895:void updateStatusOfLikeView() -> l
+    901:901:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
+    918:918:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    925:944:void setBackgroundLoadingTimerForHighlights(int) -> c
     56:56:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     66:66:com.mitv.models.objects.mitvapi.competitions.Event access$1(com.mitv.activities.competition.EventPageActivity) -> a
     56:56:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> c
@@ -35283,26 +35285,26 @@ com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competi
 com.mitv.activities.competition.EventPageActivity$1 -> ayq:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team1ID -> b
-    359:365:void onClick(android.view.View) -> onClick
+    360:366:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$2 -> ayr:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team1ID -> b
-    372:378:void onClick(android.view.View) -> onClick
+    373:379:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$3 -> ays:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team2ID -> b
-    400:406:void onClick(android.view.View) -> onClick
+    401:407:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$4 -> ayt:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team2ID -> b
-    413:420:void onClick(android.view.View) -> onClick
+    414:421:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity$5 -> ayu:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    900:906:void run() -> run
+    905:911:void run() -> run
 com.mitv.activities.competition.EventPageActivity$6 -> ayv:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
-    936:937:void run() -> run
+    940:941:void run() -> run
 com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competition.TeamPageActivity:
     java.lang.String TAG -> o
     com.mitv.models.objects.mitvapi.competitions.Team team -> p
@@ -36195,31 +36197,29 @@ com.mitv.adapters.list.RemindersListAdapter -> com.mitv.adapters.list.RemindersL
     android.app.Activity activity -> c
     java.util.List notifications -> d
     int currentPosition -> e
-    61:67:int getCount() -> getCount
-    76:82:com.mitv.models.objects.mitvapi.Notification getItem(int) -> getItem
-    91:91:long getItemId(int) -> getItemId
-    99:272:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    293:293:java.lang.Runnable confirmRemoval() -> b
+    64:70:int getCount() -> getCount
+    79:85:com.mitv.models.objects.mitvapi.Notification getItem(int) -> getItem
+    94:94:long getItemId(int) -> getItemId
+    102:279:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    300:300:java.lang.Runnable confirmRemoval() -> b
     1:1:java.lang.Object getItem(int) -> getItem
-    41:41:android.app.Activity access$1(com.mitv.adapters.list.RemindersListAdapter) -> a
-    37:37:java.lang.String access$2() -> a
-    43:43:void access$3(com.mitv.adapters.list.RemindersListAdapter,int) -> a
-    291:291:java.lang.Runnable access$4(com.mitv.adapters.list.RemindersListAdapter) -> b
-    43:43:int access$5(com.mitv.adapters.list.RemindersListAdapter) -> c
-    42:42:java.util.List access$6(com.mitv.adapters.list.RemindersListAdapter) -> d
+    44:44:android.app.Activity access$1(com.mitv.adapters.list.RemindersListAdapter) -> a
+    40:40:java.lang.String access$2() -> a
+    46:46:void access$3(com.mitv.adapters.list.RemindersListAdapter,int) -> a
+    298:298:java.lang.Runnable access$4(com.mitv.adapters.list.RemindersListAdapter) -> b
 com.mitv.adapters.list.RemindersListAdapter$1 -> bak:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.Notification val$element -> b
     int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum -> c
-    224:257:void onClick(android.view.View) -> onClick
-    217:217:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> a
+    227:264:void onClick(android.view.View) -> onClick
+    220:220:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> a
 com.mitv.adapters.list.RemindersListAdapter$2 -> bal:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.Notification val$element -> b
-    265:268:void onClick(android.view.View) -> onClick
+    272:275:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.RemindersListAdapter$3 -> bam:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
-    297:312:void run() -> run
+    304:305:void run() -> run
 com.mitv.adapters.list.RemindersListAdapter$ViewHolder -> ban:
     android.widget.RelativeLayout mInformationContainer -> a
     android.widget.TextView mHeaderTv -> b
@@ -36229,22 +36229,22 @@ com.mitv.adapters.list.RemindersListAdapter$ViewHolder -> ban:
     android.widget.TextView mChannelTv -> f
     com.mitv.ui.elements.FontTextView mReminderIconIv -> g
     android.view.View mDividerView -> h
-    279:279:void access$1(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    280:280:void access$2(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> a
-    281:281:void access$3(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> b
-    282:282:void access$4(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> c
-    283:283:void access$5(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> d
-    284:284:void access$6(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> e
-    285:285:void access$7(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,com.mitv.ui.elements.FontTextView) -> a
-    285:285:com.mitv.ui.elements.FontTextView access$8(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> a
-    286:286:void access$9(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.view.View) -> a
-    280:280:android.widget.TextView access$10(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> b
-    286:286:android.view.View access$11(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> c
-    281:281:android.widget.TextView access$12(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> d
-    283:283:android.widget.TextView access$13(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> e
-    284:284:android.widget.TextView access$14(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> f
-    282:282:android.widget.TextView access$15(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> g
-    279:279:android.widget.RelativeLayout access$16(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> h
+    286:286:void access$1(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    287:287:void access$2(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> a
+    288:288:void access$3(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> b
+    289:289:void access$4(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> c
+    290:290:void access$5(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> d
+    291:291:void access$6(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> e
+    292:292:void access$7(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,com.mitv.ui.elements.FontTextView) -> a
+    292:292:com.mitv.ui.elements.FontTextView access$8(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> a
+    293:293:void access$9(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.view.View) -> a
+    287:287:android.widget.TextView access$10(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> b
+    293:293:android.view.View access$11(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> c
+    288:288:android.widget.TextView access$12(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> d
+    290:290:android.widget.TextView access$13(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> e
+    291:291:android.widget.TextView access$14(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> f
+    289:289:android.widget.TextView access$15(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> g
+    286:286:android.widget.RelativeLayout access$16(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> h
 com.mitv.adapters.list.SearchPageListAdapter -> com.mitv.adapters.list.SearchPageListAdapter:
     java.lang.String TAG -> a
     java.util.ArrayList searchResultItems -> b
@@ -39924,8 +39924,8 @@ com.mitv.ui.helpers.NotificationHelper -> com.mitv.ui.helpers.NotificationHelper
     38:44:void scheduleNotifications(android.content.Context) -> scheduleNotifications
     52:73:void scheduleNotification(android.content.Context,com.mitv.models.objects.mitvapi.Notification) -> scheduleNotification
     79:84:android.content.Intent getAlarmIntent(com.mitv.models.objects.mitvapi.Notification) -> a
-    93:184:void showNotification(android.content.Context,int) -> showNotification
-    192:205:void removeNotification(android.content.Context,int) -> removeNotification
+    93:185:void showNotification(android.content.Context,int) -> showNotification
+    193:206:void removeNotification(android.content.Context,int) -> removeNotification
     30:30:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> a
 com.mitv.ui.helpers.ToastHelper -> com.mitv.ui.helpers.ToastHelper:
     java.lang.String TAG -> a
