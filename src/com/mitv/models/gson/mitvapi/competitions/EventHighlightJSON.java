@@ -3,6 +3,7 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+
 public class EventHighlightJSON
 {
 	protected long eventId;
@@ -10,7 +11,6 @@ public class EventHighlightJSON
 	/* Erik: This is the most important value of the class */
     private String highlightCode;
     
-    private String action;
     private long actionTime;
     private long teamId;
     private String actionMinute;
@@ -21,16 +21,7 @@ public class EventHighlightJSON
     
     public EventHighlightJSON() {}
 
-    
-    
-    public String getAction() {
-    	if (action == null) {
-    		action = "";
-    	}
-    	return action;
-    }
-
-    
+     
     
     public long getActionTime() {
     	return actionTime;
