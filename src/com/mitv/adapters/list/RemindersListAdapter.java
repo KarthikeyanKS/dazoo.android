@@ -3,6 +3,7 @@ package com.mitv.adapters.list;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.activities.ChannelPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.managers.ContentManager;
@@ -26,6 +28,7 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 
@@ -241,6 +244,10 @@ public class RemindersListAdapter
 							intent = new Intent(activity, EventPageActivity.class);
 							
 							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, element.getEventId());
+							
+							intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
+							
+							intent.putExtra(Constants.INTENT_COMPETITION_NAME, Constants.FIFA_EVENT_PAGE_HEADER);
 							
 							break;
 						}
