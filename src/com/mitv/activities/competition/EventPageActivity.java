@@ -721,10 +721,10 @@ public class EventPageActivity
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
 		if (event != null) {
-			ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefreshOfHighlights, event.getCompetitionId(), event.getEventId());
+			ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefresh, event.getCompetitionId(), event.getEventId());
 		
 		} else {
-			ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
+			ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefresh, competitionID);
 		}
 	}
 	
@@ -764,7 +764,11 @@ public class EventPageActivity
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 
 				if (phase != null) {
-					ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, false, competitionID, phase.getPhaseId());
+					int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+					
+					boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
+					
+					ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, forceRefresh, competitionID, phase.getPhaseId());
 				}
 				
 				break;
