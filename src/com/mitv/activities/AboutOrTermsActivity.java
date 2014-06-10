@@ -44,6 +44,10 @@ public abstract class AboutOrTermsActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		if (isRestartNeeded()) {
+			return;
+		}
+		
 		setContentView(R.layout.layout_about_or_terms);
 
 		this.isAboutView = this.getClass().equals(AboutUsActivity.class);

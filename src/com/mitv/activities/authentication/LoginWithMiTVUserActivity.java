@@ -59,6 +59,10 @@ public class LoginWithMiTVUserActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_mitvlogin_activity);
 		

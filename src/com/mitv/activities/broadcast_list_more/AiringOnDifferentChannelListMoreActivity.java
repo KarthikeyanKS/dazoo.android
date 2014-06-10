@@ -37,6 +37,10 @@ public class AiringOnDifferentChannelListMoreActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_now_airing_more_list);
 		

@@ -61,6 +61,10 @@ public class ChannelPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
@@ -176,7 +180,11 @@ public class ChannelPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		if (channel != null) 
+		{
+			return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		}
+		return false;
 	}
 
 	
