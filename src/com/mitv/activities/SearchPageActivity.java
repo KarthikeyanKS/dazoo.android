@@ -82,6 +82,10 @@ public class SearchPageActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_searchpage_activity);
 

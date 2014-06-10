@@ -41,6 +41,10 @@ public class UserProfileConfigurationActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{	
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_user_configuration);
 

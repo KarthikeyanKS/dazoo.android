@@ -37,6 +37,10 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_repeating_list_activity);
 		

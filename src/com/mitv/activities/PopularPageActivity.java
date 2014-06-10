@@ -38,6 +38,10 @@ public class PopularPageActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_popular_list_activity);
 

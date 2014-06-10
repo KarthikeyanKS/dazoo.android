@@ -395,8 +395,8 @@ public class SwipeClockBar
 			int parentBackgroundColorId;
 			
 			int indexToCheckForColor = position;
-				if(smallScreenMode) {
-					indexToCheckForColor = 2 * position;
+			if(smallScreenMode) {
+				indexToCheckForColor = 2 * position;
 				if (showOddHour()) {
 					indexToCheckForColor = positionInListViewTo24Index(position);
 				}

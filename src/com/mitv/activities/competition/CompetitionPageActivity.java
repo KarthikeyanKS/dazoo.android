@@ -109,6 +109,10 @@ public class CompetitionPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_competition_page);
 		
@@ -734,8 +738,10 @@ public class CompetitionPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
-		
+		boolean hasData = false;
+		if (competition != null) {
+			hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
+		}
 		return hasData;
 	}
 

@@ -42,6 +42,10 @@ public class LikesActivity
 	{
 		super.onCreate(savedInstanceState);
 
+		if (isRestartNeeded()) {
+			return;
+		}
+
 		setContentView(R.layout.layout_likes_activity);
 		
 		initLayout();

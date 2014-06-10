@@ -11,6 +11,7 @@ import java.util.Timer;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -30,9 +31,11 @@ import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.SearchPageActivity;
+import com.mitv.activities.SplashScreenActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -302,7 +305,7 @@ public abstract class BaseActivity
 
 			if(isTimeOffSync == false) 
 			{
-				ContentManager.sharedInstance().clearGuideCacheData();
+				restartTheApp();
 			}
 		} 
 	}
@@ -332,6 +335,51 @@ public abstract class BaseActivity
 		}
 
 		return indexOfTodayFromTVDates;
+	}
+	
+	protected boolean isRestartNeeded()
+	{
+		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false)
+		{
+			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
+
+			if (ContentManager.sharedInstance().isUpdatingGuide() == false)
+			{
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (isConnected)
+				{
+					restartTheApp();
+
+					return true;
+				}
+			}
+			else
+			{
+				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
+			}
+		}
+
+		return false;
+	}
+	
+	
+	
+	public void restartTheApp()
+	{
+		Intent intent = new Intent(this, SplashScreenActivity.class);
+
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+
+		Context context = app.getApplicationContext();
+
+		context.startActivity(intent);
+
+		killAllActivitiesIncludingThis();
+
+		finish();
 	}
 
 	
