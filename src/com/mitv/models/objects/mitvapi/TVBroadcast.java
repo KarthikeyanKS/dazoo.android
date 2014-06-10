@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
@@ -329,20 +328,6 @@ public class TVBroadcast
 	}
 	
 	
-	
-	
-	public Calendar getBroadcastBeginTimeForNotification()
-	{
-		Calendar calendar = (Calendar) getBeginTimeCalendarLocal().clone();
-
-		int minutesBeforeNotify = Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST;
-		
-		calendar.add(Calendar.MINUTE, -minutesBeforeNotify);
-		
-		return calendar;
-	}
-	
-
 	
 	public boolean isEventAiringInLessThan(int minutes) 
 	{

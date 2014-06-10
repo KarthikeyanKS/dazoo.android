@@ -23,6 +23,7 @@ import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -60,8 +61,12 @@ public class NotificationHelper
 		
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 
+		long millisecondsBeforeNotification = (Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST * DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+		
 		long alarmTimeInMillis = notification.getBeginTimeInMilliseconds();
 
+		alarmTimeInMillis = alarmTimeInMillis - millisecondsBeforeNotification;
+		
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pendingIntent);
 
 		ContentManager.sharedInstance().addToCacheNotifications(notification);
@@ -124,20 +129,31 @@ public class NotificationHelper
 				
 				case COMPETITION_EVENT:
 				{
-					intent = new Intent(context, EventPageActivity.class);
-					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, notification.getEventId());
-
-					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					
-					notificationTitleSB.append(notification.getBroadcastTitle());
-					
-					String broadcastHourAndMinuteRepresentation = notification.getBeginTimeHourAndMinuteLocalAsString();
-					
-					String channelName = notification.getBroadcastChannelName();
-					
-					notificationTextSB.append(broadcastHourAndMinuteRepresentation)
-					.append(" ")
-					.append(channelName);
+					if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION) {
+						intent = new Intent(context, EventPageActivity.class);
+	
+						intent.putExtra(Constants.INTENT_COMPETITION_ID, notification.getCompetitionId());
+						
+						intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, notification.getEventId());
+						
+						/* WARNING using constant here to get the competition.getDisplayName() */
+						intent.putExtra(Constants.INTENT_COMPETITION_NAME, Constants.FIFA_EVENT_PAGE_HEADER);
+	
+						intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						
+						notificationTitleSB.append(notification.getBroadcastTitle());
+						
+						String broadcastHourAndMinuteRepresentation = notification.getBeginTimeHourAndMinuteLocalAsString();
+						
+						String channelName = notification.getBroadcastChannelName();
+						
+						notificationTextSB.append(broadcastHourAndMinuteRepresentation)
+						.append(" ")
+						.append(channelName);
+						
+					} else {
+						intent = null;
+					}
 					
 					break;
 				}
@@ -166,6 +182,8 @@ public class NotificationHelper
 			
 			notificationManager.notify(notificationID, notificationBuilder.build());
 	
+			Log.d(TAG, "Notification with ID " + notificationID + " will be removed");
+			
 			ContentManager.sharedInstance().removeFromCacheNotificationWithID(notificationID);
 		}
 	}

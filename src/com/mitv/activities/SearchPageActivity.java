@@ -35,6 +35,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SearchRunnable;
 import com.mitv.activities.base.BaseActivity;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.SearchPageListAdapter;
 import com.mitv.enums.ContentTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -48,6 +49,7 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVSearchResult;
 import com.mitv.models.objects.mitvapi.TVSearchResults;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.InstantAutoCompleteView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
@@ -281,6 +283,38 @@ public class SearchPageActivity
 					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 					
 					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+					
+//					if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE) {
+//						/* FIFA - Navigation to event page */
+//						ArrayList<String> tags = nextBroadcast.getProgram().getTags();
+//						
+//						if (tags != null && !tags.isEmpty()) {
+//							
+//							for (int i = 0; i < tags.size(); i++) {
+//								
+//								if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
+//									long eventId = nextBroadcast.getEventId();
+//									
+//									/*
+//									 * WARNING WARNING WARNING
+//									 * 
+//									 * Hard coded competition ID used here.
+//									 * 
+//									 */
+//									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+//									
+//									/* Changing the already existing intent to competition event page */
+//									intent = new Intent(SearchPageActivity.this, EventPageActivity.class);
+//									
+//									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+//									
+//									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+//									
+//					                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+//								}
+//							}
+//						}
+//					}
 					
 					startActivity(intent);
 				} 

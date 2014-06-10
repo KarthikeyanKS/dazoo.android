@@ -92,7 +92,6 @@ public class CompetitionPageActivity
 	/* Ongoing - Live */
 	private RelativeLayout liveOngoingLayout;
 	private TextView liveOngoingStandings;
-	private TextView liteTVBroadcastChannelsOngoing;
 	private TextView liveTeam1NameOngoing;
 	private ImageView liveTeam1FlagOngoing;
 	private TextView liveTeam2NameOngoing;
@@ -133,9 +132,9 @@ public class CompetitionPageActivity
 		
 		setAdapter(selectedTabIndex);
 		
-		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
+		int reloadIntervalInSecond = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
 		
-		setBackgroundLoadTimerValueInMinutes(reloadIntervalInMinutes);
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInSecond);
 	}
 	
 		
@@ -325,8 +324,11 @@ public class CompetitionPageActivity
 	            public void onClick(View v)
 	            {
 	                Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
+
+	                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, liveEvent.getEventId());
+	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 	                
 	                startActivity(intent);

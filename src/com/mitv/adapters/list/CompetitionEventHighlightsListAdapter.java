@@ -219,7 +219,9 @@ public class CompetitionEventHighlightsListAdapter
 
 					holder.leftName.setText(element.getPersonShort());
 
-					if(element.hasSubPerson())
+					boolean isSubstitution = (eventActionType == EventHighlightActionEnum.SUBSTITUTION);
+					
+					if(isSubstitution && element.hasSubPerson())
 					{
 						holder.leftNameExtra.setVisibility(View.VISIBLE);
 						holder.leftNameExtra.setText(element.getSubPersonShort());
@@ -255,7 +257,9 @@ public class CompetitionEventHighlightsListAdapter
 
 					holder.rightName.setText(element.getPersonShort());
 
-					if(element.hasSubPerson())
+					boolean isSubstitution = (eventActionType == EventHighlightActionEnum.SUBSTITUTION);
+					
+					if(isSubstitution && element.hasSubPerson())
 					{
 						holder.rightNameExtra.setVisibility(View.VISIBLE);
 						holder.rightNameExtra.setText(element.getSubPersonShort());
@@ -281,7 +285,7 @@ public class CompetitionEventHighlightsListAdapter
 				}
 				else
 				{
-					Log.w(TAG, "Hightlight " + element.getHighlightId() + " is not for home or away team");
+					Log.w(TAG, "Highlight " + element.getEventId() + " is not for home or away team");
 				}
 			}
 		}

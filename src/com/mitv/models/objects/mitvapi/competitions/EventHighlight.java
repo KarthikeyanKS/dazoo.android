@@ -18,7 +18,9 @@ public class EventHighlight
 	
 	public boolean hasSubPerson()
 	{
-		return (subPersonId != 0) && (subPerson != null);
+		boolean hasSubPerson = (getSubPersonShort().isEmpty() == false);
+		
+		return hasSubPerson;
 	}
 	
 	
@@ -32,7 +34,7 @@ public class EventHighlight
 	
 	public int getActionTimeInMinutes()
 	{
-		long minutesAsLong = (actionTime / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+		long minutesAsLong = (getActionTime() / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
 		
 		return (int) minutesAsLong;
 	}

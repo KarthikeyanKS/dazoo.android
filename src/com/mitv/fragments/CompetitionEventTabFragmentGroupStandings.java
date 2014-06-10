@@ -125,6 +125,14 @@ public class CompetitionEventTabFragmentGroupStandings
 	
 	
 	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
+	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
 		long phaseID = getEvent().getPhaseId();

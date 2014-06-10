@@ -118,6 +118,10 @@ public class TeamPageActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_TEAM_SQUAD);
 		
 		initLayout();
+		
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionTeamPageReloadInterval();
+		
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
 	}
 	
 	
@@ -185,7 +189,9 @@ public class TeamPageActivity
 	@Override
 	protected void loadDataInBackground()
 	{
-		Log.w(TAG, "Not implemented in this class");
+		ContentManager.sharedInstance().getElseFetchFromServiceTeamByID(this, true, competitionID, teamID);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceSquadByTeamID(this, true, competitionID, teamID);
 	}
 
 	
@@ -346,6 +352,7 @@ public class TeamPageActivity
 			
 			/* photo credit */
 			String credit = team.getTeamImageCopyright();
+			
 			if (credit != null && !credit.isEmpty()) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))

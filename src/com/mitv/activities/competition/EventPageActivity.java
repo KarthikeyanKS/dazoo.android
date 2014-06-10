@@ -3,8 +3,10 @@ package com.mitv.activities.competition;
 
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +35,6 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.EventBroadcastByStartTime;
-import com.mitv.models.comparators.EventHighlightComparatorByTime;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
@@ -64,6 +65,9 @@ public class EventPageActivity
 
 	private Event event;
 	private List<Event> events;
+	private long eventID;
+	private Competition competition;
+	private long competitionID;
 	private Phase phase;
 	private List<Standings> standings;
 	private CompetitionEventPageBroadcastListAdapter listAdapter;
@@ -114,6 +118,10 @@ public class EventPageActivity
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
 	
 	
+	/* Timer for re-fetching data in the background while the user is on the same activity */
+	private Timer backgroundLoadTimerForHighlights;
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -128,27 +136,45 @@ public class EventPageActivity
 		
 		Intent intent = getIntent();
 		
-		long eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+		competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
+		
+		eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
+		
+		competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 		
 		competitionName = intent.getStringExtra(Constants.INTENT_COMPETITION_NAME);
 		
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
-				
-		long phaseID = event.getPhaseId();
 		
-		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
-		
-		events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
-		
-		standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS);
 		
 		initLayout();
 		
-		setAdapterForLineupTeams(selectedTabIndexForLineupTeams);
+		if (event == null) 
+		{
+			ContentManager.sharedInstance().setSelectedCompetition(competition);
+			
+			registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+			
+			registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID);
+		}
+		else
+		{
+			boolean isEventLive = event.isLive();
+			
+			if(isEventLive)
+			{
+				int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+			
+				setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
+			}
+		}
 		
-		setAdapterForStandingsList();
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
 		
-		setAdapterForGroupList();
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
+		
+		setAllAdapters();
 	}
 		
 	
@@ -164,6 +190,19 @@ public class EventPageActivity
 	
 	
 	@Override
+	protected void onPause() 
+	{
+		super.onPause();
+		
+		if(backgroundLoadTimerForHighlights != null)
+		{
+			backgroundLoadTimerForHighlights.cancel();
+		}
+	}
+
+	
+	
+	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
@@ -172,6 +211,10 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
+				event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+				
+				setAllAdapters();
+				
 				boolean containsBroadcastDetails = event.containsBroadcastDetails();
 				
 				if (containsBroadcastDetails)
@@ -179,9 +222,20 @@ public class EventPageActivity
 					setListView();
 				}
 				
+				boolean isEventLive = event.isLive();
+				
+				if(isEventLive)
+				{
+					int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+				
+					setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
+				}
+				
 				setData();
 				
-				setAdapterForHighlights();
+				if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) {
+					setAdapterForHighlights();
+				}
 				
 				break;
 			}
@@ -196,8 +250,60 @@ public class EventPageActivity
 	
 	
 	
+	private void setAllAdapters() {
+		String homeTeam;
+		long homeTeamID;
+		String awayTeam;
+		long awayTeamID;
+		String phaseString;
+		
+		if (event == null) {
+			homeTeam = "";
+			homeTeamID = 0l;
+			awayTeam = "";
+			awayTeamID = 0l;
+			phaseString = "";
+			
+			standings = new ArrayList<Standings>();
+			
+			events = new ArrayList<Event>();
+			
+		} else {
+			phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(event.getPhaseId());
+			
+			events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
+			
+			if (ContentManager.sharedInstance().getFromCacheHasStandingsForPhaseInSelectedCompetition(phase.getPhaseId())) {
+				standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
+			}
+			
+			homeTeam = event.getHomeTeam();
+			homeTeamID = event.getHomeTeamId();
+			awayTeam = event.getAwayTeam();
+			awayTeamID = event.getAwayTeamId();
+			phaseString = phase.getPhase();
+		}
+		
+		setAdapterForLineupTeams(selectedTabIndexForLineupTeams, eventID, homeTeam, homeTeamID, awayTeam, awayTeamID);
+		
+		setAdapterForStandingsList(standings, phaseString);
+		
+		setAdapterForGroupList(events, phaseString);
+	}
+	
+	
+	
 	private void setData()
 	{
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		
+		StringBuilder eventName = new StringBuilder();
+		eventName.append(event.getHomeTeam())
+			.append(" : ")
+			.append(event.getAwayTeam());
+			
+		actionBar.setTitle(eventName.toString());
+		
 		String homeTeamName = event.getHomeTeam();
 			
 		String awayTeamName = event.getAwayTeam();
@@ -464,15 +570,6 @@ public class EventPageActivity
 	
 	private void initLayout()
 	{
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		
-		StringBuilder eventName = new StringBuilder();
-		eventName.append(event.getHomeTeam())
-		.append(" : ")
-		.append(event.getAwayTeam());
-		
-		actionBar.setTitle(eventName.toString());
-		
 		stadiumImage = (ImageView) findViewById(R.id.competition_event_stadium_image);
 		team1Name = (TextView) findViewById(R.id.competition_event_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_event_team_one_flag);
@@ -525,9 +622,6 @@ public class EventPageActivity
 			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
 			
 			listContainerLayoutHighlights.removeAllViews();
-
-			Collections.sort(eventHighlights, new EventHighlightComparatorByTime());
-			Collections.reverse(eventHighlights);
 			
 			listAdapterHighlights = new CompetitionEventHighlightsListAdapter(this, eventHighlights);
 			
@@ -545,16 +639,23 @@ public class EventPageActivity
 	
 	
 	
-	private void setAdapterForLineupTeams(int selectedIndex) 
+	private void setAdapterForLineupTeams(
+			int selectedIndex,
+			long eventID,
+			String homeTeam,
+			long homeTeamID,
+			String awayTeam,
+			long awayTeamID) 
 	{
 		pagerAdapterForLineupTeams = new CompetitionEventLineupTeamsTabFragmentStatePagerAdapter(
 				getSupportFragmentManager(),
 				viewPagerForLineupTeams,
-				event.getEventId(),
-				event.getHomeTeam(),
-				event.getHomeTeamId(),
-				event.getAwayTeam(),
-				event.getAwayTeamId());
+				competitionID,
+				eventID,
+				homeTeam,
+				homeTeamID,
+				awayTeam,
+				awayTeamID);
 	
 		viewPagerForLineupTeams.setAdapter(pagerAdapterForLineupTeams);
 		viewPagerForLineupTeams.setOffscreenPageLimit(1);
@@ -579,12 +680,12 @@ public class EventPageActivity
 	
 	
 	/* Schedule for group */
-	private void setAdapterForGroupList() 
+	private void setAdapterForGroupList(List<Event> events, String phase) 
 	{
 		StringBuilder header = new StringBuilder(); 
 		header.append(this.getResources().getString(R.string.team_page_squad_schedule_header))
 			.append(" ")
-			.append(phase.getPhase());
+			.append(phase);
 		
 		headerGroups.setText(header.toString());
 		
@@ -610,21 +711,23 @@ public class EventPageActivity
 	
 	
 	/* Standings for group */
-	private void setAdapterForStandingsList() 
-	{
+	private void setAdapterForStandingsList(List<Standings> standings, String phase) 
+	{		
 		StringBuilder header = new StringBuilder(); 
 		
 		header.append(this.getResources().getString(R.string.event_page_header_standings))
 			.append(" ")
-			.append(phase.getPhase());
+			.append(phase);
 		
 		headerStandings.setText(header.toString());
 		
 		standingsListContainer.removeAllViews();
 		
-		Collections.sort(standings, new EventStandingsComparatorByPoints());
+		if (standings != null) {
+			Collections.sort(standings, new EventStandingsComparatorByPoints());
 		
-		Collections.reverse(standings);
+			Collections.reverse(standings);
+		}
 		
 		String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
 		
@@ -658,7 +761,12 @@ public class EventPageActivity
 		
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefresh, event.getCompetitionId(), event.getEventId());
+		if (event != null) {
+			ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefresh, event.getCompetitionId(), event.getEventId());
+		
+		} else {
+			ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefresh, competitionID);
+		}
 	}
 	
 	
@@ -666,7 +774,7 @@ public class EventPageActivity
 	@Override
 	protected void loadDataInBackground()
 	{
-		Log.w(TAG, "Not implemented in this class");
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, true, event.getCompetitionId(), event.getEventId());
 	}
 
 
@@ -679,7 +787,7 @@ public class EventPageActivity
 		{
 			hasData = ContentManager.sharedInstance().getFromCacheHasEventData(event.getCompetitionId(), event.getEventId());
 		}
-			
+		
 		return hasData;
 	}
 
@@ -690,6 +798,27 @@ public class EventPageActivity
 	{	
 		switch (requestIdentifier) 
 		{
+			case COMPETITION_STANDINGS_BY_PHASE_ID: {
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				
+				break;
+			}
+			
+			case COMPETITION_INITIAL_DATA:
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+
+				if (phase != null) {
+					int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+					
+					boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
+					
+					ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, forceRefresh, competitionID, phase.getPhaseId());
+				}
+				
+				break;
+			}
+			
 			case COMPETITION_EVENT_HIGHLIGHTS:
 			{
 				if(fetchRequestResult.wasSuccessful())
@@ -782,4 +911,26 @@ public class EventPageActivity
 
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) {}
+	
+	
+	
+	
+	private void setBackgroundLoadingTimerForHighlights(int valueInSeconds)
+	{
+		if(valueInSeconds > -1)
+		{
+			int backgroundTimerValue = (int) (valueInSeconds*DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
+		
+			backgroundLoadTimerForHighlights = new Timer();
+			
+			backgroundLoadTimerForHighlights.schedule(new java.util.TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(EventPageActivity.this, true, event.getCompetitionId(), event.getEventId());
+				}
+			}, backgroundTimerValue, backgroundTimerValue);
+		}
+	}
 }

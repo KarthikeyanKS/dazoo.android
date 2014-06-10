@@ -6,6 +6,7 @@ package com.mitv.fragments;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,8 +67,6 @@ public class TVGuideTabFragmentAllPrograms
 		updateSwipeClockBarWithDayAndTime();
 		
 		super.initRequestCallbackLayouts(rootView);
-		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
@@ -85,6 +84,14 @@ public class TVGuideTabFragmentAllPrograms
 		tvChannelGuides = null;
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	
