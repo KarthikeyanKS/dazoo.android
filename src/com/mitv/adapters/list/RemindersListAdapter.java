@@ -294,21 +294,7 @@ public class RemindersListAdapter
 		{
 			public void run() 
 			{
-				if(currentPosition >= 0 && 
-				   currentPosition < notifications.size()) 
-				{
-					Notification elementToDelete = notifications.get(currentPosition);
-					
-					TrackingGAManager.sharedInstance().sendUserReminderEvent(elementToDelete, true);
-
-					notifications.remove(elementToDelete);
-					
-					notifyDataSetChanged();
-				}
-				else
-				{
-					Log.e(TAG, "Current position is out of bounds.");
-				}
+				notifyDataSetChanged();
 			}
 		};
 	}
