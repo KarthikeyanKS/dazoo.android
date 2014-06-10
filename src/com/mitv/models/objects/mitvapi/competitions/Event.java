@@ -348,11 +348,6 @@ public class Event
 	
 	
 	
-	/**
-	 * Maybe remove this if we get the timeMillis from BE!!!!!!!!!!!!!!!!!!!!!!!!
-	 * 
-	 * @return
-	 */
 	public long getBeginTimeLocalInMillis() 
 	{
 		long beginTimeMillis = this.getEventDateCalendarLocal().getTimeInMillis();
