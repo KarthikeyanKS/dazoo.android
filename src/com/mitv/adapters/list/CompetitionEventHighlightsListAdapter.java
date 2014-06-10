@@ -240,6 +240,7 @@ public class CompetitionEventHighlightsListAdapter
 						holder.leftNameExtra.setVisibility(View.GONE);
 
 						holder.leftDetails.setVisibility(View.VISIBLE);
+							
 						holder.leftDetails.setText(element.getAction());
 					}
 
@@ -278,6 +279,8 @@ public class CompetitionEventHighlightsListAdapter
 						holder.rightNameExtra.setVisibility(View.GONE);
 
 						holder.rightDetails.setVisibility(View.VISIBLE);
+						
+						
 						holder.rightDetails.setText(element.getAction());
 					}
 
