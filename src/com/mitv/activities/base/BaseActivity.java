@@ -920,6 +920,7 @@ public abstract class BaseActivity
 				updateUI(UIStatusEnum.LOADING);
 				
 				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+				requestLoadingLayoutDetails.setText(R.string.general_back_press_loading_message);
 				}
 			}
 		} 
