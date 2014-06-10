@@ -185,7 +185,7 @@ public class CompetitionPageActivity
 		boolean isOngoing = hasBegun && !hasEnded;
 		
 		/* Ongoing */
-		if (isOngoing) 
+		if (isOngoing)
 		{
 			beforeLayout.setVisibility(View.GONE);
 			countDownLayout.setVisibility(View.GONE);
@@ -207,10 +207,9 @@ public class CompetitionPageActivity
 			nextGameLayout.setVisibility(View.GONE);
 			nextGameLayoutOngoing.setVisibility(View.GONE);
 			liveOngoingLayout.setVisibility(View.GONE);
-			/* TODO What to do here????????????? */
 		}
 		
-		/* Before */
+		/* Not yet started */
 		else 
 		{
 			beforeLayout.setVisibility(View.VISIBLE);
@@ -242,7 +241,8 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setOngoingLayoutForLiveEvent() {		
+	private void setOngoingLayoutForLiveEvent() 
+	{		
 		/* LIVE GAME */
 		final Event liveEvent = ContentManager.sharedInstance().getFromCacheLiveEventForSelectedCompetition();
 		
@@ -344,7 +344,8 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setOngoingLayoutForNextEvent() {
+	private void setOngoingLayoutForNextEvent() 
+	{
 		/* NEXT GAME */
 		boolean filterFinishedEvents = true;
 		boolean filterLiveEvents = true;
@@ -683,7 +684,7 @@ public class CompetitionPageActivity
 	
 	
 	
-	private void setAdapter(int selectedIndex) 
+	private void setAdapter(int selectedIndex)
 	{
 		pagerAdapter = new CompetitionTabFragmentStatePagerAdapter(getSupportFragmentManager(), viewPager, competition.getCompetitionId());
 	

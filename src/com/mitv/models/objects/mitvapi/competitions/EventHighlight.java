@@ -40,6 +40,12 @@ public class EventHighlight
 				break;
 			}
 			
+			case INJURY_TIME:
+			{
+				sb.append(context.getString(R.string.event_page_highlight_injury_time));
+				break;
+			}
+			
 			case YELLOW_CARD:
 			{
 				sb.append(context.getString(R.string.event_page_highlight_yellow_card));

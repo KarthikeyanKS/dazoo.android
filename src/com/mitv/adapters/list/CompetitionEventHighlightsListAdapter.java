@@ -126,13 +126,13 @@ public class CompetitionEventHighlightsListAdapter
 			
 			Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 		
-			boolean hasEnded = event.hasEnded();
+			boolean isFinished = event.isFinished();
 			
 			if(event != null)
 			{
 				if (isFirstPosition)
 				{
-					if(hasEnded)
+					if(isFinished)
 					{
 						holder.middleSeparatorTop.setVisibility(View.GONE);
 					}

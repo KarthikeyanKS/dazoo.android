@@ -163,19 +163,6 @@ public class Event
 	}
 	
 	
-	public boolean hasStarted()
-	{
-		return live;
-	}
-	
-	
-	
-	public boolean hasEnded()
-	{
-		return finished;
-	}
-	
-	
 	
 	public String getScoreAsString()
 	{

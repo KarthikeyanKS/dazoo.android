@@ -439,29 +439,29 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		switch(matchStatus)
 		{
-		case LINE_UP:
-		case NOT_STARTED_AND_LINE_UP:
-		case DELAYED:
-		{
-			lineupContainerLayout.setVisibility(View.VISIBLE);
-			highlightsContainerLayout.setVisibility(View.GONE);
-			break;
-		}
-
-		case NOT_STARTED:
-		case POSTPONED:
-		{
-			lineupContainerLayout.setVisibility(View.GONE);
-			highlightsContainerLayout.setVisibility(View.GONE);
-			break;
-		}
-
-		default:
-		{
-			lineupContainerLayout.setVisibility(View.VISIBLE);
-			highlightsContainerLayout.setVisibility(View.VISIBLE);
-			break;
-		}
+			case LINE_UP:
+			case NOT_STARTED_AND_LINE_UP:
+			case DELAYED:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.GONE);
+				break;
+			}
+	
+			case NOT_STARTED:
+			case POSTPONED:
+			{
+				lineupContainerLayout.setVisibility(View.GONE);
+				highlightsContainerLayout.setVisibility(View.GONE);
+				break;
+			}
+	
+			default:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.VISIBLE);
+				break;
+			}
 		}
 
 		String stadium = event.getStadium();
@@ -482,11 +482,10 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			description.setVisibility(View.VISIBLE);
 		}
 
-		boolean isOngoing = event.hasStarted();
+		boolean isLive = event.isLive();
 		boolean isFinished = event.isFinished();
 
-		/* The event is ongoing or finished */
-		if (isOngoing || isFinished)
+		if(isLive)
 		{
 			String score = event.getScoreAsString();
 
@@ -495,13 +494,33 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			String timeInGame = event.getGameTimeAndStatusAsString(true);
 
 			liveStatus.setText(timeInGame);
-
 			liveScore.setVisibility(View.VISIBLE);
+			liveScore.setTextColor(getResources().getColor(R.color.red));
+			
 			liveStatus.setVisibility(View.VISIBLE);
+			liveStatus.setTextColor(getResources().getColor(R.color.red));
+			
 			beginTime.setVisibility(View.GONE);
 			beginTimeDate.setVisibility(View.GONE);
 		}
+		else if (isFinished)
+		{
+			String score = event.getScoreAsString();
 
+			liveScore.setText(score);
+
+			String timeInGame = event.getGameTimeAndStatusAsString(true);
+
+			liveStatus.setText(timeInGame);
+			liveScore.setVisibility(View.VISIBLE);
+			liveScore.setTextColor(getResources().getColor(R.color.grey2));
+			
+			liveStatus.setVisibility(View.VISIBLE);
+			liveStatus.setTextColor(getResources().getColor(R.color.grey2));
+			
+			beginTime.setVisibility(View.GONE);
+			beginTimeDate.setVisibility(View.GONE);
+		}
 		/* The event has not started yet */
 		else 
 		{
