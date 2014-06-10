@@ -154,6 +154,21 @@ public class EventPageActivity
 			
 			registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_STANDINGS_BY_PHASE_ID);
 		}
+		else
+		{
+			boolean isEventLive = event.isLive();
+			
+			if(isEventLive)
+			{
+				int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+			
+				setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
+			}
+		}
+		
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+		
+		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
 		
 		setAllAdapters();
 	}
@@ -201,6 +216,15 @@ public class EventPageActivity
 				if (containsBroadcastDetails)
 				{
 					setListView();
+				}
+				
+				boolean isEventLive = event.isLive();
+				
+				if(isEventLive)
+				{
+					int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+				
+					setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
 				}
 				
 				setData();
