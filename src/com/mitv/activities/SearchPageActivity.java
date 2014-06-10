@@ -280,32 +280,34 @@ public class SearchPageActivity
 					
 					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
 					
-					/* FIFA - Navigation to event page */
-//					ArrayList<String> tags = nextBroadcast.getProgram().getTags();
-//					
-//					if (tags != null && !tags.isEmpty()) {
+//					if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE) {
+//						/* FIFA - Navigation to event page */
+//						ArrayList<String> tags = nextBroadcast.getProgram().getTags();
 //						
-//						for (int i = 0; i < tags.size(); i++) {
+//						if (tags != null && !tags.isEmpty()) {
 //							
-//							if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
-//								long eventId = nextBroadcast.getEventId();
+//							for (int i = 0; i < tags.size(); i++) {
 //								
-//								/*
-//								 * WARNING WARNING WARNING
-//								 * 
-//								 * Hard coded competition ID used here.
-//								 * 
-//								 */
-//								Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
-//								
-//								/* Changing the already existing intent to competition event page */
-//								intent = new Intent(SearchPageActivity.this, EventPageActivity.class);
-//								
-//								intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-//								
-//								intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-//								
-//				                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+//								if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
+//									long eventId = nextBroadcast.getEventId();
+//									
+//									/*
+//									 * WARNING WARNING WARNING
+//									 * 
+//									 * Hard coded competition ID used here.
+//									 * 
+//									 */
+//									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+//									
+//									/* Changing the already existing intent to competition event page */
+//									intent = new Intent(SearchPageActivity.this, EventPageActivity.class);
+//									
+//									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+//									
+//									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+//									
+//					                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+//								}
 //							}
 //						}
 //					}

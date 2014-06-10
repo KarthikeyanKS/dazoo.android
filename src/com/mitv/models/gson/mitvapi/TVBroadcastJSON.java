@@ -49,7 +49,6 @@ public class TVBroadcastJSON
 	}
 	
 	public long getEventId() {
-		eventId = 1657995;
 		return eventId;
 	}
 }
