@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.test.suitebuilder.TestSuiteBuilder.FailedToCreateTests;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,6 +70,8 @@ public class SplashScreenActivity
 	private TextView next_button;
 	
 	private CirclePageIndicator titleIndicator;
+	
+	private boolean failedLoading = false;
 	
 	
 	
@@ -200,6 +203,7 @@ public class SplashScreenActivity
 			}
 			case UNKNOWN_ERROR:
 				// Load HomeActivity anyway if the initial loading failed. The no data layout will handle re-fetches.
+				failedLoading = true;
 				updateUI(UIStatusEnum.FAILED);
 				break;
 			default:
@@ -266,8 +270,10 @@ public class SplashScreenActivity
 		ContentManager.sharedInstance().setDateUserLastOpenApp();
 		
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-		intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, true);
-		
+		if (failedLoading == false) 
+		{
+			intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, true);
+		}
 		startActivity(intent);
 		
 		finish();

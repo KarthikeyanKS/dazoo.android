@@ -203,7 +203,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 				// Line up - Substitutes
 				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 				
-				Collections.sort(eventLineUps, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
+				Collections.sort(eventLineUpsSubs, new EventLineUpComparatorByShirtNumberWithGoalKeeperAtTop());
 				
 				if (eventLineUpsSubs != null && !eventLineUpsSubs.isEmpty()) 
 				{	
@@ -212,13 +212,12 @@ public class CompetitionEventTabFragmentLineUpTeams
 					whiteDivider.setVisibility(View.VISIBLE);
 					
 					StringBuilder sb = new StringBuilder();
+
+					sb.append(activity.getResources().getString(R.string.event_page_lineup_subs_header));
 					
 					if (eventLineUpsSubs.size() > 1) {
-						sb.append(getString(R.string.event_page_lineup_subs_header))
-							.append("s");
-					} else {
-						sb.append(getString(R.string.event_page_lineup_subs_header));
-					}
+						sb.append("s");
+					} 
 					
 					subsHeader.setText(sb.toString());
 					

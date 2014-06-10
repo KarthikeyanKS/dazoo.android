@@ -49,6 +49,10 @@ public class LoginWithFacebookActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_facebooklogin_activity);
 		

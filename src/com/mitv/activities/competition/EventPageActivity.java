@@ -127,6 +127,10 @@ public class EventPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+
+		if (isRestartNeeded()) {
+			return;
+		}
 		
 		setContentView(R.layout.layout_competition_event_page);
 		
@@ -778,7 +782,11 @@ public class EventPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasEventData(competitionID, eventID);
+		boolean hasData = false;
+		if (event != null) 
+		{
+			hasData = ContentManager.sharedInstance().getFromCacheHasEventData(event.getCompetitionId(), event.getEventId());
+		}
 		
 		return hasData;
 	}
