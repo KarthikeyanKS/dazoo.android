@@ -16,6 +16,7 @@ public class TVBroadcastJSON
 	protected String endTime;
 	protected BroadcastTypeEnum broadcastType = BroadcastTypeEnum.UNKNOWN;
 	protected String shareUrl;
+	protected long eventId;
 		
 	
 	
@@ -45,5 +46,10 @@ public class TVBroadcastJSON
 	
 	public String getShareUrl() {
 		return shareUrl;
+	}
+	
+	public long getEventId() {
+		eventId = 1657995;
+		return eventId;
 	}
 }

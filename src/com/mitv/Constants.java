@@ -513,6 +513,7 @@ public abstract class Constants
 	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
+	public static final String FIFA_EVENT_PAGE_HEADER = "Copa Mundial Brasil 2014";
 	
 	
 	/* Ad mob stuff */

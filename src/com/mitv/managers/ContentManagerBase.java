@@ -1095,7 +1095,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */
+	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */	
 	
 	public Team getFromCacheTeamByID(long teamID)
 	{
