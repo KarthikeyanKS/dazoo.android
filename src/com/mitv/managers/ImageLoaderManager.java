@@ -50,7 +50,6 @@ public class ImageLoaderManager
 	{
 		int maximumMemoryCacheSize;
 		int maximumDiskCacheSize = 50 * 1024 * 1024;
-		int diskCacheFileCount = 200;
 		boolean enableLoging = false;
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
@@ -68,7 +67,6 @@ public class ImageLoaderManager
 			.denyCacheImageMultipleSizesInMemory()
 			.memoryCache(new LRULimitedMemoryCache(maximumMemoryCacheSize))
 			.discCacheSize(maximumDiskCacheSize)
-			.discCacheFileCount(diskCacheFileCount)
 			.tasksProcessingOrder(QueueProcessingType.LIFO)
 			.build();
 

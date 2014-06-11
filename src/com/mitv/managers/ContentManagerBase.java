@@ -9,13 +9,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mitv.APIClient;
 import com.mitv.Constants;
 import com.mitv.enums.EventLineUpPosition;

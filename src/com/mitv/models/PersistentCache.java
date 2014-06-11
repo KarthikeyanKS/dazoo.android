@@ -358,7 +358,20 @@ public abstract class PersistentCache
 		
 		if(elementFound == null)
 		{
-			Log.w(TAG, "Notification element not found in cache");
+			StringBuilder sb = new StringBuilder();
+			sb.append("Notification element with parameters ")
+			.append(channelId)
+			.append(", ")
+			.append(programId)
+			.append(", ")
+			.append(beginTimeMillis)
+			.append(", ")
+			.append(competitionId)
+			.append(", ")
+			.append(eventId)
+			.append(" was not found in cache");
+			
+			Log.w(TAG, sb.toString());
 		}
 		
 		return elementFound;
@@ -388,7 +401,16 @@ public abstract class PersistentCache
 		
 		if(elementFound == null)
 		{
-			Log.w(TAG, "Notification element not found in cache");
+			StringBuilder sb = new StringBuilder();
+			sb.append("Notification element with parameters ")
+			.append(channelId)
+			.append(", ")
+			.append(programId)
+			.append(", ")
+			.append(beginTimeMillis)
+			.append(" was not found in cache");
+			
+			Log.w(TAG, sb.toString());
 		}
 		
 		return elementFound;

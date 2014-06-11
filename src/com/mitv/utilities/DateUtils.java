@@ -230,8 +230,8 @@ public abstract class DateUtils
 			final boolean useAbslouteDifference,
 			final int defaultValueIfNegative)
 	{
-		float beginTime;
-		float endTime;
+		long beginTime;
+		long endTime;
 		
 		switch(differenceUnitType)
 		{
@@ -259,15 +259,15 @@ public abstract class DateUtils
 				
 		}
 		
-		int differenceAsInt = (int)(endTime - beginTime);
+		int differenceAsInt = (int) (endTime - beginTime);
 	    Integer difference =  Integer.valueOf(differenceAsInt);
 	    
-	    if(difference < 0 && 
+	    if(difference < 0 &&
 	       useAbslouteDifference == false)
 	    {
 	    	difference = defaultValueIfNegative;
 	    	
-	    	Log.w(TAG, "The calculated time difference is negative.");
+	    	Log.w(TAG, "The calculated time difference (" + endTime + " minus " + beginTime + ") is negative.");
 	    }
 	    else
 	    {
