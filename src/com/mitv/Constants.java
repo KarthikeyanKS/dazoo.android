@@ -351,6 +351,9 @@ public abstract class Constants
 	public static final String GA_EVENT_ACTION_DETACHED_AREA_PRESSED = "DETACHED_AREA_PRESSED";
 	public static final String GA_EVENT_ACTION_INVIEW_TAB_PRESSED = "INVIEW_TAB_PRESSED";
 	public static final String GA_EVENT_ACTION_TEAM_PRESSED = "TEAM_PRESSED";
+	public static final String GA_EVENT_ACTION_COMPETITION_EVENT_PRESSED = "COMPETITION_EVENT_PRESSED";
+	public static final String GA_EVENT_ACTION_VIEW_ALL_LINK_PRESSED = "VIEW_ALL_LINK_PRESSED";
+	
 	
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
@@ -538,7 +541,9 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_PHASE_ID = "phaseID";
 	public static final String INTENT_COMPETITION_NAME = "competitionName";
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
-		
+	public static final int EVENT_CURRENT_MINUTE_UNAVAILABLE = -1;
+	public static final int EVENT_CURRENT_MINUTE_IN_PENALTIES = -2;
+	
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
 	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";

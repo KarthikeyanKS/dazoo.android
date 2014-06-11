@@ -19,6 +19,8 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.LikeTypeResponseEnum;
+import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -27,6 +29,8 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -195,6 +199,23 @@ public class TrackingGAManager
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
 	
+	public void sendUserSharedEvent(Event event) 
+	{
+		String label = ContentManager.sharedInstance().getFromCacheCompetitionByID(event.getCompetitionId()).getDisplayName() + " " + event.getTitle() + " " + event.getEventId();
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
+		Log.d(TAG, "Event sent: " + label);
+	}
+	
+	public void sendUserSharedEvent(Team team) 
+	{
+		String label = ContentManager.sharedInstance().getFromCacheCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
+		
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
+		Log.d(TAG, "Event sent: " + label);
+	}
+	
 	
 	
 	public void sendUserNoDataRetryLayoutButtomPressed(String activityOrFragmentName) 
@@ -221,9 +242,17 @@ public class TrackingGAManager
 		{
 			addedLike = 0L;
 		}
+		
+		if (userLike.getLikeType() == LikeTypeResponseEnum.TEAM) {
+			Team team = ContentManager.sharedInstance().getFromCacheTeamByID(userLike.getTeamId());
+			broadcastTitle = ContentManager.sharedInstance().getFromCacheCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
+		}
+		else if (userLike.getLikeType() == LikeTypeResponseEnum.COMPETITION) {
+			broadcastTitle = ContentManager.sharedInstance().getFromCacheCompetitionByID((userLike.getCompetitionId())).getDisplayName();
+		}
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
-
+		Log.d(TAG, "Event sent: " + broadcastTitle);
 	}
 
 	
@@ -237,8 +266,15 @@ public class TrackingGAManager
 		{
 			addedReminder = 0L;
 		}
+		if (notification.getNotificationType() == NotificationTypeEnum.COMPETITION_EVENT) {
+			title = ContentManager.sharedInstance().getFromCacheCompetitionByID(notification.getCompetitionId()) + " " + 
+					ContentManager.sharedInstance().getFromCacheEventByID(notification.getCompetitionId(), notification.getEventId()) + " " +
+					String.valueOf(notification.getBeginTimeInMilliseconds());
+		}
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, title, addedReminder);
+
+		Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER + ": " + title);
 	}
 
 	
@@ -529,6 +565,7 @@ public class TrackingGAManager
 	public void sendUserCompetitionEventWithLabelAndValue(String action, String label, long value) 
 	{
 		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label, value);
+		Log.d(TAG, "Event sent: " + action + ": " + label);
 	}
 	
 	
@@ -671,4 +708,108 @@ public class TrackingGAManager
 
 		}
 	}
+	
+	/* Competition events*/
+	
+	public void sendUserCompetitionTabCountdownPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Countdown";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionTabBannerPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+		
+	
+	
+	public void sendUserCompetitionTabCalendarPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Calendar";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionBannerPressedInAllTab(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner All";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionBannerPressedInSportsTab(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner Sports";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionEventPressedEvent(String competitionName, String nameOfEvent, long eventId, String extras) {
+		String label = competitionName + " " + nameOfEvent + " " + String.valueOf(eventId) + " " + extras;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_EVENT_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionTabPressedEvent(String competitionName, String nameOfTab) {
+		String label = competitionName + " " + nameOfTab;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_INVIEW_TAB_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionCountdownPressedEvent(String competitionName) {
+		String label = competitionName + " Countdown";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionTeamPressedEvent(String competitionName, String nameOfTeam, String extras) {
+		String label = competitionName + " " + nameOfTeam + " " + extras;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_TEAM_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionViewAllLinkPressedEvent(String type) {
+		String label = type;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_VIEW_ALL_LINK_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionBroadcastPressedEvent(String competitionName, String eventName, String extras) {
+		String label = competitionName + " " + eventName + " " + extras;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_EVENT_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void senduserCompetitionLineupPressedEvent(String competitionName) {
+		String label = competitionName + " Lineup";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void senduserCompetitionHightlightsPressedEvent(String competitionName) {
+		String label = competitionName + " Highlights";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionSquadPressedEvent(String competitionName, String teamName) {
+		String label = competitionName + " " + teamName + " Squad";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
 }

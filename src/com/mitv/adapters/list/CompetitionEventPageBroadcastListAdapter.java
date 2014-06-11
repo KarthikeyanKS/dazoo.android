@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -118,6 +120,7 @@ public class CompetitionEventPageBroadcastListAdapter
 
 			ViewHolder viewHolder = new ViewHolder();
 
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_broadcast_details_container);
 			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.competition_event_channel_logo);
 			viewHolder.beginTime = (TextView) rowView.findViewById(R.id.competition_event_full_date);
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.competition_event_row_reminder_view);
@@ -218,6 +221,15 @@ public class CompetitionEventPageBroadcastListAdapter
 					holder.onGoingTimeLeft.setVisibility(View.GONE);
 				}
 			}
+			// TODO: Navigate to BroadcastPage here? Also this will trigger event even if only reminder was pressed.
+			holder.container.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					TrackingGAManager.sharedInstance().sendUserCompetitionBroadcastPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId).getDisplayName(), 
+							ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId).getTitle(), String.valueOf(element.getBeginTimeMillis()));
+				}
+			});
 		}
 		
 		return rowView;
@@ -227,6 +239,7 @@ public class CompetitionEventPageBroadcastListAdapter
 	
 	private static class ViewHolder 
 	{
+		private RelativeLayout container;
 		private ImageView channelLogo;
 		private TextView beginTime;
 		private ReminderView reminderView;

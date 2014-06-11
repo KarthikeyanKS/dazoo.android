@@ -123,14 +123,25 @@ public class Event
 		
 			case IN_PROGRESS:
 			{
-				if(includeIcon)
-				{	
-					sb.append(context.getResources().getString(R.string.icon_time_is_ongoing))
-					.append(" ");
+				if(getCurrentMinute() == Constants.EVENT_CURRENT_MINUTE_UNAVAILABLE)
+				{
+					sb.append(context.getString(R.string.event_page_current_minute_unavailable));
 				}
-				
-				sb.append(getCurrentMinute());
-				
+				else if(getCurrentMinute() == Constants.EVENT_CURRENT_MINUTE_IN_PENALTIES)
+				{
+					sb.append(context.getString(R.string.event_page_current_minute_penalties));
+				}
+				else
+				{
+					if(includeIcon)
+					{	
+						sb.append(context.getResources().getString(R.string.icon_time_is_ongoing))
+						.append(" ");
+					}
+					
+					sb.append(getCurrentMinute());
+				}
+
 				break;
 			}
 			

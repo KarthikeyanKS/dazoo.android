@@ -27,6 +27,7 @@ import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 
@@ -314,7 +315,12 @@ public abstract class BannerListAdapter<T>
 			                
 			                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 			                
-			                TrackingManager.sharedInstance().sendUserCompetitionBannerPressedInAllTab(competition.getDisplayName());
+			                if (BannerListAdapter.this instanceof TVGuideListAdapter) {
+			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInAllTab(competition.getDisplayName());
+			                }
+			                else if (BannerListAdapter.this instanceof TVGuideTagListAdapter) {
+			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInSportsTab(competition.getDisplayName());
+			                }
 			                
 							activity.startActivity(intent);
 						}

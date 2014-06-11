@@ -24,6 +24,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventLineUpComparatorByPositionAndShirtNumber;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.ui.elements.CustomViewPager;
@@ -47,6 +48,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	private TextView subsHeader;
 	private LinearLayout eventListOfSubs;
 	
+	private LinearLayout containerLayout; 
 	private LinearLayout listContainerLayout;
 	private CompetitionEventLineUpTeamsListAdapter listAdapter;
 	private CompetitionEventLineUpTeamsListAdapter listAdapterSubs;
@@ -86,6 +88,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_event_tab_fragment_container_lineup, null);
 		
+		containerLayout = (LinearLayout) rootView.findViewById(R.id.competition_event_table_container_layout);
+		
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_event_table_container);
 		
 		eventListOfSubs = (LinearLayout) rootView.findViewById(R.id.competition_event_table_substitute_players_container);
@@ -104,6 +108,7 @@ public class CompetitionEventTabFragmentLineUpTeams
             // Restore last state for checked position.
 			eventID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_EVENT_ID, 0);
 			teamID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_TEAM_ID, 0);
+			competitionID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_ID, 0);
         }
 		
 		return rootView;
@@ -118,6 +123,7 @@ public class CompetitionEventTabFragmentLineUpTeams
         
         outState.putLong(Constants.INTENT_COMPETITION_EVENT_ID, eventID);
         outState.putLong(Constants.INTENT_COMPETITION_TEAM_ID, teamID);
+        outState.putLong(Constants.INTENT_COMPETITION_ID, competitionID);
     }
 	
 	
@@ -252,6 +258,22 @@ public class CompetitionEventTabFragmentLineUpTeams
 				{
 					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight() + 100);
 				}
+				
+				containerLayout.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						//TODO: Why is competitionID 0 here?
+						long competitionIdForTracking = 0;
+						if (competitionID != 0) { 
+							competitionIdForTracking = competitionID;
+						}
+						else if (eventID != 0) {
+							competitionIdForTracking = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID).getCompetitionId();
+						}
+						TrackingGAManager.sharedInstance().senduserCompetitionLineupPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionIdForTracking).getDisplayName());
+					}
+				});
 				
 				break;
 			}

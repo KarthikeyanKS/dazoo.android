@@ -66,6 +66,25 @@ public class CompetitionsCacheData
 	
 	
 	
+	/**
+	 * Finds a competition containing the team. 
+	 * 
+	 * WARNING: May be inaccurate if team is in many competitions.
+	 * 
+	 * @param team
+	 * @return competition containing the team
+	 */
+	public synchronized Competition getCompetitionByTeam(Team team) {
+		for (CompetitionCacheData competitionCacheData : allCompetitions.values()) {
+			if (competitionCacheData.getTeams().contains(team)) {
+				return competitionCacheData.getCompetition();
+			}
+		}
+		return null;
+	}
+	
+	
+	
 	public synchronized Competition getCompetitionByID(Long competitionID) 
 	{
 		Competition competitionFound = null;
