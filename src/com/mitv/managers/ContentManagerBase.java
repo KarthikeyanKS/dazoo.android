@@ -12,6 +12,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -814,6 +815,29 @@ public abstract class ContentManagerBase
 	
 	
 	
+//	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheTaggedBroadcastsWithFilterForSelectedTVDate() {
+//		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = getFromCacheTaggedBroadcastsForSelectedTVDate();
+//		
+//		ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
+//		ArrayList<TVBroadcastWithChannelInfo> sportBroadcasts = taggedBroadcastForDay.get("Sport");
+//		
+//		for (TVBroadcastWithChannelInfo tvBroadcast : sportBroadcasts) {
+//			List<String> tags = tvBroadcast.getProgram().getTags();
+//			
+//			for (String tag : tags) {
+//				
+//				if (tag.equals(Constants.FIFA_TAG_ID)) {
+//					broadcasts.add(tvBroadcast);
+//				}
+//			}
+//			
+//		}
+//		
+//		return broadcasts;
+//	}
+	
+	
+	
 	public Integer getFromCacheSelectedHour()
 	{
 		Integer selectedHour = getCache().getNonPersistentSelectedHour();
@@ -1130,45 +1154,6 @@ public abstract class ContentManagerBase
 		}
 		
 		return matchingEvent;
-	}
-	
-	
-	
-	public List<Event> getFromCacheNextUpcomingEventsForSelectedCompetition(boolean filterFinishedEvents, boolean filterLiveEvents, int limit) {
-		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
-		List<Event> eventsTrimmed = new ArrayList<Event>();
-		Event matchingEvent = null;
-		
-		if (events != null) {
-			
-			if (filterFinishedEvents) {
-				events = filterFinishedEvents(events);
-			}
-			
-			if (filterLiveEvents) {
-				events = filterLiveEvents(events);
-			}
-		
-			if (events.size() > limit) {
-				matchingEvent = events.get(0);
-				
-				for (int i = 0; i < limit; i++) {
-					
-					Event event = events.get(i);
-					
-					Calendar eventStartTimeCalendar = event.getEventDateCalendarLocal();
-					
-					if(eventStartTimeCalendar.after(matchingEvent.getEventDateCalendarLocal()) || eventStartTimeCalendar.equals(matchingEvent.getEventDateCalendarLocal()))
-					{
-						eventsTrimmed.add(events.get(i));
-					}
-				}
-				
-				return eventsTrimmed;
-			}
-		}
-		
-		return events;
 	}
 	
 	
