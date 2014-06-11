@@ -52,10 +52,10 @@
     <View
         android:id="@+id/competition_event_broadcast_divider"
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_below="@id/competition_event_channel_logo"
         android:layout_marginTop="20dp"
-        android:background="@color/grey1" />
+        android:background="@color/grey1"/>
     
     <!-- PROGRESSBAR -->
     <ProgressBar
@@ -68,6 +68,6 @@
         android:layout_marginRight="10dp"
         android:layout_below="@id/competition_event_channel_logo"
         android:progressDrawable="@drawable/progress_horizontal"
-        android:scaleY="0.5"/>
+        android:scaleY="0.25"/>
     
 </RelativeLayout>

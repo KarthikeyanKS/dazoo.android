@@ -170,14 +170,14 @@ public class CompetitionEventPageBroadcastListAdapter
 			}
 			else
 			{
-				Calendar now = DateUtils.getNowWithGMTTimeZone();
-
-				int totalMinutes = element.getTotalAiringTimeInMinutes();
-
-				int currentMinutes = DateUtils.calculateDifferenceBetween(element.getEventBroadcastBeginTimeGMT(), now, Calendar.MINUTE, false, 0);
-
 				if (isAiring)
 				{
+					Calendar now = DateUtils.getNowWithGMTTimeZone();
+
+					int totalMinutes = element.getTotalAiringTimeInMinutes();
+
+					int currentMinutes = DateUtils.calculateDifferenceBetween(element.getEventBroadcastBeginTimeGMT(), now, Calendar.MINUTE, true, 0);
+					
 					int minutesLeft = Math.abs(totalMinutes - currentMinutes);
 
 					StringBuilder sbMinutesLeft = new StringBuilder();
@@ -186,7 +186,7 @@ public class CompetitionEventPageBroadcastListAdapter
 					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.red));
 
 					LanguageUtils.setupOnlyProgressBar(activity, currentMinutes, totalMinutes, holder.progressBar);
-					holder.divider.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
+					holder.divider.setVisibility(View.GONE);
 
 					holder.progressBar.setVisibility(View.VISIBLE);
 					holder.onGoingTimeLeft.setText(sbMinutesLeft.toString());
