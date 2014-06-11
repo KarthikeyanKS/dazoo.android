@@ -18,8 +18,8 @@ public class Competition
 	private static final String TAG = Competition.class.getName();
 	
 	
-	protected Calendar beginCalendar;
-	protected Calendar endCalendar;
+	private Calendar beginCalendar;
+	private Calendar endCalendar;
 	
 	
 	
@@ -54,7 +54,7 @@ public class Competition
 	 */
 	public Calendar getBeginTimeCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(startDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(getStartDate());
 		
 		return beginTimeCalendarGMT;
 	}
@@ -66,7 +66,7 @@ public class Competition
 	 */
 	public Calendar getEndTimeCalendarGMT()
 	{
-		Calendar endTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(endDate);
+		Calendar endTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(getEndDate());
 		
 		return endTimeCalendarGMT;
 	}
@@ -108,8 +108,8 @@ public class Competition
 	
 	
 	
-	public CompetitionCategoryEnum getCompetitionCategory()
+	public CompetitionCategoryEnum getCategory()
 	{
-		return CompetitionCategoryEnum.getTypeEnumFromCode(competitionCategory);
+		return CompetitionCategoryEnum.getTypeEnumFromCode(getCompetitionCategory());
 	}
 }

@@ -19,6 +19,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -161,6 +162,8 @@ public class CompetitionEventStandingsListAdapter
 	        {
 	            public void onClick(View v)
 	            {
+	            	TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(element.getCompetitionId()).getDisplayName(), element.getTeam(), "Standings tab");
+
 	            	Intent intent = new Intent(activity, TeamPageActivity.class);
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());

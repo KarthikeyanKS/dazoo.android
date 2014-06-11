@@ -33,10 +33,10 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.SearchRunnable;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.SearchPageListAdapter;
+import com.mitv.asynctasks.other.SearchRunnable;
 import com.mitv.enums.ContentTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;

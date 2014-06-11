@@ -107,7 +107,7 @@ public abstract class TVGuideTabFragment
 		}
 		else
 		{
-			Log.w(TAG, "SwipeClockBar is null");
+			Log.v(TAG, "SwipeClockBar is null");
 		}
 	}
 	

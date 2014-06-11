@@ -3,7 +3,6 @@ package com.mitv.activities.competition;
 
 
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +29,9 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.comparators.TeamSquadComparatorByPositionANdShirtNumber;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
@@ -353,8 +354,10 @@ public class TeamPageActivity
 			/* photo credit */
 			String credit = team.getTeamImageCopyright();
 			
-			if (credit != null && !credit.isEmpty()) {
+			if (credit != null && !credit.isEmpty()) 
+			{
 				StringBuilder sb = new StringBuilder();
+				
 				sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))
 					.append(" ")
 					.append(team.getTeamImageCopyright());
@@ -407,9 +410,9 @@ public class TeamPageActivity
 	{
 		squadListContainer.removeAllViews();
 		
-		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID);
+		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID, false);
 		
-		filterCoachFromSquad();
+		Collections.sort(teamSquads, new TeamSquadComparatorByPositionANdShirtNumber());
 		
 		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
 		
@@ -422,25 +425,14 @@ public class TeamPageActivity
             	squadListContainer.addView(listItem);
             }
         }
-	}
-	
-	
-	
-	private void filterCoachFromSquad() {
-		List<TeamSquad> squadsToRemove = new ArrayList<TeamSquad>();
-		
-		if (teamSquads != null) {
+		squadListContainer.setOnClickListener(new View.OnClickListener() {
 			
-			for (TeamSquad squad : teamSquads) {
-				if (squad.getFunction().equals(Constants.FUNCTION_COACH)) {
-					squadsToRemove.add(squad);
-				}
+			@Override
+			public void onClick(View v) {
+				TrackingGAManager.sharedInstance().sendUserCompetitionSquadPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID).getDisplayName(), team.getDisplayName());
+				
 			}
-			
-			if (squadsToRemove != null && !squadsToRemove.isEmpty()) {
-				teamSquads.removeAll(squadsToRemove);
-			}
-		}
+		});
 	}
 	
 	
@@ -542,6 +534,16 @@ public class TeamPageActivity
 		{
 			public void run() 
 			{
+				String type = null;
+				if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION) {
+					type = "Standings";
+				}
+				else if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) {
+					type = "Schedule";
+				}
+				
+				TrackingGAManager.sharedInstance().sendUserCompetitionViewAllLinkPressedEvent(type);
+				
 				Intent intent = new Intent(TeamPageActivity.this, CompetitionPageActivity.class);		
 				
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionID);

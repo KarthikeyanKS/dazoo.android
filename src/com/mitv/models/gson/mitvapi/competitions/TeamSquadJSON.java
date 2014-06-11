@@ -1,7 +1,17 @@
+
 package com.mitv.models.gson.mitvapi.competitions;
 
-public class TeamSquadJSON {
 
+
+import android.util.Log;
+
+
+
+public class TeamSquadJSON 
+{
+	private static final String TAG = TeamSquadJSON.class.getName();
+	
+	
 	private long id;
 	private long teamId;
 	private long personId;
@@ -19,71 +29,147 @@ public class TeamSquadJSON {
 	private int yellowCards;
 	private int redCards;
 	
-	public TeamSquadJSON() {}
+	
+	
+	public TeamSquadJSON(){}
 
-	public long getId() {
+	
+	
+	public long getId()
+	{
 		return id;
 	}
 
-	public long getTeamId() {
+	
+	
+	public long getTeamId()
+	{
 		return teamId;
 	}
 
-	public long getPersonId() {
+	
+	
+	public long getPersonId()
+	{
 		return personId;
 	}
 
-	public String getPerson() {
+	
+	
+	public String getPerson() 
+	{
+		if(person == null)
+		{
+			person = "";
+			
+			Log.w(TAG, "person is null");
+		}
+		
 		return person;
 	}
 	
-	public String getPersonShort() {
+	
+	
+	public String getPersonShort()
+	{
+		if(personShort == null)
+		{
+			personShort = "";
+			
+			Log.w(TAG, "personShort is null");
+		}
+		
 		return personShort;
 	}
 
-	public String getNation() {
+	
+	
+	public String getNation()
+	{
+		if(nation == null)
+		{
+			nation = "";
+			
+			Log.w(TAG, "nation is null");
+		}
+		
 		return nation;
 	}
 
-	public long getBirthDay() {
+	
+	
+	public long getBirthDay() 
+	{
 		return birthDay;
 	}
 
-	public int getFunctionType() {
+	
+	
+	public int getFunctionType()
+	{
 		return functionType;
 	}
 
-	public String getFunction() {
+	
+	
+	public String getFunction() 
+	{
+		if(function == null)
+		{
+			function = "";
+			
+			Log.w(TAG, "function is null");
+		}
+		
 		return function;
 	}
 	
-	public int getShirtNumber() {
+	
+	
+	public int getShirtNumber()
+	{
 		return shirtNumber;
 	}
 
-	public int getMatches() {
+	
+	
+	public int getMatches() 
+	{
 		return matches;
 	}
 
-	public int getMatchesStart() {
+	
+	
+	public int getMatchesStart() 
+	{
 		return matchesStart;
 	}
 
-	public int getGoals() {
+	
+	
+	public int getGoals() 
+	{
 		return goals;
 	}
 
-	public int getAssists() {
+	
+	
+	public int getAssists()
+	{
 		return assists;
 	}
 
-	public int getYellowCards() {
+	
+	
+	public int getYellowCards() 
+	{
 		return yellowCards;
 	}
 
-	public int getRedCards() {
+	
+	
+	public int getRedCards() 
+	{
 		return redCards;
 	}
-	
-	
 }

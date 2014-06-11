@@ -104,17 +104,7 @@ public class CompetitionTabFragmentTeamStandings
         outState.putLong(Constants.INTENT_COMPETITION_ID, competitionID);
     }
 	
-	
-
-	@Override
-	public void onResume()
-	{
-		super.onResume();
 		
-		Log.w(TAG, "Something");
-	}
-	
-	
 	
 	@Override
 	protected void loadData()

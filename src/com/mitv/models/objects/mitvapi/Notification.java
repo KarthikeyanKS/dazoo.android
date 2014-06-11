@@ -378,5 +378,4 @@ public class Notification
 		
 		return false;
 	}
-	
 }

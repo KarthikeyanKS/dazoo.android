@@ -1221,9 +1221,6 @@ public abstract class ContentManagerCallback
 					Log.d(TAG, "Starting to filter old broadcasts");
 
 					feedItems = filterOldBroadcasts(feedItems, null);
-
-					/* NOT IN USE */
-					//						feedItems = filterSimilarBroadcasts(feedItems, null);
 				}
 
 				getCache().setActivityFeed(feedItems);

@@ -112,7 +112,7 @@
 	                android:layout_height="wrap_content"
 	                android:layout_below="@id/competition_event_live_score"
 	                android:layout_centerHorizontal="true"
-	                android:textColor="@color/grey1"
+	                android:textColor="@color/grey2"
 	                android:textSize="18sp"/>     
             </RelativeLayout>
             

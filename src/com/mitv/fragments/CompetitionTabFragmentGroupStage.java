@@ -32,7 +32,6 @@ public class CompetitionTabFragmentGroupStage
 	extends CompetitionTabFragment
 	implements ViewCallbackListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = CompetitionTabFragmentGroupStage.class.getName();
 	
 	
@@ -169,7 +168,9 @@ public class CompetitionTabFragmentGroupStage
 				listContainerLayout.measure(0, 0);
 				
 				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
-				if (viewPager.getCurrentItem() == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) {
+				
+				if (viewPager.getCurrentItem() == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) 
+				{
 					viewPager.onPageScrolled(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION, 0, 0);
 				}
 				

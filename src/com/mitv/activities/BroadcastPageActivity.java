@@ -334,8 +334,8 @@ public class BroadcastPageActivity
 	
 				default:
 				{
-					Log.d(TAG, "other request");
-					/* do nothing */break;
+					Log.d(TAG, "Other request");
+					break;
 				}
 			}
 		} 
@@ -382,7 +382,6 @@ public class BroadcastPageActivity
 			default: 
 			{
 				hideDisqusCommentsWebview();
-				Log.w(TAG, "updateUI - case not handled");
 				break;
 			}
 		}

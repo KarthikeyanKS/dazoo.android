@@ -9,14 +9,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mitv.APIClient;
 import com.mitv.Constants;
+import com.mitv.enums.EventLineUpPosition;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.interfaces.ContentCallbackListener;
@@ -813,6 +812,29 @@ public abstract class ContentManagerBase
 	
 	
 	
+//	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheTaggedBroadcastsWithFilterForSelectedTVDate() {
+//		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = getFromCacheTaggedBroadcastsForSelectedTVDate();
+//		
+//		ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
+//		ArrayList<TVBroadcastWithChannelInfo> sportBroadcasts = taggedBroadcastForDay.get("Sport");
+//		
+//		for (TVBroadcastWithChannelInfo tvBroadcast : sportBroadcasts) {
+//			List<String> tags = tvBroadcast.getProgram().getTags();
+//			
+//			for (String tag : tags) {
+//				
+//				if (tag.equals(Constants.FIFA_TAG_ID)) {
+//					broadcasts.add(tvBroadcast);
+//				}
+//			}
+//			
+//		}
+//		
+//		return broadcasts;
+//	}
+	
+	
+	
 	public Integer getFromCacheSelectedHour()
 	{
 		Integer selectedHour = getCache().getNonPersistentSelectedHour();
@@ -1067,11 +1089,33 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<TeamSquad> getFromCacheSquadByTeamID(long teamID)
+	public List<TeamSquad> getFromCacheSquadByTeamID(
+			final long teamID,
+			final boolean includeCoach)
 	{
-		List<TeamSquad> squad = getCache().getCompetitionsData().getSquadByTeamIDForSelectedCompetition(teamID);
+		List<TeamSquad> squadToReturn = new ArrayList<TeamSquad>();
 		
-		return squad;
+		List<TeamSquad> squadAll = getCache().getCompetitionsData().getSquadByTeamIDForSelectedCompetition(teamID);
+		
+		if(squadAll != null)
+		{
+			if(includeCoach == false)
+			{
+				for (TeamSquad squad : squadAll) 
+				{
+					if(squad.getPosition() != EventLineUpPosition.COACH) 
+					{
+						squadToReturn.add(squad);
+					}
+				}
+			}
+			else
+			{
+				squadToReturn = squadAll;
+			}
+		}
+		
+		return squadToReturn;
 	}
 	
 	
@@ -1107,45 +1151,6 @@ public abstract class ContentManagerBase
 		}
 		
 		return matchingEvent;
-	}
-	
-	
-	
-	public List<Event> getFromCacheNextUpcomingEventsForSelectedCompetition(boolean filterFinishedEvents, boolean filterLiveEvents, int limit) {
-		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
-		List<Event> eventsTrimmed = new ArrayList<Event>();
-		Event matchingEvent = null;
-		
-		if (events != null) {
-			
-			if (filterFinishedEvents) {
-				events = filterFinishedEvents(events);
-			}
-			
-			if (filterLiveEvents) {
-				events = filterLiveEvents(events);
-			}
-		
-			if (events.size() > limit) {
-				matchingEvent = events.get(0);
-				
-				for (int i = 0; i < limit; i++) {
-					
-					Event event = events.get(i);
-					
-					Calendar eventStartTimeCalendar = event.getEventDateCalendarLocal();
-					
-					if(eventStartTimeCalendar.after(matchingEvent.getEventDateCalendarLocal()) || eventStartTimeCalendar.equals(matchingEvent.getEventDateCalendarLocal()))
-					{
-						eventsTrimmed.add(events.get(i));
-					}
-				}
-				
-				return eventsTrimmed;
-			}
-		}
-		
-		return events;
 	}
 	
 	
@@ -1292,6 +1297,19 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	/**
+	 * Finds a competition containing the team. 
+	 * 
+	 * WARNING: May be inaccurate if team is in many competitions.
+	 * 
+	 * @param team
+	 * @return competition containing the team
+	 */
+	public Competition getFromCacheCompetitionByTeam(Team team) {
+		return getCache().getCompetitionsData().getCompetitionByTeam(team);
+	}
+	
+	
 	
 	public Phase getFromCachePhaseByIDForSelectedCompetition(long phaseID)
 	{
@@ -1390,7 +1408,7 @@ public abstract class ContentManagerBase
 		{
 			if (lineup.isInStartingLineUp() == false && 
 				lineup.getTeamId() == teamID.longValue() &&
-				lineup.isReferee() == false) 
+				lineup.getPosition() != EventLineUpPosition.REFEREE) 
 			{
 				lineups.add(lineup);
 			}
@@ -1413,7 +1431,7 @@ public abstract class ContentManagerBase
 		{
 			if (lineup.isInStartingLineUp() &&
 				lineup.getTeamId() == teamID.longValue() &&
-				lineup.isReferee() == false) 
+				lineup.getPosition() != EventLineUpPosition.REFEREE) 
 			{
 				lineups.add(lineup);
 			}

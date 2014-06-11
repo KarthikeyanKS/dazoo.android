@@ -17,7 +17,6 @@
             android:orientation="vertical" >
 
             <!-- ONGOING GAME -->
-
             <include
                 android:id="@+id/competition_event_block_container_layout"
                 android:layout_width="match_parent"
@@ -26,7 +25,6 @@
                 layout="@layout/block_competition_event_main_content" />
 
             <!-- HIGHLIGHTS -->
-
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_highlights_teams_container"
                 android:layout_width="match_parent"
@@ -113,16 +111,17 @@
                         android:maxLines="2" />
                 </RelativeLayout>
 
+                
                 <!-- LIST OF HIGHLIGHTS -->
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/competition_event_highlights_team_one_flag_container"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/grey0" >
+                    android:background="@color/grey0">
 
                     <LinearLayout
                         android:id="@+id/competition_event_highlights_table_container"
@@ -135,11 +134,11 @@
             </RelativeLayout>
 
             <!-- LINEUP -->
-
             <RelativeLayout
                 android:id="@+id/competition_event_block_tabs_lineup_teams_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

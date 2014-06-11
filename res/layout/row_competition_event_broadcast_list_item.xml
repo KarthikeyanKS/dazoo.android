@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
-    android:id="@+id/row_competition_broadcast_details_container"
+    android:id="@+id/row_competition_broadcast_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white" >
 
-    <!-- CHANNEL LOGO -->
-
-    <ImageView
-        android:id="@+id/competition_event_channel_logo"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"/>
-
-    <!-- DATE -->
-    <com.mitv.ui.elements.FontTextView
-        android:id="@+id/competition_event_full_date"
-        style="@style/remaining"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/row_competition_broadcast_details_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/competition_event_channel_logo"/>
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" >
 
-    
+        <!-- CHANNEL LOGO -->
+
+        <ImageView
+            android:id="@+id/competition_event_channel_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
+
+        <!-- DATE -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_event_full_date"
+            style="@style/remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/competition_event_channel_logo" />
+
+        <!-- OnGoing: time left -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/competition_event_time_left_ongoing"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp" />
+    </RelativeLayout>
+
     <!-- REMINDER VIEW -->
+
     <com.mitv.ui.elements.ReminderView
         android:id="@+id/competition_event_row_reminder_view"
         android:layout_width="wrap_content"
@@ -36,38 +54,35 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/background_color_selector" />
-    
-    <!-- OnGoing: time left -->
-    <com.mitv.ui.elements.FontTextView
-        android:id="@+id/competition_event_time_left_ongoing"
-        style="@style/meta2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"/>
+        android:background="@drawable/background_color_selector"
+        android:padding="5dp" />
 
-    <View
-        android:id="@+id/competition_event_broadcast_divider"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/competition_event_channel_logo"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey1" />
-    
-    <!-- PROGRESSBAR -->
-    <ProgressBar
-        android:id="@+id/competition_event_broadcast_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@id/competition_event_channel_logo"
-        android:progressDrawable="@drawable/progress_horizontal"
-        android:scaleY="0.5"/>
-    
+        android:layout_below="@id/row_competition_broadcast_details_container" >
+
+        <View
+            android:id="@+id/competition_event_broadcast_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:background="@color/grey1" />
+
+        <!-- PROGRESSBAR -->
+
+        <ProgressBar
+            android:id="@+id/competition_event_broadcast_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="-6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-6dp"
+            android:progressDrawable="@drawable/progress_horizontal"
+            android:scaleY="0.25" />
+    </RelativeLayout>
+
 </RelativeLayout>

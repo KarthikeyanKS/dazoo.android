@@ -87,8 +87,7 @@ public abstract class GenericUtils
 		
 		startShareActivity(activity, event.getShareUrl(), shareComment);
 
-		/* TODO Send sharing event to Google Analytics */
-//		TrackingGAManager.sharedInstance().sendUserSharedEvent(event);
+		TrackingGAManager.sharedInstance().sendUserSharedEvent(event);
 	}
 	
 	
@@ -102,8 +101,7 @@ public abstract class GenericUtils
 		String shareComment = sb.toString();
 		startShareActivity(activity, team.getShareUrl(), shareComment);
 
-		/* TODO Send sharing event to Google Analytics */
-//		TrackingGAManager.sharedInstance().sendUserSharedEvent(team);
+		TrackingGAManager.sharedInstance().sendUserSharedEvent(team);
 	}
 	
 	

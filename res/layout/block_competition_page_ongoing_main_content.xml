@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/red"
                     android:textSize="18sp" />
 
                 <!-- LIVE TIME IN GAME: XX' -->
@@ -74,7 +74,7 @@
                     android:layout_below="@id/competition_ongoing_live_standing"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/grey1"
+                    android:textColor="@color/red"
                     android:textSize="15sp" />
             </RelativeLayout>
 

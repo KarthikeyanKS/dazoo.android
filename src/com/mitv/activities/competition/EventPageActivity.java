@@ -7,16 +7,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -34,6 +33,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventBroadcastByStartTime;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -55,7 +55,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class EventPageActivity 
 extends BaseContentActivity
-implements ViewCallbackListener, FetchDataProgressCallbackListener 
+implements ViewCallbackListener, FetchDataProgressCallbackListener
 {
 	private static final String TAG = EventPageActivity.class.getName();
 
@@ -251,14 +251,16 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 
 
-	private void setAllAdapters() {
+	private void setAllAdapters() 
+	{
 		String homeTeam;
 		long homeTeamID;
 		String awayTeam;
 		long awayTeamID;
 		String phaseString;
 
-		if (event == null) {
+		if (event == null) 
+		{
 			homeTeam = "";
 			homeTeamID = 0l;
 			awayTeam = "";
@@ -305,9 +307,9 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		actionBar.setTitle(eventName.toString());
 
-		String homeTeamName = event.getHomeTeam();
+		final String homeTeamName = event.getHomeTeam();
 
-		String awayTeamName = event.getAwayTeam();
+		final String awayTeamName = event.getAwayTeam();
 
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
@@ -357,6 +359,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, homeTeamName, "Country");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
@@ -370,6 +373,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, homeTeamName, "Highlights");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
@@ -398,6 +402,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, awayTeamName, "Country");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
@@ -411,6 +416,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, awayTeamName, "Highlights");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
@@ -435,91 +441,182 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		groupHeader.setText(groupHeaderName);
 
-		EventMatchStatusEnum matchStatus = event.getMatchStatus();
-
-		switch(matchStatus)
-		{
-		case LINE_UP:
-		case NOT_STARTED_AND_LINE_UP:
-		case DELAYED:
-		{
-			lineupContainerLayout.setVisibility(View.VISIBLE);
-			highlightsContainerLayout.setVisibility(View.GONE);
-			break;
-		}
-
-		case NOT_STARTED:
-		case POSTPONED:
-		{
-			lineupContainerLayout.setVisibility(View.GONE);
-			highlightsContainerLayout.setVisibility(View.GONE);
-			break;
-		}
-
-		default:
-		{
-			lineupContainerLayout.setVisibility(View.VISIBLE);
-			highlightsContainerLayout.setVisibility(View.VISIBLE);
-			break;
-		}
-		}
-
 		String stadium = event.getStadium();
-		if (stadium != null && !stadium.isEmpty()) {
+		
+		if (stadium != null && !stadium.isEmpty()) 
+		{
 			stadiumName.setText(stadium);
 			stadiumName.setVisibility(View.VISIBLE);
 		}
 
 		String copyright = event.getStadiumImageCopyright();
-		if (copyright != null && !copyright.isEmpty()) {
-			stadiumImageCopyright.setText(copyright);
+		
+		if (copyright != null && !copyright.isEmpty()) 
+		{
+			StringBuilder sb = new StringBuilder();
+				
+			sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))
+				.append(" ")
+				.append(copyright);
+				
+			stadiumImageCopyright.setText(sb);
 			stadiumImageCopyright.setVisibility(View.VISIBLE);
 		}
 
 		String descriptionText = event.getDescription();
-		if (descriptionText != null && !descriptionText.isEmpty()) {
+		
+		if (descriptionText != null && !descriptionText.isEmpty()) 
+		{
 			description.setText(descriptionText);
 			description.setVisibility(View.VISIBLE);
 		}
 
-		boolean isOngoing = event.hasStarted();
-		boolean isFinished = event.isFinished();
+		EventMatchStatusEnum matchStatus = event.getMatchStatus();
 
-		/* The event is ongoing or finished */
-		if (isOngoing || isFinished)
+		/** Setting the visibility of the LineUp and Highlights **/
+		switch(matchStatus)
 		{
-			String score = event.getScoreAsString();
-
-			liveScore.setText(score);
-
-			String timeInGame = event.getGameTimeAndStatusAsString(true);
-
-			liveStatus.setText(timeInGame);
-
-			liveScore.setVisibility(View.VISIBLE);
-			liveStatus.setVisibility(View.VISIBLE);
-			beginTime.setVisibility(View.GONE);
-			beginTimeDate.setVisibility(View.GONE);
+			case LINE_UP:
+			case NOT_STARTED_AND_LINE_UP:
+			case DELAYED:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.GONE);
+				break;
+			}
+	
+			case NOT_STARTED:
+			case POSTPONED:
+			{
+				lineupContainerLayout.setVisibility(View.GONE);
+				highlightsContainerLayout.setVisibility(View.GONE);
+				break;
+			}
+	
+			case FINISHED:
+			default:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.VISIBLE);
+				break;
+			}
 		}
-
-		/* The event has not started yet */
-		else 
+		
+		/** Setting the visibility and values for the date, score and status **/
+		switch(matchStatus)
 		{
-			StringBuilder sb = new StringBuilder();
-			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+			case LINE_UP:
+			case NOT_STARTED_AND_LINE_UP:
+			case NOT_STARTED:
+			{
+				liveScore.setVisibility(View.GONE);
+				
+				liveStatus.setVisibility(View.GONE);
+				
+				String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 
-			beginTime.setText(eventStartTimeHourAndMinuteAsString);
+				beginTime.setText(eventStartTimeHourAndMinuteAsString);
+				beginTime.setVisibility(View.VISIBLE);
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append(event.getEventTimeDayOfTheWeekAsString())
+				.append(" ")
+				.append(event.getEventTimeDayAndMonthAsString());
 
-			sb.append(event.getEventTimeDayOfTheWeekAsString())
-			.append(" ")
-			.append(event.getEventTimeDayAndMonthAsString());
+				beginTimeDate.setText(sb.toString());
+				beginTimeDate.setVisibility(View.VISIBLE);
+				break;
+			}
+			
+			case DELAYED:
+			{
+				liveScore.setVisibility(View.GONE);
+				
+				liveStatus.setVisibility(View.GONE);
+				
+				String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+				
+				StringBuilder eventStartTimeHourAndMinuteSB = new StringBuilder();
+				eventStartTimeHourAndMinuteSB.append(eventStartTimeHourAndMinuteAsString)
+				.append(" (")
+				.append(getString(R.string.event_page_delayed))
+				.append(")");
 
-			beginTimeDate.setText(sb.toString());
+				beginTime.setText(eventStartTimeHourAndMinuteAsString);
+				beginTime.setVisibility(View.VISIBLE);
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append(event.getEventTimeDayOfTheWeekAsString())
+				.append(" ")
+				.append(event.getEventTimeDayAndMonthAsString());
 
-			liveScore.setVisibility(View.GONE);
-			liveStatus.setVisibility(View.GONE);
-			beginTime.setVisibility(View.VISIBLE);
-			beginTimeDate.setVisibility(View.VISIBLE);
+				beginTimeDate.setText(sb.toString());
+				beginTimeDate.setVisibility(View.VISIBLE);
+				break;
+			}
+	
+			case POSTPONED:
+			{
+				String score = event.getScoreAsString();
+
+				liveScore.setText(score);
+				liveScore.setVisibility(View.GONE);
+				liveScore.setTextColor(getResources().getColor(R.color.red));
+				
+				String timeAndStatus = event.getGameTimeAndStatusAsString(false);
+				
+				liveStatus.setText(timeAndStatus);
+				liveStatus.setVisibility(View.VISIBLE);
+				liveStatus.setTextColor(getResources().getColor(R.color.red));
+				
+				beginTime.setVisibility(View.GONE);
+				beginTimeDate.setVisibility(View.GONE);
+				break;
+			}
+			
+			case IN_PROGRESS:
+			{
+				String score = event.getScoreAsString();
+
+				liveScore.setText(score);
+				liveScore.setVisibility(View.VISIBLE);
+				liveScore.setTextColor(getResources().getColor(R.color.red));
+				
+				String timeAndStatus = event.getGameTimeAndStatusAsString(true);
+				
+				liveStatus.setText(timeAndStatus);
+				liveStatus.setVisibility(View.VISIBLE);
+				liveStatus.setTextColor(getResources().getColor(R.color.red));
+				
+				beginTime.setVisibility(View.GONE);
+				beginTimeDate.setVisibility(View.GONE);
+				break;
+			}
+			
+			case INTERVAL:
+			case FINISHED:
+			case ABANDONED:
+			case SUSPENDED:
+			case NO_LIVE_UPDATES:
+			case UNOFFICIAL_RESULT:
+			default:
+			{
+				String score = event.getScoreAsString();
+
+				liveScore.setText(score);
+				liveScore.setVisibility(View.VISIBLE);
+				liveScore.setTextColor(getResources().getColor(R.color.grey2));
+				
+				String timeInGame = event.getGameTimeAndStatusAsString(false);
+				
+				liveStatus.setText(timeInGame);
+				liveStatus.setVisibility(View.VISIBLE);
+				liveStatus.setTextColor(getResources().getColor(R.color.grey2));
+				
+				beginTime.setVisibility(View.GONE);
+				beginTimeDate.setVisibility(View.GONE);
+				break;
+			}
 		}
 
 		long competitionID = event.getCompetitionId();
@@ -541,6 +638,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 	}
 
 
+	
 	@Override
 	public void onClick(View v) 
 	{
@@ -553,21 +651,21 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		switch (viewId) 
 		{
-		case R.id.competition_element_social_buttons_share_button_container: 
-		{
-			GenericUtils.startShareActivity(this, shareEvent);
-			break;
-		}
-		default: 
-		{
-			Log.w(TAG, "Unhandled onClick action");
-			break;
-		}
+			case R.id.competition_element_social_buttons_share_button_container: 
+			{
+				GenericUtils.startShareActivity(this, shareEvent);
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unhandled onClick action");
+				break;
+			}
 		}
 	}
-
-
-
+	
+	
 
 	private void initLayout()
 	{
@@ -637,6 +735,13 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				}
 			}
 		}
+		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionName);
+			}
+		});
 	}
 
 
@@ -677,6 +782,20 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		pageTabIndicatorForLineupTeams.setInitialStyleOnAllTabs();
 		pageTabIndicatorForLineupTeams.setStyleOnTabViewAtIndex(selectedIndex);
+		pageTabIndicatorForLineupTeams.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int pos) {
+				selectedTabIndexForLineupTeams = pos;
+				TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competitionName, pagerAdapterForLineupTeams.getPageTitle(pos).toString());
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {}
+		});
 	}
 
 
@@ -902,6 +1021,16 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		{
 			public void run() 
 			{
+				String type = null;
+				if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION) {
+					type = "Standings";
+				}
+				else if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) {
+					type = "Schedule";
+				}
+				
+				TrackingGAManager.sharedInstance().sendUserCompetitionViewAllLinkPressedEvent(type);
+				
 				Intent intent = new Intent(EventPageActivity.this, CompetitionPageActivity.class);
 
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
