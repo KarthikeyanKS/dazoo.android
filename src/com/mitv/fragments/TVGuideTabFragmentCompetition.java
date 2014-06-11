@@ -31,7 +31,6 @@ import com.mitv.enums.TVGuideTabTypeEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.EventCountDownTimer;
@@ -389,8 +388,6 @@ public class TVGuideTabFragmentCompetition
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 			
 			countDownAreaContainer.setVisibility(View.VISIBLE);
-			
-			listView.setVisibility(View.GONE);
 			
 			competitionBannerLayout.setBackgroundColor(activity.getResources().getColor(R.color.white));
 		
