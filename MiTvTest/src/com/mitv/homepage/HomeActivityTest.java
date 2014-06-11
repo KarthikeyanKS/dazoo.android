@@ -47,8 +47,10 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
 		
 		
 		solo.scrollToSide(solo.RIGHT, (float) 0.9);
-		assertTrue(solo.getText("Series").isSelected());
+		assertTrue(solo.getText("Mundial").isSelected());
 		
+		solo.scrollToSide(solo.RIGHT, (float) 0.9);
+		assertTrue(solo.getText("Series").isSelected());
 		
 		solo.scrollToSide(solo.RIGHT, (float) 0.9);
 		assertTrue(solo.getText("Deportes").isSelected());
