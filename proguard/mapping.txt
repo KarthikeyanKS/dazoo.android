@@ -38893,26 +38893,6 @@ com.mitv.models.gson.mitvapi.competitions.PhaseJSON -> com.mitv.models.gson.mitv
     63:63:boolean isCurrents() -> isCurrents
     69:69:java.lang.String getStartDate() -> getStartDate
     75:75:java.lang.String getEndDate() -> getEndDate
-com.mitv.models.gson.mitvapi.competitions.PollJSON -> com.mitv.models.gson.mitvapi.competitions.PollJSON:
-    java.lang.String TAG -> TAG
-    java.lang.String pollId -> pollId
-    java.lang.String contentType -> contentType
-    java.lang.String contentId -> contentId
-    int voteOptions -> voteOptions
-    boolean isClosed -> isClosed
-    25:25:java.lang.String getPollId() -> getPollId
-    32:32:java.lang.String getContentType() -> getContentType
-    39:39:java.lang.String getContentId() -> getContentId
-    46:46:int getVoteOptions() -> getVoteOptions
-    52:52:boolean isClosed() -> isClosed
-com.mitv.models.gson.mitvapi.competitions.PollVoteJSON -> com.mitv.models.gson.mitvapi.competitions.PollVoteJSON:
-    java.lang.String TAG -> TAG
-    java.lang.String pollId -> pollId
-    int voteSelection -> voteSelection
-    java.lang.String voteDate -> voteDate
-    23:23:java.lang.String getPollId() -> getPollId
-    29:29:int getVoteSelection() -> getVoteSelection
-    35:35:java.lang.String getVoteDate() -> getVoteDate
 com.mitv.models.gson.mitvapi.competitions.StandingsJSON -> com.mitv.models.gson.mitvapi.competitions.StandingsJSON:
     java.lang.String TAG -> TAG
     long competitionId -> competitionId
@@ -39345,8 +39325,6 @@ com.mitv.models.objects.mitvapi.competitions.Phase -> com.mitv.models.objects.mi
     java.lang.String TAG -> TAG
     24:30:int hashCode() -> hashCode
     38:60:boolean equals(java.lang.Object) -> equals
-com.mitv.models.objects.mitvapi.competitions.Poll -> com.mitv.models.objects.mitvapi.competitions.Poll:
-com.mitv.models.objects.mitvapi.competitions.PollVote -> com.mitv.models.objects.mitvapi.competitions.PollVote:
 com.mitv.models.objects.mitvapi.competitions.Standings -> com.mitv.models.objects.mitvapi.competitions.Standings:
     java.lang.String TAG -> TAG
     23:23:int getGoalsForMinusGoalsAgainst() -> getGoalsForMinusGoalsAgainst
