@@ -453,7 +453,13 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		
 		if (copyright != null && !copyright.isEmpty()) 
 		{
-			stadiumImageCopyright.setText(copyright);
+			StringBuilder sb = new StringBuilder();
+				
+			sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))
+				.append(" ")
+				.append(copyright);
+				
+			stadiumImageCopyright.setText(sb);
 			stadiumImageCopyright.setVisibility(View.VISIBLE);
 		}
 

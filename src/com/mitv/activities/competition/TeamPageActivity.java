@@ -354,8 +354,10 @@ public class TeamPageActivity
 			/* photo credit */
 			String credit = team.getTeamImageCopyright();
 			
-			if (credit != null && !credit.isEmpty()) {
+			if (credit != null && !credit.isEmpty()) 
+			{
 				StringBuilder sb = new StringBuilder();
+				
 				sb.append(this.getResources().getString(R.string.team_page_team_photo_from_header))
 					.append(" ")
 					.append(team.getTeamImageCopyright());

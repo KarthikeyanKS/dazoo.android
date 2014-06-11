@@ -1,14 +1,17 @@
+
 package com.mitv.enums;
 
-import com.google.gson.annotations.SerializedName;
 
-public enum UserTutorialStatusEnum {
 
+public enum UserTutorialStatusEnum 
+{
 	NEVER_SEEN_TUTORIAL(0),
 	
 	SEEN_ONCE(1),
 	
 	NEVER_SHOW_AGAIN(2);
+
+	
 	
 	private final int id;
 	
@@ -41,5 +44,4 @@ public enum UserTutorialStatusEnum {
 
 		return UserTutorialStatusEnum.NEVER_SEEN_TUTORIAL;
 	}
-	
 }

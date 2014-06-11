@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.internal.m;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -29,7 +28,6 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -71,6 +69,7 @@ public class CompetitionPageActivity
 	private TextView remainingTimeInHoursTitle;
 	private TextView remainingTimeInMinutes;
 	private TextView remainingTimeInMinutesTitle;
+	private TextView countdownTitle;
 	private RelativeLayout nextGameLayout;
 	private TextView nextGameText;
 	private TextView eventStartTime;
@@ -235,7 +234,9 @@ public class CompetitionPageActivity
 					remainingTimeInMinutes,
 					remainingTimeInDaysTitle,
 					remainingTimeInHoursTitle,
-					remainingTimeInMinutesTitle);
+					remainingTimeInMinutesTitle,
+					countdownTitle,
+					countDownLayout);
 			
 			eventCountDownTimer.start();
 			
@@ -658,6 +659,7 @@ public class CompetitionPageActivity
 		remainingTimeInHoursTitle = (TextView) findViewById(R.id.competition_hours_title);
 		remainingTimeInMinutes = (TextView) findViewById(R.id.competition_minutes_number);
 		remainingTimeInMinutesTitle = (TextView) findViewById(R.id.competition_minutes_title);
+		countdownTitle = (TextView) findViewById(R.id.competition_title);
 		
 		/* Before */
 		beforeLayout = (LinearLayout) findViewById(R.id.competition_page_before_block_container_layout);

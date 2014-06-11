@@ -3,9 +3,7 @@ package com.mitv.adapters.list;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,19 +14,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.activities.ChannelPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.managers.ContentManager;
-import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 
@@ -43,7 +37,6 @@ public class RemindersListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private List<Notification> notifications;
-	private int	currentPosition;
 
 
 
@@ -52,8 +45,6 @@ public class RemindersListAdapter
 		this.notifications = notifications;
 
 		this.activity = activity;
-
-		this.currentPosition = -1;
 	}
 
 
@@ -269,8 +260,6 @@ public class RemindersListAdapter
 				@Override
 				public void onClick(View v)
 				{
-					currentPosition = (Integer) v.getTag();
-
 					DialogHelper.showRemoveNotificationDialog(activity, element, confirmRemoval(), null);
 				}
 			});

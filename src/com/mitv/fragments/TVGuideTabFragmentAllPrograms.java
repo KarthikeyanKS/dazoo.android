@@ -29,7 +29,6 @@ import com.mitv.models.objects.mitvapi.TVTag;
 public class TVGuideTabFragmentAllPrograms
 	extends TVGuideTabFragment
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTabFragmentAllPrograms.class.getName();
 	
 	

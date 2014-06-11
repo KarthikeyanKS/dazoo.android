@@ -31,7 +31,6 @@ import com.mitv.utilities.GenericUtils;
 public class TVGuideTabFragmentBroadcast
 	extends TVGuideTabFragment 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTabFragmentBroadcast.class.getName();
 
 	// TODO - Hardcoded

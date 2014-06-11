@@ -405,7 +405,9 @@ public class TVGuideTabFragmentCompetition
 					remainingTimeInMinutes,
 					remainingTimeInDaysTitle,
 					remainingTimeInHoursTitle,
-					remainingTimeInMinutesTitle);
+					remainingTimeInMinutesTitle,
+					title,
+					countDownLayout);
 				
 			eventCountDownTimer.start();
 		}
