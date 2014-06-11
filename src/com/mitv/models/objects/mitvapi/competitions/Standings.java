@@ -17,15 +17,16 @@ public class Standings
 	public Standings(){}
 	
 	
+	
 	public int getGoalsForMinusGoalsAgainst()
 	{
-		return goalsFor - goalsAgainst;
+		return getGoalsFor() - getGoalsAgainst();
 	}
 	
 	
 	
 	public boolean isTheSamePhaseAs(Standings element)
 	{
-		return this.phase.equalsIgnoreCase(element.phase);
+		return getPhase().equalsIgnoreCase(element.getPhase());
 	}
 }

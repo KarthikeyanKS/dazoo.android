@@ -26,11 +26,10 @@ public class Event
 	private static final String TAG = Event.class.getName();
 	
 	
-	protected Calendar eventCalendar;
+	private Calendar eventCalendar;
 	
 	
-	public Event()
-	{}
+	public Event(){}
 	
 	
 	
@@ -38,9 +37,9 @@ public class Event
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(homeTeam)
+		sb.append(getHomeTeam())
 		.append(" - ")
-		.append(awayTeam);
+		.append(getAwayTeam());
 		
 		return sb.toString();
 	}
@@ -49,7 +48,7 @@ public class Event
 	
 	public EventMatchStatusEnum getMatchStatus()
 	{
-		return EventMatchStatusEnum.getTypeEnumFromCode(matchStatusId);
+		return EventMatchStatusEnum.getTypeEnumFromCode(getMatchStatusId());
 	}
 	
 	
@@ -58,7 +57,7 @@ public class Event
 	{
 		List<EventBroadcast> list = new ArrayList<EventBroadcast>();
 		
-		for (EventBroadcastJSON ev : broadcasts) 
+		for (EventBroadcastJSON ev : getBroadcasts()) 
 		{
 			EventBroadcast element = new EventBroadcast(ev);
 			list.add(element);
@@ -73,7 +72,7 @@ public class Event
 	{
 		EventBroadcast data = null;
 		
-		for (EventBroadcastJSON ev : broadcasts) 
+		for (EventBroadcastJSON ev : getBroadcasts()) 
 		{
 			boolean matchesBeginTimeMilliseconds = (ev.getBeginTimeMillis() == beginTimeMillis);
 			
@@ -95,7 +94,7 @@ public class Event
 		
 		sb.append(Constants.EVENT_STADIUM_IMAGE_PATH);
 		sb.append(Constants.FORWARD_SLASH);
-		sb.append(stadiumId);
+		sb.append(getStadiumId());
 		sb.append(Constants.EVENT_STADIUM_IMAGE_SIZE_LARGE);
 		sb.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
 		
@@ -107,37 +106,70 @@ public class Event
 	public String getGameTimeAndStatusAsString(boolean includeIcon)
 	{
 		StringBuilder sb = new StringBuilder();
-		
+
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+
+		EventMatchStatusEnum matchStatus = getMatchStatus();
 		
-		if(finished == false && postponed == false)
+		switch(matchStatus) 
 		{
-			if(includeIcon)
-			{	
-				sb.append(context.getResources().getString(R.string.icon_time_is_ongoing))
-				.append(" ");
+			default:
+			case FINISHED:
+			{
+				sb.append(context.getResources().getString(R.string.event_page_completed));
+				
+				break;
+			}
+		
+			case IN_PROGRESS:
+			{
+				if(includeIcon)
+				{	
+					sb.append(context.getResources().getString(R.string.icon_time_is_ongoing))
+					.append(" ");
+				}
+				
+				sb.append(getCurrentMinute());
+				
+				break;
 			}
 			
-			Calendar now = DateUtils.getNowWithGMTTimeZone();
-			
-			Integer gameMinutes = DateUtils.calculateDifferenceBetween(getEventDateCalendarGMT(), now, Calendar.MINUTE, false, 0);
-			
-			if(abandoned)
+			case INTERVAL:
 			{
-				sb.append(gameMinutes)
-				.append(" ")
-				.append(context.getResources().getString(R.string.event_page_abandoned));
+				sb.append(context.getResources().getString(R.string.event_page_halftime));
+				
+				break;
 			}
-			else
+
+			case ABANDONED:
 			{
-				sb.append(gameMinutes);
+				sb.append(context.getResources().getString(R.string.event_page_abandoned));
+				
+				break;
+			}
+			
+			case SUSPENDED:
+			{
+				sb.append(context.getResources().getString(R.string.event_page_suspended));
+				
+				break;
+			}
+			
+			case POSTPONED:
+			{
+				sb.append(context.getResources().getString(R.string.event_page_postponed));
+				
+				break;
+			}
+			
+			case DELAYED:
+			{
+				sb.append(context.getResources().getString(R.string.event_page_delayed));
+				
+				break;
 			}
 		}
-		else
-		{
-			sb.append(context.getResources().getString(R.string.event_page_completed));
-		}
-		
+				
 		return sb.toString();
 	}
 	
@@ -145,14 +177,14 @@ public class Event
 	
 	public boolean containsBroadcastDetails()
 	{
-		return (broadcasts != null && broadcasts.isEmpty() == false);
+		return (getBroadcasts().isEmpty() == false);
 	}
 	
 	
 	
 	public boolean containsTeamInfo()
 	{
-		if(homeTeamId == 0 || awayTeamId == 0)
+		if(getHomeTeamId() == 0 || getAwayTeamId() == 0)
 		{
 			return false;
 		}
@@ -168,9 +200,9 @@ public class Event
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(homeGoals);
+		sb.append(getHomeGoals());
 		sb.append(" - ");
-		sb.append(awayGoals);
+		sb.append(getAwayGoals());
 		
 		return sb.toString();
 	}
@@ -182,7 +214,7 @@ public class Event
 	 */
 	public Calendar getEventDateCalendarGMT()
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(eventDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(getEventDate());
 		
 		return beginTimeCalendarGMT;
 	}
@@ -278,7 +310,7 @@ public class Event
 		
 		int result = 1;
 		
-		result = prime * result + (int) eventId;
+		result = prime * result + (int) getEventId();
 		
 		return result;
 	}
@@ -305,7 +337,7 @@ public class Event
 		
 		Event other = (Event) obj;
 		
-		if (eventId != other.eventId) 
+		if (getEventId() != other.getEventId()) 
 		{
 			return false;
 		}
@@ -325,7 +357,7 @@ public class Event
 	{
 		boolean isSamePhase = false;
 		
-		if (this.phaseId == other.getPhaseId()) 
+		if (getPhaseId() == other.getPhaseId()) 
 		{
 			isSamePhase = true;
 		}

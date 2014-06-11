@@ -24,15 +24,12 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
@@ -300,14 +297,14 @@ public abstract class BannerListAdapter<T>
 					
 					viewHolder.competitionBannerFrameLayout.setVisibility(View.VISIBLE);
 				
-					if(Constants.FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER == false)
-					{
-						String imageUrl = competition.getBanner().getImageURLForDeviceDensityDPI();
-						
-						ImageAware imageAware = new ImageViewAware(viewHolder.competitionBannerView, false);
-		
-						SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithDefaultOptions(imageUrl, imageAware);
-					}
+//					if(Constants.FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER == false)
+//					{
+//						String imageUrl = competition.getBanner().getImageURLForDeviceDensityDPI();
+//						
+//						ImageAware imageAware = new ImageViewAware(viewHolder.competitionBannerView, false);
+//		
+//						SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithDefaultOptions(imageUrl, imageAware);
+//					}
 					
 					viewHolder.competitionBannerFrameLayout.setOnClickListener(new View.OnClickListener() 
 					{

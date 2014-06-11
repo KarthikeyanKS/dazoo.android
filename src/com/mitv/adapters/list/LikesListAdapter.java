@@ -174,7 +174,7 @@ public class LikesListAdapter
 					
 					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 					
-					CompetitionCategoryEnum competitionCategory = competition.getCompetitionCategory();
+					CompetitionCategoryEnum competitionCategory = competition.getCategory();
 					
 					String displayCompetitionType;
 					

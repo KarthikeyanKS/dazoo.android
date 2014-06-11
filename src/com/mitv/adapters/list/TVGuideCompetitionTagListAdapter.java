@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -21,9 +22,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
-import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
-import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -34,77 +33,78 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class TVGuideTagListAdapter 
-	extends BannerListAdapter<TVBroadcastWithChannelInfo> 
+public class TVGuideCompetitionTagListAdapter 
+	extends BaseAdapter
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = TVGuideTagListAdapter.class.getName();
+	private static final String TAG = TVGuideCompetitionTagListAdapter.class.getName();
 
-	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
-	private int currentPosition;
-
 	
 	
-	public TVGuideTagListAdapter(
+	public TVGuideCompetitionTagListAdapter(
 			final Activity activity, 
 			final String fragmentName, 
 			final ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, 
-			final int currentPosition,
-			final boolean showCompetitionsBanner) 
+			final int currentPosition) 
 	{
-		super(fragmentName, activity, taggedBroadcasts, Constants.AD_UNIT_ID_GUIDE_ACTIVITY, showCompetitionsBanner);
+		super();
 		
 		this.taggedBroadcasts = taggedBroadcasts;
 		
 		this.activity = activity;
 		
-		this.currentPosition = currentPosition;
+		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+	
+
+	
+	@Override
+	public int getCount()
+	{
+		int count = 0;
+		
+		if (taggedBroadcasts != null) 
+		{
+			count = taggedBroadcasts.size();
+		}
+		
+		return count;
 	}
 
 	
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
+	public TVBroadcastWithChannelInfo getItem(int position) 
 	{
-		/* Superclass AdListAdapter will create view if this is a position of an ad. */
-		View rowView = super.getView(position, convertView, parent);
-
-		if (rowView == null)
+		TVBroadcastWithChannelInfo broadcastWithChannelInfo = null;
+		
+		if (taggedBroadcasts != null)
 		{
-			BannerViewType viewType = getBannerViewType(position);
-			
-			switch (viewType) 
-			{
-				case BANNER_VIEW_TYPE_STANDARD: 
-				{
-					rowView = getViewForBroadCastCell(position, convertView, parent);
-					break;
-				}
-				
-				default:
-				{
-					// Do nothing
-					break;
-				}
-			}
+			broadcastWithChannelInfo = taggedBroadcasts.get(position);
 		}
-
-		return rowView;
+		
+		return broadcastWithChannelInfo;
 	}
 
 	
 	
-	private View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) 
+	@Override
+	public long getItemId(int arg0) 
+	{
+		return -1;
+	}
+
+	
+	
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) 
 	{
 		View rowView = convertView;
-
-		// Get the item with the displacement depending on the scheduled time on air
-		int indexForBroadcast = currentPosition + position;
 		
-		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
 
 		if (rowView == null) 
 		{
@@ -158,78 +158,15 @@ public class TVGuideTagListAdapter
 			
 			StringBuilder descriptionSB = new StringBuilder();
 			
-			if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
+			if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
 			{
-				if(broadcastWithChannelInfo.isPopular())
-				{
-					String stringIconTrending = activity.getString(R.string.icon_trending);
-					
-					titleSB.append(stringIconTrending)
-					.append(" ");
-				}
+				titleSB.append(activity.getString(R.string.icon_live))
+				.append(" ");
 			}
-			
-			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
 
-			switch (programType) 
-			{
-				case MOVIE: 
-				{
-					titleSB.append(activity.getString(R.string.icon_movie))
-					.append(" ");
-					
-					holder.mTitleTv.setText(titleSB.toString());
-					
-					descriptionSB.append(broadcastWithChannelInfo.getProgram().getGenre())
-					.append(" ")
-					.append(broadcastWithChannelInfo.getProgram().getYear());
-					
-					break;
-				}
-				
-				case TV_EPISODE: 
-				{
-					String seasonAndEpisodeString = broadcastWithChannelInfo.buildSeasonAndEpisodeString();
-					
-					descriptionSB.append(seasonAndEpisodeString);
-					
-					break;
-				}
-				
-				case SPORT: 
-				{
-					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
-					{
-						titleSB.append(activity.getString(R.string.icon_live))
-						.append(" ");
-					}
-	
-					descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
-					.append(": ")
-					.append(broadcastWithChannelInfo.getProgram().getTournament());
-					
-					break;
-				}
-				
-				case OTHER: 
-				{
-					if (broadcastWithChannelInfo.getBroadcastType() == BroadcastTypeEnum.LIVE) 
-					{
-						titleSB.append(activity.getString(R.string.icon_live))
-						.append(" ");
-					}
-					
-					descriptionSB.append(broadcastWithChannelInfo.getProgram().getCategory());
-					
-					break;
-				}
-				
-				default: 
-				{
-					// Do nothing
-					break;
-				}
-			}
+			descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
+			.append(": ")
+			.append(broadcastWithChannelInfo.getProgram().getTournament());
 			
 			titleSB.append(broadcastWithChannelInfo.getTitle());
 			
@@ -248,15 +185,14 @@ public class TVGuideTagListAdapter
 				
 				/* FIFA - Navigation to event page */
 				ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
-
-				if (tags != null && !tags.isEmpty()) 
-				{
-					for (int i = 0; i < tags.size(); i++) 
-					{
-						if (tags.get(i).equals(Constants.FIFA_TAG_ID)) 
-						{
+				
+				if (tags != null && !tags.isEmpty()) {
+					
+					for (int i = 0; i < tags.size(); i++) {
+						
+						if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
 							long eventId = broadcastWithChannelInfo.getEventId();
-
+							
 							/*
 							 * WARNING WARNING WARNING
 							 * 
@@ -264,17 +200,16 @@ public class TVGuideTagListAdapter
 							 * 
 							 */
 							Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
-
+							
 							/* Changing the already existing intent to competition event page */
 							intent = new Intent(activity, EventPageActivity.class);
-
+							
 							intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-
+							
 							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-
-							intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+							
+			                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 						}
-
 					}
 				}
 				
@@ -284,7 +219,7 @@ public class TVGuideTagListAdapter
 		
 		return rowView;
 	}
-
+	
 	
 	
 	private static class ViewHolder 
@@ -298,42 +233,5 @@ public class TVGuideTagListAdapter
 		private TextView mTimeLeftTv;
 		private ProgressBar mDurationPb;
 	}
-
 	
-	
-	@Override
-	public int getCount() 
-	{
-		if (taggedBroadcasts != null) 
-		{
-			return taggedBroadcasts.size() - currentPosition;
-		} 
-		else 
-		{
-			return 0;
-		}
-	}
-
-	
-	
-	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) 
-	{
-		if (taggedBroadcasts != null) 
-		{
-			return taggedBroadcasts.get(position);
-		} 
-		else 
-		{
-			return null;
-		}
-	}
-
-	
-	
-	@Override
-	public long getItemId(int arg0) 
-	{
-		return -1;
-	}
 }

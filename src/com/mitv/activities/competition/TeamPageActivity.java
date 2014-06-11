@@ -3,7 +3,6 @@ package com.mitv.activities.competition;
 
 
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +31,7 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.comparators.TeamSquadComparatorByPositionANdShirtNumber;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
@@ -408,9 +408,9 @@ public class TeamPageActivity
 	{
 		squadListContainer.removeAllViews();
 		
-		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID);
+		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID, false);
 		
-		filterCoachFromSquad();
+		Collections.sort(teamSquads, new TeamSquadComparatorByPositionANdShirtNumber());
 		
 		squadListAdapter = new CompetitionTeamSquadsTeamsListAdapter(this, teamSquads);
 		
@@ -431,25 +431,6 @@ public class TeamPageActivity
 				
 			}
 		});
-	}
-	
-	
-	
-	private void filterCoachFromSquad() {
-		List<TeamSquad> squadsToRemove = new ArrayList<TeamSquad>();
-		
-		if (teamSquads != null) {
-			
-			for (TeamSquad squad : teamSquads) {
-				if (squad.getFunction().equals(Constants.FUNCTION_COACH)) {
-					squadsToRemove.add(squad);
-				}
-			}
-			
-			if (squadsToRemove != null && !squadsToRemove.isEmpty()) {
-				teamSquads.removeAll(squadsToRemove);
-			}
-		}
 	}
 	
 	

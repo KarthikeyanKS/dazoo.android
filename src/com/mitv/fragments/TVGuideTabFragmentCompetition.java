@@ -3,7 +3,8 @@ package com.mitv.fragments;
 
 
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,9 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
-import com.mitv.adapters.list.CompetitionTagListAdapter;
+import com.mitv.adapters.list.TVGuideCompetitionTagListAdapter;
+import com.mitv.adapters.list.TVGuideListAdapter;
+import com.mitv.asynctasks.other.RemoveAlreadyEndedBroadcastsTask;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.TVGuideTabTypeEnum;
@@ -29,8 +32,8 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
-import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
 
@@ -44,10 +47,14 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	private Competition competition;
-	
 	private long competitionID;
-	
+	private LinearLayout listView;
+	private TVGuideListAdapter listAdapter;
+	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
+	private TVGuideCompetitionTagListAdapter tvTagListAdapter;
 	private EventCountDownTimer eventCountDownTimer;
+	private boolean isOngoing;
+	private boolean hasEnded;
 	
 	private RelativeLayout countDownLayout;
 	private RelativeLayout countDownAreaContainer;
@@ -59,9 +66,6 @@ public class TVGuideTabFragmentCompetition
 	private TextView remainingTimeInMinutesTitle;
 	private TextView title;
 	private RelativeLayout competitionGoToScheduleLayout;
-	
-	private LinearLayout listContainerLayout;
-	private CompetitionTagListAdapter listAdapter;
 	
 	private RelativeLayout competitionBannerLayout;
 	
@@ -80,8 +84,6 @@ public class TVGuideTabFragmentCompetition
 		super(new Long(competitionID).toString(), competitionDisplayName, TVGuideTabTypeEnum.COMPETITION);
 
 		this.competitionID = competitionID;
-		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 	}
 	
 	
@@ -96,9 +98,15 @@ public class TVGuideTabFragmentCompetition
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		
 		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
 		
 		initView();
+		
+		isOngoing = false;
 		
         learnMoreButton.setOnClickListener(new View.OnClickListener() 
         {
@@ -177,11 +185,13 @@ public class TVGuideTabFragmentCompetition
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		/* Always re-fetch the data from the service */
-//		boolean forceRefreshOfCompetitionInitialData = true;
-		boolean forceRefreshOfCompetitionInitialData = false;
+		taggedBroadcasts = null;
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefreshOfCompetitionInitialData, getCompetition().getCompetitionId());
+		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefresh, getCompetition().getCompetitionId());
 	}
 	
 	
@@ -197,7 +207,9 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		boolean hasEnoughData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		
+		return hasEnoughData;
 	}
 	
 	
@@ -207,9 +219,40 @@ public class TVGuideTabFragmentCompetition
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		} 
-		else 
+			Competition currentCompetition = getCompetition();
+			
+			boolean hasBegun = currentCompetition.hasBegun();
+			hasEnded = currentCompetition.hasEnded();
+			boolean isVisible = currentCompetition.isVisible();
+			
+			isOngoing = hasBegun && !hasEnded && isVisible;
+			
+			boolean noContent = true;
+			
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
+				
+			if(taggedBroadcastForDay != null) 
+			{
+				/* Just filtering by tag: FIFA
+				 * Not: Mundial FIFA, does not work */
+				taggedBroadcasts = taggedBroadcastForDay.get(Constants.FIFA_TAG_ID);
+	
+				if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) 
+				{
+					noContent = false;
+				}
+			}
+			
+			if(noContent) 
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+			} 
+			else 
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			}
+		}
+		else
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}
@@ -227,6 +270,9 @@ public class TVGuideTabFragmentCompetition
 			case SUCCESS_WITH_CONTENT:
 			{
 				setData();
+				
+				clearContentOnTagAndReload();
+				
 				break;
 			}
 			
@@ -237,11 +283,6 @@ public class TVGuideTabFragmentCompetition
 			}
 		}
 	}
-	
-	
-	
-	@Override
-	public void onTimeChange(int hour){}
 	
 	
 	
@@ -287,7 +328,7 @@ public class TVGuideTabFragmentCompetition
 		
 		competitionGoToScheduleLayout = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
 		
-		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_tag_list_events);
+		listView =  (LinearLayout) rootView.findViewById(R.id.competition_tag_list_events);
 	}
 	
 	
@@ -307,15 +348,7 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	private void setData()
-	{
-		Competition currentCompetition = getCompetition();
-		
-		boolean hasBegun = currentCompetition.hasBegun();
-		boolean hasEnded = currentCompetition.hasEnded();
-		boolean isVisible = currentCompetition.isVisible();
-		
-		boolean isOngoing = hasBegun && !hasEnded && isVisible;
-		
+	{		
 		if (isOngoing)
 		{
 			title.setText("");
@@ -333,13 +366,11 @@ public class TVGuideTabFragmentCompetition
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 			
 			countDownAreaContainer.setVisibility(View.GONE);
-			
-			setListOfEvents();
 		}
 		
 		else if (hasEnded) 
 		{
-			// TODO
+			// TODO ?
 		}
 		else
 		{
@@ -359,7 +390,7 @@ public class TVGuideTabFragmentCompetition
 			
 			countDownAreaContainer.setVisibility(View.VISIBLE);
 			
-			listContainerLayout.setVisibility(View.GONE);
+			listView.setVisibility(View.GONE);
 			
 			competitionBannerLayout.setBackgroundColor(activity.getResources().getColor(R.color.white));
 		
@@ -384,25 +415,36 @@ public class TVGuideTabFragmentCompetition
 	}
 	
 	
-	private void setListOfEvents() 
+	
+	@Override
+	public void onTimeChange(int hour)
 	{
-		boolean filterFinishedEvents = true;
-		boolean filterLiveEvents = false;
-		int limit = 2;
-		
-		List<Event> events = ContentManager.sharedInstance().getFromCacheNextUpcomingEventsForSelectedCompetition(filterFinishedEvents, filterLiveEvents, limit);
-		
-		listContainerLayout.removeAllViews();
-
-		listAdapter = new CompetitionTagListAdapter(activity, events, false, null, null);
-		
-		for (int i = 0; i < listAdapter.getCount(); i++) 
+		if (listAdapter != null) 
 		{
-            View listItem = listAdapter.getView(i, null, listContainerLayout);
+			listAdapter.refreshList(hour);
+		}
+	}
+	
+	
+	
+	protected void clearContentOnTagAndReload() 
+	{
+		int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
+
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex);
+		removeAlreadyEndedBroadcastsTask.run();
+		
+		listView.removeAllViews();
+		
+		tvTagListAdapter = new TVGuideCompetitionTagListAdapter(activity, Constants.FIFA_TAG_ID, taggedBroadcasts, startIndex);
+			
+		for (int i = 0; i < tvTagListAdapter.getCount(); i++) 
+		{
+            View listItem = tvTagListAdapter.getView(i, null, listView);
            
             if (listItem != null) 
             {
-            	listContainerLayout.addView(listItem);
+            	listView.addView(listItem);
             }
         }
 	}

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -253,14 +251,16 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 
 
-	private void setAllAdapters() {
+	private void setAllAdapters() 
+	{
 		String homeTeam;
 		long homeTeamID;
 		String awayTeam;
 		long awayTeamID;
 		String phaseString;
 
-		if (event == null) {
+		if (event == null) 
+		{
 			homeTeam = "";
 			homeTeamID = 0l;
 			awayTeam = "";
@@ -441,8 +441,33 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		groupHeader.setText(groupHeaderName);
 
+		String stadium = event.getStadium();
+		
+		if (stadium != null && !stadium.isEmpty()) 
+		{
+			stadiumName.setText(stadium);
+			stadiumName.setVisibility(View.VISIBLE);
+		}
+
+		String copyright = event.getStadiumImageCopyright();
+		
+		if (copyright != null && !copyright.isEmpty()) 
+		{
+			stadiumImageCopyright.setText(copyright);
+			stadiumImageCopyright.setVisibility(View.VISIBLE);
+		}
+
+		String descriptionText = event.getDescription();
+		
+		if (descriptionText != null && !descriptionText.isEmpty()) 
+		{
+			description.setText(descriptionText);
+			description.setVisibility(View.VISIBLE);
+		}
+
 		EventMatchStatusEnum matchStatus = event.getMatchStatus();
 
+		/** Setting the visibility of the LineUp and Highlights **/
 		switch(matchStatus)
 		{
 			case LINE_UP:
@@ -462,6 +487,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				break;
 			}
 	
+			case FINISHED:
 			default:
 			{
 				lineupContainerLayout.setVisibility(View.VISIBLE);
@@ -469,82 +495,122 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				break;
 			}
 		}
-
-		String stadium = event.getStadium();
-		if (stadium != null && !stadium.isEmpty()) {
-			stadiumName.setText(stadium);
-			stadiumName.setVisibility(View.VISIBLE);
-		}
-
-		String copyright = event.getStadiumImageCopyright();
-		if (copyright != null && !copyright.isEmpty()) {
-			stadiumImageCopyright.setText(copyright);
-			stadiumImageCopyright.setVisibility(View.VISIBLE);
-		}
-
-		String descriptionText = event.getDescription();
-		if (descriptionText != null && !descriptionText.isEmpty()) {
-			description.setText(descriptionText);
-			description.setVisibility(View.VISIBLE);
-		}
-
-		boolean isLive = event.isLive();
-		boolean isFinished = event.isFinished();
-
-		if(isLive)
+		
+		/** Setting the visibility and values for the date, score and status **/
+		switch(matchStatus)
 		{
-			String score = event.getScoreAsString();
+			case LINE_UP:
+			case NOT_STARTED_AND_LINE_UP:
+			case NOT_STARTED:
+			{
+				liveScore.setVisibility(View.GONE);
+				
+				liveStatus.setVisibility(View.GONE);
+				
+				String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 
-			liveScore.setText(score);
+				beginTime.setText(eventStartTimeHourAndMinuteAsString);
+				beginTime.setVisibility(View.VISIBLE);
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append(event.getEventTimeDayOfTheWeekAsString())
+				.append(" ")
+				.append(event.getEventTimeDayAndMonthAsString());
 
-			String timeInGame = event.getGameTimeAndStatusAsString(true);
-
-			liveStatus.setText(timeInGame);
-			liveScore.setVisibility(View.VISIBLE);
-			liveScore.setTextColor(getResources().getColor(R.color.red));
+				beginTimeDate.setText(sb.toString());
+				beginTimeDate.setVisibility(View.VISIBLE);
+				break;
+			}
 			
-			liveStatus.setVisibility(View.VISIBLE);
-			liveStatus.setTextColor(getResources().getColor(R.color.red));
+			case DELAYED:
+			{
+				liveScore.setVisibility(View.GONE);
+				
+				liveStatus.setVisibility(View.GONE);
+				
+				String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+				
+				StringBuilder eventStartTimeHourAndMinuteSB = new StringBuilder();
+				eventStartTimeHourAndMinuteSB.append(eventStartTimeHourAndMinuteAsString)
+				.append(" (")
+				.append(getString(R.string.event_page_delayed))
+				.append(")");
+
+				beginTime.setText(eventStartTimeHourAndMinuteAsString);
+				beginTime.setVisibility(View.VISIBLE);
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append(event.getEventTimeDayOfTheWeekAsString())
+				.append(" ")
+				.append(event.getEventTimeDayAndMonthAsString());
+
+				beginTimeDate.setText(sb.toString());
+				beginTimeDate.setVisibility(View.VISIBLE);
+				break;
+			}
+	
+			case POSTPONED:
+			{
+				String score = event.getScoreAsString();
+
+				liveScore.setText(score);
+				liveScore.setVisibility(View.GONE);
+				liveScore.setTextColor(getResources().getColor(R.color.red));
+				
+				String timeAndStatus = event.getGameTimeAndStatusAsString(false);
+				
+				liveStatus.setText(timeAndStatus);
+				liveStatus.setVisibility(View.VISIBLE);
+				liveStatus.setTextColor(getResources().getColor(R.color.red));
+				
+				beginTime.setVisibility(View.GONE);
+				beginTimeDate.setVisibility(View.GONE);
+				break;
+			}
 			
-			beginTime.setVisibility(View.GONE);
-			beginTimeDate.setVisibility(View.GONE);
-		}
-		else if (isFinished)
-		{
-			String score = event.getScoreAsString();
+			case IN_PROGRESS:
+			{
+				String score = event.getScoreAsString();
 
-			liveScore.setText(score);
-
-			String timeInGame = event.getGameTimeAndStatusAsString(true);
-
-			liveStatus.setText(timeInGame);
-			liveScore.setVisibility(View.VISIBLE);
-			liveScore.setTextColor(getResources().getColor(R.color.grey2));
+				liveScore.setText(score);
+				liveScore.setVisibility(View.VISIBLE);
+				liveScore.setTextColor(getResources().getColor(R.color.red));
+				
+				String timeAndStatus = event.getGameTimeAndStatusAsString(true);
+				
+				liveStatus.setText(timeAndStatus);
+				liveStatus.setVisibility(View.VISIBLE);
+				liveStatus.setTextColor(getResources().getColor(R.color.red));
+				
+				beginTime.setVisibility(View.GONE);
+				beginTimeDate.setVisibility(View.GONE);
+				break;
+			}
 			
-			liveStatus.setVisibility(View.VISIBLE);
-			liveStatus.setTextColor(getResources().getColor(R.color.grey2));
-			
-			beginTime.setVisibility(View.GONE);
-			beginTimeDate.setVisibility(View.GONE);
-		}
-		/* The event has not started yet */
-		else 
-		{
-			StringBuilder sb = new StringBuilder();
-			String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
+			case INTERVAL:
+			case FINISHED:
+			case ABANDONED:
+			case SUSPENDED:
+			case NO_LIVE_UPDATES:
+			case UNOFFICIAL_RESULT:
+			default:
+			{
+				String score = event.getScoreAsString();
 
-			beginTime.setText(eventStartTimeHourAndMinuteAsString);
-
-			sb.append(event.getEventTimeDayOfTheWeekAsString())
-			.append(" ")
-			.append(event.getEventTimeDayAndMonthAsString());
-
-			beginTimeDate.setText(sb.toString());
-
-			liveScore.setVisibility(View.GONE);
-			liveStatus.setVisibility(View.GONE);
-			beginTime.setVisibility(View.VISIBLE);
-			beginTimeDate.setVisibility(View.VISIBLE);
+				liveScore.setText(score);
+				liveScore.setVisibility(View.VISIBLE);
+				liveScore.setTextColor(getResources().getColor(R.color.grey2));
+				
+				String timeInGame = event.getGameTimeAndStatusAsString(false);
+				
+				liveStatus.setText(timeInGame);
+				liveStatus.setVisibility(View.VISIBLE);
+				liveStatus.setTextColor(getResources().getColor(R.color.grey2));
+				
+				beginTime.setVisibility(View.GONE);
+				beginTimeDate.setVisibility(View.GONE);
+				break;
+			}
 		}
 
 		long competitionID = event.getCompetitionId();
