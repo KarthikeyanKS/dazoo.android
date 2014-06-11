@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.mitv.APIClient;
 import com.mitv.Constants;
+import com.mitv.enums.EventLineUpPosition;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.interfaces.ContentCallbackListener;
@@ -1067,11 +1068,33 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<TeamSquad> getFromCacheSquadByTeamID(long teamID)
+	public List<TeamSquad> getFromCacheSquadByTeamID(
+			final long teamID,
+			final boolean includeCoach)
 	{
-		List<TeamSquad> squad = getCache().getCompetitionsData().getSquadByTeamIDForSelectedCompetition(teamID);
+		List<TeamSquad> squadToReturn = new ArrayList<TeamSquad>();
 		
-		return squad;
+		List<TeamSquad> squadAll = getCache().getCompetitionsData().getSquadByTeamIDForSelectedCompetition(teamID);
+		
+		if(squadAll != null)
+		{
+			if(includeCoach == false)
+			{
+				for (TeamSquad squad : squadAll) 
+				{
+					if(squad.getPosition() != EventLineUpPosition.COACH) 
+					{
+						squadToReturn.add(squad);
+					}
+				}
+			}
+			else
+			{
+				squadToReturn = squadAll;
+			}
+		}
+		
+		return squadToReturn;
 	}
 	
 	
@@ -1390,7 +1413,7 @@ public abstract class ContentManagerBase
 		{
 			if (lineup.isInStartingLineUp() == false && 
 				lineup.getTeamId() == teamID.longValue() &&
-				lineup.isReferee() == false) 
+				lineup.getPosition() != EventLineUpPosition.REFEREE) 
 			{
 				lineups.add(lineup);
 			}
@@ -1413,7 +1436,7 @@ public abstract class ContentManagerBase
 		{
 			if (lineup.isInStartingLineUp() &&
 				lineup.getTeamId() == teamID.longValue() &&
-				lineup.isReferee() == false) 
+				lineup.getPosition() != EventLineUpPosition.REFEREE) 
 			{
 				lineups.add(lineup);
 			}

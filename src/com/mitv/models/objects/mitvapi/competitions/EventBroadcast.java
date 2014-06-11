@@ -22,8 +22,8 @@ public class EventBroadcast
 	
 	
 	
-	protected Calendar beginTimeCalendar;
-	protected Calendar endTimeCalendar;
+	private Calendar beginTimeCalendar;
+	private Calendar endTimeCalendar;
 	
 	
 	

@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.enums.EventLineUpPosition;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 
 
@@ -112,15 +113,24 @@ public class CompetitionEventLineUpTeamsListAdapter
 			{	
 				String shirtNumberAsString;
 				
-				boolean isCoach = eventLineUp.isCoach();
+				EventLineUpPosition lineUpposition = eventLineUp.getPosition();
 				
-				if(isCoach == false)
+				switch (lineUpposition) 
 				{
-					shirtNumberAsString = Integer.valueOf(eventLineUp.getShirtNumber()).toString();
-				}
-				else
-				{
-					shirtNumberAsString = "";
+					case GOALKEEPER:
+					case DEFENSE:
+					case MIDFIELDER:
+					case FORWARD:
+					{
+						shirtNumberAsString = Integer.valueOf(eventLineUp.getShirtNumber()).toString();
+						break;
+					}
+
+					default:
+					{
+						shirtNumberAsString = "";
+						break;
+					}
 				}
 				
 				String positionShort = eventLineUp.getFunctionShort();

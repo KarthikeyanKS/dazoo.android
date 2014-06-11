@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
-import com.mitv.activities.ChannelPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
@@ -248,35 +246,35 @@ public class TVGuideTagListAdapter
 				
 				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
-				if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION) {
-					/* FIFA - Navigation to event page */
-					ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
-					
-					if (tags != null && !tags.isEmpty()) {
-						
-						for (int i = 0; i < tags.size(); i++) {
-							
-							if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
-								long eventId = broadcastWithChannelInfo.getEventId();
-								
-								/*
-								 * WARNING WARNING WARNING
-								 * 
-								 * Hard coded competition ID used here.
-								 * 
-								 */
-								Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
-								
-								/* Changing the already existing intent to competition event page */
-								intent = new Intent(activity, EventPageActivity.class);
-								
-								intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-								
-								intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-								
-				                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
-							}
+				/* FIFA - Navigation to event page */
+				ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
+
+				if (tags != null && !tags.isEmpty()) 
+				{
+					for (int i = 0; i < tags.size(); i++) 
+					{
+						if (tags.get(i).equals(Constants.FIFA_TAG_ID)) 
+						{
+							long eventId = broadcastWithChannelInfo.getEventId();
+
+							/*
+							 * WARNING WARNING WARNING
+							 * 
+							 * Hard coded competition ID used here.
+							 * 
+							 */
+							Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+
+							/* Changing the already existing intent to competition event page */
+							intent = new Intent(activity, EventPageActivity.class);
+
+							intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+
+							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+
+							intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 						}
+
 					}
 				}
 				

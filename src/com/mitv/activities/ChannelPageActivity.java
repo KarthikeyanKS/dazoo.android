@@ -140,34 +140,32 @@ public class ChannelPageActivity
 	
 					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 					
-					if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION) {
-						/* FIFA - Navigation to event page */
-						ArrayList<String> tags = broadcastSelected.getProgram().getTags();
-						
-						if (tags != null && !tags.isEmpty()) {
-							
-							for (int i = 0; i < tags.size(); i++) {
-								
-								if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
-									long eventId = broadcastSelected.getEventId();
-									
-									/*
-									 * WARNING WARNING WARNING
-									 * 
-									 * Hard coded competition ID used here.
-									 * 
-									 */
-									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
-									
-									/* Changing the already existing intent to competition event page */
-									intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
-									
-									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-									
-									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-									
-									intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
-								}
+					/* FIFA - Navigation to event page */
+					ArrayList<String> tags = broadcastSelected.getProgram().getTags();
+
+					if (tags != null && !tags.isEmpty()) 
+					{
+						for (int i = 0; i < tags.size(); i++) {
+
+							if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
+								long eventId = broadcastSelected.getEventId();
+
+								/*
+								 * WARNING WARNING WARNING
+								 * 
+								 * Hard coded competition ID used here.
+								 * 
+								 */
+								Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+
+								/* Changing the already existing intent to competition event page */
+								intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
+
+								intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+
+								intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+
+								intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 							}
 						}
 					}

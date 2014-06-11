@@ -5,38 +5,50 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 public class PollJSON 
 {
-	protected String pollId;
-	protected String contentType;
-	protected String contentId;
-	protected int voteOptions;
-	protected boolean isClosed;
+	@SuppressWarnings("unused")
+	private static final String TAG = PollVoteJSON.class.getName();
+	
+	
+	private String pollId;
+	private String contentType;
+	private String contentId;
+	private int voteOptions;
+	private boolean isClosed;
 	
 	
 	public PollJSON(){}
 
 	
 
-	public String getPollId() {
+	public String getPollId()
+	{
 		return pollId;
 	}
 
 
-	public String getContentType() {
+	
+	public String getContentType() 
+	{
 		return contentType;
 	}
 
 
-	public String getContentId() {
+	
+	public String getContentId() 
+	{
 		return contentId;
 	}
 
 
-	public int getVoteOptions() {
+	
+	public int getVoteOptions() 
+	{
 		return voteOptions;
 	}
 
 
-	public boolean isClosed() {
+	public boolean isClosed() 
+	{
 		return isClosed;
 	}
 }

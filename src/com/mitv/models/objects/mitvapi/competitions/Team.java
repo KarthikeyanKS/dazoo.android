@@ -11,8 +11,7 @@ import com.mitv.models.gson.mitvapi.competitions.TeamJSON;
 public class Team 
 	extends TeamJSON
 {	
-	public Team()
-	{}
+	public Team(){}
 	
 	
 	
@@ -22,7 +21,7 @@ public class Team
 		
 		sb.append(Constants.EVENT_FLAG_IMAGE_PATH);
 		sb.append(Constants.FORWARD_SLASH);
-		sb.append(teamId);
+		sb.append(getTeamId());
 		sb.append(Constants.EVENT_STADIUM_IMAGE_SIZE_LARGE);
 		sb.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
 		
@@ -37,7 +36,7 @@ public class Team
 		
 		sb.append(Constants.TEAM_PAGE_TEAM_IMAGE_PATH);
 		sb.append(Constants.FORWARD_SLASH);
-		sb.append(teamId);
+		sb.append(getTeamId());
 		sb.append(Constants.EVENT_STADIUM_IMAGE_SIZE_LARGE);
 		sb.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
 		
@@ -53,7 +52,7 @@ public class Team
 		
 		int result = 1;
 		
-		result = prime * result + (int) teamId;
+		result = prime * result + (int) getTeamId();
 		
 		return result;
 	}
@@ -80,7 +79,7 @@ public class Team
 		
 		Team other = (Team) obj;
 		
-		if (this.teamId != other.teamId) 
+		if (getTeamId() != other.getTeamId()) 
 		{
 			return false;
 		}
@@ -90,10 +89,10 @@ public class Team
 	
 	
 	
-	/* TODO */
-	public String getShareUrl() {
+	public String getShareUrl() 
+	{
 		StringBuilder sb = new StringBuilder();
-//		http://gitrgitr.com/deportes/equipos/1035
+
 		sb.append(Constants.HTTP_SCHEME_USED)
 			.append(Constants.BACKEND_ENVIRONMENT_USED)
 			.append(Constants.URL_SHARE_SPORT_SPANISH)

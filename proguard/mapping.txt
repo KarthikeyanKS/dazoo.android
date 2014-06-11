@@ -31730,7 +31730,6 @@ com.mitv.Constants -> com.mitv.Constants:
     int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS -> COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS
     int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS -> COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS
     int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS -> COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS
-    boolean ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION -> ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION
     java.lang.String AMAZON_INSIGHTS_IDENTIFIER -> AMAZON_INSIGHTS_IDENTIFIER
     java.lang.String AMAZON_INSIGHTS_PUBLIC_KEY -> AMAZON_INSIGHTS_PUBLIC_KEY
     java.lang.String AMAZON_INSIGHTS_PRIVATE_KEY -> AMAZON_INSIGHTS_PRIVATE_KEY
@@ -32079,15 +32078,11 @@ com.mitv.Constants -> com.mitv.Constants:
     java.lang.String INTENT_COMPETITION_PHASE_ID -> INTENT_COMPETITION_PHASE_ID
     java.lang.String INTENT_COMPETITION_NAME -> INTENT_COMPETITION_NAME
     java.lang.String INTENT_COMPETITION_SELECTED_TAB_INDEX -> INTENT_COMPETITION_SELECTED_TAB_INDEX
-    int LINE_UP_GOAL_KEEPER_FUNCTION_TYPE -> LINE_UP_GOAL_KEEPER_FUNCTION_TYPE
-    int LINE_UP_COACH_FUNCTION_TYPE -> LINE_UP_COACH_FUNCTION_TYPE
-    int LINE_UP_REFEREE_FUNCTION_TYPE -> LINE_UP_REFEREE_FUNCTION_TYPE
     java.lang.String REQUEST_DATA_COMPETITION_EVENT_ID_KEY -> REQUEST_DATA_COMPETITION_EVENT_ID_KEY
     java.lang.String REQUEST_DATA_COMPETITION_PHASE_ID_KEY -> REQUEST_DATA_COMPETITION_PHASE_ID_KEY
     java.lang.String REQUEST_DATA_COMPETITION_TEAM_ID_KEY -> REQUEST_DATA_COMPETITION_TEAM_ID_KEY
     java.lang.String GROUP_STAGE -> GROUP_STAGE
     int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON -> MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON
-    java.lang.String FUNCTION_COACH -> FUNCTION_COACH
 com.mitv.ListenerHolder -> com.mitv.ListenerHolder:
     com.mitv.interfaces.ViewCallbackListener listener -> listener
     18:18:com.mitv.interfaces.ViewCallbackListener getListener() -> getListener
@@ -33705,7 +33700,9 @@ com.mitv.R$string -> com.mitv.R$string:
     int event_is_live_indicator -> event_is_live_indicator
     int event_page_abandoned -> event_page_abandoned
     int event_page_completed -> event_page_completed
+    int event_page_delayed -> event_page_delayed
     int event_page_groups_list_show_more -> event_page_groups_list_show_more
+    int event_page_halftime -> event_page_halftime
     int event_page_header_standings -> event_page_header_standings
     int event_page_highlight_end_of_game -> event_page_highlight_end_of_game
     int event_page_highlight_end_result -> event_page_highlight_end_result
@@ -33713,6 +33710,7 @@ com.mitv.R$string -> com.mitv.R$string:
     int event_page_highlight_goal_by_free_kick -> event_page_highlight_goal_by_free_kick
     int event_page_highlight_goal_by_own_team -> event_page_highlight_goal_by_own_team
     int event_page_highlight_goal_from_penalty -> event_page_highlight_goal_from_penalty
+    int event_page_highlight_injury_time -> event_page_highlight_injury_time
     int event_page_highlight_kick_off -> event_page_highlight_kick_off
     int event_page_highlight_match_abandoned -> event_page_highlight_match_abandoned
     int event_page_highlight_match_rescheduled -> event_page_highlight_match_rescheduled
@@ -33725,8 +33723,10 @@ com.mitv.R$string -> com.mitv.R$string:
     int event_page_highlight_yellow_card -> event_page_highlight_yellow_card
     int event_page_lineup_subs_header -> event_page_lineup_subs_header
     int event_page_poll_title -> event_page_poll_title
+    int event_page_postponed -> event_page_postponed
     int event_page_standings_list_show_more -> event_page_standings_list_show_more
     int event_page_standings_team -> event_page_standings_team
+    int event_page_suspended -> event_page_suspended
     int event_page_tab_highlights -> event_page_tab_highlights
     int event_page_tab_line_up -> event_page_tab_line_up
     int event_page_tab_standings -> event_page_tab_standings
@@ -34524,21 +34524,21 @@ com.mitv.activities.ChannelPageActivity -> com.mitv.activities.ChannelPageActivi
     67:76:void onCreate(android.os.Bundle) -> onCreate
     84:89:void onResume() -> onResume
     95:108:void initLayout() -> d
-    114:185:void setFollowingBroadcasts(java.util.List) -> a
-    192:195:void onBackPressed() -> onBackPressed
-    203:204:void loadData() -> loadData
-    211:212:void loadDataInBackground() -> loadDataInBackground
-    219:223:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    231:257:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    264:280:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    285:285:void attachFragment() -> attachFragment
-    289:289:void removeActiveFragment() -> removeActiveFragment
+    114:183:void setFollowingBroadcasts(java.util.List) -> a
+    190:193:void onBackPressed() -> onBackPressed
+    201:202:void loadData() -> loadData
+    209:210:void loadDataInBackground() -> loadDataInBackground
+    217:221:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    229:255:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    262:278:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    283:283:void attachFragment() -> attachFragment
+    287:287:void removeActiveFragment() -> removeActiveFragment
     51:51:com.mitv.models.objects.mitvapi.TVChannel access$0(com.mitv.activities.ChannelPageActivity) -> a
     40:40:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
 com.mitv.activities.ChannelPageActivity$1 -> axz:
     com.mitv.activities.ChannelPageActivity this$0 -> a
     java.util.List val$currentAndUpcomingbroadcasts -> b
-    123:183:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    123:181:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.mitv.activities.FeedActivity -> com.mitv.activities.FeedActivity:
     java.lang.String TAG -> o
     android.widget.RelativeLayout facebookContainer -> p
@@ -35178,17 +35178,17 @@ com.mitv.activities.competition.CompetitionPageActivity -> com.mitv.activities.c
     111:138:void onCreate(android.os.Bundle) -> onCreate
     145:151:void onPause() -> onPause
     158:175:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    181:241:void setData() -> c
+    181:240:void setData() -> c
     247:343:void setOngoingLayoutForLiveEvent() -> d
-    349:483:void setOngoingLayoutForNextEvent() -> e
-    488:624:void setBeforeLayout() -> h
-    630:682:void initLayout() -> i
-    688:708:void setAdapter(int) -> b
-    715:726:void loadData() -> loadData
-    733:734:void loadDataInBackground() -> loadDataInBackground
-    741:745:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    753:772:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    777:777:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    350:484:void setOngoingLayoutForNextEvent() -> e
+    489:625:void setBeforeLayout() -> h
+    631:683:void initLayout() -> i
+    689:709:void setAdapter(int) -> b
+    716:727:void loadData() -> loadData
+    734:735:void loadDataInBackground() -> loadDataInBackground
+    742:746:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    754:773:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    778:778:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
     46:46:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     53:53:com.mitv.models.objects.mitvapi.competitions.Competition access$1(com.mitv.activities.competition.CompetitionPageActivity) -> a
     54:54:com.mitv.models.objects.mitvapi.competitions.Event access$2(com.mitv.activities.competition.CompetitionPageActivity) -> b
@@ -35199,10 +35199,10 @@ com.mitv.activities.competition.CompetitionPageActivity$1 -> ayn:
 com.mitv.activities.competition.CompetitionPageActivity$2 -> ayo:
     com.mitv.activities.competition.CompetitionPageActivity this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$nextEvent -> b
-    474:480:void onClick(android.view.View) -> onClick
+    475:481:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.CompetitionPageActivity$3 -> ayp:
     com.mitv.activities.competition.CompetitionPageActivity this$0 -> a
-    616:622:void onClick(android.view.View) -> onClick
+    617:623:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competition.EventPageActivity:
     java.lang.String TAG -> o
     com.mitv.models.objects.mitvapi.competitions.Event event -> p
@@ -35257,31 +35257,31 @@ com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competi
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> am
     int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum -> an
     int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> ao
-    130:179:void onCreate(android.os.Bundle) -> onCreate
-    186:189:void onResume() -> onResume
-    196:202:void onPause() -> onPause
-    209:250:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    261:293:void setAllAdapters() -> e
-    299:541:void setData() -> h
-    548:567:void onClick(android.view.View) -> onClick
-    574:614:void initLayout() -> i
-    620:640:void setAdapterForHighlights() -> j
-    652:680:void setAdapterForLineupTeams(int,long,java.lang.String,long,java.lang.String,long) -> a
-    687:711:void setAdapterForGroupList(java.util.List,java.lang.String) -> a
-    718:752:void setAdapterForStandingsList(java.util.List,java.lang.String) -> b
-    759:775:void loadData() -> loadData
-    782:783:void loadDataInBackground() -> loadDataInBackground
-    790:796:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    804:859:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    865:885:void setListView() -> k
-    891:895:void updateStatusOfLikeView() -> l
-    901:901:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
-    918:918:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
-    925:944:void setBackgroundLoadingTimerForHighlights(int) -> c
-    56:56:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
-    66:66:com.mitv.models.objects.mitvapi.competitions.Event access$1(com.mitv.activities.competition.EventPageActivity) -> a
-    56:56:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> c
-    56:56:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> d
+    128:177:void onCreate(android.os.Bundle) -> onCreate
+    184:187:void onResume() -> onResume
+    194:200:void onPause() -> onPause
+    207:248:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    260:293:void setAllAdapters() -> e
+    299:626:void setData() -> h
+    633:652:void onClick(android.view.View) -> onClick
+    659:699:void initLayout() -> i
+    705:725:void setAdapterForHighlights() -> j
+    737:765:void setAdapterForLineupTeams(int,long,java.lang.String,long,java.lang.String,long) -> a
+    772:796:void setAdapterForGroupList(java.util.List,java.lang.String) -> a
+    803:837:void setAdapterForStandingsList(java.util.List,java.lang.String) -> b
+    844:860:void loadData() -> loadData
+    867:868:void loadDataInBackground() -> loadDataInBackground
+    875:881:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    889:944:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    950:970:void setListView() -> k
+    976:980:void updateStatusOfLikeView() -> l
+    986:986:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
+    1003:1003:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    1010:1029:void setBackgroundLoadingTimerForHighlights(int) -> c
+    54:54:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
+    64:64:com.mitv.models.objects.mitvapi.competitions.Event access$1(com.mitv.activities.competition.EventPageActivity) -> a
+    54:54:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> c
+    54:54:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> d
 com.mitv.activities.competition.EventPageActivity$1 -> ayq:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     long val$team1ID -> b
@@ -35301,10 +35301,10 @@ com.mitv.activities.competition.EventPageActivity$4 -> ayt:
 com.mitv.activities.competition.EventPageActivity$5 -> ayu:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    905:911:void run() -> run
+    990:996:void run() -> run
 com.mitv.activities.competition.EventPageActivity$6 -> ayv:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
-    940:941:void run() -> run
+    1025:1026:void run() -> run
 com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competition.TeamPageActivity:
     java.lang.String TAG -> o
     com.mitv.models.objects.mitvapi.competitions.Team team -> p
@@ -35353,19 +35353,18 @@ com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competit
     295:375:void setMainLayoutLayout() -> e
     383:402:void onClick(android.view.View) -> onClick
     408:425:void setSquadLayout() -> h
-    430:444:void filterCoachFromSquad() -> i
-    450:481:void setStandingsLayout() -> j
-    487:511:void setScheduleLayout() -> k
-    517:521:void updateStatusOfLikeView() -> l
-    527:534:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> m
-    541:541:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
+    431:462:void setStandingsLayout() -> i
+    468:492:void setScheduleLayout() -> j
+    498:502:void updateStatusOfLikeView() -> k
+    508:515:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> l
+    522:522:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
     46:46:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     46:46:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> c
     54:54:long access$2(com.mitv.activities.competition.TeamPageActivity) -> a
 com.mitv.activities.competition.TeamPageActivity$1 -> ayw:
     com.mitv.activities.competition.TeamPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    545:551:void run() -> run
+    526:532:void run() -> run
 com.mitv.adapters.list.ActionBarDropDownDateListAdapter -> com.mitv.adapters.list.ActionBarDropDownDateListAdapter:
     java.lang.String TAG -> a
     android.content.Context context -> b
@@ -35431,44 +35430,44 @@ com.mitv.adapters.list.BannerListAdapter -> com.mitv.adapters.list.BannerListAda
     boolean areCompetitionsEnabled -> g
     boolean onlyDisplayCompetitionBannerOnce -> h
     int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType -> i
-    104:105:void setItems(java.util.List) -> setItems
-    111:111:boolean areAdsEnabled() -> areAdsEnabled
-    119:136:int getCount() -> getCount
-    144:170:java.lang.Object getItem(int) -> getItem
-    178:178:int getViewTypeCount() -> getViewTypeCount
-    186:186:long getItemId(int) -> getItemId
-    194:335:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    343:343:int getItemViewType(int) -> getItemViewType
-    350:360:com.mitv.enums.BannerViewType getBannerViewType(int) -> getBannerViewType
-    368:375:int getBannerAdCount() -> c
-    382:396:int getBannerCompetitionCount() -> d
-    403:407:boolean isBannerAdPosition(int) -> a
-    414:440:boolean isCompetitionAdPosition(int,java.util.List) -> a
-    447:481:int positionExcludingBanners(int) -> b
-    38:38:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> a
-    41:41:java.lang.String access$1() -> b
-    43:43:android.app.Activity access$2(com.mitv.adapters.list.BannerListAdapter) -> a
+    101:102:void setItems(java.util.List) -> setItems
+    108:108:boolean areAdsEnabled() -> areAdsEnabled
+    116:133:int getCount() -> getCount
+    141:167:java.lang.Object getItem(int) -> getItem
+    175:175:int getViewTypeCount() -> getViewTypeCount
+    183:183:long getItemId(int) -> getItemId
+    191:332:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    340:340:int getItemViewType(int) -> getItemViewType
+    347:357:com.mitv.enums.BannerViewType getBannerViewType(int) -> getBannerViewType
+    365:372:int getBannerAdCount() -> c
+    379:393:int getBannerCompetitionCount() -> d
+    400:404:boolean isBannerAdPosition(int) -> a
+    411:437:boolean isCompetitionAdPosition(int,java.util.List) -> a
+    444:478:int positionExcludingBanners(int) -> b
+    35:35:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> a
+    38:38:java.lang.String access$1() -> b
+    40:40:android.app.Activity access$2(com.mitv.adapters.list.BannerListAdapter) -> a
 com.mitv.adapters.list.BannerListAdapter$1 -> ayz:
     com.mitv.adapters.list.BannerListAdapter this$0 -> a
-    231:233:void onAdClosed() -> onAdClosed
-    238:240:void onAdFailedToLoad(int) -> onAdFailedToLoad
-    245:247:void onAdLeftApplication() -> onAdLeftApplication
-    252:254:void onAdLoaded() -> onAdLoaded
-    259:261:void onAdOpened() -> onAdOpened
+    228:230:void onAdClosed() -> onAdClosed
+    235:237:void onAdFailedToLoad(int) -> onAdFailedToLoad
+    242:244:void onAdLeftApplication() -> onAdLeftApplication
+    249:251:void onAdLoaded() -> onAdLoaded
+    256:258:void onAdOpened() -> onAdOpened
 com.mitv.adapters.list.BannerListAdapter$2 -> aza:
     com.mitv.adapters.list.BannerListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Competition val$competition -> b
-    316:323:void onClick(android.view.View) -> onClick
+    313:320:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.BannerListAdapter$ViewHolder -> azb:
     android.widget.RelativeLayout container -> a
     android.widget.FrameLayout competitionBannerFrameLayout -> b
     com.google.android.gms.ads.AdView adMobView -> c
-    488:488:void access$1(com.mitv.adapters.list.BannerListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    491:491:void access$2(com.mitv.adapters.list.BannerListAdapter$ViewHolder,com.google.android.gms.ads.AdView) -> a
-    488:488:android.widget.RelativeLayout access$3(com.mitv.adapters.list.BannerListAdapter$ViewHolder) -> a
-    491:491:com.google.android.gms.ads.AdView access$4(com.mitv.adapters.list.BannerListAdapter$ViewHolder) -> b
-    489:489:void access$5(com.mitv.adapters.list.BannerListAdapter$ViewHolder,android.widget.FrameLayout) -> a
-    489:489:android.widget.FrameLayout access$6(com.mitv.adapters.list.BannerListAdapter$ViewHolder) -> c
+    485:485:void access$1(com.mitv.adapters.list.BannerListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    488:488:void access$2(com.mitv.adapters.list.BannerListAdapter$ViewHolder,com.google.android.gms.ads.AdView) -> a
+    485:485:android.widget.RelativeLayout access$3(com.mitv.adapters.list.BannerListAdapter$ViewHolder) -> a
+    488:488:com.google.android.gms.ads.AdView access$4(com.mitv.adapters.list.BannerListAdapter$ViewHolder) -> b
+    486:486:void access$5(com.mitv.adapters.list.BannerListAdapter$ViewHolder,android.widget.FrameLayout) -> a
+    486:486:android.widget.FrameLayout access$6(com.mitv.adapters.list.BannerListAdapter$ViewHolder) -> c
 com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter -> com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter:
     java.lang.String TAG -> a
     android.view.LayoutInflater layoutInflater -> layoutInflater
@@ -35671,21 +35670,23 @@ com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter -> com.mitv.adapte
     android.view.LayoutInflater layoutInflater -> b
     android.app.Activity activity -> c
     java.util.List lineups -> d
-    52:59:int getCount() -> getCount
-    67:74:com.mitv.models.objects.mitvapi.competitions.EventLineUp getItem(int) -> getItem
-    82:82:long getItemId(int) -> getItemId
-    90:147:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    int[] $SWITCH_TABLE$com$mitv$enums$EventLineUpPosition -> e
+    53:60:int getCount() -> getCount
+    68:75:com.mitv.models.objects.mitvapi.competitions.EventLineUp getItem(int) -> getItem
+    83:83:long getItemId(int) -> getItemId
+    91:157:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
+    24:24:int[] $SWITCH_TABLE$com$mitv$enums$EventLineUpPosition() -> a
 com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder -> azk:
     android.widget.TextView playerName -> a
     android.widget.TextView playerPosition -> b
     android.widget.TextView playerShirtNumber -> c
-    156:156:void access$1(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder,android.widget.TextView) -> a
-    155:155:void access$2(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder,android.widget.TextView) -> b
-    154:154:void access$3(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder,android.widget.TextView) -> c
-    156:156:android.widget.TextView access$4(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder) -> a
-    155:155:android.widget.TextView access$5(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder) -> b
-    154:154:android.widget.TextView access$6(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder) -> c
+    166:166:void access$1(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder,android.widget.TextView) -> a
+    165:165:void access$2(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder,android.widget.TextView) -> b
+    164:164:void access$3(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder,android.widget.TextView) -> c
+    166:166:android.widget.TextView access$4(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder) -> a
+    165:165:android.widget.TextView access$5(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder) -> b
+    164:164:android.widget.TextView access$6(com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder) -> c
 com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter -> com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter:
     java.lang.String TAG -> a
     android.view.LayoutInflater layoutInflater -> b
@@ -36343,19 +36344,19 @@ com.mitv.adapters.list.TVGuideTagListAdapter -> com.mitv.adapters.list.TVGuideTa
     int currentPosition -> e
     int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType -> f
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> g
-    75:97:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    104:287:android.view.View getViewForBroadCastCell(int,android.view.View,android.view.ViewGroup) -> a
-    309:315:int getCount() -> getCount
-    324:330:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
-    339:339:long getItemId(int) -> getItemId
+    73:95:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    102:285:android.view.View getViewForBroadCastCell(int,android.view.View,android.view.ViewGroup) -> a
+    307:313:int getCount() -> getCount
+    322:328:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
+    337:337:long getItemId(int) -> getItemId
     1:1:java.lang.Object getItem(int) -> getItem
-    39:39:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> c
-    39:39:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> d
-    47:47:android.app.Activity access$3(com.mitv.adapters.list.TVGuideTagListAdapter) -> a
+    37:37:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> c
+    37:37:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> d
+    45:45:android.app.Activity access$3(com.mitv.adapters.list.TVGuideTagListAdapter) -> a
 com.mitv.adapters.list.TVGuideTagListAdapter$1 -> bav:
     com.mitv.adapters.list.TVGuideTagListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
-    247:284:void onClick(android.view.View) -> onClick
+    245:282:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder -> baw:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mImageIv -> b
@@ -36365,22 +36366,22 @@ com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder -> baw:
     android.widget.TextView mDescTv -> f
     android.widget.TextView mTimeLeftTv -> g
     android.widget.ProgressBar mDurationPb -> h
-    294:294:void access$1(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    295:295:void access$2(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ImageView) -> a
-    296:296:void access$3(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> a
-    297:297:void access$4(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> b
-    298:298:void access$5(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> c
-    299:299:void access$6(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> d
-    300:300:void access$7(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> e
-    301:301:void access$8(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ProgressBar) -> a
-    301:301:android.widget.ProgressBar access$9(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> a
-    300:300:android.widget.TextView access$10(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> b
-    295:295:android.widget.ImageView access$11(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> c
-    297:297:android.widget.TextView access$12(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> d
-    298:298:android.widget.TextView access$13(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> e
-    296:296:android.widget.TextView access$14(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> f
-    299:299:android.widget.TextView access$15(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> g
-    294:294:android.widget.RelativeLayout access$16(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> h
+    292:292:void access$1(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    293:293:void access$2(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ImageView) -> a
+    294:294:void access$3(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> a
+    295:295:void access$4(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> b
+    296:296:void access$5(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> c
+    297:297:void access$6(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> d
+    298:298:void access$7(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.TextView) -> e
+    299:299:void access$8(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder,android.widget.ProgressBar) -> a
+    299:299:android.widget.ProgressBar access$9(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> a
+    298:298:android.widget.TextView access$10(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> b
+    293:293:android.widget.ImageView access$11(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> c
+    295:295:android.widget.TextView access$12(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> d
+    296:296:android.widget.TextView access$13(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> e
+    294:294:android.widget.TextView access$14(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> f
+    297:297:android.widget.TextView access$15(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> g
+    292:292:android.widget.RelativeLayout access$16(com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder) -> h
 com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter -> com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter:
     java.lang.String TAG -> a
     android.view.LayoutInflater layoutInflater -> b
@@ -36809,6 +36810,7 @@ com.mitv.enums.ContentTypeEnum -> com.mitv.enums.ContentTypeEnum:
 com.mitv.enums.EventHighlightActionEnum -> com.mitv.enums.EventHighlightActionEnum:
     com.mitv.enums.EventHighlightActionEnum KICK_OFF_PERIOD -> KICK_OFF_PERIOD
     com.mitv.enums.EventHighlightActionEnum END_OF_PERIOD -> END_OF_PERIOD
+    com.mitv.enums.EventHighlightActionEnum INJURY_TIME -> INJURY_TIME
     com.mitv.enums.EventHighlightActionEnum YELLOW_CARD -> YELLOW_CARD
     com.mitv.enums.EventHighlightActionEnum GOAL -> GOAL
     com.mitv.enums.EventHighlightActionEnum GOAL_BY_FREE_KICK -> GOAL_BY_FREE_KICK
@@ -36827,12 +36829,25 @@ com.mitv.enums.EventHighlightActionEnum -> com.mitv.enums.EventHighlightActionEn
     java.lang.String code -> b
     int drawableResourceID -> c
     com.mitv.enums.EventHighlightActionEnum[] ENUM$VALUES -> d
-    66:66:int getId() -> getId
-    73:73:java.lang.String getCode() -> getCode
-    80:80:int getDrawableResourceID() -> getDrawableResourceID
-    87:98:com.mitv.enums.EventHighlightActionEnum getTypeEnumFromCode(java.lang.String) -> getTypeEnumFromCode
+    68:68:int getId() -> getId
+    75:75:java.lang.String getCode() -> getCode
+    82:82:int getDrawableResourceID() -> getDrawableResourceID
+    89:100:com.mitv.enums.EventHighlightActionEnum getTypeEnumFromCode(java.lang.String) -> getTypeEnumFromCode
     1:1:com.mitv.enums.EventHighlightActionEnum[] values() -> values
     1:1:com.mitv.enums.EventHighlightActionEnum valueOf(java.lang.String) -> valueOf
+com.mitv.enums.EventLineUpPosition -> com.mitv.enums.EventLineUpPosition:
+    com.mitv.enums.EventLineUpPosition GOALKEEPER -> GOALKEEPER
+    com.mitv.enums.EventLineUpPosition DEFENSE -> DEFENSE
+    com.mitv.enums.EventLineUpPosition MIDFIELDER -> MIDFIELDER
+    com.mitv.enums.EventLineUpPosition FORWARD -> FORWARD
+    com.mitv.enums.EventLineUpPosition COACH -> COACH
+    com.mitv.enums.EventLineUpPosition REFEREE -> REFEREE
+    int code -> a
+    com.mitv.enums.EventLineUpPosition[] ENUM$VALUES -> b
+    30:30:int getCode() -> getCode
+    37:46:com.mitv.enums.EventLineUpPosition getTypeEnumFromCode(int) -> getTypeEnumFromCode
+    1:1:com.mitv.enums.EventLineUpPosition[] values() -> values
+    1:1:com.mitv.enums.EventLineUpPosition valueOf(java.lang.String) -> valueOf
 com.mitv.enums.EventMatchStatusEnum -> com.mitv.enums.EventMatchStatusEnum:
     com.mitv.enums.EventMatchStatusEnum LINE_UP -> LINE_UP
     com.mitv.enums.EventMatchStatusEnum NOT_STARTED -> NOT_STARTED
@@ -37507,131 +37522,131 @@ com.mitv.managers.ContentManagerBase -> com.mitv.managers.ContentManagerBase:
     boolean isGoingToMyChannelsFromSearch -> isGoingToMyChannelsFromSearch
     java.lang.Boolean isLocalDeviceCalendarOffSync -> isLocalDeviceCalendarOffSync
     int tvGuideInitialRetryCount -> tvGuideInitialRetryCount
-    97:104:com.mitv.models.Cache getCache() -> getCache
-    111:118:com.mitv.APIClient getAPIClient() -> getAPIClient
-    125:125:com.mitv.interfaces.FetchDataProgressCallbackListener getFetchDataProgressCallbackListener() -> getFetchDataProgressCallbackListener
-    132:133:void setFetchDataProgressCallbackListener(com.mitv.interfaces.FetchDataProgressCallbackListener) -> setFetchDataProgressCallbackListener
-    139:140:void setGoingToMyChannelsFromSearch(boolean) -> setGoingToMyChannelsFromSearch
-    146:146:boolean isGoingToMyChannelsFromSearch() -> isGoingToMyChannelsFromSearch
-    153:153:boolean isUpdatingGuide() -> isUpdatingGuide
-    157:158:void resetTvGuideInitialRetryCount() -> resetTvGuideInitialRetryCount
-    164:165:void clearAllPersistentCacheData() -> clearAllPersistentCacheData
-    171:172:void clearGuideCacheData() -> clearGuideCacheData
-    180:190:void setNewTVChannelIdsAndFetchGuide(com.mitv.interfaces.ViewCallbackListener,java.util.ArrayList,java.util.ArrayList) -> setNewTVChannelIdsAndFetchGuide
-    197:208:void performInternalTracking(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> performInternalTracking
-    214:216:java.util.List getFromCacheTVChannelIdsUsed() -> getFromCacheTVChannelIdsUsed
-    223:247:boolean getFromCacheHasInitialData() -> getFromCacheHasInitialData
-    254:254:boolean getFromCacheHasTVDates() -> getFromCacheHasTVDates
-    261:261:boolean getFromCacheHasUserLikes() -> getFromCacheHasUserLikes
-    268:268:boolean getFromCacheHasActivityFeed() -> getFromCacheHasActivityFeed
-    275:275:boolean getFromCacheHasTVTags() -> getFromCacheHasTVTags
-    282:292:boolean getFromCacheHasTVTagsAndGuideForSelectedTVDate() -> getFromCacheHasTVTagsAndGuideForSelectedTVDate
-    300:300:boolean getFromCacheHasUserTVChannelIds() -> getFromCacheHasUserTVChannelIds
-    307:307:boolean getFromCacheHasTVChannelsAll() -> getFromCacheHasTVChannelsAll
-    314:314:boolean getFromCacheHasTVBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVChannelId,long) -> getFromCacheHasTVBroadcastWithChannelInfo
-    321:334:boolean getFromCacheHasBroadcastPageData() -> getFromCacheHasBroadcastPageData
-    341:341:boolean getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay
-    347:347:boolean getFromCacheHasPopularBroadcasts() -> getFromCacheHasPopularBroadcasts
-    354:354:boolean getFromCacheHasCompetitionsData() -> getFromCacheHasCompetitionsData
-    361:361:boolean getFromCacheHasCompetitionData(java.lang.Long) -> getFromCacheHasCompetitionData
-    368:368:boolean getFromCacheHasEventData(java.lang.Long,java.lang.Long) -> getFromCacheHasEventData
-    375:375:boolean getFromCacheHasTeamData(java.lang.Long) -> getFromCacheHasTeamData
-    382:386:boolean getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition() -> getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition
-    393:397:boolean getFromCacheHasEventsGroupedByPhaseForSelectedCompetition() -> getFromCacheHasEventsGroupedByPhaseForSelectedCompetition
-    404:412:boolean getFromCacheHasLineUpDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHasLineUpDataByEventIDForSelectedCompetition
-    419:427:boolean getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHasHighlightsDataByEventIDForSelectedCompetition
-    434:442:boolean getFromCacheHasStandingsForPhaseInSelectedCompetition(java.lang.Long) -> getFromCacheHasStandingsForPhaseInSelectedCompetition
-    449:457:boolean getFromCacheHasSquadForTeamID(java.lang.Long) -> getFromCacheHasSquadForTeamID
-    467:468:com.mitv.models.objects.mitvapi.TVDate getFromCacheTVDateSelected() -> getFromCacheTVDateSelected
-    474:475:int getFromCacheTVDateSelectedIndex() -> getFromCacheTVDateSelectedIndex
-    482:484:int getFromCacheFirstHourOfTVDay() -> getFromCacheFirstHourOfTVDay
-    491:500:boolean selectedTVDateIsToday() -> selectedTVDateIsToday
-    509:511:java.util.List getFromCacheTVTags() -> getFromCacheTVTags
-    519:523:com.mitv.models.objects.mitvapi.TVGuide getFromCacheTVGuideForSelectedDay() -> getFromCacheTVGuideForSelectedDay
-    530:532:com.mitv.models.objects.mitvapi.SearchResultsForQuery getFromCacheSearchResults() -> getFromCacheSearchResults
-    539:541:com.mitv.models.objects.mitvapi.AppConfiguration getFromCacheAppConfiguration() -> getFromCacheAppConfiguration
-    548:548:boolean getFromCacheHasAppConfiguration() -> getFromCacheHasAppConfiguration
-    555:557:com.mitv.models.objects.mitvapi.TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay
-    564:566:java.util.ArrayList getFromCacheActivityFeedData() -> getFromCacheActivityFeedData
-    583:585:java.lang.String getFromCacheUserToken() -> getFromCacheUserToken
-    592:594:boolean isLoggedIn() -> isLoggedIn
-    603:615:void setUpcomingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setUpcomingBroadcasts
-    620:632:void setRepeatingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setRepeatingBroadcasts
-    643:663:java.util.ArrayList getFromCacheUpcomingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheUpcomingBroadcastsVerifyCorrect
-    673:711:java.util.ArrayList getFromCacheBroadcastsAiringOnDifferentChannels(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,boolean) -> getFromCacheBroadcastsAiringOnDifferentChannels
-    718:727:java.util.ArrayList getFromCacheUpcomingBroadcasts() -> getFromCacheUpcomingBroadcasts
-    740:763:java.util.ArrayList getFromCacheRepeatingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheRepeatingBroadcastsVerifyCorrect
-    770:779:java.util.ArrayList getFromCacheRepeatingBroadcasts() -> getFromCacheRepeatingBroadcasts
-    786:787:void pushToSelectedBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> pushToSelectedBroadcastWithChannelInfo
-    793:794:void popFromSelectedBroadcastWithChannelInfo() -> popFromSelectedBroadcastWithChannelInfo
-    800:802:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getFromCacheLastSelectedBroadcastWithChannelInfo() -> getFromCacheLastSelectedBroadcastWithChannelInfo
-    809:811:java.util.HashMap getFromCacheTaggedBroadcastsForSelectedTVDate() -> getFromCacheTaggedBroadcastsForSelectedTVDate
-    818:820:java.lang.Integer getFromCacheSelectedHour() -> getFromCacheSelectedHour
-    827:828:void setSelectedHour(java.lang.Integer) -> setSelectedHour
-    834:835:void setSelectedTVChannelId(com.mitv.models.objects.mitvapi.TVChannelId) -> setSelectedTVChannelId
-    841:843:com.mitv.models.objects.mitvapi.TVChannelId getFromCacheSelectedTVChannelId() -> getFromCacheSelectedTVChannelId
-    850:852:java.lang.String getFromCacheUserLastname() -> getFromCacheUserLastname
-    859:861:java.lang.String getFromCacheUserFirstname() -> getFromCacheUserFirstname
-    868:870:java.lang.String getFromCacheUserEmail() -> getFromCacheUserEmail
-    877:879:java.lang.String getFromCacheUserId() -> getFromCacheUserId
-    886:888:java.lang.String getFromCacheUserProfileImage() -> getFromCacheUserProfileImage
-    895:897:java.util.List getFromCacheTVChannelsAll() -> getFromCacheTVChannelsAll
-    904:906:java.util.List getFromCacheUserLikes() -> getFromCacheUserLikes
-    913:915:boolean isContainedInUserLikes(com.mitv.models.objects.mitvapi.UserLike) -> isContainedInUserLikes
-    922:924:boolean isContainedInUsedChannelIds(com.mitv.models.objects.mitvapi.TVChannelId) -> isContainedInUsedChannelIds
-    931:931:com.mitv.models.objects.mitvapi.TVChannel getFromCacheTVChannelById(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelById
-    938:940:java.lang.String getFromCacheWelcomeMessage() -> getFromCacheWelcomeMessage
-    947:949:java.util.HashMap getFromCacheTaggedBroadcastsUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> getFromCacheTaggedBroadcastsUsingTVDate
-    956:958:java.util.ArrayList getFromCachePopularBroadcasts() -> getFromCachePopularBroadcasts
-    965:967:java.util.List getFromCacheTVDates() -> getFromCacheTVDates
-    974:975:void setReturnActivity(java.lang.Class) -> setReturnActivity
-    987:998:boolean tryStartReturnActivity(android.app.Activity) -> tryStartReturnActivity
-    1005:1007:java.lang.Class getReturnActivity() -> getReturnActivity
-    1014:1015:void setLikeToAddAfterLogin(com.mitv.models.objects.mitvapi.UserLike) -> setLikeToAddAfterLogin
-    1022:1045:boolean isLocalDeviceCalendarOffSync() -> isLocalDeviceCalendarOffSync
-    1052:1054:int getDisqusTotalPostsForLatestBroadcast() -> getDisqusTotalPostsForLatestBroadcast
-    1063:1065:com.mitv.models.objects.mitvapi.competitions.Team getFromCacheTeamByID(long) -> getFromCacheTeamByID
-    1072:1074:java.util.List getFromCacheSquadByTeamID(long) -> getFromCacheSquadByTeamID
-    1082:1109:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheNextUpcomingEventForSelectedCompetition(boolean,boolean) -> getFromCacheNextUpcomingEventForSelectedCompetition
-    1115:1148:java.util.List getFromCacheNextUpcomingEventsForSelectedCompetition(boolean,boolean,int) -> getFromCacheNextUpcomingEventsForSelectedCompetition
-    1154:1162:java.util.List filterLiveEvents(java.util.List) -> a
-    1168:1176:java.util.List filterFinishedEvents(java.util.List) -> b
-    1182:1194:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheLiveEventForSelectedCompetition() -> getFromCacheLiveEventForSelectedCompetition
-    1201:1201:java.util.Map getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition() -> getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition
-    1208:1208:java.util.Map getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition() -> getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition
-    1214:1214:java.util.List getFromCacheEventsForPhaseInSelectedCompetition(long) -> getFromCacheEventsForPhaseInSelectedCompetition
-    1221:1221:java.util.Map getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition() -> getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition
-    1228:1228:java.util.List getFromCacheVisibleCompetitions() -> getFromCacheVisibleCompetitions
-    1240:1242:com.mitv.models.objects.mitvapi.competitions.Competition getFromCacheVisibleRandomCompetition() -> getFromCacheVisibleRandomCompetition
-    1249:1267:java.util.List getFromCacheAllCompetitions(boolean) -> getFromCacheAllCompetitions
-    1275:1275:java.util.List getFromCacheAllPhasesForSelectedCompetition() -> getFromCacheAllPhasesForSelectedCompetition
-    1282:1285:void setSelectedCompetition(com.mitv.models.objects.mitvapi.competitions.Competition) -> setSelectedCompetition
-    1291:1291:com.mitv.models.objects.mitvapi.competitions.Competition getFromCacheCompetitionByID(long) -> getFromCacheCompetitionByID
-    1298:1298:com.mitv.models.objects.mitvapi.competitions.Phase getFromCachePhaseByIDForSelectedCompetition(long) -> getFromCachePhaseByIDForSelectedCompetition
-    1304:1304:com.mitv.models.objects.mitvapi.competitions.Phase getFromCachePhaseByTeamIDForSelectedCompetition(long) -> getFromCachePhaseByTeamIDForSelectedCompetition
-    1310:1333:java.util.List getFromCacheEventsByTeamIDForSelectedCompetition(boolean,boolean,long) -> getFromCacheEventsByTeamIDForSelectedCompetition
-    1342:1344:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheEventByID(java.lang.Long,java.lang.Long) -> getFromCacheEventByID
-    1351:1362:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheEventByIDForSelectedCompetition(java.lang.Long) -> getFromCacheEventByIDForSelectedCompetition
-    1369:1370:void setSelectedCompetitionProcessedData() -> setSelectedCompetitionProcessedData
-    1376:1376:java.util.List getFromCacheAllLineUpDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheAllLineUpDataByEventIDForSelectedCompetition
-    1385:1399:java.util.List getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(java.lang.Long,java.lang.Long) -> getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition
-    1408:1422:java.util.List getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(java.lang.Long,java.lang.Long) -> getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition
-    1429:1431:java.util.List getFromCacheHighlightsDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHighlightsDataByEventIDForSelectedCompetition
-    1438:1438:java.util.List getFromCacheStandingsForPhaseInSelectedCompetition(java.lang.Long) -> getFromCacheStandingsForPhaseInSelectedCompetition
-    1445:1445:java.util.List getFromCacheNotifications() -> getFromCacheNotifications
-    1457:1459:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.Long) -> getNotificationWithParameters
-    1469:1471:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long) -> getNotificationWithParameters
-    1478:1478:com.mitv.models.objects.mitvapi.Notification getFromCacheNotificationWithId(int) -> getFromCacheNotificationWithId
-    1485:1486:void addToCacheNotifications(com.mitv.models.objects.mitvapi.Notification) -> addToCacheNotifications
-    1492:1493:void removeFromCacheNotificationWithID(int) -> removeFromCacheNotificationWithID
-    1499:1503:void clearUserCache() -> clearUserCache
-    1508:1508:com.mitv.models.objects.UserTutorialStatus getUserTutorialFromCache() -> getUserTutorialFromCache
-    1520:1521:void setUserHasSeenTutorialOnce() -> setUserHasSeenTutorialOnce
-    1529:1530:void setUserHasSeenTutorialTwice() -> setUserHasSeenTutorialTwice
-    1535:1542:void setDateUserLastOpenApp() -> setDateUserLastOpenApp
-    1549:1568:boolean checkIfUserOpenedAppLastTwoWeeks() -> checkIfUserOpenedAppLastTwoWeeks
-    1580:1616:java.util.ArrayList filterOldBroadcasts(java.util.ArrayList,java.util.ArrayList) -> filterOldBroadcasts
-    1630:1646:boolean checkIfTVFeedItemIsOld(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> checkIfTVFeedItemIsOld
+    98:105:com.mitv.models.Cache getCache() -> getCache
+    112:119:com.mitv.APIClient getAPIClient() -> getAPIClient
+    126:126:com.mitv.interfaces.FetchDataProgressCallbackListener getFetchDataProgressCallbackListener() -> getFetchDataProgressCallbackListener
+    133:134:void setFetchDataProgressCallbackListener(com.mitv.interfaces.FetchDataProgressCallbackListener) -> setFetchDataProgressCallbackListener
+    140:141:void setGoingToMyChannelsFromSearch(boolean) -> setGoingToMyChannelsFromSearch
+    147:147:boolean isGoingToMyChannelsFromSearch() -> isGoingToMyChannelsFromSearch
+    154:154:boolean isUpdatingGuide() -> isUpdatingGuide
+    158:159:void resetTvGuideInitialRetryCount() -> resetTvGuideInitialRetryCount
+    165:166:void clearAllPersistentCacheData() -> clearAllPersistentCacheData
+    172:173:void clearGuideCacheData() -> clearGuideCacheData
+    181:191:void setNewTVChannelIdsAndFetchGuide(com.mitv.interfaces.ViewCallbackListener,java.util.ArrayList,java.util.ArrayList) -> setNewTVChannelIdsAndFetchGuide
+    198:209:void performInternalTracking(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> performInternalTracking
+    215:217:java.util.List getFromCacheTVChannelIdsUsed() -> getFromCacheTVChannelIdsUsed
+    224:248:boolean getFromCacheHasInitialData() -> getFromCacheHasInitialData
+    255:255:boolean getFromCacheHasTVDates() -> getFromCacheHasTVDates
+    262:262:boolean getFromCacheHasUserLikes() -> getFromCacheHasUserLikes
+    269:269:boolean getFromCacheHasActivityFeed() -> getFromCacheHasActivityFeed
+    276:276:boolean getFromCacheHasTVTags() -> getFromCacheHasTVTags
+    283:293:boolean getFromCacheHasTVTagsAndGuideForSelectedTVDate() -> getFromCacheHasTVTagsAndGuideForSelectedTVDate
+    301:301:boolean getFromCacheHasUserTVChannelIds() -> getFromCacheHasUserTVChannelIds
+    308:308:boolean getFromCacheHasTVChannelsAll() -> getFromCacheHasTVChannelsAll
+    315:315:boolean getFromCacheHasTVBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVChannelId,long) -> getFromCacheHasTVBroadcastWithChannelInfo
+    322:335:boolean getFromCacheHasBroadcastPageData() -> getFromCacheHasBroadcastPageData
+    342:342:boolean getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay
+    348:348:boolean getFromCacheHasPopularBroadcasts() -> getFromCacheHasPopularBroadcasts
+    355:355:boolean getFromCacheHasCompetitionsData() -> getFromCacheHasCompetitionsData
+    362:362:boolean getFromCacheHasCompetitionData(java.lang.Long) -> getFromCacheHasCompetitionData
+    369:369:boolean getFromCacheHasEventData(java.lang.Long,java.lang.Long) -> getFromCacheHasEventData
+    376:376:boolean getFromCacheHasTeamData(java.lang.Long) -> getFromCacheHasTeamData
+    383:387:boolean getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition() -> getFromCacheHasTeamsGroupedByPhaseForSelectedCompetition
+    394:398:boolean getFromCacheHasEventsGroupedByPhaseForSelectedCompetition() -> getFromCacheHasEventsGroupedByPhaseForSelectedCompetition
+    405:413:boolean getFromCacheHasLineUpDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHasLineUpDataByEventIDForSelectedCompetition
+    420:428:boolean getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHasHighlightsDataByEventIDForSelectedCompetition
+    435:443:boolean getFromCacheHasStandingsForPhaseInSelectedCompetition(java.lang.Long) -> getFromCacheHasStandingsForPhaseInSelectedCompetition
+    450:458:boolean getFromCacheHasSquadForTeamID(java.lang.Long) -> getFromCacheHasSquadForTeamID
+    468:469:com.mitv.models.objects.mitvapi.TVDate getFromCacheTVDateSelected() -> getFromCacheTVDateSelected
+    475:476:int getFromCacheTVDateSelectedIndex() -> getFromCacheTVDateSelectedIndex
+    483:485:int getFromCacheFirstHourOfTVDay() -> getFromCacheFirstHourOfTVDay
+    492:501:boolean selectedTVDateIsToday() -> selectedTVDateIsToday
+    510:512:java.util.List getFromCacheTVTags() -> getFromCacheTVTags
+    520:524:com.mitv.models.objects.mitvapi.TVGuide getFromCacheTVGuideForSelectedDay() -> getFromCacheTVGuideForSelectedDay
+    531:533:com.mitv.models.objects.mitvapi.SearchResultsForQuery getFromCacheSearchResults() -> getFromCacheSearchResults
+    540:542:com.mitv.models.objects.mitvapi.AppConfiguration getFromCacheAppConfiguration() -> getFromCacheAppConfiguration
+    549:549:boolean getFromCacheHasAppConfiguration() -> getFromCacheHasAppConfiguration
+    556:558:com.mitv.models.objects.mitvapi.TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay
+    565:567:java.util.ArrayList getFromCacheActivityFeedData() -> getFromCacheActivityFeedData
+    584:586:java.lang.String getFromCacheUserToken() -> getFromCacheUserToken
+    593:595:boolean isLoggedIn() -> isLoggedIn
+    604:616:void setUpcomingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setUpcomingBroadcasts
+    621:633:void setRepeatingBroadcasts(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,java.util.ArrayList) -> setRepeatingBroadcasts
+    644:664:java.util.ArrayList getFromCacheUpcomingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheUpcomingBroadcastsVerifyCorrect
+    674:712:java.util.ArrayList getFromCacheBroadcastsAiringOnDifferentChannels(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,boolean) -> getFromCacheBroadcastsAiringOnDifferentChannels
+    719:728:java.util.ArrayList getFromCacheUpcomingBroadcasts() -> getFromCacheUpcomingBroadcasts
+    741:764:java.util.ArrayList getFromCacheRepeatingBroadcastsVerifyCorrect(com.mitv.models.objects.mitvapi.TVBroadcast) -> getFromCacheRepeatingBroadcastsVerifyCorrect
+    771:780:java.util.ArrayList getFromCacheRepeatingBroadcasts() -> getFromCacheRepeatingBroadcasts
+    787:788:void pushToSelectedBroadcastWithChannelInfo(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> pushToSelectedBroadcastWithChannelInfo
+    794:795:void popFromSelectedBroadcastWithChannelInfo() -> popFromSelectedBroadcastWithChannelInfo
+    801:803:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getFromCacheLastSelectedBroadcastWithChannelInfo() -> getFromCacheLastSelectedBroadcastWithChannelInfo
+    810:812:java.util.HashMap getFromCacheTaggedBroadcastsForSelectedTVDate() -> getFromCacheTaggedBroadcastsForSelectedTVDate
+    819:821:java.lang.Integer getFromCacheSelectedHour() -> getFromCacheSelectedHour
+    828:829:void setSelectedHour(java.lang.Integer) -> setSelectedHour
+    835:836:void setSelectedTVChannelId(com.mitv.models.objects.mitvapi.TVChannelId) -> setSelectedTVChannelId
+    842:844:com.mitv.models.objects.mitvapi.TVChannelId getFromCacheSelectedTVChannelId() -> getFromCacheSelectedTVChannelId
+    851:853:java.lang.String getFromCacheUserLastname() -> getFromCacheUserLastname
+    860:862:java.lang.String getFromCacheUserFirstname() -> getFromCacheUserFirstname
+    869:871:java.lang.String getFromCacheUserEmail() -> getFromCacheUserEmail
+    878:880:java.lang.String getFromCacheUserId() -> getFromCacheUserId
+    887:889:java.lang.String getFromCacheUserProfileImage() -> getFromCacheUserProfileImage
+    896:898:java.util.List getFromCacheTVChannelsAll() -> getFromCacheTVChannelsAll
+    905:907:java.util.List getFromCacheUserLikes() -> getFromCacheUserLikes
+    914:916:boolean isContainedInUserLikes(com.mitv.models.objects.mitvapi.UserLike) -> isContainedInUserLikes
+    923:925:boolean isContainedInUsedChannelIds(com.mitv.models.objects.mitvapi.TVChannelId) -> isContainedInUsedChannelIds
+    932:932:com.mitv.models.objects.mitvapi.TVChannel getFromCacheTVChannelById(com.mitv.models.objects.mitvapi.TVChannelId) -> getFromCacheTVChannelById
+    939:941:java.lang.String getFromCacheWelcomeMessage() -> getFromCacheWelcomeMessage
+    948:950:java.util.HashMap getFromCacheTaggedBroadcastsUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> getFromCacheTaggedBroadcastsUsingTVDate
+    957:959:java.util.ArrayList getFromCachePopularBroadcasts() -> getFromCachePopularBroadcasts
+    966:968:java.util.List getFromCacheTVDates() -> getFromCacheTVDates
+    975:976:void setReturnActivity(java.lang.Class) -> setReturnActivity
+    988:999:boolean tryStartReturnActivity(android.app.Activity) -> tryStartReturnActivity
+    1006:1008:java.lang.Class getReturnActivity() -> getReturnActivity
+    1015:1016:void setLikeToAddAfterLogin(com.mitv.models.objects.mitvapi.UserLike) -> setLikeToAddAfterLogin
+    1023:1046:boolean isLocalDeviceCalendarOffSync() -> isLocalDeviceCalendarOffSync
+    1053:1055:int getDisqusTotalPostsForLatestBroadcast() -> getDisqusTotalPostsForLatestBroadcast
+    1064:1066:com.mitv.models.objects.mitvapi.competitions.Team getFromCacheTeamByID(long) -> getFromCacheTeamByID
+    1075:1097:java.util.List getFromCacheSquadByTeamID(long,boolean) -> getFromCacheSquadByTeamID
+    1105:1132:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheNextUpcomingEventForSelectedCompetition(boolean,boolean) -> getFromCacheNextUpcomingEventForSelectedCompetition
+    1138:1171:java.util.List getFromCacheNextUpcomingEventsForSelectedCompetition(boolean,boolean,int) -> getFromCacheNextUpcomingEventsForSelectedCompetition
+    1177:1185:java.util.List filterLiveEvents(java.util.List) -> a
+    1191:1199:java.util.List filterFinishedEvents(java.util.List) -> b
+    1205:1217:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheLiveEventForSelectedCompetition() -> getFromCacheLiveEventForSelectedCompetition
+    1224:1224:java.util.Map getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition() -> getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition
+    1231:1231:java.util.Map getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition() -> getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition
+    1237:1237:java.util.List getFromCacheEventsForPhaseInSelectedCompetition(long) -> getFromCacheEventsForPhaseInSelectedCompetition
+    1244:1244:java.util.Map getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition() -> getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition
+    1251:1251:java.util.List getFromCacheVisibleCompetitions() -> getFromCacheVisibleCompetitions
+    1263:1265:com.mitv.models.objects.mitvapi.competitions.Competition getFromCacheVisibleRandomCompetition() -> getFromCacheVisibleRandomCompetition
+    1272:1290:java.util.List getFromCacheAllCompetitions(boolean) -> getFromCacheAllCompetitions
+    1298:1298:java.util.List getFromCacheAllPhasesForSelectedCompetition() -> getFromCacheAllPhasesForSelectedCompetition
+    1305:1308:void setSelectedCompetition(com.mitv.models.objects.mitvapi.competitions.Competition) -> setSelectedCompetition
+    1314:1314:com.mitv.models.objects.mitvapi.competitions.Competition getFromCacheCompetitionByID(long) -> getFromCacheCompetitionByID
+    1321:1321:com.mitv.models.objects.mitvapi.competitions.Phase getFromCachePhaseByIDForSelectedCompetition(long) -> getFromCachePhaseByIDForSelectedCompetition
+    1327:1327:com.mitv.models.objects.mitvapi.competitions.Phase getFromCachePhaseByTeamIDForSelectedCompetition(long) -> getFromCachePhaseByTeamIDForSelectedCompetition
+    1333:1356:java.util.List getFromCacheEventsByTeamIDForSelectedCompetition(boolean,boolean,long) -> getFromCacheEventsByTeamIDForSelectedCompetition
+    1365:1367:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheEventByID(java.lang.Long,java.lang.Long) -> getFromCacheEventByID
+    1374:1385:com.mitv.models.objects.mitvapi.competitions.Event getFromCacheEventByIDForSelectedCompetition(java.lang.Long) -> getFromCacheEventByIDForSelectedCompetition
+    1392:1393:void setSelectedCompetitionProcessedData() -> setSelectedCompetitionProcessedData
+    1399:1399:java.util.List getFromCacheAllLineUpDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheAllLineUpDataByEventIDForSelectedCompetition
+    1408:1422:java.util.List getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(java.lang.Long,java.lang.Long) -> getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition
+    1431:1445:java.util.List getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(java.lang.Long,java.lang.Long) -> getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition
+    1452:1454:java.util.List getFromCacheHighlightsDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHighlightsDataByEventIDForSelectedCompetition
+    1461:1461:java.util.List getFromCacheStandingsForPhaseInSelectedCompetition(java.lang.Long) -> getFromCacheStandingsForPhaseInSelectedCompetition
+    1468:1468:java.util.List getFromCacheNotifications() -> getFromCacheNotifications
+    1480:1482:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.Long) -> getNotificationWithParameters
+    1492:1494:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long) -> getNotificationWithParameters
+    1501:1501:com.mitv.models.objects.mitvapi.Notification getFromCacheNotificationWithId(int) -> getFromCacheNotificationWithId
+    1508:1509:void addToCacheNotifications(com.mitv.models.objects.mitvapi.Notification) -> addToCacheNotifications
+    1515:1516:void removeFromCacheNotificationWithID(int) -> removeFromCacheNotificationWithID
+    1522:1526:void clearUserCache() -> clearUserCache
+    1531:1531:com.mitv.models.objects.UserTutorialStatus getUserTutorialFromCache() -> getUserTutorialFromCache
+    1543:1544:void setUserHasSeenTutorialOnce() -> setUserHasSeenTutorialOnce
+    1552:1553:void setUserHasSeenTutorialTwice() -> setUserHasSeenTutorialTwice
+    1558:1565:void setDateUserLastOpenApp() -> setDateUserLastOpenApp
+    1572:1591:boolean checkIfUserOpenedAppLastTwoWeeks() -> checkIfUserOpenedAppLastTwoWeeks
+    1603:1639:java.util.ArrayList filterOldBroadcasts(java.util.ArrayList,java.util.ArrayList) -> filterOldBroadcasts
+    1653:1669:boolean checkIfTVFeedItemIsOld(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> checkIfTVFeedItemIsOld
 com.mitv.managers.ContentManagerCallback -> com.mitv.managers.ContentManagerCallback:
     java.lang.String TAG -> a
     java.util.HashMap mapRequestToCallbackListeners -> b
@@ -37671,21 +37686,21 @@ com.mitv.managers.ContentManagerCallback -> com.mitv.managers.ContentManagerCall
     1133:1143:void handleDisqusThreadDetailsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> f
     1152:1153:void handleInternetConnectionDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> a
     1163:1198:void handleActivityFeedMoreItemsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> g
-    1207:1262:void handleActivityFeedInitalFetchResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> h
-    1274:1299:void handleTVChannelGuidesForSelectedDayResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> i
-    1305:1319:void handleTVBroadcastsPopularBroadcastsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVBroadcastsPopularBroadcastsResponse
-    1325:1340:void handleSearchResultResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSearchResultResponse
-    1357:1373:void handleTVChannelIdsUserResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> j
-    1385:1459:void handleBroadcastPageDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBroadcastPageDataResponse
-    1465:1476:void handleSignUpResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSignUpResponse
-    1481:1490:void handleGetUserLikesResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleGetUserLikesResponse
-    1496:1506:void handleAddUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleAddUserLikeResponse
-    1512:1520:void handleRemoveUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleRemoveUserLikeResponse
-    1526:1534:void handleResetPasswordSendEmailResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleResetPasswordSendEmailResponse
-    1540:1557:void handleUserTokenWithFacebookTokenResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleUserTokenWithFacebookTokenResponse
-    1563:1575:void handleSetChannelsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleSetChannelsResponse
-    1580:1590:void handleLoginResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> k
-    1596:1599:void handleLogoutResponse(com.mitv.interfaces.ViewCallbackListener) -> b
+    1207:1259:void handleActivityFeedInitalFetchResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> h
+    1271:1296:void handleTVChannelGuidesForSelectedDayResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> i
+    1302:1316:void handleTVBroadcastsPopularBroadcastsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleTVBroadcastsPopularBroadcastsResponse
+    1322:1337:void handleSearchResultResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSearchResultResponse
+    1354:1370:void handleTVChannelIdsUserResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> j
+    1382:1456:void handleBroadcastPageDataResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleBroadcastPageDataResponse
+    1462:1473:void handleSignUpResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleSignUpResponse
+    1478:1487:void handleGetUserLikesResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleGetUserLikesResponse
+    1493:1503:void handleAddUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleAddUserLikeResponse
+    1509:1517:void handleRemoveUserLikeResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleRemoveUserLikeResponse
+    1523:1531:void handleResetPasswordSendEmailResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleResetPasswordSendEmailResponse
+    1537:1554:void handleUserTokenWithFacebookTokenResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> handleUserTokenWithFacebookTokenResponse
+    1560:1572:void handleSetChannelsResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum) -> handleSetChannelsResponse
+    1577:1587:void handleLoginResponse(com.mitv.interfaces.ViewCallbackListener,com.mitv.enums.RequestIdentifierEnum,com.mitv.enums.FetchRequestResultEnum,java.lang.Object) -> k
+    1593:1596:void handleLogoutResponse(com.mitv.interfaces.ViewCallbackListener) -> b
     52:52:int[] $SWITCH_TABLE$com$mitv$managers$ContentManagerCallback$RequestToCallBackMapAccessIdentifier() -> a
     52:52:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
 com.mitv.managers.ContentManagerCallback$RequestToCallBackMapAccessIdentifier -> bbf:
@@ -38180,8 +38195,8 @@ com.mitv.models.comparators.CompetitionEventsComparatorByTime -> com.mitv.models
 com.mitv.models.comparators.EventBroadcastByStartTime -> com.mitv.models.comparators.EventBroadcastByStartTime:
     18:21:int compare(com.mitv.models.objects.mitvapi.competitions.EventBroadcast,com.mitv.models.objects.mitvapi.competitions.EventBroadcast) -> compare
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
-com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom -> com.mitv.models.comparators.EventLineUpComparatorByShirtNumberWithGoalKeeperAtTopAndCoachAtBottom:
-    16:47:int compare(com.mitv.models.objects.mitvapi.competitions.EventLineUp,com.mitv.models.objects.mitvapi.competitions.EventLineUp) -> compare
+com.mitv.models.comparators.EventLineUpComparatorByPositionAndShirtNumber -> com.mitv.models.comparators.EventLineUpComparatorByPositionAndShirtNumber:
+    17:53:int compare(com.mitv.models.objects.mitvapi.competitions.EventLineUp,com.mitv.models.objects.mitvapi.competitions.EventLineUp) -> compare
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
 com.mitv.models.comparators.EventStandingsComparatorByPoints -> com.mitv.models.comparators.EventStandingsComparatorByPoints:
     17:30:int compare(com.mitv.models.objects.mitvapi.competitions.Standings,com.mitv.models.objects.mitvapi.competitions.Standings) -> compare
@@ -38200,6 +38215,9 @@ com.mitv.models.comparators.TVChannelIdComparatorById -> com.mitv.models.compara
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
 com.mitv.models.comparators.TVFeedItemComparatorByTime -> com.mitv.models.comparators.TVFeedItemComparatorByTime:
     20:48:int compare(com.mitv.models.objects.mitvapi.TVFeedItem,com.mitv.models.objects.mitvapi.TVFeedItem) -> compare
+    1:1:int compare(java.lang.Object,java.lang.Object) -> compare
+com.mitv.models.comparators.TeamSquadComparatorByPositionANdShirtNumber -> com.mitv.models.comparators.TeamSquadComparatorByPositionANdShirtNumber:
+    17:53:int compare(com.mitv.models.objects.mitvapi.competitions.TeamSquad,com.mitv.models.objects.mitvapi.competitions.TeamSquad) -> compare
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
 com.mitv.models.comparators.UserLikeComparatorByTitle -> com.mitv.models.comparators.UserLikeComparatorByTitle:
     16:16:int compare(com.mitv.models.gson.mitvapi.UserLikeJSON,com.mitv.models.gson.mitvapi.UserLikeJSON) -> compare
@@ -38658,32 +38676,33 @@ com.mitv.models.gson.mitvapi.UserLoginDataJSON -> com.mitv.models.gson.mitvapi.U
     42:42:com.mitv.models.objects.mitvapi.ProfileImage getProfileImage() -> getProfileImage
     49:52:boolean areDataFieldsValid() -> areDataFieldsValid
 com.mitv.models.gson.mitvapi.competitions.CompetitionJSON -> com.mitv.models.gson.mitvapi.competitions.CompetitionJSON:
+    java.lang.String TAG -> TAG
     long competitionId -> competitionId
     java.lang.String displayName -> displayName
     java.lang.String competitionCategory -> competitionCategory
     java.lang.String startDate -> startDate
     java.lang.String endDate -> endDate
     boolean visible -> visible
-    com.mitv.models.gson.mitvapi.ImageSetSizeJSON banner -> banner
-    27:27:long getCompetitionId() -> getCompetitionId
-    33:33:java.lang.String getDisplayName() -> getDisplayName
-    39:39:java.lang.String getStartDate() -> getStartDate
-    45:45:java.lang.String getEndDate() -> getEndDate
-    51:51:boolean isVisible() -> isVisible
-    57:57:com.mitv.models.gson.mitvapi.ImageSetSizeJSON getBanner() -> getBanner
+    31:31:long getCompetitionId() -> getCompetitionId
+    38:45:java.lang.String getDisplayName() -> getDisplayName
+    52:59:java.lang.String getStartDate() -> getStartDate
+    66:73:java.lang.String getEndDate() -> getEndDate
+    80:80:boolean isVisible() -> isVisible
+    87:94:java.lang.String getCompetitionCategory() -> getCompetitionCategory
 com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON -> com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON:
+    java.lang.String TAG -> TAG
     java.lang.String eventBroadcastId -> eventBroadcastId
     java.lang.String programId -> programId
     java.lang.String beginTime -> beginTime
     long beginTimeMillis -> beginTimeMillis
     java.lang.String endTime -> endTime
     java.lang.String channelId -> channelId
-    23:23:java.lang.String getEventBroadcastId() -> getEventBroadcastId
-    29:29:java.lang.String getProgramId() -> getProgramId
-    35:35:java.lang.String getBeginTime() -> getBeginTime
-    41:41:long getBeginTimeMillis() -> getBeginTimeMillis
-    47:47:java.lang.String getEndTime() -> getEndTime
-    53:53:java.lang.String getChannelId() -> getChannelId
+    30:37:java.lang.String getEventBroadcastId() -> getEventBroadcastId
+    44:51:java.lang.String getProgramId() -> getProgramId
+    58:65:java.lang.String getBeginTime() -> getBeginTime
+    72:72:long getBeginTimeMillis() -> getBeginTimeMillis
+    79:86:java.lang.String getEndTime() -> getEndTime
+    93:100:java.lang.String getChannelId() -> getChannelId
 com.mitv.models.gson.mitvapi.competitions.EventHighlightJSON -> com.mitv.models.gson.mitvapi.competitions.EventHighlightJSON:
     long eventId -> eventId
     java.lang.String highlightCode -> highlightCode
@@ -38700,6 +38719,7 @@ com.mitv.models.gson.mitvapi.competitions.EventHighlightJSON -> com.mitv.models.
     59:59:long getEventId() -> getEventId
     63:66:java.lang.String getSubPersonShort() -> getSubPersonShort
 com.mitv.models.gson.mitvapi.competitions.EventJSON -> com.mitv.models.gson.mitvapi.competitions.EventJSON:
+    java.lang.String TAG -> TAG
     long eventId -> eventId
     long competitionId -> competitionId
     java.lang.String eventDate -> eventDate
@@ -38721,7 +38741,6 @@ com.mitv.models.gson.mitvapi.competitions.EventJSON -> com.mitv.models.gson.mitv
     int homeGoalsHalfTime -> homeGoalsHalfTime
     int awayGoalsHalfTime -> awayGoalsHalfTime
     long matchStatusId -> matchStatusId
-    java.lang.String matchStatus -> matchStatus
     boolean postponed -> postponed
     boolean finished -> finished
     boolean abandoned -> abandoned
@@ -38734,38 +38753,41 @@ com.mitv.models.gson.mitvapi.competitions.EventJSON -> com.mitv.models.gson.mitv
     boolean dataEntryLiveGoal -> dataEntryLiveGoal
     boolean dataEntryLiveLineUp -> dataEntryLiveLineUp
     java.util.List broadcasts -> broadcasts
-    55:55:long getEventId() -> getEventId
-    61:61:long getCompetitionId() -> getCompetitionId
-    67:67:java.lang.String getEventDate() -> getEventDate
-    73:73:boolean isRescheduled() -> isRescheduled
-    79:79:long getPhaseId() -> getPhaseId
-    85:85:long getHomeTeamId() -> getHomeTeamId
-    91:91:java.lang.String getHomeTeam() -> getHomeTeam
-    97:97:long getAwayTeamId() -> getAwayTeamId
-    103:103:java.lang.String getAwayTeam() -> getAwayTeam
-    109:109:int getStadiumId() -> getStadiumId
-    116:121:java.lang.String getStadium() -> getStadium
-    127:127:int getCityId() -> getCityId
-    133:133:java.lang.String getCity() -> getCity
-    139:139:java.lang.String getCountry() -> getCountry
-    145:145:int getHomeGoals() -> getHomeGoals
-    151:151:int getAwayGoals() -> getAwayGoals
-    157:157:int getHomeGoalsHalfTime() -> getHomeGoalsHalfTime
-    163:163:int getAwayGoalsHalfTime() -> getAwayGoalsHalfTime
-    169:169:long getMatchStatusId() -> getMatchStatusId
-    175:175:boolean isPostponed() -> isPostponed
-    181:181:boolean isFinished() -> isFinished
-    187:187:boolean isAbandoned() -> isAbandoned
-    193:193:boolean isAwarded() -> isAwarded
-    199:199:boolean isLive() -> isLive
-    205:205:int getRefereeId() -> getRefereeId
-    211:211:java.lang.String getReferee() -> getReferee
-    217:217:java.lang.String getRefereeNation() -> getRefereeNation
-    223:223:boolean isDataEntryLiveScore() -> isDataEntryLiveScore
-    229:229:boolean isDataEntryLiveGoal() -> isDataEntryLiveGoal
-    235:235:boolean isDataEntryLiveLineUp() -> isDataEntryLiveLineUp
-    241:241:java.lang.String getStadiumImageCopyright() -> getStadiumImageCopyright
-    247:247:java.lang.String getDescription() -> getDescription
+    int currentMinute -> currentMinute
+    61:61:long getEventId() -> getEventId
+    68:68:long getCompetitionId() -> getCompetitionId
+    75:82:java.lang.String getEventDate() -> getEventDate
+    89:89:boolean isRescheduled() -> isRescheduled
+    96:96:long getPhaseId() -> getPhaseId
+    103:103:long getHomeTeamId() -> getHomeTeamId
+    110:117:java.lang.String getHomeTeam() -> getHomeTeam
+    124:124:long getAwayTeamId() -> getAwayTeamId
+    131:138:java.lang.String getAwayTeam() -> getAwayTeam
+    145:145:int getStadiumId() -> getStadiumId
+    152:157:java.lang.String getStadium() -> getStadium
+    164:164:int getCityId() -> getCityId
+    171:178:java.lang.String getCity() -> getCity
+    185:192:java.lang.String getCountry() -> getCountry
+    199:199:int getHomeGoals() -> getHomeGoals
+    206:206:int getAwayGoals() -> getAwayGoals
+    213:213:int getHomeGoalsHalfTime() -> getHomeGoalsHalfTime
+    219:219:int getAwayGoalsHalfTime() -> getAwayGoalsHalfTime
+    225:225:long getMatchStatusId() -> getMatchStatusId
+    231:231:boolean isPostponed() -> isPostponed
+    237:237:boolean isFinished() -> isFinished
+    243:243:boolean isAbandoned() -> isAbandoned
+    249:249:boolean isAwarded() -> isAwarded
+    255:255:boolean isLive() -> isLive
+    261:261:int getRefereeId() -> getRefereeId
+    268:275:java.lang.String getReferee() -> getReferee
+    282:289:java.lang.String getRefereeNation() -> getRefereeNation
+    296:296:boolean isDataEntryLiveScore() -> isDataEntryLiveScore
+    303:303:boolean isDataEntryLiveGoal() -> isDataEntryLiveGoal
+    310:310:boolean isDataEntryLiveLineUp() -> isDataEntryLiveLineUp
+    317:324:java.lang.String getStadiumImageCopyright() -> getStadiumImageCopyright
+    331:338:java.lang.String getDescription() -> getDescription
+    345:352:java.util.List getBroadcasts() -> getBroadcasts
+    359:359:int getCurrentMinute() -> getCurrentMinute
 com.mitv.models.gson.mitvapi.competitions.EventLineUpJSON -> com.mitv.models.gson.mitvapi.competitions.EventLineUpJSON:
     java.lang.String TAG -> TAG
     long teamId -> teamId
@@ -38779,17 +38801,17 @@ com.mitv.models.gson.mitvapi.competitions.EventLineUpJSON -> com.mitv.models.gso
     java.lang.String function -> function
     int shirtNumber -> shirtNumber
     boolean inStartingLineUp -> inStartingLineUp
-    36:36:long getPersonId() -> getPersonId
-    43:50:java.lang.String getPerson() -> getPerson
-    57:64:java.lang.String getPersonShort() -> getPersonShort
-    71:71:long getTeamId() -> getTeamId
-    78:85:java.lang.String getTeam() -> getTeam
-    92:99:java.lang.String getFunction() -> getFunction
-    106:113:java.lang.String getFunctionShort() -> getFunctionShort
+    35:35:long getPersonId() -> getPersonId
+    42:49:java.lang.String getPerson() -> getPerson
+    56:63:java.lang.String getPersonShort() -> getPersonShort
+    70:70:long getTeamId() -> getTeamId
+    77:84:java.lang.String getTeam() -> getTeam
+    91:98:java.lang.String getFunction() -> getFunction
+    105:112:java.lang.String getFunctionShort() -> getFunctionShort
     119:119:int getFunctionType() -> getFunctionType
     126:133:java.lang.String getNation() -> getNation
-    139:139:int getShirtNumber() -> getShirtNumber
-    145:145:boolean isInStartingLineUp() -> isInStartingLineUp
+    140:140:int getShirtNumber() -> getShirtNumber
+    147:147:boolean isInStartingLineUp() -> isInStartingLineUp
 com.mitv.models.gson.mitvapi.competitions.PhaseJSON -> com.mitv.models.gson.mitvapi.competitions.PhaseJSON:
     long competitionId -> competitionId
     long phaseId -> phaseId
@@ -38810,24 +38832,27 @@ com.mitv.models.gson.mitvapi.competitions.PhaseJSON -> com.mitv.models.gson.mitv
     69:69:java.lang.String getStartDate() -> getStartDate
     75:75:java.lang.String getEndDate() -> getEndDate
 com.mitv.models.gson.mitvapi.competitions.PollJSON -> com.mitv.models.gson.mitvapi.competitions.PollJSON:
+    java.lang.String TAG -> TAG
     java.lang.String pollId -> pollId
     java.lang.String contentType -> contentType
     java.lang.String contentId -> contentId
     int voteOptions -> voteOptions
     boolean isClosed -> isClosed
-    20:20:java.lang.String getPollId() -> getPollId
-    25:25:java.lang.String getContentType() -> getContentType
-    30:30:java.lang.String getContentId() -> getContentId
-    35:35:int getVoteOptions() -> getVoteOptions
-    40:40:boolean isClosed() -> isClosed
+    25:25:java.lang.String getPollId() -> getPollId
+    32:32:java.lang.String getContentType() -> getContentType
+    39:39:java.lang.String getContentId() -> getContentId
+    46:46:int getVoteOptions() -> getVoteOptions
+    52:52:boolean isClosed() -> isClosed
 com.mitv.models.gson.mitvapi.competitions.PollVoteJSON -> com.mitv.models.gson.mitvapi.competitions.PollVoteJSON:
+    java.lang.String TAG -> TAG
     java.lang.String pollId -> pollId
     int voteSelection -> voteSelection
     java.lang.String voteDate -> voteDate
-    19:19:java.lang.String getPollId() -> getPollId
-    25:25:int getVoteSelection() -> getVoteSelection
-    31:31:java.lang.String getVoteDate() -> getVoteDate
+    23:23:java.lang.String getPollId() -> getPollId
+    29:29:int getVoteSelection() -> getVoteSelection
+    35:35:java.lang.String getVoteDate() -> getVoteDate
 com.mitv.models.gson.mitvapi.competitions.StandingsJSON -> com.mitv.models.gson.mitvapi.competitions.StandingsJSON:
+    java.lang.String TAG -> TAG
     long competitionId -> competitionId
     long phaseId -> phaseId
     java.lang.String phase -> phase
@@ -38841,33 +38866,35 @@ com.mitv.models.gson.mitvapi.competitions.StandingsJSON -> com.mitv.models.gson.
     int points -> points
     int goalsFor -> goalsFor
     int goalsAgainst -> goalsAgainst
-    29:29:long getCompetitionId() -> getCompetitionId
-    35:35:long getPhaseId() -> getPhaseId
-    41:41:java.lang.String getPhase() -> getPhase
-    47:47:java.lang.String getTeam() -> getTeam
-    53:53:long getTeamId() -> getTeamId
-    59:59:java.lang.String getRank() -> getRank
-    65:65:int getMatches() -> getMatches
-    71:71:int getMatchesWon() -> getMatchesWon
-    77:77:int getMatchesLost() -> getMatchesLost
-    83:83:int getMatchesDrawn() -> getMatchesDrawn
-    89:89:int getPoints() -> getPoints
-    95:95:int getGoalsFor() -> getGoalsFor
-    101:101:int getGoalsAgainst() -> getGoalsAgainst
+    35:35:long getCompetitionId() -> getCompetitionId
+    42:42:long getPhaseId() -> getPhaseId
+    49:56:java.lang.String getPhase() -> getPhase
+    63:70:java.lang.String getTeam() -> getTeam
+    77:77:long getTeamId() -> getTeamId
+    84:91:java.lang.String getRank() -> getRank
+    98:98:int getMatches() -> getMatches
+    105:105:int getMatchesWon() -> getMatchesWon
+    112:112:int getMatchesLost() -> getMatchesLost
+    119:119:int getMatchesDrawn() -> getMatchesDrawn
+    126:126:int getPoints() -> getPoints
+    133:133:int getGoalsFor() -> getGoalsFor
+    140:140:int getGoalsAgainst() -> getGoalsAgainst
 com.mitv.models.gson.mitvapi.competitions.TeamJSON -> com.mitv.models.gson.mitvapi.competitions.TeamJSON:
+    java.lang.String TAG -> TAG
     long teamId -> teamId
     java.lang.String displayName -> displayName
     java.lang.String nation -> nation
     java.lang.String nationCode -> nationCode
     java.lang.String description -> description
     java.lang.String teamImageCopyright -> teamImageCopyright
-    23:23:long getTeamId() -> getTeamId
-    28:28:java.lang.String getDisplayName() -> getDisplayName
-    33:33:java.lang.String getNation() -> getNation
-    39:39:java.lang.String getNationCode() -> getNationCode
-    45:45:java.lang.String getDescription() -> getDescription
-    51:51:java.lang.String getTeamImageCopyright() -> getTeamImageCopyright
+    30:30:long getTeamId() -> getTeamId
+    37:44:java.lang.String getDisplayName() -> getDisplayName
+    51:58:java.lang.String getNation() -> getNation
+    65:72:java.lang.String getNationCode() -> getNationCode
+    79:86:java.lang.String getDescription() -> getDescription
+    93:100:java.lang.String getTeamImageCopyright() -> getTeamImageCopyright
 com.mitv.models.gson.mitvapi.competitions.TeamSquadJSON -> com.mitv.models.gson.mitvapi.competitions.TeamSquadJSON:
+    java.lang.String TAG -> TAG
     long id -> id
     long teamId -> teamId
     long personId -> personId
@@ -38884,22 +38911,22 @@ com.mitv.models.gson.mitvapi.competitions.TeamSquadJSON -> com.mitv.models.gson.
     int assists -> assists
     int yellowCards -> yellowCards
     int redCards -> redCards
-    25:25:long getId() -> getId
-    29:29:long getTeamId() -> getTeamId
-    33:33:long getPersonId() -> getPersonId
-    37:37:java.lang.String getPerson() -> getPerson
-    41:41:java.lang.String getPersonShort() -> getPersonShort
-    45:45:java.lang.String getNation() -> getNation
-    49:49:long getBirthDay() -> getBirthDay
-    53:53:int getFunctionType() -> getFunctionType
-    57:57:java.lang.String getFunction() -> getFunction
-    61:61:int getShirtNumber() -> getShirtNumber
-    65:65:int getMatches() -> getMatches
-    69:69:int getMatchesStart() -> getMatchesStart
-    73:73:int getGoals() -> getGoals
-    77:77:int getAssists() -> getAssists
-    81:81:int getYellowCards() -> getYellowCards
-    85:85:int getRedCards() -> getRedCards
+    40:40:long getId() -> getId
+    47:47:long getTeamId() -> getTeamId
+    54:54:long getPersonId() -> getPersonId
+    61:68:java.lang.String getPerson() -> getPerson
+    75:82:java.lang.String getPersonShort() -> getPersonShort
+    89:96:java.lang.String getNation() -> getNation
+    103:103:long getBirthDay() -> getBirthDay
+    110:110:int getFunctionType() -> getFunctionType
+    117:124:java.lang.String getFunction() -> getFunction
+    131:131:int getShirtNumber() -> getShirtNumber
+    138:138:int getMatches() -> getMatches
+    145:145:int getMatchesStart() -> getMatchesStart
+    152:152:int getGoals() -> getGoals
+    159:159:int getAssists() -> getAssists
+    166:166:int getYellowCards() -> getYellowCards
+    173:173:int getRedCards() -> getRedCards
 com.mitv.models.gson.serialization.UserFacebookTokenData -> com.mitv.models.gson.serialization.UserFacebookTokenData:
     java.lang.String facebookToken -> facebookToken
     24:24:java.lang.String getFacebookToken() -> getFacebookToken
@@ -39195,32 +39222,32 @@ com.mitv.models.objects.mitvapi.competitions.Competition -> com.mitv.models.obje
     69:71:java.util.Calendar getEndTimeCalendarGMT() -> getEndTimeCalendarGMT
     81:88:java.util.Calendar getBeginTimeCalendarLocal() -> getBeginTimeCalendarLocal
     99:106:java.util.Calendar getEndTimeCalendarLocal() -> getEndTimeCalendarLocal
-    113:113:com.mitv.enums.CompetitionCategoryEnum getCompetitionCategory() -> getCompetitionCategory
+    113:113:com.mitv.enums.CompetitionCategoryEnum getCategory() -> getCategory
 com.mitv.models.objects.mitvapi.competitions.Event -> com.mitv.models.objects.mitvapi.competitions.Event:
     java.lang.String TAG -> TAG
     java.util.Calendar eventCalendar -> eventCalendar
-    39:45:java.lang.String getTitle() -> getTitle
-    52:52:com.mitv.enums.EventMatchStatusEnum getMatchStatus() -> getMatchStatus
-    59:67:java.util.List getEventBroadcasts() -> getEventBroadcasts
-    74:87:com.mitv.models.objects.mitvapi.competitions.EventBroadcast getEventBroadcastMatchingBeginTimeMillis(long) -> getEventBroadcastMatchingBeginTimeMillis
-    94:102:java.lang.String getStadiumImageURL() -> getStadiumImageURL
-    109:141:java.lang.String getGameTimeAndStatusAsString(boolean) -> getGameTimeAndStatusAsString
-    148:148:boolean containsBroadcastDetails() -> containsBroadcastDetails
-    155:161:boolean containsTeamInfo() -> containsTeamInfo
-    168:168:boolean hasStarted() -> hasStarted
-    175:175:boolean hasEnded() -> hasEnded
-    182:188:java.lang.String getScoreAsString() -> getScoreAsString
-    198:200:java.util.Calendar getEventDateCalendarGMT() -> getEventDateCalendarGMT
-    211:218:java.util.Calendar getEventDateCalendarLocal() -> getEventDateCalendarLocal
-    225:228:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.competitions.Event) -> isTheSameDayAs
-    235:259:boolean isEventTimeTodayOrTomorrow() -> isEventTimeTodayOrTomorrow
-    270:270:java.lang.String getEventTimeDayOfTheWeekAsString() -> getEventTimeDayOfTheWeekAsString
-    280:282:java.lang.String getEventTimeDayAndMonthAsString() -> getEventTimeDayAndMonthAsString
-    290:296:int hashCode() -> hashCode
-    304:326:boolean equals(java.lang.Object) -> equals
-    339:346:boolean isSamePhase(com.mitv.models.objects.mitvapi.competitions.Event) -> isSamePhase
-    353:355:long getBeginTimeLocalInMillis() -> getBeginTimeLocalInMillis
-    363:374:java.lang.String getShareUrl() -> getShareUrl
+    int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum -> $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum
+    38:44:java.lang.String getTitle() -> getTitle
+    51:51:com.mitv.enums.EventMatchStatusEnum getMatchStatus() -> getMatchStatus
+    58:66:java.util.List getEventBroadcasts() -> getEventBroadcasts
+    73:86:com.mitv.models.objects.mitvapi.competitions.EventBroadcast getEventBroadcastMatchingBeginTimeMillis(long) -> getEventBroadcastMatchingBeginTimeMillis
+    93:101:java.lang.String getStadiumImageURL() -> getStadiumImageURL
+    108:173:java.lang.String getGameTimeAndStatusAsString(boolean) -> getGameTimeAndStatusAsString
+    180:180:boolean containsBroadcastDetails() -> containsBroadcastDetails
+    187:193:boolean containsTeamInfo() -> containsTeamInfo
+    201:207:java.lang.String getScoreAsString() -> getScoreAsString
+    217:219:java.util.Calendar getEventDateCalendarGMT() -> getEventDateCalendarGMT
+    230:237:java.util.Calendar getEventDateCalendarLocal() -> getEventDateCalendarLocal
+    244:247:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.competitions.Event) -> isTheSameDayAs
+    254:278:boolean isEventTimeTodayOrTomorrow() -> isEventTimeTodayOrTomorrow
+    289:289:java.lang.String getEventTimeDayOfTheWeekAsString() -> getEventTimeDayOfTheWeekAsString
+    299:301:java.lang.String getEventTimeDayAndMonthAsString() -> getEventTimeDayAndMonthAsString
+    309:315:int hashCode() -> hashCode
+    323:345:boolean equals(java.lang.Object) -> equals
+    358:365:boolean isSamePhase(com.mitv.models.objects.mitvapi.competitions.Event) -> isSamePhase
+    372:374:long getBeginTimeLocalInMillis() -> getBeginTimeLocalInMillis
+    382:393:java.lang.String getShareUrl() -> getShareUrl
+    22:22:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum
 com.mitv.models.objects.mitvapi.competitions.EventBroadcast -> com.mitv.models.objects.mitvapi.competitions.EventBroadcast:
     java.lang.String TAG -> TAG
     java.util.Calendar beginTimeCalendar -> beginTimeCalendar
@@ -39245,15 +39272,13 @@ com.mitv.models.objects.mitvapi.competitions.EventBroadcast -> com.mitv.models.o
     288:290:long getBeginTimeLocalInMillis() -> getBeginTimeLocalInMillis
 com.mitv.models.objects.mitvapi.competitions.EventHighlight -> com.mitv.models.objects.mitvapi.competitions.EventHighlight:
     int[] $SWITCH_TABLE$com$mitv$enums$EventHighlightActionEnum -> $SWITCH_TABLE$com$mitv$enums$EventHighlightActionEnum
-    25:129:java.lang.String getAction() -> getAction
-    135:137:boolean hasSubPerson() -> hasSubPerson
-    144:144:com.mitv.enums.EventHighlightActionEnum getType() -> getType
-    151:153:int getActionTimeInMinutes() -> getActionTimeInMinutes
+    25:135:java.lang.String getAction() -> getAction
+    141:143:boolean hasSubPerson() -> hasSubPerson
+    150:150:com.mitv.enums.EventHighlightActionEnum getType() -> getType
+    157:159:int getActionTimeInMinutes() -> getActionTimeInMinutes
     16:16:int[] $SWITCH_TABLE$com$mitv$enums$EventHighlightActionEnum() -> $SWITCH_TABLE$com$mitv$enums$EventHighlightActionEnum
 com.mitv.models.objects.mitvapi.competitions.EventLineUp -> com.mitv.models.objects.mitvapi.competitions.EventLineUp:
-    20:22:boolean isGoalKeeper() -> isGoalKeeper
-    29:31:boolean isReferee() -> isReferee
-    38:40:boolean isCoach() -> isCoach
+    20:20:com.mitv.enums.EventLineUpPosition getPosition() -> getPosition
 com.mitv.models.objects.mitvapi.competitions.Phase -> com.mitv.models.objects.mitvapi.competitions.Phase:
     java.lang.String TAG -> TAG
     24:30:int hashCode() -> hashCode
@@ -39262,15 +39287,16 @@ com.mitv.models.objects.mitvapi.competitions.Poll -> com.mitv.models.objects.mit
 com.mitv.models.objects.mitvapi.competitions.PollVote -> com.mitv.models.objects.mitvapi.competitions.PollVote:
 com.mitv.models.objects.mitvapi.competitions.Standings -> com.mitv.models.objects.mitvapi.competitions.Standings:
     java.lang.String TAG -> TAG
-    22:22:int getGoalsForMinusGoalsAgainst() -> getGoalsForMinusGoalsAgainst
-    29:29:boolean isTheSamePhaseAs(com.mitv.models.objects.mitvapi.competitions.Standings) -> isTheSamePhaseAs
+    23:23:int getGoalsForMinusGoalsAgainst() -> getGoalsForMinusGoalsAgainst
+    30:30:boolean isTheSamePhaseAs(com.mitv.models.objects.mitvapi.competitions.Standings) -> isTheSamePhaseAs
 com.mitv.models.objects.mitvapi.competitions.Team -> com.mitv.models.objects.mitvapi.competitions.Team:
-    21:29:java.lang.String getFlagImageURL() -> getFlagImageURL
-    36:44:java.lang.String getTeamImageURL() -> getTeamImageURL
-    52:58:int hashCode() -> hashCode
-    66:88:boolean equals(java.lang.Object) -> equals
-    95:105:java.lang.String getShareUrl() -> getShareUrl
+    20:28:java.lang.String getFlagImageURL() -> getFlagImageURL
+    35:43:java.lang.String getTeamImageURL() -> getTeamImageURL
+    51:57:int hashCode() -> hashCode
+    65:87:boolean equals(java.lang.Object) -> equals
+    94:104:java.lang.String getShareUrl() -> getShareUrl
 com.mitv.models.objects.mitvapi.competitions.TeamSquad -> com.mitv.models.objects.mitvapi.competitions.TeamSquad:
+    20:20:com.mitv.enums.EventLineUpPosition getPosition() -> getPosition
 com.mitv.models.orm.AdzerkFormatForActivityORM -> com.mitv.models.orm.AdzerkFormatForActivityORM:
     int id -> id
     java.lang.Integer value -> value

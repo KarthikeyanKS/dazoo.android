@@ -12,7 +12,6 @@ public class EventLineUpJSON
 	private static final String TAG = EventLineUpJSON.class.getName();
 	
 	
-	
 	private long teamId;
 	private String team;
 	private long personId;
@@ -115,7 +114,8 @@ public class EventLineUpJSON
 
 	
 	
-	public int getFunctionType() {
+	public int getFunctionType() 
+	{
 		return functionType;
 	}
 
@@ -135,13 +135,15 @@ public class EventLineUpJSON
 
 
 
-	public int getShirtNumber() {
+	public int getShirtNumber() 
+	{
 		return shirtNumber;
 	}
 
 
 
-	public boolean isInStartingLineUp() {
+	public boolean isInStartingLineUp() 
+	{
 		return inStartingLineUp;
 	}
 }

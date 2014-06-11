@@ -61,7 +61,6 @@ public abstract class Constants
 	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
 	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
 	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
-	public static final boolean ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE_AND_NOTIFICATION = false;
 	
 	
 	/* AMAZON INSIGHTS SETTINGS */
@@ -469,6 +468,8 @@ public abstract class Constants
 	
     /* CONFIGURATIONS FOR NOTIFICATIONS */
 	public static final int	NOTIFY_MINUTES_BEFORE_THE_BROADCAST	= 15;
+	public static final String RAW_RESOURCE_PATH = "/raw";
+	public static final String REMINDER_SOUND_RESOURCE_FOR_COMPETITIONS = "reminder_sound_competition";
     
     /* Shared preferences for data storage */
 	public static final String DEVICE_PREFERENCES_FILE = "device_id.xml";
@@ -540,15 +541,10 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_PHASE_ID = "phaseID";
 	public static final String INTENT_COMPETITION_NAME = "competitionName";
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
-	
-	public static final int LINE_UP_GOAL_KEEPER_FUNCTION_TYPE = 1;
-	public static final int LINE_UP_COACH_FUNCTION_TYPE = 16;
-	public static final int LINE_UP_REFEREE_FUNCTION_TYPE = 64;
-	
+		
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
 	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";
 	public static final String GROUP_STAGE = "Fase de Grupos";
 	public static final int MAXIMUM_CHANNELS_TO_SHOW_IN_COMPETITON = 1;
-	public static final String FUNCTION_COACH = "Coach";
 }

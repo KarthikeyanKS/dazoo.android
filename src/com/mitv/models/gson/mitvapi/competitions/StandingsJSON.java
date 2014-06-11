@@ -1,23 +1,28 @@
 
 package com.mitv.models.gson.mitvapi.competitions;
 
+import android.util.Log;
+
 
 
 public class StandingsJSON
 {
-	protected long competitionId;
-	protected long phaseId;
-	protected String phase;
-	protected String team;
-	protected long teamId;
-	protected String rank;
-	protected int matches;
-	protected int matchesWon;
-	protected int matchesLost;
-	protected int matchesDrawn;
-	protected int points;
-	protected int goalsFor;
-	protected int goalsAgainst;
+	private static final String TAG = StandingsJSON.class.getName();
+	
+	
+	private long competitionId;
+	private long phaseId;
+	private String phase;
+	private String team;
+	private long teamId;
+	private String rank;
+	private int matches;
+	private int matchesWon;
+	private int matchesLost;
+	private int matchesDrawn;
+	private int points;
+	private int goalsFor;
+	private int goalsAgainst;
 	
 
 	
@@ -25,82 +30,113 @@ public class StandingsJSON
 
 
 
-	public long getCompetitionId() {
+	public long getCompetitionId() 
+	{
 		return competitionId;
 	}
 
 
 
-	public long getPhaseId() {
+	public long getPhaseId() 
+	{
 		return phaseId;
 	}
 
 
 
-	public String getPhase() {
+	public String getPhase() 
+	{
+		if(phase == null)
+		{
+			phase = "";
+			
+			Log.w(TAG, "phase is null");
+		}
+		
 		return phase;
 	}
 
 
 
-	public String getTeam() {
+	public String getTeam()
+	{
+		if(team == null)
+		{
+			team = "";
+			
+			Log.w(TAG, "team is null");
+		}
+		
 		return team;
 	}
 
 
 
-	public long getTeamId() {
+	public long getTeamId()
+	{
 		return teamId;
 	}
 
 
 
-	public String getRank() {
+	public String getRank()
+	{
+		if(rank == null)
+		{
+			rank = "";
+			
+			Log.w(TAG, "rank is null");
+		}
+		
 		return rank;
 	}
 
 
 
-	public int getMatches() {
+	public int getMatches() 
+	{
 		return matches;
 	}
 
 
 
-	public int getMatchesWon() {
+	public int getMatchesWon() 
+	{
 		return matchesWon;
 	}
 
 
 
-	public int getMatchesLost() {
+	public int getMatchesLost()
+	{
 		return matchesLost;
 	}
 
 
 
-	public int getMatchesDrawn() {
+	public int getMatchesDrawn() 
+	{
 		return matchesDrawn;
 	}
 
 
 
-	public int getPoints() {
+	public int getPoints()
+	{
 		return points;
 	}
 
 
 
-	public int getGoalsFor() {
+	public int getGoalsFor()
+	{
 		return goalsFor;
 	}
 
 
 
-	public int getGoalsAgainst() {
+	public int getGoalsAgainst()
+	{
 		return goalsAgainst;
 	}
-
-
-	
 }

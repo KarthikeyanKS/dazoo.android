@@ -10,15 +10,18 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
@@ -100,7 +103,7 @@ public class NotificationHelper
 			
 			StringBuilder notificationTitleSB = new StringBuilder();
 			StringBuilder notificationTextSB = new StringBuilder();
-			
+				
 			NotificationTypeEnum notificationType = notification.getNotificationType();
 			
 			switch (notificationType) 
@@ -165,7 +168,7 @@ public class NotificationHelper
 			PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationID, intent, PendingIntent.FLAG_ONE_SHOT);
 			
 			Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.mitv_notification_large_icon);
-		
+					
 			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
 			.setSmallIcon(R.drawable.mitv_notification_small_icon)
 			.setLargeIcon(bitmap)
@@ -173,13 +176,47 @@ public class NotificationHelper
 			.setContentText(notificationTextSB)
 			.setContentIntent(pendingIntent)
 			.setAutoCancel(true)
-			.setWhen(System.currentTimeMillis())
-			.setDefaults(Notification.DEFAULT_ALL); // default sound, vibration and light
+			.setWhen(System.currentTimeMillis());
 			
-			notificationManager.notify(notificationID, notificationBuilder.build());
+			Notification androidNotification = notificationBuilder.build();
+			
+			switch(notificationType)
+			{
+				case COMPETITION_EVENT:
+				{
+					StringBuilder cutomSoundPathSB = new StringBuilder();
+					
+					cutomSoundPathSB.append(ContentResolver.SCHEME_ANDROID_RESOURCE)
+					.append("://")
+					.append(SecondScreenApplication.sharedInstance().getPackageName())
+					.append(Constants.RAW_RESOURCE_PATH)
+					.append(Constants.FORWARD_SLASH)
+					.append(Constants.REMINDER_SOUND_RESOURCE_FOR_COMPETITIONS);
+					
+					Uri customSoundUri = Uri.parse(cutomSoundPathSB.toString());
+					
+					androidNotification.sound = customSoundUri;
+					
+					androidNotification.ledARGB = context.getResources().getColor(R.color.blue0);
+					androidNotification.flags = Notification.FLAG_SHOW_LIGHTS;
+					androidNotification.ledOnMS = 200;
+					androidNotification.ledOffMS = 200;
+					
+					androidNotification.defaults = Notification.DEFAULT_VIBRATE;
+					
+					break;
+				}
+				
+				case TV_BROADCAST:
+				default:
+				{
+					androidNotification.defaults = Notification.DEFAULT_ALL;
+					break;
+				}
+			}
+			
+			notificationManager.notify(notificationID, androidNotification);
 	
-			Log.d(TAG, "Notification with ID " + notificationID + " will be removed");
-			
 			ContentManager.sharedInstance().removeFromCacheNotificationWithID(notificationID);
 		}
 	}
