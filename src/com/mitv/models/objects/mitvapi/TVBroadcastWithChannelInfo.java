@@ -35,6 +35,7 @@ public class TVBroadcastWithChannelInfo
 		this.beginTimeCalendarLocal = broadcast.getBeginTimeCalendarLocalForTagGeneration();
 		this.endTimeCalendarLocal = broadcast.getEndTimeCalendarLocalForTagGeneration();
 		this.isPopular = broadcast.isPopular();
+		this.eventId = broadcast.getEventId();
 	}
 	
 	
