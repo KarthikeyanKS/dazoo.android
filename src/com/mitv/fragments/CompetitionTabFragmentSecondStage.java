@@ -32,7 +32,6 @@ public class CompetitionTabFragmentSecondStage
 	extends CompetitionTabFragment
 	implements ViewCallbackListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = CompetitionTabFragmentSecondStage.class.getName();
 	
 

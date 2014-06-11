@@ -632,6 +632,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 	}
 
 
+	
 	@Override
 	public void onClick(View v) 
 	{
@@ -644,21 +645,21 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		switch (viewId) 
 		{
-		case R.id.competition_element_social_buttons_share_button_container: 
-		{
-			GenericUtils.startShareActivity(this, shareEvent);
-			break;
-		}
-		default: 
-		{
-			Log.w(TAG, "Unhandled onClick action");
-			break;
-		}
+			case R.id.competition_element_social_buttons_share_button_container: 
+			{
+				GenericUtils.startShareActivity(this, shareEvent);
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unhandled onClick action");
+				break;
+			}
 		}
 	}
-
-
-
+	
+	
 
 	private void initLayout()
 	{
