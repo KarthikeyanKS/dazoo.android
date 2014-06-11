@@ -1292,6 +1292,19 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	/**
+	 * Finds a competition containing the team. 
+	 * 
+	 * WARNING: May be inaccurate if team is in many competitions.
+	 * 
+	 * @param team
+	 * @return competition containing the team
+	 */
+	public Competition getFromCacheCompetitionByTeam(Team team) {
+		return getCache().getCompetitionsData().getCompetitionByTeam(team);
+	}
+	
+	
 	
 	public Phase getFromCachePhaseByIDForSelectedCompetition(long phaseID)
 	{

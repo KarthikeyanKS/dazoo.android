@@ -27,6 +27,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.TVGuideTabTypeEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
@@ -103,7 +104,7 @@ public class TVGuideTabFragmentCompetition
         {
             public void onClick(View v)
             {
-            	TrackingManager.sharedInstance().sendUserCompetitionTabCalendarPressed(getCompetition().getDisplayName());
+            	TrackingGAManager.sharedInstance().sendUserCompetitionTabCalendarPressed(getCompetition().getDisplayName());
             	
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
@@ -119,7 +120,7 @@ public class TVGuideTabFragmentCompetition
         {	
             public void onClick(View v)
             {
-                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
+            	TrackingGAManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
             }
         });
         
@@ -129,7 +130,7 @@ public class TVGuideTabFragmentCompetition
         {	
             public void onClick(View v)
             {
-                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
+            	TrackingGAManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
             }
         });
         

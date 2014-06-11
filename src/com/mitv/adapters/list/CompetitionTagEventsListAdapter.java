@@ -22,6 +22,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -272,8 +273,9 @@ public class CompetitionTagEventsListAdapter
 	        {
 	            public void onClick(View v)
 	            {
+	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
+	            	
 	                Intent intent = new Intent(activity, EventPageActivity.class);
-	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
 	                
 	                long competitionID = event.getCompetitionId();

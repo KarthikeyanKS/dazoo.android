@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.internal.m;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -26,6 +28,8 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -45,7 +49,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CompetitionPageActivity 
 	extends BaseContentActivity
-	implements ViewCallbackListener, FetchDataProgressCallbackListener 
+	implements ViewCallbackListener, FetchDataProgressCallbackListener, OnPageChangeListener
 {
 	private static final String TAG = CompetitionPageActivity.class.getName();
 	
@@ -235,6 +239,14 @@ public class CompetitionPageActivity
 			
 			eventCountDownTimer.start();
 			
+			countDownLayout.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+	            	TrackingGAManager.sharedInstance().sendUserCompetitionCountdownPressedEvent(competition.getDisplayName());
+				}
+			});
+			
 			setBeforeLayout();
 		}		
 	}
@@ -323,12 +335,12 @@ public class CompetitionPageActivity
 	        {
 	            public void onClick(View v)
 	            {
+	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competition.getDisplayName(), event.getTitle(), event.getEventId(), "Live Game");
+	            	
 	                Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
 
 	                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, liveEvent.getEventId());
-	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 	                
 	                startActivity(intent);
@@ -472,6 +484,8 @@ public class CompetitionPageActivity
 			{
 			    public void onClick(View v)
 			    {
+	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competition.getDisplayName(), event.getTitle(), event.getEventId(), "Next Game");
+	            	
 			        Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
 			        
 			        intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, nextEvent.getEventId());
@@ -614,6 +628,8 @@ public class CompetitionPageActivity
         {
             public void onClick(View v)
             {
+            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competition.getDisplayName(), event.getTitle(), event.getEventId(), "First Game");
+            	
                 Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
                 
                 intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
@@ -706,6 +722,7 @@ public class CompetitionPageActivity
 		
 		pageTabIndicator.setInitialStyleOnAllTabs();
 		pageTabIndicator.setStyleOnTabViewAtIndex(selectedIndex);
+		pageTabIndicator.setOnPageChangeListener(this);
 	}
 
 
@@ -776,4 +793,22 @@ public class CompetitionPageActivity
 
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) {}
+
+
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {}
+
+
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {}
+
+
+
+	@Override
+	public void onPageSelected(int pos) {
+		selectedTabIndex = pos;
+		TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competition.getDisplayName(), pagerAdapter.getPageTitle(pos).toString());
+	}
 }

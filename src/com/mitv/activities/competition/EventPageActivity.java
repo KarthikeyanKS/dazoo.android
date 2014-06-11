@@ -10,6 +10,7 @@ import java.util.Timer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventBroadcastByStartTime;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -55,7 +57,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class EventPageActivity 
 extends BaseContentActivity
-implements ViewCallbackListener, FetchDataProgressCallbackListener 
+implements ViewCallbackListener, FetchDataProgressCallbackListener
 {
 	private static final String TAG = EventPageActivity.class.getName();
 
@@ -305,9 +307,9 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		actionBar.setTitle(eventName.toString());
 
-		String homeTeamName = event.getHomeTeam();
+		final String homeTeamName = event.getHomeTeam();
 
-		String awayTeamName = event.getAwayTeam();
+		final String awayTeamName = event.getAwayTeam();
 
 		StringBuilder sbHeader = new StringBuilder();
 		sbHeader.append(homeTeamName)
@@ -357,6 +359,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, homeTeamName, "Country");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
@@ -370,6 +373,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, homeTeamName, "Highlights");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
@@ -398,6 +402,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, awayTeamName, "Country");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
@@ -411,6 +416,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					public void onClick(View v)
 					{
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, awayTeamName, "Highlights");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
@@ -656,6 +662,13 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				}
 			}
 		}
+		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionName);
+			}
+		});
 	}
 
 
@@ -696,6 +709,20 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		pageTabIndicatorForLineupTeams.setInitialStyleOnAllTabs();
 		pageTabIndicatorForLineupTeams.setStyleOnTabViewAtIndex(selectedIndex);
+		pageTabIndicatorForLineupTeams.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int pos) {
+				selectedTabIndexForLineupTeams = pos;
+				TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competitionName, pagerAdapterForLineupTeams.getPageTitle(pos).toString());
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {}
+		});
 	}
 
 
@@ -921,6 +948,16 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		{
 			public void run() 
 			{
+				String type = null;
+				if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION) {
+					type = "Standings";
+				}
+				else if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) {
+					type = "Schedule";
+				}
+				
+				TrackingGAManager.sharedInstance().sendUserCompetitionViewAllLinkPressedEvent(type);
+				
 				Intent intent = new Intent(EventPageActivity.this, CompetitionPageActivity.class);
 
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());

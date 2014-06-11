@@ -30,6 +30,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -422,6 +423,14 @@ public class TeamPageActivity
             	squadListContainer.addView(listItem);
             }
         }
+		squadListContainer.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TrackingGAManager.sharedInstance().sendUserCompetitionSquadPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID).getDisplayName(), team.getDisplayName());
+				
+			}
+		});
 	}
 	
 	
@@ -542,6 +551,16 @@ public class TeamPageActivity
 		{
 			public void run() 
 			{
+				String type = null;
+				if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION) {
+					type = "Standings";
+				}
+				else if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) {
+					type = "Schedule";
+				}
+				
+				TrackingGAManager.sharedInstance().sendUserCompetitionViewAllLinkPressedEvent(type);
+				
 				Intent intent = new Intent(TeamPageActivity.this, CompetitionPageActivity.class);		
 				
 				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionID);

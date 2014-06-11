@@ -352,6 +352,9 @@ public abstract class Constants
 	public static final String GA_EVENT_ACTION_DETACHED_AREA_PRESSED = "DETACHED_AREA_PRESSED";
 	public static final String GA_EVENT_ACTION_INVIEW_TAB_PRESSED = "INVIEW_TAB_PRESSED";
 	public static final String GA_EVENT_ACTION_TEAM_PRESSED = "TEAM_PRESSED";
+	public static final String GA_EVENT_ACTION_COMPETITION_EVENT_PRESSED = "COMPETITION_EVENT_PRESSED";
+	public static final String GA_EVENT_ACTION_VIEW_ALL_LINK_PRESSED = "VIEW_ALL_LINK_PRESSED";
+	
 	
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
