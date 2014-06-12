@@ -163,16 +163,18 @@ public class TVGuideCompetitionTagListAdapter
 				titleSB.append(activity.getString(R.string.icon_live))
 				.append(" ");
 			}
+			
+			if (broadcastWithChannelInfo.getProgram().getSportType() != null) {
+				descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
+				.append(": ")
+				.append(broadcastWithChannelInfo.getProgram().getTournament());
+				
+				titleSB.append(broadcastWithChannelInfo.getTitle());
+				
+				holder.mTitleTv.setText(titleSB.toString());
+				holder.mDescTv.setText(descriptionSB.toString());
+			}
 
-			descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
-			.append(": ")
-			.append(broadcastWithChannelInfo.getProgram().getTournament());
-			
-			titleSB.append(broadcastWithChannelInfo.getTitle());
-			
-			holder.mTitleTv.setText(titleSB.toString());
-			holder.mDescTv.setText(descriptionSB.toString());
-			
 			holder.mContainer.setOnClickListener(new View.OnClickListener() 
 			{
 				@Override
