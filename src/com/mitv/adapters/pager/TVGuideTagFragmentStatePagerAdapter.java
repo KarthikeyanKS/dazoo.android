@@ -9,6 +9,7 @@ import java.util.List;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
@@ -63,13 +64,13 @@ public class TVGuideTagFragmentStatePagerAdapter
 		
 		if(realPosition == 0)
 		{
-			TVTag tvTag = getTVTag(realPosition);
+			TVTag tvTag = getTVTags().get(realPosition);
 			
 			fragment = new TVGuideTabFragmentAllPrograms(tvTag);
 		}
 		else
 		{
-			TVTag tvTag = getTVTag(realPosition);
+			TVTag tvTag = getTVTags().get(realPosition);
 			
 			List<Competition> competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
 			
@@ -99,7 +100,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{	
 			int realPosition = position % getCount();
 			
-			TVTag tvTag = getTVTag(realPosition);
+			TVTag tvTag = getTVTags().get(realPosition);
 				
 			displayName = tvTag.getDisplayName();
 		}
@@ -116,36 +117,31 @@ public class TVGuideTagFragmentStatePagerAdapter
 	@Override
 	public int getCount() 
 	{
-		if (tvTags != null) 
-		{
-			return tvTags.size();
-		}
-		else 
-		{
-			return 0;
-		}
+		return getTVTags().size();
 	}
 	
 	
 	
-	private TVTag getTVTag(int realPosition) {
-		TVTag tag;
+	private List<TVTag> getTVTags() {
+		List<TVTag> tvTags;
 		
-		if (tvTags != null) {
-			tag = tvTags.get(realPosition);
+		if (this.tvTags != null) {
+			tvTags = this.tvTags;
+			Log.e(TAG, "We have the TVTAG!!!!!!!!!!!!!!!");
 			
 		} else {
 			if (ContentManager.sharedInstance().getFromCacheHasTVTags()) {
+
+				Log.e(TAG, "We have the TVTAG in cache!!!!!!!!!!!!!!!");
 				tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
-				tag = tvTags.get(realPosition);
 				
 			} else {
+				Log.e(TAG, "The TVTAG is empty!!!!!!!!!!!!!!!");
 				tvTags = new ArrayList<TVTag>();
-				tag = tvTags.get(realPosition);
 			}
 		}
 		
-		return tag;
+		return tvTags;
 	}
 	
 	
