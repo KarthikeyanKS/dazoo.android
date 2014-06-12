@@ -425,10 +425,11 @@ public class TeamPageActivity
             	squadListContainer.addView(listItem);
             }
         }
-		squadListContainer.setOnClickListener(new View.OnClickListener() {
-			
+		squadListContainer.setOnClickListener(new View.OnClickListener() 
+		{	
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				TrackingGAManager.sharedInstance().sendUserCompetitionSquadPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID).getDisplayName(), team.getDisplayName());
 				
 			}
