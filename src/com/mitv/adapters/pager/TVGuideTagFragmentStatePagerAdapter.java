@@ -3,6 +3,7 @@ package com.mitv.adapters.pager;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
@@ -53,13 +54,13 @@ public class TVGuideTagFragmentStatePagerAdapter
 		
 		if(realPosition == 0)
 		{
-			TVTag tvTag = tvTags.get(realPosition);
+			TVTag tvTag = getTVTag(realPosition);
 			
 			fragment = new TVGuideTabFragmentAllPrograms(tvTag);
 		}
 		else
 		{
-			TVTag tvTag = tvTags.get(realPosition);
+			TVTag tvTag = getTVTag(realPosition);
 			
 			List<Competition> competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
 			
@@ -89,7 +90,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{	
 			int realPosition = position % getCount();
 			
-			TVTag tvTag = tvTags.get(realPosition);
+			TVTag tvTag = getTVTag(realPosition);
 				
 			displayName = tvTag.getDisplayName();
 		}
@@ -114,6 +115,28 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{
 			return 0;
 		}
+	}
+	
+	
+	
+	private TVTag getTVTag(int realPosition) {
+		TVTag tag;
+		
+		if (tvTags != null) {
+			tag = tvTags.get(realPosition);
+			
+		} else {
+			if (ContentManager.sharedInstance().getFromCacheHasTVTags()) {
+				tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
+				tag = tvTags.get(realPosition);
+				
+			} else {
+				tvTags = new ArrayList<TVTag>();
+				tag = tvTags.get(realPosition);
+			}
+		}
+		
+		return tag;
 	}
 	
 	
