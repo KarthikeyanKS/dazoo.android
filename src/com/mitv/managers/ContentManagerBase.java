@@ -1444,16 +1444,28 @@ public abstract class ContentManagerBase
 	
 	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(final Long eventID)
 	{
-		List<EventHighlight> highlights = getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
+		List<EventHighlight> highlightsToReturn = getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
 				
-		return highlights;
+		if(highlightsToReturn == null)
+		{
+			highlightsToReturn = new ArrayList<EventHighlight>();
+		}
+		
+		return highlightsToReturn;
 	}
 	
 	
 	
 	public List<Standings> getFromCacheStandingsForPhaseInSelectedCompetition(Long phaseID)
 	{
-		return getCache().getCompetitionsData().getEventStandingsForPhaseInSelectedCompetition(phaseID);
+		List<Standings> standingsToReturn = getCache().getCompetitionsData().getEventStandingsForPhaseInSelectedCompetition(phaseID);
+		
+		if(standingsToReturn == null)
+		{
+			standingsToReturn = new ArrayList<Standings>();
+		}
+		
+		return standingsToReturn;
 	}
 	
 	
