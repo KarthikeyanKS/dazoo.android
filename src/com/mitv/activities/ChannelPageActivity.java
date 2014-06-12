@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.EventPageActivity;
@@ -39,7 +40,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class ChannelPageActivity 
 	extends TVDateSelectionActivity 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = ChannelPageActivity.class.getName();
 
 	
@@ -146,7 +146,8 @@ public class ChannelPageActivity
 					{
 						for (int i = 0; i < tags.size(); i++) {
 
-							if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
+							if (tags.get(i).equals(Constants.FIFA_TAG_ID)) 
+							{
 								long eventId = broadcastSelected.getEventId();
 
 								if (eventId > 0) {
