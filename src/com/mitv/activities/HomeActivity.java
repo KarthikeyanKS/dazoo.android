@@ -252,6 +252,7 @@ public class HomeActivity
 			case LOADING:
 			{
 				fragmentContainer.setVisibility(View.GONE);
+				removeActiveFragment();
 				break;
 			}
 		
