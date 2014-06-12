@@ -33798,6 +33798,7 @@ com.mitv.R$string -> com.mitv.R$string:
     int like_set_text_competition -> like_set_text_competition
     int like_set_text_program -> like_set_text_program
     int like_set_text_series -> like_set_text_series
+    int like_set_text_sports -> like_set_text_sports
     int like_set_text_team -> like_set_text_team
     int liked -> liked
     int likes -> likes
@@ -35378,23 +35379,23 @@ com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competit
     255:290:void initLayout() -> d
     296:378:void setMainLayoutLayout() -> e
     386:405:void onClick(android.view.View) -> onClick
-    411:436:void setSquadLayout() -> h
-    442:473:void setStandingsLayout() -> i
-    479:503:void setScheduleLayout() -> j
-    509:513:void updateStatusOfLikeView() -> k
-    519:526:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> l
-    533:533:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
+    411:437:void setSquadLayout() -> h
+    443:474:void setStandingsLayout() -> i
+    480:504:void setScheduleLayout() -> j
+    510:514:void updateStatusOfLikeView() -> k
+    520:527:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> l
+    534:534:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
     47:47:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     47:47:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> c
     55:55:long access$2(com.mitv.activities.competition.TeamPageActivity) -> a
     53:53:com.mitv.models.objects.mitvapi.competitions.Team access$3(com.mitv.activities.competition.TeamPageActivity) -> b
 com.mitv.activities.competition.TeamPageActivity$1 -> ayz:
     com.mitv.activities.competition.TeamPageActivity this$0 -> a
-    432:434:void onClick(android.view.View) -> onClick
+    433:435:void onClick(android.view.View) -> onClick
 com.mitv.activities.competition.TeamPageActivity$2 -> aza:
     com.mitv.activities.competition.TeamPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    537:553:void run() -> run
+    538:554:void run() -> run
 com.mitv.adapters.list.ActionBarDropDownDateListAdapter -> com.mitv.adapters.list.ActionBarDropDownDateListAdapter:
     java.lang.String TAG -> a
     android.content.Context context -> b
@@ -37681,22 +37682,22 @@ com.mitv.managers.ContentManagerBase -> com.mitv.managers.ContentManagerBase:
     1394:1394:java.util.List getFromCacheAllLineUpDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheAllLineUpDataByEventIDForSelectedCompetition
     1403:1417:java.util.List getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(java.lang.Long,java.lang.Long) -> getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition
     1426:1440:java.util.List getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(java.lang.Long,java.lang.Long) -> getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition
-    1447:1449:java.util.List getFromCacheHighlightsDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHighlightsDataByEventIDForSelectedCompetition
-    1456:1456:java.util.List getFromCacheStandingsForPhaseInSelectedCompetition(java.lang.Long) -> getFromCacheStandingsForPhaseInSelectedCompetition
-    1463:1463:java.util.List getFromCacheNotifications() -> getFromCacheNotifications
-    1475:1477:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.Long) -> getNotificationWithParameters
-    1487:1489:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long) -> getNotificationWithParameters
-    1496:1496:com.mitv.models.objects.mitvapi.Notification getFromCacheNotificationWithId(int) -> getFromCacheNotificationWithId
-    1503:1504:void addToCacheNotifications(com.mitv.models.objects.mitvapi.Notification) -> addToCacheNotifications
-    1510:1511:void removeFromCacheNotificationWithID(int) -> removeFromCacheNotificationWithID
-    1517:1521:void clearUserCache() -> clearUserCache
-    1526:1526:com.mitv.models.objects.UserTutorialStatus getUserTutorialFromCache() -> getUserTutorialFromCache
-    1538:1539:void setUserHasSeenTutorialOnce() -> setUserHasSeenTutorialOnce
-    1547:1548:void setUserHasSeenTutorialTwice() -> setUserHasSeenTutorialTwice
-    1553:1560:void setDateUserLastOpenApp() -> setDateUserLastOpenApp
-    1567:1586:boolean checkIfUserOpenedAppLastTwoWeeks() -> checkIfUserOpenedAppLastTwoWeeks
-    1598:1634:java.util.ArrayList filterOldBroadcasts(java.util.ArrayList,java.util.ArrayList) -> filterOldBroadcasts
-    1648:1664:boolean checkIfTVFeedItemIsOld(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> checkIfTVFeedItemIsOld
+    1447:1454:java.util.List getFromCacheHighlightsDataByEventIDForSelectedCompetition(java.lang.Long) -> getFromCacheHighlightsDataByEventIDForSelectedCompetition
+    1461:1468:java.util.List getFromCacheStandingsForPhaseInSelectedCompetition(java.lang.Long) -> getFromCacheStandingsForPhaseInSelectedCompetition
+    1475:1475:java.util.List getFromCacheNotifications() -> getFromCacheNotifications
+    1487:1489:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.Long) -> getNotificationWithParameters
+    1499:1501:com.mitv.models.objects.mitvapi.Notification getNotificationWithParameters(java.lang.String,java.lang.String,java.lang.Long) -> getNotificationWithParameters
+    1508:1508:com.mitv.models.objects.mitvapi.Notification getFromCacheNotificationWithId(int) -> getFromCacheNotificationWithId
+    1515:1516:void addToCacheNotifications(com.mitv.models.objects.mitvapi.Notification) -> addToCacheNotifications
+    1522:1523:void removeFromCacheNotificationWithID(int) -> removeFromCacheNotificationWithID
+    1529:1533:void clearUserCache() -> clearUserCache
+    1538:1538:com.mitv.models.objects.UserTutorialStatus getUserTutorialFromCache() -> getUserTutorialFromCache
+    1550:1551:void setUserHasSeenTutorialOnce() -> setUserHasSeenTutorialOnce
+    1559:1560:void setUserHasSeenTutorialTwice() -> setUserHasSeenTutorialTwice
+    1565:1572:void setDateUserLastOpenApp() -> setDateUserLastOpenApp
+    1579:1598:boolean checkIfUserOpenedAppLastTwoWeeks() -> checkIfUserOpenedAppLastTwoWeeks
+    1610:1646:java.util.ArrayList filterOldBroadcasts(java.util.ArrayList,java.util.ArrayList) -> filterOldBroadcasts
+    1660:1676:boolean checkIfTVFeedItemIsOld(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> checkIfTVFeedItemIsOld
 com.mitv.managers.ContentManagerCallback -> com.mitv.managers.ContentManagerCallback:
     java.lang.String TAG -> a
     java.util.HashMap mapRequestToCallbackListeners -> b
@@ -37897,16 +37898,17 @@ com.mitv.managers.TrackingGAManager -> com.mitv.managers.TrackingGAManager:
     com.mitv.managers.TrackingGAManager instance -> b
     com.google.android.gms.analytics.Tracker tracker -> c
     android.content.Context context -> d
-    int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum -> e
+    int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum -> e
+    int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum -> f
     60:67:com.mitv.managers.TrackingGAManager sharedInstance() -> sharedInstance
     74:74:com.google.android.gms.analytics.Tracker getTrackerInstance() -> getTrackerInstance
     81:81:com.google.android.gms.analytics.Tracker getTracker() -> getTracker
-    88:90:com.google.android.gms.analytics.GoogleAnalytics getGoogleAnalyticsInstance() -> b
+    88:90:com.google.android.gms.analytics.GoogleAnalytics getGoogleAnalyticsInstance() -> c
     97:149:void updateConfiguration() -> updateConfiguration
     152:154:void sendUserSignedInEventAndSetUserIdOnTracker(java.lang.String) -> sendUserSignedInEventAndSetUserIdOnTracker
     158:159:void setUserIdOnTrackerAndSendSignedOut() -> setUserIdOnTrackerAndSendSignedOut
-    162:163:void sendUserSignedInEvent() -> c
-    166:167:void sendUserSignedOutEvent() -> d
+    162:163:void sendUserSignedInEvent() -> d
+    166:167:void sendUserSignedOutEvent() -> e
     170:171:void setUserIdOnTracker(java.lang.String) -> setUserIdOnTracker
     176:184:void sendUserSignUpSuccessfulEvent(boolean) -> sendUserSignUpSuccessfulEvent
     190:191:void sendHTTPCoreOutOfMemoryException() -> sendHTTPCoreOutOfMemoryException
@@ -37916,64 +37918,65 @@ com.mitv.managers.TrackingGAManager -> com.mitv.managers.TrackingGAManager:
     223:224:void sendUserNoDataRetryLayoutButtomPressed(java.lang.String) -> sendUserNoDataRetryLayoutButtomPressed
     230:231:void sendUserNoConnectionRetryLayoutButtomPressed(java.lang.String) -> sendUserNoConnectionRetryLayoutButtomPressed
     237:256:void sendUserLikesEvent(com.mitv.models.objects.mitvapi.UserLike,boolean) -> sendUserLikesEvent
-    261:278:void sendUserReminderEvent(com.mitv.models.objects.mitvapi.Notification,boolean) -> sendUserReminderEvent
-    284:285:void sendTimeOffSyncEvent() -> sendTimeOffSyncEvent
-    291:292:void sendFirstBootEvent() -> sendFirstBootEvent
-    298:322:void sendUserTagSelectionEvent(int) -> sendUserTagSelectionEvent
-    326:343:void sendUserHourSelectionEvent(int) -> sendUserHourSelectionEvent
-    346:350:void sendUserPressedChannelInHomeActivity(com.mitv.models.objects.mitvapi.TVChannelId,int) -> sendUserPressedChannelInHomeActivity
-    353:373:void sendUserPressedBroadcastInChannelActivity(com.mitv.models.objects.mitvapi.TVChannel,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserPressedBroadcastInChannelActivity
-    377:391:void sendUserDaySelectionEvent(int) -> sendUserDaySelectionEvent
-    396:397:void sendUserPressedRateInRateDialogEvent() -> sendUserPressedRateInRateDialogEvent
-    400:401:void sendUserPressedRemindLaterInRateDialogEvent() -> sendUserPressedRemindLaterInRateDialogEvent
-    404:405:void sendUserPressedNoThanksInRateDialogEvent() -> sendUserPressedNoThanksInRateDialogEvent
-    408:409:void sendUserPressedMenuButtonEvent() -> sendUserPressedMenuButtonEvent
-    412:413:void sendUserPressedUserProfilePageTopViewEvent() -> sendUserPressedUserProfilePageTopViewEvent
-    416:417:void sendUserPressedAddMoreChannelsCell() -> sendUserPressedAddMoreChannelsCell
-    420:421:void sendUserPressedSearchButtonOnKeyBoard() -> sendUserPressedSearchButtonOnKeyBoard
-    424:425:void sendUserPressedLikeInLikesActivity() -> sendUserPressedLikeInLikesActivity
-    428:429:void sendUserPressedChannelInMyChannelsActivity() -> sendUserPressedChannelInMyChannelsActivity
-    433:440:void sendUserFeedListScrolledToItemAtIndexEvent(int,boolean) -> sendUserFeedListScrolledToItemAtIndexEvent
-    443:472:void sendUserFeedItemPressedEvent(com.mitv.enums.FeedItemTypeEnum,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserFeedItemPressedEvent
-    475:476:void sendUserFeedItemPopularBroadcastPressedEvent(java.lang.String) -> a
-    479:480:void sendUserFeedItemPopularBroadcastsPressedEvent(java.lang.String,int) -> a
-    483:484:void sendUserFeedItemTwitterPressedEvent(java.lang.String) -> b
-    487:488:void sendUserFeedItemRecommendedPressedEvent(java.lang.String) -> c
-    491:492:void sendUserFeedItemYouLikePressedEvent(java.lang.String) -> d
-    495:505:void sendUserSearchResultPressedEvent(java.lang.String,java.lang.String,int) -> sendUserSearchResultPressedEvent
-    508:522:void sendUserChannelSearchResultClickedEvent(java.lang.String,java.lang.String,boolean) -> sendUserChannelSearchResultClickedEvent
-    525:526:void sendUserSearchEvent(java.lang.String) -> sendUserSearchEvent
-    530:536:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
-    539:540:void sendUserMyChannelsPageSearchEvent(java.lang.String) -> sendUserMyChannelsPageSearchEvent
-    544:545:void sendSystemEvent(java.lang.String) -> e
-    548:549:void sendSystemEventWithLabel(java.lang.String,java.lang.String) -> a
-    552:553:void sendUserEvent(java.lang.String) -> f
-    556:557:void sendUserEventWithLabel(java.lang.String,java.lang.String) -> b
-    561:562:void sendUserEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> a
-    567:569:void sendUserCompetitionEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendUserCompetitionEventWithLabelAndValue
-    577:578:void sendInternalSpeedMeasureEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendInternalSpeedMeasureEventWithLabelAndValue
-    582:583:void sendEventWithLabel(java.lang.String,java.lang.String,java.lang.String) -> a
-    589:590:void sendEventWithLabelAndValue(java.lang.String,java.lang.String,java.lang.String,long) -> a
-    600:606:void sendUserTimings(java.lang.String,long,java.lang.String,java.lang.String) -> a
-    612:627:void sendEventBase(java.lang.String,java.lang.String,boolean,java.lang.String,boolean,long) -> a
-    634:636:void reportActivityStart(android.app.Activity) -> reportActivityStart
-    642:644:void reportActivityStop(android.app.Activity) -> reportActivityStop
-    654:710:void sendGooglePlayCampaignToAnalytics(java.lang.String) -> sendGooglePlayCampaignToAnalytics
-    716:718:void sendUserCompetitionTabCountdownPressed(java.lang.String) -> sendUserCompetitionTabCountdownPressed
-    724:726:void sendUserCompetitionTabBannerPressed(java.lang.String) -> sendUserCompetitionTabBannerPressed
-    732:734:void sendUserCompetitionTabCalendarPressed(java.lang.String) -> sendUserCompetitionTabCalendarPressed
-    740:742:void sendUserCompetitionBannerPressedInAllTab(java.lang.String) -> sendUserCompetitionBannerPressedInAllTab
-    748:750:void sendUserCompetitionBannerPressedInSportsTab(java.lang.String) -> sendUserCompetitionBannerPressedInSportsTab
-    755:757:void sendUserCompetitionEventPressedEvent(java.lang.String,java.lang.String,long,java.lang.String) -> sendUserCompetitionEventPressedEvent
-    762:764:void sendUserCompetitionTabPressedEvent(java.lang.String,java.lang.String) -> sendUserCompetitionTabPressedEvent
-    769:771:void sendUserCompetitionCountdownPressedEvent(java.lang.String) -> sendUserCompetitionCountdownPressedEvent
-    776:778:void sendUserCompetitionTeamPressedEvent(java.lang.String,java.lang.String,java.lang.String) -> sendUserCompetitionTeamPressedEvent
-    783:785:void sendUserCompetitionViewAllLinkPressedEvent(java.lang.String) -> sendUserCompetitionViewAllLinkPressedEvent
-    790:792:void sendUserCompetitionBroadcastPressedEvent(java.lang.String,java.lang.String,java.lang.String) -> sendUserCompetitionBroadcastPressedEvent
-    797:799:void senduserCompetitionLineupPressedEvent(java.lang.String) -> senduserCompetitionLineupPressedEvent
-    804:806:void senduserCompetitionHightlightsPressedEvent(java.lang.String) -> senduserCompetitionHightlightsPressedEvent
-    811:813:void sendUserCompetitionSquadPressedEvent(java.lang.String,java.lang.String) -> sendUserCompetitionSquadPressedEvent
-    38:38:int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum() -> a
+    262:333:void sendUserReminderEvent(com.mitv.models.objects.mitvapi.Notification,boolean) -> sendUserReminderEvent
+    339:340:void sendTimeOffSyncEvent() -> sendTimeOffSyncEvent
+    346:347:void sendFirstBootEvent() -> sendFirstBootEvent
+    353:377:void sendUserTagSelectionEvent(int) -> sendUserTagSelectionEvent
+    381:398:void sendUserHourSelectionEvent(int) -> sendUserHourSelectionEvent
+    401:405:void sendUserPressedChannelInHomeActivity(com.mitv.models.objects.mitvapi.TVChannelId,int) -> sendUserPressedChannelInHomeActivity
+    408:428:void sendUserPressedBroadcastInChannelActivity(com.mitv.models.objects.mitvapi.TVChannel,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserPressedBroadcastInChannelActivity
+    432:446:void sendUserDaySelectionEvent(int) -> sendUserDaySelectionEvent
+    451:452:void sendUserPressedRateInRateDialogEvent() -> sendUserPressedRateInRateDialogEvent
+    455:456:void sendUserPressedRemindLaterInRateDialogEvent() -> sendUserPressedRemindLaterInRateDialogEvent
+    459:460:void sendUserPressedNoThanksInRateDialogEvent() -> sendUserPressedNoThanksInRateDialogEvent
+    463:464:void sendUserPressedMenuButtonEvent() -> sendUserPressedMenuButtonEvent
+    467:468:void sendUserPressedUserProfilePageTopViewEvent() -> sendUserPressedUserProfilePageTopViewEvent
+    471:472:void sendUserPressedAddMoreChannelsCell() -> sendUserPressedAddMoreChannelsCell
+    475:476:void sendUserPressedSearchButtonOnKeyBoard() -> sendUserPressedSearchButtonOnKeyBoard
+    479:480:void sendUserPressedLikeInLikesActivity() -> sendUserPressedLikeInLikesActivity
+    483:484:void sendUserPressedChannelInMyChannelsActivity() -> sendUserPressedChannelInMyChannelsActivity
+    488:495:void sendUserFeedListScrolledToItemAtIndexEvent(int,boolean) -> sendUserFeedListScrolledToItemAtIndexEvent
+    498:527:void sendUserFeedItemPressedEvent(com.mitv.enums.FeedItemTypeEnum,com.mitv.models.objects.mitvapi.TVBroadcast,int) -> sendUserFeedItemPressedEvent
+    530:531:void sendUserFeedItemPopularBroadcastPressedEvent(java.lang.String) -> a
+    534:535:void sendUserFeedItemPopularBroadcastsPressedEvent(java.lang.String,int) -> a
+    538:539:void sendUserFeedItemTwitterPressedEvent(java.lang.String) -> b
+    542:543:void sendUserFeedItemRecommendedPressedEvent(java.lang.String) -> c
+    546:547:void sendUserFeedItemYouLikePressedEvent(java.lang.String) -> d
+    550:560:void sendUserSearchResultPressedEvent(java.lang.String,java.lang.String,int) -> sendUserSearchResultPressedEvent
+    563:577:void sendUserChannelSearchResultClickedEvent(java.lang.String,java.lang.String,boolean) -> sendUserChannelSearchResultClickedEvent
+    580:581:void sendUserSearchEvent(java.lang.String) -> sendUserSearchEvent
+    585:591:void sendUserTutorialExitEvent(int) -> sendUserTutorialExitEvent
+    594:595:void sendUserMyChannelsPageSearchEvent(java.lang.String) -> sendUserMyChannelsPageSearchEvent
+    599:600:void sendSystemEvent(java.lang.String) -> e
+    603:604:void sendSystemEventWithLabel(java.lang.String,java.lang.String) -> a
+    607:608:void sendUserEvent(java.lang.String) -> f
+    611:612:void sendUserEventWithLabel(java.lang.String,java.lang.String) -> b
+    616:617:void sendUserEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> a
+    622:624:void sendUserCompetitionEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendUserCompetitionEventWithLabelAndValue
+    632:633:void sendInternalSpeedMeasureEventWithLabelAndValue(java.lang.String,java.lang.String,long) -> sendInternalSpeedMeasureEventWithLabelAndValue
+    637:638:void sendEventWithLabel(java.lang.String,java.lang.String,java.lang.String) -> a
+    644:645:void sendEventWithLabelAndValue(java.lang.String,java.lang.String,java.lang.String,long) -> a
+    655:661:void sendUserTimings(java.lang.String,long,java.lang.String,java.lang.String) -> a
+    667:682:void sendEventBase(java.lang.String,java.lang.String,boolean,java.lang.String,boolean,long) -> a
+    689:691:void reportActivityStart(android.app.Activity) -> reportActivityStart
+    697:699:void reportActivityStop(android.app.Activity) -> reportActivityStop
+    709:765:void sendGooglePlayCampaignToAnalytics(java.lang.String) -> sendGooglePlayCampaignToAnalytics
+    771:773:void sendUserCompetitionTabCountdownPressed(java.lang.String) -> sendUserCompetitionTabCountdownPressed
+    779:781:void sendUserCompetitionTabBannerPressed(java.lang.String) -> sendUserCompetitionTabBannerPressed
+    787:789:void sendUserCompetitionTabCalendarPressed(java.lang.String) -> sendUserCompetitionTabCalendarPressed
+    795:797:void sendUserCompetitionBannerPressedInAllTab(java.lang.String) -> sendUserCompetitionBannerPressedInAllTab
+    803:805:void sendUserCompetitionBannerPressedInSportsTab(java.lang.String) -> sendUserCompetitionBannerPressedInSportsTab
+    810:812:void sendUserCompetitionEventPressedEvent(java.lang.String,java.lang.String,long,java.lang.String) -> sendUserCompetitionEventPressedEvent
+    817:819:void sendUserCompetitionTabPressedEvent(java.lang.String,java.lang.String) -> sendUserCompetitionTabPressedEvent
+    824:826:void sendUserCompetitionCountdownPressedEvent(java.lang.String) -> sendUserCompetitionCountdownPressedEvent
+    831:833:void sendUserCompetitionTeamPressedEvent(java.lang.String,java.lang.String,java.lang.String) -> sendUserCompetitionTeamPressedEvent
+    838:840:void sendUserCompetitionViewAllLinkPressedEvent(java.lang.String) -> sendUserCompetitionViewAllLinkPressedEvent
+    845:847:void sendUserCompetitionBroadcastPressedEvent(java.lang.String,java.lang.String,java.lang.String) -> sendUserCompetitionBroadcastPressedEvent
+    852:854:void senduserCompetitionLineupPressedEvent(java.lang.String) -> senduserCompetitionLineupPressedEvent
+    859:861:void senduserCompetitionHightlightsPressedEvent(java.lang.String) -> senduserCompetitionHightlightsPressedEvent
+    866:868:void sendUserCompetitionSquadPressedEvent(java.lang.String,java.lang.String) -> sendUserCompetitionSquadPressedEvent
+    38:38:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> a
+    38:38:int[] $SWITCH_TABLE$com$mitv$enums$FeedItemTypeEnum() -> b
 com.mitv.managers.TrackingManager -> com.mitv.managers.TrackingManager:
     java.lang.String TAG -> a
     com.mitv.managers.TrackingManager instance -> b
@@ -39765,7 +39768,7 @@ com.mitv.ui.elements.LikeView -> com.mitv.ui.elements.LikeView:
     216:217:void setImageToNotLiked() -> f
     224:224:java.lang.Runnable removeLikeProcedure() -> g
     242:242:java.lang.Runnable loginBeforeLikeProcedure() -> h
-    262:346:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
+    262:352:void onResult(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onResult
     43:43:com.mitv.activities.base.BaseActivity access$0(com.mitv.ui.elements.LikeView) -> a
     49:49:com.mitv.models.objects.mitvapi.UserLike access$1(com.mitv.ui.elements.LikeView) -> b
     214:214:void access$2(com.mitv.ui.elements.LikeView) -> c
