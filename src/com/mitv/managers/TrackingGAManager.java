@@ -256,9 +256,10 @@ public class TrackingGAManager
 	}
 
 	
+	
 	public void sendUserReminderEvent(Notification notification, boolean didJustRemoveReminder) 
 	{		
-		String title = notification.getBroadcastTitle();
+		StringBuilder titleSB = new StringBuilder();
 		
 		Long addedReminder = 1L;
 		
@@ -266,15 +267,69 @@ public class TrackingGAManager
 		{
 			addedReminder = 0L;
 		}
-		if (notification.getNotificationType() == NotificationTypeEnum.COMPETITION_EVENT) {
-			title = ContentManager.sharedInstance().getFromCacheCompetitionByID(notification.getCompetitionId()) + " " + 
-					ContentManager.sharedInstance().getFromCacheEventByID(notification.getCompetitionId(), notification.getEventId()) + " " +
-					String.valueOf(notification.getBeginTimeInMilliseconds());
+		
+		NotificationTypeEnum notificationType = notification.getNotificationType();
+		
+		switch (notificationType) 
+		{
+			case COMPETITION_EVENT:
+			{
+				Long competitionId = notification.getCompetitionId();
+				
+				Long eventId = notification.getEventId();
+				
+				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId);
+				
+				String competitionName;
+				
+				if(competition != null)
+				{
+					competitionName = competition.getDisplayName();
+				}
+				else
+				{
+					competitionName = competitionId.toString();
+					
+					Log.w(TAG, "Competition is null. Using competitionId as a fallback in analytics reporting.");
+				}
+				
+				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
+				
+				String eventName;
+				
+				if(event != null)
+				{
+					eventName = event.getTitle();
+				}
+				else
+				{
+					eventName = eventId.toString();
+					
+					Log.w(TAG, "Event is null. Using eventId as a fallback in analytics reporting.");
+				}
+				
+				String broadcastBeginTimeInMilliseconds = notification.getBeginTimeInMilliseconds().toString();
+				
+				titleSB.append(competitionName)
+				.append(" ")
+				.append(eventName)
+				.append(" ")
+				.append(broadcastBeginTimeInMilliseconds);
+				
+				break;
+			}
+		
+			case TV_BROADCAST:
+			default:
+			{
+				titleSB.append(notification.getBroadcastTitle());
+				
+				break;
+			}
 		}
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, titleSB.toString(), addedReminder);
 
-		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, title, addedReminder);
-
-		Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER + ": " + title);
+		Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER + ": " + titleSB.toString());
 	}
 
 	

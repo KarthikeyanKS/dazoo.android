@@ -307,7 +307,8 @@ public class Notification
 
 
 
-	public Long getBeginTimeInMilliseconds() {
+	public Long getBeginTimeInMilliseconds() 
+	{
 		return broadcastBeginTimeInMilliseconds;
 	}
 

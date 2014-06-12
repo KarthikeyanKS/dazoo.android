@@ -46,7 +46,16 @@ public class TVGuideTagFragmentStatePagerAdapter
 	@Override
 	public Fragment getItem(int position)
 	{
-		int realPosition = LoopViewPager.toRealPosition(position, getCount());
+		int realPosition; 
+	
+		if(getCount() > 0)
+		{
+			realPosition = LoopViewPager.toRealPosition(position, getCount());
+		}
+		else
+		{
+			realPosition = 0;
+		}
 		
 		/* This instance will only be created when needed by the pager adapter */
 		Fragment fragment;
