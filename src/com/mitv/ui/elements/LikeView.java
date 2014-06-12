@@ -289,6 +289,12 @@ public class LikeView
 							break;
 						}
 						
+						case SPORT_TYPE:
+						{
+							sb.append(activity.getString(R.string.like_set_text_sports));
+							break;
+						}
+						
 						case SERIES:
 						{
 							sb.append(activity.getString(R.string.like_set_text_series));
