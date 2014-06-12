@@ -131,9 +131,9 @@ public class TVGuideTagFragmentStatePagerAdapter
 			
 		} else {
 			if (ContentManager.sharedInstance().getFromCacheHasTVTags()) {
-
 				Log.e(TAG, "We have the TVTAG in cache!!!!!!!!!!!!!!!");
 				tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
+				this.tvTags = tvTags;
 				
 			} else {
 				Log.e(TAG, "The TVTAG is empty!!!!!!!!!!!!!!!");
