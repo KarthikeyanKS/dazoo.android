@@ -30,9 +30,10 @@ public abstract class AsyncTaskWithUserToken<T>
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
 			String url,
-			final boolean reportMetricsToTracker) 
+			final boolean reportMetricsToTracker,
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, httpRequestType, url, reportMetricsToTracker);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, httpRequestType, url, reportMetricsToTracker, retryThreshold);
 	}
 	
 	
@@ -45,9 +46,10 @@ public abstract class AsyncTaskWithUserToken<T>
 			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
 			String url,
-			final boolean reportMetricsToTracker) 
+			final boolean reportMetricsToTracker,
+			int retryThreshold) 
 	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, reportMetricsToTracker);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, reportMetricsToTracker, retryThreshold);
 	}
 	
 	

@@ -14,7 +14,15 @@ public enum LikeTypeRequestEnum
 	PROGRAM(1),
 	
 	@SerializedName("SPORT_TYPE")
-	SPORT_TYPE(2);
+	SPORT_TYPE(2),
+	
+	@SerializedName("COMPETITION")
+	COMPETITION(3),
+	
+	@SerializedName("TEAM")
+	TEAM(4);
+	
+	
 	
 	private final int id;
 	
@@ -34,7 +42,7 @@ public enum LikeTypeRequestEnum
 	
 
 
-	public static LikeTypeRequestEnum getLikeTypeRequestEnumFromCode(int code)
+	public static LikeTypeRequestEnum getTypeEnumFromCode(int code)
 	{
 		for(LikeTypeRequestEnum result: LikeTypeRequestEnum.values())
 		{
@@ -50,7 +58,7 @@ public enum LikeTypeRequestEnum
 
 
 
-	public static LikeTypeRequestEnum getLikeTypeRequestEnumFromCode(String codeAsString)
+	public static LikeTypeRequestEnum getTypeEnumFromCode(String codeAsString)
 	{
 		int value = LikeTypeRequestEnum.SERIES.getId();
 
@@ -63,12 +71,12 @@ public enum LikeTypeRequestEnum
 			return LikeTypeRequestEnum.SERIES;
 		}
 
-		return getLikeTypeRequestEnumFromCode(value);
+		return getTypeEnumFromCode(value);
 	}
 	
 	
 	
-	public static LikeTypeRequestEnum getLikeTypeEnumFromStringRepresentation(String enumStringRepresentation)
+	public static LikeTypeRequestEnum getTypeEnumFromStringRepresentation(String enumStringRepresentation)
 	{
 		LikeTypeRequestEnum likeType = LikeTypeRequestEnum.valueOf(enumStringRepresentation);
 

@@ -30,9 +30,10 @@ public class GetTVChannelsAll
 	
 	public GetTVChannelsAll(
 			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener)
+			ViewCallbackListener activityCallbackListener,
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_CHANNEL, TVChannel[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_CHANNEL, TVChannel[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, retryThreshold);
 	}
 	
 	

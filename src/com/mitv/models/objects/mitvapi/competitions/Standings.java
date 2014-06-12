@@ -15,4 +15,18 @@ public class Standings
 	
 	
 	public Standings(){}
+	
+	
+	
+	public int getGoalsForMinusGoalsAgainst()
+	{
+		return getGoalsFor() - getGoalsAgainst();
+	}
+	
+	
+	
+	public boolean isTheSamePhaseAs(Standings element)
+	{
+		return getPhase().equalsIgnoreCase(element.getPhase());
+	}
 }

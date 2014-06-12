@@ -41,11 +41,11 @@ public class LikesActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) {
+
+		if (isRestartNeeded()) {
 			return;
 		}
-		
+
 		setContentView(R.layout.layout_likes_activity);
 		
 		initLayout();
@@ -78,6 +78,14 @@ public class LikesActivity
 		updateUI(UIStatusEnum.LOADING);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

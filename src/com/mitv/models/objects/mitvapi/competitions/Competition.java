@@ -5,6 +5,7 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 import java.util.Calendar;
 
+import com.mitv.enums.CompetitionCategoryEnum;
 import com.mitv.models.gson.mitvapi.competitions.CompetitionJSON;
 import com.mitv.utilities.DateUtils;
 
@@ -17,8 +18,8 @@ public class Competition
 	private static final String TAG = Competition.class.getName();
 	
 	
-	protected Calendar beginCalendar;
-	protected Calendar endCalendar;
+	private Calendar beginCalendar;
+	private Calendar endCalendar;
 	
 	
 	
@@ -28,11 +29,22 @@ public class Competition
 	
 	public boolean hasBegun()
 	{
-		Calendar now = DateUtils.getNow();
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
 		
-		boolean hasBegun = getBeginTimeCalendarLocal().before(now);
+		boolean hasBegun = getBeginTimeCalendarGMT().before(now);
 		
 		return hasBegun;
+	}
+	
+	
+	
+	public boolean hasEnded()
+	{
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		
+		boolean hasEnded = getEndTimeCalendarGMT().before(now);
+		
+		return hasEnded;
 	}
 	
 	
@@ -42,7 +54,7 @@ public class Competition
 	 */
 	public Calendar getBeginTimeCalendarGMT() 
 	{
-		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(startDate);
+		Calendar beginTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(getStartDate());
 		
 		return beginTimeCalendarGMT;
 	}
@@ -54,7 +66,7 @@ public class Competition
 	 */
 	public Calendar getEndTimeCalendarGMT()
 	{
-		Calendar endTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(endDate);
+		Calendar endTimeCalendarGMT = DateUtils.convertISO8601StringToCalendar(getEndDate());
 		
 		return endTimeCalendarGMT;
 	}
@@ -70,8 +82,7 @@ public class Competition
 		{	
 			beginCalendar = getBeginTimeCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			beginCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			beginCalendar = DateUtils.setTimeZoneAndOffsetToLocal(beginCalendar);
 		}
 		
 		return beginCalendar;
@@ -89,10 +100,16 @@ public class Competition
 		{	
 			endCalendar = getEndTimeCalendarGMT();
 			
-			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
-			endCalendar.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+			endCalendar = DateUtils.setTimeZoneAndOffsetToLocal(endCalendar);
 		}
 		
 		return endCalendar;
+	}
+	
+	
+	
+	public CompetitionCategoryEnum getCategory()
+	{
+		return CompetitionCategoryEnum.getTypeEnumFromCode(getCompetitionCategory());
 	}
 }

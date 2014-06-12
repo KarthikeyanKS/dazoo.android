@@ -14,8 +14,9 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
+import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
-import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.utilities.GenericUtils;
 
@@ -93,9 +94,8 @@ public class DialogHelper
 
 	
 	public static void showRemoveNotificationDialog(
-			final Activity activity, 
-			final TVBroadcast broadcast, 
-			final int notificationId, 
+			final Activity activity,
+			final Notification notification, 
 			final Runnable yesProcedure, 
 			final Runnable noProcedure)
 	{
@@ -103,55 +103,62 @@ public class DialogHelper
 		
 		StringBuilder reminderSB = new StringBuilder();
 		
-		ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
+		NotificationTypeEnum notificationType = notification.getNotificationType();
 		
-		switch (programType) 
+		switch (notificationType)
 		{
-			case TV_EPISODE:
+			case TV_BROADCAST:
 			{
-				reminderSB.append(activity.getString(R.string.reminder_text_remove));
-				reminderSB.append(" ");
-				reminderSB.append(broadcast.getProgram().getSeries().getName());
-				reminderSB.append(", ");
-				reminderSB.append(activity.getString(R.string.season));
-				reminderSB.append(" ");
-				reminderSB.append(broadcast.getProgram().getSeason().getNumber());
-				reminderSB.append(", ");
-				reminderSB.append(activity.getString(R.string.episode));
-				reminderSB.append(" ");
-				reminderSB.append(broadcast.getProgram().getEpisodeNumber());
-				reminderSB.append("?");
+				ProgramTypeEnum programType = notification.getBroadcastProgramType();
+
+				switch (programType)
+				{
+					case TV_EPISODE:
+					{
+						reminderSB.append(activity.getString(R.string.reminder_text_remove));
+						
+						reminderSB.append(" ");
+						reminderSB.append(notification.getBroadcastTitle());
+						reminderSB.append(", ");
+						reminderSB.append(notification.getBroadcastProgramDetails());
+						reminderSB.append("?");
+						break;
+					}
+					
+					case MOVIE:
+					case SPORT:
+					case OTHER:
+					{
+						reminderSB.append(activity.getString(R.string.reminder_text_remove));
+						reminderSB.append(" ");
+						reminderSB.append(notification.getBroadcastTitle());
+						reminderSB.append("?");
+						break;
+					}
+					
+					case UNKNOWN:
+					default:
+					{
+						reminderSB.append(activity.getString(R.string.reminder_text_remove));
+						reminderSB.append(" ");
+						break;
+					}
+				}
+				
 				break;
 			}
 			
-			case MOVIE:
+			case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
+			case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(" ");
-				reminderSB.append(broadcast.getProgram().getTitle());
+				reminderSB.append(notification.getBroadcastTitle());
 				reminderSB.append("?");
+				
 				break;
 			}
 			
-			case SPORT:
-			{
-				reminderSB.append(activity.getString(R.string.reminder_text_remove));
-				reminderSB.append(" ");
-				reminderSB.append(broadcast.getProgram().getTitle());
-				reminderSB.append("?");
-				break;
-			}
-			
-			case OTHER:
-			{
-				reminderSB.append(activity.getString(R.string.reminder_text_remove));
-				reminderSB.append(" ");
-				reminderSB.append(broadcast.getProgram().getTitle());
-				reminderSB.append("?");
-				break;
-			}
-			
-			case UNKNOWN:
 			default:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
@@ -192,12 +199,16 @@ public class DialogHelper
 					yesProcedure.run();
 				}
 				
+				int notificationId = notification.getNotificationId();
+				
 				NotificationHelper.removeNotification(activity, notificationId);
+				
 				dialog.dismiss();
 			}
 		});
 		
-		if(!activity.isFinishing()){
+		if(!activity.isFinishing())
+		{
 			 dialog.show();
 		}
 	}

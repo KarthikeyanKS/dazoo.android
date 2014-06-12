@@ -7,6 +7,7 @@ package com.mitv.asynctasks.mitvapi.competitions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import android.util.Log;
 
@@ -16,6 +17,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.models.comparators.CompetitionEventsComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 
 
@@ -32,7 +34,7 @@ public class GetEvents
 			final String phaseID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS);
+		url.append(Constants.URL_COMPETITIONS_FULL);
 		
 		
 		url.append(Constants.FORWARD_SLASH);
@@ -63,9 +65,10 @@ public class GetEvents
 			final ViewCallbackListener activityCallbackListener,
 			final long competitionID,
 			final String teamID,
-			final String phaseID)
+			final String phaseID,
+			int retryThreshold)
 	{
-		this(contentCallbackListener, activityCallbackListener, competitionID, teamID, phaseID, false, false, null, false, null);
+		this(contentCallbackListener, activityCallbackListener, competitionID, teamID, phaseID, false, false, null, false, null, retryThreshold);
 	}
 	
 	
@@ -80,9 +83,10 @@ public class GetEvents
 			final boolean useBroadcastBeginTimeAfter,
 			final String broadcastBeginTimeAfter,
 			final boolean useBroadcastBeginTimeBefore,
-			final String broadcastBeginTimeBefore)
+			final String broadcastBeginTimeBefore,
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENTS, Event[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_EVENTS, Event[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, teamID, phaseID), false, retryThreshold);
 		
 		if(useOnlyOngoing)
 		{
@@ -113,6 +117,8 @@ public class GetEvents
 			Event[] contentAsArray = (Event[]) requestResultObjectContent;
 			
 			ArrayList<Event> contentAsArrayList = new ArrayList<Event>(Arrays.asList(contentAsArray));
+			
+			Collections.sort(contentAsArrayList, new CompetitionEventsComparatorByTime());
 			
 			requestResultObjectContent = contentAsArrayList;
 		}

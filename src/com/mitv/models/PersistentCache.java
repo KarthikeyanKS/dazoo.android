@@ -4,6 +4,7 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,9 +15,12 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
@@ -28,8 +32,11 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
+import com.mitv.models.orm.NotificationORM;
 import com.mitv.models.orm.UserLoginDataORM;
+import com.mitv.models.orm.UserTutorialStatusORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -55,6 +62,8 @@ public abstract class PersistentCache
 	private UserLoginData userData;
 	private List<UserLike> userLikes;
 	
+	private List<Notification> notifications;
+	
 	private AppVersion appVersionData;
 	private AppConfiguration appConfigurationData;
 	
@@ -66,6 +75,8 @@ public abstract class PersistentCache
 	private ArrayList<TVFeedItem> activityFeed;
 	private ArrayList<TVFeedItem> feedItemsToDelete;
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
+
+	private UserTutorialStatus userTutorialStatus;
 	
 	
 	
@@ -84,8 +95,23 @@ public abstract class PersistentCache
 		this.appConfigurationData = null; //AppConfigurationORM.getAppConfiguration();
 		this.userData = UserLoginDataORM.getUserLoginData();
 		
+		this.notifications = NotificationORM.getNotifications();
+		
 		this.tvTags = null; //TVTagORM.getTVTags();
-		this.tvDates = null; //TVDateORM.getTVDates();
+		this.tvDates = null; //TVDateORM.getTVDates();		
+		
+		this.userTutorialStatus = UserTutorialStatusORM.getUserTutorial();
+	}
+	
+	
+	
+	public synchronized void clearGuideCacheData()
+	{
+		this.appVersionData = null;
+		this.appConfigurationData = null;
+		this.tvTags = null;
+		this.tvDates = null;
+		this.tvGuidesAll = new HashMap<String, TVGuide>();
 	}
 	
 	
@@ -215,6 +241,7 @@ public abstract class PersistentCache
 	}
 	
 	
+	
 	public synchronized void setUserData(UserLoginData userData) 
 	{
 		this.userData = userData;
@@ -227,6 +254,7 @@ public abstract class PersistentCache
 	}
 	
 	
+	
 	public synchronized void clearUserData() 
 	{
 		if(userData != null)
@@ -235,6 +263,183 @@ public abstract class PersistentCache
 			userLoginDataORM.delete();
 		
 			userData = null;
+		}
+	}
+	
+	
+	
+	/* USER TUTORIAL STATUS */
+	
+	public synchronized void setUserTutorialStatus(UserTutorialStatusEnum status) {
+		userTutorialStatus.setStatus(status);
+		
+		UserTutorialStatusORM userTutorialORM = new UserTutorialStatusORM(userTutorialStatus);
+		
+		userTutorialORM.saveInAsyncTask();
+	}
+	
+	
+	
+	public synchronized void setUserTutorialDateOpenApp(Calendar lastOpen) {
+		String date = DateUtils.convertFromCalendarToISO8601String(lastOpen);
+
+		userTutorialStatus.setDateUserLastOpendApp(date);
+		
+		UserTutorialStatusORM userTutorialORM = new UserTutorialStatusORM(userTutorialStatus);
+		
+		userTutorialORM.saveInAsyncTask();
+	}
+		
+	
+	
+	public synchronized UserTutorialStatusEnum getUserTutorialStatusEnum() {
+		return userTutorialStatus.getUserTutorialStatus();
+	}
+	
+	
+	
+	public synchronized UserTutorialStatus getUserTutorialStatus() {
+		return userTutorialStatus;
+	}
+	
+	
+	
+	/* NOTIFICATIONS */
+	
+	
+	public synchronized List<Notification> getNotifications() 
+	{		
+		return notifications;
+	}
+	
+	
+	
+	public synchronized Notification getNotificationWithId(int notificationId) 
+	{		
+		Notification elementFound = null;
+		
+		for(Notification element : notifications)
+		{
+			if(element.getNotificationId().intValue() == notificationId)
+			{
+				elementFound = element;
+				break;
+			}
+		}
+		
+		return elementFound;
+	}
+	
+	
+	
+	public synchronized Notification getNotificationWithParameters(
+			final String channelId, 
+			final String programId,
+			final Long beginTimeMillis,
+			final Long competitionId,
+			final Long eventId)
+	{		
+		Notification elementFound = null;
+		
+		for(Notification element : notifications)
+		{
+			boolean matchesChannelId = (element.getChannelId().equals(channelId));
+			boolean matchesProgramId = (element.getProgramId().equals(programId));
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
+			boolean matchesCompetitionId = (element.getCompetitionId().equals(competitionId));
+			boolean matchesEventId = (element.getEventId().equals(eventId));
+			
+			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis && matchesCompetitionId && matchesEventId)
+			{
+				elementFound = element;
+				break;
+			}
+		}
+		
+		if(elementFound == null)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append("Notification element with parameters ")
+			.append(channelId)
+			.append(", ")
+			.append(programId)
+			.append(", ")
+			.append(beginTimeMillis)
+			.append(", ")
+			.append(competitionId)
+			.append(", ")
+			.append(eventId)
+			.append(" was not found in cache");
+			
+			Log.w(TAG, sb.toString());
+		}
+		
+		return elementFound;
+	}
+	
+	
+	
+	public synchronized Notification getNotificationWithParameters(
+			final String channelId,
+			final String programId,
+			final Long beginTimeMillis)
+	{		
+		Notification elementFound = null;
+		
+		for(Notification element : notifications)
+		{
+			boolean matchesChannelId = (element.getChannelId().equals(channelId));
+			boolean matchesProgramId = (element.getProgramId().equals(programId));
+			boolean matchesBeginTimeMillis = (element.getBeginTimeInMilliseconds().equals(beginTimeMillis));
+			
+			if(matchesChannelId && matchesProgramId && matchesBeginTimeMillis)
+			{
+				elementFound = element;
+				break;
+			}
+		}
+		
+		if(elementFound == null)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append("Notification element with parameters ")
+			.append(channelId)
+			.append(", ")
+			.append(programId)
+			.append(", ")
+			.append(beginTimeMillis)
+			.append(" was not found in cache");
+			
+			Log.w(TAG, sb.toString());
+		}
+		
+		return elementFound;
+	}
+	
+	
+	
+	public synchronized void addNotification(Notification notification) 
+	{		
+		this.notifications.add(notification);
+		
+		NotificationORM.add(notification);
+	}
+	
+	
+	
+	public synchronized void removeNotificationWithID(int notificationId) 
+	{
+		Notification elementFound = getNotificationWithId(notificationId);
+		
+		if(elementFound != null)
+		{
+			notifications.remove(elementFound);
+			
+			NotificationORM.remove(notificationId);
+		}
+		else
+		{
+			Log.w(TAG, "Notification not found.");
 		}
 	}
 	
@@ -535,13 +740,16 @@ public abstract class PersistentCache
     //TODO dont iterate through a list, change tvChannels to a Map instead?
     private  TVChannel getTVChannelByIdHelper(TVChannelId tvChannelId)
     {
-        for(TVChannel tvChannel : tvChannels)
-        {
-            if(tvChannel.getChannelId().equals(tvChannelId))
-            {
-                return tvChannel;
-            }
-        }
+    	if (tvChannels != null) 
+    	{
+	        for(TVChannel tvChannel : tvChannels)
+	        {
+	            if(tvChannel.getChannelId().equals(tvChannelId))
+	            {
+	                return tvChannel;
+	            }
+	        }
+    	}
 
         return null;
     }
@@ -570,14 +778,15 @@ public abstract class PersistentCache
 
 	
 	
-	public synchronized void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) {
-		
-		if (this.activityFeed == null) {
+	public synchronized void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) 
+	{	
+		if (this.activityFeed == null) 
+		{
 			activityFeed = new ArrayList<TVFeedItem>();
 		}
 		
-		if (additionalActivityFeedItems != null && !additionalActivityFeedItems.isEmpty()) {
-			
+		if (additionalActivityFeedItems != null && !additionalActivityFeedItems.isEmpty()) 
+		{	
 			activityFeed.addAll(additionalActivityFeedItems);
 			
 			if (feedItemsToDelete != null && !feedItemsToDelete.isEmpty()) {
@@ -593,21 +802,25 @@ public abstract class PersistentCache
 	 * 
 	 * @param like
 	 */
-	private void deleteFeedItemUsingLike(UserLike like) {
-		if (activityFeed != null && !activityFeed.isEmpty()) {
-
+	private void deleteFeedItemUsingLike(UserLike like) 
+	{
+		if (activityFeed != null && !activityFeed.isEmpty()) 
+		{
 			/* Making a copy of the array list, we can not modify the list in the for-loop */
 			ArrayList<TVFeedItem> activityFeedCopy = (ArrayList<TVFeedItem>) activityFeed;
 			
-			for (TVFeedItem feedItem : activityFeedCopy) {
-				
-				if (feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) {
+			for (TVFeedItem feedItem : activityFeedCopy) 
+			{	
+				if (feedItem.getItemType() != FeedItemTypeEnum.POPULAR_BROADCASTS) 
+				{
 					TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
 					
 					TVProgram program = broadcast.getProgram();
+					
 					String contentIdFromProgram = UserLike.getContentIdFromTVProgram(program);
 					
-					if(contentIdFromProgram.equals(like.getContentId())) {
+					if(contentIdFromProgram.equals(like.getContentId()))
+					{
 						feedItemsToDelete.add(feedItem);
 						
 						Log.d(TAG, "Removing liked broadcasts from list!! Item: " + program.getTitle());

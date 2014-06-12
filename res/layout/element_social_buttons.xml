@@ -57,8 +57,7 @@
         android:layout_marginTop="5dp"
         android:background="@color/grey1" />
 
-    <!-- REMIND BUTTON -->
-
+    <!-- REMINDER VIEW -->
     <com.mitv.ui.elements.ReminderView
         android:id="@+id/element_social_buttons_reminder"
         android:layout_width="0dp"

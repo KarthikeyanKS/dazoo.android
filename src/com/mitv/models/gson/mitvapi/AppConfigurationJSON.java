@@ -13,6 +13,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.mitv.Constants;
 
 
 
@@ -48,6 +49,12 @@ public class AppConfigurationJSON
 	/* Cell count configuration */
 	protected int feedActivityCellCountBetweenAdCells;
 	protected int guideFragmentCellCountBetweenAdCells;
+	
+	protected int competitionPageReloadInterval;
+	protected int competitionTeamPageReloadInterval;
+	protected int competitionEventPageReloadInterval;
+	protected int competitionEventPageHighlightReloadInterval;
+	
 	
 	
 	/* Facebook configuration */
@@ -195,6 +202,63 @@ public class AppConfigurationJSON
 			welcomeToast = "";
 		}
 		
+		
+		boolean hasCompetitionPageReloadInterval= jsonObject.has("api.configuration.android.competition.page.reload.interval");
+		
+		if(hasCompetitionPageReloadInterval)
+		{
+			jsonObject.get("api.configuration.android.competition.page.reload.interval");
+			
+			competitionPageReloadInterval = jsonElement.getAsInt();
+		}
+		else
+		{
+			competitionPageReloadInterval = Constants.COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
+		}
+		
+		
+		boolean hasCompetitionEventPageReloadInterval= jsonObject.has("api.configuration.android.event.page.reload.interval");
+		
+		if(hasCompetitionEventPageReloadInterval)
+		{
+			jsonObject.get("api.configuration.android.event.page.reload.interval");
+			
+			competitionEventPageReloadInterval = jsonElement.getAsInt();
+		}
+		else
+		{
+			competitionEventPageReloadInterval = Constants.COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
+		}
+		
+		
+		boolean hasCompetitionTeamPageReloadInterval= jsonObject.has("api.configuration.android.team.page.reload.interval");
+		
+		if(hasCompetitionTeamPageReloadInterval)
+		{
+			jsonObject.get("api.configuration.android.team.page.reload.interval");
+			
+			competitionTeamPageReloadInterval = jsonElement.getAsInt();
+		}
+		else
+		{
+			competitionTeamPageReloadInterval = Constants.COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
+		}
+		
+
+		boolean hasCompetitionEventPageHighlightReloadInterval= jsonObject.has("api.configuration.android.highlight.page.reload.interval");
+		
+		if(hasCompetitionEventPageHighlightReloadInterval)
+		{
+			jsonObject.get("api.configuration.android.highlight.page.reload.interval");
+			
+			competitionEventPageHighlightReloadInterval = jsonElement.getAsInt();
+		}
+		else
+		{
+			competitionEventPageHighlightReloadInterval = Constants.COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS;
+		}
+		
+		
 		jsonElement = jsonObject.get("adzerkLevel");
 		
 		adzerkLevel = jsonElement.getAsInt();
@@ -334,5 +398,35 @@ public class AppConfigurationJSON
 
 	public boolean areDisqusCommentsEnabled() {
 		return areDisqusCommentsEnabled;
+	}
+
+
+
+	public boolean isPreventRateAppDialog() {
+		return preventRateAppDialog;
+	}
+
+
+
+	public int getCompetitionPageReloadInterval() {
+		return competitionPageReloadInterval;
+	}
+
+
+
+	public int getCompetitionTeamPageReloadInterval() {
+		return competitionTeamPageReloadInterval;
+	}
+
+
+
+	public int getCompetitionEventPageReloadInterval() {
+		return competitionEventPageReloadInterval;
+	}
+
+
+
+	public int getCompetitionEventPageHighlightReloadInterval() {
+		return competitionEventPageHighlightReloadInterval;
 	}
 }

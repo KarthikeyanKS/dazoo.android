@@ -3,12 +3,12 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 
@@ -18,10 +18,9 @@ import com.mitv.adapters.list.RemindersListAdapter;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.models.comparators.TVBroadcastComparatorByTime;
-import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
-import com.mitv.models.sql.NotificationDataSource;
-import com.mitv.models.sql.NotificationSQLElement;
+import com.mitv.managers.ContentManager;
+import com.mitv.models.comparators.NotificationComparatorByBeginTime;
+import com.mitv.models.objects.mitvapi.Notification;
 
 
 
@@ -29,7 +28,6 @@ public class RemindersActivity
 	extends BaseContentActivity 
 	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
 	
@@ -41,8 +39,8 @@ public class RemindersActivity
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) {
+
+		if (isRestartNeeded()) {
 			return;
 		}
 		
@@ -79,31 +77,21 @@ public class RemindersActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		ArrayList<TVBroadcastWithChannelInfo> tvBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
+		List<Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
 
-		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		Collections.sort(notifications, new NotificationComparatorByBeginTime());
 
-		List<NotificationSQLElement> notificationList = notificationDataSource.getAllNotifications();
+		listAdapter = new RemindersListAdapter(this, notifications);
 
-		for (NotificationSQLElement element : notificationList) 
-		{
-			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(element);
-
-			tvBroadcasts.add(broadcast);
-		}
-
-		if (tvBroadcasts.isEmpty())
-		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-		} 
-		else
-		{
-			Collections.sort(tvBroadcasts, new TVBroadcastComparatorByTime());
-
-			listAdapter = new RemindersListAdapter(this, tvBroadcasts);
-
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		}
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

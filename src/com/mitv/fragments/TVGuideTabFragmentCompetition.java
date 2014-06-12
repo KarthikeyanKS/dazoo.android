@@ -3,25 +3,35 @@ package com.mitv.fragments;
 
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.competition.CompetitionPageActivity;
+import com.mitv.adapters.list.TVGuideCompetitionTagListAdapter;
+import com.mitv.adapters.list.TVGuideListAdapter;
+import com.mitv.asynctasks.other.RemoveAlreadyEndedBroadcastsTask;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.TVGuideTabTypeEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
-import com.mitv.managers.TrackingManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.EventCountDownTimer;
 import com.mitv.utilities.DateUtils;
@@ -36,11 +46,16 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	private Competition competition;
-	
 	private long competitionID;
-	
+	private LinearLayout listView;
+	private TVGuideListAdapter listAdapter;
+	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
+	private TVGuideCompetitionTagListAdapter tvTagListAdapter;
 	private EventCountDownTimer eventCountDownTimer;
+	private boolean isOngoing;
+	private boolean hasEnded;
 	
+	private RelativeLayout countDownLayout;
 	private RelativeLayout countDownAreaContainer;
 	private TextView remainingTimeInDays;
 	private TextView remainingTimeInHours;
@@ -51,6 +66,7 @@ public class TVGuideTabFragmentCompetition
 	private TextView title;
 	private RelativeLayout competitionGoToScheduleLayout;
 	
+	private RelativeLayout competitionBannerLayout;
 	
 	
 	
@@ -74,20 +90,28 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.layout_competition_page_main, null);
+		rootView = inflater.inflate(R.layout.layout_competition_tab, null);
 
 		super.initRequestCallbackLayouts(rootView);
 		
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		
 		RelativeLayout learnMoreButton = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
+		
+		initView();
+		
+		isOngoing = false;
 		
         learnMoreButton.setOnClickListener(new View.OnClickListener() 
         {
             public void onClick(View v)
             {
-            	TrackingManager.sharedInstance().sendUserCompetitionTabCalendarPressed(getCompetition().getDisplayName());
+            	TrackingGAManager.sharedInstance().sendUserCompetitionTabCalendarPressed(getCompetition().getDisplayName());
             	
                 Intent intent = new Intent(activity, CompetitionPageActivity.class);
                 
@@ -103,27 +127,25 @@ public class TVGuideTabFragmentCompetition
         {	
             public void onClick(View v)
             {
-                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
+            	TrackingGAManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
             }
         });
         
-        RelativeLayout competitionBannerLayout = (RelativeLayout) rootView.findViewById(R.id.competition_banner_layout);
+        competitionBannerLayout = (RelativeLayout) rootView.findViewById(R.id.competition_banner_layout);
         
         competitionBannerLayout.setOnClickListener(new View.OnClickListener() 
         {	
             public void onClick(View v)
             {
-                TrackingManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
+            	TrackingGAManager.sharedInstance().sendUserCompetitionTabCountdownPressed(getCompetition().getDisplayName());
             }
         });
         
         if (savedInstanceState != null) 
         {
             // Restore last state for checked position.
-        	competitionID = savedInstanceState.getLong("competitionID", 0);
+        	competitionID = savedInstanceState.getLong(Constants.INTENT_COMPETITION_ID, 0);
         }
-        
-        initView();
 		
 		return rootView;
 	}
@@ -135,7 +157,7 @@ public class TVGuideTabFragmentCompetition
 	{
         super.onSaveInstanceState(outState);
         
-        outState.putLong("competitionID", competitionID);
+        outState.putLong(Constants.INTENT_COMPETITION_ID, competitionID);
     }
 	
 	
@@ -158,7 +180,25 @@ public class TVGuideTabFragmentCompetition
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionsData(this, false);
+		String loadingString = getString(R.string.competition_tab_loading_text);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
+		
+		taggedBroadcasts = null;
+		
+		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+
+		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefresh, getCompetition().getCompetitionId());
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	
@@ -166,7 +206,9 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		boolean hasEnoughData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		
+		return hasEnoughData;
 	}
 	
 	
@@ -176,9 +218,40 @@ public class TVGuideTabFragmentCompetition
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-		} 
-		else 
+			Competition currentCompetition = getCompetition();
+			
+			boolean hasBegun = currentCompetition.hasBegun();
+			hasEnded = currentCompetition.hasEnded();
+			boolean isVisible = currentCompetition.isVisible();
+			
+			isOngoing = hasBegun && !hasEnded && isVisible;
+			
+			boolean noContent = true;
+			
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
+				
+			if(taggedBroadcastForDay != null) 
+			{
+				/* Just filtering by tag: FIFA
+				 * Not: Mundial FIFA, does not work */
+				taggedBroadcasts = taggedBroadcastForDay.get(Constants.FIFA_TAG_ID);
+	
+				if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) 
+				{
+					noContent = false;
+				}
+			}
+			
+			if(noContent) 
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+			} 
+			else 
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			}
+		}
+		else
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}
@@ -196,6 +269,9 @@ public class TVGuideTabFragmentCompetition
 			case SUCCESS_WITH_CONTENT:
 			{
 				setData();
+				
+				clearContentOnTagAndReload();
+				
 				break;
 			}
 			
@@ -206,11 +282,6 @@ public class TVGuideTabFragmentCompetition
 			}
 		}
 	}
-	
-	
-	
-	@Override
-	public void onTimeChange(int hour){}
 	
 	
 	
@@ -240,7 +311,9 @@ public class TVGuideTabFragmentCompetition
 	
 	private void initView()
 	{
-		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_area);
+		countDownLayout = (RelativeLayout) rootView.findViewById(R.id.competition_count_down_layout);
+				
+		countDownAreaContainer = (RelativeLayout) rootView.findViewById(R.id.time_left_section);
 		
 		remainingTimeInDays = (TextView) rootView.findViewById(R.id.competition_days_number);
 		remainingTimeInHours = (TextView) rootView.findViewById(R.id.competition_hours_number);
@@ -252,7 +325,9 @@ public class TVGuideTabFragmentCompetition
 		
 		title = (TextView) rootView.findViewById(R.id.competition_title);
 		
-		competitionGoToScheduleLayout = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);	
+		competitionGoToScheduleLayout = (RelativeLayout) rootView.findViewById(R.id.competition_go_to_schedule_layout);
+		
+		listView =  (LinearLayout) rootView.findViewById(R.id.competition_tag_list_events);
 	}
 	
 	
@@ -272,26 +347,55 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	private void setData()
-	{
-		if (getCompetition().hasBegun())
+	{		
+		if (isOngoing)
 		{
-			title.setText(activity.getString(R.string.competition_page_time_left_title));
+			title.setText("");
 		
+			LayoutParams parameters = countDownLayout.getLayoutParams();
+			
+			int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+			
+			parameters.height = height;
+			
+			countDownLayout.setLayoutParams(parameters);
+			
+			countDownLayout.setVisibility(View.VISIBLE);
+			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
 			
 			countDownAreaContainer.setVisibility(View.GONE);
 		}
+		
+		else if (hasEnded) 
+		{
+			// TODO ?
+		}
 		else
 		{
 			title.setText(activity.getString(R.string.competition_page_time_left_title));
+		
+			LayoutParams parameters = countDownLayout.getLayoutParams();
+			
+			int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 230, getResources().getDisplayMetrics());
+			
+			parameters.height = height;
+			
+			countDownLayout.setLayoutParams(parameters);
+			
+			countDownLayout.setVisibility(View.VISIBLE);
 			
 			competitionGoToScheduleLayout.setVisibility(View.VISIBLE);
+			
+			countDownAreaContainer.setVisibility(View.VISIBLE);
+			
+			competitionBannerLayout.setBackgroundColor(activity.getResources().getColor(R.color.white));
 		
 			String competitionName = getCompetition().getDisplayName();
 			
 			long eventStartTimeInMiliseconds = getCompetition().getBeginTimeCalendarGMT().getTimeInMillis();
 				
-			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNow().getTimeInMillis());
+			long millisecondsUntilEventStart = (eventStartTimeInMiliseconds - DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 
 			eventCountDownTimer = new EventCountDownTimer(
 					competitionName, 
@@ -301,9 +405,47 @@ public class TVGuideTabFragmentCompetition
 					remainingTimeInMinutes,
 					remainingTimeInDaysTitle,
 					remainingTimeInHoursTitle,
-					remainingTimeInMinutesTitle);
+					remainingTimeInMinutesTitle,
+					title,
+					countDownLayout);
 				
 			eventCountDownTimer.start();
 		}
 	}
+	
+	
+	
+	@Override
+	public void onTimeChange(int hour)
+	{
+		if (listAdapter != null) 
+		{
+			listAdapter.refreshList(hour);
+		}
+	}
+	
+	
+	
+	protected void clearContentOnTagAndReload() 
+	{
+		int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
+
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex);
+		removeAlreadyEndedBroadcastsTask.run();
+		
+		listView.removeAllViews();
+		
+		tvTagListAdapter = new TVGuideCompetitionTagListAdapter(activity, Constants.FIFA_TAG_ID, taggedBroadcasts, startIndex);
+			
+		for (int i = 0; i < tvTagListAdapter.getCount(); i++) 
+		{
+            View listItem = tvTagListAdapter.getView(i, null, listView);
+           
+            if (listItem != null) 
+            {
+            	listView.addView(listItem);
+            }
+        }
+	}
+	
 }

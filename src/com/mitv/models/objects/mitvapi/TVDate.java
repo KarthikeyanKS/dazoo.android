@@ -20,16 +20,32 @@ public class TVDate
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = TVDate.class.getName();
-	protected Calendar startOfTVDayCalendar;
-	protected Calendar endOfTVDayCalendar;
+		
 	
 	
+	
+	public TVDate(long timeinMilliseconds)
+	{	
+		Calendar calendar = DateUtils.getCalendarForStartOfTVDay(timeinMilliseconds);
+		
+		String calendarDateRepresentation = DateUtils.buildDateCompositionAsString(calendar);
+		
+		this.id = calendarDateRepresentation;
+		this.date = calendarDateRepresentation;
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal());
+	}
+	
+	
+	/*
+	 * The input string format should be in the format: "yyyy-MM-dd"
+	 */
 	public TVDate(String dateRepresentation)
 	{	
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal());
 	}
+	
 	
 	
 	public TVDate(TVDateORM tvDateORM)
@@ -48,27 +64,49 @@ public class TVDate
 	{
 		String displayName = super.getDisplayName();
 		
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal());
 		
 		return displayName;
 	}
 	
 	
 	
-	public Calendar getStartOfTVDayCalendar() 
+	public Calendar getStartOfTVDayCalendarGMT() 
 	{
-		startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
+		Calendar startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
 		
 		return startOfTVDayCalendar;
 	}
 	
-	public Calendar getEndOfTVDayCalendar() 
+	
+	
+	public Calendar getStartOfTVDayCalendarLocal() 
 	{
-		endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendar());
+		Calendar startOfTVDayCalendar = getStartOfTVDayCalendarGMT();
+		
+		startOfTVDayCalendar = DateUtils.setTimeZoneAndOffsetToLocal(startOfTVDayCalendar);
+		
+		return startOfTVDayCalendar;
+	}
+	
+	
+	
+	public Calendar getEndOfTVDayCalendarGMT() 
+	{
+		Calendar endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendarGMT());
 		
 		return endOfTVDayCalendar;
 	}
-
+	
+	
+	
+	public Calendar getEndOfTVDayCalendarLocal() 
+	{
+		Calendar endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendarLocal());
+		
+		return endOfTVDayCalendar;
+	}
+	
 
 	
 	public boolean isToday() 
@@ -80,24 +118,30 @@ public class TVDate
 
 
 	@Override
-	public boolean areDataFieldsValid() {
+	public boolean areDataFieldsValid()
+	{
 		final int yearOf2000 = 2000;
 
 		boolean areDataFieldsValid = (!TextUtils.isEmpty(getId()) && !TextUtils.isEmpty(getDisplayName()) && 
-				(getStartOfTVDayCalendar() != null) && getStartOfTVDayCalendar().get(Calendar.YEAR) > yearOf2000 &&
-				getEndOfTVDayCalendar() != null && getEndOfTVDayCalendar().get(Calendar.YEAR) > yearOf2000
+				(getStartOfTVDayCalendarGMT() != null) && getStartOfTVDayCalendarGMT().get(Calendar.YEAR) > yearOf2000 &&
+				 getEndOfTVDayCalendarGMT() != null && getEndOfTVDayCalendarGMT().get(Calendar.YEAR) > yearOf2000
 				);
+		
 		return areDataFieldsValid;
 	}
 	
 	
+	
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
+	
 	
 	@Override
 	public boolean equals(Object obj) {

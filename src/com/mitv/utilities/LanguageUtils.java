@@ -112,6 +112,36 @@ public abstract class LanguageUtils
 		
 		int progress = durationInMinutes - minutesLeft;
 
+		String timeRemaining = getRemainingTimeAsString(activity, minutesLeft);
+		
+		progressTxt.setText(timeRemaining);
+		progressBar.setMax(durationInMinutes + 1);
+		progressBar.setProgress(progress + 1);
+		
+		progressTxt.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.VISIBLE);
+	}
+	
+	
+	
+	public static void setupOnlyProgressBar(
+			final Activity activity, 
+			final int minutesInGame,
+			final int totalMinutesOfEvent,
+			final ProgressBar progressBar)
+	{
+		progressBar.setMax(totalMinutesOfEvent + 1);
+		progressBar.setProgress(minutesInGame + 1);
+		
+		progressBar.setVisibility(View.VISIBLE);
+	}
+	
+	
+	
+	public static String getRemainingTimeAsString(
+			final Activity activity, 
+			final int minutesLeft)
+	{
 		StringBuilder sb = new StringBuilder();
 		
 		Resources res = activity.getResources();
@@ -187,11 +217,6 @@ public abstract class LanguageUtils
 			}
 		}
 		
-		progressTxt.setText(sb.toString());
-		progressBar.setMax(durationInMinutes + 1);
-		progressBar.setProgress(progress + 1);
-		
-		progressTxt.setVisibility(View.VISIBLE);
-		progressBar.setVisibility(View.VISIBLE);
+		return sb.toString();
 	}
 }

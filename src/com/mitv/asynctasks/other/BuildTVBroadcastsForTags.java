@@ -14,6 +14,7 @@ import android.util.Log;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.comparators.TVBroadcastComparatorByTime;
@@ -37,6 +38,7 @@ public class BuildTVBroadcastsForTags
 	private ContentCallbackListener contentCallbackListener;
 	private ViewCallbackListener activityCallbackListener;
 	private Object requestResultObjectContent;
+	private RequestParameters requestParameters;
 	
 	
 	
@@ -49,6 +51,7 @@ public class BuildTVBroadcastsForTags
 		this.tvChannelGuides = tvChannelGuides;
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
+		this.requestParameters = new RequestParameters();
 	}
 	
 	
@@ -82,7 +85,7 @@ public class BuildTVBroadcastsForTags
 		
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_FOR_TAGS, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_FOR_TAGS, FetchRequestResultEnum.SUCCESS, requestResultObjectContent, requestParameters);
 		}
 		else
 		{
@@ -135,7 +138,8 @@ public class BuildTVBroadcastsForTags
 					ArrayList<TVBroadcastWithChannelInfo> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tagName);
 
 					/* If it is null (this is the first broadcast for this tag), instantiate it! */
-					if (broadcastsForTag == null) {
+					if (broadcastsForTag == null) 
+					{
 						broadcastsForTag = new ArrayList<TVBroadcastWithChannelInfo>();
 					}
 					
@@ -150,21 +154,25 @@ public class BuildTVBroadcastsForTags
 					mapTagToTaggedBroadcastForDate.put(tagName, broadcastsForTag);
 				}
 			}
-			
-
 		}
-		for (String tag : tvTagsAsStrings) {
+		
+		for (String tag : tvTagsAsStrings) 
+		{
 			ArrayList<TVBroadcastWithChannelInfo> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tag);
 
-			if (broadcastsForTag != null) {
+			if (broadcastsForTag != null)
+			{
 				Collections.sort(broadcastsForTag, new TVBroadcastComparatorByTime());
 			}
 		}
 
         double endTime = System.currentTimeMillis();
+        
         Log.d(TAG, "Time:" + (endTime-startTime));
-		return mapTagToTaggedBroadcastForDate;
+		
+        return mapTagToTaggedBroadcastForDate;
 	}
+	
 	
 	
 	private ArrayList<String> tvTagIds() 

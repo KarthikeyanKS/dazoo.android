@@ -19,6 +19,9 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.LikeTypeResponseEnum;
+import com.mitv.enums.NotificationTypeEnum;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -26,6 +29,8 @@ import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
@@ -185,42 +190,165 @@ public class TrackingGAManager
 		sendSystemEvent(Constants.GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION);
 	}
 	
-	public void sendUserSharedEvent(TVBroadcast broadcast) {
+	
+	
+	public void sendUserSharedEvent(TVBroadcast broadcast) 
+	{
 		String broadcastTitle = broadcast.getTitle();
+		
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
-
-	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) {
+	
+	public void sendUserSharedEvent(Event event) 
+	{
+		String label = ContentManager.sharedInstance().getFromCacheCompetitionByID(event.getCompetitionId()).getDisplayName() + " " + event.getTitle() + " " + event.getEventId();
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
+		Log.d(TAG, "Event sent: " + label);
+	}
+	
+	public void sendUserSharedEvent(Team team) 
+	{
+		String label = ContentManager.sharedInstance().getFromCacheCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
+		
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
+		Log.d(TAG, "Event sent: " + label);
+	}
+	
+	
+	
+	public void sendUserNoDataRetryLayoutButtomPressed(String activityOrFragmentName) 
+	{
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_NO_DATA_LAYOUT_RETRY, activityOrFragmentName);
+	}
+	
+	
+	
+	public void sendUserNoConnectionRetryLayoutButtomPressed(String activityOrFragmentName) 
+	{
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_NO_CONNECTION_LAYOUT_RETRY, activityOrFragmentName);
+	}
+	
+	
+	
+	public void sendUserLikesEvent(UserLike userLike, boolean didJustUnlike) 
+	{
 		String broadcastTitle = userLike.getTitle();
 
 		Long addedLike = 1L;
-		if (didJustUnlike) {
+		
+		if (didJustUnlike) 
+		{
 			addedLike = 0L;
+		}
+		
+		if (userLike.getLikeType() == LikeTypeResponseEnum.TEAM) {
+			Team team = ContentManager.sharedInstance().getFromCacheTeamByID(userLike.getTeamId());
+			broadcastTitle = ContentManager.sharedInstance().getFromCacheCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
+		}
+		else if (userLike.getLikeType() == LikeTypeResponseEnum.COMPETITION) {
+			broadcastTitle = ContentManager.sharedInstance().getFromCacheCompetitionByID((userLike.getCompetitionId())).getDisplayName();
 		}
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
-
+		Log.d(TAG, "Event sent: " + broadcastTitle);
 	}
 
-	public void sendUserReminderEvent(TVBroadcast broadcast, boolean didJustRemoveReminder) {
-		String broadcastTitle = broadcast.getTitle();
-
+	
+	
+	public void sendUserReminderEvent(Notification notification, boolean didJustRemoveReminder) 
+	{		
+		StringBuilder titleSB = new StringBuilder();
+		
 		Long addedReminder = 1L;
-		if (didJustRemoveReminder) {
+		
+		if (didJustRemoveReminder) 
+		{
 			addedReminder = 0L;
 		}
+		
+		NotificationTypeEnum notificationType = notification.getNotificationType();
+		
+		switch (notificationType) 
+		{
+			case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
+			case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
+			{
+				Long competitionId = notification.getCompetitionId();
+				
+				Long eventId = notification.getEventId();
+				
+				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId);
+				
+				String competitionName;
+				
+				if(competition != null)
+				{
+					competitionName = competition.getDisplayName();
+				}
+				else
+				{
+					competitionName = competitionId.toString();
+					
+					Log.w(TAG, "Competition is null. Using competitionId as a fallback in analytics reporting.");
+				}
+				
+				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
+				
+				String eventName;
+				
+				if(event != null)
+				{
+					eventName = event.getTitle();
+				}
+				else
+				{
+					eventName = eventId.toString();
+					
+					Log.w(TAG, "Event is null. Using eventId as a fallback in analytics reporting.");
+				}
+				
+				String broadcastBeginTimeInMilliseconds = notification.getBeginTimeInMilliseconds().toString();
+				
+				titleSB.append(competitionName)
+				.append(" ")
+				.append(eventName)
+				.append(" ")
+				.append(broadcastBeginTimeInMilliseconds);
+				
+				break;
+			}
+		
+			case TV_BROADCAST:
+			default:
+			{
+				titleSB.append(notification.getBroadcastTitle());
+				
+				break;
+			}
+		}
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, titleSB.toString(), addedReminder);
 
-		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER, broadcastTitle, addedReminder);
+		Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_USER_REMINDER + ": " + titleSB.toString());
 	}
 
-	public void sendTimeOffSyncEvent() {
+	
+
+	public void sendTimeOffSyncEvent() 
+	{
 		sendSystemEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT_DEVICE_TIME_UNSYNCED);
 	}
 
-	public void sendFirstBootEvent() {
+	
+	
+	public void sendFirstBootEvent() 
+	{
 		sendSystemEventWithLabel(Constants.GA_EVENT_KEY_ACTION_FIRST_BOOT, Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT);
 	}
 
+	
+	
 	public void sendUserTagSelectionEvent(int tagPosition) 
 	{
 		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
@@ -249,7 +377,8 @@ public class TrackingGAManager
 		}
 	}
 
-	public void sendUserHourSelectionEvent(int lastSelectedHour) {
+	public void sendUserHourSelectionEvent(int lastSelectedHour) 
+	{
 		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
 		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
@@ -305,7 +434,7 @@ public class TrackingGAManager
 		if (dates != null && !dates.isEmpty() && dayIndex < dates.size()) {
 			TVDate tvDate = dates.get(dayIndex);
 
-			Calendar calendar = tvDate.getStartOfTVDayCalendar();
+			Calendar calendar = tvDate.getStartOfTVDayCalendarGMT();
 			String displayName = tvDate.getDisplayName();
 			String dayMonth = DateUtils.buildDayAndMonthCompositionAsString(calendar, false);
 
@@ -492,6 +621,7 @@ public class TrackingGAManager
 	public void sendUserCompetitionEventWithLabelAndValue(String action, String label, long value) 
 	{
 		sendEventWithLabelAndValue(Constants.GA_EVENT_CATEGORY_KEY_USER_EVENT, action, label, value);
+		Log.d(TAG, "Event sent: " + action + ": " + label);
 	}
 	
 	
@@ -627,10 +757,115 @@ public class TrackingGAManager
 
 			sendEventWithLabel(category, action, label);
 
-		} else {
+		} 
+		else 
+		{
 			throw new IllegalArgumentException("String in sendGooglePlayCampaignToAnalytics: " + campaignData + " does not contain &");
 
 		}
 	}
-
+	
+	/* Competition events*/
+	
+	public void sendUserCompetitionTabCountdownPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Countdown";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionTabBannerPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+		
+	
+	
+	public void sendUserCompetitionTabCalendarPressed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Calendar";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionBannerPressedInAllTab(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner All";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionBannerPressedInSportsTab(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner Sports";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionEventPressedEvent(String competitionName, String nameOfEvent, long eventId, String extras) {
+		String label = competitionName + " " + nameOfEvent + " " + String.valueOf(eventId) + " " + extras;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_EVENT_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionTabPressedEvent(String competitionName, String nameOfTab) {
+		String label = competitionName + " " + nameOfTab;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_INVIEW_TAB_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionCountdownPressedEvent(String competitionName) {
+		String label = competitionName + " Countdown";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionTeamPressedEvent(String competitionName, String nameOfTeam, String extras) {
+		String label = competitionName + " " + nameOfTeam + " " + extras;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_TEAM_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionViewAllLinkPressedEvent(String type) {
+		String label = type;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_VIEW_ALL_LINK_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionBroadcastPressedEvent(String competitionName, String eventName, String extras) {
+		String label = competitionName + " " + eventName + " " + extras;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_EVENT_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void senduserCompetitionLineupPressedEvent(String competitionName) {
+		String label = competitionName + " Lineup";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void senduserCompetitionHightlightsPressedEvent(String competitionName) {
+		String label = competitionName + " Highlights";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionSquadPressedEvent(String competitionName, String teamName) {
+		String label = competitionName + " " + teamName + " Squad";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
+	}
+	
 }

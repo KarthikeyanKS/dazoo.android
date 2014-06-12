@@ -6,6 +6,7 @@ package com.mitv.activities;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -25,7 +26,6 @@ public class PopularPageActivity
 	extends BaseContentActivity 
 	implements OnClickListener 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = PopularPageActivity.class.getName();
 
 	
@@ -38,11 +38,11 @@ public class PopularPageActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) {
+
+		if (isRestartNeeded()) {
 			return;
 		}
-
+		
 		setContentView(R.layout.layout_popular_list_activity);
 
 		initViews();
@@ -84,6 +84,14 @@ public class PopularPageActivity
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		
 		ContentManager.sharedInstance().getElseFetchFromServicePopularBroadcasts(this, false);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	

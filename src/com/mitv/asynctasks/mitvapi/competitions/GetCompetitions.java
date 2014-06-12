@@ -26,7 +26,7 @@ public class GetCompetitions
 	private static final String TAG = GetCompetitions.class.getName();
 	
 	
-	private static String url = Constants.URL_COMPETITIONS;
+	private static String url = Constants.URL_COMPETITIONS_FULL;
 	
 	
 	
@@ -51,9 +51,10 @@ public class GetCompetitions
 	public GetCompetitions(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean standalone)
+			boolean standalone,
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true, retryThreshold);
 	}
 	
 	

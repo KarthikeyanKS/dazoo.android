@@ -102,49 +102,6 @@ public class TrackingManager
 	
 	
 	
-	public void sendUserCompetitionTabCountdownPressed(String competitionName) 
-	{
-		String eventLabel = competitionName + " Countdown";
-		
-		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
-	}
-	
-	
-	
-	public void sendUserCompetitionTabBannerPressed(String competitionName) 
-	{
-		String eventLabel = competitionName + " Banner";
-		
-		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
-	}
-		
-	
-	
-	public void sendUserCompetitionTabCalendarPressed(String competitionName) 
-	{
-		String eventLabel = competitionName + " Calendar";
-		
-		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
-	}
-	
-	
-	public void sendUserCompetitionBannerPressedInAllTab(String competitionName) 
-	{
-		String eventLabel = competitionName + " Banner";
-		
-		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
-	}
-	
-	
-	public void sendUserCompetitionBannerPressedInSportsTab(String competitionName) 
-	{
-		String eventLabel = competitionName + " Banner";
-		
-		TrackingGAManager.sharedInstance().sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
-	}
-	
-	
-	
 	public void onPause(Activity activity)
 	{
 		if(Constants.ENABLE_AMAZON_INSIGHTS)
@@ -190,7 +147,7 @@ public class TrackingManager
 	
 	private void setStartValue(String eventName)
 	{
-		Long now = new Long(DateUtils.getNow().getTimeInMillis());
+		Long now = new Long(DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 		
 		measureEventStartTimes.put(eventName, now);
 	}
@@ -199,7 +156,7 @@ public class TrackingManager
 	
 	private long calculateValueSincePrevious(String previousEventName)
 	{
-		Long now = new Long(DateUtils.getNow().getTimeInMillis());
+		Long now = new Long(DateUtils.getNowWithGMTTimeZone().getTimeInMillis());
 		
 		Long startTime = measureEventStartTimes.get(previousEventName);
 		
@@ -233,8 +190,6 @@ public class TrackingManager
 		long duration = calculateValueSincePrevious(className);
 		
 		Log.v(TAG, "Duration for " + "SPLASH_SCREEN_ON_RESULT_REACHED" + " is " + duration);
-		
-		//TrackingGAManager.sharedInstance().sendInternalSpeedMeasureEventWithLabelAndValue(className, "ON_RESULT_REACHED", duration);
 	}
 	
 	

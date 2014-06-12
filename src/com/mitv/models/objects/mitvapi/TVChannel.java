@@ -4,9 +4,9 @@ package com.mitv.models.objects.mitvapi;
 
 
 import android.text.TextUtils;
+
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVChannelJSON;
-import com.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -16,7 +16,11 @@ public class TVChannel
 {
 	protected transient TVChannelId tvChannelIdObject;
 	
+	
+	
 	public TVChannel(){}
+	
+	
 	
 	public TVChannelId getChannelId() 
 	{
@@ -29,14 +33,7 @@ public class TVChannel
 	}
 
 
-	public TVChannel(NotificationSQLElement item)
-	{
-		this.channelId = item.getChannelId();
-		this.name = item.getChannelName();
-		this.logo = new ImageSetSize(item);
-	}
-
-
+	
 	public void setChannelId(String channelId) 
 	{
 		this.channelId = channelId;
@@ -58,8 +55,10 @@ public class TVChannel
 		this.logo = images;
 	}
 
+	
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((channelId == null) ? 0 : channelId.hashCode());
@@ -68,7 +67,8 @@ public class TVChannel
 
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)

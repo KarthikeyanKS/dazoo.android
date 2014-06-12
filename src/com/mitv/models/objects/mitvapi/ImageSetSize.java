@@ -4,7 +4,6 @@ package com.mitv.models.objects.mitvapi;
 
 
 import com.mitv.models.gson.mitvapi.ImageSetSizeJSON;
-import com.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -15,19 +14,10 @@ public class ImageSetSize
 	
 	
 	
-	public ImageSetSize(NotificationSQLElement item)
-	{
-		this.small = item.getChannelLogoSmall();
-		this.medium = item.getChannelLogoMedium();
-		this.large = item.getChannelLogoLarge();
-	}
-	
-
-	
 	public ImageSetSize(
-			String small,
-			String medium,
-			String large)
+			final String small,
+			final String medium,
+			final String large)
 	{
 		this.small = small;
 		this.medium = medium;
@@ -38,8 +28,8 @@ public class ImageSetSize
 	
 	public boolean containsImages()
 	{
-		return (small != null && small.isEmpty() == false &&
-				medium != null && medium.isEmpty() == false &&
-				large != null && large.isEmpty() == false);
+		return (getSmall().isEmpty() == false &&
+				getMedium().isEmpty() == false &&
+				getLarge().isEmpty() == false);
 	}
 }

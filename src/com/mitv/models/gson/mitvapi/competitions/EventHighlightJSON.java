@@ -3,45 +3,66 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+
 public class EventHighlightJSON
 {
-	private String highlightId;
-	private String highlightType;
-	private String description;
-	private String beginTime;
-	private String endTime;
-	
-	
-	
-	public EventHighlightJSON(){}
+	protected long eventId;
+    
+    private String highlightCode;
+    
+    private long actionTime;
+    private long teamId;
+    private String actionMinute;
+    private String personShort;
+    private String subPersonShort;
 
+    
+    
+    public EventHighlightJSON() {}
 
+     
+    
+    public long getActionTime() {
+    	return actionTime;
+    }
 
-	public String getHighlightId() {
-		return highlightId;
-	}
+    
+    
+    public long getTeamId() {
+    	return teamId;
+    }
 
+    
+    public String getHighlightCode() {
+    	if (highlightCode == null) {
+    		highlightCode = "";
+    	}
+    	return highlightCode;
+    }
+    
+    
+    public String getActionMinute() {
+    	if (actionMinute == null) {
+    		actionMinute = "";
+    	}
+    	return actionMinute;
+    }
 
+    public String getPersonShort() {
+    	if (personShort == null) {
+    		personShort = "";
+    	}
+    	return personShort;
+    }
 
-	public String getHighlightType() {
-		return highlightType;
-	}
+    public long getEventId() {
+    	return eventId;
+    }
 
-
-
-	public String getDescription() {
-		return description;
-	}
-
-
-
-	public String getBeginTime() {
-		return beginTime;
-	}
-
-
-
-	public String getEndTime() {
-		return endTime;
-	}
+    public String getSubPersonShort() {
+    	if (subPersonShort == null) {
+    		subPersonShort = "";
+    	}
+    	return subPersonShort;
+    }
 }

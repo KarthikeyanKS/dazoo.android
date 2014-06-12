@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -43,7 +44,7 @@ public abstract class AboutOrTermsActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) {
+		if (isRestartNeeded()) {
 			return;
 		}
 		
@@ -125,6 +126,14 @@ public abstract class AboutOrTermsActivity
 		
 	@Override
 	protected void loadData() {/* Do nothing (no data to load on this activity) */}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
 	
 	
 	

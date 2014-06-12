@@ -165,6 +165,7 @@ public abstract class AbstractOrmLiteClass<T>
 			return 0;
 		}
 	}
+	
 
 	
 	public void deleteById(String field, String id)

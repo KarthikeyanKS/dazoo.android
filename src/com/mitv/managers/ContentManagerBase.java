@@ -9,20 +9,22 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mitv.APIClient;
 import com.mitv.Constants;
+import com.mitv.enums.EventLineUpPosition;
 import com.mitv.enums.FeedItemTypeEnum;
+import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.Cache;
+import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
+import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.SearchResultsForQuery;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
@@ -38,9 +40,12 @@ import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
+import com.mitv.models.objects.mitvapi.competitions.EventHighlight;
+import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
+import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
@@ -70,8 +75,8 @@ public abstract class ContentManagerBase
 	protected boolean isFetchingFeedItems;
 	protected boolean isGoingToMyChannelsFromSearch;
 	protected Boolean isLocalDeviceCalendarOffSync;
-	
-	
+
+	protected int tvGuideInitialRetryCount = 0;
 		
 	
 	
@@ -146,12 +151,23 @@ public abstract class ContentManagerBase
 	{
 		return isUpdatingGuide;
 	}
+	
+	public void resetTvGuideInitialRetryCount() {
+		tvGuideInitialRetryCount = 0;
+	}
 
 	
 	
 	public static void clearAllPersistentCacheData()
 	{
 		Cache.clearAllPersistentCacheData();
+	}
+	
+	
+	
+	public void clearGuideCacheData()
+	{
+		cache.clearGuideCacheData();
 	}
 	
 	
@@ -192,7 +208,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<TVChannelId> getFromCacheTVChannelIdsUser() 
+	public List<TVChannelId> getFromCacheTVChannelIdsUsed() 
 	{
 		List<TVChannelId> tvChannelIdsUser = getCache().getTvChannelIdsUsed();
 		
@@ -215,7 +231,7 @@ public abstract class ContentManagerBase
 		Log.d(TAG, "Contains AppVersionData " + containsAppVersionData);
 		Log.d(TAG, "Contains TVDates " + containsTVDates);
 		Log.d(TAG, "Contains TVTags " + containsTVTags);
-		Log.d(TAG, "Contains containsTVChannels " + containsTVChannels);
+		Log.d(TAG, "Contains TVChannels " + containsTVChannels);
 		Log.d(TAG, "Contains TVGuideForSelectedDay " + containsTVGuideForSelectedDay);
 		Log.d(TAG, "Contains Competitions " + containsCompetitions);
 		
@@ -339,9 +355,23 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public boolean getFromCacheHasCompetitionData(long competitionID)
+	public boolean getFromCacheHasCompetitionData(Long competitionID)
 	{
 		return getCache().getCompetitionsData().containsCompetitionData(competitionID);
+	}
+	
+	
+	
+	public boolean getFromCacheHasEventData(Long competitionID, Long eventID)
+	{
+		return getCache().getCompetitionsData().containsEventData(competitionID, eventID);
+	}
+	
+	
+	
+	public boolean getFromCacheHasTeamData(Long competitionID)
+	{
+		return getCache().getCompetitionsData().containsTeamData(competitionID);
 	}
 	
 	
@@ -364,6 +394,66 @@ public abstract class ContentManagerBase
 		long competitionID = selectedCompetition.getCompetitionId();
 		
 		return getFromCacheHasCompetitionData(competitionID);
+	}
+	
+	
+	
+	public boolean getFromCacheHasLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		boolean hasData = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasData = getCache().getCompetitionsData().containsEventLineUpData(competitionID, eventID);
+
+		return hasData;
+	}
+	
+	
+	
+	public boolean getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		boolean hasData = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasData = getCache().getCompetitionsData().containsEventHighlightsData(competitionID, eventID);
+
+		return hasData;
+	}
+	
+	
+	
+	public boolean getFromCacheHasStandingsForPhaseInSelectedCompetition(Long phaseID)
+	{
+		boolean hasData = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasData = getCache().getCompetitionsData().containsStandingsData(competitionID, phaseID);
+		
+		return hasData;
+	}
+	
+	
+	
+	public boolean getFromCacheHasSquadForTeamID(Long teamID)
+	{
+		boolean hasData = false;
+		
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long competitionID = selectedCompetition.getCompetitionId();
+		
+		hasData = getCache().getCompetitionsData().containsSquadData(competitionID, teamID);
+		
+		return hasData;
 	}
 	
 	
@@ -722,6 +812,29 @@ public abstract class ContentManagerBase
 	
 	
 	
+//	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheTaggedBroadcastsWithFilterForSelectedTVDate() {
+//		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = getFromCacheTaggedBroadcastsForSelectedTVDate();
+//		
+//		ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
+//		ArrayList<TVBroadcastWithChannelInfo> sportBroadcasts = taggedBroadcastForDay.get("Sport");
+//		
+//		for (TVBroadcastWithChannelInfo tvBroadcast : sportBroadcasts) {
+//			List<String> tags = tvBroadcast.getProgram().getTags();
+//			
+//			for (String tag : tags) {
+//				
+//				if (tag.equals(Constants.FIFA_TAG_ID)) {
+//					broadcasts.add(tvBroadcast);
+//				}
+//			}
+//			
+//		}
+//		
+//		return broadcasts;
+//	}
+	
+	
+	
 	public Integer getFromCacheSelectedHour()
 	{
 		Integer selectedHour = getCache().getNonPersistentSelectedHour();
@@ -932,7 +1045,7 @@ public abstract class ContentManagerBase
 		{
 			isLocalDeviceCalendarOffSync = false;
 			
-			Calendar now = DateUtils.getNow();
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
 	
 			Calendar nowFromSNTP = getCache().getInitialCallSNTPCalendar();
 	
@@ -965,29 +1078,50 @@ public abstract class ContentManagerBase
 	
 	
 	
-	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */
+	/* METHODS TO FETCH COMPETITION DATA FROM CACHE */	
 	
 	public Team getFromCacheTeamByID(long teamID)
 	{
-		Team matchingTeam = null;
-		
-		List<Team> teams = getCache().getCompetitionsData().getTeamsForSelectedCompetition();
-		
-		for(Team team : teams)
-		{
-			if(team.getTeamId() == teamID)
-			{
-				matchingTeam = team;
-				break;
-			}
-		}
+		Team matchingTeam = getCache().getCompetitionsData().getTeamByIDForSelectedCompetition(teamID);
 		
 		return matchingTeam;
 	}
 	
 	
 	
-	public Event getFromCacheNextUpcomingEventForSelectedCompetition()
+	public List<TeamSquad> getFromCacheSquadByTeamID(
+			final long teamID,
+			final boolean includeCoach)
+	{
+		List<TeamSquad> squadToReturn = new ArrayList<TeamSquad>();
+		
+		List<TeamSquad> squadAll = getCache().getCompetitionsData().getSquadByTeamIDForSelectedCompetition(teamID);
+		
+		if(squadAll != null)
+		{
+			if(includeCoach == false)
+			{
+				for (TeamSquad squad : squadAll) 
+				{
+					if(squad.getPosition() != EventLineUpPosition.COACH) 
+					{
+						squadToReturn.add(squad);
+					}
+				}
+			}
+			else
+			{
+				squadToReturn = squadAll;
+			}
+		}
+		
+		return squadToReturn;
+	}
+	
+	
+	
+	public Event getFromCacheNextUpcomingEventForSelectedCompetition(
+			boolean filterFinishedEvents, boolean filterLiveEvents)
 	{
 		Event matchingEvent = null;
 		
@@ -995,6 +1129,14 @@ public abstract class ContentManagerBase
 		
 		if(events.isEmpty() == false)
 		{
+			if (filterFinishedEvents) {
+				events = filterFinishedEvents(events);
+			}
+			
+			if (filterLiveEvents) {
+				events = filterLiveEvents(events);
+			}
+			
 			matchingEvent = events.get(0);
 		}
 		
@@ -1010,7 +1152,53 @@ public abstract class ContentManagerBase
 		
 		return matchingEvent;
 	}
-
+	
+	
+	
+	private List<Event> filterLiveEvents(List<Event> events) {
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		for (Event ev: events) {
+			if(!ev.isLive()) {
+				filteredEvents.add(ev);
+			}
+		}
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	private List<Event> filterFinishedEvents(List<Event> events) {
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		for (Event ev: events) {
+			if(!ev.isFinished()) {
+				filteredEvents.add(ev);
+			}
+		}
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	public Event getFromCacheLiveEventForSelectedCompetition() {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		if (events != null) {
+			events = filterFinishedEvents(events);
+		}
+		
+		for (Event ev : events) {
+			if (ev.isLive()) {
+				return ev;
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	
 	public Map<Long, List<Event>> getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition()
@@ -1026,6 +1214,12 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	public List<Event> getFromCacheEventsForPhaseInSelectedCompetition(long phaseID)
+	{
+		return getCache().getCompetitionsData().getEventsForPhase(phaseID);
+	}
+	
+	
 	
 	public Map<Long, List<Standings>> getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition()
 	{
@@ -1033,27 +1227,7 @@ public abstract class ContentManagerBase
 	}
 	
 	
-	
-	public Calendar getSelectedCompetitionBeginTime()
-	{
-		Calendar cal;
 		
-		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
-		
-		if(selectedCompetition != null)
-		{
-			cal = selectedCompetition.getBeginTimeCalendarLocal();
-		}
-		else
-		{
-			cal = DateUtils.getNow();
-		}
-		
-		return cal;
-	}
-
-	
-	
 	public List<Competition> getFromCacheVisibleCompetitions()
 	{
 		return getFromCacheAllCompetitions(false);
@@ -1101,6 +1275,13 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public List<Phase> getFromCacheAllPhasesForSelectedCompetition()
+	{
+		return getCache().getCompetitionsData().getPhasesForSelectedCompetition();
+	}
+	
+	
+	
 	public void setSelectedCompetition(Competition competition)
 	{
 		long competitionID = competition.getCompetitionId();
@@ -1116,10 +1297,87 @@ public abstract class ContentManagerBase
 	}
 	
 	
+	/**
+	 * Finds a competition containing the team. 
+	 * 
+	 * WARNING: May be inaccurate if team is in many competitions.
+	 * 
+	 * @param team
+	 * @return competition containing the team
+	 */
+	public Competition getFromCacheCompetitionByTeam(Team team) {
+		return getCache().getCompetitionsData().getCompetitionByTeam(team);
+	}
 	
-	public Phase getFromCachePhaseByID(long phaseID)
+	
+	
+	public Phase getFromCachePhaseByIDForSelectedCompetition(long phaseID)
 	{
 		return getCache().getCompetitionsData().getPhaseByIDForSelectedCompetition(phaseID);
+	}
+	
+	
+	/* TODO */
+	public Phase getFromCachePhaseByTeamIDForSelectedCompetition(long teamID) {
+		return null;
+	}
+	
+	
+	
+	public List<Event> getFromCacheEventsByTeamIDForSelectedCompetition(boolean filterFinishedEvents, boolean filterLiveEvents, long teamID) {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		List<Event> eventsByTeamID = new ArrayList<Event>();
+		
+		if (events != null) {
+			
+			if (filterFinishedEvents) {
+				events = filterFinishedEvents(events);
+			}
+			
+			if (filterLiveEvents) {
+				events = filterLiveEvents(events);
+			}
+			
+			for (Event ev : events) {
+				
+				if (ev.getHomeTeamId() == teamID || ev.getAwayTeamId() == teamID) {
+					eventsByTeamID.add(ev);
+				}
+			}
+			
+			events = eventsByTeamID;
+		}
+		
+		return events;
+	}
+	
+	
+	
+	public Event getFromCacheEventByID(
+			Long competitionID,
+			Long eventID)
+	{
+		Event event = getCache().getCompetitionsData().getEventByID(competitionID, eventID);
+		
+		return event;
+	}
+	
+	
+	
+	public Event getFromCacheEventByIDForSelectedCompetition(Long eventID)
+	{
+		Event event = null;
+		
+		Competition competition = getCache().getCompetitionsData().getSelectedCompetition();
+
+		if(competition != null)
+		{
+			Long competitionID = competition.getCompetitionId();
+			
+			event = getCache().getCompetitionsData().getEventByID(competitionID, eventID);
+		}
+		
+		return event;
 	}
 	
 	
@@ -1131,12 +1389,213 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public List<EventLineUp> getFromCacheAllLineUpDataByEventIDForSelectedCompetition(Long eventID)
+	{
+		return getCache().getCompetitionsData().getEventLineUpForEventInSelectedCompetition(eventID);
+	}
+	
+	
+	
+	public List<EventLineUp> getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(
+			final Long eventID,
+			final Long teamID)
+	{
+		List<EventLineUp> lineups = new ArrayList<EventLineUp>();
+		
+		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
+		
+		for (EventLineUp lineup : lineupsAll)
+		{
+			if (lineup.isInStartingLineUp() == false && 
+				lineup.getTeamId() == teamID.longValue() &&
+				lineup.getPosition() != EventLineUpPosition.REFEREE) 
+			{
+				lineups.add(lineup);
+			}
+		}
+		
+		return lineups;
+	}
+	
+	
+	
+	public List<EventLineUp> getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(
+			final Long eventID,
+			final Long teamID)
+	{
+		List<EventLineUp> lineups = new ArrayList<EventLineUp>();
+		
+		List<EventLineUp> lineupsAll = getFromCacheAllLineUpDataByEventIDForSelectedCompetition(eventID);
+		
+		for (EventLineUp lineup : lineupsAll) 
+		{
+			if (lineup.isInStartingLineUp() &&
+				lineup.getTeamId() == teamID.longValue() &&
+				lineup.getPosition() != EventLineUpPosition.REFEREE) 
+			{
+				lineups.add(lineup);
+			}
+		}
+		
+		return lineups;
+	}
+	
+	
+	
+	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(final Long eventID)
+	{
+		List<EventHighlight> highlightsToReturn = getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
+				
+		if(highlightsToReturn == null)
+		{
+			highlightsToReturn = new ArrayList<EventHighlight>();
+		}
+		
+		return highlightsToReturn;
+	}
+	
+	
+	
+	public List<Standings> getFromCacheStandingsForPhaseInSelectedCompetition(Long phaseID)
+	{
+		List<Standings> standingsToReturn = getCache().getCompetitionsData().getEventStandingsForPhaseInSelectedCompetition(phaseID);
+		
+		if(standingsToReturn == null)
+		{
+			standingsToReturn = new ArrayList<Standings>();
+		}
+		
+		return standingsToReturn;
+	}
+	
+	
+	
+	public List<Notification> getFromCacheNotifications()
+	{
+		return getCache().getNotifications();
+	}
+	
+	
+	
+	public Notification getNotificationWithParameters(
+			String channelId, 
+			String programId,
+			Long beginTimeInMilliseconds,
+			Long competitionId,
+			Long eventId)
+	{
+		Notification notification = getCache().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
+		
+		return notification;
+	}
+	
+	
+	
+	public Notification getNotificationWithParameters(
+			String channelId,
+			String progarmId,
+			Long beginTimeInMilliseconds)
+	{
+		Notification notification = getCache().getNotificationWithParameters(channelId, progarmId, beginTimeInMilliseconds);
+		
+		return notification;
+	}
+	
+	
+	
+	public Notification getFromCacheNotificationWithId(int notificationId)
+	{
+		return getCache().getNotificationWithId(notificationId);
+	}
+	
+	
+	
+	public void addToCacheNotifications(Notification notification)
+	{
+		getCache().addNotification(notification);
+	}
+	
+	
+	
+	public void removeFromCacheNotificationWithID(int notificationID)
+	{
+		getCache().removeNotificationWithID(notificationID);
+	}
+	
+	
+	
 	protected void clearUserCache() 
 	{
 		getCache().clearUserData();
 		getCache().clearTVChannelIdsUser();
 		getCache().useDefaultChannelIds();
 		getCache().clearUserLikes();
+	}
+	
+	
+	
+	public UserTutorialStatus getUserTutorialFromCache() {		
+		return getCache().getUserTutorialStatus();
+	}
+	
+	
+	
+	/**
+	 * User has seen the tutorial only once.
+	 * If the user dont open the app for at least two
+	 * weeks, then show the tutorial again.
+	 * 
+	 */
+	public void setUserHasSeenTutorialOnce() {
+		getCache().setUserTutorialStatus(UserTutorialStatusEnum.SEEN_ONCE);
+	}
+	
+	
+	/**
+	 * Never show tutorial again.
+	 * 
+	 */
+	public void setUserHasSeenTutorialTwice() {
+		getCache().setUserTutorialStatus(UserTutorialStatusEnum.NEVER_SHOW_AGAIN);
+	}
+	
+	
+	
+	public void setDateUserLastOpenApp() {
+		UserTutorialStatusEnum status = getCache().getUserTutorialStatus().getUserTutorialStatus();
+		
+		if (status != UserTutorialStatusEnum.NEVER_SHOW_AGAIN) {
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+
+			getCache().setUserTutorialDateOpenApp(now);
+		}
+	}
+	
+	
+	
+	/* No handling when new year, just returns true, which means that the tutorial will not show. */
+	public boolean checkIfUserOpenedAppLastTwoWeeks()
+	{
+		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		
+		String date = getCache().getUserTutorialStatus().getDateUserLastOpendApp();
+		
+		Calendar lastTime = DateUtils.convertISO8601StringToCalendar(date);
+		
+		if (lastTime.before(now))
+		{
+			int a = now.get(Calendar.DAY_OF_YEAR);
+			int b = lastTime.get(Calendar.DAY_OF_YEAR);
+			
+			int difference = a-b;
+			
+			if (difference > 13) 
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 	
 	
@@ -1200,11 +1659,9 @@ public abstract class ContentManagerBase
 	{
 		boolean removeItem = false;
 		
-		Long timeZoneOffsetInMillis = DateUtils.getTimeZoneOffsetInMillis();
+		Calendar now = DateUtils.getNowWithLocalTimezone();
 		
-		Calendar now = DateUtils.getNow();
-		
-		Long nowLong = now.getTimeInMillis() + timeZoneOffsetInMillis;
+		Long nowLong = now.getTimeInMillis();
 		
 		Long beginTime = tvBroadcastWithChannelInfo.getBeginTimeMillis();
 		

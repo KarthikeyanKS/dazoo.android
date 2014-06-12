@@ -30,7 +30,7 @@ public class GetPhases
 	private static String buildURL(final long competitionID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS);
+		url.append(Constants.URL_COMPETITIONS_FULL);
 		url.append(Constants.FORWARD_SLASH);
 		
 		url.append(competitionID);
@@ -45,9 +45,10 @@ public class GetPhases
 	public GetPhases(
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
-			final long competitionID)
+			final long competitionID,
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASES, Phase[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASES, Phase[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false, retryThreshold);
 	}
 	
 	

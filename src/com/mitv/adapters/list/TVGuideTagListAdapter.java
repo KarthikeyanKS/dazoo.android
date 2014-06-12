@@ -20,12 +20,14 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -243,6 +245,40 @@ public class TVGuideTagListAdapter
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
 				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				
+				/* FIFA - Navigation to event page */
+				ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
+
+				if (tags != null && !tags.isEmpty()) 
+				{
+					for (int i = 0; i < tags.size(); i++) 
+					{
+						if (tags.get(i).equals(Constants.FIFA_TAG_ID)) 
+						{
+							long eventId = broadcastWithChannelInfo.getEventId();
+
+							if (eventId > 0) {
+								/*
+								 * WARNING WARNING WARNING
+								 * 
+								 * Hard coded competition ID used here.
+								 * 
+								 */
+								Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+
+								/* Changing the already existing intent to competition event page */
+								intent = new Intent(activity, EventPageActivity.class);
+
+								intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+
+								intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+
+								intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+							}
+						}
+
+					}
+				}
 				
 				activity.startActivity(intent);
 			}

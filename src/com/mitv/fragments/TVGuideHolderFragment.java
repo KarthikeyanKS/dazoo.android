@@ -3,8 +3,6 @@ package com.mitv.fragments;
 
 
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -12,14 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.pager.TVGuideTagFragmentStatePagerAdapter;
-import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.models.objects.mitvapi.TVTag;
 import com.viewpagerindicator.TabPageIndicator;
 
 
@@ -80,8 +74,9 @@ public class TVGuideHolderFragment
 		
 		selectedTabIndex = bundle.getInt(BUNDLE_INFO_STARTING_INDEX);
 	}
-
 	
+
+
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
@@ -92,10 +87,7 @@ public class TVGuideHolderFragment
 		
 		pageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
 
-		if(!SecondScreenApplication.isAppRestarting()) 
-		{
-			setAdapter(selectedTabIndex);
-		}
+		setAdapter(selectedTabIndex);
 		
 		return v;
 	}
@@ -133,9 +125,7 @@ public class TVGuideHolderFragment
 	
 	private void setAdapter(int selectedIndex) 
 	{
-		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
-		
-		pagerAdapter = new TVGuideTagFragmentStatePagerAdapter(getChildFragmentManager(), tvTags);
+		pagerAdapter = new TVGuideTagFragmentStatePagerAdapter(getChildFragmentManager());
 
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(1);

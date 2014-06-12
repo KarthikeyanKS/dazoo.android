@@ -3,8 +3,10 @@ package com.mitv.activities.base;
 
 
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Stack;
+import java.util.Timer;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -39,11 +41,11 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.managers.TrackingManager;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.FontManager;
-import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.ImageLoaderManager;
+import com.mitv.managers.TrackingGAManager;
+import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVDate;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
@@ -60,8 +62,8 @@ public abstract class BaseActivity
 {
 	private static final String TAG = BaseActivity.class.getName();
 	
-	private static final int TV_DATE_NOT_FOUND = -1;
-
+	
+	
 	private static final int SELECTED_TAB_FONT_SIZE = 12;
 	
 	private static Stack<BaseActivity> activityStack = new Stack<BaseActivity>();
@@ -79,8 +81,8 @@ public abstract class BaseActivity
 	protected FontTextView tabProfileText;
 	protected View tabDividerLeft;
 	protected View tabDividerRight;
-//	protected View undoBarlayoutView;
 
+	private RelativeLayout requestSuccessfulLayout;
 	private RelativeLayout requestEmptyLayout;
 	private FontTextView requestEmptyLayoutDetails;
 	private FontTextView requestLoadingLayoutDetails;
@@ -91,12 +93,27 @@ public abstract class BaseActivity
 	private Button requestFailedRetryButton;
 
 	protected ActionBar actionBar;
-//	protected UndoBarController undoBarController;
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
 
 	protected RequestIdentifierEnum latestRequest;
+	
+	private boolean isFromSplashScreen = false;
+	
+	/* Initially null, but set to the current device time 
+	 * The assignment is done in the cases SUCCESS_WITH_NO_CONTENT or SUCCESS_WITH_CONTENT of the updateUIBaseElements **/
+	private Calendar lastDataUpdatedCalendar;
+	
+	/* Timer for re-fetching data in the background while the user is on the same activity */
+	private Timer backgroundLoadTimer;
+
+	/* Time value for the background timer.
+	 * The initial value is -1 if not used */
+	private int backgroundLoadTimerValueInSeconds;
+	
+
+	private boolean loadedFromBackground;
 
 	
 	
@@ -107,6 +124,9 @@ public abstract class BaseActivity
 
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
+	
+	/* This method implementation is OPTIONAL */
+	protected abstract void loadDataInBackground();
 
 	/*
 	 * This method implementation should return true if all the data necessary to show the content view can be obtained
@@ -125,103 +145,51 @@ public abstract class BaseActivity
 		super.onCreate(savedInstanceState);
 		
 		TrackingManager.sharedInstance().reportActivityStart(this);
-	}
-	
-	
-	
-	/**
-	 * If ContentManager is not null, and cache is not null and we have no initial data, then this activity got
-	 * recreated due to low memory and then we need to restart the app.
-	 * @return 
-	 * 
-	 */
-	protected boolean isRestartNeeded() 
-	{
-		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false) 
-		{
-			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
-
-			if (ContentManager.sharedInstance().isUpdatingGuide() == false) 
-			{
-				boolean isConnected = NetworkUtils.isConnected();
-
-				if (isConnected)
-				{
-					restartTheApp();
-					return true;
-				}
-			} 
-			else 
-			{
-				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
-			}
-		}
 		
-		return false;
+		isFromSplashScreen = getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, false);
+		
+		lastDataUpdatedCalendar = null;
+		
+		backgroundLoadTimerValueInSeconds = -1;
 	}
 	
 	
-	
-	public void restartTheApp() {
-		if (!SecondScreenApplication.isAppRestarting()) {
-			Log.e(TAG, "Restarting the app");
-			SecondScreenApplication.setAppIsRestarting(true);
-
-			Intent intent = new Intent(this, SplashScreenActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-			SecondScreenApplication app = SecondScreenApplication.sharedInstance();
-			Context context = app.getApplicationContext();
-			
-			context.startActivity(intent);
-
-			killAllActivitiesIncludingThis();
-			finish();
-		} else {
-			Log.e(TAG, "App is already being restarted");
-		}
-	}
 	
 	@Override
-	public boolean onKeyDown(int keycode, KeyEvent e) {
-	    switch(keycode) {
+	public boolean onKeyDown(int keycode, KeyEvent e)
+	{
+	    switch(keycode) 
+	    {
 	        case KeyEvent.KEYCODE_MENU:
+	        {
 	        	TrackingGAManager.sharedInstance().sendUserPressedMenuButtonEvent();
-	            return true;
+	          
+	        	return true;
+	        }
+	        
+	        default:
+	        {
+	        	return super.onKeyDown(keycode, e);
+	        }
 	    }
-
-	    return super.onKeyDown(keycode, e);
 	}
 		
 
+	
 	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier)
 	{
 		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
 	}
 	
-	protected void unregisterListenerFromAllRequests() {
+	
+	
+	protected void unregisterListenerFromAllRequests()
+	{
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 	}
 
 	
-//	@Override
-//	public void onUndo(Parcelable token) 
-//	{
-//		if (undoBarController != null) 
-//		{
-//			undoBarController.hideUndoBar(true);
-//			undoBarController = new UndoBarController(undoBarlayoutView, this);
-//		} 
-//		else 
-//		{
-//			Log.w(TAG, "Undo bar component is null.");
-//		}
-//		
-//		loadDataWithConnectivityCheck();
-//	}
-
 	
-	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{
 		CrashManager.register(this, Constants.HOCKEY_APP_TOKEN);
@@ -229,16 +197,19 @@ public abstract class BaseActivity
 
 	
 	
-	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForUpdates() 
 	{
 		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
 	}
 	
+	
+	
 	@Override
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		setBackgroundLoadingTimer();
 		
 		ImageLoaderManager.sharedInstance(this).resume();
 		
@@ -258,8 +229,6 @@ public abstract class BaseActivity
 		pushActivityToStack(this);
 
 		setTabViews();
-
-		// We need the accurate time!!!!
 		
 		handleTimeAndDayOnResume();
 
@@ -268,22 +237,31 @@ public abstract class BaseActivity
 		/* Log in states */
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
-		if (isLoggedIn) {
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
+		if (isLoggedIn)
+		{
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN))
+			{
 				userHasJustLoggedIn = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
-			} else {
+			} 
+			else
+			{
 				userHasJustLoggedIn = false;
 			}
-		} else {
+		} 
+		else 
+		{
 			userHasJustLoggedIn = false;
 
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) {
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) 
+			{
 				userHasJustLoggedOut = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT);
-			} else {
+			} 
+			else 
+			{
 				userHasJustLoggedOut = false;
 			}
 		}
@@ -302,13 +280,15 @@ public abstract class BaseActivity
 			if (userHasJustLoggedOut) 
 			{
 				StringBuilder sb = new StringBuilder();
+				
 				sb.append(getString(R.string.logout_succeeded));
 
 				ToastHelper.createAndShowShortToast(sb.toString());
 			}
 		}
 	}
-
+	
+	
 	
 	private void handleTimeAndDayOnResume() 
 	{
@@ -316,40 +296,37 @@ public abstract class BaseActivity
 		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
 		
 		/*
-		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
+		 * Index is not 0, that means that the actual day has changed since the application was launched for last time
+		 * In this case, the data in cache is no longer accurate and we must re-fetch it from the service
 		 */
-		if (indexOfTodayFromTVDates > 0) {
+		if (indexOfTodayFromTVDates > 0) 
+		{
 			boolean isTimeOffSync = ContentManager.sharedInstance().isLocalDeviceCalendarOffSync();
 
-			if(isTimeOffSync == false) {
-				
+			if(isTimeOffSync == false) 
+			{
 				restartTheApp();
 			}
 		} 
 	}
 	
 	
-	private void killAllActivitiesIncludingThis() 
-	{
-		for(Activity activity : activityStack) {
-			activity.finish();
-		}
-	}
-
 	
-	private int getIndexOfTodayFromTVDates() {
-		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
+	private int getIndexOfTodayFromTVDates() 
+	{
+		int indexOfTodayFromTVDates = -1;
 
 		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
 		
-		if(tvDates != null) {
+		if(tvDates != null)
+		{
 			for(int i = 0; i < tvDates.size(); ++i) 
 			{
 				TVDate tvDate = tvDates.get(i);
 				
 				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
 				
-				if(isTVDateNow) 
+				if(isTVDateNow)
 				{
 					indexOfTodayFromTVDates = i;
 					break;
@@ -359,31 +336,96 @@ public abstract class BaseActivity
 
 		return indexOfTodayFromTVDates;
 	}
+	
+	protected boolean isRestartNeeded()
+	{
+		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false)
+		{
+			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
 
-	private static void pushActivityToStack(BaseActivity activity) {
+			if (ContentManager.sharedInstance().isUpdatingGuide() == false)
+			{
+				boolean isConnected = NetworkUtils.isConnected();
 
+				if (isConnected)
+				{
+					restartTheApp();
+
+					return true;
+				}
+			}
+			else
+			{
+				Log.e(TAG, "No need to restart app, initialData was null because we are refetching the TV data since we just logged in or out");
+			}
+		}
+
+		return false;
+	}
+	
+	
+	
+	public void restartTheApp()
+	{
+		Intent intent = new Intent(this, SplashScreenActivity.class);
+
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		SecondScreenApplication app = SecondScreenApplication.sharedInstance();
+
+		Context context = app.getApplicationContext();
+
+		context.startActivity(intent);
+
+		killAllActivitiesIncludingThis();
+
+		finish();
+	}
+
+	
+	
+	private void killAllActivitiesIncludingThis() 
+	{
+		for(Activity activity : activityStack) 
+		{
+			activity.finish();
+		}
+	}
+
+
+	
+	private static void pushActivityToStack(BaseActivity activity) 
+	{
 		/*
 		 * If we got to this activity using the backpress button, then the Android OS will resume the latest activity,
 		 * since we are pushing the activity to the stack in this method, we need to make sure that we are pushing
 		 * ourselves to the stack if we already are in top of it.
 		 */
-		if (activityStack.isEmpty()) {
+		if (activityStack.isEmpty()) 
+		{
 			activityStack.push(activity);
-		} else if (activityStack.peek() != activity) {
+		} 
+		else if (activityStack.peek() != activity) 
+		{
 			activityStack.push(activity);
 		}
 
 		printActivityStack();
 	};
 
+	
+	
 	/* Used for debugging only */
-	private static void printActivityStack() {
+	private static void printActivityStack()
+	{
 		Log.d(TAG, ".");
 		Log.d(TAG, ".");
 		Log.d(TAG, "---<<<*** ActivityStack ***>>>---");
 
-		for (int i = activityStack.size() - 1; i >= 0; --i) {
+		for (int i = activityStack.size() - 1; i >= 0; --i)
+		{
 			Activity activityInStack = activityStack.get(i);
+			
 			Log.d(TAG, activityInStack.getClass().getSimpleName());
 		}
 	}
@@ -406,8 +448,12 @@ public abstract class BaseActivity
 		printActivityStack();
 	}
 
-	private static void removeActivitiesThatRequiresLoginFromStack(Activity activity) {
-		if (activity instanceof BaseActivityLoginRequired) {
+	
+	
+	private static void removeActivitiesThatRequiresLoginFromStack(Activity activity)
+	{
+		if (activity instanceof BaseActivityLoginRequired)
+		{
 			removeFromStackOnDestroy(activity);
 		}
 	}
@@ -440,6 +486,7 @@ public abstract class BaseActivity
 	private static boolean isTabActivity(Activity activity) 
 	{
 		boolean isTabActivity = (activity instanceof HomeActivity || activity instanceof FeedActivity || activity instanceof UserProfileActivity);
+		
 		return isTabActivity;
 	}
 
@@ -517,6 +564,7 @@ public abstract class BaseActivity
 	}
 
 	
+	
 	protected void setSelectedTabAsTVGuide() 
 	{
 		if (tabTvGuide != null) 
@@ -556,6 +604,7 @@ public abstract class BaseActivity
 		}
 	}
 
+	
 	
 	protected void setSelectedTabAsActivityFeed() 
 	{
@@ -612,8 +661,8 @@ public abstract class BaseActivity
 			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
 
-		if (tabActivity != null) {
-			// tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if (tabActivity != null)
+		{
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
 
@@ -624,8 +673,8 @@ public abstract class BaseActivity
 			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
 
-		if (tabProfile != null) {
-			// tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+		if (tabProfile != null)
+		{
 			tabProfileIcon.setTextColor(getResources().getColor(R.color.white));
 			tabProfileText.setTextColor(getResources().getColor(R.color.white));
 			tabProfileIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
@@ -638,68 +687,97 @@ public abstract class BaseActivity
 		}
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
 
-		switch (id) {
-		case R.id.tab_tv_guide: {
-			if (!(this instanceof HomeActivity)) {
-				Intent intentActivity = new Intent(this, HomeActivity.class);
-				startActivity(intentActivity);
+		switch (id) 
+		{
+			case R.id.tab_tv_guide: 
+			{
+				if (!(this instanceof HomeActivity)) 
+				{
+					Intent intentActivity = new Intent(this, HomeActivity.class);
+					
+					startActivity(intentActivity);
+				}
+				
+				break;
 			}
-			break;
-		}
-
-		case R.id.tab_activity: {
-			if (!(this instanceof FeedActivity)) {
-				Intent intentActivity = new Intent(this, FeedActivity.class);
-				startActivity(intentActivity);
+	
+			case R.id.tab_activity:
+			{
+				if (!(this instanceof FeedActivity))
+				{
+					Intent intentActivity = new Intent(this, FeedActivity.class);
+					
+					startActivity(intentActivity);
+				}
+				
+				break;
 			}
-			break;
-		}
-
-		case R.id.tab_me: {
-			if (!(this instanceof UserProfileActivity)) {
-				Intent intentMe = new Intent(this, UserProfileActivity.class);
-				startActivity(intentMe);
+	
+			case R.id.tab_me:
+			{
+				if (!(this instanceof UserProfileActivity))
+				{
+					Intent intentMe = new Intent(this, UserProfileActivity.class);
+					
+					startActivity(intentMe);
+				}
+				
+				break;
 			}
-			break;
-		}
-
-		case R.id.no_connection_reload_button: {
-			loadDataWithConnectivityCheck();
-
-			break;
-		}
-		
-		case R.id.request_failed_reload_button: {
-			updateUI(UIStatusEnum.LOADING);
-			ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
-			break;
-		}
-
-		default: {
-			Log.w(TAG, "Unknown onClick action");
-		}
+	
+			case R.id.no_connection_reload_button:
+			{
+				TrackingGAManager.sharedInstance().sendUserNoConnectionRetryLayoutButtomPressed(getClass().getSimpleName());
+				
+				loadDataWithConnectivityCheck();
+				
+				break;
+			}
+			
+			case R.id.request_failed_reload_button: 
+			{
+				TrackingGAManager.sharedInstance().sendUserNoDataRetryLayoutButtomPressed(getClass().getSimpleName());
+				
+				loadDataWithConnectivityCheck();
+				
+				break;
+			}
+	
+			default: 
+			{
+				Log.w(TAG, "Unknown onClick action");
+			}
 		}
 	}
 
+	
+	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		MenuInflater inflater = getMenuInflater();
 		
 		/* The login, register and sign up pages will have the action bar menu without the search option */
-		if (!(this instanceof BaseActivityWithoutSearchOption)) {
+		if (!(this instanceof BaseActivityWithoutSearchOption))
+		{
 			inflater.inflate(R.menu.actionbar_menu, menu);
 			
 			MenuItem searchIcon = menu.findItem(R.id.action_start_search);
 	
 			View seachIconView = MenuItemCompat.getActionView(searchIcon);
 	
-			seachIconView.setOnClickListener(new OnClickListener() {
+			seachIconView.setOnClickListener(new OnClickListener() 
+			{
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v)
+				{
 					Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
 	
 					startActivity(toSearchPage);
@@ -714,40 +792,56 @@ public abstract class BaseActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	
+	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home: {
-			/* Pressing the Home, which here is used as "up", should be same as pressing back */
-			onBackPressed();
-			return true;
-		}
-
-		case R.id.action_start_search: // Might be dead with actionView instead of icon...
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		int itemId = item.getItemId();
+		
+		switch(itemId) 
 		{
-			Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-
-			return true;
-		}
-
-		default: 
-		{
-			return super.onOptionsItemSelected(item);
-		}
+			case android.R.id.home: 
+			{
+				/* Pressing the Home, which here is used as "up", should be same as pressing back */
+				onBackPressed();
+				
+				return true;
+			}
+	
+			case R.id.action_start_search: // Might be dead with actionView instead of icon...
+			{
+				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
+				
+				startActivity(toSearchPage);
+	
+				return true;
+			}
+	
+			default: 
+			{
+				return super.onOptionsItemSelected(item);
+			}
 		}
 	}
 
+	
 	
 	@Override
 	protected void onPause() 
 	{
 		super.onPause();
  
+		if(backgroundLoadTimer != null)
+		{
+			backgroundLoadTimer.cancel();
+		}
+		
 		TrackingManager.sharedInstance().onPause(this);
 		
 		ImageLoaderManager.sharedInstance(this).pause();
 	}
+	
 	
 	
 	@Override
@@ -758,6 +852,7 @@ public abstract class BaseActivity
 		TrackingManager.sharedInstance().reportActivityStop(this);
 	}
 
+	
 
 	@Override
 	protected void onDestroy() 
@@ -773,20 +868,12 @@ public abstract class BaseActivity
 	
 	@Override
 	public void onBackPressed() 
-	{
-		//int activityCount = GenericUtils.getActivityCount();
-
-//		if(activityCount <= 1 && isTabActivity())
-//		{
-//			Intent intent = new Intent(Intent.ACTION_MAIN);
-//			intent.addCategory(Intent.CATEGORY_HOME);
-//			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			startActivity(intent);
-//		}
-//		else
-//		{
-//			super.onBackPressed();
-//		}
+	{		
+		updateUI(UIStatusEnum.LOADING);
+		
+		String loadingString = getString(R.string.general_back_press_loading_message);
+		
+		setLoadingLayoutDetailsMessage(loadingString);
 		
 		super.onBackPressed();
 	}
@@ -794,7 +881,8 @@ public abstract class BaseActivity
 
 	
 	@Override
-	public void setContentView(int layoutResID) {
+	public void setContentView(int layoutResID)
+	{
 		super.setContentView(layoutResID);
 
 		actionBar = getSupportActionBar();
@@ -807,9 +895,8 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 	}
 
-	/*
-	 * This method checks for Internet connectivity before loading data
-	 */
+	
+	
 	protected void loadDataWithConnectivityCheck() 
 	{
 		boolean isConnected = NetworkUtils.isConnected();
@@ -824,8 +911,17 @@ public abstract class BaseActivity
 			} 
 			else 
 			{
+				if (isFromSplashScreen) 
+				{
+					isFromSplashScreen = false;
+					updateUI(UIStatusEnum.FAILED);
+				}
+				else {
 				updateUI(UIStatusEnum.LOADING);
+				
 				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+				requestLoadingLayoutDetails.setText(R.string.general_back_press_loading_message);
+				}
 			}
 		} 
 		else 
@@ -842,11 +938,10 @@ public abstract class BaseActivity
 	}
 	
 	
+	
 	@Override
-	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
-		Log.d(TAG, String.format("onDataAvailable FetchRequestResult: %s requestId: %s", fetchRequestResult.getDescription(), requestIdentifier.getDescription()));
-		
 		this.latestRequest = requestIdentifier;
 		
 		switch (fetchRequestResult) 
@@ -897,15 +992,6 @@ public abstract class BaseActivity
 					if (hasEnoughDataToShowContent() && isConnected == false) 
 					{
 						ToastHelper.createAndShowNoInternetConnectionToast();
-						
-//						if (undoBarController != null) 
-//						{
-//							undoBarController.showUndoBar(false, , null);
-//						} 
-//						else 
-//						{
-//							Log.w(TAG, "Undo bar component is null.");
-//						}
 					}
 	
 					onDataAvailable(fetchRequestResult, requestIdentifier);
@@ -920,15 +1006,6 @@ public abstract class BaseActivity
 				if (hasEnoughDataToShowContent() && isConnected == false) 
 				{
 					ToastHelper.createAndShowNoInternetConnectionToast();
-					
-//					if (undoBarController != null) 
-//					{
-//						undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
-//					} 
-//					else 
-//					{
-//						Log.w(TAG, "Undo bar component is null.");
-//					}
 				}
 
 				onDataAvailable(fetchRequestResult, requestIdentifier);
@@ -937,10 +1014,10 @@ public abstract class BaseActivity
 		}
 	}
 
+	
+	
 	protected void updateUIBaseElements(UIStatusEnum status) 
 	{
-		Log.d(TAG, String.format("%s: updateUIBaseElements, status: %s", getClass().getSimpleName(), status.getDescription()));
-
 		boolean activityNotNullAndNotFinishing = GenericUtils.isActivityNotNullAndNotFinishingAndNotDestroyed(this);
 
 		if (activityNotNullAndNotFinishing) 
@@ -949,53 +1026,78 @@ public abstract class BaseActivity
 
 			switch (status) 
 			{
-			case LOADING: {
-				if (requestLoadingLayout != null) {
-					requestLoadingLayout.setVisibility(View.VISIBLE);
-				}
-				break;
-			}
-
-			case API_VERSION_TOO_OLD: {
-				DialogHelper.showMandatoryAppUpdateDialog(this);
-				break;
-			}
-			
-			case USER_TOKEN_EXPIRED:
-			{
-				DialogHelper.showPromptTokenExpiredDialog(this);
-				break;
-			}
-
-			case FAILED:{
-				if (requestFailedLayout != null) 
+				case LOADING: 
 				{
-					requestFailedLayout.setVisibility(View.VISIBLE);
+					if (requestLoadingLayout != null) 
+					{
+						requestLoadingLayout.setVisibility(View.VISIBLE);
+					}
+					break;
 				}
-				break;
-			}
-			
-			case NO_CONNECTION_AVAILABLE: {
-				if (requestNoInternetConnectionLayout != null) {
-					requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
-				}
-				break;
-			}
-
-			case SUCCESS_WITH_NO_CONTENT: 
-			{
-				if (requestEmptyLayout != null) 
+	
+				case API_VERSION_TOO_OLD: 
 				{
-					requestEmptyLayout.setVisibility(View.VISIBLE);
+					DialogHelper.showMandatoryAppUpdateDialog(this);
+					break;
 				}
-				break;
-			}
-
-			case SUCCESS_WITH_CONTENT:
-			default: {
-				// Success or other cases should be handled by subclasses
-				break;
-			}
+				
+				case USER_TOKEN_EXPIRED:
+				{
+					DialogHelper.showPromptTokenExpiredDialog(this);
+					break;
+				}
+	
+				case FAILED:
+				{
+					if (requestFailedLayout != null) 
+					{
+						requestFailedLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+				
+				case NO_CONNECTION_AVAILABLE: 
+				{
+					if (requestNoInternetConnectionLayout != null) 
+					{
+						requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+	
+				case SUCCESS_WITH_NO_CONTENT: 
+				{
+					if (requestEmptyLayout != null) 
+					{
+						requestEmptyLayout.setVisibility(View.VISIBLE);
+					}
+					
+					lastDataUpdatedCalendar = DateUtils.getNowWithGMTTimeZone();
+					
+					break;
+				}
+	
+				case SUCCESS_WITH_CONTENT:
+				default: 
+				{
+					if (requestSuccessfulLayout != null) 
+					{
+						requestSuccessfulLayout.setVisibility(View.VISIBLE);
+					}
+					
+					if(loadedFromBackground)
+					{
+//						String message = getString(R.string.generic_content_updated);
+//						
+//						ToastHelper.createAndShowShortToast(message);
+//						
+						loadedFromBackground = false;
+					}
+					
+					lastDataUpdatedCalendar = DateUtils.getNowWithGMTTimeZone();
+					
+					break;
+				}
 			}
 		} 
 		else 
@@ -1004,16 +1106,27 @@ public abstract class BaseActivity
 		}
 	}
 
-	private void hideRequestStatusLayouts() {
-		if (requestLoadingLayout != null) {
+	
+	
+	private void hideRequestStatusLayouts() 
+	{
+		if (requestSuccessfulLayout != null) 
+		{
+			requestSuccessfulLayout.setVisibility(View.GONE);
+		}
+		
+		if (requestLoadingLayout != null) 
+		{
 			requestLoadingLayout.setVisibility(View.GONE);
 		}
 
-		if (requestNoInternetConnectionLayout != null) {
+		if (requestNoInternetConnectionLayout != null) 
+		{
 			requestNoInternetConnectionLayout.setVisibility(View.GONE);
 		}
 
-		if (requestEmptyLayout != null) {
+		if (requestEmptyLayout != null)
+		{
 			requestEmptyLayout.setVisibility(View.GONE);
 		}
 		
@@ -1023,7 +1136,12 @@ public abstract class BaseActivity
 		}
 	}
 
-	private void initCallbackLayouts() {
+	
+	
+	private void initCallbackLayouts() 
+	{
+		requestSuccessfulLayout = (RelativeLayout) findViewById(R.id.request_successful_layout);
+		
 		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_not_transparent);
 
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
@@ -1038,39 +1156,92 @@ public abstract class BaseActivity
 		
 		requestFailedRetryButton = (Button) findViewById(R.id.request_failed_reload_button);
 		
-		if(requestFailedRetryButton != null) {
+		if(requestFailedRetryButton != null) 
+		{
 			requestFailedRetryButton.setOnClickListener(this);
 		}
 
 		requestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
 
-		if (requestNoInternetConnectionRetryButton != null) {
+		if (requestNoInternetConnectionRetryButton != null) 
+		{
 			requestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
-
-//		undoBarlayoutView = findViewById(R.id.undobar);
-//
-//		if (undoBarlayoutView != null) 
-//		{
-//			undoBarController = new UndoBarController(undoBarlayoutView, this);
-//		} 
-//		else 
-//		{
-//			Log.w(TAG, "Undo bar element not present.");
-//		}
 	}
 
-	protected void setEmptyLayoutDetailsMessage(String message) {
-		if (requestEmptyLayoutDetails != null) {
+	
+	
+	protected void setEmptyLayoutDetailsMessage(String message) 
+	{
+		if (requestEmptyLayoutDetails != null) 
+		{
 			requestEmptyLayoutDetails.setText(message);
 			requestEmptyLayoutDetails.setVisibility(View.VISIBLE);
 		}
 	}
 	
-	protected void setLoadingLayoutDetailsMessage(String message) {
-		if (requestLoadingLayoutDetails != null) {
+	
+	
+	protected void setLoadingLayoutDetailsMessage(String message) 
+	{
+		if (requestLoadingLayoutDetails != null)
+		{
 			requestLoadingLayoutDetails.setText(message);
 			requestLoadingLayoutDetails.setVisibility(View.VISIBLE);
 		}
+	}
+	
+	
+	
+	protected boolean wasActivityDataUpdatedMoreThan(int minutes)
+	{
+		boolean wasDataUpdatedMoreThan = false;
+		
+		if(lastDataUpdatedCalendar != null)
+		{
+			Calendar lastDataUpdatedCalendarWithincrement = (Calendar) lastDataUpdatedCalendar.clone();
+			lastDataUpdatedCalendarWithincrement.add(Calendar.MINUTE, minutes);
+			
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+			
+			wasDataUpdatedMoreThan = lastDataUpdatedCalendarWithincrement.before(now);
+		}
+		
+		return wasDataUpdatedMoreThan;
+	}
+	
+	
+	
+	private void setBackgroundLoadingTimer()
+	{
+		if(backgroundLoadTimerValueInSeconds > -1)
+		{
+			int backgroundTimerValue = (int) (backgroundLoadTimerValueInSeconds*DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND);
+		
+			if(backgroundLoadTimer != null)
+			{
+				backgroundLoadTimer.cancel();
+			}
+			
+			backgroundLoadTimer = new Timer();
+			
+			backgroundLoadTimer.schedule(new java.util.TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					loadedFromBackground = true;
+					
+					loadDataInBackground();
+				}
+			}, backgroundTimerValue, backgroundTimerValue);
+		}
+	}
+	
+	
+	
+	protected void setBackgroundLoadTimerValueInSeconds(int value)
+	{
+		backgroundLoadTimerValueInSeconds = value;
 	}
 }

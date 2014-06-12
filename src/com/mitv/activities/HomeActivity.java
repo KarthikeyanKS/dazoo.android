@@ -16,8 +16,8 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVGuideHolderFragment;
 import com.mitv.fragments.TVGuideHolderFragment.OnViewPagerIndexChangedListener;
-import com.mitv.managers.RateAppManager;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.RateAppManager;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -51,11 +51,6 @@ public class HomeActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (super.isRestartNeeded()) 
-		{
-			return;
-		}
-		
 		setContentView(R.layout.layout_home_activity);
 		
 		initLayout();
@@ -85,7 +80,7 @@ public class HomeActivity
 	
 	@Override
 	protected void onResume()
-	{
+	{	
 		super.onResume();
 				
 		showWelcomeToast();
@@ -191,8 +186,16 @@ public class HomeActivity
 	protected void loadData() 
 	{
 		setGUIToLoading();
-		
+
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	
@@ -249,6 +252,7 @@ public class HomeActivity
 			case LOADING:
 			{
 				fragmentContainer.setVisibility(View.GONE);
+				removeActiveFragment();
 				break;
 			}
 		

@@ -109,17 +109,19 @@ public class BroadcastPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) 
-		{
+
+		if (!getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
 			return;
 		}
-
+		
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		initViews();
 		
-		boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		boolean areDisqusCommentsEnabled = false;
+		if (ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
+			areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		}
 		
 		if(areDisqusCommentsEnabled == false)
 		{
@@ -140,7 +142,7 @@ public class BroadcastPageActivity
 		beginTimeInMillis = 0;
 		channelId = null;
 		
-		if(requiresDataReload) 
+		if(requiresDataReload)
 		{
 			long beginTime = intent.getLongExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 
@@ -202,6 +204,14 @@ public class BroadcastPageActivity
 		setLoadingLayoutDetailsMessage(loadingMessage);
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, requiresDataReload, channelId, beginTimeInMillis);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 
 	
@@ -324,8 +334,8 @@ public class BroadcastPageActivity
 	
 				default:
 				{
-					Log.d(TAG, "other request");
-					/* do nothing */break;
+					Log.d(TAG, "Other request");
+					break;
 				}
 			}
 		} 
@@ -372,7 +382,6 @@ public class BroadcastPageActivity
 			default: 
 			{
 				hideDisqusCommentsWebview();
-				Log.w(TAG, "updateUI - case not handled");
 				break;
 			}
 		}
@@ -748,7 +757,7 @@ public class BroadcastPageActivity
 		 * Set tag with broadcast object so that we can get that object from the view in onClickListener and perform add
 		 * or remove like for broadcast
 		 */
-		likeView.setBroadcast(broadcast);
+		likeView.setUserLike(program);
 
 		/*
 		 * Set tag with broadcast object so that we can get that object from the view in onClickListener and perform

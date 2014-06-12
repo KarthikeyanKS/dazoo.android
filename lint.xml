@@ -4,5 +4,8 @@
         <ignore path="src/com/mitv/adapters/list/CompetitionEventsByGroupListAdapter.java" />
         <ignore path="src/com/mitv/adapters/list/CompetitionTeamsByGroupListAdapter.java" />
     </issue>
+    <issue id="UseValueOf">
+        <ignore path="src/com/mitv/fragments/TVGuideTabFragmentCompetition.java" />
+    </issue>
     <issue id="ValidFragment" severity="ignore" />
 </lint>

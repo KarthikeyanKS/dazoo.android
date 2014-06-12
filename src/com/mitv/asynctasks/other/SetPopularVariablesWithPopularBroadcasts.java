@@ -13,6 +13,7 @@ import com.mitv.Constants;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingManager;
@@ -33,6 +34,7 @@ public class SetPopularVariablesWithPopularBroadcasts
 	private ContentCallbackListener contentCallbackListener;
 	private ViewCallbackListener activityCallbackListener;
 	private Object requestResultObjectContent;
+	private RequestParameters requestParameters;
 	
 	
 	
@@ -42,6 +44,7 @@ public class SetPopularVariablesWithPopularBroadcasts
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
+		this.requestParameters = new RequestParameters();
 	}
 	
 	
@@ -83,7 +86,7 @@ public class SetPopularVariablesWithPopularBroadcasts
 		
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING, FetchRequestResultEnum.SUCCESS, requestResultObjectContent, requestParameters);
 		}
 		else
 		{

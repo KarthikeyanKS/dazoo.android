@@ -24,15 +24,12 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
@@ -286,43 +283,55 @@ public abstract class BannerListAdapter<T>
 			{
 				rowView = mLayoutInflater.inflate(R.layout.ad_space, null);
 				
-				ViewHolder viewHolder = new ViewHolder();
-				
-				viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.ad_space_container);
-				
-				viewHolder.competitionBannerFrameLayout = (FrameLayout) rowView.findViewById(R.id.banner_image_competition_frame_layout);
-				
-				//viewHolder.competitionBannerView = (ImageView) rowView.findViewById(R.id.banner_image_competition);
-			
-				viewHolder.competitionBannerFrameLayout.setVisibility(View.VISIBLE);
-			
 				final Competition competition = ContentManager.sharedInstance().getFromCacheVisibleRandomCompetition();
 				
-				if(Constants.FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER == false)
-				{	
-					String imageUrl = competition.getBanner().getImageURLForDeviceDensityDPI();
+				boolean hasEnded = competition.hasEnded();
+				
+				if(hasEnded == false)
+				{
+					ViewHolder viewHolder = new ViewHolder();
 					
-					ImageAware imageAware = new ImageViewAware(viewHolder.competitionBannerView, false);
-	
-					SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithDefaultOptions(imageUrl, imageAware);
+					viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.ad_space_container);
+					
+					viewHolder.competitionBannerFrameLayout = (FrameLayout) rowView.findViewById(R.id.banner_image_competition_frame_layout);
+					
+					viewHolder.competitionBannerFrameLayout.setVisibility(View.VISIBLE);
+				
+//					if(Constants.FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER == false)
+//					{
+//						String imageUrl = competition.getBanner().getImageURLForDeviceDensityDPI();
+//						
+//						ImageAware imageAware = new ImageViewAware(viewHolder.competitionBannerView, false);
+//		
+//						SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithDefaultOptions(imageUrl, imageAware);
+//					}
+					
+					viewHolder.competitionBannerFrameLayout.setOnClickListener(new View.OnClickListener() 
+					{
+						@Override
+						public void onClick(View v) 
+						{
+							Intent intent = new Intent(activity, CompetitionPageActivity.class);
+			                
+			                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
+			                
+			                if (BannerListAdapter.this instanceof TVGuideListAdapter) {
+			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInAllTab(competition.getDisplayName());
+			                }
+			                else if (BannerListAdapter.this instanceof TVGuideTagListAdapter) {
+			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInSportsTab(competition.getDisplayName());
+			                }
+			                
+							activity.startActivity(intent);
+						}
+					});
+					
+					rowView.setTag(viewHolder);
 				}
 				
-				viewHolder.competitionBannerFrameLayout.setOnClickListener(new View.OnClickListener() 
-				{
-					@Override
-					public void onClick(View v) 
-					{
-						Intent intent = new Intent(activity, CompetitionPageActivity.class);
-		                
-		                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-		                
-		                TrackingManager.sharedInstance().sendUserCompetitionBannerPressedInAllTab(competition.getDisplayName());
-		                
-						activity.startActivity(intent);
-					}
-				});
-				
-				rowView.setTag(viewHolder);
+				if (this instanceof FeedListAdapter) {
+					rowView.findViewById(R.id.ad_space_separator).setBackgroundColor(activity.getResources().getColor(R.color.grey2));
+				}
 			}
 		}
 
@@ -345,7 +354,7 @@ public abstract class BannerListAdapter<T>
 		{
 			return BannerViewType.BANNER_VIEW_TYPE_AD;
 		}
-		else if(isCompetitionAdPosition(position))
+		else if(isCompetitionAdPosition(position, items))
 		{
 			return BannerViewType.BANNER_VIEW_TYPE_COMPETITION;
 		}
@@ -403,21 +412,32 @@ public abstract class BannerListAdapter<T>
 	
 	
 	
-	private boolean isCompetitionAdPosition(int position)
+	private boolean isCompetitionAdPosition(int position, List<T> items)
 	{
 		boolean isPosition = (position % (1 + CELL_BETWEEN_COMPETITION_BANNERS) == CELL_BETWEEN_COMPETITION_BANNERS);
 			
 		boolean isAfterFirstPosition = (position > CELL_BETWEEN_COMPETITION_BANNERS);
 		
+		boolean isAfterLastListPosition = (position >= items.size());
+		
+		boolean isListSizeLowerThanCellBetweenCount = (items.size() < CELL_BETWEEN_COMPETITION_BANNERS);
+		
 		boolean isBannerPosition = false;
 		
-		if(onlyDisplayCompetitionBannerOnce == false)
+		if(isListSizeLowerThanCellBetweenCount && isAfterLastListPosition)
 		{
-			isBannerPosition = (areCompetitionsEnabled && isPosition);
+			isBannerPosition = true;
 		}
 		else
 		{
-			isBannerPosition = (areCompetitionsEnabled && isPosition && !isAfterFirstPosition);
+			if(onlyDisplayCompetitionBannerOnce == false)
+			{
+				isBannerPosition = (areCompetitionsEnabled && isPosition);
+			}
+			else
+			{
+				isBannerPosition = (areCompetitionsEnabled && isPosition && !isAfterFirstPosition);
+			}
 		}
 		
 		return isBannerPosition;

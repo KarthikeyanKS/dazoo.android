@@ -20,6 +20,7 @@ import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.TrackingManager;
 import com.mitv.utilities.DateUtils;
@@ -54,10 +55,15 @@ public abstract class AsyncTaskBase<T>
 	
 	protected HTTPCoreResponse response;
 	
+	// Request parameters to pass along to the handles. Each subclass should set it as necessary.
+	protected RequestParameters requestParameters;
+	
 	protected boolean isMiTVAPICall;
 	
 	private boolean reportMetricsToTracker;
 	
+	private boolean isRetry = false;
+	private int retryThreshold;
 	
 	
 	public AsyncTaskBase(
@@ -67,9 +73,10 @@ public abstract class AsyncTaskBase<T>
 			final Class<T> clazz,
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
-			final boolean reportMetricsToTracker)
+			final boolean reportMetricsToTracker,
+			final int retryThreshold)
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, retryThreshold);
 	}
 	
 	
@@ -82,9 +89,10 @@ public abstract class AsyncTaskBase<T>
 			final boolean manualDeserialization,
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
-			final boolean reportMetricsToTracker) 
+			final boolean reportMetricsToTracker,
+			final int retryThreshold) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, retryThreshold);
 	}
 	
 	
@@ -98,9 +106,10 @@ public abstract class AsyncTaskBase<T>
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			final boolean isMiTVAPICall,
-			final boolean reportMetricsToTracker)
+			final boolean reportMetricsToTracker,
+			final int retryThreshold)
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false, reportMetricsToTracker);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false, reportMetricsToTracker, retryThreshold);
 	}
 	
 
@@ -118,7 +127,8 @@ public abstract class AsyncTaskBase<T>
 			final HeaderParameters headerParameters,
 			final String bodyContentData,
 			final boolean isMiTVAPICall,
-			final boolean reportMetricsToTracker)
+			final boolean reportMetricsToTracker,
+			final int retryThreshold)
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallbackListener = activityCallbackListener;
@@ -133,10 +143,13 @@ public abstract class AsyncTaskBase<T>
 		this.requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
 		this.requestResultObjectContent = null;
 		this.response = null;
+		this.requestParameters = new RequestParameters();
 		
 		this.isMiTVAPICall = isMiTVAPICall;
 		
 		this.reportMetricsToTracker = reportMetricsToTracker;
+		
+		this.retryThreshold = retryThreshold;
 		
 		if(isMiTVAPICall)
 		{
@@ -152,7 +165,7 @@ public abstract class AsyncTaskBase<T>
 				Log.w(TAG, "Locale has null value.");
 			}
 			
-			/* Add the timezone to the url parameters */
+			/* Add the timezone offset */
 			Integer timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
 			urlParameters.add(Constants.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
@@ -179,17 +192,16 @@ public abstract class AsyncTaskBase<T>
 			}
 			
 			this.gson = gsonBuilder.create();
-		} 
+		}
 		catch (InstantiationException iex)
 		{
 			Log.e(TAG, iex.getMessage(), iex);
-		} 
+		}
 		catch (IllegalAccessException ilaex) 
 		{
 			Log.e(TAG, ilaex.getMessage(), ilaex);
 		}
 	}
-	
 	
 	
 	
@@ -205,6 +217,46 @@ public abstract class AsyncTaskBase<T>
 
 	@Override
 	protected Void doInBackground(String... params) 
+	{
+		boolean result = executeTask();
+		isRetry = true;
+//		Log.d(TAG, "Initial loading: Task " + ((result) ? "completed" : "failed") + ": " + requestIdentifier);
+		while (result == false && retryThreshold-- > 0) 
+		{
+			result = executeTask();
+//			Log.d(TAG, "Initial loading: Task " + ((result) ? "completed" : "failed") + ": " + requestIdentifier);
+		}
+				
+		return null;
+	}
+	
+
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		Log.d(TAG, String.format("%s onPostExecute - JSON parsing complete, notifying ContentManager", clazz.getName()));
+		
+		if(contentCallbackListener != null)
+		{
+			contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, requestResultStatus, requestResultObjectContent, requestParameters);
+		}
+		else
+		{
+			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
+		}
+	}	
+	
+	
+	
+	public RequestIdentifierEnum getRequestIdentifier()
+	{
+		return requestIdentifier;
+	}
+	
+	
+	
+	private boolean executeTask() 
 	{
 		if(reportMetricsToTracker)
 		{
@@ -223,14 +275,18 @@ public abstract class AsyncTaskBase<T>
 			}
 			else
 			{
-				response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+				response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData, isRetry);
 			}
 		}
 		else
 		{
-			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData, isRetry);
 		}
 		
+		
+		if(clazz.getName().contains("Compet")){
+			Log.d(TAG, String.format("%s onPreExecute - Performing HTTP request: %s", clazz.getName(), requestIdentifier.getDescription()));
+		}
 		if(reportMetricsToTracker)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(this.getClass().getSimpleName());
@@ -252,7 +308,7 @@ public abstract class AsyncTaskBase<T>
 			// When support from backend return appropriate error response
 			if(requestResultStatus == FetchRequestResultEnum.BAD_REQUEST)
 			{
-				return null;
+				return false;
 			}
 		}
 		
@@ -297,31 +353,11 @@ public abstract class AsyncTaskBase<T>
 		{
 			requestResultObjectContent = null;
 		}
-				
-		return null;
-	}
-	
-
-	
-	@Override
-	protected void onPostExecute(Void result)
-	{
-		Log.d(TAG, String.format("%s onPostExecute - JSON parsing complete, notifying ContentManager", clazz.getName()));
 		
-		if(contentCallbackListener != null)
-		{
-			contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
+		// Check if task was successful and data is not null, for retry.
+		if (wasSuccessful && requestResultObjectContent != null) {
+			return true;
 		}
-		else
-		{
-			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
-		}
-	}	
-	
-	
-	
-	public RequestIdentifierEnum getRequestIdentifier()
-	{
-		return requestIdentifier;
+		return false;
 	}
 }

@@ -23,8 +23,10 @@ import com.mitv.ui.elements.FontTextView;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class UserProfileConfigurationActivity extends BaseActivity implements ActivityWithTabs, OnCheckedChangeListener {
-
+public class UserProfileConfigurationActivity 
+	extends BaseActivity
+	implements ActivityWithTabs, OnCheckedChangeListener
+{
 	private static final String TAG = UserProfileConfigurationActivity.class.getName();
 	
 	private ImageView avatarImageView;
@@ -33,15 +35,17 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 	private Switch socialSwitchView;
 	private Switch notificationsSwitchView;
 
+	
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		
+	public void onCreate(Bundle savedInstanceState) 
+	{	
 		super.onCreate(savedInstanceState);
-		
-		if (super.isRestartNeeded()) {
+
+		if (isRestartNeeded()) {
 			return;
 		}
-
+		
 		setContentView(R.layout.layout_user_configuration);
 
 		initLayout();
@@ -49,7 +53,10 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 		populateViews();
 	}
 
-	private void initLayout() {
+	
+	
+	private void initLayout() 
+	{
 		actionBar.setTitle(getString(R.string.user_profile_config_title));
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -64,6 +71,8 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 		notificationsSwitchView.setOnCheckedChangeListener(this);
 	}
 
+	
+	
 	private void populateViews() {
 		/* Image */
 		ImageAware imageAware = new ImageViewAware(avatarImageView, false);
@@ -112,10 +121,21 @@ public class UserProfileConfigurationActivity extends BaseActivity implements Ac
 
 	}
 
+	
+	
 	@Override
-	protected void loadData() {
-	}
+	protected void loadData() {}
 
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
+	}
+	
+	
+	
 	@Override
 	protected boolean hasEnoughDataToShowContent() {
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();

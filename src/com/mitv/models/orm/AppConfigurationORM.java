@@ -12,11 +12,13 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
 
 
+@DatabaseTable()
 public class AppConfigurationORM
 	extends AbstractOrmLiteClassWithAsyncSave<AppConfigurationORM> 
 {
@@ -77,8 +79,7 @@ public class AppConfigurationORM
 	
 	
 	
-	private AppConfigurationORM()
-	{}
+	private AppConfigurationORM(){}
 	
 	
 	

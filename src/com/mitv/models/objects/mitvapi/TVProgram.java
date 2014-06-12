@@ -3,15 +3,13 @@ package com.mitv.models.objects.mitvapi;
 
 
 
-import java.util.ArrayList;
-
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVProgramJSON;
-import com.mitv.models.sql.NotificationSQLElement;
+import com.mitv.models.orm.TVProgramORM;
 
 
 
@@ -20,6 +18,32 @@ public class TVProgram
 	implements GSONDataFieldValidation
 {
 	private static final String TAG = TVProgram.class.getName();
+	
+	
+	
+	public TVProgram(){}
+	
+	
+	
+	public TVProgram(TVProgramORM ormData)
+	{
+		this.programType = ormData.getProgramType();
+		this.programId = ormData.getProgramId();
+		this.title = ormData.getTitle();
+		this.synopsisShort = ormData.getSynopsisShort();
+		this.synopsisLong = ormData.getSynopsisLong();
+		this.images = ormData.getImages();
+		this.tags = ormData.getTags();
+		this.credits = ormData.getCredits();
+		this.season = ormData.getSeason();
+		this.episodeNumber = ormData.getEpisodeNumber();
+		this.year = ormData.getYear();
+		this.genre = ormData.getGenre();
+		this.sportType = ormData.getSportType();
+		this.tournament = ormData.getTournament();
+	}
+	
+	
 	
 	public void setProgramId(String programId) 
 	{
@@ -59,70 +83,6 @@ public class TVProgram
 	public void setYear(Integer year) 
 	{
 		this.year = year;
-	}
-
-
-	public TVProgram(NotificationSQLElement item)
-	{
-		this.title = item.getProgramTitle();
-		this.synopsisShort = item.getSynopsisShort();
-		this.synopsisLong = item.getSynopsisLong();
-		
-		this.programId = item.getProgramId();
-		
-		ProgramTypeEnum programType = ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(item.getProgramType());
-		
-		this.programType = programType;
-		
-		switch(programType)
-		{
-			case TV_EPISODE:
-			{
-				this.series = new TVSeries(item);
-				this.season = new TVSeriesSeason(item);
-				this.episodeNumber = item.getProgramEpisodeNumber();
-				break;
-			}
-			
-			case SPORT:
-			{
-				this.sportType = new TVSportType(item);
-				this.genre = item.getProgramGenre();
-				break;
-			}
-			
-			case OTHER:
-			{
-				this.category = item.getProgramCategory();
-				break;
-			}
-			
-			case MOVIE:
-			{
-				this.year = item.getProgramYear();
-				this.genre = item.getProgramGenre();
-				break;
-			}
-			
-			case UNKNOWN:
-			default:
-			{
-				Log.w(TAG, "Unhandled program type.");
-				break;
-			}
-		}
-		
-		this.year = item.getProgramYear();
-
-		this.images = new ImageSetOrientation(item);
-		
-		// TODO Local Storage Support 
-		// Using empty tags representation as no data is available from the notification item.
-		this.tags = new ArrayList<String>();
-		
-		// TODO Local Storage Support 
-		// Using empty TVCredit representation as no data is available from the notification item.
-		this.credits = new ArrayList<TVCredit>();
 	}
 
 	
@@ -185,9 +145,13 @@ public class TVProgram
 		boolean imagesOk = getImages().areDataFieldsValid();
 		
 		boolean allCreditEntriesOk = true;
-		for(TVCredit tvCredit : getCredits()) {
+		
+		for(TVCredit tvCredit : getCredits()) 
+		{
 			boolean creditEntryOk = tvCredit.areDataFieldsValid();
-			if(!creditEntryOk) {
+			
+			if(!creditEntryOk)
+			{
 				allCreditEntriesOk = false;
 				break;
 			}
@@ -199,10 +163,11 @@ public class TVProgram
 				(getTags() != null) && !getTags().isEmpty() && imagesOk && allCreditEntriesOk
 				);
 		
-
 		/* Test depending on programType */
 		ProgramTypeEnum programType = getProgramType();
+		
 		boolean typeDependantFieldsOk = false;
+		
 		switch (programType) 
 		{
 			case MOVIE: 
@@ -210,20 +175,26 @@ public class TVProgram
 				typeDependantFieldsOk = ((getYear() != null) && !TextUtils.isEmpty(getGenre()));
 				break;
 			}
-			case TV_EPISODE: {
+			
+			case TV_EPISODE:
+			{
 				boolean tvSeriesOk = getSeries().areDataFieldsValid();
 				boolean tvSeasonOk = getSeason().areDataFieldsValid();
 				boolean episodeNumberOk = (getEpisodeNumber() != null);
 				typeDependantFieldsOk = tvSeriesOk && tvSeasonOk && episodeNumberOk;
 				break;
 			}
-			case SPORT: {
+			
+			case SPORT:
+			{
 				boolean sportTypeOk = getSportType().areDataFieldsValid();
 				boolean tournamentOk = !TextUtils.isEmpty(getTournament());
 				typeDependantFieldsOk = sportTypeOk && tournamentOk;
 				break;
 			}
-			case OTHER: {
+			
+			case OTHER:
+			{
 				typeDependantFieldsOk = !TextUtils.isEmpty(getCategory());
 				break;
 			}

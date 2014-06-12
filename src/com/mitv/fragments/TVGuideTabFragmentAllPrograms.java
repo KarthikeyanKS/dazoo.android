@@ -66,8 +66,6 @@ public class TVGuideTabFragmentAllPrograms
 		updateSwipeClockBarWithDayAndTime();
 		
 		super.initRequestCallbackLayouts(rootView);
-		
-		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 
 		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
@@ -85,6 +83,14 @@ public class TVGuideTabFragmentAllPrograms
 		tvChannelGuides = null;
 		
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
+	}
+	
+	
+	
+	@Override
+	protected void loadDataInBackground()
+	{
+		Log.w(TAG, "Not implemented in this class");
 	}
 	
 	
@@ -155,8 +161,6 @@ public class TVGuideTabFragmentAllPrograms
 				listView.setAdapter(listAdapter);
 					
 				listAdapter.notifyDataSetChanged();
-					
-				Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
 					
 				break;
 			}

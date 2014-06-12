@@ -4,10 +4,17 @@ package com.mitv.ui.elements;
 
 
 import java.text.NumberFormat;
+
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.DateUtils;
 
 
@@ -16,6 +23,9 @@ public class EventCountDownTimer
 	extends CountDownTimer
 {
 	private static final String TAG = EventCountDownTimer.class.getName();
+	
+	private static final int MAXIMUM_VALUE_FOR_COUNT_VIEW = 99;
+	private static final String VALUE_FOR_COUNT_VIEW_OVERFLOW = "99+";
 	
 	private static final long DEFAULT_COUNTDOWN_INTERVAL = DateUtils.TOTAL_MILLISECONDS_IN_ONE_SECOND*30;
 	
@@ -29,7 +39,8 @@ public class EventCountDownTimer
 	private TextView hoursTitleTextView;
 	private TextView minutesTitleTextView;
 	
-	
+	private TextView title;
+	private RelativeLayout container;
 	
 	public EventCountDownTimer(
 			final String eventName,
@@ -39,9 +50,13 @@ public class EventCountDownTimer
 			final TextView minutesTextView,
 			final TextView remainingTimeInDaysTitle,
 			final TextView remainingTimeInHoursTitle,
-			final TextView remainingTimeInMinutesTitle)
+			final TextView remainingTimeInMinutesTitle,
+			final TextView title,
+			final RelativeLayout container)
 	{
 		this(eventName, millisecondsUntilEventStart, DEFAULT_COUNTDOWN_INTERVAL, daysTextView, hoursTextView, minutesTextView, remainingTimeInDaysTitle, remainingTimeInHoursTitle, remainingTimeInMinutesTitle);
+		this.container = container;
+		this.title = title;
 	}
 	
 	
@@ -82,7 +97,15 @@ public class EventCountDownTimer
 		int totalDaysLeft = (int) (millisUntilFinished / DateUtils.TOTAL_MILLISECONDS_IN_ONE_DAY);
 		
 		StringBuilder daysLeftSB = new StringBuilder();
-		daysLeftSB.append(nf.format(totalDaysLeft));
+		
+		if(totalDaysLeft <= MAXIMUM_VALUE_FOR_COUNT_VIEW)
+		{
+			daysLeftSB.append(nf.format(totalDaysLeft));
+		}
+		else
+		{
+			daysLeftSB.append(VALUE_FOR_COUNT_VIEW_OVERFLOW);
+		}
 		
 		long totalHoursLeftInMilliseconds = millisUntilFinished - (totalDaysLeft*DateUtils.TOTAL_MILLISECONDS_IN_ONE_DAY);	
 		int hoursLeft = (int) (totalHoursLeftInMilliseconds / DateUtils.TOTAL_MILLISECONDS_IN_ONE_HOUR);
@@ -115,6 +138,28 @@ public class EventCountDownTimer
 		daysTitleTextView.setVisibility(View.GONE);
 		hoursTitleTextView.setVisibility(View.GONE);
 		minutesTitleTextView.setVisibility(View.GONE);
+		
+		title.setVisibility(View.GONE);
+		if (container != null) {
+			int dpHeight = 0;
+			if (container.getId() == R.id.competition_count_down_area) {
+				dpHeight = 70;
+			}
+			else if (container.getId() == R.id.competition_count_down_layout) {
+				dpHeight = 150;
+			}
+			
+			if (dpHeight > 0) {
+			LayoutParams parameters = container.getLayoutParams();
+			
+			
+			int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpHeight, SecondScreenApplication.sharedInstance().getApplicationContext().getResources().getDisplayMetrics());
+			
+			parameters.height = height;
+			
+			container.setLayoutParams(parameters);
+			}
+		}
     }
 	
 	

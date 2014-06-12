@@ -27,7 +27,7 @@ public class GetPhaseByID
 			final String phaseID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS);
+		url.append(Constants.URL_COMPETITIONS_FULL);
 		url.append(Constants.FORWARD_SLASH);
 		
 		url.append(competitionID);
@@ -54,8 +54,9 @@ public class GetPhaseByID
 			final ContentCallbackListener contentCallbackListener,
 			final ViewCallbackListener activityCallbackListener,
 			final long competitionID,
-			final String phaseID)
+			final String phaseID,
+			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASE_BY_ID, Phase.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, phaseID), false);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_PHASE_BY_ID, Phase.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID, phaseID), false, retryThreshold);
 	}
 }
