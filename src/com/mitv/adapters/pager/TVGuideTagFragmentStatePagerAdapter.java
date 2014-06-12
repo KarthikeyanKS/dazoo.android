@@ -3,13 +3,11 @@ package com.mitv.adapters.pager;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.R;
@@ -48,29 +46,20 @@ public class TVGuideTagFragmentStatePagerAdapter
 	@Override
 	public Fragment getItem(int position)
 	{
-		int realPosition; 
-	
-		if(getCount() > 0)
-		{
-			realPosition = LoopViewPager.toRealPosition(position, getCount());
-		}
-		else
-		{
-			realPosition = 0;
-		}
+		int realPosition = LoopViewPager.toRealPosition(position, getCount());
 		
 		/* This instance will only be created when needed by the pager adapter */
 		Fragment fragment;
 		
 		if(realPosition == 0)
 		{
-			TVTag tvTag = getTVTags().get(realPosition);
+			TVTag tvTag = tvTags.get(realPosition);
 			
 			fragment = new TVGuideTabFragmentAllPrograms(tvTag);
 		}
 		else
 		{
-			TVTag tvTag = getTVTags().get(realPosition);
+			TVTag tvTag = tvTags.get(realPosition);
 			
 			List<Competition> competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
 			
@@ -100,7 +89,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{	
 			int realPosition = position % getCount();
 			
-			TVTag tvTag = getTVTags().get(realPosition);
+			TVTag tvTag = tvTags.get(realPosition);
 				
 			displayName = tvTag.getDisplayName();
 		}
@@ -117,31 +106,14 @@ public class TVGuideTagFragmentStatePagerAdapter
 	@Override
 	public int getCount() 
 	{
-		return getTVTags().size();
-	}
-	
-	
-	
-	private List<TVTag> getTVTags() {
-		List<TVTag> tvTags;
-		
-		if (this.tvTags != null) {
-			tvTags = this.tvTags;
-			Log.e(TAG, "We have the TVTAG!!!!!!!!!!!!!!!");
-			
-		} else {
-			if (ContentManager.sharedInstance().getFromCacheHasTVTags()) {
-				Log.e(TAG, "We have the TVTAG in cache!!!!!!!!!!!!!!!");
-				tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
-				this.tvTags = tvTags;
-				
-			} else {
-				Log.e(TAG, "The TVTAG is empty!!!!!!!!!!!!!!!");
-				tvTags = new ArrayList<TVTag>();
-			}
+		if (tvTags != null) 
+		{
+			return tvTags.size();
 		}
-		
-		return tvTags;
+		else 
+		{
+			return 0;
+		}
 	}
 	
 	
