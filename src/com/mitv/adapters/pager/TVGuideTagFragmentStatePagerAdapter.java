@@ -102,7 +102,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{	
 			int realPosition = position % getCount();
 			
-			TVTag tvTag = getTVTags().get(realPosition);
+			TVTag tvTag = tvTags.get(realPosition);
 				
 			displayName = tvTag.getDisplayName();
 		}

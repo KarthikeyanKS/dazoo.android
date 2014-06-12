@@ -32,6 +32,7 @@ import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
 import com.mitv.models.comparators.TeamSquadComparatorByPositionANdShirtNumber;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
@@ -327,31 +328,7 @@ public class TeamPageActivity
 				about.setText(textAbout);
 				about.setVisibility(View.VISIBLE);
 			}
-			
-			/*
-			 * TODO
-			 * 
-			 *  Add checks if we have the missing data below
-			 *  
-			 */
-			
-//			foundedHeader.setText("");
-			
-//			coachHeader.setText(this.getResources().getString(R.string.team_page_team_coach_header));
 
-//			coach.setText(this.getResources().getString(R.string.team_page_team_coach_hard_coded));
-			
-//			locationHeader.setText("");
-			
-//			arenasHeader.setText("");
-			
-//			founded.setText("");
-			
-//			location.setText("");
-			
-//			arenas.setText(this.getResources().getString(R.string.team_page_team_arenas_hard_coded));
-			
-			/* photo credit */
 			String credit = team.getTeamImageCopyright();
 			
 			if (credit != null && !credit.isEmpty()) 
@@ -362,7 +339,6 @@ public class TeamPageActivity
 					.append(" ")
 					.append(team.getTeamImageCopyright());
 				
-//				photoFromHeader.setText(this.getResources().getString(R.string.team_page_team_photo_from_hard_coded));
 				photoFrom.setText(sb.toString());
 				photoFrom.setVisibility(View.VISIBLE);
 			}
@@ -429,9 +405,36 @@ public class TeamPageActivity
 		{	
 			@Override
 			public void onClick(View v) 
-			{
-				TrackingGAManager.sharedInstance().sendUserCompetitionSquadPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID).getDisplayName(), team.getDisplayName());
+			{				
+				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 				
+				String competitionName;
+				
+				if(competition != null)
+				{
+					competitionName = competition.getDisplayName();
+				}
+				else
+				{
+					competitionName = Long.valueOf(competitionID).toString();
+					
+					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+				}
+				
+				String teamName;
+				
+				if(team != null)
+				{
+					teamName = team.getDisplayName();
+				}
+				else
+				{
+					teamName = Long.valueOf(teamID).toString();
+					
+					Log.w(TAG, "Team is null. Using teamID as a fallback in analytics reporting.");
+				}
+	
+				TrackingGAManager.sharedInstance().sendUserCompetitionSquadPressedEvent(competitionName, teamName);			
 			}
 		});
 	}

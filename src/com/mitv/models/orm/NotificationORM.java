@@ -44,6 +44,9 @@ public class NotificationORM
 	private String broadcastChannelName;
 	
 	@DatabaseField()
+	private String broadcastChannelLogo;
+	
+	@DatabaseField()
 	private ProgramTypeEnum broadcastProgramType;
 	
 	@DatabaseField()
@@ -78,6 +81,7 @@ public class NotificationORM
 		this.broadcastBeginTimeInMilliseconds = notification.getBeginTimeInMilliseconds();
 		this.broadcastTitle = notification.getBroadcastTitle();
 		this.broadcastChannelName = notification.getBroadcastChannelName();
+		this.broadcastChannelLogo = notification.getBroadcastChannelLogo();
 		this.broadcastProgramType = notification.getBroadcastProgramType();
 		this.broadcastProgramDetails = notification.getBroadcastProgramDetails();
 		
@@ -273,5 +277,11 @@ public class NotificationORM
 
 	public String getBroadcastProgramDetails() {
 		return broadcastProgramDetails;
+	}
+
+
+
+	public String getBroadcastChannelLogo() {
+		return broadcastChannelLogo;
 	}
 }

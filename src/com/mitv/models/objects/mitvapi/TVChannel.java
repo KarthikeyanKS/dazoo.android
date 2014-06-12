@@ -55,8 +55,10 @@ public class TVChannel
 		this.logo = images;
 	}
 
+	
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((channelId == null) ? 0 : channelId.hashCode());

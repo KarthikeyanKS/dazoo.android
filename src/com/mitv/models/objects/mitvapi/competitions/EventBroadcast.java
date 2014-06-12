@@ -39,6 +39,8 @@ public class EventBroadcast
 		this.beginTimeMillis = ev.getBeginTimeMillis();
 		this.endTime = ev.getEndTime();
 		this.channelId = ev.getChannelId();
+		this.channel = ev.getChannel();
+		this.channelLogo = ev.getChannelLogo();
 	}
 
 	

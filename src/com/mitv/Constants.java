@@ -40,7 +40,7 @@ public abstract class Constants
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
-	public static final int CACHE_DATABASE_VERSION = 2;
+	public static final int CACHE_DATABASE_VERSION = 3;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;

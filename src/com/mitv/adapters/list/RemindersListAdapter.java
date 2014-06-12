@@ -4,6 +4,7 @@ package com.mitv.adapters.list;
 
 
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,15 +15,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
-import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.Notification;
-import com.mitv.models.objects.mitvapi.TVChannel;
-import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 
@@ -189,13 +188,9 @@ public class RemindersListAdapter
 			StringBuilder detailsSB = new StringBuilder();
 			
 			broadcastTimeSB.append(element.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
-
-			TVChannelId tvChannelId = new TVChannelId(element.getChannelId());
-
-			final TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-
-			channelSB.append(tvChannel.getName());
-
+			
+			channelSB.append(element.getBroadcastChannelName());
+				
 			titleSB.append(element.getBroadcastTitle());
 
 			detailsSB.append(element.getBroadcastProgramDetails());
@@ -230,14 +225,12 @@ public class RemindersListAdapter
 							break;
 						}
 						
-						case COMPETITION_EVENT:
+						case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
+						case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 						{
 							intent = new Intent(activity, EventPageActivity.class);
-							
 							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, element.getEventId());
-							
 							intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
-							
 							intent.putExtra(Constants.INTENT_COMPETITION_NAME, Constants.FIFA_EVENT_PAGE_HEADER);
 							
 							break;

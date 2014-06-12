@@ -6,13 +6,14 @@ package com.mitv.models.gson.mitvapi;
 
 
 import android.util.DisplayMetrics;
+import android.util.Log;
+
 import com.mitv.utilities.GenericUtils;
 
 
 
 public class ImageSetSizeJSON 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = ImageSetSizeJSON.class.getName();
 	
 	
@@ -94,19 +95,43 @@ public class ImageSetSizeJSON
 
 
 
-	public String getSmall() {
+	public String getSmall() 
+	{
+		if(small == null)
+		{
+			small = "";
+			
+			Log.w(TAG, "small is null");
+		}
+		
 		return small;
 	}
 
 
 
-	public String getMedium() {
+	public String getMedium() 
+	{
+		if(medium == null)
+		{
+			medium = "";
+			
+			Log.w(TAG, "medium is null");
+		}
+		
 		return medium;
 	}
 
 
 
-	public String getLarge() {
+	public String getLarge() 
+	{
+		if(large == null)
+		{
+			large = "";
+			
+			Log.w(TAG, "large is null");
+		}
+		
 		return large;
 	}	
 }
