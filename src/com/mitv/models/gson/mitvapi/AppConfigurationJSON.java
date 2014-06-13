@@ -203,13 +203,22 @@ public class AppConfigurationJSON
 		}
 		
 		
-		boolean hasCompetitionPageReloadInterval= jsonObject.has("api.configuration.android.competition.page.reload.interval");
+		boolean hasCompetitionPageReloadInterval= jsonObject.has("android.competition.page.reload.interval");
 		
 		if(hasCompetitionPageReloadInterval)
 		{
-			jsonObject.get("api.configuration.android.competition.page.reload.interval");
+			jsonElement = jsonObject.get("android.competition.page.reload.interval");
 			
-			competitionPageReloadInterval = jsonElement.getAsInt();
+			String competitionPageReloadIntervalAsString = jsonElement.getAsString();
+			
+			try
+			{
+				competitionPageReloadInterval = Integer.parseInt(competitionPageReloadIntervalAsString);
+			}
+			catch(NumberFormatException nfex)
+			{
+				competitionPageReloadInterval = Constants.COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
+			}
 		}
 		else
 		{
@@ -217,13 +226,22 @@ public class AppConfigurationJSON
 		}
 		
 		
-		boolean hasCompetitionEventPageReloadInterval= jsonObject.has("api.configuration.android.event.page.reload.interval");
+		boolean hasCompetitionEventPageReloadInterval= jsonObject.has("android.event.page.reload.interval");
 		
 		if(hasCompetitionEventPageReloadInterval)
 		{
-			jsonObject.get("api.configuration.android.event.page.reload.interval");
+			jsonElement = jsonObject.get("android.event.page.reload.interval");
 			
-			competitionEventPageReloadInterval = jsonElement.getAsInt();
+			String competitionEventPageReloadIntervalAsString = jsonElement.getAsString();
+			
+			try
+			{
+				competitionEventPageReloadInterval = Integer.parseInt(competitionEventPageReloadIntervalAsString);
+			}
+			catch(NumberFormatException nfex)
+			{
+				competitionEventPageReloadInterval = Constants.COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
+			}
 		}
 		else
 		{
@@ -231,13 +249,22 @@ public class AppConfigurationJSON
 		}
 		
 		
-		boolean hasCompetitionTeamPageReloadInterval= jsonObject.has("api.configuration.android.team.page.reload.interval");
+		boolean hasCompetitionTeamPageReloadInterval= jsonObject.has("android.team.page.reload.interval");
 		
 		if(hasCompetitionTeamPageReloadInterval)
 		{
-			jsonObject.get("api.configuration.android.team.page.reload.interval");
+			jsonElement = jsonObject.get("android.team.page.reload.interval");
 			
-			competitionTeamPageReloadInterval = jsonElement.getAsInt();
+			String competitionTeamPageReloadIntervalAsString = jsonElement.getAsString();
+			
+			try
+			{
+				competitionTeamPageReloadInterval = Integer.parseInt(competitionTeamPageReloadIntervalAsString);
+			}
+			catch(NumberFormatException nfex)
+			{
+				competitionTeamPageReloadInterval = Constants.COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS;
+			}
 		}
 		else
 		{
@@ -245,13 +272,22 @@ public class AppConfigurationJSON
 		}
 		
 
-		boolean hasCompetitionEventPageHighlightReloadInterval= jsonObject.has("api.configuration.android.highlight.page.reload.interval");
+		boolean hasCompetitionEventPageHighlightReloadInterval= jsonObject.has("android.highlight.page.reload.interval");
 		
 		if(hasCompetitionEventPageHighlightReloadInterval)
 		{
-			jsonObject.get("api.configuration.android.highlight.page.reload.interval");
+			jsonElement = jsonObject.get("android.highlight.page.reload.interval");
 			
-			competitionEventPageHighlightReloadInterval = jsonElement.getAsInt();
+			String competitionEventPageHighlightReloadIntervalAsString = jsonElement.getAsString();
+			
+			try
+			{
+				competitionEventPageHighlightReloadInterval = Integer.parseInt(competitionEventPageHighlightReloadIntervalAsString);
+			}
+			catch(NumberFormatException nfex)
+			{
+				competitionEventPageHighlightReloadInterval = Constants.COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS;
+			}
 		}
 		else
 		{

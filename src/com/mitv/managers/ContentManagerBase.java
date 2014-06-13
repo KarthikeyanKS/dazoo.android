@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.mitv.APIClient;
 import com.mitv.Constants;
+import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.enums.EventLineUpPosition;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
@@ -1221,6 +1222,17 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public Event getFromCacheEventByIDInSelectedCompetition(long eventID)
+	{
+		Competition selectedCompetition = getCache().getCompetitionsData().getSelectedCompetition();
+		
+		long selectedCompetitionId = selectedCompetition.getCompetitionId();
+		
+		return getCache().getCompetitionsData().getEventByID(selectedCompetitionId, eventID);
+	}
+	
+	
+	
 	public Map<Long, List<Standings>> getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition()
 	{
 		return getCache().getCompetitionsData().getStandingsByPhaseForSelectedCompetition();
@@ -1442,13 +1454,32 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(final Long eventID)
+	public List<EventHighlight> getFromCacheHighlightsDataByEventIDForSelectedCompetition(
+			final Long eventID,
+			boolean excludeUnknownHighlights)
 	{
-		List<EventHighlight> highlightsToReturn = getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
+		List<EventHighlight> highlightsToReturn = new ArrayList<EventHighlight>();
+		
+		List<EventHighlight> highlightsFromCache = getCache().getCompetitionsData().getEventHighlightsForEventInSelectedCompetition(eventID);
 				
-		if(highlightsToReturn == null)
+		if(highlightsFromCache != null)
 		{
-			highlightsToReturn = new ArrayList<EventHighlight>();
+			if(excludeUnknownHighlights)
+			{
+				for(EventHighlight eventHighlight : highlightsFromCache)
+				{
+					boolean isUnknow = eventHighlight.getType() == EventHighlightActionEnum.UNKNOWN;
+					
+					if(isUnknow == false)
+					{
+						highlightsToReturn.add(eventHighlight);
+					}
+				}
+			}
+			else
+			{
+				highlightsToReturn = highlightsFromCache;
+			}
 		}
 		
 		return highlightsToReturn;

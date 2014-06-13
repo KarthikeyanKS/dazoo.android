@@ -103,57 +103,6 @@ public class CompetitionCacheData
 	
 	
 	
-	
-//	public boolean hasPeriodElapsedSinceLineUpFetchTime(long minutes)
-//	{
-//		boolean hasPeriodElapsed = false;
-//		
-//		if(lineupByEventFetchTime != null)
-//		{
-//			Calendar now = DateUtils.getNowWithGMTTimeZone();
-//			
-//			Long nowInMillis = now.getTimeInMillis();
-//			
-//			Long elapsedMillis = (nowInMillis - lineupByEventFetchTime);
-//			
-//			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
-//			
-//			if(elapsedMillis > elapsedLimitInMillis)
-//			{
-//				hasPeriodElapsed = true;
-//			}
-//		}
-//		
-//		return hasPeriodElapsed;
-//	}
-//	
-//	
-//	
-//	public boolean hasPeriodElapsedSinceHighlightsFetchTime(long minutes)
-//	{
-//		boolean hasPeriodElapsed = false;
-//		
-//		if(highlightsByEventFetchTime != null)
-//		{
-//			Calendar now = DateUtils.getNowWithGMTTimeZone();
-//			
-//			Long nowInMillis = now.getTimeInMillis();
-//			
-//			Long elapsedMillis = (nowInMillis - highlightsByEventFetchTime);
-//			
-//			Long elapsedLimitInMillis = minutes*DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE;
-//			
-//			if(elapsedMillis > elapsedLimitInMillis)
-//			{
-//				hasPeriodElapsed = true;
-//			}
-//		}
-//		
-//		return hasPeriodElapsed;
-//	}
-	
-	
-	
 	public void setEventsGroupedByFirstStage()
 	{
 		for(Phase phase : phases)
@@ -180,6 +129,7 @@ public class CompetitionCacheData
 	}
 	
 	
+	
 	public void setEventsGroupedBySecondStage()
 	{
 		for(Phase phase : phases)
@@ -202,6 +152,20 @@ public class CompetitionCacheData
 				
 				eventsGroupedBySecondPhase. put(phase.getPhaseId(), eventsForPhase);
 			}
+		}
+	}
+	
+	
+	
+	public void setEvent(Event event) 
+	{
+		boolean containsEvent = events.contains(event);
+
+		if(containsEvent)
+		{
+			int elementIndex = events.indexOf(event);
+			
+			events.set(elementIndex, event);
 		}
 	}
 	

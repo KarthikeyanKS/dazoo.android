@@ -123,8 +123,26 @@ public class EventHighlight
 				sb.append(context.getString(R.string.event_page_highlight_penalty_missed));
 				break;
 			}
+			
+			case CORNER:
+			{
+				sb.append(context.getString(R.string.event_page_highlight_corner));
+				break;
+			}
+			
+			case FREEKICK:
+			{
+				sb.append(context.getString(R.string.event_page_highlight_freekick));
+				break;
+			}
 	
 			case SUBSTITUTION:
+			{
+				sb.append("");
+				break;
+			}	
+			
+			case UNKNOWN:
 			default:
 			{
 				sb.append("");
