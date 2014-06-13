@@ -19,6 +19,8 @@ public class EventBroadcastJSON
 	protected String beginTime;
 	protected long beginTimeMillis;
 	protected String endTime;
+	
+	/* These parameter will only be available if the channel is internal */
 	protected String channelId;
 	
 	/* These parameters should only used if the channelId cannot be matched on the local cache */

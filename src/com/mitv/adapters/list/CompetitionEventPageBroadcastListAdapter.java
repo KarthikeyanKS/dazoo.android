@@ -142,6 +142,8 @@ public class CompetitionEventPageBroadcastListAdapter
 
 			ImageAware imageAwareForChannelLogo = new ImageViewAware(holder.channelLogo, false);
 
+			String channelId = element.getChannelId();
+			
 			String logoUrl = element.getChannelLogoUrl();
 
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(logoUrl, imageAwareForChannelLogo);
@@ -205,13 +207,11 @@ public class CompetitionEventPageBroadcastListAdapter
 					
 					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
 					
-					String channelId = element.getChannelId();
+					holder.reminderView.setVisibility(View.VISIBLE);
 					
 					TVChannelId tvChannelId = new TVChannelId(channelId);
 					
 					TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-					
-					holder.reminderView.setVisibility(View.VISIBLE);
 					
 					if(channel != null)
 					{
@@ -221,9 +221,7 @@ public class CompetitionEventPageBroadcastListAdapter
 					{
 						String channelName = element.getChannel();
 						
-						String channelLogoURL = element.getChannelLogo().getImageURLForDeviceDensityDPI();
-						
-						holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channelName, channelLogoURL);
+						holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channelName, logoUrl);
 					}
 					
 					boolean iconSizeSmall = true;
