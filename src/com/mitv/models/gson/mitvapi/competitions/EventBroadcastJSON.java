@@ -3,6 +3,8 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+import com.mitv.models.objects.mitvapi.ImageSetSize;
+
 import android.util.Log;
 
 
@@ -17,7 +19,13 @@ public class EventBroadcastJSON
 	protected String beginTime;
 	protected long beginTimeMillis;
 	protected String endTime;
+	
+	/* These parameter will only be available if the channel is internal */
 	protected String channelId;
+	
+	/* These parameters should only used if the channelId cannot be matched on the local cache */
+	protected String channel;
+	protected ImageSetSize channelLogo;
 
     
     
@@ -98,5 +106,33 @@ public class EventBroadcastJSON
 		}
 		
 		return channelId;
+	}
+
+
+
+	public String getChannel() 
+	{
+		if(channel == null)
+		{
+			channel = "";
+			
+			Log.w(TAG, "channel is null");
+		}
+		
+		return channel;
+	}
+
+
+
+	public ImageSetSize getChannelLogo() 
+	{
+		if(channelLogo == null)
+		{
+			channelLogo = new ImageSetSize();
+			
+			Log.w(TAG, "channelLogo is null");
+		}
+		
+		return channelLogo;
 	}
 }

@@ -163,7 +163,7 @@ public class TVGuideCompetitionTagListAdapter
 				titleSB.append(activity.getString(R.string.icon_live))
 				.append(" ");
 			}
-
+			
 			descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
 			.append(": ")
 			.append(broadcastWithChannelInfo.getProgram().getTournament());
@@ -172,7 +172,7 @@ public class TVGuideCompetitionTagListAdapter
 			
 			holder.mTitleTv.setText(titleSB.toString());
 			holder.mDescTv.setText(descriptionSB.toString());
-			
+
 			holder.mContainer.setOnClickListener(new View.OnClickListener() 
 			{
 				@Override

@@ -35,6 +35,7 @@ import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetSendEmail;
 import com.mitv.asynctasks.mitvapi.PerformUserSignUp;
 import com.mitv.asynctasks.mitvapi.competitions.GetCompetitionByID;
 import com.mitv.asynctasks.mitvapi.competitions.GetCompetitions;
+import com.mitv.asynctasks.mitvapi.competitions.GetEventByID;
 import com.mitv.asynctasks.mitvapi.competitions.GetEventHighlights;
 import com.mitv.asynctasks.mitvapi.competitions.GetEventLineUp;
 import com.mitv.asynctasks.mitvapi.competitions.GetEvents;
@@ -664,9 +665,18 @@ public class APIClient
 	}
 	
 	
+	
 	public void getEventsForTeam(ViewCallbackListener activityCallbackListener, long competitionID, String teamID)
 	{
 		GetEvents task = new GetEvents(contentCallbackListener, activityCallbackListener, competitionID, teamID, null, Constants.RETRY_COUNT_THRESHOLD);
+		task.execute();
+	}
+	
+	
+	
+	public void getEventByID(ViewCallbackListener activityCallbackListener, long eventID)
+	{
+		GetEventByID task = new GetEventByID(contentCallbackListener, activityCallbackListener, eventID, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	

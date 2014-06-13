@@ -142,6 +142,8 @@ public class CompetitionEventPageBroadcastListAdapter
 
 			ImageAware imageAwareForChannelLogo = new ImageViewAware(holder.channelLogo, false);
 
+			String channelId = element.getChannelId();
+			
 			String logoUrl = element.getChannelLogoUrl();
 
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(logoUrl, imageAwareForChannelLogo);
@@ -205,14 +207,22 @@ public class CompetitionEventPageBroadcastListAdapter
 					
 					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
 					
-					String channelId = element.getChannelId();
+					holder.reminderView.setVisibility(View.VISIBLE);
 					
 					TVChannelId tvChannelId = new TVChannelId(channelId);
 					
 					TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
 					
-					holder.reminderView.setVisibility(View.VISIBLE);
-					holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channel);
+					if(channel != null)
+					{
+						holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channel);
+					}
+					else
+					{
+						String channelName = element.getChannel();
+						
+						holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channelName, logoUrl);
+					}
 					
 					boolean iconSizeSmall = true;
 					holder.reminderView.setSizeOfIcon(iconSizeSmall);
@@ -222,12 +232,15 @@ public class CompetitionEventPageBroadcastListAdapter
 				}
 			}
 			// TODO: Navigate to BroadcastPage here? Also this will trigger event even if only reminder was pressed.
-			holder.container.setOnClickListener(new View.OnClickListener() {
-				
+			holder.container.setOnClickListener(new View.OnClickListener() 
+			{	
 				@Override
-				public void onClick(View v) {
-					TrackingGAManager.sharedInstance().sendUserCompetitionBroadcastPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId).getDisplayName(), 
-							ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId).getTitle(), String.valueOf(element.getBeginTimeMillis()));
+				public void onClick(View v) 
+				{
+					TrackingGAManager.sharedInstance().sendUserCompetitionBroadcastPressedEvent(
+							ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId).getDisplayName(), 
+							ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId).getTitle(), 
+							String.valueOf(element.getBeginTimeMillis()));
 				}
 			});
 		}

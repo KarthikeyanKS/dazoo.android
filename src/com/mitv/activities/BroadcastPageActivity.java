@@ -142,7 +142,7 @@ public class BroadcastPageActivity
 		beginTimeInMillis = 0;
 		channelId = null;
 		
-		if(requiresDataReload) 
+		if(requiresDataReload)
 		{
 			long beginTime = intent.getLongExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 

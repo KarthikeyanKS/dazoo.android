@@ -39,6 +39,8 @@ public class EventBroadcast
 		this.beginTimeMillis = ev.getBeginTimeMillis();
 		this.endTime = ev.getEndTime();
 		this.channelId = ev.getChannelId();
+		this.channel = ev.getChannel();
+		this.channelLogo = ev.getChannelLogo();
 	}
 
 	
@@ -171,7 +173,7 @@ public class EventBroadcast
 		}
 		else
 		{
-			imageURL = "";
+			imageURL = getChannelLogo().getImageURLForDeviceDensityDPI();
 		}
 		
 		return imageURL;
@@ -284,7 +286,6 @@ public class EventBroadcast
 	
 	public long getBeginTimeLocalInMillis() 
 	{
-//		long beginTimeMillis = this.getBeginTimeLocalInMillis();
 		long beginTimeMillis = this.getEventBroadcastBeginTimeLocal().getTimeInMillis();
 		
 		return beginTimeMillis;

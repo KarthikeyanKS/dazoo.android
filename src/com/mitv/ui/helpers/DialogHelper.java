@@ -148,7 +148,8 @@ public class DialogHelper
 				break;
 			}
 			
-			case COMPETITION_EVENT:
+			case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
+			case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(" ");

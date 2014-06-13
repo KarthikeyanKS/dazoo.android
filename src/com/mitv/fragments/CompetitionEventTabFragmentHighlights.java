@@ -162,7 +162,7 @@ public class CompetitionEventTabFragmentHighlights
 		{
 			long eventID = getEvent().getEventId();
 			
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, true);
 			
 			if(eventHighlights.isEmpty() == false)
 			{
@@ -192,7 +192,7 @@ public class CompetitionEventTabFragmentHighlights
 			{
 				long eventID = getEvent().getEventId();
 				
-				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, true);
 	
 				listAdapter = new CompetitionEventHighlightsListAdapter(activity, eventHighlights);
 				

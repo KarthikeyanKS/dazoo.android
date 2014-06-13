@@ -604,6 +604,24 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
+	public void getElseFetchFromServiceEventByID(
+			final ViewCallbackListener activityCallbackListener, 
+			final boolean forceDownload,
+			final Long competitionID,
+			final Long eventID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsEventData(competitionID, eventID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_EVENT_BY_ID);
+		} 
+		else 
+		{
+			getAPIClient().getEventByID(activityCallbackListener, eventID);
+		}
+	}
+	
+	
+	
 	public void getElseFetchFromServiceEventStandingsData(
 			ViewCallbackListener activityCallbackListener, 
 			boolean forceDownload,

@@ -35,5 +35,6 @@
     <string name="icon_series" translatable="false"> 		&#xE801;</string>
     <string name="icon_checkmark" translatabe="false">		&#x2713;</string>
     <string name="icon_time_is_ongoing" translatabe="false">&#x03AA;</string>
+    <string name="icon_reload" translatabe="false">&#x03AB;</string>
     
 </resources>

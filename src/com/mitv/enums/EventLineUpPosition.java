@@ -10,7 +10,9 @@ public enum EventLineUpPosition
 	MIDFIELDER(4),
 	FORWARD(8),
 	COACH(16),
-	REFEREE(64);
+	REFEREE(64),
+	LINESMAN(128),
+	FORTHTHOFFICIAL(1073741824);
 	
 	
 	

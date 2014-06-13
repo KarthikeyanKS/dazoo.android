@@ -9,6 +9,8 @@ import com.mitv.R;
 
 public enum EventHighlightActionEnum 
 {
+	UNKNOWN(0, "", R.drawable.competition_event_highlight_unknown),
+	
 	KICK_OFF_PERIOD(1, "0-1024-0", -1),
 	
 	END_OF_PERIOD(2, "0-2048-0", -1),
@@ -41,7 +43,11 @@ public enum EventHighlightActionEnum
 	
 	PENALYTY_SAVED_BY_THE_GOALKEEPER(16, "264-0-0",  R.drawable.competition_event_highlight_penalty_missed),
 	
-	PENALYTY_MISSED(17, "65544-0-0",  R.drawable.competition_event_highlight_penalty_missed);
+	PENALYTY_MISSED(17, "65544-0-0",  R.drawable.competition_event_highlight_penalty_missed),
+	
+	CORNER(18, "512-0-0", R.drawable.competition_event_highlight_unknown),
+
+    KICK_TO_GOAL(19, "1048576-0-0", R.drawable.competition_event_highlight_unknown);
 	
 	
 	
@@ -97,6 +103,6 @@ public enum EventHighlightActionEnum
 			// No need for else
 		}
 
-		return EventHighlightActionEnum.SUBSTITUTION;
+		return EventHighlightActionEnum.UNKNOWN;
 	}
 }

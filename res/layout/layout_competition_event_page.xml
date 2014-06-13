@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/competition_event_scrollable_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -43,6 +45,51 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/event_page_tab_highlights" />
+                
+                <RelativeLayout 
+                    android:id="@+id/competition_event_block_tabs_highlights_reload_container"
+                	android:layout_width="wrap_content"
+               	 	android:layout_height="wrap_content"
+               	 	android:paddingBottom="10dp"
+               	 	android:paddingRight="10dp"
+               	 	android:layout_alignParentTop="true"
+               	 	android:layout_alignParentRight="true">
+                    
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/competition_event_highlights_reload_text"
+                        style="@style/header3"
+                        android:textColor="@color/blue1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/competition_event_highlights_reload"
+                        android:layout_centerVertical="true"
+                        android:textAllCaps="true"
+                        android:maxLines="1"
+                        font:fonttextview="roboto_mitv_bold.ttf" />
+                    
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/competition_event_highlights_reload_icon"
+                        android:textColor="@color/blue1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_reload"
+                        android:layout_toRightOf="@id/competition_event_highlights_reload_text"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:maxLines="1"
+                        android:textSize="26sp"
+                        font:fonttextview="roboto_mitv_bold.ttf" />
+                    
+                    <ProgressBar
+				        android:id="@+id/competition_event_highlights_reload_progressbar"
+				        style="?android:attr/progressBarStyle"
+				        android:layout_width="30dp"
+				        android:layout_height="30dp"
+				        android:layout_centerVertical="true"
+				        android:visibility="gone" />
+                    
+                </RelativeLayout>
+                
 
                 <!-- TEAM ONE -->
 

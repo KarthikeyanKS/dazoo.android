@@ -272,7 +272,8 @@ public class TrackingGAManager
 		
 		switch (notificationType) 
 		{
-			case COMPETITION_EVENT:
+			case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
+			case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 			{
 				Long competitionId = notification.getCompetitionId();
 				

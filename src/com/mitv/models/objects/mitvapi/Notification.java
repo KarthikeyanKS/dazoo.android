@@ -39,6 +39,7 @@ public class Notification
 	private Long broadcastBeginTimeInMilliseconds;
 	private String broadcastTitle;
 	private String broadcastChannelName;
+	private String broadcastChannelLogo;
 	private String broadcastProgramDetails;
 	private ProgramTypeEnum broadcastProgramType;
 	
@@ -70,6 +71,7 @@ public class Notification
 		this.broadcastBeginTimeInMilliseconds = broadcast.getBeginTimeMillis();
 		this.broadcastTitle = broadcast.getTitle();
 		this.broadcastChannelName = broadcast.getChannel().getName();
+		this.broadcastChannelLogo = broadcast.getChannel().getImageUrl();
 		
 		TVProgram program = broadcast.getProgram();
 		
@@ -83,14 +85,14 @@ public class Notification
 	
 	
 	public Notification(
-			Competition competition,
-			Event event,
-			EventBroadcast broadcast,
-			TVChannel channel)
+			final Competition competition,
+			final Event event,
+			final EventBroadcast broadcast,
+			final TVChannel channel)
 	{
 		this.notificationId = Integer.valueOf(-1);
 		
-		this.notificationType = NotificationTypeEnum.COMPETITION_EVENT;
+		this.notificationType = NotificationTypeEnum.COMPETITION_EVENT_WITH_LOCAL_CHANNEL;
 		
 		this.programId = broadcast.getProgramId();
 		this.channelId = broadcast.getChannelId();
@@ -98,6 +100,35 @@ public class Notification
 		this.broadcastBeginTimeInMilliseconds = broadcast.getBeginTimeMillis();
 		this.broadcastTitle = event.getTitle();
 		this.broadcastChannelName = channel.getName();
+		this.broadcastChannelLogo = channel.getImageUrl();
+		
+		this.broadcastProgramType = ProgramTypeEnum.UNKNOWN;
+		this.broadcastProgramDetails = competition.getDisplayName();
+				
+		this.competitionId = event.getCompetitionId();
+		this.eventId = event.getEventId();
+	}
+	
+	
+	
+	public Notification(
+			final Competition competition,
+			final Event event,
+			final EventBroadcast broadcast,
+			final String channelName,
+			final String channelURL)
+	{
+		this.notificationId = Integer.valueOf(-1);
+		
+		this.notificationType = NotificationTypeEnum.COMPETITION_EVENT_WITH_EMBEDED_CHANNEL;
+		
+		this.programId = broadcast.getProgramId();
+		this.channelId = broadcast.getChannelId();
+		
+		this.broadcastBeginTimeInMilliseconds = broadcast.getBeginTimeMillis();
+		this.broadcastTitle = event.getTitle();
+		this.broadcastChannelName = channelName;
+		this.broadcastChannelLogo = channelURL;
 		
 		this.broadcastProgramType = ProgramTypeEnum.UNKNOWN;
 		this.broadcastProgramDetails = competition.getDisplayName();
@@ -119,6 +150,7 @@ public class Notification
 		this.broadcastBeginTimeInMilliseconds = ormData.getBeginTimeInMilliseconds();
 		this.broadcastTitle = ormData.getBroadcastTitle();
 		this.broadcastChannelName = ormData.getBroadcastChannelName();
+		this.broadcastChannelLogo = ormData.getBroadcastChannelLogo();
 		this.broadcastProgramType = ormData.getBroadcastProgramType();
 		this.broadcastProgramDetails = ormData.getBroadcastProgramDetails();
 		
@@ -307,7 +339,8 @@ public class Notification
 
 
 
-	public Long getBeginTimeInMilliseconds() {
+	public Long getBeginTimeInMilliseconds() 
+	{
 		return broadcastBeginTimeInMilliseconds;
 	}
 
@@ -347,6 +380,12 @@ public class Notification
 	
 	
 	
+	public String getBroadcastChannelLogo() {
+		return broadcastChannelLogo;
+	}
+
+
+
 	@Override
 	public boolean equals(Object obj) 
 	{

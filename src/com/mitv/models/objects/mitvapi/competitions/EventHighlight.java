@@ -1,4 +1,5 @@
 
+
 package com.mitv.models.objects.mitvapi.competitions;
 
 
@@ -123,8 +124,26 @@ public class EventHighlight
 				sb.append(context.getString(R.string.event_page_highlight_penalty_missed));
 				break;
 			}
+			
+			case CORNER:
+			{
+				sb.append(context.getString(R.string.event_page_highlight_corner));
+				break;
+			}
+			
+			case KICK_TO_GOAL:
+			{
+				sb.append(context.getString(R.string.event_page_highlight_kick_to_goal));
+				break;
+			}
 	
 			case SUBSTITUTION:
+			{
+				sb.append("");
+				break;
+			}	
+			
+			case UNKNOWN:
 			default:
 			{
 				sb.append("");

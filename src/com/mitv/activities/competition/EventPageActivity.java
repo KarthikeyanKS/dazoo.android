@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -14,8 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -112,6 +115,12 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 	private TextView team2NameHighlights;
 	private ImageView team2FlagHighlights;
 
+	private RelativeLayout highlightsReloadRelativeLayout;
+	private TextView highlightsReloadText;
+	private TextView highlightsReloadIcon;
+	private ProgressBar highlightsProgressLoading;
+	
+	
 	private LinearLayout groupListContainer;
 	private LinearLayout standingsListContainer;
 	private RelativeLayout standingsListBlock;
@@ -148,6 +157,8 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_EVENT_HIGHLIGHTS);
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_EVENT_BY_ID);
 
 		initLayout();
 
@@ -482,6 +493,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			{
 				lineupContainerLayout.setVisibility(View.VISIBLE);
 				highlightsContainerLayout.setVisibility(View.GONE);
+				hideHighlightsReloadButton();
 				break;
 			}
 	
@@ -490,14 +502,29 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			{
 				lineupContainerLayout.setVisibility(View.GONE);
 				highlightsContainerLayout.setVisibility(View.GONE);
+				hideHighlightsReloadButton();
 				break;
 			}
 	
+			case UNOFFICIAL_RESULT:
+			case NO_LIVE_UPDATES:
+			case SUSPENDED:
+			case ABANDONED:
 			case FINISHED:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.VISIBLE);
+				hideHighlightsReloadButton();
+				break;
+			}
+				
+			case INTERVAL:	
+			case IN_PROGRESS:
 			default:
 			{
 				lineupContainerLayout.setVisibility(View.VISIBLE);
 				highlightsContainerLayout.setVisibility(View.VISIBLE);
+				showHighlightsReloadButton();
 				break;
 			}
 		}
@@ -635,10 +662,38 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		/* Share event */
 		shareContainer.setTag(event);
 		shareContainer.setOnClickListener(this);
+		
 	}
-
-
 	
+	
+	
+	private void showHighlightsReloadButton()
+	{
+		highlightsReloadRelativeLayout.setOnClickListener(this);
+		highlightsReloadText.setVisibility(View.VISIBLE);
+		highlightsReloadIcon.setVisibility(View.VISIBLE);
+		highlightsProgressLoading.setVisibility(View.GONE);
+	}
+	
+	
+	private void showHighlightsReloadButtonLoading()
+	{
+		highlightsReloadText.setVisibility(View.GONE);
+		highlightsReloadIcon.setVisibility(View.GONE);
+		highlightsProgressLoading.setVisibility(View.VISIBLE);
+	}
+	
+	
+	
+	private void hideHighlightsReloadButton()
+	{
+		highlightsReloadText.setVisibility(View.GONE);
+		highlightsReloadIcon.setVisibility(View.GONE);
+		highlightsProgressLoading.setVisibility(View.GONE);
+	}
+	
+	
+
 	@Override
 	public void onClick(View v) 
 	{
@@ -654,6 +709,13 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			case R.id.competition_element_social_buttons_share_button_container: 
 			{
 				GenericUtils.startShareActivity(this, shareEvent);
+				break;
+			}
+			
+			case R.id.competition_event_block_tabs_highlights_reload_container:
+			{
+				showHighlightsReloadButtonLoading();
+				loadHighlightsInBackground();
 				break;
 			}
 			
@@ -698,6 +760,11 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		team2FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_two_flag);
 		listContainerLayoutHighlights = (LinearLayout) findViewById(R.id.competition_event_highlights_table_container);
 
+		highlightsReloadRelativeLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_highlights_reload_container);
+		highlightsReloadText = (TextView) findViewById(R.id.competition_event_highlights_reload_text);
+		highlightsReloadIcon = (TextView) findViewById(R.id.competition_event_highlights_reload_icon);
+		highlightsProgressLoading = (ProgressBar) findViewById(R.id.competition_event_highlights_reload_progressbar);
+		
 		lineupContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_lineup_teams_container);
 		pageTabIndicatorForLineupTeams = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_lineup_teams);
 		viewPagerForLineupTeams = (CustomViewPager) findViewById(R.id.tab_event_pager_for_lineup_teams);
@@ -719,7 +786,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID))
 		{
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, true);
 
 			listContainerLayoutHighlights.removeAllViews();
 
@@ -738,7 +805,8 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionName);
 			}
 		});
@@ -885,10 +953,12 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 
-		if (event != null) {
+		if (event != null) 
+		{
 			ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefresh, event.getCompetitionId(), event.getEventId());
-
-		} else {
+		} 
+		else
+		{
 			ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, forceRefresh, competitionID);
 		}
 	}
@@ -897,6 +967,13 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 	@Override
 	protected void loadDataInBackground()
+	{
+		ContentManager.sharedInstance().getElseFetchFromServiceEventByID(this, true, competitionID, eventID);
+	}
+	
+	
+	
+	private void loadHighlightsInBackground()
 	{
 		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, true, event.getCompetitionId(), event.getEventId());
 	}
@@ -922,58 +999,86 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 	{	
 		switch (requestIdentifier) 
 		{
-		case COMPETITION_STANDINGS_BY_PHASE_ID: {
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-
-			break;
-		}
-
-		case COMPETITION_INITIAL_DATA:
-		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-
-			if (phase != null) {
-				int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
-
-				boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
-
-				ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, forceRefresh, competitionID, phase.getPhaseId());
-			}
-
-			break;
-		}
-
-		case COMPETITION_EVENT_HIGHLIGHTS:
-		{
-			if(fetchRequestResult.wasSuccessful())
+			case COMPETITION_STANDINGS_BY_PHASE_ID: 
 			{
-				if(event == null)
-				{
-					updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
-				} 
-				else
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+	
+				break;
+			}
+			
+			case COMPETITION_EVENT_BY_ID:
+			{
+				if(fetchRequestResult.wasSuccessful())
 				{
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				}
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+				break;
 			}
-			else
+	
+			case COMPETITION_INITIAL_DATA:
 			{
-				updateUI(UIStatusEnum.FAILED);
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+	
+				if (phase != null) 
+				{
+					int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+	
+					boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
+	
+					ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, forceRefresh, competitionID, phase.getPhaseId());
+				}
+	
+				break;
 			}
-			break;
-		}
-
-		case USER_ADD_LIKE:
-		{
-			updateStatusOfLikeView();
-			break;
-		}
-
-		default:
-		{
-			Log.w(TAG, "Unknown request identifier");
-			break;
-		}
+	
+			case COMPETITION_EVENT_HIGHLIGHTS:
+			{
+				EventMatchStatusEnum matchStatus = event.getMatchStatus();
+				
+				if(matchStatus == EventMatchStatusEnum.INTERVAL || matchStatus == EventMatchStatusEnum.IN_PROGRESS)
+				{
+					showHighlightsReloadButton();
+				}
+				else
+				{
+					hideHighlightsReloadButton();
+				}
+				
+				if(fetchRequestResult.wasSuccessful())
+				{
+					if(event == null)
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+					} 
+					else
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+						
+						loadDataInBackground();
+					}
+				}
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+				break;
+			}
+	
+			case USER_ADD_LIKE:
+			{
+				updateStatusOfLikeView();
+				break;
+			}
+	
+			default:
+			{
+				Log.w(TAG, "Unknown request identifier");
+				break;
+			}
 		}
 	}
 
@@ -1066,7 +1171,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				@Override
 				public void run()
 				{
-					ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(EventPageActivity.this, true, event.getCompetitionId(), event.getEventId());
+					loadHighlightsInBackground();
 				}
 			}, backgroundTimerValue, backgroundTimerValue);
 		}

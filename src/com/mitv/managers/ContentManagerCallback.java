@@ -328,10 +328,14 @@ public abstract class ContentManagerCallback
 			break;
 		}
 
-		case COMPETITION_BY_ID:
+		case COMPETITION_EVENT_BY_ID:
+		{
+			handleCompetitionEventByIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+			break;
+		}
+		
 		case COMPETITION_TEAM_DETAILS:
 		case COMPETITION_PHASE_BY_ID:
-		case COMPETITION_EVENT_BY_ID:
 		{
 			// TOOD Competitions - Not yet implemented 
 			break;
@@ -1005,6 +1009,25 @@ public abstract class ContentManagerCallback
 			Long phaseID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY);
 
 			getCache().getCompetitionsData().addStandingsForPhaseIDForSelectedCompetition(standings, phaseID);
+		}
+
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
+	
+	
+	
+	private void handleCompetitionEventByIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			Event event = (Event) content;
+
+			getCache().getCompetitionsData().setEvent(event);
 		}
 
 		activityCallbackListener.onResult(result, requestIdentifier);

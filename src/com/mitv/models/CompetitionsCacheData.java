@@ -198,6 +198,13 @@ public class CompetitionsCacheData
 	
 	
 	
+	public void setEvent(Event event) 
+	{
+		selectedCompetition.setEvent(event);
+	}
+	
+	
+	
 	public synchronized Competition getSelectedCompetition() 
 	{
 		return selectedCompetition.getCompetition();

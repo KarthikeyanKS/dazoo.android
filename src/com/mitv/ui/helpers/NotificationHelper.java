@@ -131,7 +131,8 @@ public class NotificationHelper
 					break;
 				}
 				
-				case COMPETITION_EVENT:
+				case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
+				case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 				{
 					intent = new Intent(context, EventPageActivity.class);
 
@@ -182,7 +183,8 @@ public class NotificationHelper
 			
 			switch(notificationType)
 			{
-				case COMPETITION_EVENT:
+				case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
+				case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 				{
 					StringBuilder cutomSoundPathSB = new StringBuilder();
 					
@@ -203,6 +205,9 @@ public class NotificationHelper
 					androidNotification.ledOffMS = 200;
 					
 					androidNotification.defaults = Notification.DEFAULT_VIBRATE;
+					
+					/* Remove the notification from action bar */
+					androidNotification.flags |= Notification.FLAG_AUTO_CANCEL;
 					
 					break;
 				}
