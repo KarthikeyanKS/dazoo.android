@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -115,6 +117,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 	private RelativeLayout highlightsReloadRelativeLayout;
 	private TextView highlightsReloadText;
+	private TextView highlightsReloadIcon;
 	private ProgressBar highlightsProgressLoading;
 	
 	
@@ -490,6 +493,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			{
 				lineupContainerLayout.setVisibility(View.VISIBLE);
 				highlightsContainerLayout.setVisibility(View.GONE);
+				hideHighlightsReloadButton();
 				break;
 			}
 	
@@ -498,14 +502,29 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			{
 				lineupContainerLayout.setVisibility(View.GONE);
 				highlightsContainerLayout.setVisibility(View.GONE);
+				hideHighlightsReloadButton();
 				break;
 			}
 	
+			case UNOFFICIAL_RESULT:
+			case NO_LIVE_UPDATES:
+			case SUSPENDED:
+			case ABANDONED:
 			case FINISHED:
+			{
+				lineupContainerLayout.setVisibility(View.VISIBLE);
+				highlightsContainerLayout.setVisibility(View.VISIBLE);
+				hideHighlightsReloadButton();
+				break;
+			}
+				
+			case INTERVAL:	
+			case IN_PROGRESS:
 			default:
 			{
 				lineupContainerLayout.setVisibility(View.VISIBLE);
 				highlightsContainerLayout.setVisibility(View.VISIBLE);
+				showHighlightsReloadButton();
 				break;
 			}
 		}
@@ -644,13 +663,37 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		shareContainer.setTag(event);
 		shareContainer.setOnClickListener(this);
 		
+	}
+	
+	
+	
+	private void showHighlightsReloadButton()
+	{
 		highlightsReloadRelativeLayout.setOnClickListener(this);
 		highlightsReloadText.setVisibility(View.VISIBLE);
+		highlightsReloadIcon.setVisibility(View.VISIBLE);
 		highlightsProgressLoading.setVisibility(View.GONE);
 	}
-
-
 	
+	
+	private void showHighlightsReloadButtonLoading()
+	{
+		highlightsReloadText.setVisibility(View.GONE);
+		highlightsReloadIcon.setVisibility(View.GONE);
+		highlightsProgressLoading.setVisibility(View.VISIBLE);
+	}
+	
+	
+	
+	private void hideHighlightsReloadButton()
+	{
+		highlightsReloadText.setVisibility(View.GONE);
+		highlightsReloadIcon.setVisibility(View.GONE);
+		highlightsProgressLoading.setVisibility(View.GONE);
+	}
+	
+	
+
 	@Override
 	public void onClick(View v) 
 	{
@@ -671,8 +714,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			
 			case R.id.competition_event_block_tabs_highlights_reload_container:
 			{
-				highlightsReloadText.setVisibility(View.GONE);
-				highlightsProgressLoading.setVisibility(View.VISIBLE);
+				showHighlightsReloadButtonLoading();
 				loadHighlightsInBackground();
 				break;
 			}
@@ -720,6 +762,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		highlightsReloadRelativeLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_highlights_reload_container);
 		highlightsReloadText = (TextView) findViewById(R.id.competition_event_highlights_reload_text);
+		highlightsReloadIcon = (TextView) findViewById(R.id.competition_event_highlights_reload_icon);
 		highlightsProgressLoading = (ProgressBar) findViewById(R.id.competition_event_highlights_reload_progressbar);
 		
 		lineupContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_lineup_teams_container);
@@ -994,8 +1037,16 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 	
 			case COMPETITION_EVENT_HIGHLIGHTS:
 			{
-				highlightsReloadText.setVisibility(View.VISIBLE);
-				highlightsProgressLoading.setVisibility(View.GONE);
+				EventMatchStatusEnum matchStatus = event.getMatchStatus();
+				
+				if(matchStatus == EventMatchStatusEnum.INTERVAL || matchStatus == EventMatchStatusEnum.IN_PROGRESS)
+				{
+					showHighlightsReloadButton();
+				}
+				else
+				{
+					hideHighlightsReloadButton();
+				}
 				
 				if(fetchRequestResult.wasSuccessful())
 				{

@@ -1,4 +1,5 @@
 
+
 package com.mitv.models.objects.mitvapi.competitions;
 
 
@@ -130,9 +131,9 @@ public class EventHighlight
 				break;
 			}
 			
-			case FREEKICK:
+			case KICK_TO_GOAL:
 			{
-				sb.append(context.getString(R.string.event_page_highlight_freekick));
+				sb.append(context.getString(R.string.event_page_highlight_kick_to_goal));
 				break;
 			}
 	

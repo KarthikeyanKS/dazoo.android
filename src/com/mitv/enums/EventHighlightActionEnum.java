@@ -47,7 +47,7 @@ public enum EventHighlightActionEnum
 	
 	CORNER(18, "512-0-0", R.drawable.competition_event_highlight_unknown),
 
-    FREEKICK(19, "1024-0-0", R.drawable.competition_event_highlight_unknown);
+    KICK_TO_GOAL(19, "1048576-0-0", R.drawable.competition_event_highlight_unknown);
 	
 	
 	
