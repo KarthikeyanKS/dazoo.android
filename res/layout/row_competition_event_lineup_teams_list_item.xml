@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey0" >
+    
+    <!-- DIVIDER IF COACH -->
+
+    <View
+        android:id="@+id/competition_event_header_divider_lineup_teeest"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/row_competition_event_lineup_player_shirt_number_container"
@@ -27,7 +36,7 @@
 
     <RelativeLayout
         android:id="@+id/row_competition_event_lineup_player_position_container"
-        android:layout_width="20dp"
+        android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@id/row_competition_event_lineup_player_shirt_number_container"

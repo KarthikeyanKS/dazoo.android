@@ -101,6 +101,7 @@ public class CompetitionEventLineUpTeamsListAdapter
 			viewHolder.playerShirtNumber = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_shirt_number);
 			viewHolder.playerPosition = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_position);
 			viewHolder.playerName = (TextView) rowView.findViewById(R.id.row_competition_event_lineup_player_name);
+			viewHolder.dividerIfCoach = (View) rowView.findViewById(R.id.competition_event_header_divider_lineup_teeest);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -115,25 +116,48 @@ public class CompetitionEventLineUpTeamsListAdapter
 				
 				EventLineUpPosition lineUpposition = eventLineUp.getPosition();
 				
+				String positionShort = "";
+				
 				switch (lineUpposition) 
 				{
-					case GOALKEEPER:
-					case DEFENSE:
-					case MIDFIELDER:
-					case FORWARD:
-					{
+					case GOALKEEPER: {
+						positionShort = "A";
 						shirtNumberAsString = Integer.valueOf(eventLineUp.getShirtNumber()).toString();
 						break;
 					}
-
+					case DEFENSE: {
+						positionShort = "D";
+						shirtNumberAsString = Integer.valueOf(eventLineUp.getShirtNumber()).toString();
+						break;
+					}
+					case MIDFIELDER: {
+						positionShort = "MC";
+						shirtNumberAsString = Integer.valueOf(eventLineUp.getShirtNumber()).toString();
+						break;
+					}
+					case FORWARD:
+					{
+						positionShort = "DEL";
+						shirtNumberAsString = Integer.valueOf(eventLineUp.getShirtNumber()).toString();
+						break;
+					}
+					case COACH: {
+						holder.dividerIfCoach.setVisibility(View.VISIBLE);
+						positionShort = "EN";
+						shirtNumberAsString = "";
+						break;
+					}
+					case REFEREE:
+					case LINESMAN:
+					case FORTHTHOFFICIAL:
 					default:
 					{
+						positionShort = "";
 						shirtNumberAsString = "";
 						break;
 					}
 				}
 				
-				String positionShort = eventLineUp.getFunctionShort();
 				String playerNameFull = eventLineUp.getPerson();
 				
 				holder.playerShirtNumber.setText(shirtNumberAsString);
@@ -164,5 +188,6 @@ public class CompetitionEventLineUpTeamsListAdapter
 		private TextView playerName;
 		private TextView playerPosition;
 		private TextView playerShirtNumber;
+		private View dividerIfCoach;
 	}
 }
