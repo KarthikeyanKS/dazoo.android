@@ -484,14 +484,13 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 
 		EventMatchStatusEnum matchStatus = event.getMatchStatus();
 
-		/** Setting the visibility of the LineUp and Highlights **/
+		/** Setting the visibility of the Highlights **/
 		switch(matchStatus)
 		{
 			case LINE_UP:
 			case NOT_STARTED_AND_LINE_UP:
 			case DELAYED:
 			{
-				lineupContainerLayout.setVisibility(View.VISIBLE);
 				highlightsContainerLayout.setVisibility(View.GONE);
 				hideHighlightsReloadButton();
 				break;
@@ -500,7 +499,6 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			case NOT_STARTED:
 			case POSTPONED:
 			{
-				lineupContainerLayout.setVisibility(View.GONE);
 				highlightsContainerLayout.setVisibility(View.GONE);
 				hideHighlightsReloadButton();
 				break;
@@ -512,7 +510,6 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			case ABANDONED:
 			case FINISHED:
 			{
-				lineupContainerLayout.setVisibility(View.VISIBLE);
 				highlightsContainerLayout.setVisibility(View.VISIBLE);
 				hideHighlightsReloadButton();
 				break;
@@ -522,11 +519,20 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			case IN_PROGRESS:
 			default:
 			{
-				lineupContainerLayout.setVisibility(View.VISIBLE);
 				highlightsContainerLayout.setVisibility(View.VISIBLE);
 				showHighlightsReloadButton();
 				break;
 			}
+		}
+		
+		/** Setting the visibility of the LineUp **/
+		if(event.isLineupAvailable())
+		{
+			lineupContainerLayout.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			lineupContainerLayout.setVisibility(View.GONE);
 		}
 		
 		/** Setting the visibility and values for the date, score and status **/
