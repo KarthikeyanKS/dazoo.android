@@ -206,6 +206,9 @@ public class NotificationHelper
 					
 					androidNotification.defaults = Notification.DEFAULT_VIBRATE;
 					
+					/* Remove the notification from action bar */
+					androidNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+					
 					break;
 				}
 				
