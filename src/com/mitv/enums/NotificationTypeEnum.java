@@ -28,4 +28,20 @@ public enum NotificationTypeEnum
 	{
 		return id;
 	}
+	
+	
+	
+	public static NotificationTypeEnum getTypeEnum(int id)
+	{
+		for(NotificationTypeEnum result: NotificationTypeEnum.values())
+		{
+			if(result.getId() == id) 
+			{
+				return result;
+			}
+			// No need for else
+		}
+
+		return NotificationTypeEnum.TV_BROADCAST;
+	}
 }

@@ -536,6 +536,11 @@ public abstract class PersistentCache
 	
 	public synchronized AppConfiguration getAppConfigData() 
 	{
+		if(appConfigurationData == null)
+		{
+			Log.w(TAG, "AppConfiguration is null");
+		}
+		
 		return appConfigurationData;
 	}
 	

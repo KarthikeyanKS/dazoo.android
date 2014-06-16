@@ -489,6 +489,7 @@ public class CompetitionPageActivity
 	            	
 			        Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
 			        
+			        intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 			        intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, nextEvent.getEventId());
 			        intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 			        

@@ -280,7 +280,6 @@ public class CompetitionEventHighlightsListAdapter
 
 						holder.rightDetails.setVisibility(View.VISIBLE);
 						
-						
 						holder.rightDetails.setText(element.getAction());
 					}
 

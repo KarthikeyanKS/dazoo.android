@@ -209,6 +209,8 @@ public abstract class Constants
 	
 	/* Extra intents - Notification */
 	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION"; //WARNING do NOT change this without changing in the Android Manifest> <action android:name="NOTIFICATION" />
+	public static final String	INTENT_NOTIFICATION_ACTIVITY_CLASS_NAME 			= "com.mitv.intent.alarn.extra.notification.activity.class.name";
+	public static final String	INTENT_NOTIFICATION_TYPE 							= "com.mitv.intent.alarn.extra.notification.type";
 	public static final String	INTENT_NOTIFICATION_EXTRA_NOTIFICATION_ID			= "com.mitv.intent.alarm.extra.notification.id";
 
 	

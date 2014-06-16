@@ -23,6 +23,7 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.activities.SplashScreenActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.managers.ContentManager;
@@ -45,7 +46,7 @@ public class NotificationHelper
 			NotificationHelper.scheduleNotification(context, element);
 		}
 	}
-		
+	
 	
 	
 	public static void scheduleNotification(
@@ -99,24 +100,25 @@ public class NotificationHelper
 		
 		if(notification != null)
 		{
-			Intent intent;
+			NotificationTypeEnum notificationType = notification.getNotificationType();
+			
+			Intent intent = new Intent(context, SplashScreenActivity.class);
+			intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, true);
+			intent.putExtra(Constants.INTENT_NOTIFICATION_TYPE, notificationType.getId());
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			
 			StringBuilder notificationTitleSB = new StringBuilder();
 			StringBuilder notificationTextSB = new StringBuilder();
-				
-			NotificationTypeEnum notificationType = notification.getNotificationType();
 			
 			switch (notificationType) 
 			{
 				case TV_BROADCAST:
 				{
-					intent = new Intent(context, BroadcastPageActivity.class);
+					intent.putExtra(Constants.INTENT_NOTIFICATION_ACTIVITY_CLASS_NAME, BroadcastPageActivity.class.getName());
+					
 					intent.putExtra(Constants.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, notification.getBeginTimeInMilliseconds());
 					intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, notification.getChannelId());
 					intent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
-					intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, true);
-					
-					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					
 					notificationTitleSB.append(notification.getBroadcastTitle());
 					
@@ -134,21 +136,14 @@ public class NotificationHelper
 				case COMPETITION_EVENT_WITH_EMBEDED_CHANNEL:
 				case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 				{
-					intent = new Intent(context, EventPageActivity.class);
-
+					intent.putExtra(Constants.INTENT_NOTIFICATION_ACTIVITY_CLASS_NAME, EventPageActivity.class.getName());
+					
 					intent.putExtra(Constants.INTENT_COMPETITION_ID, notification.getCompetitionId());
-					
 					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, notification.getEventId());
-					
-					intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, true);
-					
-					intent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 					
 					/* WARNING using constant here to get the competition.getDisplayName() */
 					intent.putExtra(Constants.INTENT_COMPETITION_NAME, Constants.FIFA_EVENT_PAGE_HEADER);
 
-					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					
 					notificationTitleSB.append(notification.getBroadcastTitle());
 					
 					String broadcastHourAndMinuteRepresentation = notification.getBeginTimeHourAndMinuteLocalAsString();
