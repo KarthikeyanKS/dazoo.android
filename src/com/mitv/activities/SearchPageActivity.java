@@ -34,7 +34,6 @@ import android.widget.TextView.OnEditorActionListener;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
-import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.adapters.list.SearchPageListAdapter;
 import com.mitv.asynctasks.other.SearchRunnable;
 import com.mitv.enums.ContentTypeEnum;
@@ -49,7 +48,6 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVSearchResult;
 import com.mitv.models.objects.mitvapi.TVSearchResults;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.InstantAutoCompleteView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
@@ -307,10 +305,7 @@ public class SearchPageActivity
 //									intent = new Intent(SearchPageActivity.this, EventPageActivity.class);
 //									
 //									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-//									
 //									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-//									
-//					                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 //								}
 //							}
 //						}

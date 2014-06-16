@@ -26,7 +26,6 @@ import com.mitv.utilities.HyperLinkUtils;
 public abstract class AboutOrTermsActivity 
 	extends BaseActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = AboutOrTermsActivity.class.getName();
 
 	

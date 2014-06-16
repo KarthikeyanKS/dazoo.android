@@ -126,7 +126,6 @@ public class CompetitionEventEventsByGroupListAdapter
 			viewHolder.startTime = (TextView) rowView.findViewById(R.id.row_competition_page_begin_time_broadcast);
 			
 			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_page_game_past_score);
-//			viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 			
 			viewHolder.broadcastChannels = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 			
@@ -266,6 +265,7 @@ public class CompetitionEventEventsByGroupListAdapter
 
 					Intent intent = new Intent(activity, EventPageActivity.class);
 
+					intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
 
 					activity.startActivity(intent);
@@ -381,7 +381,6 @@ public class CompetitionEventEventsByGroupListAdapter
 		private ImageView team2flag;
 		private TextView startTime;
 		private TextView score;
-		private TextView timeLeft;
 		private TextView broadcastChannels;
 		private View dividerView;
 		private RelativeLayout container;

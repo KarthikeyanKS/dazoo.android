@@ -120,17 +120,12 @@ public class CompetitionTagEventsListAdapter
 			
 			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
 			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_row_divider);
-			
 			viewHolder.team1name = (TextView) rowView.findViewById(R.id.row_competition_team_one_name);
 			viewHolder.team1flag = (ImageView) rowView.findViewById(R.id.row_competition_team_one_flag);
 			viewHolder.team2name = (TextView) rowView.findViewById(R.id.row_competition_team_two_name);
 			viewHolder.team2flag = (ImageView) rowView.findViewById(R.id.row_competition_team_two_flag);
-			
 			viewHolder.startTime = (TextView) rowView.findViewById(R.id.row_competition_page_begin_time_broadcast);
-			
 			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_page_game_past_score);
-//			viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
-			
 			viewHolder.broadcastChannels = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 			
 			rowView.setTag(viewHolder);
@@ -274,7 +269,12 @@ public class CompetitionTagEventsListAdapter
 	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
 	            	
 	                Intent intent = new Intent(activity, EventPageActivity.class);
-	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
+	                
+	                long competitionID = event.getCompetitionId();
+	                long eventID = event.getEventId();
+					
+					intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionID);
+	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventID);
 	                
 	                activity.startActivity(intent);
 	            }
@@ -387,10 +387,8 @@ public class CompetitionTagEventsListAdapter
 		private ImageView team2flag;
 		private TextView startTime;
 		private TextView score;
-		private TextView timeLeft;
 		private TextView broadcastChannels;
 		private View dividerView;
 		private RelativeLayout container;
 	}
-	
 }

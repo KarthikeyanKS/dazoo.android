@@ -257,11 +257,10 @@ public class TVGuideTagListAdapter
 						{
 							long eventId = broadcastWithChannelInfo.getEventId();
 
-							if (eventId > 0) {
+							if (eventId > 0) 
+							{
 								/*
-								 * WARNING WARNING WARNING
-								 * 
-								 * Hard coded competition ID used here.
+								 * TODO: Hard coded competition ID used here.
 								 * 
 								 */
 								Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
@@ -273,7 +272,6 @@ public class TVGuideTagListAdapter
 								intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
 							}
 						}
-
 					}
 				}
 				
