@@ -216,12 +216,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 					
 					StringBuilder sb = new StringBuilder();
 
-					sb.append(activity.getResources().getString(R.string.event_page_lineup_subs_header));
-					
-					if (eventLineUpsSubs.size() > 1) {
-						sb.append("s");
-					} 
-					
+					sb.append(activity.getResources().getQuantityString(R.plurals.event_page_lineup_subs_header, eventLineUpsSubs.size()));
+										
 					subsHeader.setText(sb.toString());
 					
 					listAdapterSubs = new CompetitionEventLineUpTeamsListAdapter(activity, eventLineUpsSubs);
