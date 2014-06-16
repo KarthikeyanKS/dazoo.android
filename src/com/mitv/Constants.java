@@ -58,10 +58,6 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
-	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 600;
-	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
-	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
-	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
 	
 	
 	/* AMAZON INSIGHTS configurations */
@@ -473,6 +469,11 @@ public abstract class Constants
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
 	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";
+	
+	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 600;
+	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
+	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
+	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
 	
 	public static final int EVENT_CURRENT_MINUTE_UNAVAILABLE = -1;
 	public static final int EVENT_CURRENT_MINUTE_IN_PENALTIES = -2;
