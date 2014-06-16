@@ -472,6 +472,7 @@ public class UserProfileActivity
 				ContentManager.sharedInstance().performLogout(this, false);
 				
 				populateViews();
+				setTabViews();
 				break;
 			}
 		}
