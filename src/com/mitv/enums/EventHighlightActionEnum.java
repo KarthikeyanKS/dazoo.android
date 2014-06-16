@@ -90,6 +90,18 @@ public enum EventHighlightActionEnum
 	
 	
 	
+	public boolean isGoal()
+	{
+		boolean isGoal = (this == GOAL ||
+						 this == GOAL_BY_FREE_KICK ||
+						 this == GOAL_FROM_PENALTY ||
+				         this == GOAL_BY_OWN_TEAM);
+				         
+		return isGoal;
+	}
+	
+	
+	
 	public static EventHighlightActionEnum getTypeEnumFromCode(String code)
 	{
 		for(EventHighlightActionEnum result: EventHighlightActionEnum.values())
