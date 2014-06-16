@@ -731,6 +731,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 			{
 				showHighlightsReloadButtonLoading();
 				loadHighlightsInBackground();
+				TrackingGAManager.sharedInstance().sendUserCompetitionReloadPressedEvent(competitionName, event.getTitle());
 				break;
 			}
 			
