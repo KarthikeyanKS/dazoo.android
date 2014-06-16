@@ -270,10 +270,7 @@ public class TVGuideTagListAdapter
 								intent = new Intent(activity, EventPageActivity.class);
 
 								intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-
 								intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-
-								intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 							}
 						}
 

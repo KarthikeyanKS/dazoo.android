@@ -94,7 +94,6 @@ public class EventPageActivity
 	private TextView beginTimeDate;
 	private TextView headerteamvsteam;
 	private TextView headerCompetitionName;
-	private String competitionName;
 	private TextView headerStandings;
 	private TextView headerGroups;
 
@@ -134,7 +133,9 @@ public class EventPageActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		if (!getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) 
+		boolean isFromNotification = getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false);
+		
+		if (isFromNotification == false && isRestartNeeded()) 
 		{
 			return;
 		}
@@ -150,7 +151,7 @@ public class EventPageActivity
 		competitionID = intent.getLongExtra(Constants.INTENT_COMPETITION_ID, 0);
 
 		eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
-
+		
 		Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 
 		Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionID, eventID);
@@ -219,9 +220,11 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
+				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				
 				Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 	
-				if(event != null)
+				if(competition != null && event != null)
 				{
 					setAllAdapters();
 		
@@ -241,7 +244,7 @@ public class EventPageActivity
 						setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
 					}
 		
-					setData(event);
+					setData(competition, event);
 		
 					if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) 
 					{
@@ -311,7 +314,9 @@ public class EventPageActivity
 
 
 
-	private void setData(final Event event)
+	private void setData(
+			final Competition competition,
+			final Event event)
 	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -333,6 +338,8 @@ public class EventPageActivity
 		.append(" ")
 		.append(awayTeamName);
 
+		final String competitionName = competition.getDisplayName();
+		
 		headerteamvsteam.setText(sbHeader.toString());
 		headerCompetitionName.setText(competitionName);
 
@@ -656,16 +663,7 @@ public class EventPageActivity
 			}
 		}
 
-		Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-
-		if(competition != null)
-		{
-			likeView.setUserLike(competition);
-		}
-		else
-		{
-			Log.w(TAG, "Competition was not found. User like will not be set");
-		}
+		likeView.setUserLike(competition);
 
 		/* Share event */
 		shareContainer.setTag(event);
@@ -724,7 +722,39 @@ public class EventPageActivity
 			{
 				showHighlightsReloadButtonLoading();
 				loadHighlightsInBackground();
-				TrackingGAManager.sharedInstance().sendUserCompetitionReloadPressedEvent(competitionName, event.getTitle());
+				
+				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionID, eventID);
+				
+				String eventTitle;
+				
+				if(event != null)
+				{
+					eventTitle = event.getTitle();
+				}
+				else
+				{
+					eventTitle = Long.valueOf(eventID).toString();
+					
+					Log.w(TAG, "Event is null. Using eventID as a fallback in analytics reporting.");
+				}
+				
+				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				
+				String competitionTitle;
+				
+				if(competition != null)
+				{
+					competitionTitle = competition.getDisplayName();
+				}
+				else
+				{
+					competitionTitle = Long.valueOf(competitionID).toString();
+					
+					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+				}
+				
+				TrackingGAManager.sharedInstance().sendUserCompetitionReloadPressedEvent(competitionTitle, eventTitle);
+				
 				break;
 			}
 			
@@ -814,7 +844,22 @@ public class EventPageActivity
 			@Override
 			public void onClick(View v) 
 			{
-				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionName);
+				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				
+				String competitionTitle;
+				
+				if(competition != null)
+				{
+					competitionTitle = competition.getDisplayName();
+				}
+				else
+				{
+					competitionTitle = Long.valueOf(competitionID).toString();
+					
+					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+				}
+				
+				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionTitle);
 			}
 		});
 	}
@@ -856,19 +901,38 @@ public class EventPageActivity
 
 		pageTabIndicatorForLineupTeams.setInitialStyleOnAllTabs();
 		pageTabIndicatorForLineupTeams.setStyleOnTabViewAtIndex(selectedIndex);
-		pageTabIndicatorForLineupTeams.setOnPageChangeListener(new OnPageChangeListener() {
-			
+		pageTabIndicatorForLineupTeams.setOnPageChangeListener(new OnPageChangeListener()
+		{	
 			@Override
-			public void onPageSelected(int pos) {
+			public void onPageSelected(int pos) 
+			{
 				selectedTabIndexForLineupTeams = pos;
-				TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competitionName, pagerAdapterForLineupTeams.getPageTitle(pos).toString());
+				
+				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				
+				String competitionTitle;
+				
+				if(competition != null)
+				{
+					competitionTitle = competition.getDisplayName();
+				}
+				else
+				{
+					competitionTitle = Long.valueOf(competitionID).toString();
+					
+					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+				}
+				
+				String pagerPageTitle = pagerAdapterForLineupTeams.getPageTitle(pos).toString();
+				
+				TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competitionTitle, pagerPageTitle);
 			}
 			
 			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {}
+			public void onPageScrolled(int arg0, float arg1, int arg2){}
 			
 			@Override
-			public void onPageScrollStateChanged(int arg0) {}
+			public void onPageScrollStateChanged(int arg0){}
 		});
 	}
 

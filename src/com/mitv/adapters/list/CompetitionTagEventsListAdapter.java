@@ -24,7 +24,6 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -276,12 +275,6 @@ public class CompetitionTagEventsListAdapter
 	            	
 	                Intent intent = new Intent(activity, EventPageActivity.class);
 	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-	                
-	                long competitionID = event.getCompetitionId();
-	                
-	                Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-	                
-	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 	                
 	                activity.startActivity(intent);
 	            }

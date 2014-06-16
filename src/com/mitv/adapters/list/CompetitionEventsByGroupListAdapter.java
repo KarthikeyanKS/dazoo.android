@@ -322,8 +322,6 @@ extends BaseAdapter
 
 					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
 
-					intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
-
 					activity.startActivity(intent);
 				}
 			});

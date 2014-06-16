@@ -513,7 +513,6 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";
 	public static final String INTENT_COMPETITION_PHASE_ID = "phaseID";
-	public static final String INTENT_COMPETITION_NAME = "competitionName";
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
@@ -528,5 +527,4 @@ public abstract class Constants
 	/* Competitions - FIFA World Cup 2014 specific */
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
-	public static final String FIFA_EVENT_PAGE_HEADER = "Copa Mundial Brasil 2014";
 }

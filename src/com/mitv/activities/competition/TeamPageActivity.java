@@ -51,6 +51,7 @@ public class TeamPageActivity
 {	
 	private static final String TAG = TeamPageActivity.class.getName();
 	
+	
 	private Team team;
 	private long teamID;
 	private long competitionID;
@@ -64,15 +65,6 @@ public class TeamPageActivity
 	private TextView teamFootballNational;
 	private ImageView teamImage;
 	private TextView about;
-	private TextView foundedHeader;
-	private TextView coachHeader;
-	private TextView locationHeader;
-	private TextView arenasHeader;
-	private TextView photoFromHeader;
-	private TextView founded;
-	private TextView coach;
-	private TextView location;
-	private TextView arenas;
 	private TextView photoFrom;
 	
 	/* Like and Reminder */
@@ -266,15 +258,6 @@ public class TeamPageActivity
 		teamFootballNational = (TextView) findViewById(R.id.competition_team_page_info_national);
 		teamImage = (ImageView) findViewById(R.id.competition_team_page_team_img);
 		about = (TextView) findViewById(R.id.competition_team_page_about);
-		foundedHeader = (TextView) findViewById(R.id.competition_team_page_founded_header);
-		coachHeader = (TextView) findViewById(R.id.competition_team_page_coach_header);
-		locationHeader = (TextView) findViewById(R.id.competition_team_page_location_header);
-		arenasHeader = (TextView) findViewById(R.id.competition_team_page_arenas_header);
-		photoFromHeader = (TextView) findViewById(R.id.competition_team_page_photo_from_header);
-		founded = (TextView) findViewById(R.id.competition_team_page_founded);
-		coach = (TextView) findViewById(R.id.competition_team_page_coach);
-		location = (TextView) findViewById(R.id.competition_team_page_location);
-		arenas = (TextView) findViewById(R.id.competition_team_page_arenas);
 		photoFrom = (TextView) findViewById(R.id.competition_team_page_photo_from);
 		shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 		
@@ -539,10 +522,13 @@ public class TeamPageActivity
 			public void run() 
 			{
 				String type = null;
-				if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION) {
+				
+				if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION) 
+				{
 					type = "Standings";
 				}
-				else if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) {
+				else if (tabToNavigateTo == CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION) 
+				{
 					type = "Schedule";
 				}
 				

@@ -342,7 +342,6 @@ public class CompetitionPageActivity
 
 	                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 	                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, liveEvent.getEventId());
-	                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 	                
 	                startActivity(intent);
 	            }
@@ -491,7 +490,6 @@ public class CompetitionPageActivity
 			        
 			        intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 			        intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, nextEvent.getEventId());
-			        intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 			        
 			        startActivity(intent);
 			    }
@@ -634,8 +632,8 @@ public class CompetitionPageActivity
             	
                 Intent intent = new Intent(CompetitionPageActivity.this, EventPageActivity.class);
                 
+                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
                 intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
                 
                 startActivity(intent);
             }
