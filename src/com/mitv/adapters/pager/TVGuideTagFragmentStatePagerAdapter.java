@@ -81,7 +81,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 			/*
 			 * TODO - COntinue to debug and check why getItem() gets called when getCount() is zero or lower
 			 */
-			Log.w(TAG, "FragmentBugFinder - getCount() value is " + getCount());
+			Log.d(TAG, "FragmentBugFinder - getCount() value is " + getCount());
 			
 			TVTag mockTVTag = new TVTag("?", "?");
 			
@@ -130,13 +130,13 @@ public class TVGuideTagFragmentStatePagerAdapter
 		{
 			if (ContentManager.sharedInstance().getFromCacheHasTVTags())
 			{
-				Log.w(TAG, "FragmentBugFinder - We have the TVTags in Cache.");
+				Log.d(TAG, "FragmentBugFinder - We have the TVTags in Cache.");
 				
 				tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 			} 
 			else
 			{
-				Log.w(TAG, "FragmentBugFinder - The TVTags are empty.");
+				Log.d(TAG, "FragmentBugFinder - The TVTags are empty.");
 				
 				tvTags = new ArrayList<TVTag>();
 			}

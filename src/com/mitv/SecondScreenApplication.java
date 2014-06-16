@@ -318,15 +318,16 @@ public class SecondScreenApplication
 	 * 
 	 * @return
 	 */
-	public boolean hasUserSeenTutorial() {
+	public boolean hasUserSeenTutorial()
+	{
 		boolean hasSeenTutorial = true;
 		
 		UserTutorialStatus userTutorialStatus = ContentManager.sharedInstance().getUserTutorialFromCache();
 		
 		UserTutorialStatusEnum status = userTutorialStatus.getUserTutorialStatus();
 		
-		switch (status) {
-		
+		switch (status) 
+		{
 			case NEVER_SEEN_TUTORIAL:
 			{
 				hasSeenTutorial = false; 

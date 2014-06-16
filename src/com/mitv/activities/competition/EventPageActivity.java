@@ -133,7 +133,7 @@ public class EventPageActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		boolean isFromNotification = getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false);
+		boolean isFromNotification = getIntent().getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false);
 		
 		if (isFromNotification == false && isRestartNeeded()) 
 		{

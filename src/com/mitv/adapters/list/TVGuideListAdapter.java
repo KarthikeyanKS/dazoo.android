@@ -95,7 +95,7 @@ public class TVGuideListAdapter
 	{
 		int itemViewType = super.getItemViewType(position);
 		
-		if(itemViewType == BannerViewType.BANNER_VIEW_TYPE_STANDARD.getId() && isAddMoreChannelsCellPosition(position)) 
+		if(isAddMoreChannelsCellPosition(position)) 
 		{
 			itemViewType = BannerViewType.BANNER_VIEW_TYPE_CUSTOM.getId();
 		}
@@ -110,7 +110,7 @@ public class TVGuideListAdapter
 	{
 		BannerViewType viewType = super.getBannerViewType(position);
 		
-		if(viewType == BannerViewType.BANNER_VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) 
+		if(isAddMoreChannelsCellPosition(position)) 
 		{
 			viewType = BannerViewType.BANNER_VIEW_TYPE_CUSTOM;
 		}

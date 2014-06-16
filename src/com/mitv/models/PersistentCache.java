@@ -270,7 +270,8 @@ public abstract class PersistentCache
 	
 	/* USER TUTORIAL STATUS */
 	
-	public synchronized void setUserTutorialStatus(UserTutorialStatusEnum status) {
+	public synchronized void setUserTutorialStatus(UserTutorialStatusEnum status) 
+	{
 		userTutorialStatus.setStatus(status);
 		
 		UserTutorialStatusORM userTutorialORM = new UserTutorialStatusORM(userTutorialStatus);
@@ -298,7 +299,8 @@ public abstract class PersistentCache
 	
 	
 	
-	public synchronized UserTutorialStatus getUserTutorialStatus() {
+	public synchronized UserTutorialStatus getUserTutorialStatus() 
+	{
 		return userTutorialStatus;
 	}
 	
