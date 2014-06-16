@@ -868,4 +868,11 @@ public class TrackingGAManager
 		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_DETACHED_AREA_PRESSED, label, 0);
 	}
 	
+	
+	
+	public void sendUserCompetitionReloadPressedEvent(String competitionName, String eventName) {
+		String label = competitionName + " " + eventName;
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_HIGHLIGHTS_RELOAD_PRESSED, label, 0);
+	}
+	
 }

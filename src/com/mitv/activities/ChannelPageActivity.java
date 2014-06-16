@@ -150,7 +150,8 @@ public class ChannelPageActivity
 							{
 								long eventId = broadcastSelected.getEventId();
 
-								if (eventId > 0) {
+								if (eventId > 0) 
+								{
 									/*
 									 * WARNING WARNING WARNING
 									 * 
@@ -163,10 +164,7 @@ public class ChannelPageActivity
 									intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
 
 									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-
 									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-
-									intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 								}
 							}
 						}

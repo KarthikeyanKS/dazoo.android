@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.test.suitebuilder.TestSuiteBuilder.FailedToCreateTests;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -269,12 +268,51 @@ public class SplashScreenActivity
 	{
 		ContentManager.sharedInstance().setDateUserLastOpenApp();
 		
-		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		Intent currentIntent = getIntent();
+
+		boolean isFromNofication = currentIntent.getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false);
+		
+		Intent nextIntent;
+		
+		if(isFromNofication == false)
+		{
+			nextIntent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		}
+		else
+		{
+			Class<?> activityClass = null;
+			
+			String activityClassName = currentIntent.getStringExtra(Constants.INTENT_NOTIFICATION_ACTIVITY_CLASS_NAME);
+			
+			try 
+			{
+				activityClass = Class.forName(activityClassName);
+			} 
+			catch (ClassNotFoundException e) 
+			{
+				// Do nothing
+			}
+			
+			if(activityClass != null)
+			{
+				nextIntent = new Intent(SplashScreenActivity.this, activityClass);
+				
+				Bundle currentBundle = currentIntent.getExtras();
+				
+				nextIntent.putExtras(currentBundle);
+			}
+			else
+			{
+				nextIntent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+			}
+		}
+		
 		if (failedLoading == false) 
 		{
-			intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, true);
+			nextIntent.putExtra(Constants.INTENT_EXTRA_IS_FROM_SPLASHSCREEN, true);
 		}
-		startActivity(intent);
+		
+		startActivity(nextIntent);
 		
 		finish();
 	}

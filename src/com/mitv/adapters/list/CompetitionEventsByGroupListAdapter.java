@@ -29,7 +29,6 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -316,13 +315,11 @@ extends BaseAdapter
 	            	
 					Intent intent = new Intent(activity, EventPageActivity.class);
 
-					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-
 					long competitionID = event.getCompetitionId();
-
-					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-
-					intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+					long eventID = event.getEventId();
+					
+					intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionID);
+					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventID);
 
 					activity.startActivity(intent);
 				}
@@ -441,7 +438,6 @@ extends BaseAdapter
 		private ImageView team2flag;
 		private TextView startTime;
 		private TextView score;
-		private TextView timeLeft;
 		private TextView broadcastChannels;
 		private View dividerView;
 		private RelativeLayout container;

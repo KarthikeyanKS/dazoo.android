@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.ads.AdListener;
@@ -28,7 +27,6 @@ import com.mitv.activities.competition.CompetitionPageActivity;
 import com.mitv.enums.BannerViewType;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 
 
@@ -47,10 +45,6 @@ public abstract class BannerListAdapter<T>
 	
 	private boolean areCompetitionsEnabled;
 	private boolean onlyDisplayCompetitionBannerOnce;
-	
-	// TODO - Replace hardcoded value
-	private static final int CELL_BETWEEN_COMPETITION_BANNERS = 2;
-
 	
 	
 	
@@ -315,10 +309,12 @@ public abstract class BannerListAdapter<T>
 			                
 			                intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
 			                
-			                if (BannerListAdapter.this instanceof TVGuideListAdapter) {
+			                if (BannerListAdapter.this instanceof TVGuideListAdapter) 
+			                {
 			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInAllTab(competition.getDisplayName());
 			                }
-			                else if (BannerListAdapter.this instanceof TVGuideTagListAdapter) {
+			                else if (BannerListAdapter.this instanceof TVGuideTagListAdapter) 
+			                {
 			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInSportsTab(competition.getDisplayName());
 			                }
 			                
@@ -329,7 +325,8 @@ public abstract class BannerListAdapter<T>
 					rowView.setTag(viewHolder);
 				}
 				
-				if (this instanceof FeedListAdapter) {
+				if (this instanceof FeedListAdapter) 
+				{
 					rowView.findViewById(R.id.ad_space_separator).setBackgroundColor(activity.getResources().getColor(R.color.grey2));
 				}
 			}
@@ -392,7 +389,7 @@ public abstract class BannerListAdapter<T>
 			}
 			else
 			{
-				count = (int) Math.floor(items.size() / CELL_BETWEEN_COMPETITION_BANNERS);
+				count = (int) Math.floor(items.size() / Constants.TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS);
 			}
 		}
 		
@@ -414,13 +411,13 @@ public abstract class BannerListAdapter<T>
 	
 	private boolean isCompetitionAdPosition(int position, List<T> items)
 	{
-		boolean isPosition = (position % (1 + CELL_BETWEEN_COMPETITION_BANNERS) == CELL_BETWEEN_COMPETITION_BANNERS);
+		boolean isPosition = (position % (1 + Constants.TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS) == Constants.TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS);
 			
-		boolean isAfterFirstPosition = (position > CELL_BETWEEN_COMPETITION_BANNERS);
+		boolean isAfterFirstPosition = (position > Constants.TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS);
 		
 		boolean isAfterLastListPosition = (position >= items.size());
 		
-		boolean isListSizeLowerThanCellBetweenCount = (items.size() < CELL_BETWEEN_COMPETITION_BANNERS);
+		boolean isListSizeLowerThanCellBetweenCount = (items.size() < Constants.TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS);
 		
 		boolean isBannerPosition = false;
 		
@@ -462,11 +459,11 @@ public abstract class BannerListAdapter<T>
 			
 			if(onlyDisplayCompetitionBannerOnce == false)
 			{
-				bannerCompetitionsUntilThisPosition = (int) Math.floor((double)position / (double)(CELL_BETWEEN_COMPETITION_BANNERS + 1));
+				bannerCompetitionsUntilThisPosition = (int) Math.floor((double)position / (double)(Constants.TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS + 1));
 			}
 			else
 			{
-				boolean isAfterFirstPosition = (position > CELL_BETWEEN_COMPETITION_BANNERS);
+				boolean isAfterFirstPosition = (position > Constants.TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS);
 				
 				if(isAfterFirstPosition)
 				{
@@ -490,7 +487,6 @@ public abstract class BannerListAdapter<T>
 	{
 		private RelativeLayout container;
 		private FrameLayout competitionBannerFrameLayout;
-		private ImageView competitionBannerView;
 		private AdView adMobView;
 	}
 }

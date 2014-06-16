@@ -239,11 +239,10 @@ public class CompetitionEventHighlightsListAdapter
 					{
 						holder.leftNameExtra.setVisibility(View.GONE);
 
-						holder.leftDetails.setVisibility(View.VISIBLE);
-							
+						holder.leftDetails.setVisibility(View.VISIBLE);	
 						holder.leftDetails.setText(element.getAction());
 					}
-
+					
 					holder.leftTime.setText(element.getActionMinute());
 
 				}
@@ -279,8 +278,6 @@ public class CompetitionEventHighlightsListAdapter
 						holder.rightNameExtra.setVisibility(View.GONE);
 
 						holder.rightDetails.setVisibility(View.VISIBLE);
-						
-						
 						holder.rightDetails.setText(element.getAction());
 					}
 
@@ -294,6 +291,29 @@ public class CompetitionEventHighlightsListAdapter
 		}
 			
 		return rowView;
+	}
+	
+	
+	
+	@SuppressWarnings("unused")
+	private String getScore(EventHighlight highlight)
+	{
+		String score;
+		
+		long eventID = highlight.getEventId(); 
+		
+		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		
+		if(event != null)
+		{
+			score = event.getScoreAsString();
+		}
+		else
+		{
+			score = "";
+		}
+		
+		return score;
 	}
 	
 	

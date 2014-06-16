@@ -11,6 +11,8 @@ public class EventHighlightJSON
     private String highlightCode;
     
     private long actionTime;
+    private String periodShort;
+    private int periodSort;
     private long teamId;
     private String actionMinute;
     private String personShort;
@@ -28,17 +30,21 @@ public class EventHighlightJSON
 
     
     
-    public long getTeamId() {
+    public long getTeamId() 
+    {
     	return teamId;
     }
 
     
-    public String getHighlightCode() {
+    
+    public String getHighlightCode() 
+    {
     	if (highlightCode == null) {
     		highlightCode = "";
     	}
     	return highlightCode;
     }
+    
     
     
     public String getActionMinute() {
@@ -48,6 +54,8 @@ public class EventHighlightJSON
     	return actionMinute;
     }
 
+    
+    
     public String getPersonShort() {
     	if (personShort == null) {
     		personShort = "";
@@ -55,14 +63,40 @@ public class EventHighlightJSON
     	return personShort;
     }
 
-    public long getEventId() {
+    
+    
+    public long getEventId() 
+    {
     	return eventId;
     }
 
-    public String getSubPersonShort() {
-    	if (subPersonShort == null) {
+    
+    
+    public String getSubPersonShort() 
+    {
+    	if (subPersonShort == null) 
+    	{
     		subPersonShort = "";
     	}
     	return subPersonShort;
     }
+
+
+
+	public String getPeriodShort() 
+	{
+		if (periodShort == null)
+		{
+			periodShort = "";
+    	}
+		
+		return periodShort;
+	}
+
+
+
+	public int getPeriodSort()
+	{
+		return periodSort;
+	}
 }

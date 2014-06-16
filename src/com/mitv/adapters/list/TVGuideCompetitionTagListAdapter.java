@@ -42,6 +42,7 @@ public class TVGuideCompetitionTagListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
+	private int currentPosition;
 	
 	
 	public TVGuideCompetitionTagListAdapter(
@@ -57,6 +58,8 @@ public class TVGuideCompetitionTagListAdapter
 		this.activity = activity;
 		
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		this.currentPosition = currentPosition;
 	}
 	
 
@@ -68,7 +71,7 @@ public class TVGuideCompetitionTagListAdapter
 		
 		if (taggedBroadcasts != null) 
 		{
-			count = taggedBroadcasts.size();
+			count = taggedBroadcasts.size() - currentPosition;;
 		}
 		
 		return count;
@@ -104,7 +107,10 @@ public class TVGuideCompetitionTagListAdapter
 	{
 		View rowView = convertView;
 		
-		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
+		// Get the item with the displacement depending on the scheduled time on air
+		int indexForBroadcast = currentPosition + position;
+		
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
 
 		if (rowView == null) 
 		{
@@ -195,11 +201,10 @@ public class TVGuideCompetitionTagListAdapter
 							{
 								long eventId = broadcastWithChannelInfo.getEventId();
 								
-								if (eventId > 0) {
+								if (eventId > 0) 
+								{
 									/*
-									 * WARNING WARNING WARNING
-									 * 
-									 * Hard coded competition ID used here.
+									 * TODO: Hard coded competition ID used here.
 									 * 
 									 */
 									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
@@ -208,10 +213,7 @@ public class TVGuideCompetitionTagListAdapter
 									intent = new Intent(activity, EventPageActivity.class);
 
 									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-
 									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-
-									intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 								}
 							}
 

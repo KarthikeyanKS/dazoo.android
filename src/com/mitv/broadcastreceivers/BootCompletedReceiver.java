@@ -25,6 +25,7 @@ public class BootCompletedReceiver
 
 	
 	@Override
+	@SuppressWarnings("unused")
 	public void onReceive(Context context, Intent intent) 
 	{
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) 

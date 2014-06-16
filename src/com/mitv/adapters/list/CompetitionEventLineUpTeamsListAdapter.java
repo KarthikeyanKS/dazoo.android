@@ -28,6 +28,7 @@ public class CompetitionEventLineUpTeamsListAdapter
 	
 	
 	private LayoutInflater layoutInflater;
+	@SuppressWarnings("unused")
 	private Activity activity;
 	
 	private List<EventLineUp> lineups;

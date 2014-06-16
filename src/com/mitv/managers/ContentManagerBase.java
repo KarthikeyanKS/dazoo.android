@@ -1389,6 +1389,11 @@ public abstract class ContentManagerBase
 			event = getCache().getCompetitionsData().getEventByID(competitionID, eventID);
 		}
 		
+		if(event != null)
+		{
+			Log.w(TAG, "Event for ID " + eventID + "  is null");
+		}
+		
 		return event;
 	}
 	
@@ -1551,7 +1556,8 @@ public abstract class ContentManagerBase
 	
 	
 	
-	public UserTutorialStatus getUserTutorialFromCache() {		
+	public UserTutorialStatus getUserTutorialFromCache() 
+	{	
 		return getCache().getUserTutorialStatus();
 	}
 	
@@ -1563,7 +1569,8 @@ public abstract class ContentManagerBase
 	 * weeks, then show the tutorial again.
 	 * 
 	 */
-	public void setUserHasSeenTutorialOnce() {
+	public void setUserHasSeenTutorialOnce()
+	{
 		getCache().setUserTutorialStatus(UserTutorialStatusEnum.SEEN_ONCE);
 	}
 	

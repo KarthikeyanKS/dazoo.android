@@ -25,7 +25,7 @@ public enum EventHighlightActionEnum
 	
 	GOAL_FROM_PENALTY(7, "12-0-0",  R.drawable.competition_event_highlight_penalty_scored),
 	
-	GOAL_BY_OWN_TEAM(8, "68-0-0",  R.drawable.competition_event_highlight_goal),
+	GOAL_BY_OWN_TEAM(8, "68-0-0",  R.drawable.competition_event_highlight_goal_by_own_team),
 	
 	RED_CARD_2_YELLOWS(9, "4096-0-0",  R.drawable.competition_event_highlight_red_card),
 	
@@ -86,6 +86,18 @@ public enum EventHighlightActionEnum
 	public int getDrawableResourceID()
 	{
 		return drawableResourceID;
+	}
+	
+	
+	
+	public boolean isGoal()
+	{
+		boolean isGoal = (this == GOAL ||
+						 this == GOAL_BY_FREE_KICK ||
+						 this == GOAL_FROM_PENALTY ||
+				         this == GOAL_BY_OWN_TEAM);
+				         
+		return isGoal;
 	}
 	
 	

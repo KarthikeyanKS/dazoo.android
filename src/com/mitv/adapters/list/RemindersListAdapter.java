@@ -229,9 +229,8 @@ public class RemindersListAdapter
 						case COMPETITION_EVENT_WITH_LOCAL_CHANNEL:
 						{
 							intent = new Intent(activity, EventPageActivity.class);
-							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, element.getEventId());
 							intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
-							intent.putExtra(Constants.INTENT_COMPETITION_NAME, Constants.FIFA_EVENT_PAGE_HEADER);
+							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, element.getEventId());
 							
 							break;
 						}

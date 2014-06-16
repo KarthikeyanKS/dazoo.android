@@ -21,7 +21,7 @@ public class EventHighlight
 
 
 
-	public String getAction() 
+	public String getAction()
 	{
 		StringBuilder sb = new StringBuilder();
 		

@@ -51,7 +51,6 @@
             android:paddingRight="5dp" >
 
             <!-- Start time of game -->
-
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_competition_page_begin_time_broadcast"
                 android:layout_width="wrap_content"
@@ -62,7 +61,6 @@
                 font:fonttextview="roboto_mitv_bold.ttf" />
 
             <!-- Score when game is finished -->
-
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_competition_page_game_past_score"
                 android:layout_width="wrap_content"
@@ -73,8 +71,8 @@
                 font:fonttextview="roboto_mitv_bold.ttf" />
         </RelativeLayout>
 
+        
         <!-- Channels airing on channels: -->
-
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/row_competition_airing_channels_for_broadcast"
             android:layout_width="wrap_content"
@@ -89,7 +87,6 @@
             android:visibility="gone" />
 
         <!-- TEAM HOME -->
-
         <ImageView
             android:id="@+id/row_competition_team_one_flag"
             android:layout_width="50dp"
@@ -114,7 +111,6 @@
             android:textSize="12sp" />
 
         <!-- TEAM AWAY -->
-
         <ImageView
             android:id="@+id/row_competition_team_two_flag"
             android:layout_width="50dp"

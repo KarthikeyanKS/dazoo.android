@@ -218,33 +218,43 @@ public class TVGuideTabFragmentCompetition
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			Competition currentCompetition = getCompetition();
-			
-			boolean hasBegun = currentCompetition.hasBegun();
-			hasEnded = currentCompetition.hasEnded();
-			boolean isVisible = currentCompetition.isVisible();
-			
-			isOngoing = hasBegun && !hasEnded && isVisible;
-			
+			if (requestIdentifier == RequestIdentifierEnum.COMPETITION_INITIAL_DATA) 
+			{
+				Competition currentCompetition = getCompetition();
+
+				boolean hasBegun = currentCompetition.hasBegun();
+				hasEnded = currentCompetition.hasEnded();
+				boolean isVisible = currentCompetition.isVisible();
+
+				isOngoing = hasBegun && !hasEnded && isVisible;
+			}
+
 			boolean noContent = true;
-			
+
 			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
-				
+
 			if(taggedBroadcastForDay != null) 
 			{
 				/* Just filtering by tag: FIFA
 				 * Not: Mundial FIFA, does not work */
 				taggedBroadcasts = taggedBroadcastForDay.get(Constants.FIFA_TAG_ID);
-	
+
 				if(taggedBroadcasts != null && !taggedBroadcasts.isEmpty()) 
 				{
 					noContent = false;
 				}
 			}
-			
-			if(noContent) 
+
+			if (noContent) 
 			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+				if (requestIdentifier == RequestIdentifierEnum.COMPETITION_INITIAL_DATA) 
+				{
+					ContentManager.sharedInstance().getElseBuildTaggedBroadcastsForSelectedTVDate(this, getTabTitle());
+				}
+				else {
+					// Update with successful status anyway.
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				}
 			} 
 			else 
 			{

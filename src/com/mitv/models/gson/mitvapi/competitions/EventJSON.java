@@ -46,6 +46,7 @@ public class EventJSON
 	private boolean dataEntryLiveScore;
 	private boolean dataEntryLiveGoal;
 	private boolean dataEntryLiveLineUp;
+	private boolean lineupAvailable;
 	private List<EventBroadcastJSON> broadcasts;
 	private int currentMinute;
 	
@@ -357,5 +358,11 @@ public class EventJSON
 	public int getCurrentMinute() 
 	{
 		return currentMinute;
+	}
+
+
+
+	public boolean isLineupAvailable() {
+		return lineupAvailable;
 	}
 }
