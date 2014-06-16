@@ -110,6 +110,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/row_competition_team_flag"
+            android:maxLines="1"
+            android:maxWidth="70dp"
             android:textSize="15sp" />
 
         <!-- Points -->
