@@ -140,6 +140,10 @@ public class NotificationHelper
 					
 					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, notification.getEventId());
 					
+					intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, true);
+					
+					intent.putExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
+					
 					/* WARNING using constant here to get the competition.getDisplayName() */
 					intent.putExtra(Constants.INTENT_COMPETITION_NAME, Constants.FIFA_EVENT_PAGE_HEADER);
 

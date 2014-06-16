@@ -138,7 +138,7 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 	{
 		super.onCreate(savedInstanceState);
 
-		if (isRestartNeeded()) {
+		if (!getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
 			return;
 		}
 
@@ -161,7 +161,16 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_EVENT_BY_ID);
 
 		initLayout();
+		
+		/* Defaulting the fetching of data to true */
+		boolean requiresDataReload = intent.getBooleanExtra(Constants.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
 
+		if (requiresDataReload || competition == null) {
+			registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
+			
+			ContentManager.sharedInstance().getElseFetchFromServiceCompetitionInitialData(this, false, competitionID);
+		}
+		
 		if (event == null) 
 		{
 			ContentManager.sharedInstance().setSelectedCompetition(competition);
@@ -1011,6 +1020,23 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 	
 				break;
 			}
+
+			case COMPETITION_INITIAL_DATA:
+			{
+				competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				
+				ContentManager.sharedInstance().setSelectedCompetition(competition);
+				
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+	
+				if (phase != null) {
+					int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+	
+					boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
+	
+					ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, forceRefresh, competitionID, phase.getPhaseId());
+				}
+			}
 			
 			case COMPETITION_EVENT_BY_ID:
 			{
@@ -1022,22 +1048,6 @@ implements ViewCallbackListener, FetchDataProgressCallbackListener
 				{
 					updateUI(UIStatusEnum.FAILED);
 				}
-				break;
-			}
-	
-			case COMPETITION_INITIAL_DATA:
-			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-	
-				if (phase != null) 
-				{
-					int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
-	
-					boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
-	
-					ContentManager.sharedInstance().getElseFetchFromServiceEventStandingsData(this, forceRefresh, competitionID, phase.getPhaseId());
-				}
-	
 				break;
 			}
 	
