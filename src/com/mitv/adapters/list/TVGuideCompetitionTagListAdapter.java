@@ -42,6 +42,7 @@ public class TVGuideCompetitionTagListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
+	private int currentPosition;
 	
 	
 	public TVGuideCompetitionTagListAdapter(
@@ -57,6 +58,8 @@ public class TVGuideCompetitionTagListAdapter
 		this.activity = activity;
 		
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		this.currentPosition = currentPosition;
 	}
 	
 
@@ -68,7 +71,7 @@ public class TVGuideCompetitionTagListAdapter
 		
 		if (taggedBroadcasts != null) 
 		{
-			count = taggedBroadcasts.size();
+			count = taggedBroadcasts.size() - currentPosition;;
 		}
 		
 		return count;
@@ -104,7 +107,10 @@ public class TVGuideCompetitionTagListAdapter
 	{
 		View rowView = convertView;
 		
-		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
+		// Get the item with the displacement depending on the scheduled time on air
+		int indexForBroadcast = currentPosition + position;
+		
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(indexForBroadcast);
 
 		if (rowView == null) 
 		{
