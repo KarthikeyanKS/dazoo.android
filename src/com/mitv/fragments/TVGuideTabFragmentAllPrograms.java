@@ -121,7 +121,7 @@ public class TVGuideTabFragmentAllPrograms
 
 			if(noContent) 
 			{
-				updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			} 
 			else 
 			{
@@ -143,6 +143,7 @@ public class TVGuideTabFragmentAllPrograms
 
 		switch (status) 
 		{
+			case SUCCESS_WITH_NO_CONTENT:
 			case SUCCESS_WITH_CONTENT:
 			{
 				TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
