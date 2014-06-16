@@ -724,6 +724,7 @@ public class EventPageActivity
 			{
 				showHighlightsReloadButtonLoading();
 				loadHighlightsInBackground();
+				TrackingGAManager.sharedInstance().sendUserCompetitionReloadPressedEvent(competitionName, event.getTitle());
 				break;
 			}
 			
