@@ -692,9 +692,9 @@ public abstract class BaseActivity
 	@Override
 	public void onClick(View v) 
 	{
-		int id = v.getId();
+		int viewId = v.getId();
 
-		switch (id) 
+		switch (viewId) 
 		{
 			case R.id.tab_tv_guide: 
 			{
@@ -752,7 +752,7 @@ public abstract class BaseActivity
 	
 			default: 
 			{
-				Log.w(TAG, "Unknown onClick action");
+				Log.w(TAG, "Unknown onClick action for viewId: " + viewId);
 			}
 		}
 	}

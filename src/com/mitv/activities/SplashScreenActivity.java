@@ -270,7 +270,7 @@ public class SplashScreenActivity
 		
 		Intent currentIntent = getIntent();
 
-		boolean isFromNofication = currentIntent.getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false);
+		boolean isFromNofication = currentIntent.getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false);
 		
 		Intent nextIntent;
 		

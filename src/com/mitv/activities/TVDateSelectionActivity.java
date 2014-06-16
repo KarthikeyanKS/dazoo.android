@@ -22,6 +22,7 @@ public abstract class TVDateSelectionActivity
 	extends BaseContentActivity 
 	implements OnNavigationListener 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVDateSelectionActivity.class.getName();
 	
 	

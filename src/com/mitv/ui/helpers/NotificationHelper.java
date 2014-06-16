@@ -103,7 +103,7 @@ public class NotificationHelper
 			NotificationTypeEnum notificationType = notification.getNotificationType();
 			
 			Intent intent = new Intent(context, SplashScreenActivity.class);
-			intent.putExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, true);
+			intent.putExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, true);
 			intent.putExtra(Constants.INTENT_NOTIFICATION_TYPE, notificationType.getId());
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			

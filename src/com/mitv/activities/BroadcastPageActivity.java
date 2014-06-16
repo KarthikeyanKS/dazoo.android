@@ -110,7 +110,7 @@ public class BroadcastPageActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		if (!getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
+		if (!getIntent().getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
 			return;
 		}
 		
