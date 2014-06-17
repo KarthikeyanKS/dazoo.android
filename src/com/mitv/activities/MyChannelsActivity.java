@@ -90,9 +90,9 @@ public class MyChannelsActivity
 		{
 			ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(false);
 			
-			TVChannelId selectedTVChannelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+			TVChannelId selectedTVChannelId = ContentManager.sharedInstance().getCacheManager().getSelectedTVChannelId();
 			
-			selectedTVChannelFromSearch = ContentManager.sharedInstance().getFromCacheTVChannelById(selectedTVChannelId);
+			selectedTVChannelFromSearch = ContentManager.sharedInstance().getCacheManager().getTVChannelById(selectedTVChannelId);
 		}
 	}
 	
@@ -124,13 +124,13 @@ public class MyChannelsActivity
 	
 	private void populateViews() 
 	{	
-		allChannelObjects = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
+		allChannelObjects = ContentManager.sharedInstance().getCacheManager().getTVChannelsAll();
 		
 		/* Sort all channels by name */
 		Collections.sort(allChannelObjects, new TVChannelComparatorByName());
 		
 		/* Important, we need a copy, not the referenced list, since we dont want to change it. */
-		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed());
+		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getCacheManager().getTVChannelIdsUsed());
 		checkedChannelIds = myChannelIds;
 		
 		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);
@@ -194,7 +194,7 @@ public class MyChannelsActivity
 	
 	private ArrayList<TVChannelId> getOnlyNewTVChannelIds()
 	{
-		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getCacheManager().getTVChannelIdsUsed();
 		
 		ArrayList<TVChannelId> onlyNewTVChannelIdsIfAny = new ArrayList<TVChannelId>();
 		
@@ -213,7 +213,7 @@ public class MyChannelsActivity
 	
 	private boolean channelsHaveChanged() 
 	{
-		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getCacheManager().getTVChannelIdsUsed();
 		
 		boolean listIdentical = ListUtils.deepEquals(idsInCache, checkedChannelIds, new TVChannelIdComparatorById());
 		
@@ -235,7 +235,7 @@ public class MyChannelsActivity
 	@Override
 	protected void loadData() 
 	{
-		allChannelObjects = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
+		allChannelObjects = ContentManager.sharedInstance().getCacheManager().getTVChannelsAll();
 		
 		/* Sort all channels by name */
 		if(allChannelObjects != null) 
@@ -244,7 +244,7 @@ public class MyChannelsActivity
 		}
 		
 		/* Important, we need a copy, not the referenced list, since we dont want to change it. */
-		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed());
+		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getCacheManager().getTVChannelIdsUsed());
 		
 		checkedChannelIds = myChannelIds;
 		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);
@@ -272,8 +272,8 @@ public class MyChannelsActivity
 
 		if (isConnected) 
 		{
-			hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasUserTVChannelIds()
-					 && ContentManager.sharedInstance().getFromCacheHasTVChannelsAll();
+			hasEnoughDataToShowContent = ContentManager.sharedInstance().getCacheManager().containsUserTVChannelIds()
+					 && ContentManager.sharedInstance().getCacheManager().containsTVChannelsAll();
 		}
 		
 		return hasEnoughDataToShowContent;

@@ -98,7 +98,7 @@ public class TVGuideTabFragmentAllPrograms
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVTagsAndGuideForSelectedTVDate();
+		return ContentManager.sharedInstance().getCacheManager().containsTVTagsAndGuideForSelectedTVDate();
 	}
 	
 	
@@ -110,7 +110,7 @@ public class TVGuideTabFragmentAllPrograms
 		{
 			boolean noContent = true;
 
-			TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
+			TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getCacheManager().getTVGuideForSelectedDay();
 
 			tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
 			
@@ -146,11 +146,11 @@ public class TVGuideTabFragmentAllPrograms
 			case SUCCESS_WITH_NO_CONTENT:
 			case SUCCESS_WITH_CONTENT:
 			{
-				TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
+				TVDate tvDateSelected = ContentManager.sharedInstance().getCacheManager().getTVDateSelected();
 					
 				int selectedHour = getSelectedHour();
 				
-				boolean isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
+				boolean isToday = ContentManager.sharedInstance().isSelectedTVDateToday();
 				
 				listAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, selectedHour, isToday);
 				

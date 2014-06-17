@@ -1,4 +1,7 @@
+
 package com.mitv.managers;
+
+
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -17,6 +20,8 @@ import android.widget.LinearLayout;
 import com.mitv.Constants;
 import com.mitv.R;
 
+
+
 /*	
  * @source https://github.com/sbstrm/appirater-android
  * @license MIT/X11
@@ -29,9 +34,8 @@ import com.mitv.R;
  * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
-public class RateAppManager {
-
+public class RateAppManager 
+{
 	private static final String PREF_LAUNCH_COUNT = "launch_count";
 	private static final String PREF_EVENT_COUNT = "event_count";
 	private static final String PREF_REMINDER_COUNT = "reminder_count";
@@ -174,10 +178,13 @@ public class RateAppManager {
 		return hasBeenRemindedTooManyTimes;
 	}
 
-	public static void tryShowRateDialog(Context context) {
+	public static void tryShowRateDialog(Context context) 
+	{
 		boolean preventRateAppDialogBackend = false;
-		if(ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
-			preventRateAppDialogBackend = ContentManager.sharedInstance().getFromCacheAppConfiguration().isPreventingRateAppDialog();
+		
+		if(ContentManager.sharedInstance().getCacheManager().getAppConfiguration() != null) 
+		{
+			preventRateAppDialogBackend = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().isPreventingRateAppDialog();
 		}
 		
 		boolean preventRateAppDialogLocal = !Constants.ENABLE_RATE_APP_DIALOG;

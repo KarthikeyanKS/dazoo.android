@@ -70,7 +70,7 @@ public class CompetitionEventTabFragmentHighlights
 		
 		if(isEventLive)
 		{
-			int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+			int reloadIntervalInSeconds = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
 		
 			setBackgroundLoadTimerValueInSeconds(reloadIntervalInSeconds);
 		}
@@ -128,7 +128,7 @@ public class CompetitionEventTabFragmentHighlights
 		
 		long eventID = getEvent().getEventId();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, competitionID, eventID);
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlightsData(this, false, competitionID, eventID);
 	}
 	
 	
@@ -140,7 +140,7 @@ public class CompetitionEventTabFragmentHighlights
 		
 		long eventID = getEvent().getEventId();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, competitionID, eventID);
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlightsData(this, false, competitionID, eventID);
 	}
 	
 	
@@ -150,7 +150,7 @@ public class CompetitionEventTabFragmentHighlights
 	{
 		long eventID = getEvent().getEventId();
 		
-		return ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID);
+		return ContentManager.sharedInstance().getCacheManager().containsHighlightsDataByEventIDForSelectedCompetition(eventID);
 	}
 	
 	
@@ -162,7 +162,7 @@ public class CompetitionEventTabFragmentHighlights
 		{
 			long eventID = getEvent().getEventId();
 			
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, true);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getCacheManager().getHighlightsDataByEventIDForSelectedCompetition(eventID, true);
 			
 			if(eventHighlights.isEmpty() == false)
 			{
@@ -192,7 +192,7 @@ public class CompetitionEventTabFragmentHighlights
 			{
 				long eventID = getEvent().getEventId();
 				
-				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, true);
+				List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getCacheManager().getHighlightsDataByEventIDForSelectedCompetition(eventID, true);
 	
 				listAdapter = new CompetitionEventHighlightsListAdapter(activity, eventHighlights);
 				
@@ -225,7 +225,7 @@ public class CompetitionEventTabFragmentHighlights
 		{
 			Log.d(TAG, "Event ID is: " + eventID);
 			
-			this.event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+			this.event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		}
 		
 		return event;

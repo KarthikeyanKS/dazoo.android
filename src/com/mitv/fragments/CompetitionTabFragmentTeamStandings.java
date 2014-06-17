@@ -109,7 +109,7 @@ public class CompetitionTabFragmentTeamStandings
 	@Override
 	protected void loadData()
 	{
-		List<Phase> phases = ContentManager.sharedInstance().getFromCacheAllPhasesForSelectedCompetition();
+		List<Phase> phases = ContentManager.sharedInstance().getCacheManager().getAllPhasesForSelectedCompetition();
 		
 		if(phases.isEmpty() == false)
 		{
@@ -140,7 +140,7 @@ public class CompetitionTabFragmentTeamStandings
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		return ContentManager.sharedInstance().getCacheManager().containsCompetitionData(competitionID);
 	}
 	
 	
@@ -160,7 +160,7 @@ public class CompetitionTabFragmentTeamStandings
 				
 				case COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID:
 				{
-					Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition();
+					Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getCacheManager().getAllStandingsGroupedByPhaseForSelectedCompetition();
 					
 					if(standingsByPhase.isEmpty())
 					{
@@ -199,7 +199,7 @@ public class CompetitionTabFragmentTeamStandings
 			{
 				listContainerLayout.removeAllViews();
 				
-				Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getFromCacheAllStandingsGroupedByPhaseForSelectedCompetition();
+				Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getCacheManager().getAllStandingsGroupedByPhaseForSelectedCompetition();
 
 				listAdapter = new CompetitionStandingsByGroupListAdapter(activity, standingsByPhase);
 				

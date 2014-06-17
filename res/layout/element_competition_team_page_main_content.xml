@@ -19,10 +19,11 @@
 
         <ImageView
             android:id="@+id/competition_team_page_header_flag_img"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
+            android:layout_width="73dp"
+            android:layout_height="53dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/dropshadow"
             android:scaleType="fitXY"
             android:src="@drawable/competitions_contry_flag_default" />
 
@@ -198,19 +199,19 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    
     <!-- DIVIDER -->
+
     <View
         android:id="@+id/divider_before_social_buttons"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/competition_team_page_team_info_container"
+        android:layout_marginTop="10dp"
         android:background="@color/grey1"
         android:visibility="visible" />
 
-    
     <!-- Include Social interaction panel -->
+
     <include
         android:id="@+id/competition_team_page_social_panel"
         android:layout_width="match_parent"

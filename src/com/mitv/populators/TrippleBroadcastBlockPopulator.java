@@ -78,7 +78,7 @@ public class TrippleBroadcastBlockPopulator
 			{
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) view.getTag();
 				
-				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
@@ -299,13 +299,13 @@ public class TrippleBroadcastBlockPopulator
 		{
 			public void run() 
 			{
-				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(runningBroadcast);
+				ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(runningBroadcast);
 
 				if (usedForRepetitions) 
 				{
 					Intent intent = new Intent(activity, RepetitionsListMoreActivity.class);
 
-					ContentManager.sharedInstance().setRepeatingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
+					ContentManager.sharedInstance().getCacheManager().setRepeatingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 
 					activity.startActivity(intent);
 				} 
@@ -313,7 +313,7 @@ public class TrippleBroadcastBlockPopulator
 				{
 					Intent intent = new Intent(activity, UpcomingListMoreActivity.class);
 
-					ContentManager.sharedInstance().setUpcomingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
+					ContentManager.sharedInstance().getCacheManager().setUpcomingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 
 					activity.startActivity(intent);
 				}

@@ -128,7 +128,7 @@ public class LikeView
 	
 	public void updateImage() 
 	{
-		if (ContentManager.sharedInstance().isContainedInUserLikes(userLike)) 
+		if (ContentManager.sharedInstance().getCacheManager().isContainedInUserLikes(userLike)) 
 		{
 			setImageToLiked();
 		} 
@@ -167,9 +167,9 @@ public class LikeView
 		{
 			RateAppManager.significantEvent(activity);
 			
-			boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+			boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 	
-			final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(userLike);
+			final boolean isLiked = ContentManager.sharedInstance().getCacheManager().isContainedInUserLikes(userLike);
 	
 			if (isLoggedIn)
 			{

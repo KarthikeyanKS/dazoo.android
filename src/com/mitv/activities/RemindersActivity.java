@@ -77,7 +77,7 @@ public class RemindersActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		List<Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
+		List<Notification> notifications = ContentManager.sharedInstance().getCacheManager().getNotifications();
 
 		Collections.sort(notifications, new NotificationComparatorByBeginTime());
 

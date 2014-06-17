@@ -1,4 +1,7 @@
+
 package com.mitv.test.gson;
+
+
 
 import junit.framework.Assert;
 
@@ -46,10 +49,10 @@ public class TVBroadcastDetailsGSONTest
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_CHANNELS_ALL);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(channelId);
 		url.append(Constants.API_BROADCASTS);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(beginTimeMillis);
 		
 		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url.toString());

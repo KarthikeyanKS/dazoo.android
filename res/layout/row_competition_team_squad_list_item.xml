@@ -74,7 +74,7 @@
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-	        android:textAlignment="center"
+	        android:gravity="center"
             android:layout_toLeftOf="@id/row_squad_football_icon" />
     </RelativeLayout>
 
@@ -101,7 +101,6 @@
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-	        android:textAlignment="center"
             android:textSize="15sp" />
 
         <!-- Player name -->
@@ -111,7 +110,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/row_squad_row_shirt_number"
-	        android:textAlignment="center"
             android:textSize="15sp" />
 
         <!-- red cards -->
@@ -121,7 +119,6 @@
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-	        android:textAlignment="center"
             android:textSize="15sp" />
 
         <!-- Yellow cards -->
@@ -132,7 +129,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/row_squad_row_red_cards"
-            android:textAlignment="center"
             android:textSize="15sp" />
 
         <!-- Goals -->
@@ -143,7 +139,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@id/row_squad_row_yellow_cards"
-            android:textAlignment="center"
             android:textSize="15sp" />
         
         <!-- PJ -->
@@ -154,7 +149,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:layout_toLeftOf="@id/row_squad_row_goals"
-            android:textAlignment="center"
             android:textSize="15sp" />
     </RelativeLayout>
 

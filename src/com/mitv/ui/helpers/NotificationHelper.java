@@ -39,7 +39,7 @@ public class NotificationHelper
 	
 	public static void scheduleNotifications(final Context context) 
 	{
-		List<com.mitv.models.objects.mitvapi.Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
+		List<com.mitv.models.objects.mitvapi.Notification> notifications = ContentManager.sharedInstance().getCacheManager().getNotifications();
 		
 		for(com.mitv.models.objects.mitvapi.Notification element : notifications)
 		{
@@ -73,7 +73,7 @@ public class NotificationHelper
 		
 		alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pendingIntent);
 
-		ContentManager.sharedInstance().addToCacheNotifications(notification);
+		ContentManager.sharedInstance().getCacheManager().addNotification(notification);
 	}
 	
 	
@@ -96,7 +96,7 @@ public class NotificationHelper
 	{	
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		com.mitv.models.objects.mitvapi.Notification notification = ContentManager.sharedInstance().getFromCacheNotificationWithId(notificationID);
+		com.mitv.models.objects.mitvapi.Notification notification = ContentManager.sharedInstance().getCacheManager().getNotificationWithId(notificationID);
 		
 		if(notification != null)
 		{
@@ -218,7 +218,7 @@ public class NotificationHelper
 			
 			notificationManager.notify(notificationID, androidNotification);
 	
-			ContentManager.sharedInstance().removeFromCacheNotificationWithID(notificationID);
+			ContentManager.sharedInstance().getCacheManager().removeNotificationWithId(notificationID);
 		}
 	}
 
@@ -240,6 +240,6 @@ public class NotificationHelper
 		
 		alarmManager.cancel(sender);
 
-		ContentManager.sharedInstance().removeFromCacheNotificationWithID(notificationId);
+		ContentManager.sharedInstance().getCacheManager().removeNotificationWithId(notificationId);
 	}
 }

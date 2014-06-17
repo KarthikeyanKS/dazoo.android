@@ -306,7 +306,7 @@ public abstract class ContentManagerServiceFetching
 	{	
 		Log.d(TAG, "PROFILING: performLogout:");
 		
-		clearUserCache();
+		getCacheManager().clearUserCache();
 		
 		TrackingGAManager.sharedInstance().setUserIdOnTrackerAndSendSignedOut();
 		
@@ -346,7 +346,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void getElseFetchFromServiceTVGuideUsingSelectedTVDate(ViewCallbackListener activityCallbackListener, boolean forceDownload) 
 	{
-		TVDate tvDateSelected = getFromCacheTVDateSelected();
+		TVDate tvDateSelected = getCacheManager().getTVDateSelected();
 		
 		getElseFetchFromServiceTVGuideUsingTVDate(activityCallbackListener, forceDownload, tvDateSelected);
 	}
@@ -398,7 +398,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void getElseBuildTaggedBroadcastsForSelectedTVDate(ViewCallbackListener activityCallbackListener, String tagName)
 	{
-		TVDate tvDateSelected = getFromCacheTVDateSelected();
+		TVDate tvDateSelected = getCacheManager().getTVDateSelected();
 		
 		getElseBuildTaggedBroadcastsUsingTVDate(activityCallbackListener, tvDateSelected, tagName);
 	}
@@ -516,7 +516,7 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
-	public void getElseFetchFromServiceEventHighlighstData(
+	public void getElseFetchFromServiceEventHighlightsData(
 			ViewCallbackListener activityCallbackListener, 
 			boolean forceDownload,
 			Long competitionID,
@@ -660,7 +660,7 @@ public abstract class ContentManagerServiceFetching
 	
 	public void getElseFetchFromServiceCompetitionInitialData(ViewCallbackListener activityCallbackListener, boolean forceDownload, long competitionID)
 	{
-		if (!forceDownload && getFromCacheHasCompetitionData(competitionID)) 
+		if (!forceDownload && getCacheManager().containsCompetitionData(competitionID)) 
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 		} 
@@ -682,7 +682,7 @@ public abstract class ContentManagerServiceFetching
 		{
 			long phaseID = phase.getPhaseId();
 			
-			boolean containsStanding = getFromCacheHasStandingsForPhaseInSelectedCompetition(phaseID);
+			boolean containsStanding = getCacheManager().containsStandingsForPhaseInSelectedCompetition(phaseID);
 			
 			if(containsStanding == false)
 			{
@@ -751,7 +751,7 @@ public abstract class ContentManagerServiceFetching
 			
 			Log.d(TAG, String.format("PROFILING: buildTVBroadcastsForTags: build tagged, tag: %s", tagName));
 			
-			TVGuide tvGuide = getFromCacheTVGuideForSelectedDay();
+			TVGuide tvGuide = getCacheManager().getTVGuideForSelectedDay();
 			
 			if(tvGuide != null) 
 			{

@@ -25,10 +25,11 @@ import com.mitv.models.objects.mitvapi.UserLike;
 
 
 
-public class Cache 
+public class Cache
 	extends PersistentCache
 {
 	private static final String TAG = Cache.class.getName();
+	
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
 	

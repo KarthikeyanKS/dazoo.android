@@ -137,7 +137,7 @@ public class CompetitionEventStandingsListAdapter
 			
 			final long teamID = element.getTeamId();
 			
-			Team team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
+			Team team = ContentManager.sharedInstance().getCacheManager().getTeamById(teamID);
 			
 			if(team != null)
 			{
@@ -162,7 +162,7 @@ public class CompetitionEventStandingsListAdapter
 	        {
 	            public void onClick(View v)
 	            {
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(element.getCompetitionId()).getDisplayName(), element.getTeam(), "Standings tab");
+	            	TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(element.getCompetitionId()).getDisplayName(), element.getTeam(), "Standings tab");
 
 	            	Intent intent = new Intent(activity, TeamPageActivity.class);
 	                

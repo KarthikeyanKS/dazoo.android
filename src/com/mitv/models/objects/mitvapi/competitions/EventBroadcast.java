@@ -128,7 +128,7 @@ public class EventBroadcast
 	{
 		TVChannelId tvChannelId = getTVChannelIdForEventBroadcast();
 		
-		TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+		TVChannel tvChannel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 		
 		if(tvChannel == null)
 		{

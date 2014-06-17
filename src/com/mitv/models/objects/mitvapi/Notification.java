@@ -59,7 +59,7 @@ public class Notification
 	
 	
 	
-	public Notification(TVBroadcastWithChannelInfo broadcast)
+	public Notification(final TVBroadcastWithChannelInfo broadcast)
 	{
 		this.notificationId = Integer.valueOf(-1);
 		
@@ -139,7 +139,7 @@ public class Notification
 	
 	
 	
-	public Notification(NotificationORM ormData)
+	public Notification(final NotificationORM ormData)
 	{
 		this.notificationId = ormData.getNotificationId();
 		this.notificationType = ormData.getNotificationType();
@@ -295,31 +295,66 @@ public class Notification
 
 
 
-	public Integer getNotificationId() {
+	public Integer getNotificationId() 
+	{
+		if(notificationId == null)
+		{
+			notificationId = Integer.valueOf(0);
+			
+			Log.w(TAG, "notificationId is null");
+		}
+		
 		return notificationId;
 	}
 
 
 
-	public void setNotificationId(Integer notificationId) {
-		this.notificationId = notificationId;
+	public void setNotificationId(Integer notificationId) 
+	{
+		if(notificationId == null)
+		{
+			Log.w(TAG, "Attempting to set a null notificationId. Defaulting to 0");
+			
+			this.notificationId = Integer.valueOf(0);
+		}
+		else
+		{
+			this.notificationId = notificationId;
+		}
 	}
 
 
 
-	public NotificationTypeEnum getNotificationType() {
+	public NotificationTypeEnum getNotificationType() 
+	{
 		return notificationType;
 	}
 
 
 
-	public Long getCompetitionId() {
+	public Long getCompetitionId() 
+	{
+		if(competitionId == null)
+		{
+			competitionId = Long.valueOf(0);
+			
+			Log.w(TAG, "competitionId is null");
+		}
+		
 		return competitionId;
 	}
 
 
 
-	public Long getEventId() {
+	public Long getEventId() 
+	{
+		if(eventId == null)
+		{
+			eventId = Long.valueOf(0);
+			
+			Log.w(TAG, "eventId is null");
+		}
+		
 		return eventId;
 	}
 
@@ -341,6 +376,13 @@ public class Notification
 
 	public Long getBeginTimeInMilliseconds() 
 	{
+		if(broadcastBeginTimeInMilliseconds == null)
+		{
+			broadcastBeginTimeInMilliseconds = Long.valueOf(0);
+			
+			Log.w(TAG, "broadcastBeginTimeInMilliseconds is null");
+		}
+		
 		return broadcastBeginTimeInMilliseconds;
 	}
 
@@ -359,28 +401,65 @@ public class Notification
 	}
 
 
-	public String getBroadcastTitle() {
+	
+	public String getBroadcastTitle() 
+	{
+		if(broadcastTitle == null)
+		{
+			broadcastTitle = new String("");
+			
+			Log.w(TAG, "broadcastTitle is null");
+		}
+		
 		return broadcastTitle;
 	}
 
+	
 
-	public String getBroadcastChannelName() {
+	public String getBroadcastChannelName() 
+	{
+		if(broadcastChannelName == null)
+		{
+			broadcastChannelName = new String("");
+			
+			Log.w(TAG, "broadcastChannelName is null");
+		}
+		
 		return broadcastChannelName;
 	}
 
 
-	public ProgramTypeEnum getBroadcastProgramType() {
+	
+	public ProgramTypeEnum getBroadcastProgramType() 
+	{
 		return broadcastProgramType;
 	}
 
 
-	public String getBroadcastProgramDetails() {
+	
+	public String getBroadcastProgramDetails() 
+	{
+		if(broadcastProgramDetails == null)
+		{
+			broadcastProgramDetails = new String("");
+			
+			Log.w(TAG, "broadcastProgramDetails is null");
+		}
+		
 		return broadcastProgramDetails;
 	}
 	
 	
 	
-	public String getBroadcastChannelLogo() {
+	public String getBroadcastChannelLogo() 
+	{
+		if(broadcastChannelLogo == null)
+		{
+			broadcastChannelLogo = new String("");
+			
+			Log.w(TAG, "broadcastChannelLogo is null");
+		}
+		
 		return broadcastChannelLogo;
 	}
 

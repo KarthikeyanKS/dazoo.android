@@ -99,7 +99,7 @@ public class PopularPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasPopularBroadcasts();
+		return ContentManager.sharedInstance().getCacheManager().containsPopularBroadcasts();
 	}
 	
 	
@@ -111,7 +111,7 @@ public class PopularPageActivity
 		{
 			case SUCCESS: 
 			{
-				popularBroadcasts = ContentManager.sharedInstance().getFromCachePopularBroadcasts();
+				popularBroadcasts = ContentManager.sharedInstance().getCacheManager().getPopularBroadcasts();
 	
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;

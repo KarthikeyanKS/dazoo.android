@@ -62,7 +62,7 @@ public class TVGuideTagFragmentStatePagerAdapter
 			{
 				TVTag tvTag = getTVTags().get(realPosition);
 				
-				List<Competition> competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
+				List<Competition> competitions = ContentManager.sharedInstance().getCacheManager().getVisibleCompetitions();
 				
 				Competition competition = tvTag.getMatchingCompetition(competitions);
 				
@@ -128,11 +128,11 @@ public class TVGuideTagFragmentStatePagerAdapter
 	{
 		if(tvTags == null)
 		{
-			if (ContentManager.sharedInstance().getFromCacheHasTVTags())
+			if (ContentManager.sharedInstance().getCacheManager().containsTVTags())
 			{
 				Log.d(TAG, "FragmentBugFinder - We have the TVTags in Cache.");
 				
-				tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
+				tvTags = ContentManager.sharedInstance().getCacheManager().getTVTags();
 			} 
 			else
 			{

@@ -190,9 +190,9 @@ public class TrackingAIManager
 			attributes.put("Login type", "MiTV");
 		}
 
-		String userID = ContentManager.sharedInstance().getFromCacheUserId();
-		String userFirstName = ContentManager.sharedInstance().getFromCacheUserFirstname();
-		String userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
+		String userID = ContentManager.sharedInstance().getCacheManager().getUserId();
+		String userFirstName = ContentManager.sharedInstance().getCacheManager().getUserFirstname();
+		String userEmail = ContentManager.sharedInstance().getCacheManager().getUserEmail();
 		
 		attributes.put("userID", userID);
 		attributes.put("userFirstName", userFirstName);
@@ -221,13 +221,13 @@ public class TrackingAIManager
 		
 		Event event;
 		
-		boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isUserLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 		
 		if(isUserLoggedIn)
 		{			
 			event = eventClient.createEvent("Example event")
-					.withAttribute("user_name", ContentManager.sharedInstance().getFromCacheUserEmail())
-			        .withAttribute("user_id", ContentManager.sharedInstance().getFromCacheUserId())
+					.withAttribute("user_name", ContentManager.sharedInstance().getCacheManager().getUserEmail())
+			        .withAttribute("user_id", ContentManager.sharedInstance().getCacheManager().getUserId())
 					.withMetric("time_on_page", 60)
 			        .withMetric("duration", 30);
 		}

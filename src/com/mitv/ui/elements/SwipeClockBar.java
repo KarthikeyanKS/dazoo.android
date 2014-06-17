@@ -149,7 +149,7 @@ public class SwipeClockBar
 	{
 		this.activity = (Activity) context;
 		
-		int firstHourOfDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		int firstHourOfDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		SwipeClockBar.firstHourOfDay = firstHourOfDay;
 

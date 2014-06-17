@@ -77,9 +77,9 @@ public class SecondScreenApplication
 
 		sharedInstance = this;
 				
-		if(ContentManager.sharedInstance().isLoggedIn()) 
+		if(ContentManager.sharedInstance().getCacheManager().isLoggedIn()) 
 		{
-			String userId = ContentManager.sharedInstance().getFromCacheUserId();
+			String userId = ContentManager.sharedInstance().getCacheManager().getUserId();
 			
 			TrackingGAManager.sharedInstance().setUserIdOnTracker(userId);
 		}
@@ -163,7 +163,7 @@ public class SecondScreenApplication
 		
 		if(forceDataFlush || shouldFlushData)
 		{
-			ContentManager.clearAllPersistentCacheData();
+			ContentManager.sharedInstance().getCacheManager().clearAllPersistentCacheData();
 			
 			AppDataUtils.sharedInstance(this).clearAllPreferences(false);
 		}
@@ -353,7 +353,7 @@ public class SecondScreenApplication
 	{
 		boolean hasSeenTutorial = true;
 		
-		UserTutorialStatus userTutorialStatus = ContentManager.sharedInstance().getUserTutorialFromCache();
+		UserTutorialStatus userTutorialStatus = ContentManager.sharedInstance().getCacheManager().getUserTutorialStatus();
 		
 		UserTutorialStatusEnum status = userTutorialStatus.getUserTutorialStatus();
 		
@@ -363,7 +363,7 @@ public class SecondScreenApplication
 			{
 				hasSeenTutorial = false; 
 			
-				ContentManager.sharedInstance().setUserHasSeenTutorialOnce();
+				ContentManager.sharedInstance().getCacheManager().setUserHasSeenTutorialOnce();
 				
 				break;
 			}
@@ -380,7 +380,7 @@ public class SecondScreenApplication
 				if (!openLastTwoWeeks) {
 					hasSeenTutorial = false;
 					
-					ContentManager.sharedInstance().setUserHasSeenTutorialTwice();
+					ContentManager.sharedInstance().getCacheManager().setUserHasSeenTutorialTwice();
 				}
 				
 				break;

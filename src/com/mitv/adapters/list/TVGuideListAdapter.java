@@ -198,7 +198,7 @@ public class TVGuideListAdapter
 				
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
-				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
+				ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(guide.getChannelId());
 				
 				activity.startActivity(intent);
 			}
@@ -403,7 +403,7 @@ public class TVGuideListAdapter
 			{	
 				TrackingGAManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
 				
-				if (ContentManager.sharedInstance().isLoggedIn()) 
+				if (ContentManager.sharedInstance().getCacheManager().isLoggedIn()) 
 				{
 					Intent intentMyChannels = new Intent(activity, MyChannelsActivity.class);
 					
@@ -491,7 +491,7 @@ public class TVGuideListAdapter
 	{
 		this.selectedHour = selectedHour;
 
-		ContentManager.sharedInstance().setSelectedHour(selectedHour);
+		ContentManager.sharedInstance().getCacheManager().setSelectedHour(selectedHour);
 		
 		notifyDataSetChanged();
 	}

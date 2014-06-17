@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/show_more_container_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/background_color_selector">
+    android:background="@drawable/background_color_selector"
+    android:orientation="vertical" >
 
     <View
         android:id="@+id/competition_event_broadcast_divider"
@@ -13,18 +12,15 @@
         android:layout_height="1dp"
         android:layout_alignParentTop="true"
         android:background="@color/grey1" />
-    
+
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/show_more"
+        style="@style/meta1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:singleLine="true"
-        android:textSize="16sp"
-        android:textColor="@color/grey2"/>
-    
+        android:layout_centerVertical="true"
+        android:padding="15dp"
+        android:singleLine="true" />
+
 </RelativeLayout>

@@ -266,7 +266,7 @@ public class SplashScreenActivity
 
 	private void startPrimaryActivity() 
 	{
-		ContentManager.sharedInstance().setDateUserLastOpenApp();
+		ContentManager.sharedInstance().getCacheManager().setDateUserLastOpenApp();
 		
 		Intent currentIntent = getIntent();
 

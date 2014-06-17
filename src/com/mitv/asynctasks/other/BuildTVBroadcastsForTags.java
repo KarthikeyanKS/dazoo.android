@@ -113,7 +113,7 @@ public class BuildTVBroadcastsForTags
 		{
 			TVChannelId tvChannelId = tvChannelGuide.getChannelId();
 			
-			TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+			TVChannel tvChannel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 			
 			ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>(tvChannelGuide.getBroadcasts());
 
@@ -177,7 +177,7 @@ public class BuildTVBroadcastsForTags
 	
 	private ArrayList<String> tvTagIds() 
 	{
-		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
+		List<TVTag> tvTags = ContentManager.sharedInstance().getCacheManager().getTVTags();
 		
 		ArrayList<String> tvTagsAsString = new ArrayList<String>();
 		

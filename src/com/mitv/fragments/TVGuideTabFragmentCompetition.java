@@ -90,7 +90,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.layout_competition_tab, null);
+		rootView = inflater.inflate(R.layout.fragment_tvguide_competition_tab, null);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -186,7 +186,7 @@ public class TVGuideTabFragmentCompetition
 		
 		taggedBroadcasts = null;
 		
-		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+		int reloadInterval = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageReloadInterval();
 
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
@@ -206,7 +206,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasEnoughData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		boolean hasEnoughData = ContentManager.sharedInstance().getCacheManager().containsCompetitionData(competitionID);
 		
 		return hasEnoughData;
 	}
@@ -231,7 +231,7 @@ public class TVGuideTabFragmentCompetition
 
 			boolean noContent = true;
 
-			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getCacheManager().getTaggedBroadcastsForSelectedTVDate();
 
 			if(taggedBroadcastForDay != null) 
 			{
@@ -348,7 +348,7 @@ public class TVGuideTabFragmentCompetition
 		{
 			Log.d(TAG, "Competition ID is: " + competitionID);
 			
-			this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+			this.competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 		}
 		
 		return competition;
@@ -438,24 +438,31 @@ public class TVGuideTabFragmentCompetition
 	
 	protected void clearContentOnTagAndReload() 
 	{
-		int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
+		final int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
 
-		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex);
-		removeAlreadyEndedBroadcastsTask.run();
-		
-		listView.removeAllViews();
-		
-		tvTagListAdapter = new TVGuideCompetitionTagListAdapter(activity, Constants.FIFA_TAG_ID, taggedBroadcasts, startIndex);
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex) {
 			
-		for (int i = 0; i < tvTagListAdapter.getCount(); i++) 
-		{
-            View listItem = tvTagListAdapter.getView(i, null, listView);
-           
-            if (listItem != null) 
-            {
-            	listView.addView(listItem);
-            }
-        }
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				
+				listView.removeAllViews();
+
+				tvTagListAdapter = new TVGuideCompetitionTagListAdapter(activity, Constants.FIFA_TAG_ID, taggedBroadcasts, startIndex);
+
+				for (int i = 0; i < tvTagListAdapter.getCount(); i++) 
+				{
+					View listItem = tvTagListAdapter.getView(i, null, listView);
+
+					if (listItem != null) 
+					{
+						listView.addView(listItem);
+					}
+				}
+			}
+		};
+		
+		removeAlreadyEndedBroadcastsTask.execute();
 	}
 	
 }

@@ -52,7 +52,7 @@ public class TVTag
 		
 		if(id.equalsIgnoreCase(Constants.FIFA_TAG_ID))
 		{
-			matchingCompetition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+			matchingCompetition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(Constants.FIFA_COMPETITION_ID);
 		}
 		
 		return matchingCompetition;

@@ -125,9 +125,9 @@ public class CompetitionPageActivity
 
 		this.selectedTabIndex = intent.getIntExtra(Constants.INTENT_COMPETITION_SELECTED_TAB_INDEX, 0);
 		
-		this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+		this.competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 		
-		ContentManager.sharedInstance().setSelectedCompetition(competition);
+		ContentManager.sharedInstance().getCacheManager().setSelectedCompetition(competition);
 		
 		registerAsListenerForRequest(RequestIdentifierEnum.COMPETITION_INITIAL_DATA);
 		
@@ -135,7 +135,7 @@ public class CompetitionPageActivity
 		
 		setAdapter(selectedTabIndex);
 		
-		int reloadIntervalInSecond = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
+		int reloadIntervalInSecond = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionPageReloadInterval();
 		
 		setBackgroundLoadTimerValueInSeconds(reloadIntervalInSecond);
 	}
@@ -257,7 +257,7 @@ public class CompetitionPageActivity
 	private void setOngoingLayoutForLiveEvent() 
 	{		
 		/* LIVE GAME */
-		final Event liveEvent = ContentManager.sharedInstance().getFromCacheLiveEventForSelectedCompetition();
+		final Event liveEvent = ContentManager.sharedInstance().getCacheManager().getLiveEventForSelectedCompetition();
 		
 		if (liveEvent != null) 
 		{
@@ -277,7 +277,7 @@ public class CompetitionPageActivity
 			{
 				long team1ID = liveEvent.getHomeTeamId();
 				
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+				Team team1 = ContentManager.sharedInstance().getCacheManager().getTeamById(team1ID);
 				
 				if(team1 != null)
 				{						
@@ -294,7 +294,7 @@ public class CompetitionPageActivity
 				
 				long team2ID = liveEvent.getAwayTeamId();
 				
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+				Team team2 = ContentManager.sharedInstance().getCacheManager().getTeamById(team2ID);
 
 				if(team2 != null)
 				{
@@ -318,7 +318,7 @@ public class CompetitionPageActivity
 			
 			long phaseID = liveEvent.getPhaseId();
 			
-			Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
+			Phase phase = ContentManager.sharedInstance().getCacheManager().getPhaseByIDForSelectedCompetition(phaseID);
 			
 			String groupHeaderName = phase.getPhase();
 			
@@ -361,7 +361,7 @@ public class CompetitionPageActivity
 		/* NEXT GAME */
 		boolean filterFinishedEvents = true;
 		boolean filterLiveEvents = true;
-		final Event nextEvent = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
+		final Event nextEvent = ContentManager.sharedInstance().getCacheManager().getNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
 		
 		if (nextEvent != null) {
 			StringBuilder sbNext = new StringBuilder();
@@ -383,7 +383,7 @@ public class CompetitionPageActivity
 			{
 				long team1ID = nextEvent.getHomeTeamId();
 				
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+				Team team1 = ContentManager.sharedInstance().getCacheManager().getTeamById(team1ID);
 				
 				if(team1 != null)
 				{
@@ -396,7 +396,7 @@ public class CompetitionPageActivity
 				
 				long team2ID = nextEvent.getAwayTeamId();
 				
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+				Team team2 = ContentManager.sharedInstance().getCacheManager().getTeamById(team2ID);
 	
 				if(team2 != null)
 				{
@@ -413,7 +413,7 @@ public class CompetitionPageActivity
 			team2NameOngoing.setText(awayTeamName);
 			
 			long phaseID = nextEvent.getPhaseId();
-			Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
+			Phase phase = ContentManager.sharedInstance().getCacheManager().getPhaseByIDForSelectedCompetition(phaseID);
 			
 			nextGameTextOngoing.setText(phase.getPhase());
 			
@@ -439,7 +439,7 @@ public class CompetitionPageActivity
 					
 					TVChannelId tvChannelId = new TVChannelId(channelID);
 					
-					TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+					TVChannel tvChannel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 					
 					if(tvChannel != null)
 					{
@@ -510,7 +510,7 @@ public class CompetitionPageActivity
 		{
 			long team1ID = event.getHomeTeamId();
 			
-			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+			Team team1 = ContentManager.sharedInstance().getCacheManager().getTeamById(team1ID);
 			
 			if(team1 != null)
 			{
@@ -527,7 +527,7 @@ public class CompetitionPageActivity
 			
 			long team2ID = event.getAwayTeamId();
 			
-			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+			Team team2 = ContentManager.sharedInstance().getCacheManager().getTeamById(team2ID);
 
 			if(team2 != null)
 			{
@@ -578,7 +578,7 @@ public class CompetitionPageActivity
 				
 				TVChannelId tvChannelId = new TVChannelId(channelID);
 				
-				TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+				TVChannel tvChannel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 				
 				if(tvChannel != null)
 				{
@@ -737,7 +737,7 @@ public class CompetitionPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 
-		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionPageReloadInterval();
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionPageReloadInterval();
 		
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadIntervalInMinutes);
 
@@ -759,7 +759,7 @@ public class CompetitionPageActivity
 	{
 		boolean hasData = false;
 		if (competition != null) {
-			hasData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competition.getCompetitionId());
+			hasData = ContentManager.sharedInstance().getCacheManager().containsCompetitionData(competition.getCompetitionId());
 		}
 		return hasData;
 	}
@@ -773,7 +773,7 @@ public class CompetitionPageActivity
 		{
 			boolean filterFinishedEvents = false;
 			boolean filterLiveEvents = false;
-			event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
+			event = ContentManager.sharedInstance().getCacheManager().getNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
 	
 			if(event == null)
 			{

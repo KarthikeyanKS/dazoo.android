@@ -113,7 +113,7 @@ public class TeamPageActivity
 		
 		initLayout();
 		
-		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionTeamPageReloadInterval();
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionTeamPageReloadInterval();
 		
 		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
 	}
@@ -169,7 +169,7 @@ public class TeamPageActivity
 		
 		setLoadingLayoutDetailsMessage(loadingString);
 		
-		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionTeamPageReloadInterval();
+		int reloadInterval = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionTeamPageReloadInterval();
 		
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
@@ -193,8 +193,8 @@ public class TeamPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent() 
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasTeamData(competitionID) && 
-				          ContentManager.sharedInstance().getFromCacheHasSquadForTeamID(teamID);
+		boolean hasData = ContentManager.sharedInstance().getCacheManager().containsTeamData(competitionID) && 
+				          ContentManager.sharedInstance().getCacheManager().containsSquadForTeamID(teamID);
 		
 		return hasData;
 	}
@@ -279,9 +279,9 @@ public class TeamPageActivity
 	{
 		boolean filterFinishedEvents = true;
 		boolean filterLiveEvents = false;
-		events = ContentManager.sharedInstance().getFromCacheEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
+		events = ContentManager.sharedInstance().getCacheManager().getEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
 		
-		phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
+		phase = ContentManager.sharedInstance().getCacheManager().getPhaseByIDForSelectedCompetition(phaseID);
 		
 		if (team != null) 
 		{
@@ -369,7 +369,7 @@ public class TeamPageActivity
 	{
 		squadListContainer.removeAllViews();
 		
-		teamSquads = ContentManager.sharedInstance().getFromCacheSquadByTeamID(teamID, false);
+		teamSquads = ContentManager.sharedInstance().getCacheManager().getSquadByTeamId(teamID, false);
 		
 		Collections.sort(teamSquads, new TeamSquadComparatorByPositionANdShirtNumber());
 		
@@ -389,7 +389,7 @@ public class TeamPageActivity
 			@Override
 			public void onClick(View v) 
 			{				
-				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 				
 				String competitionName;
 				
@@ -435,7 +435,7 @@ public class TeamPageActivity
 		
 		standingsListContainer.removeAllViews();
 		
-		List<Standings> standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
+		List<Standings> standings = ContentManager.sharedInstance().getCacheManager().getStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
 		Collections.sort(standings, new EventStandingsComparatorByPoints());
 		
@@ -507,7 +507,7 @@ public class TeamPageActivity
 		{
 			Log.d(TAG, "Team ID is: " + teamID);
 			
-			this.team = ContentManager.sharedInstance().getFromCacheTeamByID(teamID);
+			this.team = ContentManager.sharedInstance().getCacheManager().getTeamById(teamID);
 		}
 		
 		return team;

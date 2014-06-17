@@ -1,4 +1,8 @@
+
+
 package com.mitv.test.gson;
+
+
 
 import junit.framework.Assert;
 
@@ -13,6 +17,7 @@ import com.mitv.http.HTTPCoreResponse;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
+
 
 
 /**
@@ -41,10 +46,10 @@ public class BroadcastsWithChannelInfoTest
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.URL_CHANNELS_ALL);
-		sb.append(Constants.REQUEST_QUERY_SEPARATOR);
+		sb.append(Constants.FORWARD_SLASH);
 		sb.append(channelId);
 		sb.append(Constants.API_BROADCASTS);
-		sb.append(Constants.REQUEST_QUERY_SEPARATOR);
+		sb.append(Constants.FORWARD_SLASH);
 		sb.append(beginTimeMillis);
 		String url = sb.toString();
 		
@@ -62,14 +67,19 @@ public class BroadcastsWithChannelInfoTest
 		}
 	}
 
+	
+	
 	@Test
-	public void testNotNull() {
+	public void testNotNull() 
+	{
 		Assert.assertNotNull(tvBroadcastWithChannelInfo);
 	}
 	
+	
+	
 	@Test
-	public void testAllVariablesNotNull() {
+	public void testAllVariablesNotNull()
+	{
 		assertTrue(tvBroadcastWithChannelInfo.areDataFieldsValid());
-	}
-					
+	}			
 }
