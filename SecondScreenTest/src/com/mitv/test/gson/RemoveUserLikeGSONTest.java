@@ -57,9 +57,9 @@ public class RemoveUserLikeGSONTest
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_LIKES);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(likeType);
-		url.append(Constants.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.FORWARD_SLASH);
 		url.append(entityId);
 		
 		URLParameters urlParameters = new URLParameters();

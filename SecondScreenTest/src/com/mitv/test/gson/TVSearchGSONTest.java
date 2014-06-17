@@ -19,7 +19,6 @@ import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
 import com.mitv.models.gson.mitvapi.TVSearchResultsJSON;
 import com.mitv.models.objects.mitvapi.TVSearchResults;
-import com.mitv.utilities.RegularExpressionUtils;
 
 
 
