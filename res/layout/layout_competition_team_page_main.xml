@@ -41,7 +41,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_team_page_squad_header"
-                    style="@style/header1"
+                    style="@style/headercard2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
@@ -49,26 +49,6 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/team_page_squad_header" />
-
-                <!--
-                    Fake squad
-	                <ImageView
-	                    android:id="@+id/competition_team_page_squad_list_fake"
-	                    android:layout_width="70dp"
-	                    android:layout_height="70dp"
-	                    android:layout_below="@id/competition_team_page_squad_header"
-	                    android:scaleType="fitXY"
-	                    android:src="@drawable/competition_team_squad_fake"
-	                    android:visibility="visible" />
-	
-	                <ImageView
-	                    android:layout_width="match_parent"
-	                    android:layout_height="1000dp"
-	                    android:layout_below="@id/competition_team_page_squad_header"
-	                    android:scaleType="fitStart"
-	                    android:src="@drawable/competition_team_squad_fake" />
-                -->
-
 
                 <!-- The squad list -->
 
@@ -95,7 +75,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_team_page_standings_header"
-                    style="@style/header1"
+                    style="@style/headercard2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -126,7 +106,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_team_page_schedule_header"
-                    style="@style/header1"
+                    style="@style/headercard2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
