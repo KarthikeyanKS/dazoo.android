@@ -76,7 +76,7 @@ public class UserProfileConfigurationActivity
 	private void populateViews() {
 		/* Image */
 		ImageAware imageAware = new ImageViewAware(avatarImageView, false);
-		String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserProfileImage();
+		String userAvatarImageURL = ContentManager.sharedInstance().getCacheManager().getUserProfileImage();
 		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(userAvatarImageURL, imageAware);
 		
 		/* HIDE image until we have backend support */
@@ -90,8 +90,8 @@ public class UserProfileConfigurationActivity
 		shareSeparatorBar.setVisibility(View.GONE);
 		
 		/* Name */
-		String userFirstname = ContentManager.sharedInstance().getFromCacheUserFirstname();
-		String userLastname = ContentManager.sharedInstance().getFromCacheUserLastname();
+		String userFirstname = ContentManager.sharedInstance().getCacheManager().getUserFirstname();
+		String userLastname = ContentManager.sharedInstance().getCacheManager().getUserLastname();
 
 		StringBuilder sbUsernameText = new StringBuilder();
 		sbUsernameText.append(userFirstname);
@@ -101,7 +101,7 @@ public class UserProfileConfigurationActivity
 		nameText.setText(sbUsernameText.toString());
 		
 		/* Email */
-		String userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
+		String userEmail = ContentManager.sharedInstance().getCacheManager().getUserEmail();
 		emailText.setText(userEmail);
 
 	}
@@ -137,11 +137,15 @@ public class UserProfileConfigurationActivity
 	
 	
 	@Override
-	protected boolean hasEnoughDataToShowContent() {
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+	protected boolean hasEnoughDataToShowContent()
+	{
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
+		
 		return isLoggedIn;
 	}
 
+	
+	
 	@Override
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		// TODO Auto-generated method stub

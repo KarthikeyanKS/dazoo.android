@@ -74,17 +74,17 @@ public abstract class BannerListAdapter<T>
 		
 		this.adMobId = adMobId;
 		
-		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCellsUsingActivityName(fragmentName);
+		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCellCountBetweenAdCellsUsingActivityName(fragmentName);
 		
 		this.items = items;
 		
-		boolean globalAdsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().isAdsEnabled();
+		boolean globalAdsEnabled = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().isAdsEnabled();
 		
 		boolean localAdsEnabled = (cellCountBetweenAdCells > 0);
 		
 		this.isAdsEnabled = (globalAdsEnabled && localAdsEnabled);
 		
-		this.areCompetitionsEnabled = showCompetitionsBanner && (ContentManager.sharedInstance().getFromCacheVisibleCompetitions().isEmpty() == false);
+		this.areCompetitionsEnabled = showCompetitionsBanner && (ContentManager.sharedInstance().getCacheManager().getVisibleCompetitions().isEmpty() == false);
 		
 		this.onlyDisplayCompetitionBannerOnce = onlyDisplayCompetitionBannerOnce;
 	}
@@ -277,7 +277,7 @@ public abstract class BannerListAdapter<T>
 			{
 				rowView = mLayoutInflater.inflate(R.layout.ad_space, null);
 				
-				final Competition competition = ContentManager.sharedInstance().getFromCacheVisibleRandomCompetition();
+				final Competition competition = ContentManager.sharedInstance().getCacheManager().getVisibleRandomCompetition();
 				
 				boolean hasEnded = competition.hasEnded();
 				

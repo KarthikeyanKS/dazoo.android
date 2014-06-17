@@ -137,7 +137,7 @@ public class CompetitionEventTabFragmentGroupStandings
 	{
 		long phaseID = getEvent().getPhaseId();
 		
-		return ContentManager.sharedInstance().getFromCacheHasStandingsForPhaseInSelectedCompetition(phaseID);
+		return ContentManager.sharedInstance().getCacheManager().containsStandingsForPhaseInSelectedCompetition(phaseID);
 	}
 	
 	
@@ -170,7 +170,7 @@ public class CompetitionEventTabFragmentGroupStandings
 				
 				listContainerLayout.removeAllViews();
 				
-				List<Standings> standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phaseID);
+				List<Standings> standings = ContentManager.sharedInstance().getCacheManager().getStandingsForPhaseInSelectedCompetition(phaseID);
 	
 				Collections.sort(standings, new EventStandingsComparatorByPoints());
 				
@@ -215,7 +215,7 @@ public class CompetitionEventTabFragmentGroupStandings
 		{
 			Log.d(TAG, "Event ID is: " + eventID);
 			
-			this.event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+			this.event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		}
 		
 		return event;

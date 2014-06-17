@@ -172,7 +172,7 @@ public class LikesListAdapter
 				{
 					long competitionID = item.getCompetitionId();
 					
-					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+					Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 					
 					CompetitionCategoryEnum competitionCategory = competition.getCategory();
 					

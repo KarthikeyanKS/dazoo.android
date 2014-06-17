@@ -73,6 +73,6 @@ public class CompetitionDataPostProcessingTask
 	
 	private void setCompetitionData() 
 	{
-		ContentManager.sharedInstance().setSelectedCompetitionProcessedData();
+		ContentManager.sharedInstance().getCacheManager().setSelectedCompetitionProcessedData();
 	}
 }

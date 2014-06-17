@@ -152,9 +152,9 @@ public class EventPageActivity
 
 		eventID = intent.getLongExtra(Constants.INTENT_COMPETITION_EVENT_ID, 0);
 		
-		Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+		Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 
-		Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionID, eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventById(competitionID, eventID);
 
 		initLayout();
 		
@@ -173,13 +173,13 @@ public class EventPageActivity
 
 			if(isEventLive)
 			{
-				int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+				int reloadIntervalInSeconds = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
 
 				setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
 			}
 		}
 
-		int reloadIntervalInMinutes = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+		int reloadIntervalInMinutes = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageReloadInterval();
 
 		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
 
@@ -220,9 +220,9 @@ public class EventPageActivity
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
-				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 				
-				Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+				Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 	
 				if(competition != null && event != null)
 				{
@@ -239,14 +239,14 @@ public class EventPageActivity
 		
 					if(isEventLive)
 					{
-						int reloadIntervalInSeconds = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
+						int reloadIntervalInSeconds = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageHighlightReloadInterval();
 		
 						setBackgroundLoadingTimerForHighlights(reloadIntervalInSeconds);
 					}
 		
 					setData(competition, event);
 		
-					if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID)) 
+					if (ContentManager.sharedInstance().getCacheManager().containsHighlightsDataByEventIDForSelectedCompetition(eventID)) 
 					{
 						setAdapterForHighlights();
 					}
@@ -273,7 +273,7 @@ public class EventPageActivity
 		long awayTeamID;
 		String phaseString;
 
-		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 		if (event == null) 
 		{
@@ -289,13 +289,13 @@ public class EventPageActivity
 		} 
 		else 
 		{
-			phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(event.getPhaseId());
+			phase = ContentManager.sharedInstance().getCacheManager().getPhaseByIDForSelectedCompetition(event.getPhaseId());
 
-			events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phase.getPhaseId());
+			events = ContentManager.sharedInstance().getCacheManager().getEventsForPhaseInSelectedCompetition(phase.getPhaseId());
 
-			if (ContentManager.sharedInstance().getFromCacheHasStandingsForPhaseInSelectedCompetition(phase.getPhaseId())) 
+			if (ContentManager.sharedInstance().getCacheManager().containsStandingsForPhaseInSelectedCompetition(phase.getPhaseId())) 
 			{
-				standings = ContentManager.sharedInstance().getFromCacheStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
+				standings = ContentManager.sharedInstance().getCacheManager().getStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
 			}
 
 			homeTeam = event.getHomeTeam();
@@ -365,7 +365,7 @@ public class EventPageActivity
 		{
 			final long team1ID = event.getHomeTeamId();
 
-			Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+			Team team1 = ContentManager.sharedInstance().getCacheManager().getTeamById(team1ID);
 
 			if(team1 != null)
 			{
@@ -408,7 +408,7 @@ public class EventPageActivity
 
 			final long team2ID = event.getAwayTeamId();
 
-			Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+			Team team2 = ContentManager.sharedInstance().getCacheManager().getTeamById(team2ID);
 
 			if(team2 != null)
 			{
@@ -723,7 +723,7 @@ public class EventPageActivity
 				showHighlightsReloadButtonLoading();
 				loadHighlightsInBackground();
 				
-				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionID, eventID);
+				Event event = ContentManager.sharedInstance().getCacheManager().getEventById(competitionID, eventID);
 				
 				String eventTitle;
 				
@@ -738,7 +738,7 @@ public class EventPageActivity
 					Log.w(TAG, "Event is null. Using eventID as a fallback in analytics reporting.");
 				}
 				
-				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 				
 				String competitionTitle;
 				
@@ -821,9 +821,9 @@ public class EventPageActivity
 
 	private void setAdapterForHighlights() 
 	{
-		if (ContentManager.sharedInstance().getFromCacheHasHighlightsDataByEventIDForSelectedCompetition(eventID))
+		if (ContentManager.sharedInstance().getCacheManager().containsHighlightsDataByEventIDForSelectedCompetition(eventID))
 		{
-			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getFromCacheHighlightsDataByEventIDForSelectedCompetition(eventID, true);
+			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getCacheManager().getHighlightsDataByEventIDForSelectedCompetition(eventID, true);
 
 			listContainerLayoutHighlights.removeAllViews();
 
@@ -844,7 +844,7 @@ public class EventPageActivity
 			@Override
 			public void onClick(View v) 
 			{
-				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 				
 				String competitionTitle;
 				
@@ -908,7 +908,7 @@ public class EventPageActivity
 			{
 				selectedTabIndexForLineupTeams = pos;
 				
-				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 				
 				String competitionTitle;
 				
@@ -1019,11 +1019,11 @@ public class EventPageActivity
 
 		setLoadingLayoutDetailsMessage(loadingString);
 
-		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+		int reloadInterval = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageReloadInterval();
 
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
-		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 		if (event != null) 
 		{
@@ -1055,7 +1055,7 @@ public class EventPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasData = ContentManager.sharedInstance().getFromCacheHasEventData(competitionID, eventID);
+		boolean hasData = ContentManager.sharedInstance().getCacheManager().containsEventData(competitionID, eventID);
 
 		return hasData;
 	}
@@ -1084,7 +1084,7 @@ public class EventPageActivity
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
-					Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+					Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 					
 					if(event != null)
 					{
@@ -1118,15 +1118,15 @@ public class EventPageActivity
 			
 			case COMPETITION_INITIAL_DATA:
 			{
-				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 				
-				ContentManager.sharedInstance().setSelectedCompetition(competition);
+				ContentManager.sharedInstance().getCacheManager().setSelectedCompetition(competition);
 				
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	
 				if (phase != null) 
 				{
-					int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+					int reloadInterval = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageReloadInterval();
 	
 					boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 	

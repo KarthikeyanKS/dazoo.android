@@ -234,7 +234,7 @@ public class CompetitionEventEventsByGroupListAdapter
 			{
 				long team1ID = event.getHomeTeamId();
 
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+				Team team1 = ContentManager.sharedInstance().getCacheManager().getTeamById(team1ID);
 
 				String team1FlagUrl = team1.getFlagImageURL();
 
@@ -244,7 +244,7 @@ public class CompetitionEventEventsByGroupListAdapter
 
 				long team2ID = event.getAwayTeamId();
 
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+				Team team2 = ContentManager.sharedInstance().getCacheManager().getTeamById(team2ID);
 
 				ImageAware imageAwareForTeam2 = new ImageViewAware(holder.team2flag, false);
 
@@ -261,7 +261,7 @@ public class CompetitionEventEventsByGroupListAdapter
 			{
 				public void onClick(View v)
 				{
-					TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
+					TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
 
 					Intent intent = new Intent(activity, EventPageActivity.class);
 
@@ -330,7 +330,7 @@ public class CompetitionEventEventsByGroupListAdapter
 					
 					TVChannelId tvChannelId = new TVChannelId(channelID);
 					
-					TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+					TVChannel tvChannel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 					
 					if(tvChannel != null)
 					{

@@ -203,9 +203,9 @@ public class CompetitionEventPageBroadcastListAdapter
 				{
 					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
 
-					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId);
+					Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionId);
 					
-					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
+					Event event = ContentManager.sharedInstance().getCacheManager().getEventById(competitionId, eventId);
 					
 					if(competition != null || event != null)
 					{
@@ -213,7 +213,7 @@ public class CompetitionEventPageBroadcastListAdapter
 						
 						TVChannelId tvChannelId = new TVChannelId(channelId);
 						
-						TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+						TVChannel channel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 						
 						if(channel != null)
 						{
@@ -247,8 +247,8 @@ public class CompetitionEventPageBroadcastListAdapter
 				public void onClick(View v) 
 				{
 					TrackingGAManager.sharedInstance().sendUserCompetitionBroadcastPressedEvent(
-							ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId).getDisplayName(), 
-							ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId).getTitle(), 
+							ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionId).getDisplayName(), 
+							ContentManager.sharedInstance().getCacheManager().getEventById(competitionId, eventId).getTitle(), 
 							String.valueOf(element.getBeginTimeMillis()));
 				}
 			});

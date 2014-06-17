@@ -106,7 +106,7 @@ public class TVGuideTabFragmentBroadcast
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVTagsAndGuideForSelectedTVDate();
+		return ContentManager.sharedInstance().getCacheManager().containsTVTagsAndGuideForSelectedTVDate();
 	}
 	
 	
@@ -118,7 +118,7 @@ public class TVGuideTabFragmentBroadcast
 		{
 			boolean noContent = true;
 			
-			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getCacheManager().getTaggedBroadcastsForSelectedTVDate();
 				
 			if(taggedBroadcastForDay != null) 
 			{

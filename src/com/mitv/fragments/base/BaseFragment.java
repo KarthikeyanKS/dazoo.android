@@ -147,7 +147,7 @@ public abstract class BaseFragment
 
 		if (isConnected) 
 		{
-			boolean hasInitialData = ContentManager.sharedInstance().getFromCacheHasInitialData();
+			boolean hasInitialData = ContentManager.sharedInstance().getCacheManager().containsInitialData();
 
 			if (hasInitialData) 
 			{

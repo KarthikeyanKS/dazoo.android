@@ -186,7 +186,7 @@ public class TVGuideTabFragmentCompetition
 		
 		taggedBroadcasts = null;
 		
-		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
+		int reloadInterval = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getCompetitionEventPageReloadInterval();
 
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
 		
@@ -206,7 +206,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasEnoughData = ContentManager.sharedInstance().getFromCacheHasCompetitionData(competitionID);
+		boolean hasEnoughData = ContentManager.sharedInstance().getCacheManager().containsCompetitionData(competitionID);
 		
 		return hasEnoughData;
 	}
@@ -231,7 +231,7 @@ public class TVGuideTabFragmentCompetition
 
 			boolean noContent = true;
 
-			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getCacheManager().getTaggedBroadcastsForSelectedTVDate();
 
 			if(taggedBroadcastForDay != null) 
 			{
@@ -348,7 +348,7 @@ public class TVGuideTabFragmentCompetition
 		{
 			Log.d(TAG, "Competition ID is: " + competitionID);
 			
-			this.competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
+			this.competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
 		}
 		
 		return competition;

@@ -79,9 +79,9 @@ public class ChannelPageActivity
 	protected void onResume() 
 	{
 		/* It is necessary to set the correct channel, in order for the hasEnoughDataToShowContent and loadData to work properly */
-		TVChannelId channelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+		TVChannelId channelId = ContentManager.sharedInstance().getCacheManager().getSelectedTVChannelId();
 		
-		channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+		channel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(channelId);
 		
 		super.onResume();
 	}
@@ -180,19 +180,19 @@ public class ChannelPageActivity
 							
 							intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 							
-							ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+							ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 						}
 					}
 					else
 					{
 						intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 						
-						ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+						ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					}
 					
-					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
-					ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
+					ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(channel.getChannelId());
 					
 					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
 	
@@ -236,7 +236,7 @@ public class ChannelPageActivity
 	{
 		if (channel != null) 
 		{
-			return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+			return ContentManager.sharedInstance().getCacheManager().containsTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		}
 		return false;
 	}
@@ -246,7 +246,7 @@ public class ChannelPageActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
-		TVChannelGuide channelGuide = ContentManager.sharedInstance().getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		TVChannelGuide channelGuide = ContentManager.sharedInstance().getCacheManager().getTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		

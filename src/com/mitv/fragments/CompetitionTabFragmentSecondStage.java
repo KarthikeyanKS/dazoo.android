@@ -120,7 +120,7 @@ public class CompetitionTabFragmentSecondStage
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
+		return ContentManager.sharedInstance().getCacheManager().containsEventsGroupedByPhaseForSelectedCompetition();
 	}
 	
 	
@@ -151,7 +151,7 @@ public class CompetitionTabFragmentSecondStage
 			{
 				listContainerLayout.removeAllViews();
 				
-				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
+				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getCacheManager().getAllEventsGroupedBySecondStageForSelectedCompetition();
 
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
 				

@@ -18,14 +18,20 @@ public class TVFeedItemComparatorByTime
 	public int compare(TVFeedItem lhsFeedItem, TVFeedItem rhsFeedItem) 
 	{
 		TVBroadcast lhsBroadcast = lhsFeedItem.getBroadcast();
-		if(lhsBroadcast == null) {
+		
+		if(lhsBroadcast == null) 
+		{
 			ArrayList<TVBroadcastWithChannelInfo> feedItems = lhsFeedItem.getBroadcasts();
+			
 			lhsBroadcast = feedItems.get(0);
 		}
 		
 		TVBroadcast rhsBroadcast = rhsFeedItem.getBroadcast();
-		if(rhsBroadcast == null) {
+		
+		if(rhsBroadcast == null) 
+		{
 			ArrayList<TVBroadcastWithChannelInfo> feedItems = rhsFeedItem.getBroadcasts();
+			
 			rhsBroadcast = feedItems.get(0);
 		}
 		

@@ -27,7 +27,7 @@ public abstract class LanguageUtils
 	
 	
 	/*
-	 * This method returns an ISO8601 compliant locale
+	 * This method returns an ISO8601 compliant Locale
 	 */
 	public static Locale getISO8601Locale()
 	{
@@ -46,7 +46,7 @@ public abstract class LanguageUtils
 		{
 			if(Constants.FORCE_SPANISH_LOCALE)
 			{
-				locale = new Locale("es");
+				locale = new Locale(Constants.SPANISH_LOCALE_CODE);
 			}
 			else
 			{
@@ -70,7 +70,7 @@ public abstract class LanguageUtils
 	
 	public static boolean isCurrentLocaleSpanish()
 	{
-		boolean isCurrentLocaleSpanish = (getCurrentLocale().getLanguage().endsWith("es"));
+		boolean isCurrentLocaleSpanish = (getCurrentLocale().getLanguage().endsWith(Constants.SPANISH_LOCALE_CODE));
 		
 		return isCurrentLocaleSpanish;
 	}
@@ -90,8 +90,8 @@ public abstract class LanguageUtils
 			
 			String remainingString = input.substring(1);
 			
-			sb.append(firstChar.toUpperCase(locale));
-			sb.append(remainingString);
+			sb.append(firstChar.toUpperCase(locale))
+			.append(remainingString);
 		}
 		
 		return sb.toString();
@@ -115,10 +115,10 @@ public abstract class LanguageUtils
 		String timeRemaining = getRemainingTimeAsString(activity, minutesLeft);
 		
 		progressTxt.setText(timeRemaining);
+		progressTxt.setVisibility(View.VISIBLE);
+		
 		progressBar.setMax(durationInMinutes + 1);
 		progressBar.setProgress(progress + 1);
-		
-		progressTxt.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
 	}
 	
@@ -132,7 +132,6 @@ public abstract class LanguageUtils
 	{
 		progressBar.setMax(totalMinutesOfEvent + 1);
 		progressBar.setProgress(minutesInGame + 1);
-		
 		progressBar.setVisibility(View.VISIBLE);
 	}
 	
@@ -178,7 +177,9 @@ public abstract class LanguageUtils
 				.append(" ")
 				.append(minutesWord);
 				
-			} else {
+			}
+			else
+			{
 				sb
 				.append(hours)
 				.append(" ")

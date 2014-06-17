@@ -453,6 +453,7 @@ public abstract class Constants
 	/* Misc configurations */
 	public static final String ELLIPSIS_STRING = "...";
 	public static final int TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS = 2;
+	public static final String SPANISH_LOCALE_CODE = "es";
 	
 	
 	/* Competitions */

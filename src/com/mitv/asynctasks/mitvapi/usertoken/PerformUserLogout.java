@@ -19,7 +19,7 @@ public class PerformUserLogout
 	/* Being called on UI thread, as it should */
 	private static String buildURL()
 	{
-		String userToken = ContentManager.sharedInstance().getFromCacheUserToken();
+		String userToken = ContentManager.sharedInstance().getCacheManager().getUserToken();
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Constants.URL_AUTH_TOKENS);

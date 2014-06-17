@@ -103,7 +103,7 @@ public class ReminderView
 			String programId = broadcast.getProgram().getProgramId();
 			long beginTimeInMilliseconds = broadcast.getBeginTimeMillis();
 			
-			Notification notification = ContentManager.sharedInstance().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds);
+			Notification notification = ContentManager.sharedInstance().getCacheManager().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds);
 
 			if (notification != null) 
 			{
@@ -158,7 +158,7 @@ public class ReminderView
 			Long competitionId = event.getCompetitionId();
 			Long eventId = event.getEventId();
 			
-			Notification notificationFromCache = ContentManager.sharedInstance().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
+			Notification notificationFromCache = ContentManager.sharedInstance().getCacheManager().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
 			
 			if (notificationFromCache != null)
 			{	
@@ -213,7 +213,7 @@ public class ReminderView
 			Long competitionId = event.getCompetitionId();
 			Long eventId = event.getEventId();
 			
-			Notification notificationFromCache = ContentManager.sharedInstance().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
+			Notification notificationFromCache = ContentManager.sharedInstance().getCacheManager().getNotificationWithParameters(channelId, programId, beginTimeInMilliseconds, competitionId, eventId);
 			
 			if (notificationFromCache != null)
 			{	

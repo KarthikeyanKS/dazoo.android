@@ -100,13 +100,13 @@ public class TrackingGAManager
 
 		this.tracker = googleAnalyticsInstance.newTracker(R.xml.analytics);
 
-		boolean cacheHasAppConfiguration = ContentManager.sharedInstance().getFromCacheHasAppConfiguration();
+		boolean cacheHasAppConfiguration = ContentManager.sharedInstance().getCacheManager().containsAppConfiguration();
 
 		boolean forceDefaultGATrackingID = Constants.FORCE_DEFAULT_GOOGLE_TRACKING_ID;
 
 		if (cacheHasAppConfiguration && !forceDefaultGATrackingID) 
 		{
-			String trackingId = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsTrackingId();
+			String trackingId = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getGoogleAnalyticsTrackingId();
 			
 			this.tracker.set("&tid", trackingId);
 		}
@@ -126,7 +126,7 @@ public class TrackingGAManager
 
 		if (cacheHasAppConfiguration) 
 		{
-			double sampleRateDecimal = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsSampleRate();
+			double sampleRateDecimal = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().getGoogleAnalyticsSampleRate();
 
 			double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
 			/* Set the SAMPLE RATE */
@@ -173,7 +173,7 @@ public class TrackingGAManager
 	
 	public void sendUserSignUpSuccessfulEvent(boolean facebook) 
 	{
-		String userId = ContentManager.sharedInstance().getFromCacheUserId();
+		String userId = ContentManager.sharedInstance().getCacheManager().getUserId();
 
 		String actionString = Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_UP_COMPLETED_EMAIL;
 		if (facebook) {
@@ -201,7 +201,7 @@ public class TrackingGAManager
 	
 	public void sendUserSharedEvent(Event event) 
 	{
-		String label = ContentManager.sharedInstance().getFromCacheCompetitionByID(event.getCompetitionId()).getDisplayName() + " " + event.getTitle() + " " + event.getEventId();
+		String label = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId()).getDisplayName() + " " + event.getTitle() + " " + event.getEventId();
 		
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
 		Log.d(TAG, "Event sent: " + label);
@@ -209,7 +209,7 @@ public class TrackingGAManager
 	
 	public void sendUserSharedEvent(Team team) 
 	{
-		String label = ContentManager.sharedInstance().getFromCacheCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
+		String label = ContentManager.sharedInstance().getCacheManager().getCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
 		
 		
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
@@ -243,12 +243,15 @@ public class TrackingGAManager
 			addedLike = 0L;
 		}
 		
-		if (userLike.getLikeType() == LikeTypeResponseEnum.TEAM) {
-			Team team = ContentManager.sharedInstance().getFromCacheTeamByID(userLike.getTeamId());
-			broadcastTitle = ContentManager.sharedInstance().getFromCacheCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
+		if (userLike.getLikeType() == LikeTypeResponseEnum.TEAM) 
+		{
+			Team team = ContentManager.sharedInstance().getCacheManager().getTeamById(userLike.getTeamId());
+			
+			broadcastTitle = ContentManager.sharedInstance().getCacheManager().getCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
 		}
-		else if (userLike.getLikeType() == LikeTypeResponseEnum.COMPETITION) {
-			broadcastTitle = ContentManager.sharedInstance().getFromCacheCompetitionByID((userLike.getCompetitionId())).getDisplayName();
+		else if (userLike.getLikeType() == LikeTypeResponseEnum.COMPETITION) 
+		{
+			broadcastTitle = ContentManager.sharedInstance().getCacheManager().getCompetitionByID((userLike.getCompetitionId())).getDisplayName();
 		}
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
@@ -279,7 +282,7 @@ public class TrackingGAManager
 				
 				Long eventId = notification.getEventId();
 				
-				Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId);
+				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionId);
 				
 				String competitionName;
 				
@@ -294,7 +297,7 @@ public class TrackingGAManager
 					Log.w(TAG, "Competition is null. Using competitionId as a fallback in analytics reporting.");
 				}
 				
-				Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
+				Event event = ContentManager.sharedInstance().getCacheManager().getEventById(competitionId, eventId);
 				
 				String eventName;
 				
@@ -351,7 +354,7 @@ public class TrackingGAManager
 	
 	public void sendUserTagSelectionEvent(int tagPosition) 
 	{
-		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
+		List<TVTag> tvTags = ContentManager.sharedInstance().getCacheManager().getTVTags();
 		
 		if (tvTags != null && !tvTags.isEmpty() && tagPosition < tvTags.size()) 
 		{
@@ -361,7 +364,7 @@ public class TrackingGAManager
 			{
 				String selectedTag = tvTag.getId();
 			
-				List<Competition> competitions = ContentManager.sharedInstance().getFromCacheVisibleCompetitions();
+				List<Competition> competitions = ContentManager.sharedInstance().getCacheManager().getVisibleCompetitions();
 				
 				Competition competition = tvTag.getMatchingCompetition(competitions);
 				
@@ -379,7 +382,8 @@ public class TrackingGAManager
 
 	public void sendUserHourSelectionEvent(int lastSelectedHour) 
 	{
-		Integer selectedHour = ContentManager.sharedInstance().getFromCacheSelectedHour();
+		Integer selectedHour = ContentManager.sharedInstance().getCacheManager().getSelectedHour();
+		
 		Log.d(TAG, String.format("Last hour: %d, new hour: %d", lastSelectedHour, selectedHour));
 		if (selectedHour != null) {
 			List<Integer> hours = SwipeClockBar.generate24Hours();
@@ -398,8 +402,10 @@ public class TrackingGAManager
 		}
 	}
 	
-	public void sendUserPressedChannelInHomeActivity(TVChannelId channelId, int position) {
-		TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+	public void sendUserPressedChannelInHomeActivity(TVChannelId channelId, int position) 
+	{
+		TVChannel channel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(channelId);
+		
 		String channelName = channel.getName();
 		
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS, channelName, (long) position);
@@ -430,7 +436,8 @@ public class TrackingGAManager
 
 	public void sendUserDaySelectionEvent(int dayIndex) {
 
-		List<TVDate> dates = ContentManager.sharedInstance().getFromCacheTVDates();
+		List<TVDate> dates = ContentManager.sharedInstance().getCacheManager().getTVDates();
+		
 		if (dates != null && !dates.isEmpty() && dayIndex < dates.size()) {
 			TVDate tvDate = dates.get(dayIndex);
 

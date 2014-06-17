@@ -235,7 +235,7 @@ public abstract class BaseActivity
 		Intent intent = getIntent();
 
 		/* Log in states */
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 
 		if (isLoggedIn)
 		{
@@ -271,7 +271,7 @@ public abstract class BaseActivity
 			StringBuilder sb = new StringBuilder();
 			sb.append(getString(R.string.hello));
 			sb.append(" ");
-			sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
+			sb.append(ContentManager.sharedInstance().getCacheManager().getUserFirstname());
 
 			ToastHelper.createAndShowShortToast(sb.toString());
 		} 
@@ -316,7 +316,7 @@ public abstract class BaseActivity
 	{
 		int indexOfTodayFromTVDates = -1;
 
-		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+		List<TVDate> tvDates = ContentManager.sharedInstance().getCacheManager().getTVDates();
 		
 		if(tvDates != null)
 		{
@@ -339,7 +339,7 @@ public abstract class BaseActivity
 	
 	protected boolean isRestartNeeded()
 	{
-		if (ContentManager.sharedInstance().getFromCacheHasInitialData() == false)
+		if (ContentManager.sharedInstance().getCacheManager().containsInitialData() == false)
 		{
 			Log.e(TAG, String.format("%s: No initialdata is present", getClass().getSimpleName()));
 
@@ -521,13 +521,13 @@ public abstract class BaseActivity
 			tabProfile.setOnClickListener(this);
 		}
 		
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 		
 		if(tabProfileText != null)
 		{
 			if(isLoggedIn)
 			{
-				String username = ContentManager.sharedInstance().getFromCacheUserFirstname();
+				String username = ContentManager.sharedInstance().getCacheManager().getUserFirstname();
 			
 				tabProfileText.setText(username);
 			}
@@ -903,7 +903,7 @@ public abstract class BaseActivity
 
 		if (isConnected) 
 		{
-			boolean hasInitialData = ContentManager.sharedInstance().getFromCacheHasInitialData();
+			boolean hasInitialData = ContentManager.sharedInstance().getCacheManager().containsInitialData();
 
 			if (hasInitialData) 
 			{

@@ -109,7 +109,7 @@ public class UserProfileActivity
 	@Override
 	protected void loadData() 
 	{
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 
 		if (isLoggedIn) 
 		{
@@ -137,11 +137,11 @@ public class UserProfileActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 
 		if (isLoggedIn) 
 		{
-			return ContentManager.sharedInstance().getFromCacheHasUserLikes();
+			return ContentManager.sharedInstance().getCacheManager().containsUserLikes();
 		}
 		else
 		{
@@ -186,7 +186,7 @@ public class UserProfileActivity
 				}
 				else
 				{
-					boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+					boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 
 					if (isLoggedIn) 
 					{
@@ -307,7 +307,7 @@ public class UserProfileActivity
 	
 	private void populateViews() 
 	{
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 		
 		if (isLoggedIn) 
 		{
@@ -326,7 +326,7 @@ public class UserProfileActivity
 			logoutContainer.setVisibility(View.GONE);
 		}
 		
-		List<Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
+		List<Notification> notifications = ContentManager.sharedInstance().getCacheManager().getNotifications();
 
 		StringBuilder numberOfNotificationsSB = new StringBuilder()
 		.append("(")
@@ -337,14 +337,14 @@ public class UserProfileActivity
 
 		if (isLoggedIn) 
 		{
-			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserProfileImage();
+			String userAvatarImageURL = ContentManager.sharedInstance().getCacheManager().getUserProfileImage();
 
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 
 			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(userAvatarImageURL, imageAware);
 
-			String userFirstname = ContentManager.sharedInstance().getFromCacheUserFirstname();
-			String userLastname = ContentManager.sharedInstance().getFromCacheUserLastname();
+			String userFirstname = ContentManager.sharedInstance().getCacheManager().getUserFirstname();
+			String userLastname = ContentManager.sharedInstance().getCacheManager().getUserLastname();
 
 			StringBuilder sbUsernameText = new StringBuilder();
 			sbUsernameText.append(userFirstname);
@@ -355,7 +355,7 @@ public class UserProfileActivity
 			
 			updateUserLikesGUI();
 
-			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUsed();
+			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getCacheManager().getTVChannelIdsUsed();
 			
 			if (userChannelIds != null && !userChannelIds.isEmpty()) 
 			{
@@ -377,7 +377,7 @@ public class UserProfileActivity
 	
 	private void updateUserLikesGUI() 
 	{
-		List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+		List<UserLike> userLikes = ContentManager.sharedInstance().getCacheManager().getUserLikes();
 		
 		if (userLikes != null) 
 		{

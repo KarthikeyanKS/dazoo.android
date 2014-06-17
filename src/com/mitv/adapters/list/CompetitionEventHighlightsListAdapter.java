@@ -124,7 +124,7 @@ public class CompetitionEventHighlightsListAdapter
 			
 			long eventID = element.getEventId(); 
 			
-			Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+			Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 			boolean isFinished = event.isFinished();
 			
@@ -267,7 +267,7 @@ public class CompetitionEventHighlightsListAdapter
 		
 		long eventID = highlight.getEventId(); 
 		
-		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 		if(event != null)
 		{
@@ -289,7 +289,7 @@ public class CompetitionEventHighlightsListAdapter
 		
 		long eventID = highlight.getEventId(); 
 		
-		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 		if(event != null)
 		{
@@ -309,7 +309,7 @@ public class CompetitionEventHighlightsListAdapter
 		
 		long eventID = highlight.getEventId(); 
 		
-		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 		if(event != null)
 		{

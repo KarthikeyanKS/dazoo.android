@@ -248,16 +248,16 @@ public class SearchPageActivity
 				
 				Intent intent;
 				
-				if (ContentManager.sharedInstance().isContainedInUsedChannelIds(channelId)) 
+				if (ContentManager.sharedInstance().getCacheManager().isContainedInUsedChannelIds(channelId)) 
 				{
-					ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+					ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(channelId);
 					intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
 				} 
 				else
 				{
-					if (ContentManager.sharedInstance().isLoggedIn())
+					if (ContentManager.sharedInstance().getCacheManager().isLoggedIn())
 					{
-						ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+						ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(channelId);
 						ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(true);
 						intent = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
 					} 
@@ -323,14 +323,14 @@ public class SearchPageActivity
 							
 							intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 							
-							ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+							ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
 						}
 					}
 					else
 					{
 						intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 						
-						ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+						ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
 					}
 					
 					startActivity(intent);
@@ -466,7 +466,7 @@ public class SearchPageActivity
 		{
 			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			
-			SearchResultsForQuery searchResultsForQuery = ContentManager.sharedInstance().getFromCacheSearchResults();
+			SearchResultsForQuery searchResultsForQuery = ContentManager.sharedInstance().getCacheManager().getSearchResults();
 			
 			if (searchResultsForQuery != null) 
 			{
