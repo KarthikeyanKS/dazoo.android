@@ -20,6 +20,8 @@ import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVDate;
 
+
+
 /**
  * This class tests the fetching Guide data. Returns a list of objects containing fields from channel, list of broadcasts (with fields from broadcast and program object).
  * 
@@ -39,7 +41,10 @@ public class TVChannelGuidesGSONTest
 		super.setUp();
 	}
 
-	public static List<TVChannelGuide> testFetchTVChannelGuides() {
+	
+	
+	public static List<TVChannelGuide> testFetchTVChannelGuides() 
+	{
 		TVChannelGuidesGSONTest instance = new TVChannelGuidesGSONTest();
 
 		getTVDates();
@@ -48,7 +53,7 @@ public class TVChannelGuidesGSONTest
 		TVDate tvDateToday = tvDates.get(0);
 		
 		StringBuilder sb = new StringBuilder(Constants.URL_GUIDE);
-		sb.append(Constants.REQUEST_QUERY_SEPARATOR);
+		sb.append(Constants.FORWARD_SLASH);
 		sb.append(tvDateToday.getId());
 		String url = sb.toString();
 		

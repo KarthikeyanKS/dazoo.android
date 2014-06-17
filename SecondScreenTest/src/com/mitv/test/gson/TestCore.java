@@ -129,7 +129,7 @@ public abstract class TestCore
 			Log.w(TAG, "Either locale or timeZone have null values.");
 		}
 		
-		HTTPCoreResponse httpCoreResponse = httpCore.executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+		HTTPCoreResponse httpCoreResponse = httpCore.executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData, false);
 		
 		return httpCoreResponse;
 	}
