@@ -14,15 +14,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/tab_selector_container"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
 
+            <ImageView
+                android:id="@+id/competition_logo_ongoing"
+                android:layout_width="276dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/competition_tag_logo"
+                android:scaleType="fitStart" />
+
+            <!-- List of ongoing and all todays events -->
+
+            <LinearLayout
+                android:id="@+id/todays_ongoing_events_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" >
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/competition_before_or_ongoing_layout_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" >
 
                 <include
                     android:id="@+id/competition_page_before_block_container_layout"
@@ -30,14 +52,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     layout="@layout/block_competition_page_before_main_content" />
-
-                <include
-                    android:id="@+id/competition_page_ongoing_block_container_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_below="@id/competition_page_before_block_container_layout"
-                    layout="@layout/block_competition_page_ongoing_main_content" />
             </RelativeLayout>
 
             <com.viewpagerindicator.TabPageIndicator

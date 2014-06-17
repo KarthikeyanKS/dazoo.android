@@ -925,7 +925,74 @@ public class CacheManager
 	
 	
 	
-	private List<Event> filterLiveEvents(List<Event> events) 
+	public List<Event> getAllFinishedEventsInReverseOrderForSelectedCompetition() {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		if(events != null && !events.isEmpty())
+		{			
+			for (Event ev : events) {
+				
+				if (ev.isFinished()) {
+					filteredEvents.add(ev);
+				}
+			}
+		}
+		
+		Collections.reverse(filteredEvents);
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	public List<Event> getAllEventsForTodayForSelectedCompetition()
+	{
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		if(events != null && !events.isEmpty())
+		{
+			events = filterFinishedEvents(events);
+			
+			for (Event ev : events) {
+				
+				if (ev.isEventAiringToday()) {
+					filteredEvents.add(ev);
+				}
+			}
+		}
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	public List<Event> getAllLiveEventsForSelectedCompetition() {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		if(events != null && !events.isEmpty())
+		{
+			events = filterFinishedEvents(events);
+			
+			for (Event ev: events) {
+				
+				if(ev.isLive()) {
+					filteredEvents.add(ev);
+				}
+			}
+		}
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	public List<Event> filterLiveEvents(List<Event> events) 
 	{
 		List<Event> filteredEvents = new ArrayList<Event>();
 		
@@ -942,7 +1009,7 @@ public class CacheManager
 	
 	
 	
-	private List<Event> filterFinishedEvents(List<Event> events) 
+	public List<Event> filterFinishedEvents(List<Event> events) 
 	{
 		List<Event> filteredEvents = new ArrayList<Event>();
 		

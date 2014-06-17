@@ -4,7 +4,6 @@ package com.mitv.fragments;
 
 
 import java.util.List;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -70,8 +69,10 @@ public class CompetitionTabFragmentSecondStage
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_tab_fragment_container, null);
-
+//		rootView = inflater.inflate(R.layout.fragment_competition_tab_fragment_container_listview, null);
+		
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
+//		listContainerLayout =  (ListView) rootView.findViewById(R.id.competition_table_container_new);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -149,11 +150,42 @@ public class CompetitionTabFragmentSecondStage
 		{
 			case SUCCESS_WITH_CONTENT:
 			{
+//				listContainerLayout.removeAllViews();
+//				
+//				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
+//
+//				// TODO Using old adapter. Change to the new one.
+//				listAdapter = new CopyOfCompetitionEventsByGroupListAdapterOLD(activity, eventsByGroups);
+//				
+//				for (int i = 0; i < listAdapter.getCount(); i++) 
+//				{
+//		            View listItem = listAdapter.getView(i, null, listContainerLayout);
+//		            
+//		            if (listItem != null)
+//		            {
+//		            	listContainerLayout.addView(listItem);
+//		            }
+//		        }
+//
+//				listContainerLayout.measure(0, 0);
+//				
+//				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
+//				if (viewPager.getCurrentItem() == CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION) {
+//					viewPager.onPageScrolled(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, 0, 0);
+//				}
+				
+				
+				//////////////////////////////////////////////
+				
 				listContainerLayout.removeAllViews();
 				
-				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getCacheManager().getAllEventsGroupedBySecondStageForSelectedCompetition();
-
-				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
+				List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllFinishedEventsInReverseOrderForSelectedCompetition();
+				
+				listAdapter = new CompetitionEventsByGroupListAdapter(activity, events);
+				
+//				listContainerLayout.setAdapter(listAdapter);
+//				
+//				listAdapter.notifyDataSetChanged();
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{
@@ -168,6 +200,7 @@ public class CompetitionTabFragmentSecondStage
 				listContainerLayout.measure(0, 0);
 				
 				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
+				
 				if (viewPager.getCurrentItem() == CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION) {
 					viewPager.onPageScrolled(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, 0, 0);
 				}
