@@ -280,7 +280,7 @@ extends BaseAdapter
 			
 			long phaseId = event.getPhaseId();
 			
-			Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseId);
+			Phase phase = ContentManager.sharedInstance().getCacheManager().getPhaseByIDForSelectedCompetition(phaseId);
 			
 			holder.group.setText(phase.getPhase());
 			

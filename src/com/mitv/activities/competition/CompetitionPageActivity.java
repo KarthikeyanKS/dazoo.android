@@ -222,7 +222,7 @@ public class CompetitionPageActivity
 	
 	private void setOngoingLayoutForEventsToday() 
 	{
-		List<Event> events = ContentManager.sharedInstance().getFromCacheAllLiveEventsForSelectedCompetition();
+		List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllLiveEventsForSelectedCompetition();
 		
 		/* ONLY FOR TESTING: If no live events we want to show the next upcoming instead */
 //		if (events.isEmpty()) {

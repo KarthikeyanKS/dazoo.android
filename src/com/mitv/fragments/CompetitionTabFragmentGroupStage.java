@@ -156,8 +156,8 @@ public class CompetitionTabFragmentGroupStage
 			{
 				listContainerLayout.removeAllViews();
 				
-				Map<Long, List<Event>> eventsByGroupsFirstStage = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
-				Map<Long, List<Event>> eventsByGroupsSecondStage = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
+				Map<Long, List<Event>> eventsByGroupsFirstStage = ContentManager.sharedInstance().getCacheManager().getAllEventsGroupedByGroupStageForSelectedCompetition();
+				Map<Long, List<Event>> eventsByGroupsSecondStage = ContentManager.sharedInstance().getCacheManager().getAllEventsGroupedBySecondStageForSelectedCompetition();
 				
 				List<Event> events = new ArrayList<Event>();
 				
@@ -172,7 +172,7 @@ public class CompetitionTabFragmentGroupStage
 					events.addAll(value);
 				}
 				
-				events = ContentManager.sharedInstance().filterFinishedEvents(events);
+				events = ContentManager.sharedInstance().getCacheManager().filterFinishedEvents(events);
 				
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, events);
 				

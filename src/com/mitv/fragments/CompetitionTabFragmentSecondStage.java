@@ -179,7 +179,7 @@ public class CompetitionTabFragmentSecondStage
 				
 				listContainerLayout.removeAllViews();
 				
-				List<Event> events = ContentManager.sharedInstance().getFromCacheAllFinishedEventsInReverseOrderForSelectedCompetition();
+				List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllFinishedEventsInReverseOrderForSelectedCompetition();
 				
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, events);
 				

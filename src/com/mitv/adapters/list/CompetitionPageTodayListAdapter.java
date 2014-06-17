@@ -196,7 +196,7 @@ public class CompetitionPageTodayListAdapter
 				{
 					long team1ID = event.getHomeTeamId();
 					
-					Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+					Team team1 = ContentManager.sharedInstance().getCacheManager().getTeamById(team1ID);
 					
 					if(team1 != null)
 					{
@@ -213,7 +213,7 @@ public class CompetitionPageTodayListAdapter
 					
 					long team2ID = event.getAwayTeamId();
 					
-					Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+					Team team2 = ContentManager.sharedInstance().getCacheManager().getTeamById(team2ID);
 
 					if(team2 != null)
 					{
@@ -280,7 +280,7 @@ public class CompetitionPageTodayListAdapter
 						
 						TVChannelId tvChannelId = new TVChannelId(channelID);
 						
-						TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+						TVChannel tvChannel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 						
 						if(tvChannel != null)
 						{
@@ -336,7 +336,7 @@ public class CompetitionPageTodayListAdapter
 
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-		                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competitionDisplayName);
+//		                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competitionDisplayName);
 		                
 		                activity.startActivity(intent);
 		            }
