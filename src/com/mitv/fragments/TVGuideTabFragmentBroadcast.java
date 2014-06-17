@@ -106,7 +106,7 @@ public class TVGuideTabFragmentBroadcast
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVTagsAndGuideForSelectedTVDate();
+		return ContentManager.sharedInstance().getCacheManager().containsTVTagsAndGuideForSelectedTVDate();
 	}
 	
 	
@@ -118,7 +118,7 @@ public class TVGuideTabFragmentBroadcast
 		{
 			boolean noContent = true;
 			
-			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getCacheManager().getTaggedBroadcastsForSelectedTVDate();
 				
 			if(taggedBroadcastForDay != null) 
 			{
@@ -184,22 +184,31 @@ public class TVGuideTabFragmentBroadcast
 	
 	protected void clearContentOnTagAndReload() 
 	{
-		int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
+		final int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
 
-		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex);
-		removeAlreadyEndedBroadcastsTask.run();
-		
-		boolean enableCompetitionBanners = false;
-		
-		boolean isSportsTag = getTabId().equalsIgnoreCase(SPORTS_TAG_ID);
-		
-		if(isSportsTag)
-		{
-			enableCompetitionBanners = true;
-		}
-		
-		tvTagListAdapter = new TVGuideTagListAdapter(activity, getTabTitle(), taggedBroadcasts, startIndex, enableCompetitionBanners);
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex) {
 			
-		listView.setAdapter(tvTagListAdapter);
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				
+				boolean enableCompetitionBanners = false;
+				
+				boolean isSportsTag = getTabId().equalsIgnoreCase(SPORTS_TAG_ID);
+				
+				if(isSportsTag)
+				{
+					enableCompetitionBanners = true;
+				}
+				
+				tvTagListAdapter = new TVGuideTagListAdapter(activity, getTabTitle(), taggedBroadcasts, startIndex, enableCompetitionBanners);
+					
+				listView.setAdapter(tvTagListAdapter);
+			}
+		};
+		
+		removeAlreadyEndedBroadcastsTask.execute();
+
 	}
+	
 }

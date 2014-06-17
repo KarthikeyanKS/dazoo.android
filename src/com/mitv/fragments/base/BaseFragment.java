@@ -147,7 +147,7 @@ public abstract class BaseFragment
 
 		if (isConnected) 
 		{
-			boolean hasInitialData = ContentManager.sharedInstance().getFromCacheHasInitialData();
+			boolean hasInitialData = ContentManager.sharedInstance().getCacheManager().containsInitialData();
 
 			if (hasInitialData) 
 			{
@@ -347,7 +347,7 @@ public abstract class BaseFragment
 	
 	public void initRequestCallbackLayouts(View view) 
 	{
-		requestSuccessfulLayout = (RelativeLayout) view.findViewById(R.id.request_successful_layout);
+//		requestSuccessfulLayout = (RelativeLayout) view.findViewById(R.id.request_successful_layout);
 		
 		requestLoadingLayout = (RelativeLayout) view.findViewById(R.id.request_loading_not_transparent);
 		

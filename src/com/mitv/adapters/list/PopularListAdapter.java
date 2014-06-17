@@ -186,7 +186,7 @@ public class PopularListAdapter
 				public void onClick(View v) 
 				{
 					/* Go to the corresponding Broadcast page */
-					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 
@@ -278,7 +278,7 @@ public class PopularListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					

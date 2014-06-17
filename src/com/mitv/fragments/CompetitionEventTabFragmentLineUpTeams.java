@@ -153,7 +153,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{		
-		return ContentManager.sharedInstance().getFromCacheHasLineUpDataByEventIDForSelectedCompetition(eventID);
+		return ContentManager.sharedInstance().getCacheManager().containsLineUpDataByEventIDForSelectedCompetition(eventID);
 	}
 	
 	
@@ -185,7 +185,7 @@ public class CompetitionEventTabFragmentLineUpTeams
 				listContainerLayout.removeAllViews();
 				
 				// Line up - main
-				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getFromCacheInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
+				List<EventLineUp> eventLineUps = ContentManager.sharedInstance().getCacheManager().getInStartingLineUpLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 	
 				Collections.sort(eventLineUps, new EventLineUpComparatorByPositionAndShirtNumber());
 				
@@ -201,10 +201,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 		            }
 		        }
 				
-				listContainerLayout.measure(0, 0);
-				
 				// Line up - Substitutes
-				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getFromCacheSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
+				List<EventLineUp> eventLineUpsSubs = ContentManager.sharedInstance().getCacheManager().getSubstitutesLineUpDataByEventIDForSelectedCompetition(eventID, teamID);
 				
 				Collections.sort(eventLineUpsSubs, new EventLineUpComparatorByPositionAndShirtNumber());
 				
@@ -216,12 +214,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 					
 					StringBuilder sb = new StringBuilder();
 
-					sb.append(activity.getResources().getString(R.string.event_page_lineup_subs_header));
-					
-					if (eventLineUpsSubs.size() > 1) {
-						sb.append("s");
-					} 
-					
+					sb.append(activity.getResources().getQuantityString(R.plurals.event_page_lineup_subs_header, eventLineUpsSubs.size()));
+										
 					subsHeader.setText(sb.toString());
 					
 					listAdapterSubs = new CompetitionEventLineUpTeamsListAdapter(activity, eventLineUpsSubs);
@@ -236,8 +230,6 @@ public class CompetitionEventTabFragmentLineUpTeams
 			            }
 			        }
 					
-					eventListOfSubs.measure(0, 0);
-					
 					subsHeader.setVisibility(View.VISIBLE);
 					eventListOfSubs.setVisibility(View.VISIBLE);
 				}
@@ -247,16 +239,25 @@ public class CompetitionEventTabFragmentLineUpTeams
 					eventListOfSubs.setVisibility(View.GONE);
 				}
 				
+				containerLayout.measure(0, 0);
+				
 				if(getType() == EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM)
 				{
-					// TODO Check for the + 100 if thats correct. Seems to solve the bug with the list view.
-					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight() + 100);
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, containerLayout.getMeasuredHeight());
 					
-					viewPager.onPageScrolled(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, 0, 0); //TODO: Ugly solution to viewpager not updating height on first load.
+					if (viewPager.getCurrentItem() == CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION) 
+					{
+						viewPager.onPageScrolled(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, 0, 0);
+					}
 				}
 				else
 				{
-					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, listContainerLayout.getMeasuredHeight() + eventListOfSubs.getMeasuredHeight() + 100);
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, containerLayout.getMeasuredHeight());
+					
+					if (viewPager.getCurrentItem() == CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION) 
+					{
+						viewPager.onPageScrolled(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, 0, 0);
+					}
 				}
 				
 				containerLayout.setOnClickListener(new View.OnClickListener() {
@@ -269,9 +270,9 @@ public class CompetitionEventTabFragmentLineUpTeams
 							competitionIdForTracking = competitionID;
 						}
 						else if (eventID != 0) {
-							competitionIdForTracking = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID).getCompetitionId();
+							competitionIdForTracking = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID).getCompetitionId();
 						}
-						TrackingGAManager.sharedInstance().senduserCompetitionLineupPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionIdForTracking).getDisplayName());
+						TrackingGAManager.sharedInstance().senduserCompetitionLineupPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionIdForTracking).getDisplayName());
 					}
 				});
 				

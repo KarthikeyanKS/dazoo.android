@@ -31,7 +31,6 @@ import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -80,9 +79,9 @@ public class ChannelPageActivity
 	protected void onResume() 
 	{
 		/* It is necessary to set the correct channel, in order for the hasEnoughDataToShowContent and loadData to work properly */
-		TVChannelId channelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+		TVChannelId channelId = ContentManager.sharedInstance().getCacheManager().getSelectedTVChannelId();
 		
-		channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+		channel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(channelId);
 		
 		super.onResume();
 	}
@@ -137,44 +136,63 @@ public class ChannelPageActivity
 					
 					broadcastWithChannelInfo.setChannel(channel);
 	
-					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+					boolean isCompetitionEvent = false;
+					long competitionId = 0;
+					long eventId = 0;
 					
-					/* FIFA - Navigation to event page */
+					Intent intent;
+					
 					ArrayList<String> tags = broadcastSelected.getProgram().getTags();
 
 					if (tags != null && !tags.isEmpty()) 
 					{
-						for (int i = 0; i < tags.size(); i++) {
-
-							if (tags.get(i).equals(Constants.FIFA_TAG_ID)) 
+						for (int i = 0; i < tags.size(); i++) 
+						{
+							if (tags.get(i).equals(Constants.FIFA_TAG_ID))
 							{
-								long eventId = broadcastSelected.getEventId();
+								isCompetitionEvent = true;
+								
+								eventId = broadcastSelected.getEventId();
 
-								if (eventId > 0) {
-									/*
-									 * WARNING WARNING WARNING
-									 * 
-									 * Hard coded competition ID used here.
-									 * 
-									 */
-									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
-
-									/* Changing the already existing intent to competition event page */
-									intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
-
-									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-
-									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-
-									intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
-								}
+								/*
+								 * TODO: Hard coded competition ID used here.
+								 * 
+								 */
+								competitionId = Constants.FIFA_COMPETITION_ID;
+								
+								break;
 							}
 						}
 					}
 					
-					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					if(isCompetitionEvent)
+					{
+						if (competitionId > 0 && eventId > 0) 
+						{
+							intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
+
+							intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionId);
+							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+						}
+						else
+						{
+							Log.w(TAG, "Competition search result had values competitionId: " + competitionId + " and eventId: " + eventId);
+							
+							intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+							
+							ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+						}
+					}
+					else
+					{
+						intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+						
+						ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					}
 					
-					ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
+					ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					
+					ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(channel.getChannelId());
 					
 					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInChannelActivity(channel, broadcastSelected, position);
 	
@@ -218,7 +236,7 @@ public class ChannelPageActivity
 	{
 		if (channel != null) 
 		{
-			return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+			return ContentManager.sharedInstance().getCacheManager().containsTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		}
 		return false;
 	}
@@ -228,7 +246,7 @@ public class ChannelPageActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
-		TVChannelGuide channelGuide = ContentManager.sharedInstance().getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		TVChannelGuide channelGuide = ContentManager.sharedInstance().getCacheManager().getTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		

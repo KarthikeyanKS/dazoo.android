@@ -49,7 +49,6 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
 import com.mitv.models.objects.mitvapi.TVSearchResult;
 import com.mitv.models.objects.mitvapi.TVSearchResults;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.ui.elements.InstantAutoCompleteView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
@@ -249,16 +248,16 @@ public class SearchPageActivity
 				
 				Intent intent;
 				
-				if (ContentManager.sharedInstance().isContainedInUsedChannelIds(channelId)) 
+				if (ContentManager.sharedInstance().getCacheManager().isContainedInUsedChannelIds(channelId)) 
 				{
-					ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+					ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(channelId);
 					intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
 				} 
 				else
 				{
-					if (ContentManager.sharedInstance().isLoggedIn())
+					if (ContentManager.sharedInstance().getCacheManager().isLoggedIn())
 					{
-						ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+						ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(channelId);
 						ContentManager.sharedInstance().setGoingToMyChannelsFromSearch(true);
 						intent = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
 					} 
@@ -280,41 +279,59 @@ public class SearchPageActivity
 				{
 					hitName = nextBroadcast.getTitle();
 					
-					Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+					boolean isCompetitionEvent = false;
+					long competitionId = 0;
+					long eventId = 0;
 					
-					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+					Intent intent;
 					
-//					if (Constants.ENABLE_LINK_FROM_TVGUIDE_TO_EVENT_PAGE) {
-//						/* FIFA - Navigation to event page */
-//						ArrayList<String> tags = nextBroadcast.getProgram().getTags();
-//						
-//						if (tags != null && !tags.isEmpty()) {
-//							
-//							for (int i = 0; i < tags.size(); i++) {
-//								
-//								if (tags.get(i).equals(Constants.FIFA_TAG_ID)) {
-//									long eventId = nextBroadcast.getEventId();
-//									
-//									/*
-//									 * WARNING WARNING WARNING
-//									 * 
-//									 * Hard coded competition ID used here.
-//									 * 
-//									 */
-//									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
-//									
-//									/* Changing the already existing intent to competition event page */
-//									intent = new Intent(SearchPageActivity.this, EventPageActivity.class);
-//									
-//									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-//									
-//									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-//									
-//					                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
-//								}
-//							}
-//						}
-//					}
+					ArrayList<String> tags = nextBroadcast.getProgram().getTags();
+
+					if (tags != null && !tags.isEmpty()) 
+					{
+						for (int i = 0; i < tags.size(); i++) 
+						{
+							if (tags.get(i).equals(Constants.FIFA_TAG_ID))
+							{
+								isCompetitionEvent = true;
+								
+								eventId = nextBroadcast.getEventId();
+
+								/*
+								 * TODO: Hard coded competition ID used here.
+								 * 
+								 */
+								competitionId = Constants.FIFA_COMPETITION_ID;
+								
+								break;
+							}
+						}
+					}
+					
+					if(isCompetitionEvent)
+					{
+						if (competitionId > 0 && eventId > 0) 
+						{
+							intent = new Intent(SearchPageActivity.this, EventPageActivity.class);
+
+							intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionId);
+							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+						}
+						else
+						{
+							Log.w(TAG, "Competition search result had values competitionId: " + competitionId + " and eventId: " + eventId);
+							
+							intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+							
+							ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+						}
+					}
+					else
+					{
+						intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+						
+						ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(nextBroadcast);
+					}
 					
 					startActivity(intent);
 				} 
@@ -449,7 +466,7 @@ public class SearchPageActivity
 		{
 			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			
-			SearchResultsForQuery searchResultsForQuery = ContentManager.sharedInstance().getFromCacheSearchResults();
+			SearchResultsForQuery searchResultsForQuery = ContentManager.sharedInstance().getCacheManager().getSearchResults();
 			
 			if (searchResultsForQuery != null) 
 			{

@@ -56,9 +56,11 @@ public abstract class AsyncTaskWithUserToken<T>
 
 	
 	@Override
-	protected void onPreExecute() {
+	protected void onPreExecute() 
+	{
 		super.onPreExecute();
-		userToken = ContentManager.sharedInstance().getFromCacheUserToken();
+		
+		userToken = ContentManager.sharedInstance().getCacheManager().getUserToken();
 	}
 
 

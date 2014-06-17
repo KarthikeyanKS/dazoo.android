@@ -121,7 +121,7 @@ public class CompetitionTabFragmentSecondStage
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
+		return ContentManager.sharedInstance().getCacheManager().containsEventsGroupedByPhaseForSelectedCompetition();
 	}
 	
 	

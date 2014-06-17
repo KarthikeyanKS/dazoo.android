@@ -4,18 +4,21 @@ package com.mitv.asynctasks.other;
 
 
 import java.util.ArrayList;
+
+import android.os.AsyncTask;
+
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 
 
 public class RemoveAlreadyEndedBroadcastsTask
-	implements Runnable
+	extends AsyncTask<Void, Void, Void>
 {
 	private int startIndex;
 	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
-	
-	
+
+
 	public RemoveAlreadyEndedBroadcastsTask(
 			final ArrayList<TVBroadcastWithChannelInfo> broadcasts, 
 			final int startIndex)
@@ -23,12 +26,9 @@ public class RemoveAlreadyEndedBroadcastsTask
 		this.startIndex = startIndex;
 		this.broadcasts = broadcasts;
 	}
-	
-	
-	
+
 	@Override
-	public void run() 
-	{
+	protected Void doInBackground(Void... params) {
 		ArrayList<TVBroadcast> tvBroadcastsToRemove = new ArrayList<TVBroadcast>();
 
 		if(broadcasts != null && startIndex >= 0)
@@ -48,5 +48,7 @@ public class RemoveAlreadyEndedBroadcastsTask
 				broadcasts.remove(broadcast);
 			}
 		}
+
+		return null;		
 	}
 }

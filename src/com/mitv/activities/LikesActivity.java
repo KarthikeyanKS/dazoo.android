@@ -97,7 +97,7 @@ public class LikesActivity
 
 		if (isConnected) 
 		{
-			return ContentManager.sharedInstance().getFromCacheHasUserLikes();
+			return ContentManager.sharedInstance().getCacheManager().containsUserLikes();
 		}
 		else
 		{
@@ -118,7 +118,7 @@ public class LikesActivity
 			{
 				if (fetchRequestResult.wasSuccessful()) 
 				{
-					boolean cacheContainsLikes = (ContentManager.sharedInstance().getFromCacheUserLikes().isEmpty() == false);
+					boolean cacheContainsLikes = (ContentManager.sharedInstance().getCacheManager().getUserLikes().isEmpty() == false);
 					
 					if(cacheContainsLikes)
 					{
@@ -162,7 +162,7 @@ public class LikesActivity
 		
 			case SUCCESS_WITH_CONTENT:
 			{
-				List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+				List<UserLike> userLikes = ContentManager.sharedInstance().getCacheManager().getUserLikes();
 				
 				Collections.sort(userLikes, new UserLikeComparatorByTitle());
 				

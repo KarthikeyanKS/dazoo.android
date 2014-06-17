@@ -72,7 +72,7 @@ public abstract class DateUtils
 	{
 		Calendar startOfTVDayCalendar = convertFromStringToUTC0CalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString);
 		
-		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		startOfTVDayCalendar.set(Calendar.HOUR_OF_DAY, firstHourOfTVDay);
 		startOfTVDayCalendar.set(Calendar.MINUTE, 0);
@@ -95,7 +95,7 @@ public abstract class DateUtils
 		Calendar startOfTVDayCalendar = getNowWithGMTTimeZone();
 		startOfTVDayCalendar.setTimeInMillis(inputMilliseconds);
 		
-		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		int startHour = startOfTVDayCalendar.get(Calendar.HOUR_OF_DAY);
 		
@@ -358,7 +358,7 @@ public abstract class DateUtils
 			final Calendar inputCalendar1, 
 			final Calendar inputCalendar2) 
 	{
-		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		boolean isYearEqual = (inputCalendar1.get(Calendar.YEAR) - inputCalendar2.get(Calendar.YEAR)) <= 1;
     	boolean isMonthEqual = (inputCalendar1.get(Calendar.MONTH) - inputCalendar2.get(Calendar.MONTH)) <= 1;
@@ -441,7 +441,7 @@ public abstract class DateUtils
 		
 		Locale locale = LanguageUtils.getCurrentLocale();
 		
-		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		int startHour = inputCalendar.get(Calendar.HOUR_OF_DAY);
 		
@@ -622,7 +622,7 @@ public abstract class DateUtils
 		
 		if(useFirstHourOfTheDay)
 		{
-			int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 	
 			boolean correctHourLowerBound = calendar.get(Calendar.HOUR_OF_DAY) <= 23;
 			boolean correctHourUpperBound = calendar.get(Calendar.HOUR_OF_DAY) >= firstHourOfTVDay;
@@ -661,7 +661,7 @@ public abstract class DateUtils
 				
 		int hoursValue = selectedHour;
 		
-		int firstHourOfTheDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		int firstHourOfTheDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		
 //		if(currentHour >= 0 && currentHour < firstHourOfTheDay)

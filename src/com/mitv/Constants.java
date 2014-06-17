@@ -17,7 +17,6 @@ public abstract class Constants
 	public static final String HTTP_SCHEME = "http://";
 	public static final String HTTPS_SCHEME	= "https://";
 	public static final String FORWARD_SLASH = "/";
-	public static final String REQUEST_QUERY_SEPARATOR = "/";
 	
 	
 	/* BACKEND API BASE URLs */
@@ -59,10 +58,6 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
-	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 600;
-	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
-	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
-	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
 	
 	
 	/* AMAZON INSIGHTS configurations */
@@ -196,60 +191,59 @@ public abstract class Constants
 	public static final String	DATE_FORMAT_DAY_AND_MONTH							= "dd/MM";
 	
 	
-	/* Extra intents - Misc */
+	/* Intent Extras - Notification */
+	/** WARNING do NOT change INTENT_NOTIFICATION value without changing it in the Android Manifest <action android:name="NOTIFICATION" />  **/
+	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION"; 
+	public static final String	INTENT_NOTIFICATION_ACTIVITY_CLASS_NAME 			= "com.mitv.intent.alarn.extra.notification.activity.class.name";
+	public static final String	INTENT_NOTIFICATION_TYPE 							= "com.mitv.intent.alarn.extra.notification.type";
+	public static final String	INTENT_NOTIFICATION_EXTRA_NOTIFICATION_ID			= "com.mitv.intent.alarm.extra.notification.id";
+	public static final String	INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION 		= "com.mitv.intent.extra.is.from.notification";
+	
+	/* Intent Extras - User Profile */
+	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
+	public static final String	INTENT_EXTRA_SEARCHSTRING							= "com.mitv.intent.extra.searchstring";
+
+	
+	/* Intent Extras - Misc */
 	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.mitv.intent.extra.channel.id";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.mitv.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_IS_FROM_SPLASHSCREEN					= "com.mitv.intent.extra.is.from.splashscreen";
-	public static final String	INTENT_EXTRA_IS_FROM_NOTIFICATION 					= "com.mitv.intent.extra.is.from.notification";
 	public static final String	INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO	= "com.mitv.intent.extra.need.to.download.broadcast.with.channel.info";
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT			= "com.mitv.intent.extra.activity.user.logout.success";
 	
 	
-	/* Extra intents - Notification */
-	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION"; //WARNING do NOT change this without changing in the Android Manifest> <action android:name="NOTIFICATION" />
-	public static final String	INTENT_NOTIFICATION_EXTRA_NOTIFICATION_ID			= "com.mitv.intent.alarm.extra.notification.id";
-
-	
-	/* Extra intents - User Profile */
-	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
-	public static final String	INTENT_EXTRA_SEARCHSTRING							= "com.mitv.intent.extra.searchstring";
-
-	
-	/* TVGuide */
-	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
-	
-	public static final int		FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT				= 10;
-	public static final int		FEED_ACTIVITY_FEED_ITEM_MORE_COUNT					= 5;
+	/* TVGuide and FeedActivity */
+	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
+	public static final int	TV_GUIDE_NEXT_PROGRAMS_NUMBER = 3;
+	public static final int	FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT = 10;
+	public static final int	FEED_ACTIVITY_FEED_ITEM_MORE_COUNT = 5;
 
 
 	// =========================== CONTENT ================================
 
 	/* PROGRAM fields */
 	public static final String	PROGRAM_IMAGES								= "images";
-	public static final String	PROGRAM_TAGS									= "tags";
+	public static final String	PROGRAM_TAGS								= "tags";
 	public static final String	PROGRAM_CREDITS								= "credits";
 	public static final String	PROGRAM_EPISODE								= "episodeNumber";
 	public static final String	PROGRAM_SEASON								= "season";
 	public static final String	PROGRAM_SERIES								= "series";
-	public static final String	PROGRAM_YEAR									= "year";
-	public static final String	PROGRAM_GENRE									= "genre";
-	public static final String	PROGRAM_SPORTTYPE								= "sportType";
+	public static final String	PROGRAM_YEAR								= "year";
+	public static final String	PROGRAM_GENRE								= "genre";
+	public static final String	PROGRAM_SPORTTYPE							= "sportType";
 	public static final String	PROGRAM_TOURNAMENT							= "tournament";
-	public static final String	PROGRAM_CATEGORY								= "category";
+	public static final String	PROGRAM_CATEGORY							= "category";
 	public static final String	PROGRAM_TYPE_TV_EPISODE						= "TV_EPISODE";
-	public static final String	PROGRAM_TYPE_MOVIE							= "MOVIE";
-	public static final String	PROGRAM_TYPE_OTHER							= "OTHER";
-	public static final String	PROGRAM_TYPE_SPORT							= "SPORT";
 	public static final String	PROGRAM_TYPE_SPORTTYPE						= "sportType";
 	public static final String	PROGRAM_CAST_ACTORS							= "ACTOR";
 
 	
 	/* LIKE fields */	
-	public static final String 	LIKE_NEXT_BROADCAST 							= "nextBroadcast";
-	public static final String 	LIKE_NEXT_BROADCAST_COUNT 						= "broadcastCount";
-	public static final String	LIKE_NEXT_BROADCAST_CHANNELID					= "channelId";
+	public static final String 	LIKE_NEXT_BROADCAST 						= "nextBroadcast";
+	public static final String 	LIKE_NEXT_BROADCAST_COUNT 					= "broadcastCount";
+	public static final String	LIKE_NEXT_BROADCAST_CHANNELID				= "channelId";
 	public static final String	LIKE_NEXT_BROADCAST_BEGINTIMEMILLIS			= "beginTimeMillis";
 	
 	
@@ -264,6 +258,7 @@ public abstract class Constants
 	
 	/* GOOGLE ANALYTICS KEYS */
 	/* Fields */
+	public static final String GA_APP_VERSION_NOT_SET								= "ERROR_APP_VERSION_NOT_SET";
 	public static final String GA_FIELD_USER_ID										= "&uid";
 	
 	
@@ -323,45 +318,11 @@ public abstract class Constants
 	public static final String GA_EVENT_ACTION_TEAM_PRESSED = "TEAM_PRESSED";
 	public static final String GA_EVENT_ACTION_COMPETITION_EVENT_PRESSED = "COMPETITION_EVENT_PRESSED";
 	public static final String GA_EVENT_ACTION_VIEW_ALL_LINK_PRESSED = "VIEW_ALL_LINK_PRESSED";
+	public static final String GA_EVENT_ACTION_HIGHLIGHTS_RELOAD_PRESSED = "HIGHLIGHTS_RELOAD_PRESSED";
 	
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT		= "DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT";
-	
-	
-	/* GOOGLE ANALYTICS VALUES */
-	public static final String GA_APP_VERSION_NOT_SET								= "ERROR_APP_VERSION_NOT_SET";
-	
-	
-	/* ADZERK URL */
-	public static final String ADS_POST_URL							= HTTP_SCHEME + "engine.adzerk.net/api/v2";
-	
-	
-	/* JSON KEYS FOR ADZERK ADS */
-	public static final String JSON_KEY_ADS_OBJECT_KEY_DECISIONS	= "decisions";
-	public static final String JSON_KEY_ADS_OBJECT_KEY_USER 		= "user";
-	public static final String JSON_KEY_ADS_SUB_OBJECT_KEY_CONTENTS = "contents";
-	public static final String JSON_KEY_ADS_SUB_OBJECT_KEY_DATA	 	= "data";
-	
-	public static final String JSON_KEY_ADS_DIV_NAME				= "divName";	
-	public static final String JSON_KEY_ADS_NETWORK_ID				= "networkId";
-	public static final String JSON_KEY_ADS_SITE_ID					= "siteId";
-	public static final String JSON_KEY_ADS_AD_TYPES 				= "adTypes";
-	public static final String JSON_KEY_ADS_PLACEMENTS 				= "placements";
-	public static final String JSON_KEY_ADS_IS_MOBILE 				= "isMobile";
-				
-	public static final String JSON_KEY_ADS_USER_KEY				= "key";
-	public static final String JSON_KEY_ADS_AD_ID 					= "adId";
-	public static final String JSON_KEY_ADS_CREATIVE_ID 			= "creativeId";
-	public static final String JSON_KEY_ADS_FLIGHT_ID 				= "flightId";
-	public static final String JSON_KEY_ADS_CAMPAIGN_ID 			= "campaignId";
-	
-	public static final String JSON_KEY_ADS_CLICK_URL 				= "clickUrl";
-	public static final String JSON_KEY_ADS_IMPRESSION_URL 			= "impressionUrl";
-	public static final String JSON_KEY_ADS_IMAGE_URL 				= "imageUrl";
-		
-	public static final String JSON_KEY_ADS_IMAGE_WIDTH 			= "width";
-	public static final String JSON_KEY_ADS_IMAGE_HEIGHT 			= "height";
 
 	
 	/* JSON KEYS FOR SEARCH RESULTS */
@@ -396,15 +357,9 @@ public abstract class Constants
 	public static final String JSON_USER_LIKE_PROGRAM_OTHER_CATEGORY = "category";
 	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_GENRE = "genre";
 	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_YEAR = "year";
-	
-	public static final String JSON_USER_FEED_ITEM_BROADCAST = "broadcast";
-	public static final String JSON_USER_FEED_ITEM_BROADCASTS = "broadcasts";
-	
 	public static final String JSON_VERSIONS_KEY_NAME = "api";
 	public static final String JSON_VERSIONS_KEY_PROMOTION = "promotion";
 	public static final String JSON_VERSIONS_KEY_ANDROID = "android";
-	
-	
 	
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
@@ -456,12 +411,15 @@ public abstract class Constants
     
 	
     /* Shared preferences for data storage */
+	public static final String SYSTEM_APP_PATH = "/system/app/";
 	public static final String DEVICE_PREFERENCES_FILE = "device_id.xml";
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
 	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
+	public static final String SHARED_PREFERENCES_APP_INSTALLED_ORM_DATABASE_VERSION = "com.mitv.app.installed.orm.database.version";
+	
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
 	
 	
@@ -493,9 +451,9 @@ public abstract class Constants
 	
 	
 	/* Misc configurations */
-	public static final String SYSTEM_APP_PATH = "/system/app/";
 	public static final String ELLIPSIS_STRING = "...";
-	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
+	public static final int TOTAL_CELLS_IN_BETWEEN_COMPETITION_BANNERS = 2;
+	public static final String SPANISH_LOCALE_CODE = "es";
 	
 	
 	/* Competitions */
@@ -510,11 +468,15 @@ public abstract class Constants
 	public static final String INTENT_COMPETITION_EVENT_ID = "eventID";
 	public static final String INTENT_COMPETITION_TEAM_ID = "teamID";
 	public static final String INTENT_COMPETITION_PHASE_ID = "phaseID";
-	public static final String INTENT_COMPETITION_NAME = "competitionName";
 	public static final String INTENT_COMPETITION_SELECTED_TAB_INDEX = "competitionSelectedTabIndex";
 	public static final String REQUEST_DATA_COMPETITION_EVENT_ID_KEY = "eventID";
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
 	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";
+	
+	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 600;
+	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
+	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
+	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
 	
 	public static final int EVENT_CURRENT_MINUTE_UNAVAILABLE = -1;
 	public static final int EVENT_CURRENT_MINUTE_IN_PENALTIES = -2;
@@ -525,5 +487,4 @@ public abstract class Constants
 	/* Competitions - FIFA World Cup 2014 specific */
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
-	public static final String FIFA_EVENT_PAGE_HEADER = "Copa Mundial Brasil 2014";
 }

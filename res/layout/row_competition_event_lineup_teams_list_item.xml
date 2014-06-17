@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey0" >
-    
+
     <!-- DIVIDER IF COACH -->
 
     <View
@@ -15,41 +14,28 @@
         android:background="@color/white"
         android:visibility="gone" />
 
-    <RelativeLayout
-        android:id="@+id/row_competition_event_lineup_player_shirt_number_container"
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/row_competition_event_lineup_player_shirt_number"
+        style="@style/meta1"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp" >
+        android:layout_centerVertical="true"
+        android:layout_margin="7dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        font:fonttextview="roboto_mitv_bold.ttf" />
 
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_competition_event_lineup_player_shirt_number"
-            style="@style/meta1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/black"
-            font:fonttextview="roboto_mitv_bold.ttf" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/row_competition_event_lineup_player_position_container"
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/row_competition_event_lineup_player_position"
+        style="@style/meta1"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/row_competition_event_lineup_player_shirt_number_container"
-        android:layout_marginTop="10dp" >
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/row_competition_event_lineup_player_position"
-            style="@style/meta1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLength="3"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+        android:layout_centerVertical="true"
+        android:layout_margin="7dp"
+        android:layout_toRightOf="@id/row_competition_event_lineup_player_shirt_number"
+        android:gravity="center"
+        android:maxLength="3" />
 
     <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_competition_event_lineup_player_name"
@@ -57,9 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/row_competition_event_lineup_player_position_container"
+        android:layout_margin="7dp"
+        android:layout_toRightOf="@id/row_competition_event_lineup_player_position"
         android:textColor="@color/black" />
 
 </RelativeLayout>

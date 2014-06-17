@@ -77,13 +77,18 @@ public class RemindersActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		List<Notification> notifications = ContentManager.sharedInstance().getFromCacheNotifications();
+		List<Notification> notifications = ContentManager.sharedInstance().getCacheManager().getNotifications();
 
 		Collections.sort(notifications, new NotificationComparatorByBeginTime());
 
 		listAdapter = new RemindersListAdapter(this, notifications);
 
-		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		if (notifications != null && notifications.isEmpty() == false) {
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		}
+		else {
+			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+		}
 	}
 	
 	

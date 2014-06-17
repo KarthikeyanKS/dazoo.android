@@ -44,17 +44,17 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 		
 		setContentView(R.layout.layout_repeating_list_activity);
 		
-		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 		
 		if(this instanceof RepetitionsListMoreActivity) 
 		{
-			broadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(runningBroadcast);
+			broadcasts = ContentManager.sharedInstance().getCacheManager().getRepeatingBroadcastsVerifyCorrect(runningBroadcast);
 			
 			broadcastListAdapterType = BroadcastListAdapterTypeEnum.PROGRAM_REPETITIONS;
 		} 
 		else
 		{
-			broadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(runningBroadcast);
+			broadcasts = ContentManager.sharedInstance().getCacheManager().getUpcomingBroadcastsVerifyCorrect(runningBroadcast);
 			
 			broadcastListAdapterType = BroadcastListAdapterTypeEnum.UPCOMING_BROADCASTS;
 		}
@@ -144,7 +144,7 @@ public abstract class RepetitionsOrUpcomingListMoreActivity
 	@Override
 	public void onBackPressed() 
 	{
-		ContentManager.sharedInstance().popFromSelectedBroadcastWithChannelInfo();
+		ContentManager.sharedInstance().getCacheManager().popFromSelectedBroadcastWithChannelInfo();
 		
 		super.onBackPressed();
 		

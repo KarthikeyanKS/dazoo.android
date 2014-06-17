@@ -95,7 +95,7 @@ public class TVGuideListAdapter
 	{
 		int itemViewType = super.getItemViewType(position);
 		
-		if(itemViewType == BannerViewType.BANNER_VIEW_TYPE_STANDARD.getId() && isAddMoreChannelsCellPosition(position)) 
+		if(isAddMoreChannelsCellPosition(position)) 
 		{
 			itemViewType = BannerViewType.BANNER_VIEW_TYPE_CUSTOM.getId();
 		}
@@ -110,7 +110,7 @@ public class TVGuideListAdapter
 	{
 		BannerViewType viewType = super.getBannerViewType(position);
 		
-		if(viewType == BannerViewType.BANNER_VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) 
+		if(isAddMoreChannelsCellPosition(position)) 
 		{
 			viewType = BannerViewType.BANNER_VIEW_TYPE_CUSTOM;
 		}
@@ -198,7 +198,7 @@ public class TVGuideListAdapter
 				
 				intent.putExtra(Constants.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 
-				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
+				ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(guide.getChannelId());
 				
 				activity.startActivity(intent);
 			}
@@ -403,7 +403,7 @@ public class TVGuideListAdapter
 			{	
 				TrackingGAManager.sharedInstance().sendUserPressedAddMoreChannelsCell();
 				
-				if (ContentManager.sharedInstance().isLoggedIn()) 
+				if (ContentManager.sharedInstance().getCacheManager().isLoggedIn()) 
 				{
 					Intent intentMyChannels = new Intent(activity, MyChannelsActivity.class);
 					
@@ -491,7 +491,7 @@ public class TVGuideListAdapter
 	{
 		this.selectedHour = selectedHour;
 
-		ContentManager.sharedInstance().setSelectedHour(selectedHour);
+		ContentManager.sharedInstance().getCacheManager().setSelectedHour(selectedHour);
 		
 		notifyDataSetChanged();
 	}

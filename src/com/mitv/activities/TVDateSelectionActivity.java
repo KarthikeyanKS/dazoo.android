@@ -22,6 +22,7 @@ public abstract class TVDateSelectionActivity
 	extends BaseContentActivity 
 	implements OnNavigationListener 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = TVDateSelectionActivity.class.getName();
 	
 	
@@ -76,7 +77,7 @@ public abstract class TVDateSelectionActivity
 	{
 		onNavigationItemSelectedHasBeenCalledByOSYet = false;
 		
-		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+		List<TVDate> tvDates = ContentManager.sharedInstance().getCacheManager().getTVDates();
 
 		dayAdapter = new ActionBarDropDownDateListAdapter(this, tvDates);
 
@@ -89,7 +90,7 @@ public abstract class TVDateSelectionActivity
 	
 	private void setSelectedDayInAdapter()
 	{
-		int selectedDayIndex = ContentManager.sharedInstance().getFromCacheTVDateSelectedIndex();
+		int selectedDayIndex = ContentManager.sharedInstance().getCacheManager().getTVDateSelectedIndex();
 
 		dayAdapter.setSelectedIndex(selectedDayIndex);
 
@@ -139,7 +140,7 @@ public abstract class TVDateSelectionActivity
 			
 			case NO_CONNECTION_AVAILABLE:
 			{
-				boolean hasTVDates = ContentManager.sharedInstance().getFromCacheHasTVDates();
+				boolean hasTVDates = ContentManager.sharedInstance().getCacheManager().containsTVDates();
 				
 				if(hasTVDates == false)
 				{

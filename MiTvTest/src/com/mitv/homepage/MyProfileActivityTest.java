@@ -54,6 +54,7 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<User
     public void test_create_new_account() throws Exception {
     	final String email = generateEmail();
     	final String password = "asdqwe";
+    	checkforLogin();
     	solo.waitForView(R.id.tab_me);
     	solo.clickOnView(solo.getView(R.id.tab_me));
     	
@@ -81,22 +82,7 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<User
     	solo.waitForView(R.id.mitvlogin_login_email_edittext);
     	login(email, password);
     }
-    /*
-    public void test_login_and_out_new_account() throws Exception {
-    	
-    	solo.waitForView(R.id.tab_me);
-    	solo.clickOnView(solo.getView(R.id.tab_me));
-    	
-    	solo.waitForView(R.id.myprofile_login_container);
-    	solo.clickOnView(solo.getView(R.id.myprofile_login_container));
-
-    	solo.waitForView(R.id.mitvlogin_login_email_edittext);
-    	login(email, password);
-    	
-    	solo.waitForView(R.id.tab_me);
-    	logout();
-    }
-    */
+    
     public void test_login_and_out_old_account() throws Exception {
     	
     	solo.waitForView(R.id.tab_me);
@@ -107,7 +93,7 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<User
     	
     	
     	solo.waitForView(R.id.mitvlogin_login_email_edittext);
-    	login("test1@test.se", "asdqwe");
+    	login("dontDelete@test.com", "asdfgh");
 
    
     	solo.waitForView(R.id.tab_me);
@@ -123,7 +109,7 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<User
         for (int i = 0; i < 10; i++) {
             email.append(alphabet.charAt(r.nextInt(N)));
         }
-        email.append("Test@test.se");
+        email.append("Test@delete.com");
         return email.toString();
     }
     
@@ -141,8 +127,16 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<User
     	solo.clickOnView(solo.getView(R.id.tab_me));
     	solo.waitForView(R.id.myprofile_logout_container);
     	solo.clickOnView(solo.getView(R.id.myprofile_logout_container));
-
     	solo.waitForView(R.id.activity_container);
     	loggedin = false;
     }
+    
+    public void checkforLogin(){
+		if(!solo.waitForText(java.util.regex.Pattern.quote("Mi perfil"))){
+			solo.clickOnView(solo.getView(R.id.tab_me));
+			solo.clickOnText(java.util.regex.Pattern.quote("Cerrar"));   
+			loggedin = false;
+			solo.clickOnView(solo.getView(R.id.tab_tv_guide));
+		}
+	}
 }

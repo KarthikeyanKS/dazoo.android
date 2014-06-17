@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class CompetitionEventPageBroadcastListAdapter 
 	extends BaseAdapter
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = CompetitionEventsByGroupListAdapter.class.getName();
 	
 	
@@ -203,30 +203,39 @@ public class CompetitionEventPageBroadcastListAdapter
 				{
 					holder.beginTime.setTextColor(activity.getResources().getColor(R.color.black));
 
-					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId);
+					Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionId);
 					
-					Event event = ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId);
+					Event event = ContentManager.sharedInstance().getCacheManager().getEventById(competitionId, eventId);
 					
-					holder.reminderView.setVisibility(View.VISIBLE);
-					
-					TVChannelId tvChannelId = new TVChannelId(channelId);
-					
-					TVChannel channel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
-					
-					if(channel != null)
+					if(competition != null || event != null)
 					{
-						holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channel);
+						holder.reminderView.setVisibility(View.VISIBLE);
+						
+						TVChannelId tvChannelId = new TVChannelId(channelId);
+						
+						TVChannel channel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
+						
+						if(channel != null)
+						{
+							holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channel);
+						}
+						else
+						{
+							String channelName = element.getChannel();
+							
+							holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channelName, logoUrl);
+						}
+						
+						boolean iconSizeSmall = true;
+						holder.reminderView.setSizeOfIcon(iconSizeSmall);
 					}
 					else
 					{
-						String channelName = element.getChannel();
+						Log.w(TAG, "Competition or Event are null");
 						
-						holder.reminderView.setCompetitionEventBroadcast(competition, event, element, channelName, logoUrl);
+						holder.reminderView.setVisibility(View.GONE);
 					}
 					
-					boolean iconSizeSmall = true;
-					holder.reminderView.setSizeOfIcon(iconSizeSmall);
-
 					holder.progressBar.setVisibility(View.GONE);
 					holder.onGoingTimeLeft.setVisibility(View.GONE);
 				}
@@ -238,8 +247,8 @@ public class CompetitionEventPageBroadcastListAdapter
 				public void onClick(View v) 
 				{
 					TrackingGAManager.sharedInstance().sendUserCompetitionBroadcastPressedEvent(
-							ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionId).getDisplayName(), 
-							ContentManager.sharedInstance().getFromCacheEventByID(competitionId, eventId).getTitle(), 
+							ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionId).getDisplayName(), 
+							ContentManager.sharedInstance().getCacheManager().getEventById(competitionId, eventId).getTitle(), 
 							String.valueOf(element.getBeginTimeMillis()));
 				}
 			});

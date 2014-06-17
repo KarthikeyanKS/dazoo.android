@@ -61,6 +61,11 @@ public class CompetitionsCacheData
 	{
 		CompetitionCacheData competitionCacheData = allCompetitions.get(competitionID);
 		
+		if(competitionCacheData == null)
+		{
+			Log.w(TAG, "CompetitionCacheData is null");
+		}
+		
 		return competitionCacheData;
 	}
 	
@@ -179,6 +184,11 @@ public class CompetitionsCacheData
 			squad = selectedCompetition.getSquadByTeam().get(teamID);
 		}
 		
+		if(squad == null)
+		{
+			Log.w(TAG, "Squad is null");
+		}
+		
 		return squad;
 	}
 
@@ -207,7 +217,14 @@ public class CompetitionsCacheData
 	
 	public synchronized Competition getSelectedCompetition() 
 	{
-		return selectedCompetition.getCompetition();
+		Competition competition = selectedCompetition.getCompetition();
+		
+		if(competition == null)
+		{
+			Log.w(TAG, "Selected competition is null");
+		}
+		
+		return competition;
 	}
 	
 	

@@ -92,7 +92,7 @@ public class FeedActivity
 	
 	private void setupViews() 
 	{
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 		
 		if (isLoggedIn) 
 		{
@@ -219,7 +219,7 @@ public class FeedActivity
 	
 	private ArrayList<TVFeedItem> getFromCacheFeedItems() 
 	{		
-		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getCacheManager().getActivityFeedData();
 		return activityFeed;
 	}
 	
@@ -228,7 +228,7 @@ public class FeedActivity
 	@Override
 	protected void loadData() 
 	{		
-		if(ContentManager.sharedInstance().isLoggedIn())
+		if(ContentManager.sharedInstance().getCacheManager().isLoggedIn())
 		{
 			updateUI(UIStatusEnum.LOADING);
 			String loadingString = getString(R.string.loading_message_feed_initial);
@@ -254,12 +254,12 @@ public class FeedActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 		
 		if(isLoggedIn)
 		{
-			boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasActivityFeed() && 
-												 ContentManager.sharedInstance().getFromCacheHasUserLikes();
+			boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getCacheManager().containsActivityFeed() && 
+												 ContentManager.sharedInstance().getCacheManager().containsUserLikes();
 			
 			return hasEnoughDataToShowContent;
 		}
@@ -296,7 +296,7 @@ public class FeedActivity
 				}
 				else
 				{
-					boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+					boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 					
 					if (isLoggedIn) 
 					{
@@ -323,7 +323,7 @@ public class FeedActivity
 				}
 				else
 				{
-					boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+					boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 					
 					if (isLoggedIn) 
 					{
@@ -424,7 +424,7 @@ public class FeedActivity
 			
 			case SUCCESS_WITH_NO_CONTENT: 
 			{
-				if(ContentManager.sharedInstance().isLoggedIn()) 
+				if(ContentManager.sharedInstance().getCacheManager().isLoggedIn()) 
 				{
 					reachedEndOfFeedItems();
 				}

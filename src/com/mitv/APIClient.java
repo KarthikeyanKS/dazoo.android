@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import com.mitv.asynctasks.CustomThreadedPoolExecutor;
 import com.mitv.asynctasks.disqus.GetDisqusThreadDetails;
 import com.mitv.asynctasks.disqus.GetDisqusThreadPosts;
-import com.mitv.asynctasks.mitvapi.GetAdsAdzerk;
 import com.mitv.asynctasks.mitvapi.GetAppConfigurationData;
 import com.mitv.asynctasks.mitvapi.GetAppVersionData;
 import com.mitv.asynctasks.mitvapi.GetTVBroadcastDetails;
@@ -391,13 +390,7 @@ public class APIClient
 	}
 	
 	
-	public void getAds(ViewCallbackListener activityCallbackListener)
-	{
-		GetAdsAdzerk task = new GetAdsAdzerk(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD);
-		task.execute();
-	}
-	
-	
+
 	public void getTVTags(ViewCallbackListener activityCallbackListener)
 	{
 		GetTVTags task = new GetTVTags(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD);

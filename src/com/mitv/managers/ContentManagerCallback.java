@@ -805,7 +805,7 @@ public abstract class ContentManagerCallback
 			{
 				totalStepsCount = COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN;
 
-				clearUserCache();
+				getCacheManager().clearUserCache();
 
 				if(!isFetchingTVGuide && completedTVChannelIdsDefaultRequest)
 				{
@@ -1221,6 +1221,8 @@ public abstract class ContentManagerCallback
 	}
 
 
+	
+	@SuppressWarnings("unused")
 	private void handleActivityFeedInitalFetchResponse(
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
@@ -1241,8 +1243,6 @@ public abstract class ContentManagerCallback
 				/* Filter the feed items */
 				if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) 
 				{
-					Log.d(TAG, "Starting to filter old broadcasts");
-
 					feedItems = filterOldBroadcasts(feedItems, null);
 				}
 
@@ -1414,7 +1414,7 @@ public abstract class ContentManagerCallback
 				{
 					TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
 
-					pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 
 					/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
 					if(broadcastWithChannelInfo.getProgram() != null && broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) 

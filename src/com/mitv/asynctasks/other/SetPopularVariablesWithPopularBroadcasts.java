@@ -102,9 +102,9 @@ public class SetPopularVariablesWithPopularBroadcasts
 	
 	private void setPopularBroadcastVariables() 
 	{
-		List<TVBroadcastWithChannelInfo> popularBroacasts = ContentManager.sharedInstance().getFromCachePopularBroadcasts();
+		List<TVBroadcastWithChannelInfo> popularBroacasts = ContentManager.sharedInstance().getCacheManager().getPopularBroadcasts();
 		
-		TVGuide tvGuide = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
+		TVGuide tvGuide = ContentManager.sharedInstance().getCacheManager().getTVGuideForSelectedDay();
 		
 		for (TVChannelGuide tvChannelGuide : tvGuide.getTvChannelGuides()) 
 		{

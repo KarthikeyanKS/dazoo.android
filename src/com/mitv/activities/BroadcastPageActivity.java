@@ -110,7 +110,7 @@ public class BroadcastPageActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		if (!getIntent().getBooleanExtra(Constants.INTENT_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
+		if (!getIntent().getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
 			return;
 		}
 		
@@ -119,8 +119,10 @@ public class BroadcastPageActivity
 		initViews();
 		
 		boolean areDisqusCommentsEnabled = false;
-		if (ContentManager.sharedInstance().getFromCacheAppConfiguration() != null) {
-			areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+		
+		if (ContentManager.sharedInstance().getCacheManager().getAppConfiguration() != null) 
+		{
+			areDisqusCommentsEnabled = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().areDisqusCommentsEnabled();
 		}
 		
 		if(areDisqusCommentsEnabled == false)
@@ -156,7 +158,7 @@ public class BroadcastPageActivity
 			}
 			else
 			{
-				TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+				TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 				
 				if(broadcast != null)
 				{
@@ -219,7 +221,7 @@ public class BroadcastPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent() 
 	{
-		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasBroadcastPageData();
+		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getCacheManager().containsBroadcastPageData();
 
 		return hasEnoughDataToShowContent;
 	}
@@ -231,7 +233,7 @@ public class BroadcastPageActivity
 		/* Remove upcoming broadcasts with season 0 and episode 0 */
 		LinkedList<TVBroadcast> upcomingBroadcastsToRemove = new LinkedList<TVBroadcast>();
 		
-		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 		
 		ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
 		
@@ -263,9 +265,9 @@ public class BroadcastPageActivity
 	
 	private void handleInitialDataAvailable() 
 	{
-		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 		
-		repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcast);
+		repeatingBroadcasts = ContentManager.sharedInstance().getCacheManager().getRepeatingBroadcastsVerifyCorrect(broadcast);
 		
 		if (repeatingBroadcasts != null) 
 		{
@@ -277,14 +279,14 @@ public class BroadcastPageActivity
 			}
 		}
 
-		upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcast);
+		upcomingBroadcasts = ContentManager.sharedInstance().getCacheManager().getUpcomingBroadcastsVerifyCorrect(broadcast);
 		
 		if (upcomingBroadcasts != null) 
 		{
 			upcomingBroadcasts = filterOutEpisodesWithBadData();
 		}
 		
-		broadcastsAiringOnOtherChannels = ContentManager.sharedInstance().getFromCacheBroadcastsAiringOnDifferentChannels(broadcast, true);
+		broadcastsAiringOnOtherChannels = ContentManager.sharedInstance().getCacheManager().getBroadcastsAiringOnDifferentChannels(broadcast, true);
 	}
 
 	
@@ -298,7 +300,7 @@ public class BroadcastPageActivity
 			{
 				case DISQUS_THREAD_DETAILS:
 				{
-					int totalDisqusPosts = ContentManager.sharedInstance().getDisqusTotalPostsForLatestBroadcast();
+					int totalDisqusPosts = ContentManager.sharedInstance().getCacheManager().getDisqusTotalPostsForLatestBroadcast();
 					
 					showAndReloadDisqusCommentsWebview(totalDisqusPosts);
 					
@@ -309,9 +311,9 @@ public class BroadcastPageActivity
 				{
 					handleInitialDataAvailable();
 					
-					TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+					TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 					
-					boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().areDisqusCommentsEnabled();
+					boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().areDisqusCommentsEnabled();
 					
 					if(areDisqusCommentsEnabled && broadcast != null)
 					{
@@ -470,7 +472,7 @@ public class BroadcastPageActivity
 	{
 		populateMainView();
 
-		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 		
 		/* Repetitions */
 		if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) 
@@ -524,7 +526,7 @@ public class BroadcastPageActivity
 	
 	private void populateMainView()
 	{
-		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getFromCacheLastSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 		
 		TVProgram program = broadcast.getProgram();
 
@@ -853,7 +855,7 @@ public class BroadcastPageActivity
 	@Override
 	public void onBackPressed() 
 	{
-		ContentManager.sharedInstance().popFromSelectedBroadcastWithChannelInfo();
+		ContentManager.sharedInstance().getCacheManager().popFromSelectedBroadcastWithChannelInfo();
 		
 		super.onBackPressed();
 
@@ -879,7 +881,7 @@ public class BroadcastPageActivity
 
 		sb.append(getString(R.string.disqus_comments_header_title));
 
-		Boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		Boolean isUserLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 
 		if(isUserLoggedIn)
 		{
@@ -935,14 +937,14 @@ public class BroadcastPageActivity
 			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER, contentID);
 			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_URL, url);
 			
-			boolean isUserLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+			boolean isUserLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
 			
 			if(isUserLoggedIn)
 			{
-				String userID = ContentManager.sharedInstance().getFromCacheUserId();
-				String username = ContentManager.sharedInstance().getFromCacheUserFirstname();
-				String userEmail = ContentManager.sharedInstance().getFromCacheUserEmail();
-				String userImage = ContentManager.sharedInstance().getFromCacheUserProfileImage();
+				String userID = ContentManager.sharedInstance().getCacheManager().getUserId();
+				String username = ContentManager.sharedInstance().getCacheManager().getUserFirstname();
+				String userEmail = ContentManager.sharedInstance().getCacheManager().getUserEmail();
+				String userImage = ContentManager.sharedInstance().getCacheManager().getUserProfileImage();
 				
 				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_ID, userID);
 				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_NAME, username);

@@ -124,7 +124,7 @@ public class CompetitionEventHighlightsListAdapter
 			
 			long eventID = element.getEventId(); 
 			
-			Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+			Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 			boolean isFinished = event.isFinished();
 			
@@ -158,52 +158,17 @@ public class CompetitionEventHighlightsListAdapter
 					holder.middleName.setVisibility(View.VISIBLE);
 					
 					StringBuilder sb = new StringBuilder();
+					sb.append(element.getAction());
 					
-					switch (eventActionType)
+					boolean isFirstHalfKickOff = element.isFirstHalfKickOff();
+					
+					if(isFirstHalfKickOff)
 					{
-						case KICK_OFF_PERIOD:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_kick_off));
-							break;
-						}
-						
-						case END_OF_PERIOD:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_end_of_game));
-							break;
-						}
-						
-						case MATCH_SUSPENDED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_match_suspended));
-							break;
-						}
-						
-						case MATCH_ABANDONED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_match_abandoned));
-							break;
-						}
-						
-						case PLAY_RESTARTED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_play_restarted));
-							break;
-						}
-						
-						case MATCH_RESCHEDULED_TO_BE_RESUMED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_match_rescheduled));
-							break;
-						}
-						
-						default:
-						{
-							sb.append(element.getAction());
-							break;
-						}					
+						sb.append("  (");
+						sb.append(getKickOffTime(element));
+						sb.append(")");
 					}
-					
+
 					holder.middleName.setText(sb);
 				}
 				else if(isHomeTeam(element))
@@ -239,11 +204,10 @@ public class CompetitionEventHighlightsListAdapter
 					{
 						holder.leftNameExtra.setVisibility(View.GONE);
 
-						holder.leftDetails.setVisibility(View.VISIBLE);
-							
+						holder.leftDetails.setVisibility(View.VISIBLE);	
 						holder.leftDetails.setText(element.getAction());
 					}
-
+					
 					holder.leftTime.setText(element.getActionMinute());
 
 				}
@@ -279,8 +243,6 @@ public class CompetitionEventHighlightsListAdapter
 						holder.rightNameExtra.setVisibility(View.GONE);
 
 						holder.rightDetails.setVisibility(View.VISIBLE);
-						
-						
 						holder.rightDetails.setText(element.getAction());
 					}
 
@@ -298,13 +260,36 @@ public class CompetitionEventHighlightsListAdapter
 	
 	
 	
+	
+	private String getKickOffTime(EventHighlight highlight)
+	{
+		String kickOffTime;
+		
+		long eventID = highlight.getEventId(); 
+		
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
+		
+		if(event != null)
+		{
+			kickOffTime = event.getBeginTimeHourAndMinuteLocalAsString();
+		}
+		else
+		{
+			kickOffTime = "";
+		}
+		
+		return kickOffTime;
+	}
+	
+		
+	
 	private boolean isHomeTeam(EventHighlight highlight)
 	{
 		boolean isHomeTeam = false;
 		
 		long eventID = highlight.getEventId(); 
 		
-		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 		if(event != null)
 		{
@@ -324,7 +309,7 @@ public class CompetitionEventHighlightsListAdapter
 		
 		long eventID = highlight.getEventId(); 
 		
-		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+		Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		
 		if(event != null)
 		{

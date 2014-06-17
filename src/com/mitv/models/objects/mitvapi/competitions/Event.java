@@ -260,6 +260,16 @@ public class Event
 	
 	
 	
+	
+	public String getBeginTimeHourAndMinuteLocalAsString() 
+	{
+		String beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEventDateCalendarLocal());
+		
+		return beginTimeHourAndMinuteRepresentation;
+	}
+	
+	
+	
 	public boolean isEventTimeTodayOrTomorrow()
 	{
 		Calendar now = DateUtils.getNowWithLocalTimezone();

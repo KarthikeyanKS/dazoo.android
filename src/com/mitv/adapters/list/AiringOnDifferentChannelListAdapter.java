@@ -240,7 +240,7 @@ public class AiringOnDifferentChannelListAdapter
 			{
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
-				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				activity.startActivity(intent);
 			}

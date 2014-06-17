@@ -1,4 +1,7 @@
+
 package com.mitv.models.orm;
+
+
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,9 +14,13 @@ import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
-public class UserTutorialStatusORM extends AbstractOrmLiteClassWithAsyncSave<UserTutorialStatusORM> {
-	
+
+
+public class UserTutorialStatusORM 
+	extends AbstractOrmLiteClassWithAsyncSave<UserTutorialStatusORM> 
+{	
 	private static final String TAG = UserTutorialStatusORM.class.getName();
+	
 	
 	@DatabaseField(generatedId=true)
 	private int userTutorialId;
@@ -21,19 +28,17 @@ public class UserTutorialStatusORM extends AbstractOrmLiteClassWithAsyncSave<Use
 	@DatabaseField()
 	private UserTutorialStatusEnum status;
 	
-	@DatabaseField(canBeNull = false)
+	@DatabaseField()
 	private String dateUserLastOpendApp;
 	
 	
 	
-	
-	
-	private UserTutorialStatusORM()
-	{}
+	private UserTutorialStatusORM(){}
 	
 	
 	
-	public UserTutorialStatusORM(UserTutorialStatus userTutorial) {
+	public UserTutorialStatusORM(UserTutorialStatus userTutorial) 
+	{
 		this.status = userTutorial.getUserTutorialStatus();
 		
 		this.dateUserLastOpendApp = userTutorial.getDateUserLastOpendApp();
@@ -53,7 +58,8 @@ public class UserTutorialStatusORM extends AbstractOrmLiteClassWithAsyncSave<Use
 	
 	
 	
-	public static UserTutorialStatus getUserTutorial() {
+	public static UserTutorialStatus getUserTutorial() 
+	{
 		UserTutorialStatus ut = null;
 		
 		UserTutorialStatusORM utORM = new UserTutorialStatusORM().getUserTutorialORM();
@@ -99,5 +105,4 @@ public class UserTutorialStatusORM extends AbstractOrmLiteClassWithAsyncSave<Use
 			return null;
 		}
 	}
-
 }

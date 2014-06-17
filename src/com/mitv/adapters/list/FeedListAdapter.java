@@ -653,7 +653,7 @@ public class FeedListAdapter
 	{
 		TrackingGAManager.sharedInstance().sendUserFeedItemPressedEvent(feedItemType, broadcastWithChannelInfo, index);
 		
-		ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+		ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 		
 		Intent intent = new Intent(activity, BroadcastPageActivity.class);
 		

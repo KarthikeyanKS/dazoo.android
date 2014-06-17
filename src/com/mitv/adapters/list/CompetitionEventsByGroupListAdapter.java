@@ -27,7 +27,6 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -241,7 +240,7 @@ extends BaseAdapter
 			{
 				long team1ID = event.getHomeTeamId();
 
-				Team team1 = ContentManager.sharedInstance().getFromCacheTeamByID(team1ID);
+				Team team1 = ContentManager.sharedInstance().getCacheManager().getTeamById(team1ID);
 
 				if(team1 != null)
 				{
@@ -259,7 +258,7 @@ extends BaseAdapter
 
 				long team2ID = event.getAwayTeamId();
 
-				Team team2 = ContentManager.sharedInstance().getFromCacheTeamByID(team2ID);
+				Team team2 = ContentManager.sharedInstance().getCacheManager().getTeamById(team2ID);
 
 				if(team2 != null)
 				{
@@ -291,17 +290,15 @@ extends BaseAdapter
 			{
 				public void onClick(View v)
 				{
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getFromCacheCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
+	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
 	            	
 					Intent intent = new Intent(activity, EventPageActivity.class);
 
-					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-
 					long competitionID = event.getCompetitionId();
-
-					Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(competitionID);
-
-					intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
+					long eventID = event.getEventId();
+					
+					intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionID);
+					intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventID);
 
 					activity.startActivity(intent);
 				}
@@ -369,7 +366,7 @@ extends BaseAdapter
 
 					TVChannelId tvChannelId = new TVChannelId(channelID);
 
-					TVChannel tvChannel = ContentManager.sharedInstance().getFromCacheTVChannelById(tvChannelId);
+					TVChannel tvChannel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(tvChannelId);
 
 					if(tvChannel != null)
 					{
@@ -424,7 +421,6 @@ extends BaseAdapter
 		private ImageView team2flag;
 		private TextView startTime;
 		private TextView score;
-		private TextView timeLeft;
 		private TextView broadcastChannels;
 		private View rowDivider;
 		private RelativeLayout container;

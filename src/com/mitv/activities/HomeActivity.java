@@ -104,7 +104,7 @@ public class HomeActivity
 	{
 		if (hasShowWelcomeToast == false) 
 		{
-			String message = ContentManager.sharedInstance().getFromCacheWelcomeMessage();
+			String message = ContentManager.sharedInstance().getCacheManager().getWelcomeMessage();
 
 			if (!TextUtils.isEmpty(message)) 
 			{
@@ -214,7 +214,7 @@ public class HomeActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasTVTagsAndGuideForSelectedTVDate();
+		boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getCacheManager().containsTVTagsAndGuideForSelectedTVDate();
 		
 		if(hasEnoughDataToShowContent == false)
 		{

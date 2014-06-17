@@ -125,7 +125,7 @@ public class CompetitionEventTabFragmentGroupStage
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasEventsGroupedByPhaseForSelectedCompetition();
+		return ContentManager.sharedInstance().getCacheManager().containsEventsGroupedByPhaseForSelectedCompetition();
 	}
 	
 	
@@ -156,7 +156,7 @@ public class CompetitionEventTabFragmentGroupStage
 			{
 				listContainerLayout.removeAllViews();
 				
-				List<Event> events = ContentManager.sharedInstance().getFromCacheEventsForPhaseInSelectedCompetition(phaseId);
+				List<Event> events = ContentManager.sharedInstance().getCacheManager().getEventsForPhaseInSelectedCompetition(phaseId);
 	
 				String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
 				
@@ -199,7 +199,7 @@ public class CompetitionEventTabFragmentGroupStage
 		{
 			Log.d(TAG, "Event ID is: " + eventID);
 			
-			this.event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
+			this.event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
 		}
 		
 		return event;

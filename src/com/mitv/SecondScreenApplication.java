@@ -77,9 +77,9 @@ public class SecondScreenApplication
 
 		sharedInstance = this;
 				
-		if(ContentManager.sharedInstance().isLoggedIn()) 
+		if(ContentManager.sharedInstance().getCacheManager().isLoggedIn()) 
 		{
-			String userId = ContentManager.sharedInstance().getFromCacheUserId();
+			String userId = ContentManager.sharedInstance().getCacheManager().getUserId();
 			
 			TrackingGAManager.sharedInstance().setUserIdOnTracker(userId);
 		}
@@ -157,14 +157,20 @@ public class SecondScreenApplication
 			StrictMode.setVmPolicy(vmPolicy);
 		}
 		
-		if(Constants.FORCE_CACHE_DATABASE_FLUSH || isCurrentVersionAnUpgradeFromInstalledVersion())
+		boolean shouldFlushData = (isCurrentVersionAnUpgradeFromInstalledVersion() && isCurrentORMDatabaseVersionGreaterThenInstalledORMDatabaseVersion());
+		
+		boolean forceDataFlush = Constants.FORCE_CACHE_DATABASE_FLUSH;
+		
+		if(forceDataFlush || shouldFlushData)
 		{
-			ContentManager.clearAllPersistentCacheData();
+			ContentManager.sharedInstance().getCacheManager().clearAllPersistentCacheData();
 			
 			AppDataUtils.sharedInstance(this).clearAllPreferences(false);
 		}
 
 		setInstalledAppVersionToCurrentVersion();
+		
+		setInstalledORMDatabaseVersionToCurrentVersion();
 	}
 	
 	
@@ -249,21 +255,8 @@ public class SecondScreenApplication
 	{
 		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
 	}
-	
-	
-	
-//	public static void setAppIsRestarting(boolean value) 
-//	{
-//		AppDataUtils.sharedInstance(sharedInstance).setPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, value, true);
-//	}
-//
-//	
-//	
-//	public static boolean isAppRestarting() 
-//	{
-//		return AppDataUtils.sharedInstance(sharedInstance).getPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, false);
-//	}
-	
+
+
 	
 	private String getCurrentAppVersion()
 	{
@@ -310,6 +303,44 @@ public class SecondScreenApplication
 	
 	
 	
+	private int getInstalledORMDatabaseVersion()
+	{
+		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_ORM_DATABASE_VERSION, Constants.CACHE_DATABASE_VERSION);
+	}
+	
+	
+	
+	private void setInstalledORMDatabaseVersionToCurrentVersion()
+	{
+		int currentORMDatabaseVersion = Constants.CACHE_DATABASE_VERSION;
+		
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_ORM_DATABASE_VERSION, currentORMDatabaseVersion, false);
+	}
+	
+	
+	
+	private boolean isCurrentORMDatabaseVersionGreaterThenInstalledORMDatabaseVersion()
+	{
+		boolean isCurrentORMDatabaseVersionGreaterThenInstalledVersion;
+		
+		int installedORMDatabaseVersion = getInstalledORMDatabaseVersion();
+		
+		int currentORMDatabaseVersion = Constants.CACHE_DATABASE_VERSION;
+		
+		if(currentORMDatabaseVersion > installedORMDatabaseVersion)
+		{
+			isCurrentORMDatabaseVersionGreaterThenInstalledVersion = true;
+		}
+		else
+		{
+			isCurrentORMDatabaseVersionGreaterThenInstalledVersion = false;
+		}
+		
+		return isCurrentORMDatabaseVersionGreaterThenInstalledVersion;
+	}
+	
+	
+	
 	/**
 	 * This method checks if user has seen the tutorial or
 	 * if the user has seen the tutorial && not opened the
@@ -318,20 +349,21 @@ public class SecondScreenApplication
 	 * 
 	 * @return
 	 */
-	public boolean hasUserSeenTutorial() {
+	public boolean hasUserSeenTutorial()
+	{
 		boolean hasSeenTutorial = true;
 		
-		UserTutorialStatus userTutorialStatus = ContentManager.sharedInstance().getUserTutorialFromCache();
+		UserTutorialStatus userTutorialStatus = ContentManager.sharedInstance().getCacheManager().getUserTutorialStatus();
 		
 		UserTutorialStatusEnum status = userTutorialStatus.getUserTutorialStatus();
 		
-		switch (status) {
-		
+		switch (status) 
+		{
 			case NEVER_SEEN_TUTORIAL:
 			{
 				hasSeenTutorial = false; 
 			
-				ContentManager.sharedInstance().setUserHasSeenTutorialOnce();
+				ContentManager.sharedInstance().getCacheManager().setUserHasSeenTutorialOnce();
 				
 				break;
 			}
@@ -348,7 +380,7 @@ public class SecondScreenApplication
 				if (!openLastTwoWeeks) {
 					hasSeenTutorial = false;
 					
-					ContentManager.sharedInstance().setUserHasSeenTutorialTwice();
+					ContentManager.sharedInstance().getCacheManager().setUserHasSeenTutorialTwice();
 				}
 				
 				break;

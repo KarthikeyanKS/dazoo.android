@@ -72,13 +72,13 @@ public abstract class TVGuideTabFragment
 	{
 		if (swipeClockBar != null) 
 		{
-			boolean isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
+			boolean isToday = ContentManager.sharedInstance().isSelectedTVDateToday();
 			
 			int currentHour = DateUtils.getCurrentHourOn24HourFormat();
 			
-			int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+			int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 			
-			Integer selectedHourFromCache = ContentManager.sharedInstance().getFromCacheSelectedHour();
+			Integer selectedHourFromCache = ContentManager.sharedInstance().getCacheManager().getSelectedHour();
 
 			if (isToday)
 			{

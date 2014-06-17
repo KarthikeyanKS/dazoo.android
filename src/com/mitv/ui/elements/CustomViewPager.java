@@ -43,27 +43,27 @@ public class CustomViewPager extends ViewPager {
 		}
 
 		int actionBarHeight;
-		
+
 		//Get actionbar height
-		
-		
+
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
 		{
 			TypedValue tv = new TypedValue();
-			
+
 			getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-			
+
 			actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
 		}
 		else
 		{
 			float density = getResources().getDisplayMetrics().density;
-			
+
 			float actionBarDimensionInPixels = getResources().getDimension(R.dimen.abc_action_bar_default_height);
-			
+
 			actionBarHeight = (int) (actionBarDimensionInPixels / density);
 		}
-		
+
 		//Get indicator height, here defined in dimensions
 		int indicatorHeight = (int) getResources().getDimension(R.dimen.indicator_height);
 
@@ -72,13 +72,17 @@ public class CustomViewPager extends ViewPager {
 
 		//If shorter than size to work with, use full length. Its to reduce flickering when changing tab.
 		if (heightsMap.get(newPos) != null) {
-			if (heightToWorkWith > heightsMap.get(newPos)) {
-				params.height = heightToWorkWith;
-			}
-			//Otherwise use the length of the list.
-			else {
-				params.height = heightsMap.get(newPos);
-			}
+			params.height = heightsMap.get(newPos);
+
+			/* Disabled minimum height handling */
+			//			if (heightToWorkWith > heightsMap.get(newPos)) {
+			//				params.height = heightToWorkWith;
+			//			}
+			//			//Otherwise use the length of the list.
+			//			else {
+			//				params.height = heightsMap.get(newPos);
+			//			}
+
 		}
 		else {
 			params.height = heightToWorkWith;

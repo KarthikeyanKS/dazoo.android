@@ -244,7 +244,7 @@ public class TVGuideTagListAdapter
 			{
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
-				ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				/* FIFA - Navigation to event page */
 				ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
@@ -257,26 +257,21 @@ public class TVGuideTagListAdapter
 						{
 							long eventId = broadcastWithChannelInfo.getEventId();
 
-							if (eventId > 0) {
+							if (eventId > 0) 
+							{
 								/*
-								 * WARNING WARNING WARNING
-								 * 
-								 * Hard coded competition ID used here.
+								 * TODO: Hard coded competition ID used here.
 								 * 
 								 */
-								Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
+								Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(Constants.FIFA_COMPETITION_ID);
 
 								/* Changing the already existing intent to competition event page */
 								intent = new Intent(activity, EventPageActivity.class);
 
 								intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-
 								intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-
-								intent.putExtra(Constants.INTENT_COMPETITION_NAME, competition.getDisplayName());
 							}
 						}
-
 					}
 				}
 				
