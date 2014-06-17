@@ -82,20 +82,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_color_selector"
-        android:paddingBottom="10dp"
+        android:paddingBottom="7dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="7dp" >
 
         <!-- Flag team -->
         <ImageView
             android:id="@+id/row_competition_team_flag"
-            android:layout_width="40dp"
-            android:layout_height="27dp"
+            android:layout_width="43dp"
+            android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/competitions_contry_flag_default" />
+            android:scaleType="fitXY"
+            android:src="@drawable/competitions_contry_flag_default"
+            android:background="@drawable/dropshadow" />
 
         <!-- Team name -->
         <com.mitv.ui.elements.FontTextView

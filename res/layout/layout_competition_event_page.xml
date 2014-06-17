@@ -106,10 +106,11 @@
 
                     <ImageView
                         android:id="@+id/competition_event_highlights_team_one_flag"
-                        android:layout_width="50dp"
-                        android:layout_height="34dp"
+                        android:layout_width="53dp"
+                        android:layout_height="37dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/competitions_contry_flag_default" />
+                        android:src="@drawable/competitions_contry_flag_default"
+                        android:background="@drawable/dropshadow" />
 
                     <!-- Team one name -->
 
@@ -140,11 +141,12 @@
 
                     <ImageView
                         android:id="@+id/competition_event_highlights_team_two_flag"
-                        android:layout_width="50dp"
-                        android:layout_height="34dp"
+                        android:layout_width="53dp"
+                        android:layout_height="37dp"
                         android:layout_alignParentRight="true"
                         android:scaleType="fitXY"
-                        android:src="@drawable/competitions_contry_flag_default" />
+                        android:src="@drawable/competitions_contry_flag_default"
+                        android:background="@drawable/dropshadow" />
 
                     <!-- Team two name -->
 
