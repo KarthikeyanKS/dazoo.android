@@ -158,52 +158,17 @@ public class CompetitionEventHighlightsListAdapter
 					holder.middleName.setVisibility(View.VISIBLE);
 					
 					StringBuilder sb = new StringBuilder();
+					sb.append(element.getAction());
 					
-					switch (eventActionType)
+					boolean isFirstHalfKickOff = element.isFirstHalfKickOff();
+					
+					if(isFirstHalfKickOff)
 					{
-						case KICK_OFF_PERIOD:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_kick_off));
-							break;
-						}
-						
-						case END_OF_PERIOD:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_end_of_game));
-							break;
-						}
-						
-						case MATCH_SUSPENDED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_match_suspended));
-							break;
-						}
-						
-						case MATCH_ABANDONED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_match_abandoned));
-							break;
-						}
-						
-						case PLAY_RESTARTED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_play_restarted));
-							break;
-						}
-						
-						case MATCH_RESCHEDULED_TO_BE_RESUMED:
-						{
-							sb.append(activity.getString(R.string.event_page_highlight_match_rescheduled));
-							break;
-						}
-						
-						default:
-						{
-							sb.append(element.getAction());
-							break;
-						}					
+						sb.append("  (");
+						sb.append(getKickOffTime(element));
+						sb.append(")");
 					}
-					
+
 					holder.middleName.setText(sb);
 				}
 				else if(isHomeTeam(element))
@@ -295,10 +260,10 @@ public class CompetitionEventHighlightsListAdapter
 	
 	
 	
-	@SuppressWarnings("unused")
-	private String getScore(EventHighlight highlight)
+	
+	private String getKickOffTime(EventHighlight highlight)
 	{
-		String score;
+		String kickOffTime;
 		
 		long eventID = highlight.getEventId(); 
 		
@@ -306,17 +271,17 @@ public class CompetitionEventHighlightsListAdapter
 		
 		if(event != null)
 		{
-			score = event.getScoreAsString();
+			kickOffTime = event.getBeginTimeHourAndMinuteLocalAsString();
 		}
 		else
 		{
-			score = "";
+			kickOffTime = "";
 		}
 		
-		return score;
+		return kickOffTime;
 	}
 	
-	
+		
 	
 	private boolean isHomeTeam(EventHighlight highlight)
 	{

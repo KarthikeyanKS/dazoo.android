@@ -25,7 +25,7 @@ public class Phase
 		
 		int result = 1;
 		
-		result = prime * result + (int) phaseId;
+		result = prime * result + (int) getPhaseId();
 		
 		return result;
 	}
@@ -52,7 +52,7 @@ public class Phase
 		
 		Phase other = (Phase) obj;
 		
-		if (this.phaseId != other.phaseId) 
+		if (this.getPhaseId() != other.getPhaseId()) 
 		{
 			return false;
 		}
