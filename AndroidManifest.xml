@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="163"
-    android:versionName="1.0.163" >
+    android:versionCode="164"
+    android:versionName="1.0.164" >
 
     <uses-sdk
         android:minSdkVersion="10"

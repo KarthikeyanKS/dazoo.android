@@ -3,17 +3,24 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+import android.util.Log;
+
+
+
 public class PhaseJSON 
 {
-	protected long competitionId;
-	protected long phaseId;
-	protected String stage;
-	protected String phase;
-	protected boolean table; 
-	protected boolean current;
-	protected boolean currents;
-	protected String dateStart;
-	protected String dateEnd;
+	private static final String TAG = PhaseJSON.class.getName();
+	
+	
+	private long competitionId;
+	private long phaseId;
+	private String stage;
+	private String phase;
+	private boolean table; 
+	private boolean current;
+	private boolean currents;
+	private String dateStart;
+	private String dateEnd;
 	
 	
 	
@@ -30,6 +37,13 @@ public class PhaseJSON
 
 	public String getStage() 
 	{
+		if(stage == null)
+		{
+			stage = "";
+			
+			Log.w(TAG, "stage is null");
+		}
+		
 		return stage;
 	}
 
@@ -41,37 +55,64 @@ public class PhaseJSON
 
 
 
-	public String getPhase() {
+	public String getPhase() 
+	{
+		if(phase == null)
+		{
+			phase = "";
+			
+			Log.w(TAG, "phase is null");
+		}
+		
 		return phase;
 	}
 
 
 
-	public boolean isTable() {
+	public boolean isTable() 
+	{
 		return table;
 	}
 
 
 
-	public boolean isCurrent() {
+	public boolean isCurrent()
+	{
 		return current;
 	}
 
 
 
-	public boolean isCurrents() {
+	public boolean isCurrents()
+	{
 		return currents;
 	}
 
 
 
-	public String getStartDate() {
+	public String getStartDate() 
+	{
+		if(dateStart == null)
+		{
+			dateStart = "";
+			
+			Log.w(TAG, "dateStart is null");
+		}
+		
 		return dateStart;
 	}
 
 
 
-	public String getEndDate() {
+	public String getEndDate() 
+	{
+		if(dateEnd == null)
+		{
+			dateEnd = "";
+			
+			Log.w(TAG, "dateEnd is null");
+		}
+		
 		return dateEnd;
 	}
 }

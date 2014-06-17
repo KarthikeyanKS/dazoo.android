@@ -9,6 +9,7 @@ import android.content.Context;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.EventHighlightActionEnum;
+import com.mitv.enums.EventHighlightPeriodSortEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventHighlightJSON;
 import com.mitv.utilities.DateUtils;
 
@@ -27,17 +28,81 @@ public class EventHighlight
 		
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
-		switch (getType())
+		EventHighlightActionEnum eventHighlightAction = getType();
+		
+		EventHighlightPeriodSortEnum eventHighlightPeriodSort = getPeriodSortEnum();
+		
+		switch (eventHighlightAction)
 		{
 			case KICK_OFF_PERIOD:
 			{
-				sb.append(context.getString(R.string.event_page_highlight_kick_off));
+				switch(eventHighlightPeriodSort) 
+				{
+					case FIRST_HALF:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_start_of_game));
+						break;
+					}
+					
+					case SECOND_HALF:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_start_of_second_half));
+						break;
+					}
+					
+					case FIRST_EXTRA_TIME:
+					case SECOND_EXTRA_TIME:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_start_of_extra_time));
+						break;
+					}
+					
+					default:
+					{
+						sb.append("");
+						break;
+					}
+				}
+				
 				break;
 			}
 	
 			case END_OF_PERIOD:
 			{
-				sb.append(context.getString(R.string.event_page_highlight_end_of_game));
+				switch(eventHighlightPeriodSort) 
+				{
+					case FIRST_HALF:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_end_of_first_half));
+						break;
+					}
+					
+					case SECOND_HALF:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_end_of_second_half));
+						break;
+					}
+					
+					case FIRST_EXTRA_TIME:
+					case SECOND_EXTRA_TIME:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_end_of_extra_time));
+						break;
+					}
+					
+					case END_OF_GAME:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_end_of_game));
+						break;
+					}
+					
+					default:
+					{
+						sb.append("");
+						break;
+					}
+				}
+
 				break;
 			}
 			
@@ -155,6 +220,21 @@ public class EventHighlight
 	}
 	
 	
+	
+	public boolean isFirstHalfKickOff()
+	{
+		EventHighlightActionEnum eventHighlightAction = getType();
+		
+		EventHighlightPeriodSortEnum eventHighlightPeriodSort = getPeriodSortEnum();
+		
+		boolean isFirstHalfKickOff = (eventHighlightAction == EventHighlightActionEnum.KICK_OFF_PERIOD) && 
+				 					 (eventHighlightPeriodSort == EventHighlightPeriodSortEnum.FIRST_HALF);
+		
+		return isFirstHalfKickOff;
+	}
+	
+	
+	
 	public boolean hasSubPerson()
 	{
 		boolean hasSubPerson = (getSubPersonShort().isEmpty() == false);
@@ -167,6 +247,12 @@ public class EventHighlight
 	public EventHighlightActionEnum getType()
 	{
 		return EventHighlightActionEnum.getTypeEnumFromCode(getHighlightCode());
+	}
+	
+	
+	public EventHighlightPeriodSortEnum getPeriodSortEnum()
+	{
+		return EventHighlightPeriodSortEnum.getTypeEnumFromCode(getPeriodSort());
 	}
 	
 	
