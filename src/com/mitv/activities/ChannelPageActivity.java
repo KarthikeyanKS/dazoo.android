@@ -31,7 +31,6 @@ import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVChannelId;
-import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -137,37 +136,58 @@ public class ChannelPageActivity
 					
 					broadcastWithChannelInfo.setChannel(channel);
 	
-					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+					boolean isCompetitionEvent = false;
+					long competitionId = 0;
+					long eventId = 0;
 					
-					/* FIFA - Navigation to event page */
+					Intent intent;
+					
 					ArrayList<String> tags = broadcastSelected.getProgram().getTags();
 
 					if (tags != null && !tags.isEmpty()) 
 					{
-						for (int i = 0; i < tags.size(); i++) {
-
-							if (tags.get(i).equals(Constants.FIFA_TAG_ID)) 
+						for (int i = 0; i < tags.size(); i++) 
+						{
+							if (tags.get(i).equals(Constants.FIFA_TAG_ID))
 							{
-								long eventId = broadcastSelected.getEventId();
+								isCompetitionEvent = true;
+								
+								eventId = broadcastSelected.getEventId();
 
-								if (eventId > 0) 
-								{
-									/*
-									 * WARNING WARNING WARNING
-									 * 
-									 * Hard coded competition ID used here.
-									 * 
-									 */
-									Competition competition = ContentManager.sharedInstance().getFromCacheCompetitionByID(Constants.FIFA_COMPETITION_ID);
-
-									/* Changing the already existing intent to competition event page */
-									intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
-
-									intent.putExtra(Constants.INTENT_COMPETITION_ID, competition.getCompetitionId());
-									intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
-								}
+								/*
+								 * TODO: Hard coded competition ID used here.
+								 * 
+								 */
+								competitionId = Constants.FIFA_COMPETITION_ID;
+								
+								break;
 							}
 						}
+					}
+					
+					if(isCompetitionEvent)
+					{
+						if (competitionId > 0 && eventId > 0) 
+						{
+							intent = new Intent(ChannelPageActivity.this, EventPageActivity.class);
+
+							intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionId);
+							intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, eventId);
+						}
+						else
+						{
+							Log.w(TAG, "Competition search result had values competitionId: " + competitionId + " and eventId: " + eventId);
+							
+							intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+							
+							ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+						}
+					}
+					else
+					{
+						intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+						
+						ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					}
 					
 					ContentManager.sharedInstance().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
