@@ -1197,10 +1197,10 @@ public abstract class BaseActivity
 	{
 		boolean wasDataUpdatedMoreThan = false;
 		
-		if(lastDataUpdatedCalendar != null)
+		if (lastDataUpdatedCalendar != null)
 		{
 			Calendar lastDataUpdatedCalendarWithincrement = (Calendar) lastDataUpdatedCalendar.clone();
-			lastDataUpdatedCalendarWithincrement.add(Calendar.MINUTE, minutes);
+			lastDataUpdatedCalendarWithincrement.add(Calendar.SECOND, minutes);
 			
 			Calendar now = DateUtils.getNowWithGMTTimeZone();
 			

@@ -128,7 +128,7 @@ public class CompetitionEventTabFragmentHighlights
 		
 		long eventID = getEvent().getEventId();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, competitionID, eventID);
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlightsData(this, false, competitionID, eventID);
 	}
 	
 	
@@ -140,7 +140,7 @@ public class CompetitionEventTabFragmentHighlights
 		
 		long eventID = getEvent().getEventId();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, false, competitionID, eventID);
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlightsData(this, false, competitionID, eventID);
 	}
 	
 	

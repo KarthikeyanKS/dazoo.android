@@ -98,7 +98,7 @@ public class EventPageActivity
 	private TextView headerGroups;
 
 	private RelativeLayout highlightsContainerLayout;
-	private RelativeLayout lineupContainerLayout;
+	private LinearLayout lineupContainerLayout;
 
 	private RelativeLayout highlightsFlagAndNameContainerOne;
 	private RelativeLayout highlightsFlagAndNameContainerTwo;
@@ -118,7 +118,7 @@ public class EventPageActivity
 	
 	private LinearLayout groupListContainer;
 	private LinearLayout standingsListContainer;
-	private RelativeLayout standingsListBlock;
+	private LinearLayout standingsListBlock;
 	private CompetitionEventEventsByGroupListAdapter groupListAdapter;
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
 
@@ -804,14 +804,14 @@ public class EventPageActivity
 		highlightsReloadIcon = (TextView) findViewById(R.id.competition_event_highlights_reload_icon);
 		highlightsProgressLoading = (ProgressBar) findViewById(R.id.competition_event_highlights_reload_progressbar);
 		
-		lineupContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_lineup_teams_container);
+		lineupContainerLayout = (LinearLayout) findViewById(R.id.competition_event_block_tabs_lineup_teams_container);
 		pageTabIndicatorForLineupTeams = (TabPageIndicator) findViewById(R.id.tab_event_indicator_for_lineup_teams);
 		viewPagerForLineupTeams = (CustomViewPager) findViewById(R.id.tab_event_pager_for_lineup_teams);
 		selectedTabIndexForLineupTeams = STARTING_TAB_INDEX;
 
 		groupListContainer = (LinearLayout) findViewById(R.id.competition_event_group_list);
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_event_standings_list);
-		standingsListBlock = (RelativeLayout) findViewById(R.id.competition_event_block_standings_teams_container);
+		standingsListBlock = (LinearLayout) findViewById(R.id.competition_event_block_standings_teams_container);
 
 		highlightsFlagAndNameContainerOne = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_one_flag_container);
 		highlightsFlagAndNameContainerTwo = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_two_flag_container);
@@ -1022,15 +1022,12 @@ public class EventPageActivity
 		int reloadInterval = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCompetitionEventPageReloadInterval();
 
 		boolean forceRefresh = wasActivityDataUpdatedMoreThan(reloadInterval);
-
-		
-		
 		
 		Event event = ContentManager.sharedInstance().getFromCacheEventByIDForSelectedCompetition(eventID);
 		
 		if (event != null) 
 		{
-			ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, forceRefresh, competitionID, eventID);
+			ContentManager.sharedInstance().getElseFetchFromServiceEventHighlightsData(this, forceRefresh, competitionID, eventID);
 		} 
 		else
 		{
@@ -1050,7 +1047,7 @@ public class EventPageActivity
 	
 	private void loadHighlightsInBackground()
 	{
-		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlighstData(this, true, competitionID, eventID);
+		ContentManager.sharedInstance().getElseFetchFromServiceEventHighlightsData(this, true, competitionID, eventID);
 	}
 
 

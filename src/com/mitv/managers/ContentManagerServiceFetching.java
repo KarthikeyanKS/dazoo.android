@@ -516,7 +516,7 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
-	public void getElseFetchFromServiceEventHighlighstData(
+	public void getElseFetchFromServiceEventHighlightsData(
 			ViewCallbackListener activityCallbackListener, 
 			boolean forceDownload,
 			Long competitionID,
