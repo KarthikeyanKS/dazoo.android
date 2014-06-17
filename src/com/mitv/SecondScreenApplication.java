@@ -157,7 +157,11 @@ public class SecondScreenApplication
 			StrictMode.setVmPolicy(vmPolicy);
 		}
 		
-		if(Constants.FORCE_CACHE_DATABASE_FLUSH || isCurrentVersionAnUpgradeFromInstalledVersion())
+		boolean shouldFlushData = (isCurrentVersionAnUpgradeFromInstalledVersion() && isCurrentORMDatabaseVersionGreaterThenInstalledORMDatabaseVersion());
+		
+		boolean forceDataFlush = Constants.FORCE_CACHE_DATABASE_FLUSH;
+		
+		if(forceDataFlush || shouldFlushData)
 		{
 			ContentManager.clearAllPersistentCacheData();
 			
@@ -165,6 +169,8 @@ public class SecondScreenApplication
 		}
 
 		setInstalledAppVersionToCurrentVersion();
+		
+		setInstalledORMDatabaseVersionToCurrentVersion();
 	}
 	
 	
@@ -249,21 +255,8 @@ public class SecondScreenApplication
 	{
 		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
 	}
-	
-	
-	
-//	public static void setAppIsRestarting(boolean value) 
-//	{
-//		AppDataUtils.sharedInstance(sharedInstance).setPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, value, true);
-//	}
-//
-//	
-//	
-//	public static boolean isAppRestarting() 
-//	{
-//		return AppDataUtils.sharedInstance(sharedInstance).getPreference(Constants.SHARED_PREFERENCES_APP_IS_RESTARTING, false);
-//	}
-	
+
+
 	
 	private String getCurrentAppVersion()
 	{
@@ -306,6 +299,44 @@ public class SecondScreenApplication
 		}
 		
 		return isCurrentVersionAnUpgradeFromInstalledVersion;
+	}
+	
+	
+	
+	private int getInstalledORMDatabaseVersion()
+	{
+		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_ORM_DATABASE_VERSION, Constants.CACHE_DATABASE_VERSION);
+	}
+	
+	
+	
+	private void setInstalledORMDatabaseVersionToCurrentVersion()
+	{
+		int currentORMDatabaseVersion = Constants.CACHE_DATABASE_VERSION;
+		
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_ORM_DATABASE_VERSION, currentORMDatabaseVersion, false);
+	}
+	
+	
+	
+	private boolean isCurrentORMDatabaseVersionGreaterThenInstalledORMDatabaseVersion()
+	{
+		boolean isCurrentORMDatabaseVersionGreaterThenInstalledVersion;
+		
+		int installedORMDatabaseVersion = getInstalledORMDatabaseVersion();
+		
+		int currentORMDatabaseVersion = Constants.CACHE_DATABASE_VERSION;
+		
+		if(currentORMDatabaseVersion > installedORMDatabaseVersion)
+		{
+			isCurrentORMDatabaseVersionGreaterThenInstalledVersion = true;
+		}
+		else
+		{
+			isCurrentORMDatabaseVersionGreaterThenInstalledVersion = false;
+		}
+		
+		return isCurrentORMDatabaseVersionGreaterThenInstalledVersion;
 	}
 	
 	

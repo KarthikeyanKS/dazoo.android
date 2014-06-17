@@ -1,15 +1,18 @@
 
 package com.mitv.models.gson.mitvapi.competitions;
 
+import android.util.Log;
+
 
 
 
 public class EventHighlightJSON
 {
+	private static final String TAG = EventHighlightJSON.class.getName();
+	
+	
 	protected long eventId;
-    
     private String highlightCode;
-    
     private long actionTime;
     private String periodShort;
     private int periodSort;
@@ -24,7 +27,8 @@ public class EventHighlightJSON
 
      
     
-    public long getActionTime() {
+    public long getActionTime() 
+    {
     	return actionTime;
     }
 
@@ -37,29 +41,43 @@ public class EventHighlightJSON
 
     
     
-    public String getHighlightCode() 
+    protected String getHighlightCode() 
     {
-    	if (highlightCode == null) {
+    	if (highlightCode == null) 
+    	{
     		highlightCode = "";
+    	
+    		Log.w(TAG, "highlightCode is null");
     	}
+    	
     	return highlightCode;
     }
     
     
     
-    public String getActionMinute() {
-    	if (actionMinute == null) {
+    public String getActionMinute()
+    {
+    	if (actionMinute == null)
+    	{
     		actionMinute = "";
+    	
+    		Log.w(TAG, "actionMinute is null");
     	}
+    	
     	return actionMinute;
     }
 
     
     
-    public String getPersonShort() {
-    	if (personShort == null) {
+    public String getPersonShort() 
+    {
+    	if (personShort == null) 
+    	{
     		personShort = "";
+    	
+    		Log.w(TAG, "personShort is null");
     	}
+    	
     	return personShort;
     }
 
@@ -77,17 +95,22 @@ public class EventHighlightJSON
     	if (subPersonShort == null) 
     	{
     		subPersonShort = "";
+    	
+    		Log.w(TAG, "subPersonShort is null");
     	}
+    	
     	return subPersonShort;
     }
 
 
 
-	public String getPeriodShort() 
+	protected String getPeriodShort() 
 	{
 		if (periodShort == null)
 		{
 			periodShort = "";
+			
+			Log.w(TAG, "periodShort is null");
     	}
 		
 		return periodShort;
@@ -95,7 +118,7 @@ public class EventHighlightJSON
 
 
 
-	public int getPeriodSort()
+	protected int getPeriodSort()
 	{
 		return periodSort;
 	}
