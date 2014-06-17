@@ -438,24 +438,31 @@ public class TVGuideTabFragmentCompetition
 	
 	protected void clearContentOnTagAndReload() 
 	{
-		int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
+		final int startIndex = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
 
-		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex);
-		removeAlreadyEndedBroadcastsTask.run();
-		
-		listView.removeAllViews();
-		
-		tvTagListAdapter = new TVGuideCompetitionTagListAdapter(activity, Constants.FIFA_TAG_ID, taggedBroadcasts, startIndex);
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(taggedBroadcasts, startIndex) {
 			
-		for (int i = 0; i < tvTagListAdapter.getCount(); i++) 
-		{
-            View listItem = tvTagListAdapter.getView(i, null, listView);
-           
-            if (listItem != null) 
-            {
-            	listView.addView(listItem);
-            }
-        }
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				
+				listView.removeAllViews();
+
+				tvTagListAdapter = new TVGuideCompetitionTagListAdapter(activity, Constants.FIFA_TAG_ID, taggedBroadcasts, startIndex);
+
+				for (int i = 0; i < tvTagListAdapter.getCount(); i++) 
+				{
+					View listItem = tvTagListAdapter.getView(i, null, listView);
+
+					if (listItem != null) 
+					{
+						listView.addView(listItem);
+					}
+				}
+			}
+		};
+		
+		removeAlreadyEndedBroadcastsTask.execute();
 	}
 	
 }
