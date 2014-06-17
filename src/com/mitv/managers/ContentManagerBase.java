@@ -1492,6 +1492,20 @@ public abstract class ContentManagerBase
 	
 	
 	
+	public List<Standings> getFromCacheStandingsForPhaseInSelectedCompetition(Long phaseID)
+	{
+		List<Standings> standingsToReturn = getCache().getCompetitionsData().getEventStandingsForPhaseInSelectedCompetition(phaseID);
+		
+		if(standingsToReturn == null)
+		{
+			standingsToReturn = new ArrayList<Standings>();
+		}
+		
+		return standingsToReturn;
+	}
+	
+	
+	
 	public List<Notification> getFromCacheNotifications()
 	{
 		return getCache().getNotifications();
