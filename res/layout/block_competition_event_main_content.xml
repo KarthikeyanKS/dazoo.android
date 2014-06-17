@@ -162,11 +162,12 @@
             <!-- Flag team one -->
             <ImageView
                 android:id="@+id/competition_event_team_one_flag"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
+                android:layout_width="73dp"
+                android:layout_height="53dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/competitions_contry_flag_default" />
+                android:src="@drawable/competitions_contry_flag_default"
+                android:background="@drawable/dropshadow" />
 
             <!-- Team one name -->
             <com.mitv.ui.elements.FontTextView
@@ -195,11 +196,12 @@
             <!-- Flag team two -->
             <ImageView
                 android:id="@+id/competition_event_team_two_flag"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
+                android:layout_width="73dp"
+                android:layout_height="53dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/competitions_contry_flag_default" />
+                android:src="@drawable/competitions_contry_flag_default"
+                android:background="@drawable/dropshadow" />
 
             <!-- Team two name -->
             <com.mitv.ui.elements.FontTextView
