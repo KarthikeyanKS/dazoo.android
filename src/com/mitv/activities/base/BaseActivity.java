@@ -1140,7 +1140,7 @@ public abstract class BaseActivity
 	
 	private void initCallbackLayouts() 
 	{
-		requestSuccessfulLayout = (RelativeLayout) findViewById(R.id.request_successful_layout);
+//		requestSuccessfulLayout = (RelativeLayout) findViewById(R.id.request_successful_layout);
 		
 		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_not_transparent);
 
