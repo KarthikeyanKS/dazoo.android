@@ -90,7 +90,7 @@ public class TVGuideTabFragmentCompetition
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		rootView = inflater.inflate(R.layout.layout_competition_tab, null);
+		rootView = inflater.inflate(R.layout.fragment_tvguide_competition_tab, null);
 
 		super.initRequestCallbackLayouts(rootView);
 		
