@@ -291,6 +291,23 @@ public class Event
 	
 	
 	
+	public boolean isEventAiringToday()
+	{
+		Calendar now = DateUtils.getNowWithLocalTimezone();
+		
+		Calendar beginTime = this.getEventDateCalendarLocal();
+		
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
+    	boolean isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, now);
+    	
+    	boolean isEventAiringToday = isSameDay && isCorrectMonth && isCorrectYear;
+    	
+		return isEventAiringToday;
+	}
+	
+	
+	
 	/**
 	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
 	 * is today or tomorrow (per comparison with the current time)

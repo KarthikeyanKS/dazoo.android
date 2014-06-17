@@ -1156,7 +1156,92 @@ public abstract class ContentManagerBase
 	
 	
 	
-	private List<Event> filterLiveEvents(List<Event> events) {
+	public List<Event> getFromCacheAllEventsForSelectedCompetition(boolean filterFinishedEvents) {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		if (events == null) {
+			events = new ArrayList<Event>();
+			
+		} else {
+			
+			if (filterFinishedEvents) {
+				events = filterFinishedEvents(events);
+			}
+		}
+		
+		return events;
+	}
+	
+	
+	
+	public List<Event> getFromCacheAllFinishedEventsInReverseOrderForSelectedCompetition() {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		if(events != null && !events.isEmpty())
+		{			
+			for (Event ev : events) {
+				
+				if (ev.isFinished()) {
+					filteredEvents.add(ev);
+				}
+			}
+		}
+		
+		Collections.reverse(filteredEvents);
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	public List<Event> getFromCacheAllEventsForTodayForSelectedCompetition()
+	{
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		if(events != null && !events.isEmpty())
+		{
+			events = filterFinishedEvents(events);
+			
+			for (Event ev : events) {
+				
+				if (ev.isEventAiringToday()) {
+					filteredEvents.add(ev);
+				}
+			}
+		}
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	public List<Event> getFromCacheAllLiveEventsForSelectedCompetition() {
+		List<Event> events = getCache().getCompetitionsData().getEventsForSelectedCompetition();
+		
+		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		if(events != null && !events.isEmpty())
+		{
+			events = filterFinishedEvents(events);
+			
+			for (Event ev: events) {
+				
+				if(ev.isLive()) {
+					filteredEvents.add(ev);
+				}
+			}
+		}
+		
+		return filteredEvents;
+	}
+	
+	
+	
+	public List<Event> filterLiveEvents(List<Event> events) {
 		List<Event> filteredEvents = new ArrayList<Event>();
 		
 		for (Event ev: events) {
@@ -1170,7 +1255,7 @@ public abstract class ContentManagerBase
 	
 	
 	
-	private List<Event> filterFinishedEvents(List<Event> events) {
+	public List<Event> filterFinishedEvents(List<Event> events) {
 		List<Event> filteredEvents = new ArrayList<Event>();
 		
 		for (Event ev: events) {

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="vertical" >
+
+    <!-- Divider -->
+
+    <View
+        android:id="@+id/row_competition_row_divider_new_between_dates"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/transparent"
+        android:visibility="gone" />
+
+    <!-- HEADER DAY -->
+
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/row_competition_start_day_of_week_new"
+        style="@style/headercard2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <!-- Divider -->
+
+    <View
+        android:id="@+id/row_competition_row_divider_new_after_date"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@color/grey0"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/row_competition_row_container_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_color_selector_white"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp" >
+
+        <!-- Group -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_header_group_event_new"
+            style="@style/meta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black"
+            android:visibility="visible" />
+
+        <RelativeLayout
+            android:id="@+id/row_competition_page_begintime_or_score_container_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <!-- Start time of game -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/row_competition_page_begin_time_broadcast_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="visible"
+                font:fonttextview="roboto_mitv_bold.ttf" />
+
+            <!-- Score when game is finished -->
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/row_competition_page_game_past_score_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="gone"
+                font:fonttextview="roboto_mitv_bold.ttf" />
+        </RelativeLayout>
+
+        <!-- Channels airing on channels: -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_airing_channels_for_broadcast_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/row_competition_page_begintime_or_score_container_new"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/grey1"
+            android:textSize="10sp"
+            android:visibility="invisible" />
+
+        <!-- TEAM HOME -->
+
+        <ImageView
+            android:id="@+id/row_competition_team_one_flag_new"
+            android:layout_width="50dp"
+            android:layout_height="34dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/competitions_contry_flag_default" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_team_one_name_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/row_competition_team_one_flag_new"
+            android:gravity="left"
+            android:maxLines="2"
+            android:maxWidth="55sp"
+            android:textSize="12sp" />
+
+        <!-- TEAM AWAY -->
+
+        <ImageView
+            android:id="@+id/row_competition_team_two_flag_new"
+            android:layout_width="50dp"
+            android:layout_height="34dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/competitions_contry_flag_default" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_competition_team_two_name_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/row_competition_team_two_flag_new"
+            android:gravity="right"
+            android:maxLines="2"
+            android:maxWidth="55sp"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <!-- Divider -->
+
+    <View
+        android:id="@+id/row_competition_row_divider_new"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@color/grey0"
+        android:visibility="gone" />
+
+</LinearLayout>

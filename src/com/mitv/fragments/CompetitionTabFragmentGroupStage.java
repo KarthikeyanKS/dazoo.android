@@ -3,6 +3,8 @@ package com.mitv.fragments;
 
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.mitv.Constants;
 import com.mitv.R;
@@ -70,8 +73,10 @@ public class CompetitionTabFragmentGroupStage
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		rootView = inflater.inflate(R.layout.fragment_competition_tab_fragment_container, null);
+//		rootView = inflater.inflate(R.layout.fragment_competition_tab_fragment_container_listview, null);
 		
 		listContainerLayout =  (LinearLayout) rootView.findViewById(R.id.competition_table_container);
+//		listContainerLayout =  (ListView) rootView.findViewById(R.id.competition_table_container_new);
 
 		super.initRequestCallbackLayouts(rootView);
 		
@@ -151,9 +156,29 @@ public class CompetitionTabFragmentGroupStage
 			{
 				listContainerLayout.removeAllViews();
 				
-				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
+				Map<Long, List<Event>> eventsByGroupsFirstStage = ContentManager.sharedInstance().getFromCacheAllEventsGroupedByGroupStageForSelectedCompetition();
+				Map<Long, List<Event>> eventsByGroupsSecondStage = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
+				
+				List<Event> events = new ArrayList<Event>();
+				
+				Collection<List<Event>> values1 = eventsByGroupsFirstStage.values();
+				Collection<List<Event>> values2 = eventsByGroupsSecondStage.values();
 
-				listAdapter = new CompetitionEventsByGroupListAdapter(activity, eventsByGroups);
+				for(List<Event> value : values1) {
+					events.addAll(value);
+				}
+				
+				for(List<Event> value : values2) {
+					events.addAll(value);
+				}
+				
+				events = ContentManager.sharedInstance().filterFinishedEvents(events);
+				
+				listAdapter = new CompetitionEventsByGroupListAdapter(activity, events);
+				
+//				listContainerLayout.setAdapter(listAdapter);
+//				
+//				listAdapter.notifyDataSetChanged();
 				
 				for (int i = 0; i < listAdapter.getCount(); i++) 
 				{

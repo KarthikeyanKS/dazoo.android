@@ -4,7 +4,9 @@ package com.mitv.adapters.list;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,10 +40,10 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class CompetitionEventsByGroupListAdapter 
+public class CopyOfCompetitionEventsByGroupListAdapterOLD 
 extends BaseAdapter
 {
-	private static final String TAG = CompetitionEventsByGroupListAdapter.class.getName();
+	private static final String TAG = CopyOfCompetitionEventsByGroupListAdapterOLD.class.getName();
 
 
 	private LayoutInflater layoutInflater;
@@ -50,13 +52,20 @@ extends BaseAdapter
 
 
 
-	public CompetitionEventsByGroupListAdapter(
+	public CopyOfCompetitionEventsByGroupListAdapterOLD(
 			final Activity activity,
-			final List<Event> events)
+			final Map<Long, List<Event>> eventsByGroup)
 	{
 		super();
 
-		this.events = events;
+		this.events = new ArrayList<Event>();
+
+		Collection<List<Event>> values = eventsByGroup.values();
+
+		for(List<Event> value : values)
+		{
+			events.addAll(value);
+		}
 
 		this.activity = activity;
 
@@ -111,29 +120,28 @@ extends BaseAdapter
 		if (rowView == null)
 		{
 			// We are reusing the same row layout from the competition page
-			rowView = layoutInflater.inflate(R.layout.copy_of_row_competition_group_events_list_item_new, null);
+			rowView = layoutInflater.inflate(R.layout.row_competition_group_events_list_item, null);
 
 			ViewHolder viewHolder = new ViewHolder();
 
-			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container_new);
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.row_competition_row_container);
 
-			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event_new);
+			viewHolder.group = (TextView) rowView.findViewById(R.id.row_competition_header_group_event);
 
-			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week_new);
-			viewHolder.rowDivider = rowView.findViewById(R.id.row_competition_row_divider_new);
+			viewHolder.startWeekDayHeader = (TextView) rowView.findViewById(R.id.row_competition_start_day_of_week);
+			viewHolder.dividerView = rowView.findViewById(R.id.row_competition_row_divider);
 
-			viewHolder.team1name = (TextView) rowView.findViewById(R.id.row_competition_team_one_name_new);
-			viewHolder.team1flag = (ImageView) rowView.findViewById(R.id.row_competition_team_one_flag_new);
-			viewHolder.team2name = (TextView) rowView.findViewById(R.id.row_competition_team_two_name_new);
-			viewHolder.team2flag = (ImageView) rowView.findViewById(R.id.row_competition_team_two_flag_new);
+			viewHolder.team1name = (TextView) rowView.findViewById(R.id.row_competition_team_one_name);
+			viewHolder.team1flag = (ImageView) rowView.findViewById(R.id.row_competition_team_one_flag);
+			viewHolder.team2name = (TextView) rowView.findViewById(R.id.row_competition_team_two_name);
+			viewHolder.team2flag = (ImageView) rowView.findViewById(R.id.row_competition_team_two_flag);
 
-			viewHolder.startTime = (TextView) rowView.findViewById(R.id.row_competition_page_begin_time_broadcast_new);
+			viewHolder.startTime = (TextView) rowView.findViewById(R.id.row_competition_page_begin_time_broadcast);
 
-			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_page_game_past_score_new);
+			viewHolder.score = (TextView) rowView.findViewById(R.id.row_competition_page_game_past_score);
+			//			viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 
-			viewHolder.broadcastChannels = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast_new);
-			viewHolder.dividerTop = (View) rowView.findViewById(R.id.row_competition_row_divider_new_between_dates);
-			viewHolder.dividerAfterDate = (View) rowView.findViewById(R.id.row_competition_row_divider_new_after_date);
+			viewHolder.broadcastChannels = (TextView) rowView.findViewById(R.id.row_competition_airing_channels_for_broadcast);
 
 			rowView.setTag(viewHolder);
 		}
@@ -143,10 +151,8 @@ extends BaseAdapter
 		if (holder != null)
 		{
 			holder.startWeekDayHeader.setVisibility(View.GONE);
-			holder.rowDivider.setVisibility(View.GONE);
+			holder.dividerView.setVisibility(View.GONE);
 			holder.group.setVisibility(View.GONE);
-			holder.dividerTop.setVisibility(View.GONE);
-			holder.dividerAfterDate.setVisibility(View.GONE);
 
 			final Event event = getItem(position);
 
@@ -155,8 +161,10 @@ extends BaseAdapter
 			boolean isLastPosition = (position == (getCount() - 1));
 
 			boolean isCurrentEventDayEqualToPreviousEventDay;
+			boolean isCurrentEventGroupEqualToPreviousEventGroup;
 			
 			boolean isCurrentEventDayEqualToNextEventDay = false;
+			boolean isCurrentEventGroupEqualToNextEventGroup = false;
 
 			if(isFirstposition == false)
 			{
@@ -164,10 +172,13 @@ extends BaseAdapter
 				
 				isCurrentEventDayEqualToPreviousEventDay = event.isTheSameDayAs(prevEvent);
 				
+				isCurrentEventGroupEqualToPreviousEventGroup = event.isSamePhase(prevEvent);
+				
 			}
 			else
 			{
 				isCurrentEventDayEqualToPreviousEventDay = true;
+				isCurrentEventGroupEqualToPreviousEventGroup = true;
 			}
 			
 			if (isLastPosition == false) 
@@ -175,6 +186,8 @@ extends BaseAdapter
 				Event nextEvent = getItem(position + 1);
 				
 				isCurrentEventDayEqualToNextEventDay = event.isTheSameDayAs(nextEvent);
+				
+				isCurrentEventGroupEqualToNextEventGroup = event.isSamePhase(nextEvent);
 			}
 
 			boolean isBeginTimeEqualToNextItem;
@@ -206,29 +219,45 @@ extends BaseAdapter
 					sb.append(" ");
 					sb.append(event.getEventTimeDayAndMonthAsString());
 				}
-				
-				holder.dividerTop.setVisibility(View.VISIBLE);
-				holder.dividerAfterDate.setVisibility(View.VISIBLE);
 
 				/* Capitalized letters in header */
 				String headerText = sb.toString();
-				holder.startWeekDayHeader.setText(headerText);
+				holder.startWeekDayHeader.setText(headerText.toUpperCase());
 
 				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
 			}
-			else if (isCurrentEventDayEqualToNextEventDay == false ) {
-				holder.rowDivider.setVisibility(View.GONE);
-				holder.dividerTop.setVisibility(View.GONE);
-				holder.dividerAfterDate.setVisibility(View.VISIBLE);
+			else if (isCurrentEventDayEqualToNextEventDay == false && isCurrentEventGroupEqualToNextEventGroup == true) {
+				holder.dividerView.setVisibility(View.GONE);
 			}
 			else
 			{
-				holder.rowDivider.setVisibility(View.GONE);
+				holder.dividerView.setVisibility(View.VISIBLE);
+			}
+
+			if (isFirstposition || isCurrentEventGroupEqualToPreviousEventGroup == false)
+			{
+				long phaseID = event.getPhaseId();
+
+				Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseID);
+
+				if(phase != null)
+				{
+					String headerGroup = phase.getPhase();
+					holder.group.setText(headerGroup);
+				}
+				else
+				{
+					holder.group.setText("");
+				}
+
+				holder.group.setVisibility(View.VISIBLE);
+
+				holder.startWeekDayHeader.setVisibility(View.VISIBLE);
 			}
 
 			if (isLastPosition == false && isBeginTimeEqualToNextItem)
 			{
-				holder.rowDivider.setVisibility(View.GONE);
+				holder.dividerView.setVisibility(View.VISIBLE);
 			}			
 
 			String homeTeamName = event.getHomeTeam();
@@ -278,14 +307,6 @@ extends BaseAdapter
 			holder.team1name.setText(homeTeamName);
 
 			holder.team2name.setText(awayTeamName);
-			
-			long phaseId = event.getPhaseId();
-			
-			Phase phase = ContentManager.sharedInstance().getFromCachePhaseByIDForSelectedCompetition(phaseId);
-			
-			holder.group.setText(phase.getPhase());
-			
-			holder.group.setVisibility(View.VISIBLE);
 
 			holder.container.setOnClickListener(new View.OnClickListener() 
 			{
@@ -325,20 +346,20 @@ extends BaseAdapter
 
 				if (event.isFinished()) 
 				{
-					/* Keeping this code for now. We decided to not use the gray "overlay" on passed events anymore */
-//					holder.score.setTextColor(activity.getResources().getColor(R.color.grey2));
-//					holder.team1name.setTextColor(activity.getResources().getColor(R.color.grey2));
-//					holder.team2name.setTextColor(activity.getResources().getColor(R.color.grey2));
-//					holder.group.setTextColor(activity.getResources().getColor(R.color.grey2));
-//
-//					holder.team1flag.setColorFilter(activity.getResources().getColor(R.color.transparent_overlay_past_competition_events));
-//					holder.team2flag.setColorFilter(activity.getResources().getColor(R.color.transparent_overlay_past_competition_events));
+					// holder.container.setBackgroundColor(activity.getResources().getColor(R.color.bright_foreground_disabled_holo_dark));
+
+					/* Add a new container with transparent overlay, TODO How??????????? */
+					holder.score.setTextColor(activity.getResources().getColor(R.color.grey2));
+					holder.team1name.setTextColor(activity.getResources().getColor(R.color.grey2));
+					holder.team2name.setTextColor(activity.getResources().getColor(R.color.grey2));
+
+					holder.team1flag.setColorFilter(activity.getResources().getColor(R.color.transparent_overlay_past_competition_events));
+					holder.team2flag.setColorFilter(activity.getResources().getColor(R.color.transparent_overlay_past_competition_events));
 				}
 
 				if (event.isLive()) 
 				{
 					holder.score.setTextColor(activity.getResources().getColor(R.color.red));
-					holder.group.setTextColor(activity.getResources().getColor(R.color.red));
 				}
 			}
 
@@ -355,7 +376,7 @@ extends BaseAdapter
 
 			boolean containsBroadcastDetails = event.containsBroadcastDetails();
 
-			if(containsBroadcastDetails && !event.isFinished())
+			if(containsBroadcastDetails)
 			{
 				List<EventBroadcast> eventBroadcastDetailsList = event.getEventBroadcasts();
 
@@ -396,13 +417,9 @@ extends BaseAdapter
 
 					channelsSB.append(channelNames.get(j));
 				}
-				
-				holder.broadcastChannels.setText(channelsSB.toString());
-				holder.broadcastChannels.setVisibility(View.VISIBLE);
-				
-			} else {
-				holder.broadcastChannels.setVisibility(View.INVISIBLE);
 			}
+
+			holder.broadcastChannels.setText(channelsSB.toString());
 		}
 		else
 		{
@@ -426,10 +443,8 @@ extends BaseAdapter
 		private TextView score;
 		private TextView timeLeft;
 		private TextView broadcastChannels;
-		private View rowDivider;
+		private View dividerView;
 		private RelativeLayout container;
-		private View dividerTop;
-		private View dividerAfterDate;
 	}
 
 }
