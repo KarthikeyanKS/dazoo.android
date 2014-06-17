@@ -32,16 +32,16 @@
                 android:id="@+id/competition_event_block_tabs_highlights_teams_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingBottom="10dp" >
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_events_header"
-                    style="@style/header1"
+                    style="@style/headercard2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -108,9 +108,9 @@
                         android:id="@+id/competition_event_highlights_team_one_flag"
                         android:layout_width="53dp"
                         android:layout_height="37dp"
+                        android:background="@drawable/dropshadow"
                         android:scaleType="fitXY"
-                        android:src="@drawable/competitions_contry_flag_default"
-                        android:background="@drawable/dropshadow" />
+                        android:src="@drawable/competitions_contry_flag_default" />
 
                     <!-- Team one name -->
 
@@ -144,9 +144,9 @@
                         android:layout_width="53dp"
                         android:layout_height="37dp"
                         android:layout_alignParentRight="true"
+                        android:background="@drawable/dropshadow"
                         android:scaleType="fitXY"
-                        android:src="@drawable/competitions_contry_flag_default"
-                        android:background="@drawable/dropshadow" />
+                        android:src="@drawable/competitions_contry_flag_default" />
 
                     <!-- Team two name -->
 
@@ -191,7 +191,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_lineup_header"
-                    style="@style/header1"
+                    style="@style/headercard2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/event_page_tab_line_up" />
@@ -237,7 +237,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_standings_header"
-                    style="@style/header1"
+                    style="@style/headercard2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -266,7 +266,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/competition_group_header_group"
-                    style="@style/header1"
+                    style="@style/headercard2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
