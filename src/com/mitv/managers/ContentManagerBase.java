@@ -1389,7 +1389,7 @@ public abstract class ContentManagerBase
 			event = getCache().getCompetitionsData().getEventByID(competitionID, eventID);
 		}
 		
-		if(event != null)
+		if (event == null)
 		{
 			Log.w(TAG, "Event for ID " + eventID + "  is null");
 		}
