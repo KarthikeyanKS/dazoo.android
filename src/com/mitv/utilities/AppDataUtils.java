@@ -103,6 +103,36 @@ public class AppDataUtils
 		}
 	}
 	
+	
+	
+	public int getPreference(
+			final String name, 
+			final int defaultValue)
+	{		
+		return appSharedPreferences.getInt(name, defaultValue);
+	}
+	
+	
+	
+	public void setPreference(
+			final String key, 
+			final int value, 
+			final Boolean immediate)
+	{
+		final SharedPreferences.Editor prefEditor = appSharedPreferences.edit();
+
+		prefEditor.putInt(key, value);
+
+		if (immediate)
+		{
+			prefEditor.commit();
+		} 
+		else 
+		{
+			prefEditor.apply();
+		}
+	}
+	
 		
 	
 	public Boolean getPreference(
