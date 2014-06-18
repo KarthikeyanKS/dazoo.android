@@ -333,13 +333,6 @@ public abstract class ContentManagerCallback
 			handleCompetitionEventByIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
 			break;
 		}
-		
-		case COMPETITION_TEAM_DETAILS:
-		case COMPETITION_PHASE_BY_ID:
-		{
-			// TOOD Competitions - Not yet implemented 
-			break;
-		}
 
 		case TV_CHANNEL_IDS_USER_STANDALONE: 
 		{
