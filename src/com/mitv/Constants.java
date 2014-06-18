@@ -51,7 +51,7 @@ public abstract class Constants
 	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
-	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
+	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
 	
 	
 	/* AMAZON INSIGHTS configurations */
@@ -211,6 +211,7 @@ public abstract class Constants
 	public static final String	INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO	= "com.mitv.intent.extra.need.to.download.broadcast.with.channel.info";
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT			= "com.mitv.intent.extra.activity.user.logout.success";
+	public static final String	INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN 		= "com.mitv.intent.alarn.extra.activity.return.login.class.name";
 	
 	
 	/* TVGuide and FeedActivity */
@@ -301,6 +302,8 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_YOU_LIKE			= "FEED_ITEM_SELECTED_YOU_LIKE";
 	public static final String GA_EVENT_KEY_USER_EVENT_FEED_LIST_SCROLLED			= "FEED_LIST_SCROLLED_TO_ITEM_AT_INDEX";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_LIKE					= "LIKE";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_LIKE		= "TEAM_FROM_BANNER_LIKED";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_DISMISS     = "TEAM_FROM_BANNER_DISMISSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_REMINDER				= "REMINDER";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_IN					= "USER_SIGNED_IN";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_OUT				= "USER_SIGNED_OUT";

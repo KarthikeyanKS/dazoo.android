@@ -64,11 +64,6 @@ public class AppVersionTest
 			
 			Assert.assertNotNull(appVersionDataParts.getValue());
 			Assert.assertFalse(TextUtils.isEmpty(appVersionDataParts.getValue()));
-
-			if(appVersionDataParts.hasExpires()) 
-			{
-				Assert.assertTrue(appVersionDataParts.getExpires().getTime() > YEAR_OF_2000);
-			}
 		}
 	}
 }

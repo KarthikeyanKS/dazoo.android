@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.emilsjolander.components.StickyScrollViewItems.StickyScrollView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -536,7 +535,7 @@ public class CompetitionPageActivity
 		
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
 		
-		StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.competition_scrollview);
+//		StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.competition_scrollview);
 	}
 	
 	
@@ -684,6 +683,11 @@ public class CompetitionPageActivity
 			{
 				SecondScreenApplication.sharedInstance().setFavoriteTeamBannerAsSeen();
 				
+				String teamDisplayName = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_NAME;
+				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
+				
+				TrackingGAManager.sharedInstance().sendUserDismissedTeamBanner(teamDisplayName, teamId);
+				
 				setLikeBannerVisible();
 				
 				String message = getString(R.string.competition_page_favorite_team_dismiss_message);
@@ -740,14 +744,16 @@ public class CompetitionPageActivity
 
 				SecondScreenApplication.sharedInstance().setFavoriteTeamBannerAsSeen();
 				
-				TrackingGAManager.sharedInstance().sendUserLikesEvent(userLike, false);
+				TrackingGAManager.sharedInstance().sendUserLikesTeamInBanner(teamDisplayName, teamId);
 				
 				setLikeBannerVisible();
 			}
 		}
 		else 
 		{
-			DialogHelper.showPromptSignInDialog(this, loginBeforeLikeProcedure(userLike), null);
+			String message = getString(R.string.competition_page_favorite_team_register_popup_message);
+			
+			DialogHelper.showPromptSignInDialog(this, message, loginBeforeLikeProcedure(userLike), null);
 		}
 	}
 	
@@ -764,7 +770,13 @@ public class CompetitionPageActivity
 				 * After login is complete the ContentManager will perform the adding of the like to backend */
 				ContentManager.sharedInstance().setLikeToAddAfterLogin(userLike);
 				
-				Intent intent = new Intent(CompetitionPageActivity.this, SignUpSelectionActivity.class);			
+				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
+				
+				Intent intent = new Intent(CompetitionPageActivity.this, SignUpSelectionActivity.class);
+				intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN, TeamPageActivity.class.getName());
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+				intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamId);
+				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
 				
 				startActivity(intent);
 			}

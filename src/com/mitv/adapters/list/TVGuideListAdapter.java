@@ -409,9 +409,11 @@ public class TVGuideListAdapter
 					
 					activity.startActivity(intentMyChannels);
 				} 
-				else 
+				else
 				{
-					DialogHelper.showPromptSignInDialog(activity, yesSigninOrSignUpBlock(), null);
+					String message = activity.getString(R.string.sign_in_to_text);
+					
+					DialogHelper.showPromptSignInDialog(activity, message, yesSigninOrSignUpBlock(), null);
 				}
 			}
 		});

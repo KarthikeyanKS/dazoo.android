@@ -193,7 +193,9 @@ public class LikeView
 			} 
 			else 
 			{
-				DialogHelper.showPromptSignInDialog(activity, loginBeforeLikeProcedure(), null);
+				String message = activity.getString(R.string.sign_in_to_text);
+				
+				DialogHelper.showPromptSignInDialog(activity, message, loginBeforeLikeProcedure(), null);
 			}
 		}
 		else

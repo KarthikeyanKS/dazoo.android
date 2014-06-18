@@ -255,9 +255,36 @@ public class TrackingGAManager
 		}
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
+		
 		Log.d(TAG, "Event sent: " + broadcastTitle);
 	}
+	
+	
+	
+	public void sendUserLikesTeamInBanner(
+			final String teamName,
+			final Long teamId) 
+	{	
+		String teamIdAsString = teamName + " " + teamId.toString();
 
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_LIKE, teamIdAsString);
+		
+		Log.d(TAG, "Event sent: " + teamIdAsString);
+	}
+
+	
+	
+	public void sendUserDismissedTeamBanner(
+			final String teamName,
+			final Long teamId) 
+	{	
+		String teamIdAsString = teamName + " " + teamId.toString();
+
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_DISMISS, teamIdAsString);
+		
+		Log.d(TAG, "Event sent: " + teamIdAsString);
+	}
+	
 	
 	
 	public void sendUserReminderEvent(Notification notification, boolean didJustRemoveReminder) 

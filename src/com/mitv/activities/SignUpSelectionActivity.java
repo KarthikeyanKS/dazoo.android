@@ -42,7 +42,8 @@ public class SignUpSelectionActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		if (isRestartNeeded()) {
+		if (isRestartNeeded()) 
+		{
 			return;
 		}
 		
@@ -104,12 +105,15 @@ public class SignUpSelectionActivity
 
 		facebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
 		
+		final Bundle bundle = getIntent().getExtras();
+				
 		facebookContainer.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithFacebookActivity.class);
+				intent.putExtras(bundle);
 				
 				startActivity(intent);
 				
@@ -125,6 +129,7 @@ public class SignUpSelectionActivity
 			public void onClick(View v) 
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, SignUpWithEmailActivity.class);
+				intent.putExtras(bundle);
 				
 				startActivity(intent);
 			}
@@ -138,6 +143,7 @@ public class SignUpSelectionActivity
 			public void onClick(View v)
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithMiTVUserActivity.class);
+				intent.putExtras(bundle);
 				
 				startActivity(intent);
 			}

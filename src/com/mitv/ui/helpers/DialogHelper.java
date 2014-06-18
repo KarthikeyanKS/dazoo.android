@@ -280,14 +280,19 @@ public class DialogHelper
 	
 	
 	public static void showPromptSignInDialog(
-			final Activity activity, 
-			final Runnable yesProcedure, 
+			final Activity activity,
+			final String message,
+			final Runnable yesProcedure,
 			final Runnable noProcedure) 
 	{
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_signin);
-
+		
+		TextView dialogMessageText = (TextView) dialog.findViewById(R.id.dialog_prompt_signin_tv);
+		
+		dialogMessageText.setText(message);
+		
 		Button cancelButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_cancel);
 		Button signInButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_signin);
 	
