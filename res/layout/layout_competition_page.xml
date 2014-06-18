@@ -7,6 +7,7 @@
     android:orientation="vertical" >
 
     <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
+        android:id="@+id/competition_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container" >
@@ -15,11 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/tab_selector_container"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical"
             android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:orientation="vertical" >
             
             <!-- Copa Mundial logo -->
 
@@ -28,6 +26,9 @@
                 android:layout_width="276dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/competition_tag_logo"
                 android:scaleType="fitStart" />
 
@@ -37,8 +38,10 @@
                 android:id="@+id/todays_ongoing_events_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:background="@color/white"
                 android:orientation="vertical" >
             </LinearLayout>
 
@@ -46,6 +49,8 @@
                 android:id="@+id/competition_before_or_ongoing_layout_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp" >
 
                 <include
@@ -60,13 +65,17 @@
                 android:id="@+id/tab_event_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/white"
                 android:tag="sticky" />
 
             <com.mitv.ui.elements.CustomViewPager
                 android:id="@+id/tab_event_pager"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
         </LinearLayout>
     </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
 

@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.emilsjolander.components.StickyScrollViewItems.StickyScrollView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -255,8 +256,10 @@ public class CompetitionPageActivity
 		todaysLiveAndUpcomingList.setVisibility(View.VISIBLE);
 		
 		int sdk = android.os.Build.VERSION.SDK_INT;
+		
 		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
 		    ongoingLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
+		    
 		} else {
 			ongoingLayout.setBackground(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
 		}
@@ -428,6 +431,8 @@ public class CompetitionPageActivity
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
+		
+		StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.competition_scrollview);
 	}
 	
 	

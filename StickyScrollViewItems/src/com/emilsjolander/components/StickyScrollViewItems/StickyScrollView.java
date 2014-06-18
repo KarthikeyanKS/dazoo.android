@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.ScrollView;
+import android.widget.LinearLayout.LayoutParams;
 
 /**
  * 
@@ -51,6 +52,11 @@ public class StickyScrollView extends ScrollView {
 
 	private int mShadowHeight;
 	private Drawable mShadowDrawable;
+	
+	private int screenWidth = 0;
+	private int savedWidth = 0;
+	private int savedMargin = 0;
+	
 
 	private final Runnable invalidateRunnable = new Runnable() {
 
@@ -318,6 +324,7 @@ public class StickyScrollView extends ScrollView {
 
 	private void startStickingView(View viewThatShouldStick) {
 		currentlyStickingView = viewThatShouldStick;
+		setFullWidth();
 		if(getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)){
 			hideView(currentlyStickingView);
 		}
@@ -327,6 +334,7 @@ public class StickyScrollView extends ScrollView {
 	}
 
 	private void stopStickingCurrentlyStickingView() {
+		setOriginalWidth();
 		if(getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)){
 			showView(currentlyStickingView);
 		}
@@ -394,6 +402,37 @@ public class StickyScrollView extends ScrollView {
 			anim.setDuration(0);
 			anim.setFillAfter(true);
 			v.startAnimation(anim);
+		}
+	}
+
+	/* Methods for scaling sticky view */
+	
+	public void setScaledWidth(int width) {
+		screenWidth = width;
+	}
+	
+	private void setFullWidth() {
+		if (screenWidth != 0) {
+			if (savedWidth == 0) {
+				savedWidth = currentlyStickingView.getWidth();
+			}
+			if (savedMargin == 0) {
+				savedMargin = currentlyStickingView.getLeft();
+			}
+
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth, currentlyStickingView.getHeight());
+			params.leftMargin = 0;
+			params.rightMargin = 0;
+			currentlyStickingView.setLayoutParams(params);
+		}
+	}
+	
+	private void setOriginalWidth() {
+		if (screenWidth != 0) {
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(savedWidth, currentlyStickingView.getHeight());
+			params.leftMargin = savedMargin;
+			params.rightMargin = savedMargin;
+			currentlyStickingView.setLayoutParams(params);
 		}
 	}
 

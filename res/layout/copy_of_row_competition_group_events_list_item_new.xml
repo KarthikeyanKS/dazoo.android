@@ -115,13 +115,14 @@
 
         <ImageView
             android:id="@+id/row_competition_team_one_flag_new"
-            android:layout_width="50dp"
-            android:layout_height="34dp"
+            android:layout_width="53dp"
+            android:layout_height="37dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/dropshadow"
             android:scaleType="fitXY"
             android:src="@drawable/competitions_contry_flag_default" />
 
