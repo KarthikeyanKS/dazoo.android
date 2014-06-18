@@ -466,7 +466,7 @@ public class TeamPageActivity
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.getResources().getString(R.string.team_page_schedule_header))
 			.append(" ")
-			.append(phase.getPhase());
+			.append(team.getDisplayName());
 		
 		scheduleHeader.setText(sb.toString());
 		

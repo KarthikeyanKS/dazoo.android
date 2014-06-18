@@ -220,6 +220,7 @@ public class CompetitionPageActivity
 	
 	
 	
+	@SuppressWarnings("deprecation")
 	private void setOngoingLayoutForEventsToday() 
 	{
 		List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllLiveEventsForSelectedCompetition();
@@ -253,7 +254,12 @@ public class CompetitionPageActivity
 
 		todaysLiveAndUpcomingList.setVisibility(View.VISIBLE);
 		
-		ongoingLayout.setBackground(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
+		int sdk = android.os.Build.VERSION.SDK_INT;
+		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+		    ongoingLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
+		} else {
+			ongoingLayout.setBackground(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
+		}
 	}
 	
 	
