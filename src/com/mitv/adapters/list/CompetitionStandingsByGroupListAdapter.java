@@ -131,6 +131,7 @@ public class CompetitionStandingsByGroupListAdapter
 			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_team_table_plus_minus);
 			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
 			viewHolder.rowDivider = (View) rowView.findViewById(R.id.row_competition_standings_row_divider);
+			viewHolder.transparentDivider = (View) rowView.findViewById(R.id.row_competition_standings_divider_transparent);
 
 			rowView.setTag(viewHolder);
 		}
@@ -140,6 +141,8 @@ public class CompetitionStandingsByGroupListAdapter
 		// TODO Sort the teams in each group accordingly to highest Pts.
 		if (holder != null) 
 		{
+			holder.transparentDivider.setVisibility(View.GONE);
+			
 			boolean isFirstposition = (position == 0);
 
 			boolean isCurrentPhaseEqualToPreviousPhase;
@@ -161,6 +164,8 @@ public class CompetitionStandingsByGroupListAdapter
 				
 				String headerText = element.getPhase();
 				holder.group.setText(headerText.toUpperCase());
+				
+				holder.transparentDivider.setVisibility(View.VISIBLE);
 			}
 			else
 			{
@@ -232,5 +237,6 @@ public class CompetitionStandingsByGroupListAdapter
 		private TextView teamPlusMinus;
 		private TextView teamPoints;
 		private View rowDivider;
+		private View transparentDivider;
 	}
 }

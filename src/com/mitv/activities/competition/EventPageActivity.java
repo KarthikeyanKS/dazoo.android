@@ -25,6 +25,7 @@ import com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter;
 import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
+import com.mitv.adapters.list.CompetitionEventsByGroupListAdapter;
 import com.mitv.adapters.pager.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter;
 import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
 import com.mitv.enums.EventMatchStatusEnum;
@@ -536,7 +537,7 @@ public class EventPageActivity
 			}
 		}
 		
-		/** Setting the visibility of the LineUp **/
+		/* Setting the visibility of the LineUp */
 		if(event.isLineupAvailable())
 		{
 			lineupContainerLayout.setVisibility(View.VISIBLE);
@@ -826,7 +827,7 @@ public class EventPageActivity
 			List<EventHighlight> eventHighlights = ContentManager.sharedInstance().getCacheManager().getHighlightsDataByEventIDForSelectedCompetition(eventID, true);
 
 			listContainerLayoutHighlights.removeAllViews();
-
+			
 			listAdapterHighlights = new CompetitionEventHighlightsListAdapter(this, eventHighlights);
 
 			for (int i = 0; i < listAdapterHighlights.getCount(); i++)
@@ -953,7 +954,7 @@ public class EventPageActivity
 		String viewBottomMessage = getString(R.string.event_page_groups_list_show_more);
 
 		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.GROUP_STAGE_POSITION);
-
+		
 		groupListAdapter = new CompetitionEventEventsByGroupListAdapter(this, events, true, viewBottomMessage, procedure);
 
 		for (int i = 0; i < groupListAdapter.getCount(); i++) 
@@ -1041,6 +1042,7 @@ public class EventPageActivity
 	protected void loadDataInBackground()
 	{
 		ContentManager.sharedInstance().getElseFetchFromServiceEventByID(this, true, competitionID, eventID);
+		ContentManager.sharedInstance().getElseFetchFromServiceEvents(this, true, competitionID);
 	}
 	
 	
@@ -1144,6 +1146,12 @@ public class EventPageActivity
 			case USER_ADD_LIKE:
 			{
 				updateStatusOfLikeView();
+				break;
+			}
+			
+			case COMPETITION_EVENTS:
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
 	
