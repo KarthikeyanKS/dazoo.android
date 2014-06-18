@@ -464,7 +464,7 @@ public class TeamPageActivity
 	private void setScheduleLayout() 
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(this.getResources().getString(R.string.team_page_squad_schedule_header))
+		sb.append(this.getResources().getString(R.string.team_page_schedule_header))
 			.append(" ")
 			.append(phase.getPhase());
 		
