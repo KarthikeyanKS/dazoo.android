@@ -277,7 +277,7 @@ public class TeamPageActivity
 	
 	private void setMainLayoutLayout() 
 	{
-		boolean filterFinishedEvents = true;
+		boolean filterFinishedEvents = false;
 		boolean filterLiveEvents = false;
 		events = ContentManager.sharedInstance().getCacheManager().getEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
 		
