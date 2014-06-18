@@ -666,6 +666,13 @@ public class APIClient
 	}
 	
 	
+	public void getEvents(ViewCallbackListener activityCallbackListener, long competitionID)
+	{
+		GetEvents task = new GetEvents(contentCallbackListener, activityCallbackListener, competitionID, null, null, Constants.RETRY_COUNT_THRESHOLD);
+		task.execute();
+	}
+	
+	
 	
 	public void getEventByID(ViewCallbackListener activityCallbackListener, long eventID)
 	{

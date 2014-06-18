@@ -1041,6 +1041,7 @@ public class EventPageActivity
 	protected void loadDataInBackground()
 	{
 		ContentManager.sharedInstance().getElseFetchFromServiceEventByID(this, true, competitionID, eventID);
+		ContentManager.sharedInstance().getElseFetchFromServiceEvents(this, true, competitionID);
 	}
 	
 	
@@ -1144,6 +1145,12 @@ public class EventPageActivity
 			case USER_ADD_LIKE:
 			{
 				updateStatusOfLikeView();
+				break;
+			}
+			
+			case COMPETITION_EVENTS:
+			{
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
 	
