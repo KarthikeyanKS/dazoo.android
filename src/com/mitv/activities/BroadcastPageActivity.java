@@ -6,6 +6,7 @@ package com.mitv.activities;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
@@ -34,6 +36,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.http.URLParameters;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.FontManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -100,7 +103,7 @@ public class BroadcastPageActivity
 	private RelativeLayout repetitionsContainer;
 	private RelativeLayout nowAiringContainer;
 	
-	
+	private boolean notificationEventSent = false;
 	
 	
 	
@@ -110,7 +113,9 @@ public class BroadcastPageActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		if (!getIntent().getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false) && isRestartNeeded()) {
+		boolean isFromNotification = getIntent().getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false);
+		Log.d(TAG, "Event sent: Is from notification: " + isFromNotification);
+		if (isFromNotification == false && isRestartNeeded()) {
 			return;
 		}
 		
@@ -204,7 +209,7 @@ public class BroadcastPageActivity
 		String loadingMessage = getString(R.string.loading_message_broadcastpage_program_info);
 		
 		setLoadingLayoutDetailsMessage(loadingMessage);
-		
+
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, requiresDataReload, channelId, beginTimeInMillis);
 	}
 	
@@ -519,6 +524,13 @@ public class BroadcastPageActivity
 		else
 		{
 			nowAiringContainer.setVisibility(View.GONE);
+		}
+		
+		// Analytics for event was put here, because its only here the broadcast data is available.
+		if (getIntent().getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false) && notificationEventSent == false) 
+		{
+			TrackingGAManager.sharedInstance().sendUserOpenedBroadcastpageFromReminder(broadcast);
+			notificationEventSent = true;
 		}
 	}
 

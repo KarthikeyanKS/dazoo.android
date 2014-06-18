@@ -425,6 +425,7 @@ public class CompetitionPageActivity
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
 		
 		StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.competition_scrollview);
+		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this));
 	}
 	
 	
@@ -538,6 +539,13 @@ public class CompetitionPageActivity
 	@Override
 	public void onPageSelected(int pos) {
 		selectedTabIndex = pos;
-		TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competition.getDisplayName(), pagerAdapter.getPageTitle(pos).toString());
+		
+		String competitionName = null;
+		if (competition != null) 
+		{
+			competitionName = competition.getDisplayName();
+		}
+		
+		TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competitionName, pagerAdapter.getPageTitle(pos).toString());
 	}
 }

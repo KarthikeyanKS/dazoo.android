@@ -433,8 +433,133 @@ public class TrackingGAManager
 		
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS, label, (long) position);
 	}
+	
+	
+	public void sendUserPressedBroadcastInUpcomingOrRepetitionsBlock(boolean isRepetition, TVBroadcast broadcast) {
+		if (broadcast != null) {
+			String broadcastTitle = broadcast.getTitle();
+			String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(broadcastTitle);
+			sb.append(": ");
+			sb.append(startTime);
+			String label = sb.toString();
+			
+			String action = null;
+			if (isRepetition) {
+				action = Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_REPETITIONS_BLOCK;
+			}
+			else {
+				action = Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_UPCOMING_BLOCK;
+			}
+			
+			sendUserEventWithLabelAndValue(action, label, 0);
+			Log.d(TAG, "Event sent: " + action + ": " + label);
+		}
+	}
+	
+	public void sendUserPressedBroadcastInUpcomingOrRepetitionsList(boolean isRepetition, TVBroadcast broadcast) {
+		if (broadcast != null) {
+			String broadcastTitle = broadcast.getTitle();
+			String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(broadcastTitle);
+			sb.append(": ");
+			sb.append(startTime);
+			String label = sb.toString();
+			
+			String action = null;
+			if (isRepetition) {
+				action = Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_REPETITIONS_LIST;
+			}
+			else {
+				action = Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_UPCOMING_LIST;
+			}
+			
+			sendUserEventWithLabelAndValue(action, label, 0);
+			Log.d(TAG, "Event sent: " + action + ": " + label);
+		}
+	}
+	
+	
+	public void sendUserPressedBroadcastInRemindersList(Notification broadcast) {
+		if (broadcast != null) {
+			String broadcastTitle = broadcast.getBroadcastTitle();
+			String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(broadcastTitle);
+			sb.append(": ");
+			sb.append(startTime);
+			String label = sb.toString();
+			
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_REMINDERS_LIST, label, 0);
+			Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_REMINDERS_LIST + ": " + label);
+		}
+	}
+	
+	
+	public void sendUserPressedBroadcastInTags(String tag, TVBroadcast broadcast) {
+		if (broadcast != null) {
+			String broadcastTitle = broadcast.getTitle();
+			String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+			
+			StringBuilder sb = new StringBuilder(tag);
+			sb.append(": ");
+			sb.append(broadcastTitle);
+			sb.append(": ");
+			sb.append(startTime);
+			String label = sb.toString();
+			
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_TAGS_PRESS, label, 0);
+			Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_TAGS_PRESS + ": " + label);
+		}
+	}
+	
+	
+	public void sendUserOpenedBroadcastpageFromReminder(TVBroadcast broadcast) {
+		if (broadcast != null) {
+			String broadcastTitle = broadcast.getTitle();
+			String startTime = broadcast.getBeginTimeHourAndMinuteLocalAsString();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(broadcastTitle);
+			sb.append(": ");
+			sb.append(startTime);
+			String label = sb.toString();
+			
+			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_BROADCASTPAGE_OPENED_FROM_NOTIFICATION, label, 0);
+			Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_BROADCASTPAGE_OPENED_FROM_NOTIFICATION + ": " + label);
+		}
+	}
+	
+	
+	public void sendUserOpenedEventpageFromReminder(String competitionName, String eventTitle) {
+		StringBuilder sb = new StringBuilder(competitionName);
+		sb.append(": ");
+		sb.append(eventTitle);
+		String label = sb.toString();
 
-	public void sendUserDaySelectionEvent(int dayIndex) {
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_EVENTPAGE_OPENED_FROM_NOTIFICATION, label, 0);
+		Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_EVENTPAGE_OPENED_FROM_NOTIFICATION + ": " + label);
+	}
+	
+	
+	public void sendUserCanceledDialogEvent(String dialogName) {
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_DIALOG_CANCELED, dialogName, 0);
+		Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_DIALOG_CANCELED + ": " + dialogName);
+	}
+	
+	
+	public void sendUserContinueDialogEvent(String dialogName) {
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_DIALOG_CONTINUED, dialogName, 0);
+		Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_DIALOG_CONTINUED + ": " + dialogName);
+	}
+	
+
+	public void sendUserDaySelectionEvent(int dayIndex, String activityName) {
 
 		List<TVDate> dates = ContentManager.sharedInstance().getCacheManager().getTVDates();
 		
@@ -445,11 +570,14 @@ public class TrackingGAManager
 			String displayName = tvDate.getDisplayName();
 			String dayMonth = DateUtils.buildDayAndMonthCompositionAsString(calendar, false);
 
-			StringBuilder sb = new StringBuilder(displayName);
+			StringBuilder sb = new StringBuilder(activityName);
+			sb.append(" ");
+			sb.append(displayName);
 			sb.append(" ");
 			sb.append(dayMonth);
 			String dateString = sb.toString();
 			sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_DAY_SELECTED, dateString, (long) dayIndex);
+			Log.d(TAG, "Event sent: " + Constants.GA_EVENT_KEY_USER_EVENT_DAY_SELECTED + ": " + dateString);
 		}
 	}
 	
@@ -809,6 +937,14 @@ public class TrackingGAManager
 	public void sendUserCompetitionBannerPressedInSportsTab(String competitionName) 
 	{
 		String eventLabel = competitionName + " Banner Sports";
+		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
+	}
+	
+	
+	
+	public void sendUserCompetitionBannerPressedInFeed(String competitionName) 
+	{
+		String eventLabel = competitionName + " Banner Feed";
 		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED, eventLabel, 0);
 	}
 	

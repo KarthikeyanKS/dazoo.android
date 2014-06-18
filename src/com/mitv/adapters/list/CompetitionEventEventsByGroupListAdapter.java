@@ -24,6 +24,7 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -322,8 +323,25 @@ public class CompetitionEventEventsByGroupListAdapter
 			{
 				public void onClick(View v)
 				{
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
-	            	
+					if (event != null) 
+					{
+						Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId());
+						
+						String competitionName = null;
+						if (competition != null) 
+						{
+							competitionName = competition.getDisplayName();
+						}
+						else 
+						{
+							competitionName = Long.valueOf(event.getCompetitionId()).toString();
+							
+							Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+						}
+						
+		            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competitionName, event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
+					}
+					
 					Intent intent = new Intent(activity, EventPageActivity.class);
 
 					long competitionID = event.getCompetitionId();

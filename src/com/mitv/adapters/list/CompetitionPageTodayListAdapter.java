@@ -330,7 +330,10 @@ public class CompetitionPageTodayListAdapter
 		        {
 		            public void onClick(View v)
 		            {
-		            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competitionDisplayName, event.getTitle(), event.getEventId(), "Live Game");
+		            	if (event != null) 
+		            	{
+		            		TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competitionDisplayName, event.getTitle(), event.getEventId(), "Live Game");
+		            	}
 		            	
 		                Intent intent = new Intent(activity, EventPageActivity.class);
 

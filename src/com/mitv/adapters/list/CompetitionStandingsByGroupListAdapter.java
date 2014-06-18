@@ -27,6 +27,7 @@ import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -194,8 +195,22 @@ public class CompetitionStandingsByGroupListAdapter
 	        {
 	            public void onClick(View v)
 	            {
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(element.getCompetitionId()).getDisplayName(), element.getTeam(), "Group tab");
-	            	
+					if (element != null) 
+					{
+						Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(element.getCompetitionId());
+						
+						String competitionName = null;
+						if (competition != null)
+						{
+							competitionName = competition.getDisplayName();
+						}
+						else
+						{
+							competitionName = String.valueOf(element.getCompetitionId());
+						}
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, element.getTeam(), "Group tab");
+					}
+					
 	            	Intent intent = new Intent(activity, TeamPageActivity.class);
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());

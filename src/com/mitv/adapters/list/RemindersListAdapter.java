@@ -21,6 +21,7 @@ import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
@@ -208,6 +209,8 @@ public class RemindersListAdapter
 				@Override
 				public void onClick(View v) 
 				{
+					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInRemindersList(element);
+					
 					Intent intent;
 					
 					NotificationTypeEnum notificationType = element.getNotificationType();
