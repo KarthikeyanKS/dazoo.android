@@ -20,6 +20,7 @@ import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.BroadcastListAdapterTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.ui.elements.ReminderView;
 
@@ -270,6 +271,10 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				@Override
 				public void onClick(View v) 
 				{
+					boolean isRepetition = broadcastListAdapterType == BroadcastListAdapterTypeEnum.PROGRAM_REPETITIONS ? true : false;
+					
+					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInUpcomingOrRepetitionsList(isRepetition, broadcastWithChannelInfo);
+					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
 					ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);

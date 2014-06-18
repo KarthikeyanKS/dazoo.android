@@ -35,7 +35,8 @@ public abstract class BannerListAdapter<T>
 	extends BaseAdapter
 {
 	private static final String TAG = BannerListAdapter.class.getName();
-	
+
+	protected String fragmentName;
 	private Activity activity;
 	
 	private List<T> items;
@@ -45,6 +46,7 @@ public abstract class BannerListAdapter<T>
 	
 	private boolean areCompetitionsEnabled;
 	private boolean onlyDisplayCompetitionBannerOnce;
+	
 	
 	
 	
@@ -69,6 +71,8 @@ public abstract class BannerListAdapter<T>
 			final boolean onlyDisplayCompetitionBannerOnce) 
 	{ 
 		super();
+		
+		this.fragmentName = fragmentName;
 		
 		this.activity = activity;
 		
@@ -316,6 +320,9 @@ public abstract class BannerListAdapter<T>
 			                else if (BannerListAdapter.this instanceof TVGuideTagListAdapter) 
 			                {
 			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInSportsTab(competition.getDisplayName());
+			                }
+			                else if (BannerListAdapter.this instanceof FeedListAdapter) {
+			                	TrackingGAManager.sharedInstance().sendUserCompetitionBannerPressedInFeed(competition.getDisplayName());
 			                }
 			                
 							activity.startActivity(intent);

@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.internal.es;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -186,6 +187,31 @@ public class EventPageActivity
 		setBackgroundLoadTimerValueInSeconds(reloadIntervalInMinutes);
 
 		setAllAdapters();
+		
+		if (isFromNotification) 
+		{
+			String eventTitle = null;
+			if (event != null) 
+			{
+				eventTitle = event.getTitle();
+			}
+			else 
+			{
+				eventTitle = String.valueOf(eventID);
+			}
+			
+			String competitionName = null;
+			if (competition != null) 
+			{
+				competitionName = competition.getDisplayName();
+			} 
+			else 
+			{
+				competitionName = String.valueOf(competitionID);
+			}
+
+			TrackingGAManager.sharedInstance().sendUserOpenedEventpageFromReminder(competitionName, eventTitle);
+		}
 	}
 
 
@@ -312,6 +338,8 @@ public class EventPageActivity
 		setAdapterForStandingsList(standings, phaseString);
 
 		setAdapterForGroupList(events, phaseString);
+		
+		
 	}
 
 

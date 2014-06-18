@@ -25,6 +25,7 @@ import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -242,6 +243,8 @@ public class TVGuideTagListAdapter
 			@Override
 			public void onClick(View v) 
 			{
+				TrackingGAManager.sharedInstance().sendUserPressedBroadcastInTags(fragmentName, broadcastWithChannelInfo);
+				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
 				ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);

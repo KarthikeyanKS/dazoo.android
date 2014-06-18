@@ -652,7 +652,13 @@ public class CompetitionPageActivity
 	{
 		selectedTabIndex = pos;
 		
-		TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competition.getDisplayName(), pagerAdapter.getPageTitle(pos).toString());
+		String competitionName = null;
+		if (competition != null) 
+		{
+			competitionName = competition.getDisplayName();
+		}
+		
+		TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competitionName, pagerAdapter.getPageTitle(pos).toString());
 	}
 	
 	
