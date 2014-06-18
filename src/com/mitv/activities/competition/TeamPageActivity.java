@@ -277,7 +277,7 @@ public class TeamPageActivity
 	
 	private void setMainLayoutLayout() 
 	{
-		boolean filterFinishedEvents = true;
+		boolean filterFinishedEvents = false;
 		boolean filterLiveEvents = false;
 		events = ContentManager.sharedInstance().getCacheManager().getEventsByTeamIDForSelectedCompetition(filterFinishedEvents, filterLiveEvents, teamID);
 		
@@ -464,9 +464,9 @@ public class TeamPageActivity
 	private void setScheduleLayout() 
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.append(this.getResources().getString(R.string.team_page_squad_schedule_header))
+		sb.append(this.getResources().getString(R.string.team_page_schedule_header))
 			.append(" ")
-			.append(phase.getPhase());
+			.append(team.getDisplayName());
 		
 		scheduleHeader.setText(sb.toString());
 		
