@@ -5,6 +5,7 @@ package com.mitv.fragments;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
+import com.mitv.models.comparators.CompetitionEventsComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.CustomViewPager;
 
@@ -42,6 +44,7 @@ public class CompetitionTabFragmentGroupStage
 	
 	private CustomViewPager viewPager;
 	private LinearLayout listContainerLayout;
+//	private ListView listContainerLayout;
 	private CompetitionEventsByGroupListAdapter listAdapter;
 	
 	
@@ -156,23 +159,7 @@ public class CompetitionTabFragmentGroupStage
 			{
 				listContainerLayout.removeAllViews();
 				
-				Map<Long, List<Event>> eventsByGroupsFirstStage = ContentManager.sharedInstance().getCacheManager().getAllEventsGroupedByGroupStageForSelectedCompetition();
-				Map<Long, List<Event>> eventsByGroupsSecondStage = ContentManager.sharedInstance().getCacheManager().getAllEventsGroupedBySecondStageForSelectedCompetition();
-				
-				List<Event> events = new ArrayList<Event>();
-				
-				Collection<List<Event>> values1 = eventsByGroupsFirstStage.values();
-				Collection<List<Event>> values2 = eventsByGroupsSecondStage.values();
-
-				for(List<Event> value : values1) {
-					events.addAll(value);
-				}
-				
-				for(List<Event> value : values2) {
-					events.addAll(value);
-				}
-				
-				events = ContentManager.sharedInstance().getCacheManager().filterFinishedEvents(events);
+				List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllEventsWithoutFinishedSortedByTime();
 				
 				listAdapter = new CompetitionEventsByGroupListAdapter(activity, events);
 				

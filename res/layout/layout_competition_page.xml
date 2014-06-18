@@ -15,11 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/tab_selector_container"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
+            
+            <!-- Copa Mundial logo -->
 
             <ImageView
                 android:id="@+id/competition_logo_ongoing"

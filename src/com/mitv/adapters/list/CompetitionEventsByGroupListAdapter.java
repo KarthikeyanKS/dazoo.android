@@ -222,12 +222,12 @@ extends BaseAdapter
 			}
 			else
 			{
-				holder.rowDivider.setVisibility(View.GONE);
+				holder.rowDivider.setVisibility(View.VISIBLE);
 			}
 
 			if (isLastPosition == false && isBeginTimeEqualToNextItem)
 			{
-				holder.rowDivider.setVisibility(View.GONE);
+				holder.rowDivider.setVisibility(View.VISIBLE);
 			}			
 
 			String homeTeamName = event.getHomeTeam();
