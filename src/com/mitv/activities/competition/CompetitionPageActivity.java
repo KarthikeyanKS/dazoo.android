@@ -537,7 +537,6 @@ public class CompetitionPageActivity
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
 		
 		StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.competition_scrollview);
-		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this));
 	}
 	
 	
