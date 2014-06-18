@@ -17,6 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/tab_selector_container"
             android:orientation="vertical" >
+            
+            <!-- Copa Mundial logo -->
 
             <ImageView
                 android:id="@+id/competition_logo_ongoing"
@@ -25,7 +27,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/competition_tag_logo"
                 android:scaleType="fitStart" />
 

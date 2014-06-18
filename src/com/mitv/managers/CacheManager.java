@@ -5,6 +5,7 @@ package com.mitv.managers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.enums.EventLineUpPosition;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.models.Cache;
+import com.mitv.models.comparators.CompetitionEventsComparatorByTime;
 import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.Notification;
@@ -943,6 +945,32 @@ public class CacheManager
 		Collections.reverse(filteredEvents);
 		
 		return filteredEvents;
+	}
+	
+	
+	
+	public List<Event> getAllEventsWithoutFinishedSortedByTime() {
+		Map<Long, List<Event>> eventsByGroupsFirstStage = getAllEventsGroupedByGroupStageForSelectedCompetition();
+		Map<Long, List<Event>> eventsByGroupsSecondStage = getAllEventsGroupedBySecondStageForSelectedCompetition();
+		
+		List<Event> events = new ArrayList<Event>();
+		
+		Collection<List<Event>> values1 = eventsByGroupsFirstStage.values();
+		Collection<List<Event>> values2 = eventsByGroupsSecondStage.values();
+
+		for(List<Event> value : values1) {
+			events.addAll(value);
+		}
+		
+		for(List<Event> value : values2) {
+			events.addAll(value);
+		}
+		
+		events = ContentManager.sharedInstance().getCacheManager().filterFinishedEvents(events);
+		
+		Collections.sort(events, new CompetitionEventsComparatorByTime());
+		
+		return events;
 	}
 	
 	
