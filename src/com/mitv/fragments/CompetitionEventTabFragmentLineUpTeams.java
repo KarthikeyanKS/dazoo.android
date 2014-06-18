@@ -245,7 +245,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 				
 				if(getType() == EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM)
 				{
-					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, containerLayout.getMeasuredHeight());
+					/* Adding + 10 because we have a margin of 10dp */
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, containerLayout.getMeasuredHeight() + 10);
 					
 					if (viewPager.getCurrentItem() == CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION) 
 					{
@@ -254,7 +255,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 				}
 				else
 				{
-					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, containerLayout.getMeasuredHeight());
+					/* Adding + 10 because we have a margin of 10dp */
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, containerLayout.getMeasuredHeight() + 10);
 					
 					if (viewPager.getCurrentItem() == CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION) 
 					{
