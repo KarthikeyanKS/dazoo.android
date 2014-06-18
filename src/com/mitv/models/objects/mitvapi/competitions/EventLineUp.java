@@ -3,7 +3,7 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 
-import com.mitv.enums.EventLineUpPosition;
+import com.mitv.enums.EventLineUpPositionEnum;
 import com.mitv.models.gson.mitvapi.competitions.EventLineUpJSON;
 
 
@@ -15,8 +15,26 @@ public class EventLineUp
 	
 	
 	
-	public EventLineUpPosition getPosition()
+	public EventLineUpPositionEnum getPosition()
 	{
-		return EventLineUpPosition.getTypeEnumFromCode(getFunctionType());
+		return EventLineUpPositionEnum.getTypeEnumFromCode(getFunctionType());
+	}
+	
+	
+	
+	public boolean containsLineUpOutMinute()
+	{
+		boolean containsLineUpOutMinute = (getLineUpOutMinute().isEmpty() == false);
+		
+		return containsLineUpOutMinute;
+	}
+	
+	
+	
+	public boolean containsLineUpInMinute()
+	{
+		boolean containsLineUpInMinute = (getLineUpInMinute().isEmpty() == false);
+		
+		return containsLineUpInMinute;
 	}
 }

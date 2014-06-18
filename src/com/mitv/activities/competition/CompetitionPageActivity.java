@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,6 +21,7 @@ import com.emilsjolander.components.StickyScrollViewItems.StickyScrollView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.CompetitionPageTodayListAdapter;
 import com.mitv.adapters.pager.CompetitionTabFragmentStatePagerAdapter;
@@ -32,14 +34,18 @@ import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.CustomViewPager;
 import com.mitv.ui.elements.EventCountDownTimer;
+import com.mitv.ui.helpers.DialogHelper;
+import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.NetworkUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.viewpagerindicator.TabPageIndicator;
@@ -82,6 +88,18 @@ public class CompetitionPageActivity
 	private LinearLayout todaysLiveAndUpcomingList;
 	private CompetitionPageTodayListAdapter listAdapter;
 	
+	private RelativeLayout favoriteTeamContainerLayout;
+	private RelativeLayout favoriteTeamTitleLayoutBeforeLike;
+	private ImageView favoriteTeamFlagBefore;
+	private TextView favoriteTeamBeforeText;
+	private ImageView favoriteTeamFlagAfter;
+	private TextView favoriteTeamAfterText;
+	private TextView favoriteTeamNameText;
+	private RelativeLayout favoriteTeamTitleLayoutAfterLike;
+	private LinearLayout favoriteTeamButtonContainerLayout;
+	private Button favoriteTeamButtonDismiss;
+	private Button favoriteTeamButtonLike;
+	
 	private EventCountDownTimer eventCountDownTimer;
 	
 	
@@ -91,7 +109,8 @@ public class CompetitionPageActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		if (isRestartNeeded()) {
+		if (isRestartNeeded()) 
+		{
 			return;
 		}
 		
@@ -157,6 +176,71 @@ public class CompetitionPageActivity
 	
 	
 	
+	private void setLikeBannerVisible()
+	{
+		String teamDisplayName = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_NAME;
+		long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
+		
+		UserLike userLike = new UserLike(teamDisplayName, teamId);
+		
+		boolean isDismissed = SecondScreenApplication.sharedInstance().isFavoriteTeamBannerSeen();
+		
+		boolean isLiked = ContentManager.sharedInstance().getCacheManager().isContainedInUserLikes(userLike);
+		
+		if(isLiked)
+		{
+			favoriteTeamContainerLayout.setVisibility(View.VISIBLE);
+			favoriteTeamTitleLayoutBeforeLike.setVisibility(View.GONE);
+			favoriteTeamTitleLayoutAfterLike.setVisibility(View.VISIBLE);
+			favoriteTeamButtonContainerLayout.setVisibility(View.GONE);
+
+			ImageAware imageAware = new ImageViewAware(favoriteTeamFlagAfter, false);
+			
+			String teamFlagUrl = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_FLAG_URL;
+
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(teamFlagUrl, imageAware);
+
+			favoriteTeamNameText.setText(teamDisplayName);
+			favoriteTeamAfterText.setText(getString(R.string.competition_page_favorite_team_title_after_like));
+
+			favoriteTeamTitleLayoutAfterLike.setOnClickListener(this);
+		}
+		else
+		{
+			if(isDismissed)
+			{
+				favoriteTeamContainerLayout.setVisibility(View.GONE);
+			}
+			else
+			{
+				favoriteTeamContainerLayout.setVisibility(View.VISIBLE);
+				favoriteTeamTitleLayoutBeforeLike.setVisibility(View.VISIBLE);
+				favoriteTeamTitleLayoutAfterLike.setVisibility(View.GONE);
+				favoriteTeamButtonContainerLayout.setVisibility(View.VISIBLE);
+	
+				ImageAware imageAware = new ImageViewAware(favoriteTeamFlagBefore, false);
+	
+				String teamFlagUrl = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_FLAG_URL;
+	
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(teamFlagUrl, imageAware);
+	
+				favoriteTeamBeforeText.setText(getString(R.string.competition_page_favorite_team_title_before_like));
+	
+				favoriteTeamButtonDismiss.setOnClickListener(this);
+				favoriteTeamButtonLike.setOnClickListener(this);
+			}
+		}
+	}
+	
+	
+	
+	private void setLikeBannerNotVisible()
+	{
+		favoriteTeamContainerLayout.setVisibility(View.GONE);
+	}
+	
+	
+	
 	private void setData()
 	{
 		String competitionName = competition.getDisplayName();
@@ -172,6 +256,8 @@ public class CompetitionPageActivity
 			countDownLayout.setVisibility(View.GONE);
 			
 			setOngoingLayoutForEventsToday();
+			
+			setLikeBannerVisible();
 		}
 		
 		/* Has ended */
@@ -180,6 +266,8 @@ public class CompetitionPageActivity
 			countDownLayout.setVisibility(View.GONE);
 			beforeLayout.setVisibility(View.GONE);
 			todaysLiveAndUpcomingList.setVisibility(View.GONE);
+			
+			setLikeBannerNotVisible();
 		}
 		
 		/* Not yet started */
@@ -216,11 +304,14 @@ public class CompetitionPageActivity
 			});
 			
 			setBeforeLayout();
+			
+			setLikeBannerVisible();
 		}		
 	}
 	
 	
 	
+	@SuppressWarnings("deprecation")
 	private void setOngoingLayoutForEventsToday() 
 	{
 		List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllLiveEventsForSelectedCompetition();
@@ -254,12 +345,20 @@ public class CompetitionPageActivity
 
 		todaysLiveAndUpcomingList.setVisibility(View.VISIBLE);
 		
-		ongoingLayout.setBackground(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
+		int sdk = android.os.Build.VERSION.SDK_INT;
+		
+		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+		    ongoingLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
+		    
+		} else {
+			ongoingLayout.setBackground(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
+		}
 	}
 	
 	
 	
-	private void setBeforeLayout() {
+	private void setBeforeLayout()
+	{
 		String homeTeamName = event.getHomeTeam();
 		
 		String awayTeamName = event.getAwayTeam();
@@ -417,6 +516,19 @@ public class CompetitionPageActivity
 		/* Ongoing */
 		ongoingLayout = (RelativeLayout) findViewById(R.id.competition_scrollable_layout);
 		
+		/* Favorite team banner */
+		favoriteTeamContainerLayout = (RelativeLayout) findViewById(R.id.favorite_team_container_layout);
+		favoriteTeamTitleLayoutBeforeLike = (RelativeLayout) findViewById(R.id.favorite_team_title_layout_before_like);
+		favoriteTeamFlagBefore = (ImageView) findViewById(R.id.favorite_team_flag_before);
+		favoriteTeamBeforeText = (TextView) findViewById(R.id.favorite_team_before_text);
+		favoriteTeamTitleLayoutAfterLike = (RelativeLayout) findViewById(R.id.favorite_team_title_layout_after_like);
+		favoriteTeamAfterText = (TextView) findViewById(R.id.favorite_team_after_text);
+		favoriteTeamNameText = (TextView) findViewById(R.id.favorite_team_name_text);
+		favoriteTeamFlagAfter = (ImageView) findViewById(R.id.favorite_team_flag_after);
+		favoriteTeamButtonContainerLayout = (LinearLayout) findViewById(R.id.favorite_team_button_container_layout);
+		favoriteTeamButtonDismiss = (Button) findViewById(R.id.favorite_team_button_dismiss);
+		favoriteTeamButtonLike = (Button) findViewById(R.id.favorite_team_button_like);
+		
 		/* List of ongoing and upcoming events for today */
 		todaysLiveAndUpcomingList = (LinearLayout) findViewById(R.id.todays_ongoing_events_list);
 		
@@ -436,7 +548,6 @@ public class CompetitionPageActivity
 	
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setOffscreenPageLimit(2);
-//		viewPager.setBoundaryCaching(true);
 		viewPager.setCurrentItem(selectedIndex);
 		viewPager.setVisibility(View.VISIBLE);
 		viewPager.setEnabled(false);
@@ -487,7 +598,9 @@ public class CompetitionPageActivity
 	protected boolean hasEnoughDataToShowContent()
 	{
 		boolean hasData = false;
-		if (competition != null) {
+		
+		if (competition != null) 
+		{
 			hasData = ContentManager.sharedInstance().getCacheManager().containsCompetitionData(competition.getCompetitionId());
 		}
 		return hasData;
@@ -537,7 +650,8 @@ public class CompetitionPageActivity
 
 
 	@Override
-	public void onPageSelected(int pos) {
+	public void onPageSelected(int pos) 
+	{
 		selectedTabIndex = pos;
 		
 		String competitionName = null;
@@ -547,5 +661,114 @@ public class CompetitionPageActivity
 		}
 		
 		TrackingGAManager.sharedInstance().sendUserCompetitionTabPressedEvent(competitionName, pagerAdapter.getPageTitle(pos).toString());
+	}
+	
+	
+	
+	@Override
+	public void onClick(View v) 
+	{
+		super.onClick(v);
+		
+		int viewId = v.getId();
+
+		switch (viewId) 
+		{
+			case R.id.favorite_team_button_like: 
+			{
+				setTeamLike();
+				
+				break;
+			}
+	
+			case R.id.favorite_team_button_dismiss:
+			{
+				SecondScreenApplication.sharedInstance().setFavoriteTeamBannerAsSeen();
+				
+				setLikeBannerVisible();
+				
+				String message = getString(R.string.competition_page_favorite_team_dismiss_message);
+				
+				ToastHelper.createAndShowShortToast(message);
+				
+				break;
+			}
+	
+			case R.id.favorite_team_title_layout_after_like:
+			{
+				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
+				
+				Intent intent = new Intent(CompetitionPageActivity.this, TeamPageActivity.class);
+				
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+				intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamId);
+				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
+				
+				startActivity(intent);
+				
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unknown onClick action for viewId: " + viewId);
+			}
+		}
+	}
+	
+	
+	
+	private void setTeamLike()
+	{
+		String teamDisplayName = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_NAME;
+		long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
+		
+		UserLike userLike = new UserLike(teamDisplayName, teamId);
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
+		
+		if (isLoggedIn)
+		{
+			boolean isConnected = NetworkUtils.isConnected();
+			
+			if(isConnected == false)
+			{
+				ToastHelper.createAndShowNoInternetConnectionToast();
+			}
+			else
+			{
+				ContentManager.sharedInstance().addUserLike(this, userLike);
+
+				SecondScreenApplication.sharedInstance().setFavoriteTeamBannerAsSeen();
+				
+				TrackingGAManager.sharedInstance().sendUserLikesEvent(userLike, false);
+				
+				setLikeBannerVisible();
+			}
+		}
+		else 
+		{
+			DialogHelper.showPromptSignInDialog(this, loginBeforeLikeProcedure(userLike), null);
+		}
+	}
+	
+	
+	
+	/* Sign in dialog */
+	private Runnable loginBeforeLikeProcedure(final UserLike userLike) 
+	{
+		return new Runnable() 
+		{
+			public void run() 
+			{
+				/* We are not logged in, but we want the Like to be added after we log in, so set it
+				 * After login is complete the ContentManager will perform the adding of the like to backend */
+				ContentManager.sharedInstance().setLikeToAddAfterLogin(userLike);
+				
+				Intent intent = new Intent(CompetitionPageActivity.this, SignUpSelectionActivity.class);			
+				
+				startActivity(intent);
+			}
+		};
 	}
 }

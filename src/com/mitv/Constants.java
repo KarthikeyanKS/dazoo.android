@@ -4,6 +4,7 @@ package com.mitv;
 
 
 import com.mitv.activities.FeedActivity;
+import com.mitv.enums.DeploymentEndpointTypeEnum;
 
 
 
@@ -20,33 +21,26 @@ public abstract class Constants
 	
 	
 	/* BACKEND API BASE URLs */
-	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com";
-	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv";
+	public static final String BACKEND_TEST_ENVIRONMENT_DOMAIN = "gitrgitr.com";
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT_DOMAIN = "mi.tv";
 	
 	
 	/* FRONTEND API BASE URLs */
-	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
-	public static final String FRONTEND_PRODUCTION_ENVIRONMENT = "mi.tv";
+	public static final String FRONTEND_TEST_ENVIRONMENT_DOMAIN = "gitrgitr.com";
+	public static final String FRONTEND_PRODUCTION_ENVIRONMENT_DOMAIN = "mi.tv";
 	
 	
 	/* CONFIGURATIONS FOR RELEASE */
-	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+//	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.PRODUCTION;
+	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.TEST;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
-	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
-	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
-	/** If you update ANY of the ORM classes, the database version number needs to be increased **/
+	/** If you update ANY of the ORM classes, the database version number needs to be increased. **/
 	public static final int CACHE_DATABASE_VERSION = 3;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
-	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
-	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
-	public static final boolean ENABLE_STRICT_MODE = false;
+	public static final boolean ENABLE_ANDROID_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	public static final boolean ENABLE_AMAZON_INSIGHTS = false;
@@ -67,6 +61,8 @@ public abstract class Constants
 	
 	
 	/* HockeyApp configurations */
+	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
+	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final String TESTFLIGHT_TOKEN = "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String HOCKEY_APP_TOKEN = "c90b5331b5a7086d88d98021508f2c16";
 
@@ -83,14 +79,17 @@ public abstract class Constants
 	
 	
 	/* Backend STATIC paths - DO NOT CHANGE THOSE */
+	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
+	public static final String BACKEND_DEPLOYMENT_DOMAIN_URL 		= DEPLOYMENT_DOMAIN_USED.getBackendDomainURL();
+	public static final String FRONTEND_DEPLOYMENT_DOMAIN_URL 		= DEPLOYMENT_DOMAIN_USED.getFrontendDomainURL();
 	public static final String URL_BACKEND_BASE_API					= "api.";
 	public static final String URL_BACKEND_IMAGE_PREFIX_PATH 		= "images.";
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
-	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;
+	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_DEPLOYMENT_DOMAIN_URL;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
 	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "/track/unique";
-	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
-	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_ENVIRONMENT_USED;
+	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_INTERNAL_TRACKING_SUFFIX;
+	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_DEPLOYMENT_DOMAIN_URL;
 	
 	public static final String URL_GUIDE 							= URL_SERVER + "/epg/slimguide";
 	public static final String URL_DATES 							= URL_SERVER + "/epg/dates";
@@ -420,7 +419,9 @@ public abstract class Constants
 	public static final String REMINDER_SOUND_RESOURCE_FOR_COMPETITIONS = "reminder_sound_competition";
     
 	
-    /* Shared preferences for data storage */
+    /* Shared preferences, data storage and object persistence */
+	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
+	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final String SYSTEM_APP_PATH = "/system/app/";
 	public static final String DEVICE_PREFERENCES_FILE = "device_id.xml";
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
@@ -429,8 +430,8 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_ORM_DATABASE_VERSION = "com.mitv.app.installed.orm.database.version";
-	
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
+	public static final String SHARED_PREFERENCES_FAVORITE_TEAM_BANNER_SEEN = "com.mitv.app.favorite.team.banner.seen";
 	
 	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */
@@ -467,9 +468,9 @@ public abstract class Constants
 	
 	
 	/* Competitions */
-	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_FLAGS;
-	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
-	public static final String TEAM_PAGE_TEAM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_TEAMS_IMAGE;
+	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_FLAGS;
+	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_STADIUMS;
+	public static final String TEAM_PAGE_TEAM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_TEAMS_IMAGE;
 	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_s";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_m";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_l";
@@ -497,4 +498,7 @@ public abstract class Constants
 	/* Competitions - FIFA World Cup 2014 specific */
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
+	public static final long FAVORITE_TEAM_COLOMBIA_TEAM_ID = 3037;
+	public static final String FAVORITE_TEAM_COLOMBIA_TEAM_NAME = "Colombia";
+	public static final String FAVORITE_TEAM_COLOMBIA_TEAM_FLAG_URL = EVENT_FLAG_IMAGE_PATH + FORWARD_SLASH + FAVORITE_TEAM_COLOMBIA_TEAM_ID + EVENT_STADIUM_IMAGE_SIZE_MEDIUM + EVENT_STADIUM_IMAGE_EXTENSION;
 }

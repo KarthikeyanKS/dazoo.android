@@ -3,7 +3,7 @@ package com.mitv.models.comparators;
 
 
 
-import com.mitv.enums.EventLineUpPosition;
+import com.mitv.enums.EventLineUpPositionEnum;
 import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 
 
@@ -14,8 +14,8 @@ public class TeamSquadComparatorByPositionANdShirtNumber
 	@Override
 	public int compare(TeamSquad lhs, TeamSquad rhs) 
 	{
-		EventLineUpPosition leftPosition = lhs.getPosition();
-		EventLineUpPosition rightPosition = rhs.getPosition();
+		EventLineUpPositionEnum leftPosition = lhs.getPosition();
+		EventLineUpPositionEnum rightPosition = rhs.getPosition();
 		
 		if(leftPosition != rightPosition)
 		{

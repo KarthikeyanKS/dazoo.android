@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="vertical" >
+
+    <View
+        android:id="@+id/row_competition_standings_divider_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/transparent"
+        android:visibility="gone" />
 
     <!-- HEADER BY GROUP -->
 
@@ -11,6 +18,7 @@
         android:id="@+id/row_competition_group_header_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingBottom="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -25,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-        	android:textColor="@color/black"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <!-- Points -->
@@ -40,7 +48,7 @@
             android:gravity="center"
             android:text="@string/competition_standings_points_short"
             android:textAlignment="center"
-        	android:textColor="@color/black"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <!-- +/- -->
@@ -55,7 +63,7 @@
             android:gravity="center"
             android:text="@string/competition_standings_plus_minus"
             android:textAlignment="center"
-        	android:textColor="@color/black"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <!-- GP -->
@@ -69,20 +77,26 @@
             android:gravity="center"
             android:text="@string/competition_standings_gp"
             android:textAlignment="center"
-        	android:textColor="@color/black"
+            android:textColor="@color/black"
             android:textSize="15sp" />
     </RelativeLayout>
 
     <!-- ROW DIVIDER -->
 
-    <View
-        android:id="@+id/row_competition_standings_row_divider"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/grey1"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
+
+        <View
+            android:id="@+id/row_competition_standings_row_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey1"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <!-- FLAG, NAME AND STANDINGS -->
 
@@ -90,7 +104,7 @@
         android:id="@+id/row_competition_row_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_color_selector"
+        android:background="@drawable/background_color_selector_white"
         android:paddingBottom="7dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

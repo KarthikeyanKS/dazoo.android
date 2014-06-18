@@ -94,7 +94,7 @@ public class Team
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(Constants.HTTP_SCHEME_USED)
-			.append(Constants.BACKEND_ENVIRONMENT_USED)
+			.append(Constants.BACKEND_DEPLOYMENT_DOMAIN_URL)
 			.append(Constants.URL_SHARE_SPORT_SPANISH)
 			.append(Constants.URL_SHARE_SPORT_team_SPANISH)
 			.append(this.getTeamId());

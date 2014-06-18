@@ -55,6 +55,21 @@ public class UserLike
 	
 	
 	
+	public UserLike(
+			final String teamDisplayName,
+			final long teamId)
+	{
+		this.wasAddedManually = true;
+		
+		this.title = teamDisplayName;
+		this.likeType = LikeTypeResponseEnum.TEAM.toString();
+		this.contentId = Long.valueOf(teamId).toString();
+		
+		setIDFieldWithLikeType();
+	}
+	
+	
+	
 	public UserLike(final TVProgram tvProgram)
 	{
 		this.wasAddedManually = true;

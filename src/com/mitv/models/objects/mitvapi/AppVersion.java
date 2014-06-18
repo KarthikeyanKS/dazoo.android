@@ -16,7 +16,8 @@ import com.mitv.models.orm.AppVersionElementORM;
 
 
 
-public class AppVersion implements GSONDataFieldValidation
+public class AppVersion 
+	implements GSONDataFieldValidation
 {
 	private List<AppVersionElement> appVersionDataParts;
 
@@ -109,7 +110,8 @@ public class AppVersion implements GSONDataFieldValidation
 
 
 	@Override
-	public boolean areDataFieldsValid() {
+	public boolean areDataFieldsValid() 
+	{
 		boolean androidVersionDataOk = !TextUtils.isEmpty(getAndroidVersion());
 		boolean apiVersionDataOk = !TextUtils.isEmpty(getApiVersion());
 		boolean areDataFieldsValid = androidVersionDataOk && apiVersionDataOk;

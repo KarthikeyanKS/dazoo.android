@@ -11,7 +11,7 @@ public class EventHighlightJSON
 	private static final String TAG = EventHighlightJSON.class.getName();
 	
 	
-	protected long eventId;
+	private long eventId;
     private String highlightCode;
     private long actionTime;
     private String periodShort;
@@ -20,6 +20,9 @@ public class EventHighlightJSON
     private String actionMinute;
     private String personShort;
     private String subPersonShort;
+    private String actionInfo;
+    private Integer homeGoals;
+    private Integer awayGoals;
 
     
     
@@ -121,5 +124,47 @@ public class EventHighlightJSON
 	protected int getPeriodSort()
 	{
 		return periodSort;
+	}
+
+
+
+	protected String getActionInfo() 
+	{
+		if (actionInfo == null)
+		{
+			actionInfo = "";
+			
+			Log.w(TAG, "actionInfo is null");
+    	}
+		
+		return actionInfo;
+	}
+
+
+
+	protected Integer getHomeGoals() 
+	{
+		if (homeGoals == null)
+		{
+			homeGoals = Integer.valueOf(0);
+			
+			Log.w(TAG, "homeGoals is null");
+    	}
+		
+		return homeGoals;
+	}
+
+
+
+	protected Integer getAwayGoals() 
+	{
+		if (awayGoals == null)
+		{
+			awayGoals = Integer.valueOf(0);
+			
+			Log.w(TAG, "awayGoals is null");
+    	}
+		
+		return awayGoals;
 	}
 }
