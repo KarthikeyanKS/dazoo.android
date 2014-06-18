@@ -10725,42 +10725,48 @@ com.emilsjolander.components.StickyScrollViewItems.StickyScrollView -> com.emils
     boolean clipToPaddingHasBeenSet -> g
     int mShadowHeight -> h
     android.graphics.drawable.Drawable mShadowDrawable -> i
-    java.lang.Runnable invalidateRunnable -> j
-    boolean hasNotDoneActionDown -> k
-    112:113:void setShadowHeight(int) -> setShadowHeight
-    117:118:void setup() -> setup
-    121:126:int getLeftForViewRelativeOnlyChild(android.view.View) -> a
-    130:135:int getTopForViewRelativeOnlyChild(android.view.View) -> b
-    139:144:int getRightForViewRelativeOnlyChild(android.view.View) -> c
-    148:153:int getBottomForViewRelativeOnlyChild(android.view.View) -> d
-    158:163:void onLayout(boolean,int,int,int,int) -> onLayout
-    167:170:void setClipToPadding(boolean) -> setClipToPadding
-    174:176:void addView(android.view.View) -> addView
-    180:182:void addView(android.view.View,int) -> addView
-    186:188:void addView(android.view.View,int,android.view.ViewGroup$LayoutParams) -> addView
-    192:194:void addView(android.view.View,int,int) -> addView
-    198:200:void addView(android.view.View,android.view.ViewGroup$LayoutParams) -> addView
-    204:232:void dispatchDraw(android.graphics.Canvas) -> dispatchDraw
-    236:254:boolean dispatchTouchEvent(android.view.MotionEvent) -> dispatchTouchEvent
-    261:280:boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
-    285:287:void onScrollChanged(int,int,int,int) -> onScrollChanged
-    290:317:void doTheStickyThing() -> a
-    320:327:void startStickingView(android.view.View) -> e
-    330:335:void stopStickingCurrentlyStickingView() -> b
-    341:342:void notifyStickyAttributeChanged() -> notifyStickyAttributeChanged
-    345:352:void notifyHierarchyChanged() -> c
-    355:371:void findStickyViews(android.view.View) -> f
-    374:375:java.lang.String getStringTagForView(android.view.View) -> g
-    379:387:void hideView(android.view.View) -> h
-    390:398:void showView(android.view.View) -> i
-    45:45:android.view.View access$0(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView) -> a
-    120:120:int access$1(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView,android.view.View) -> a
-    147:147:int access$2(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView,android.view.View) -> b
-    138:138:int access$3(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView,android.view.View) -> c
-    46:46:float access$4(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView) -> b
+    int screenWidth -> j
+    int savedWidth -> k
+    int savedMargin -> l
+    java.lang.Runnable invalidateRunnable -> m
+    boolean hasNotDoneActionDown -> n
+    119:120:void setShadowHeight(int) -> setShadowHeight
+    124:125:void setup() -> setup
+    128:133:int getLeftForViewRelativeOnlyChild(android.view.View) -> a
+    137:142:int getTopForViewRelativeOnlyChild(android.view.View) -> b
+    146:151:int getRightForViewRelativeOnlyChild(android.view.View) -> c
+    155:160:int getBottomForViewRelativeOnlyChild(android.view.View) -> d
+    165:170:void onLayout(boolean,int,int,int,int) -> onLayout
+    174:177:void setClipToPadding(boolean) -> setClipToPadding
+    181:183:void addView(android.view.View) -> addView
+    187:189:void addView(android.view.View,int) -> addView
+    193:195:void addView(android.view.View,int,android.view.ViewGroup$LayoutParams) -> addView
+    199:201:void addView(android.view.View,int,int) -> addView
+    205:207:void addView(android.view.View,android.view.ViewGroup$LayoutParams) -> addView
+    211:239:void dispatchDraw(android.graphics.Canvas) -> dispatchDraw
+    243:261:boolean dispatchTouchEvent(android.view.MotionEvent) -> dispatchTouchEvent
+    268:287:boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
+    292:294:void onScrollChanged(int,int,int,int) -> onScrollChanged
+    297:324:void doTheStickyThing() -> a
+    327:335:void startStickingView(android.view.View) -> e
+    338:344:void stopStickingCurrentlyStickingView() -> b
+    350:351:void notifyStickyAttributeChanged() -> notifyStickyAttributeChanged
+    354:361:void notifyHierarchyChanged() -> c
+    364:380:void findStickyViews(android.view.View) -> f
+    383:384:java.lang.String getStringTagForView(android.view.View) -> g
+    388:396:void hideView(android.view.View) -> h
+    399:407:void showView(android.view.View) -> i
+    412:413:void setScaledWidth(int) -> setScaledWidth
+    416:429:void setFullWidth() -> d
+    432:438:void setOriginalWidth() -> e
+    47:47:android.view.View access$0(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView) -> a
+    127:127:int access$1(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView,android.view.View) -> a
+    154:154:int access$2(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView,android.view.View) -> b
+    145:145:int access$3(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView,android.view.View) -> c
+    48:48:float access$4(com.emilsjolander.components.StickyScrollViewItems.StickyScrollView) -> b
 com.emilsjolander.components.StickyScrollViewItems.StickyScrollView$1 -> qw:
     com.emilsjolander.components.StickyScrollViewItems.StickyScrollView this$0 -> a
-    59:67:void run() -> run
+    66:74:void run() -> run
 com.google.ads.AdRequest -> com.google.ads.AdRequest:
     java.lang.String VERSION -> VERSION
     java.lang.String LOGTAG -> LOGTAG
