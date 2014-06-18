@@ -5,6 +5,7 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -18,6 +19,9 @@ import com.mitv.utilities.DateUtils;
 public class EventHighlight 
 	extends EventHighlightJSON
 {
+	private static final String TAG = EventHighlight.class.getName();
+	
+	
 	public EventHighlight(){}
 
 
@@ -74,12 +78,18 @@ public class EventHighlight
 					case FIRST_HALF:
 					{
 						sb.append(context.getString(R.string.event_page_highlight_end_of_first_half));
+						sb.append(" (");
+						sb.append(getScoreAsString());
+						sb.append(")");
 						break;
 					}
 					
 					case SECOND_HALF:
 					{
 						sb.append(context.getString(R.string.event_page_highlight_end_of_second_half));
+						sb.append(" (");
+						sb.append(getScoreAsString());
+						sb.append(")");
 						break;
 					}
 					
@@ -109,6 +119,9 @@ public class EventHighlight
 			case INJURY_TIME:
 			{
 				sb.append(context.getString(R.string.event_page_highlight_injury_time));
+				sb.append(" (+");
+				sb.append(getExtraTimeInMinutes());
+				sb.append("')");
 				break;
 			}
 			
@@ -262,5 +275,55 @@ public class EventHighlight
 		long minutesAsLong = (getActionTime() / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
 		
 		return (int) minutesAsLong;
+	}
+	
+	
+	
+	private Integer getExtraTimeInMinutes()
+	{
+		Integer extraMinutes;
+		
+		EventHighlightActionEnum eventHighlightAction = getType();
+		
+		if(eventHighlightAction != EventHighlightActionEnum.INJURY_TIME)
+		{
+			Log.w(TAG, "Attempting to get extra minutes for an invalid type of EventHighlightActionEnum.");
+			
+			extraMinutes = Integer.valueOf(0);
+		}
+		else
+		{
+			String extraMillisecondsAsString = getActionInfo();
+			
+			Integer extraMilliseconds;
+			
+			try
+			{
+				extraMilliseconds = Integer.parseInt(extraMillisecondsAsString);
+			}
+			catch(NumberFormatException nfex)
+			{
+				extraMilliseconds = Integer.valueOf(0);
+				
+				Log.w(TAG, nfex.getMessage());
+			}
+			
+			extraMinutes = (extraMilliseconds / (int) DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);
+		}
+		
+		return extraMinutes;
+	}
+	
+	
+	
+	private String getScoreAsString()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(getHomeGoals());
+		sb.append(" - ");
+		sb.append(getAwayGoals());
+		
+		return sb.toString();
 	}
 }

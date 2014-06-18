@@ -14,7 +14,7 @@ import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.enums.EventHighlightActionEnum;
-import com.mitv.enums.EventLineUpPosition;
+import com.mitv.enums.EventLineUpPositionEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.models.Cache;
 import com.mitv.models.objects.UserTutorialStatus;
@@ -872,7 +872,7 @@ public class CacheManager
 			{
 				for (TeamSquad squad : squadAll) 
 				{
-					if(squad.getPosition() != EventLineUpPosition.COACH) 
+					if(squad.getPosition() != EventLineUpPositionEnum.COACH) 
 					{
 						squadToReturn.add(squad);
 					}
@@ -1280,7 +1280,7 @@ public class CacheManager
 		{
 			if (lineup.isInStartingLineUp() == false && 
 				lineup.getTeamId() == teamID.longValue() &&
-				lineup.getPosition() != EventLineUpPosition.REFEREE) 
+				lineup.getPosition() != EventLineUpPositionEnum.REFEREE) 
 			{
 				lineups.add(lineup);
 			}
@@ -1303,7 +1303,7 @@ public class CacheManager
 		{
 			if (lineup.isInStartingLineUp() &&
 				lineup.getTeamId() == teamId.longValue() &&
-				lineup.getPosition() != EventLineUpPosition.REFEREE) 
+				lineup.getPosition() != EventLineUpPositionEnum.REFEREE) 
 			{
 				lineups.add(lineup);
 			}

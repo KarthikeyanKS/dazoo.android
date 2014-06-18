@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/competition_scrollable_layout"
     android:layout_width="match_parent"
@@ -29,8 +30,12 @@
                 android:background="@drawable/competition_tag_logo"
                 android:scaleType="fitStart" />
 
-            <!-- List of ongoing and all todays events -->
+			<include
+	        	android:layout_alignParentTop="true"
+	        	layout="@layout/block_competition_like_favorite_team" />
 
+			
+			<!-- List of ongoing and all todays events -->
             <LinearLayout
                 android:id="@+id/todays_ongoing_events_list"
                 android:layout_width="match_parent"

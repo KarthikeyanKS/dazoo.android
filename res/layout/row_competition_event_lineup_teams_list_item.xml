@@ -46,5 +46,23 @@
         android:layout_margin="7dp"
         android:layout_toRightOf="@id/row_competition_event_lineup_player_position"
         android:textColor="@color/black" />
+    
+    <ImageView
+        android:id="@+id/row_competition_event_lineup_player_in_or_out_image"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_toRightOf="@id/row_competition_event_lineup_player_name"
+        android:layout_marginLeft="4dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY"/>
+     
+     <com.mitv.ui.elements.FontTextView
+        android:id="@+id/row_competition_event_lineup_player_in_or_out_time"
+        style="@style/meta1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/row_competition_event_lineup_player_in_or_out_image"
+        android:layout_marginLeft="2dp"/>
 
 </RelativeLayout>

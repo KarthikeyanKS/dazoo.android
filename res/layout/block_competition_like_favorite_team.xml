@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:id="@+id/favorite_team_container_layout"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+	    android:id="@+id/favorite_team_title_layout_before_like"
+	    android:background="@color/white"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="10dp"
+	    android:orientation="vertical" >
+	    
+	    <ImageView
+	        android:id="@+id/favorite_team_flag_before"
+	        android:layout_width="55dp"
+	        android:layout_height="40dp"
+	        android:scaleType="fitXY"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/competitions_contry_flag_default"/>
+	
+		<com.mitv.ui.elements.FontTextView
+	        android:id="@+id/favorite_team_before_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@id/favorite_team_flag_before"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="10dp"
+	        android:textColor="@color/grey3"
+	        android:textSize="14sp"
+	        android:maxLines="2"
+	        font:fonttextview="roboto_mitv_light.ttf"/>		
+	</RelativeLayout>
+	
+    <RelativeLayout
+	    android:id="@+id/favorite_team_title_layout_after_like"
+	    android:background="@color/white"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/favorite_team_title_layout_before_like"
+	    android:padding="10dp"
+	    android:orientation="vertical" >
+		
+        <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/favorite_team_after_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/grey3"
+	        android:textSize="14sp"
+	        android:maxLines="2"
+	        font:fonttextview="roboto_mitv_light.ttf"/>
+        
+        <com.mitv.ui.elements.FontTextView
+	        android:id="@+id/favorite_team_name_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_toRightOf="@id/favorite_team_after_text"
+	        android:layout_marginLeft="5dp"
+	        android:textColor="@color/blue1"
+	        android:textSize="14sp"
+	        android:maxLines="1"
+	        font:fonttextview="roboto_mitv_bold.ttf"/>
+        
+        <ImageView
+	        android:id="@+id/favorite_team_flag_after"
+	        android:layout_width="25dp"
+	        android:layout_height="20dp"
+	        android:layout_alignParentRight="true"
+	        android:scaleType="fitXY"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/competitions_contry_flag_default"/>
+
+    </RelativeLayout>
+
+    
+    <View
+        android:id="@+id/dialog_buttons_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/favorite_team_title_layout_after_like"
+        android:background="@color/grey1" />
+    
+    
+    <LinearLayout
+        android:id="@+id/favorite_team_button_container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_buttons_divider"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <com.mitv.ui.elements.FontButton
+            android:id="@+id/favorite_team_button_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        	android:background="@drawable/background_color_selector"
+            android:textColor="@color/blue1"
+            android:textSize="@dimen/subtext"
+            android:padding="10dp"
+            android:textAllCaps="true"
+            android:text="@string/competition_page_favorite_team_buttom_cancel"
+            font:fonttextview="roboto_mitv_light.ttf" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_separator" />
+
+        <com.mitv.ui.elements.FontButton
+            android:id="@+id/favorite_team_button_like"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        	android:background="@drawable/background_color_selector"
+            android:textColor="@color/blue1"
+            android:textSize="@dimen/subtext"
+            android:padding="10dp"
+            android:textAllCaps="true"
+            android:text="@string/competition_page_favorite_team_button_confirm"
+            font:fonttextview="roboto_mitv_light.ttf" />
+        
+    </LinearLayout>
+
+</RelativeLayout>
