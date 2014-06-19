@@ -193,7 +193,8 @@ public class TeamPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent() 
 	{
-		boolean hasData = ContentManager.sharedInstance().getCacheManager().containsTeamData(competitionID) && 
+		boolean hasData = ContentManager.sharedInstance().getCacheManager().containsCompetitionData(competitionID) &&
+						  ContentManager.sharedInstance().getCacheManager().containsTeamData(competitionID) && 
 				          ContentManager.sharedInstance().getCacheManager().containsSquadForTeamID(teamID);
 		
 		return hasData;
