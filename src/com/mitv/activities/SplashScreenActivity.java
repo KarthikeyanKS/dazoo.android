@@ -100,6 +100,7 @@ public class SplashScreenActivity
 		}
 				
 		TrackingGAManager.reportActivityStart(this);
+		TrackingGAManager.sharedInstance().sendUserNetworkTypeEvent();
 	}
 
 	
