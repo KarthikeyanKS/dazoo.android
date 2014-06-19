@@ -18,7 +18,7 @@ public class TVSportType
 	public boolean areDataFieldsValid()
 	{
 		boolean areDataFieldsValid = (!TextUtils.isEmpty(getSportTypeId()) && !TextUtils.isEmpty(getName()));
+		
 		return areDataFieldsValid;
 	}
-	
 }

@@ -3,7 +3,7 @@ package com.mitv.models.comparators;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.mitv.models.objects.mitvapi.TVBroadcast;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -21,7 +21,7 @@ public class TVFeedItemComparatorByTime
 		
 		if(lhsBroadcast == null) 
 		{
-			ArrayList<TVBroadcastWithChannelInfo> feedItems = lhsFeedItem.getBroadcasts();
+			List<TVBroadcastWithChannelInfo> feedItems = lhsFeedItem.getBroadcasts();
 			
 			lhsBroadcast = feedItems.get(0);
 		}
@@ -30,7 +30,7 @@ public class TVFeedItemComparatorByTime
 		
 		if(rhsBroadcast == null) 
 		{
-			ArrayList<TVBroadcastWithChannelInfo> feedItems = rhsFeedItem.getBroadcasts();
+			List<TVBroadcastWithChannelInfo> feedItems = rhsFeedItem.getBroadcasts();
 			
 			rhsBroadcast = feedItems.get(0);
 		}

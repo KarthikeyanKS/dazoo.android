@@ -3,7 +3,6 @@ package com.mitv.asynctasks.other;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.AsyncTask;
@@ -108,7 +107,7 @@ public class SetPopularVariablesWithPopularBroadcasts
 		
 		for (TVChannelGuide tvChannelGuide : tvGuide.getTvChannelGuides()) 
 		{
-			ArrayList<TVBroadcast> broadcasts = tvChannelGuide.getBroadcasts();
+			List<TVBroadcast> broadcasts = tvChannelGuide.getBroadcasts();
 			
 			for (TVBroadcast broadcast : broadcasts) 
 			{

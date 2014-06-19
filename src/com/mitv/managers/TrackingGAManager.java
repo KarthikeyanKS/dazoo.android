@@ -1,4 +1,7 @@
+
 package com.mitv.managers;
+
+
 
 import java.io.File;
 import java.util.Calendar;
@@ -19,7 +22,6 @@ import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FeedItemTypeEnum;
-import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
@@ -35,10 +37,13 @@ import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
 
+
+
 public class TrackingGAManager 
 {
 	private static final String TAG = TrackingGAManager.class.getName();
 
+	
 	private static TrackingGAManager instance;
 
 	private Tracker tracker;
@@ -166,10 +171,13 @@ public class TrackingGAManager
 		sendUserEvent(Constants.GA_EVENT_KEY_USER_EVENT_USER_SIGN_OUT);
 	}
 
-	public void setUserIdOnTracker(String userId) {
+	
+	public void setUserIdOnTracker(String userId) 
+	{
 		tracker.set(Constants.GA_FIELD_USER_ID, userId);
 	}
 
+	
 	
 	public void sendUserSignUpSuccessfulEvent(boolean facebook) 
 	{
@@ -199,21 +207,48 @@ public class TrackingGAManager
 		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, broadcastTitle);
 	}
 	
+	
+	
 	public void sendUserSharedEvent(Event event) 
 	{
-		String label = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId()).getDisplayName() + " " + event.getTitle() + " " + event.getEventId();
+		StringBuilder analyticsLabelSB = new StringBuilder();
 		
-		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
-		Log.d(TAG, "Event sent: " + label);
+		Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId());
+		
+		if(competition != null)
+		{
+			analyticsLabelSB.append(competition.getDisplayName())
+			.append(" ");
+		}
+		
+		analyticsLabelSB.append(event.getTitle())
+		.append(" ")
+		.append(event.getEventId());
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, analyticsLabelSB.toString());
+		
+		Log.d(TAG, "Event sent: " + analyticsLabelSB.toString());
 	}
+	
+	
 	
 	public void sendUserSharedEvent(Team team) 
 	{
-		String label = ContentManager.sharedInstance().getCacheManager().getCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
+		StringBuilder analyticsLabelSB = new StringBuilder();
 		
+		Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByTeam(team);
 		
-		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, label);
-		Log.d(TAG, "Event sent: " + label);
+		if(competition != null)
+		{
+			analyticsLabelSB.append(competition.getDisplayName())
+			.append(" ");
+		}
+		
+		analyticsLabelSB.append(team.getDisplayName());
+		
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_SHARE, analyticsLabelSB.toString());
+		
+		Log.d(TAG, "Event sent: " + analyticsLabelSB.toString());
 	}
 	
 	
@@ -420,20 +455,43 @@ public class TrackingGAManager
 		}
 	}
 	
-	public void sendUserPressedChannelInHomeActivity(TVChannelId channelId, int position) 
+	
+	
+	public void sendUserPressedChannelInHomeActivity(
+			final TVChannelId channelId, 
+			final int position) 
 	{
 		TVChannel channel = ContentManager.sharedInstance().getCacheManager().getTVChannelById(channelId);
 		
-		String channelName = channel.getName();
+		String channelName;
 		
-		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS, channelName, (long) position);
+		if(channel != null)
+		{
+			channelName = channel.getName();
+		}
+		else
+		{
+			channelName = channelId.getChannelId();
+			
+			Log.w(TAG, "TVChannel is null. Using channelId as a fallback in analytics reporting.");
+		}
+		
+		long positionAsLong = (long) position;
+		
+		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS, channelName, positionAsLong);
 	}
 	
-	public void sendUserPressedBroadcastInChannelActivity(TVChannel channel, TVBroadcast broadcast, int position) {
-		if(position == 0) {
+	
+	
+	public void sendUserPressedBroadcastInChannelActivity(TVChannel channel, TVBroadcast broadcast, int position) 
+	{
+		if(position == 0) 
+		{
 			/* The top most cell in the channel page activity is clickable, but it is not a cell */
 			return;
-		} else {
+		} 
+		else 
+		{
 			/* Subtract 1 from position value since this list does not start at index 0. */
 			position--;
 		}

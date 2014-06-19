@@ -3,10 +3,7 @@ package com.mitv.models.objects.mitvapi;
 
 
 
-import java.io.Serializable;
-
 import android.text.TextUtils;
-
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.ProfileImageJSON;
 import com.mitv.models.orm.UserLoginDataORM;
@@ -15,10 +12,10 @@ import com.mitv.models.orm.UserLoginDataORM;
 
 public class ProfileImage 
 	extends ProfileImageJSON 
-	implements GSONDataFieldValidation, Serializable 
+	implements GSONDataFieldValidation 
 {
-	private static final long serialVersionUID = -6325419468398787236L;
-
+	public ProfileImage(){}
+	
 	
 	
 	public ProfileImage(UserLoginDataORM userLoginDataORM)
@@ -36,5 +33,4 @@ public class ProfileImage
 		
 		return areDataFieldsValid;
 	}
-	
 }
