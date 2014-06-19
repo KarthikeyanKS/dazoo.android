@@ -113,7 +113,11 @@ public class SignUpSelectionActivity
 			public void onClick(View v) 
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithFacebookActivity.class);
-				intent.putExtras(bundle);
+				
+				if(bundle != null)
+				{
+					intent.putExtras(bundle);
+				}
 				
 				startActivity(intent);
 				

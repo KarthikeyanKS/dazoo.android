@@ -7,13 +7,12 @@ public enum RequestIdentifierEnum {
 	TV_GUIDE_INITIAL_CALL(3, "TV Guide for the initial app call"),
 	APP_CONFIGURATION(4, "App config"),
 	APP_VERSION(5, "App/Api version data"),
-	ADS_ADZERK_GET(6, "Ad adzerk get"),
-	ADS_ADZERK_SEEN(7, "Ad adzerk seen"),
-	USER_LOGIN(8, "User login (MiTV)"),
-	USER_SIGN_UP(9, "User sign up"),
-	USER_LOGIN_WITH_FACEBOOK_TOKEN(10, "User login using FB token"), /* This is used when fetching a MiTV token from BE, using a FB token */
-	USER_LIKES(11, "User likes"),
-	TV_CHANNEL_IDS_USER_INITIAL_CALL(12, "TV Channel IDs user inital call only"), /* Only use when fetching data from splash screen */
+	USER_LOGIN(6, "User login (MiTV)"),
+	USER_SIGN_UP(7, "User sign up"),
+	USER_LOGIN_WITH_FACEBOOK_TOKEN(8, "User login using FB token"), /* This is used when fetching a MiTV token from BE, using a FB token */
+	USER_LIKES_INITIAL_CALL(9, "User likes initial call"),
+	USER_LIKES_STANDALONE(10, "User likes standalone"),
+	TV_CHANNEL_IDS_USER_INITIAL_CALL(11, "TV Channel IDs user inital call only"), /* Only use when fetching data from splash screen */
 	USER_SET_CHANNELS(13, "User set channels"),
 	USER_ADD_LIKE(14, "User add like"),
 	USER_REMOVE_LIKE(15, "User remove like"),
@@ -50,14 +49,15 @@ public enum RequestIdentifierEnum {
 	COMPETITION_TEAM_DETAILS(47, "Details for a team present in a specific competition"),
 	COMPETITION_PHASES(48, "All phases for a specific competition"),
 	COMPETITION_PHASE_BY_ID(49, "A phase for a specific competition"),
-	COMPETITION_EVENTS(50, "All events for a specific competition"),
-	COMPETITION_EVENT_BY_ID(51, "An event for a specific competition"),
-	COMPETITION_STANDINGS_BY_PHASE_ID(52, "All standings for a specific phase"),
-	COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID(53, "All standings for multiple specific phases"),
-	COMPETITION_POST_PROCESSING(54, "Competition post processing"),
-	COMPETITION_EVENT_HIGHLIGHTS(55, "Competition event highlights"),
-	COMPETITION_EVENT_LINEUP(56, "Competition event line"),
-	COMPETITION_TEAM_SQUAD(57, "Competition team squad");
+	COMPETITION_PHASE_BY_TEAM_ID(50, "A phase by team ID"),
+	COMPETITION_EVENTS(51, "All events for a specific competition"),
+	COMPETITION_EVENT_BY_ID(52, "An event for a specific competition"),
+	COMPETITION_STANDINGS_BY_PHASE_ID(53, "All standings for a specific phase"),
+	COMPETITION_STANDINGS_MULTIPLE_BY_PHASE_ID(54, "All standings for multiple specific phases"),
+	COMPETITION_POST_PROCESSING(55, "Competition post processing"),
+	COMPETITION_EVENT_HIGHLIGHTS(56, "Competition event highlights"),
+	COMPETITION_EVENT_LINEUP(57, "Competition event line"),
+	COMPETITION_TEAM_SQUAD(58, "Competition team squad");
 	
 	
 	

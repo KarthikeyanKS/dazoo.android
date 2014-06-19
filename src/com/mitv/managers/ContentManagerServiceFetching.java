@@ -193,7 +193,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceActivityFeedData(ViewCallbackListener activityCallbackListener) 
 	{
-		setListenerForRequest(RequestIdentifierEnum.USER_LIKES, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_LIKES_STANDALONE, activityCallbackListener);
 		setListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, activityCallbackListener);
 		setListenerForRequest(RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA, activityCallbackListener);
 		
@@ -214,7 +214,7 @@ public abstract class ContentManagerServiceFetching
 	
 	protected void fetchFromServiceUserLikes(ViewCallbackListener activityCallbackListener) 
 	{
-		setListenerForRequest(RequestIdentifierEnum.USER_LIKES, activityCallbackListener);
+		setListenerForRequest(RequestIdentifierEnum.USER_LIKES_STANDALONE, activityCallbackListener);
 		
 		getAPIClient().getUserLikes(activityCallbackListener, true);
 	}
@@ -422,7 +422,7 @@ public abstract class ContentManagerServiceFetching
 	{
 		if (!forceDownload && getCache().containsUserLikes()) 
 		{
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_LIKES);
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_LIKES_STANDALONE);
 		} 
 		else 
 		{
@@ -617,6 +617,24 @@ public abstract class ContentManagerServiceFetching
 		else 
 		{
 			getAPIClient().getEventByID(activityCallbackListener, eventID);
+		}
+	}
+	
+	
+	
+	public void getElseFetchFromServicePhaseByTeamID(
+			final ViewCallbackListener activityCallbackListener, 
+			final boolean forceDownload,
+			final Long competitionID,
+			final Long teamID)
+	{
+		if (!forceDownload && getCache().getCompetitionsData().containsCurentPhaseByTeam(competitionID, teamID))
+		{
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.COMPETITION_PHASE_BY_TEAM_ID);
+		} 
+		else 
+		{
+			getAPIClient().getPhaseByTeamID(activityCallbackListener, teamID);
 		}
 	}
 	
