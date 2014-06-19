@@ -134,6 +134,8 @@ public class TrackingGAManager
 			tracker.setSampleRate(sampleRateAsPercentage);
 		}
 
+        String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
+
 		/* Information regarding if the app was preinstalled or not */
 
 		/* APP_WAS_PREINSTALLED_SHARED_PREFS is at index 1 */
@@ -143,6 +145,7 @@ public class TrackingGAManager
 		appViewBuilder.setCustomDimension(2, wasPreinstalledExternalStorage);
 		appViewBuilder.setCustomDimension(3, wasPreinstalledSystemAppLocation);
 		appViewBuilder.setCustomDimension(4, wasPreinstalledSystemAppFlag);
+		appViewBuilder.setCustomDimension(5, activeNetworkTypeName);
 
 		Map<String, String> customDimensionsMap = appViewBuilder.build();
 
