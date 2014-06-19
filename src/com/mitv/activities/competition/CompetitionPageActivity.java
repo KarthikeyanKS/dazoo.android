@@ -699,13 +699,15 @@ public class CompetitionPageActivity
 	
 			case R.id.favorite_team_title_layout_after_like:
 			{
+				long competitionId = Constants.FIFA_COMPETITION_ID;
 				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
+				long phaseId = Constants.FAVORITE_TEAM_COLOMBIA_PHASE_ID;
 				
 				Intent intent = new Intent(CompetitionPageActivity.this, TeamPageActivity.class);
 				
-				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionId);
 				intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamId);
-				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
+				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, phaseId);
 				
 				startActivity(intent);
 				
@@ -742,8 +744,6 @@ public class CompetitionPageActivity
 			{
 				ContentManager.sharedInstance().addUserLike(this, userLike);
 
-				SecondScreenApplication.sharedInstance().setFavoriteTeamBannerAsSeen();
-				
 				TrackingGAManager.sharedInstance().sendUserLikesTeamInBanner(teamDisplayName, teamId);
 				
 				setLikeBannerVisible();
@@ -770,13 +770,15 @@ public class CompetitionPageActivity
 				 * After login is complete the ContentManager will perform the adding of the like to backend */
 				ContentManager.sharedInstance().setLikeToAddAfterLogin(userLike);
 				
+				long competitionId = Constants.FIFA_COMPETITION_ID;
 				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
+				long phaseId = Constants.FAVORITE_TEAM_COLOMBIA_PHASE_ID;
 				
 				Intent intent = new Intent(CompetitionPageActivity.this, SignUpSelectionActivity.class);
 				intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN, TeamPageActivity.class.getName());
-				intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
+				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionId);
 				intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamId);
-				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
+				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, phaseId);
 				
 				startActivity(intent);
 			}
