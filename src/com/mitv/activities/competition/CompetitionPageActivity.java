@@ -320,7 +320,7 @@ public class CompetitionPageActivity
 //			boolean filterFinishedEvents = true;
 //			boolean filterLiveEvents = true;
 //			
-//			Event event = ContentManager.sharedInstance().getFromCacheNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
+//			Event event = ContentManager.sharedInstance().getCacheManager().getNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
 //			
 //			events.add(event);
 //			events.add(event);
