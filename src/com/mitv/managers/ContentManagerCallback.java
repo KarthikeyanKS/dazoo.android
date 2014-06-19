@@ -1596,9 +1596,10 @@ public abstract class ContentManagerCallback
 			}
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+
+			getAPIClient().getUserLikes(null, true);
 		}
 		
-		getAPIClient().getUserLikes(null, true);
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN, result);
 	}
@@ -1631,9 +1632,9 @@ public abstract class ContentManagerCallback
 			getCache().setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+			
+			getAPIClient().getUserLikes(null, true);
 		} 
-
-		getAPIClient().getUserLikes(null, true);
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN, result);
 	}
