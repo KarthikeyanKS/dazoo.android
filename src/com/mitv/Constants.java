@@ -336,6 +336,7 @@ public abstract class Constants
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT		= "DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT";
+	public static final String GA_KEY_APP_CURRENT_USER_NETWORK_FLAG 				= "APP_CURRENT_USER_NETWORK_FLAG";
 
 	
 	/* JSON KEYS FOR SEARCH RESULTS */
