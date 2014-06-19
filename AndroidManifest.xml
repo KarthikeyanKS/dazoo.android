@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="172"
-    android:versionName="1.0.172" >
+    android:versionCode="173"
+    android:versionName="1.0.173" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -17,9 +17,9 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Remove these unused permissions in the future -->
-	<!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-	<!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-	<!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- Re-enable this permission when accessing the system tasks -->
     <!-- <uses-permission android:name="android.permission.GET_TASKS" /> -->
 
