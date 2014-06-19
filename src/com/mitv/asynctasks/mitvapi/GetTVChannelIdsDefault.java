@@ -47,7 +47,10 @@ public class GetTVChannelIdsDefault
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
 		
 		super.doInBackground(params);
 		 
@@ -71,8 +74,11 @@ public class GetTVChannelIdsDefault
 		{
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
-		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		}
 		
 		return null;
 	}
@@ -82,10 +88,16 @@ public class GetTVChannelIdsDefault
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
-		
+		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
+			
 		super.onPostExecute(result);
-		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+
+		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		}
 	}
 }

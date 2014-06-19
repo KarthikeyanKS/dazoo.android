@@ -58,7 +58,7 @@ public class GetUserTVChannelIds
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL && Constants.USE_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
 		}
@@ -79,7 +79,7 @@ public class GetUserTVChannelIds
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
 		
-		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL && Constants.USE_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
 		}
@@ -92,14 +92,14 @@ public class GetUserTVChannelIds
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL &&  Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
 		}
 		
 		super.onPostExecute(result);
 		
-		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL)
+		if(getRequestIdentifier() == RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL &&  Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 		}

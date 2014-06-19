@@ -119,7 +119,10 @@ public class SplashScreenActivity
 	{
 		super.onResume();
 		
-		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenStarted(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) 
+		{
+			TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenStarted(this.getClass().getSimpleName());
+		}
 		
 		boolean isConnected = NetworkUtils.isConnected();
 		
@@ -184,7 +187,10 @@ public class SplashScreenActivity
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenOnResultReached(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) 
+		{
+			TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenOnResultReached(this.getClass().getSimpleName());
+		}
 		
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		

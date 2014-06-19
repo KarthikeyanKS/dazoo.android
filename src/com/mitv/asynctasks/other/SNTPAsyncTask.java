@@ -96,7 +96,7 @@ public class SNTPAsyncTask
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS) {
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
 		}
 		
@@ -109,7 +109,7 @@ public class SNTPAsyncTask
 			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
 		}
 		
-		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS) {
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 		}
 	}
