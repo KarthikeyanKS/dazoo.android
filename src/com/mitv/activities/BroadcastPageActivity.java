@@ -5,6 +5,7 @@ package com.mitv.activities;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -793,7 +794,7 @@ public class BroadcastPageActivity
 		StringBuilder extrasStringBuilder = new StringBuilder();
 		int howManyActorsInCast = 0;
 		
-		ArrayList<TVCredit> tvCredit = program.getCredits();
+		List<TVCredit> tvCredit = program.getCredits();
 		
 		extrasStringBuilder.append(title)
 		.append(": ");
@@ -802,11 +803,14 @@ public class BroadcastPageActivity
 			
 			String type = tvCredit.get(i).getType();
 			
-			if (type.equals(Constants.PROGRAM_CAST_ACTORS)) {
+			if (type.equals(Constants.PROGRAM_CAST_ACTORS)) 
+			{
 				extrasStringBuilder.append(tvCredit.get(i).getName());
+				
 				howManyActorsInCast++;
 				
-				if (tvCredit.size()-1 > i) {
+				if (tvCredit.size()-1 > i)
+				{
 					extrasStringBuilder.append(", ");
 				}
 			}

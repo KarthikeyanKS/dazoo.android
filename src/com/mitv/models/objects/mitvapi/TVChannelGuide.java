@@ -17,15 +17,6 @@ import com.mitv.utilities.DateUtils;
 public class TVChannelGuide 
 	extends TVChannelGuideJSON
 {
-
-	public boolean hasBroadcasts() 
-	{
-		boolean hasBroadcasts = broadcasts != null && !broadcasts.isEmpty();
-		return hasBroadcasts;
-	}
-	
-	
-	
 	public ArrayList<TVBroadcast> getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(
 			final int selectedHour,
 			final TVDate tvDate) 
@@ -49,9 +40,9 @@ public class TVChannelGuide
 	
 	
 	
-	public ArrayList<TVBroadcast> getBroadcastsFromPosition(final int startIndex) 
+	public List<TVBroadcast> getBroadcastsFromPosition(final int startIndex) 
 	{
-		return getBroadcastsFromPosition(startIndex, broadcasts.size());
+		return getBroadcastsFromPosition(startIndex, getBroadcasts().size());
 	}
 	
 	
@@ -85,7 +76,7 @@ public class TVChannelGuide
 		
 		ArrayList<TVBroadcast> airingBroadcasts = new ArrayList<TVBroadcast>();
 
-		for(TVBroadcast broadcast : broadcasts)
+		for(TVBroadcast broadcast : getBroadcasts())
 		{
 			Calendar broadcastBegin = broadcast.getBeginTimeCalendarGMT();
 			Calendar broadcastEnd = broadcast.getEndTimeCalendarGMT();
@@ -129,13 +120,13 @@ public class TVChannelGuide
 		ArrayList<TVBroadcast> broadcastsToReturn = new ArrayList<TVBroadcast>(maximumBrodacasts);
 
 		if(startIndex >= 0 && 
-		   startIndex < broadcasts.size())
+		   startIndex < getBroadcasts().size())
 		{
-			for(int i=startIndex; i<broadcasts.size(); i++)
+			for(int i=startIndex; i<getBroadcasts().size(); i++)
 			{
 				if(broadcastsToReturn.size() < maximumBrodacasts)
 				{
-					TVBroadcast broadcast = broadcasts.get(i);
+					TVBroadcast broadcast = getBroadcasts().get(i);
 					
 					broadcastsToReturn.add(broadcast);
 				}
@@ -158,9 +149,9 @@ public class TVChannelGuide
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		for(int i = 0; i < broadcasts.size(); ++i)
+		for(int i = 0; i < getBroadcasts().size(); ++i)
 		{
-			TVBroadcast broadcast = broadcasts.get(i);
+			TVBroadcast broadcast = getBroadcasts().get(i);
 		
 			Calendar tvDateWithHourCalendarLocal = DateUtils.buildLocalCalendarWithTVDateAndSelectedHour(tvDate, selectedHour);
 			
@@ -190,9 +181,9 @@ public class TVChannelGuide
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		for(int i=0; i<broadcasts.size(); i++)
+		for(int i=0; i<getBroadcasts().size(); i++)
 		{
-			TVBroadcast broadcast = broadcasts.get(i);
+			TVBroadcast broadcast = getBroadcasts().get(i);
 			
 			boolean hasNotAiredYetOrIsAiring = broadcast.hasNotAiredYet() || broadcast.isAiring();
 			

@@ -928,7 +928,7 @@ public abstract class ContentManagerCallback
 				/* Setting the initially selected competition as the first competition in the list */
 				if(competitions.isEmpty() == false)
 				{
-					long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+					Long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
 
 					getCache().getCompetitionsData().setSelectedCompetition(competitionID);
 				}
@@ -1143,7 +1143,7 @@ public abstract class ContentManagerCallback
 			/* Setting the initially selected competition as the first competition in the list */
 			if(competitions.isEmpty() == false)
 			{
-				long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+				Long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
 
 				getCache().getCompetitionsData().setSelectedCompetition(competitionID);
 			}

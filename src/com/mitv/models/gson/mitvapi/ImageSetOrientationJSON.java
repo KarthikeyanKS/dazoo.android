@@ -1,10 +1,15 @@
 package com.mitv.models.gson.mitvapi;
 
+import android.util.Log;
+
 import com.mitv.models.objects.mitvapi.ImageSetSize;
 
 
 public class ImageSetOrientationJSON 
 {	
+	private static final String TAG = ImageSetOrientationJSON.class.getName();
+	
+	
 	protected ImageSetSize landscape;
 	protected ImageSetSize portrait;
 
@@ -25,17 +30,19 @@ public class ImageSetOrientationJSON
 	
 	
 	
-	public ImageSetOrientationJSON() 
-	{
-		this.landscape = new ImageSetSize();
-		
-		this.portrait = new ImageSetSize();
-	}
+	public ImageSetOrientationJSON(){}
 	
 	
 	
 	public ImageSetSize getLandscape()
 	{
+		if(landscape == null)
+		{
+			landscape = new ImageSetSize();
+			
+			Log.w(TAG, "landscape is null");
+		}
+		
 		return landscape;
 	}
 	
@@ -43,6 +50,13 @@ public class ImageSetOrientationJSON
 	
 	public ImageSetSize getPortrait() 
 	{
+		if(portrait == null)
+		{
+			portrait = new ImageSetSize();
+			
+			Log.w(TAG, "portrait is null");
+		}
+		
 		return portrait;
 	}
 }

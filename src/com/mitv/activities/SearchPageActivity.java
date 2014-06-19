@@ -4,6 +4,7 @@ package com.mitv.activities;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -176,6 +177,7 @@ public class SearchPageActivity
 	}
 
 	
+	
 	private void initAutoCompleteListeners() 
 	{
 		editTextClearBtn.setOnClickListener(this);
@@ -184,6 +186,7 @@ public class SearchPageActivity
 		editTextSearch.setOnEditorActionListener(this);
 	}
 
+	
 	
 	private void loadAutoCompleteView() 
 	{
@@ -285,7 +288,7 @@ public class SearchPageActivity
 					
 					Intent intent;
 					
-					ArrayList<String> tags = nextBroadcast.getProgram().getTags();
+					List<String> tags = nextBroadcast.getProgram().getTags();
 
 					if (tags != null && !tags.isEmpty()) 
 					{

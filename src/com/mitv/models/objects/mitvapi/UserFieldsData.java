@@ -11,6 +11,9 @@ import com.mitv.models.orm.UserLoginDataORM;
 public class UserFieldsData
 	extends UserFieldsDataJSON
 {
+	public UserFieldsData(){}
+	
+	
 	public UserFieldsData(UserLoginDataORM userLoginDataORM)
 	{
 		this.userId = userLoginDataORM.getUserId();

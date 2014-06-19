@@ -26,7 +26,7 @@ public class TVChannel
 	{
 		if(tvChannelIdObject == null) 
 		{
-			tvChannelIdObject = new TVChannelId(channelId);
+			tvChannelIdObject = new TVChannelId(getChannelIdString());
 		}
 		
 		return tvChannelIdObject;
@@ -54,7 +54,15 @@ public class TVChannel
 
 		this.logo = images;
 	}
+	
+	
+	
+	public String getImageUrl()
+	{
+		return logo.getImageURLForDeviceDensityDPI();
+	}
 
+	
 	
 	@Override
 	public int hashCode()

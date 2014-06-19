@@ -13,7 +13,7 @@ public class CompetitionJSON
 	private static final String TAG = CompetitionJSON.class.getName();
 	
 	
-	private long competitionId;
+	private Long competitionId;
 	private String displayName;
 	private String competitionCategory;
 	private String startDate;
@@ -26,8 +26,15 @@ public class CompetitionJSON
 
 
 
-	public long getCompetitionId() 
+	public Long getCompetitionId() 
 	{
+		if(competitionId == null)
+		{
+			competitionId = Long.valueOf(0);
+			
+			Log.w(TAG, "competitionId is null");
+		}
+		
 		return competitionId;
 	}
 

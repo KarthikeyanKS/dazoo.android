@@ -4,9 +4,10 @@ package com.mitv.models.orm;
 
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
 import android.util.Log;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -49,10 +50,10 @@ public class TVProgramORM
 	protected ImageSetOrientation images;
 	
 	@ForeignCollectionField(eager = true)
-	protected ArrayList<String> tags;
+	protected List<String> tags;
 	
 	@ForeignCollectionField(eager = true)
-	protected ArrayList<TVCredit> credits;
+	protected List<TVCredit> credits;
 	
 	@DatabaseField()
 	protected String category; 
@@ -190,13 +191,13 @@ public class TVProgramORM
 
 
 
-	public ArrayList<String> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
 
 
 
-	public ArrayList<TVCredit> getCredits() {
+	public List<TVCredit> getCredits() {
 		return credits;
 	}
 

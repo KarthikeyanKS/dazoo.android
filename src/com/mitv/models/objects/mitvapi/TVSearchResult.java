@@ -3,7 +3,7 @@ package com.mitv.models.objects.mitvapi;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.mitv.models.gson.mitvapi.TVSearchResultJSON;
 
@@ -20,7 +20,7 @@ public class TVSearchResult
 	{
 		TVBroadcastWithChannelInfo broadcastWithChannelInfo = null;
 		
-		ArrayList<TVBroadcastWithChannelInfo> broadcasts = getEntity().getBroadcasts();
+		List<TVBroadcastWithChannelInfo> broadcasts = getEntity().getBroadcasts();
 		
 		if(broadcasts != null) 
 		{
@@ -32,6 +32,7 @@ public class TVSearchResult
 	
 		return broadcastWithChannelInfo;
 	}
+	
 	
 	
 	/* The toString representation will always be the original search query */
@@ -48,6 +49,7 @@ public class TVSearchResult
 		}
 	}
 
+	
 
 	public static void setSearchQuery(String search) 
 	{
