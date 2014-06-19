@@ -244,16 +244,7 @@ public class TrackingGAManager
 			addedLike = 0L;
 		}
 		
-		if (userLike.getLikeType() == LikeTypeResponseEnum.TEAM) 
-		{
-			Team team = ContentManager.sharedInstance().getCacheManager().getTeamById(userLike.getTeamId());
-			
-			broadcastTitle = ContentManager.sharedInstance().getCacheManager().getCompetitionByTeam(team).getDisplayName() + " " + team.getDisplayName();
-		}
-		else if (userLike.getLikeType() == LikeTypeResponseEnum.COMPETITION) 
-		{
-			broadcastTitle = ContentManager.sharedInstance().getCacheManager().getCompetitionByID((userLike.getCompetitionId())).getDisplayName();
-		}
+		broadcastTitle = userLike.getTitle();
 
 		sendUserEventWithLabelAndValue(Constants.GA_EVENT_KEY_USER_EVENT_USER_LIKE, broadcastTitle, addedLike);
 		

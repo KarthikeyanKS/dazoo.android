@@ -26,7 +26,6 @@ import com.mitv.asynctasks.mitvapi.GetTVDates;
 import com.mitv.asynctasks.mitvapi.GetTVSearchResults;
 import com.mitv.asynctasks.mitvapi.GetTVTags;
 import com.mitv.asynctasks.mitvapi.PerformInternalTracking;
-import com.mitv.asynctasks.mitvapi.PerformUserHasSeenAdAdzerk;
 import com.mitv.asynctasks.mitvapi.PerformUserLoginWithCredentials;
 import com.mitv.asynctasks.mitvapi.PerformUserLoginWithFacebookToken;
 import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetConfirmation;
@@ -39,6 +38,7 @@ import com.mitv.asynctasks.mitvapi.competitions.GetEventHighlights;
 import com.mitv.asynctasks.mitvapi.competitions.GetEventLineUp;
 import com.mitv.asynctasks.mitvapi.competitions.GetEvents;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhaseByID;
+import com.mitv.asynctasks.mitvapi.competitions.GetPhaseByTeamID;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhases;
 import com.mitv.asynctasks.mitvapi.competitions.GetSquadForTeam;
 import com.mitv.asynctasks.mitvapi.competitions.GetStandingsForPhase;
@@ -242,8 +242,10 @@ public class APIClient
 		if(isUserLoggedIn)
 		{
 			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, false, Constants.RETRY_COUNT_THRESHOLD);
+			GetUserLikes getUserLikes = new GetUserLikes(contentCallbackListener, activityCallbackListener, true, false, Constants.RETRY_COUNT_THRESHOLD);
 			
 			tvGuideInitialCallPoolExecutor.addAndExecuteTask(getUserTVChannelIds);
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(getUserLikes);
 		}
 	}
 	
@@ -487,7 +489,7 @@ public class APIClient
 	
 	public void getUserLikes(ViewCallbackListener activityCallbackListener, boolean standaLone)
 	{
-		GetUserLikes task = new GetUserLikes(contentCallbackListener, activityCallbackListener, standaLone, Constants.RETRY_COUNT_THRESHOLD);
+		GetUserLikes task = new GetUserLikes(contentCallbackListener, activityCallbackListener, false, standaLone, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	
@@ -530,12 +532,6 @@ public class APIClient
 		lastSearchTask = task;
 	}
 	
-	
-	public void performUserHasSeenAd(ViewCallbackListener activityCallbackListener)
-	{		
-		PerformUserHasSeenAdAdzerk task = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, "", Constants.RETRY_COUNT_THRESHOLD);
-		task.execute();
-	}
 	
 	
 	public void performUserLoginWithFacebookToken(ViewCallbackListener activityCallbackListener, String facebookToken) 
@@ -647,6 +643,14 @@ public class APIClient
 	public void getPhaseByID(ViewCallbackListener activityCallbackListener, long competitionID, String phaseID)
 	{
 		GetPhaseByID task = new GetPhaseByID(contentCallbackListener, activityCallbackListener, competitionID, phaseID, Constants.RETRY_COUNT_THRESHOLD);
+		task.execute();
+	}
+	
+	
+	
+	public void getPhaseByTeamID(ViewCallbackListener activityCallbackListener, long teamID)
+	{
+		GetPhaseByTeamID task = new GetPhaseByTeamID(contentCallbackListener, activityCallbackListener, teamID, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	

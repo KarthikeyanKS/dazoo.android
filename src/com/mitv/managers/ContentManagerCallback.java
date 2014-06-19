@@ -73,7 +73,7 @@ public abstract class ContentManagerCallback
 	 * The total completed data fetch count needed for the initial data loading
 	 */
 	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN = 9;
-	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN = 10;
+	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN = 11;
 
 	/*
 	 * The total completed data fetch count needed in order to proceed with
@@ -272,6 +272,7 @@ public abstract class ContentManagerCallback
 		case POPULAR_ITEMS_INITIAL_CALL:
 		case TV_BROADCASTS_POUPULAR_PROCESSING:
 		case COMPETITIONS_ALL_INITIAL:
+		case USER_LIKES_INITIAL_CALL:
 		{
 			handleInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
 			break;
@@ -333,6 +334,12 @@ public abstract class ContentManagerCallback
 			handleCompetitionEventByIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
 			break;
 		}
+		
+		case COMPETITION_PHASE_BY_TEAM_ID:
+		{
+			handleCompetitionPhaseByTeamIDResponse(activityCallbackListener, requestIdentifier, result, content, requestParameters);
+			break;
+		}
 
 		case TV_CHANNEL_IDS_USER_STANDALONE: 
 		{
@@ -346,31 +353,24 @@ public abstract class ContentManagerCallback
 			break;
 		}
 
-		case ADS_ADZERK_GET: 
-		{
-			// Not implemented yet
-			break;
-		}
-		case ADS_ADZERK_SEEN:
-		{
-			// Not implemented yet
-			break;
-		}
 		case USER_LOGIN: 
 		{
 			handleLoginResponse(activityCallbackListener, requestIdentifier, result, content);
 			break;
 		}
+		
 		case USER_SIGN_UP: 
 		{
 			handleSignUpResponse(activityCallbackListener, requestIdentifier, result, content);
 			break;
 		}
+		
 		case USER_LOGOUT: 
 		{
 			handleLogoutResponse(activityCallbackListener);
 			break;
 		}
+		
 		case USER_LOGIN_WITH_FACEBOOK_TOKEN: 
 		{
 			handleUserTokenWithFacebookTokenResponse(activityCallbackListener, requestIdentifier, result, content);
@@ -381,7 +381,7 @@ public abstract class ContentManagerCallback
 			handleSetChannelsResponse(activityCallbackListener, requestIdentifier, result);
 			break;
 		}
-		case USER_LIKES:
+		case USER_LIKES_STANDALONE:
 		{
 			handleGetUserLikesResponse(activityCallbackListener, requestIdentifier, result, content);
 			break;
@@ -903,6 +903,19 @@ public abstract class ContentManagerCallback
 			}
 			break;
 		}
+		
+		case USER_LIKES_INITIAL_CALL:
+		{
+			if (result.wasSuccessful()) 
+			{
+				@SuppressWarnings("unchecked")
+				ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
+				getCache().setUserLikes(userLikes);
+				
+				notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_user_likes));
+			}
+			break;
+		}
 
 		case COMPETITIONS_ALL_INITIAL:
 		{
@@ -1026,9 +1039,29 @@ public abstract class ContentManagerCallback
 		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 
+	
+
+	private void handleCompetitionPhaseByTeamIDResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content,
+			RequestParameters requestParameters)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			Phase phase = (Phase) content;
+
+			Long teamID = requestParameters.getAsLong(Constants.REQUEST_DATA_COMPETITION_TEAM_ID_KEY);
+			
+			getCache().getCompetitionsData().addCurrentPhase(phase, teamID);
+		}
+
+		activityCallbackListener.onResult(result, requestIdentifier);
+	}
 
 
-
+	
 	private void handleCompetitionEventHighlightsResponse(
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
@@ -1496,7 +1529,6 @@ public abstract class ContentManagerCallback
 			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 			getCache().setUserLikes(userLikes);
-
 		}
 
 		notifyListenersOfRequestResult(requestIdentifier, result);

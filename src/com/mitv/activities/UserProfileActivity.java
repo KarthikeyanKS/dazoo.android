@@ -86,7 +86,7 @@ public class UserProfileActivity
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_LOGOUT);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
 		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
-		registerAsListenerForRequest(RequestIdentifierEnum.USER_LIKES);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LIKES_STANDALONE);
 	}
 	
 
@@ -162,7 +162,7 @@ public class UserProfileActivity
 				break;
 			}
 			
-			case USER_LIKES:
+			case USER_LIKES_STANDALONE:
 			case TV_GUIDE_STANDALONE:
 			{
 				if (fetchRequestResult.wasSuccessful()) 

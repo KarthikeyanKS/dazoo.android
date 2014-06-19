@@ -205,7 +205,7 @@ public class TeamPageActivity
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch(requestIdentifier)
-		{
+		{			
 			case COMPETITION_TEAM_BY_ID:
 			{
 				if(fetchRequestResult.wasSuccessful())

@@ -306,7 +306,10 @@ public class SplashScreenActivity
 				
 				Bundle currentBundle = currentIntent.getExtras();
 				
-				nextIntent.putExtras(currentBundle);
+				if(currentBundle != null)
+				{
+					nextIntent.putExtras(currentBundle);
+				}
 			}
 			else
 			{

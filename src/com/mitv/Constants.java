@@ -133,8 +133,8 @@ public abstract class Constants
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
 	public static final String URL_SQUAD 					 		= "/squad";
+	public static final String URL_PHASE 					 		= "/phase";
 	public static final String URL_LINE_UP 					 		= "/lineup";
-	public static final String URL_POLLS 					 		= "/polls";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
 	public static final String URL_TEAMS_IMAGE				 		= "/sports/teams";
@@ -504,6 +504,7 @@ public abstract class Constants
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
 	public static final long FAVORITE_TEAM_COLOMBIA_TEAM_ID = 3037;
+	public static final long FAVORITE_TEAM_COLOMBIA_PHASE_ID = 95404;
 	public static final String FAVORITE_TEAM_COLOMBIA_TEAM_NAME = "Colombia";
 	public static final String FAVORITE_TEAM_COLOMBIA_TEAM_FLAG_URL = EVENT_FLAG_IMAGE_PATH + FORWARD_SLASH + FAVORITE_TEAM_COLOMBIA_TEAM_ID + EVENT_STADIUM_IMAGE_SIZE_MEDIUM + EVENT_STADIUM_IMAGE_EXTENSION;
 }

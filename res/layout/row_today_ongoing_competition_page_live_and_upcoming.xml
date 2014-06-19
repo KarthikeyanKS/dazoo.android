@@ -31,7 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/competition_ongoing_group_header"
         android:background="@drawable/background_color_selector_white"
-        android:padding="10dp" >
+        android:paddingLeft="12dp"
+        android:paddingTop="10dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="10dp" >
 
         <RelativeLayout
             android:id="@+id/competition_ongoing_live_standings_container"
@@ -49,7 +52,7 @@
                 android:layout_alignParentTop="true"
                 android:textColor="@color/red"
                 android:textSize="15sp" />
-            
+
             <!-- LIVE STANDINGS -->
 
             <com.mitv.ui.elements.FontTextView
@@ -87,8 +90,9 @@
 
             <ImageView
                 android:id="@+id/competition_ongoing_team_one_flag"
-                android:layout_width="54dp"
-                android:layout_height="33dp"
+                android:layout_width="57dp"
+                android:layout_height="36dp"
+                android:background="@drawable/dropshadow"
                 android:scaleType="fitXY"
                 android:src="@drawable/competitions_contry_flag_default" />
 
@@ -108,7 +112,7 @@
 
         <RelativeLayout
             android:id="@+id/competition_ongoing_team_two_flag_container"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" >
 
@@ -116,9 +120,11 @@
 
             <ImageView
                 android:id="@+id/competition_ongoing_team_two_flag"
-                android:layout_width="54dp"
-                android:layout_height="33dp"
+                android:layout_width="57dp"
+                android:layout_height="36dp"
+                android:background="@drawable/dropshadow"
                 android:scaleType="fitXY"
+                android:layout_centerHorizontal="true"
                 android:src="@drawable/competitions_contry_flag_default" />
 
             <!-- Team two name -->
@@ -129,6 +135,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/competition_ongoing_team_two_flag"
+                android:maxWidth="70dp"
+                android:maxLines="2"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp" />
         </RelativeLayout>
