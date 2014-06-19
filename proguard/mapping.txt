@@ -34791,7 +34791,7 @@ com.mitv.activities.SignUpSelectionActivity -> com.mitv.activities.SignUpSelecti
     75:75:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
     84:84:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
     91:92:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    98:164:void initViews() -> b
+    98:172:void initViews() -> b
 com.mitv.activities.SignUpSelectionActivity$1 -> ayf:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     android.os.Bundle val$bundle -> b
@@ -34799,11 +34799,11 @@ com.mitv.activities.SignUpSelectionActivity$1 -> ayf:
 com.mitv.activities.SignUpSelectionActivity$2 -> ayg:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     android.os.Bundle val$bundle -> b
-    135:139:void onClick(android.view.View) -> onClick
+    135:143:void onClick(android.view.View) -> onClick
 com.mitv.activities.SignUpSelectionActivity$3 -> ayh:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     android.os.Bundle val$bundle -> b
-    149:153:void onClick(android.view.View) -> onClick
+    153:161:void onClick(android.view.View) -> onClick
 com.mitv.activities.SplashScreenActivity -> com.mitv.activities.SplashScreenActivity:
     java.lang.String TAG -> n
     com.mitv.ui.elements.FontTextView progressTextView -> o

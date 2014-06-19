@@ -133,7 +133,11 @@ public class SignUpSelectionActivity
 			public void onClick(View v) 
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, SignUpWithEmailActivity.class);
-				intent.putExtras(bundle);
+				
+				if(bundle != null)
+				{
+					intent.putExtras(bundle);
+				}
 				
 				startActivity(intent);
 			}
@@ -147,7 +151,11 @@ public class SignUpSelectionActivity
 			public void onClick(View v)
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithMiTVUserActivity.class);
-				intent.putExtras(bundle);
+				
+				if(bundle != null)
+				{
+					intent.putExtras(bundle);
+				}
 				
 				startActivity(intent);
 			}
