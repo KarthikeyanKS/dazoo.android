@@ -32,11 +32,6 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/competition_tag_logo"
                 android:scaleType="fitStart" />
-
-			<include
-	        	android:layout_alignParentTop="true"
-	        	layout="@layout/block_competition_like_favorite_team" />
-
 			
 			<!-- List of ongoing and all todays events -->
             <LinearLayout
@@ -49,6 +44,9 @@
                 android:background="@color/white"
                 android:orientation="vertical" >
             </LinearLayout>
+            
+            <include
+	        	layout="@layout/block_competition_like_favorite_team" />
 
             <RelativeLayout
                 android:id="@+id/competition_before_or_ongoing_layout_container"

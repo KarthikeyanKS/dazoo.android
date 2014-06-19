@@ -323,7 +323,7 @@ public class CompetitionPageTodayListAdapter
 				}
 				else
 				{
-					holder.liveChannels.setVisibility(View.GONE);
+					holder.liveChannels.setVisibility(View.INVISIBLE);
 				}
 				
 				holder.liveOngoingLayout.setOnClickListener(new View.OnClickListener() 
