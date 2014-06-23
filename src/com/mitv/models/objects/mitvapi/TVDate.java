@@ -31,7 +31,7 @@ public class TVDate
 		
 		this.id = calendarDateRepresentation;
 		this.date = calendarDateRepresentation;
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal());
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal(), true);
 	}
 	
 	
@@ -43,7 +43,7 @@ public class TVDate
 	{	
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal());
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal(), true);
 	}
 	
 	
@@ -64,7 +64,7 @@ public class TVDate
 	{
 		String displayName = super.getDisplayName();
 		
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal());
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal(), true);
 		
 		return displayName;
 	}
