@@ -388,12 +388,10 @@ public class EventPageActivity
 			if(team1 != null)
 			{
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
-//				ImageAware imageAwareHighlights = new ImageViewAware(team1FlagHighlights, false);
 
 				String team1FlagUrl = team1.getFlagImageURL();
 
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
-//				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAwareHighlights);
 
 				team1Flag.setOnClickListener(new View.OnClickListener() 
 				{
@@ -408,20 +406,6 @@ public class EventPageActivity
 						startActivity(intent);
 					}
 				});
-
-//				highlightsFlagAndNameContainerOne.setOnClickListener(new View.OnClickListener() 
-//				{
-//					public void onClick(View v)
-//					{
-//						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, homeTeamName, "Highlights");
-//						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-//						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-//						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
-//						intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
-//
-//						startActivity(intent);
-//					}
-//				});
 			}
 
 			final long team2ID = event.getAwayTeamId();
@@ -431,12 +415,10 @@ public class EventPageActivity
 			if(team2 != null)
 			{
 				ImageAware imageAware = new ImageViewAware(team2Flag, false);
-//				ImageAware imageAwareHighlights = new ImageViewAware(team2FlagHighlights, false);
-
+				
 				String team2FlagUrl = team2.getFlagImageURL();
 
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
-//				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAwareHighlights);
 
 				team2Flag.setOnClickListener(new View.OnClickListener() 
 				{
@@ -451,29 +433,12 @@ public class EventPageActivity
 						startActivity(intent);
 					}
 				});
-
-//				highlightsFlagAndNameContainerTwo.setOnClickListener(new View.OnClickListener() 
-//				{
-//					public void onClick(View v)
-//					{
-//						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, awayTeamName, "Highlights");
-//						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-//
-//						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-//						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
-//						intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
-//
-//						startActivity(intent);
-//					}
-//				});
 			}
 		}
 
 		team1Name.setText(homeTeamName);
-//		team1NameHighlights.setText(homeTeamName);
 
 		team2Name.setText(awayTeamName);
-//		team2NameHighlights.setText(awayTeamName);
 
 		/* Group name */
 

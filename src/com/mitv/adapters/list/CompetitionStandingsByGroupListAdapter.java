@@ -136,6 +136,10 @@ public class CompetitionStandingsByGroupListAdapter
 			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
 			viewHolder.rowDivider = (View) rowView.findViewById(R.id.row_competition_standings_row_divider);
 			viewHolder.transparentDivider = (View) rowView.findViewById(R.id.row_competition_standings_divider_transparent);
+			viewHolder.dividerContainer = (RelativeLayout) rowView.findViewById(R.id.divider_container_team_standings);
+			
+			viewHolder.rowContainer.setBackgroundColor(activity.getResources().getColor(R.color.white));
+			viewHolder.dividerContainer.setBackgroundColor(activity.getResources().getColor(R.color.white));
 
 			rowView.setTag(viewHolder);
 		}
@@ -256,5 +260,6 @@ public class CompetitionStandingsByGroupListAdapter
 		private TextView teamPoints;
 		private View rowDivider;
 		private View transparentDivider;
+		private RelativeLayout dividerContainer;
 	}
 }
