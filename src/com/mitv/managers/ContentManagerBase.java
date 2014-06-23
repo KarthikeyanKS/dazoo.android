@@ -33,7 +33,6 @@ public abstract class ContentManagerBase
 	private static final String TAG = ContentManagerBase.class.getName();
 	
 	
-	private static final int TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON = 5;
 	
 	private CacheManager contentManagerCache;
 	private APIClient apiClient;
@@ -44,14 +43,13 @@ public abstract class ContentManagerBase
 	protected boolean completedTVChannelIdsDefaultRequest;
 	protected boolean completedTVChannelIdsUserRequest;
 	protected boolean completedTVGuideRequest;
-	protected boolean completedTVPopularRequest;
 	protected boolean isFetchingTVGuide;
 	protected boolean isAPIVersionTooOld;
 	protected boolean isUpdatingGuide;
 	protected boolean isBuildingTaggedBroadcasts;
 	protected boolean isFetchingFeedItems;
 	protected boolean isGoingToMyChannelsFromSearch;
-	protected Boolean isLocalDeviceCalendarOffSync;
+	protected Boolean isLocalDeviceCalendarOffSyncForInitialCall;
 
 	protected int tvGuideInitialRetryCount = 0;
 		
@@ -63,7 +61,7 @@ public abstract class ContentManagerBase
 		
 		this.apiClient = new APIClient(this);
 		
-		this.isLocalDeviceCalendarOffSync = null;
+		this.isLocalDeviceCalendarOffSyncForInitialCall = null;
 	}
 	
 
@@ -255,33 +253,16 @@ public abstract class ContentManagerBase
 	
 	
 	
-	/* This method compares the initial stored SNTP calendar with the local calendar */
 	public boolean isLocalDeviceCalendarOffSync()
 	{
-		if(isLocalDeviceCalendarOffSync == null)
-		{
-			isLocalDeviceCalendarOffSync = false;
-			
-			Calendar now = DateUtils.getNowWithGMTTimeZone();
+		return isLocalDeviceCalendarOffSyncForInitialCall;
+	}
 	
-			Calendar nowFromSNTP = getCache().getInitialCallSNTPCalendar();
 	
-			if(nowFromSNTP != null)
-			{
-				Integer difference = DateUtils.calculateDifferenceBetween(now, nowFromSNTP, Calendar.MINUTE, true, 0);
-		
-				if(difference > TIME_OFFSET_IN_MINUTES_FOR_NTP_COMPARISSON)
-				{
-					isLocalDeviceCalendarOffSync = true;
-				}
-			}
-			else
-			{
-				Log.w(TAG, "Calendar from SNTP is null. Assuming local device time as accurate.");
-			}
-		}
-		
-		return isLocalDeviceCalendarOffSync;
+	
+	public void setLocalDeviceCalendarOffSync(boolean isLocalDeviceCalendarOffSyncForInitialCall)
+	{
+		this.isLocalDeviceCalendarOffSyncForInitialCall = isLocalDeviceCalendarOffSyncForInitialCall;
 	}
 	
 	

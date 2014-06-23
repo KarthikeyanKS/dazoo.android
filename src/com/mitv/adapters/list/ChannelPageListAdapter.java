@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
@@ -24,6 +23,7 @@ import com.mitv.enums.ChannelRowTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcast;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -140,13 +140,15 @@ public class ChannelPageListAdapter
 
 		if (broadcast != null) 
 		{	
+			TVProgram program = broadcast.getProgram();
+			
 			boolean isAiring = false;
 			
 			if (getItemViewType(position) == 0) 
 			{
 				ImageAware imageAware = new ImageViewAware(holder.logo, false);
 				
-				ImageSetOrientation imageSetOrientation = broadcast.getProgram().getImages();
+				ImageSetOrientation imageSetOrientation = program.getImages();
 				
 				boolean containsLandscapeOrientation = imageSetOrientation.containsLandscapeImageSet();
 				
@@ -166,18 +168,15 @@ public class ChannelPageListAdapter
 			
 			StringBuilder descriptionSB = new StringBuilder();
 			
-			if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
+			if(program.isPopular())
 			{
-				if(broadcast.isPopular())
-				{
-					String stringIconTrending = activity.getString(R.string.icon_trending);
+				String stringIconTrending = activity.getString(R.string.icon_trending);
 					
-					titleSB.append(stringIconTrending)
-						.append(" ");
-				}
+				titleSB.append(stringIconTrending)
+					.append(" ");
 			}
 			
-			ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
+			ProgramTypeEnum programType = program.getProgramType();
 			
 			switch (programType) 
 			{
@@ -186,9 +185,9 @@ public class ChannelPageListAdapter
 					titleSB.append(activity.getString(R.string.icon_movie))
 						.append(" ");
 					
-					descriptionSB.append(broadcast.getProgram().getGenre())
+					descriptionSB.append(program.getGenre())
 						.append(" ")
-						.append(broadcast.getProgram().getYear());
+						.append(program.getYear());
 					
 					break;
 				}
@@ -210,16 +209,16 @@ public class ChannelPageListAdapter
 						.append(" ");
 					}
 					
-					descriptionSB.append(broadcast.getProgram().getSportType().getName())
+					descriptionSB.append(program.getSportType().getName())
 					.append(": ")
-					.append(broadcast.getProgram().getTournament());
+					.append(program.getTournament());
 
 					break;
 				}
 				
 				case OTHER: 
 				{
-					descriptionSB.append(broadcast.getProgram().getCategory());
+					descriptionSB.append(program.getCategory());
 					
 					break;
 				}

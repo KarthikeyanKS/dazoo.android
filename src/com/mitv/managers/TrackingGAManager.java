@@ -317,6 +317,19 @@ public class TrackingGAManager
 	
 	
 	
+	public void sendUserClickedFavoriteTeamBanner(
+			final String teamName,
+			final Long teamId)
+	{	
+		String teamIdAsString = teamName + " " + teamId.toString();
+
+		sendUserEventWithLabel(Constants.GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_TO_TEAM_PAGE, teamIdAsString);
+		
+		Log.d(TAG, "Event sent: " + teamIdAsString);
+	}
+	
+
+	
 	public void sendUserReminderEvent(Notification notification, boolean didJustRemoveReminder) 
 	{		
 		StringBuilder titleSB = new StringBuilder();

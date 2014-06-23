@@ -1,6 +1,4 @@
 
-
-
 package com.mitv.models.gson.mitvapi;
 
 
@@ -8,11 +6,13 @@ package com.mitv.models.gson.mitvapi;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.utilities.GenericUtils;
 
 
 
 public class ImageSetSizeJSON 
+	extends BaseObjectJSON
 {
 	private static final String TAG = ImageSetSizeJSON.class.getName();
 	

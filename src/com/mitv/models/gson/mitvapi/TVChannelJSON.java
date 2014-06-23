@@ -5,11 +5,13 @@ package com.mitv.models.gson.mitvapi;
 
 import android.util.Log;
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.ImageSetSize;
 
 
 
 public class TVChannelJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = TVChannelJSON.class.getName();
 	

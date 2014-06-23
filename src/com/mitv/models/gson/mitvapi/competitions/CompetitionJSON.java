@@ -4,11 +4,13 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import android.util.Log;
 
 
 
-public class CompetitionJSON 
+public class CompetitionJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = CompetitionJSON.class.getName();
 	

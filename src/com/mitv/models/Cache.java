@@ -4,7 +4,6 @@ package com.mitv.models;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -59,7 +58,6 @@ public class Cache
 	private TVChannelId nonPersistentSelectedTVChannelId;
 	private Class<?> nonPersistentReturnActivity;
 	private UserLike nonPersistentLikeToAddAfterLogin;
-	private Calendar initialCallSNTPCalendar;
 	private CompetitionsCacheData competitionsData;
 	
 	private int disqusTotalPostsForLatestBroadcast;
@@ -74,8 +72,6 @@ public class Cache
 		this.nonPersistentSelectedBroadcastsWithChannelInfo = new Stack<TVBroadcastWithChannelInfo>();
 		
 		this.nonPersistentFlagUpdatingGuide = false;
-		
-		this.initialCallSNTPCalendar = null;
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
@@ -433,17 +429,24 @@ public class Cache
 		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
 	}
 	
-	public synchronized boolean containsRepeatingBroadcastsForBroadcast(String programId) {
+	
+	
+	public synchronized boolean containsRepeatingBroadcastsForBroadcast(final String programId) 
+	{
 		boolean containsRepeatingBroadcastsForBroadcast = false;
 		
-		if(nonPersistentRepeatingBroadcasts != null) {
+		if(nonPersistentRepeatingBroadcasts != null) 
+		{
 			String programIdInStorage = nonPersistentRepeatingBroadcasts.getProgramId();
+			
 			containsRepeatingBroadcastsForBroadcast = programId.equals(programIdInStorage);
 		}
 		
 		return containsRepeatingBroadcastsForBroadcast;
 	}
 
+	
+	
 	public synchronized TVBroadcastWithChannelInfo getNonPersistentLastSelectedBroadcastWithChannelInfo() 
 	{
 		if(nonPersistentSelectedBroadcastsWithChannelInfo.isEmpty() == false)
@@ -456,43 +459,38 @@ public class Cache
 		}
 	}
 	
-	public synchronized void setNonPersistentTVChannelId(TVChannelId tvChannelId) {
+	
+	
+	public synchronized void setNonPersistentTVChannelId(final TVChannelId tvChannelId) 
+	{
 		this.nonPersistentSelectedTVChannelId = tvChannelId;
 	}
+
 	
-	public synchronized TVChannelId getNonPersistentTVChannelId() {
+	
+	public synchronized TVChannelId getNonPersistentTVChannelId() 
+	{
 		return nonPersistentSelectedTVChannelId;
 	}
 
 
 
-	public synchronized Calendar getInitialCallSNTPCalendar() 
+	public int getDisqusTotalPostsForLatestBroadcast() 
 	{
-		return initialCallSNTPCalendar;
-	}
-
-
-	public synchronized void setInitialCallSNTPCalendar(Calendar initialCallSNTPCalendar) 
-	{
-		this.initialCallSNTPCalendar = initialCallSNTPCalendar;
-	}
-
-
-
-	public int getDisqusTotalPostsForLatestBroadcast() {
 		return disqusTotalPostsForLatestBroadcast;
 	}
 
 
 
-	public void setDisqusTotalPostsForLatestBroadcast(
-			int disqusTotalPostsForLatestBroadcast) {
+	public void setDisqusTotalPostsForLatestBroadcast(int disqusTotalPostsForLatestBroadcast) 
+	{
 		this.disqusTotalPostsForLatestBroadcast = disqusTotalPostsForLatestBroadcast;
 	}
 
 
 
-	public CompetitionsCacheData getCompetitionsData() {
+	public CompetitionsCacheData getCompetitionsData() 
+	{
 		return competitionsData;
 	}
 }

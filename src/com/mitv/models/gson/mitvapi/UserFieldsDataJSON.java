@@ -6,10 +6,12 @@ package com.mitv.models.gson.mitvapi;
 import android.util.Log;
 
 import com.mitv.interfaces.GSONDataFieldValidation;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 
 
 
 public class UserFieldsDataJSON
+	extends BaseObjectJSON
 	implements GSONDataFieldValidation
 {
 	private static final String TAG = UserFieldsDataJSON.class.getName();

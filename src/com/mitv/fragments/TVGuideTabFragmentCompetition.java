@@ -78,11 +78,11 @@ public class TVGuideTabFragmentCompetition
 	
 	
 	
-	public TVGuideTabFragmentCompetition(long competitionID, String competitionDisplayName)
+	public TVGuideTabFragmentCompetition(long competitionId, String competitionDisplayName)
 	{
-		super(new Long(competitionID).toString(), competitionDisplayName, TVGuideTabTypeEnum.COMPETITION);
+		super(Long.valueOf(competitionId).toString(), competitionDisplayName, TVGuideTabTypeEnum.COMPETITION);
 
-		this.competitionID = competitionID;
+		this.competitionID = competitionId;
 	}
 	
 	

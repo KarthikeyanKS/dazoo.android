@@ -28,8 +28,9 @@ public class GetTVBroadcastDetails
 			long beginTime)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_CHANNELS_ALL);
-		url.append(Constants.FORWARD_SLASH);
+		
+		url.append(Constants.URL_CHANNELS_ALL)
+		.append(Constants.FORWARD_SLASH);
 		
 		if(tvChannelId != null)
 		{
@@ -40,9 +41,9 @@ public class GetTVBroadcastDetails
 			Log.w(TAG, "TVChannel is null");
 		}
 		
-		url.append(Constants.API_BROADCASTS);
-		url.append(Constants.FORWARD_SLASH);
-		url.append(beginTime);
+		url.append(Constants.API_BROADCASTS)
+		.append(Constants.FORWARD_SLASH)
+		.append(beginTime);
 		
 		return url.toString();
 	}

@@ -45,22 +45,15 @@ public class TVBroadcast
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
 	private String title = null;
-
-	protected boolean isPopular;
 	
 	
 	
-	public TVBroadcast()
-	{
-		this.isPopular = false;
-	}
+	public TVBroadcast(){}
 	
 	
 	
 	public TVBroadcast(TVBroadcastORM ormData)
 	{
-		this.isPopular = false;
-		
 		this.program = TVProgramORM.getTVProgramByID(ormData.getProgram().getProgramId());
 		
 		this.beginTimeMillis = ormData.getBeginTimeMillis();
@@ -576,23 +569,9 @@ public class TVBroadcast
 		
 		return sb.toString();
 	}
+
+
 	
-	
-	
-	public boolean isPopular() {
-		return isPopular;
-	}
-
-
-
-
-	public void setPopular(boolean isPopular) {
-		this.isPopular = isPopular;
-	}
-
-
-
-
 	@Override
 	public int hashCode() 
 	{

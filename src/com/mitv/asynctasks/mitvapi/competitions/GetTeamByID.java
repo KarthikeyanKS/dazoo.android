@@ -28,16 +28,13 @@ public class GetTeamByID
 			final long teamID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS_FULL);
-		url.append(Constants.FORWARD_SLASH);
 		
-		url.append(competitionID);
-		
-		url.append(Constants.URL_TEAMS);
-		
-		url.append(Constants.FORWARD_SLASH);
-		
-		url.append(teamID);
+		url.append(Constants.URL_COMPETITIONS_FULL)
+		.append(Constants.FORWARD_SLASH)
+		.append(competitionID)
+		.append(Constants.URL_TEAMS)
+		.append(Constants.FORWARD_SLASH)
+		.append(teamID);
 
 		return url.toString();
 	}

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Map.Entry;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -306,12 +307,18 @@ public class HTTPCore
 			final String requestURL,
 			final HttpResponse response)
 	{
+		HeaderParameters httpHeaderParameters = new HeaderParameters();
+		
 		int httpStatusResult = Constants.HTTP_CORE_DEFAULT_HTTP_STATUS_RESULT;
 		
 		String httpBodyContentResult = new String();
 		
 		if (response != null) 
-		{               
+		{   
+			Header[] headers = response.getAllHeaders();
+			
+			httpHeaderParameters = new HeaderParameters(headers);
+			
 			StatusLine statusLine = response.getStatusLine();
 			
 			if(statusLine != null)
@@ -404,7 +411,8 @@ public class HTTPCore
 		HTTPCoreResponse httpCoreResponse = new HTTPCoreResponse(
 				requestURL,
 				httpStatusResult,
-				httpBodyContentResult);
+				httpBodyContentResult,
+				httpHeaderParameters);
 		
 		return httpCoreResponse;
 	}

@@ -6,11 +6,13 @@ package com.mitv.models.gson.mitvapi;
 import android.util.Log;
 
 import com.mitv.enums.BroadcastTypeEnum;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.TVProgram;
 
 
 
-public class TVBroadcastJSON 
+public class TVBroadcastJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = TVBroadcastJSON.class.getName();
 	

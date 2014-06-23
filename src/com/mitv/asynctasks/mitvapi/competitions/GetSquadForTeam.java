@@ -5,11 +5,6 @@ package com.mitv.asynctasks.mitvapi.competitions;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -23,6 +18,7 @@ import com.mitv.models.objects.mitvapi.competitions.TeamSquad;
 public class GetSquadForTeam 
 	extends AsyncTaskBase<TeamSquad[]>
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = GetSquadForTeam.class.getName();
 	
 	
@@ -49,29 +45,5 @@ public class GetSquadForTeam
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAM_SQUAD, TeamSquad[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(teamID), false, retryThreshold);
 	
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_TEAM_ID_KEY, teamID);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-
-		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
-		{
-			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-			TeamSquad[] contentAsArray = (TeamSquad[]) requestResultObjectContent;
-			
-			ArrayList<TeamSquad> contentAsArrayList = new ArrayList<TeamSquad>(Arrays.asList(contentAsArray));
-			
-			requestResultObjectContent = contentAsArrayList;
-		}
-		else
-		{
-			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
-
-		return null;
 	}
 }

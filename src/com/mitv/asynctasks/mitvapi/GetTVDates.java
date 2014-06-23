@@ -3,11 +3,6 @@ package com.mitv.asynctasks.mitvapi;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -22,10 +17,13 @@ import com.mitv.models.objects.mitvapi.TVDate;
 public class GetTVDates 
 	extends AsyncTaskBase<TVDate[]> 
 {	
+	@SuppressWarnings("unused")
 	private static final String TAG = GetTVDates.class.getName();
+	
 	
 	private static final String URL_SUFFIX = Constants.URL_DATES;
 
+	
 	
 	public GetTVDates(
 			ContentCallbackListener contentCallbackListener,
@@ -36,34 +34,15 @@ public class GetTVDates
 	}
 	
 	
+	
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
-		}
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
 		
 		super.doInBackground(params);
 
-		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
-		{
-			TVDate[] contentAsArray = (TVDate[]) requestResultObjectContent;
-			
-			ArrayList<TVDate> contentAsArrayList = new ArrayList<TVDate>(Arrays.asList(contentAsArray));
-		
-			requestResultObjectContent = contentAsArrayList;
-		}
-		else
-		{
-			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
-
-		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
-		}
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
 		
 		return null;
 	}
@@ -73,16 +52,10 @@ public class GetTVDates
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
-		}
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
 		
 		super.onPostExecute(result);
-
-		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
-		}
+		
+		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 	}
 }
