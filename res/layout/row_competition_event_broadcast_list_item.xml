@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/row_competition_broadcast_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white" >
+    android:layout_height="wrap_content" >
 
     <RelativeLayout
         android:id="@+id/row_competition_broadcast_details_container"
@@ -54,7 +53,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:background="@drawable/background_color_selector"
+        android:background="@drawable/background_color_selector_white_seethrough"
         android:padding="5dp" />
 
     <RelativeLayout

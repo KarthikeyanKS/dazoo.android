@@ -8,6 +8,8 @@ import java.net.URL;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.mitv.Constants;
@@ -21,46 +23,45 @@ public abstract class NetworkUtils
 	
 	
 	
-//	@Deprecated
-//	public static String getActiveNetworkTypeAsString()
-//	{
-//		String activeNetworkTypeAsString = "Unknown";
-//		
-//		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-//		
-//		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//		
-//		if(cm != null)
-//		{
-//			NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-//			
-//			if(networkInfo != null)
-//			{
-//				int activeNetworkType = networkInfo.getType();
-//				
-//				switch(activeNetworkType)
-//				{
-//					case ConnectivityManager.TYPE_MOBILE:
-//					{
-//						TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//						
-//						activeNetworkTypeAsString = tm.getNetworkOperatorName();
-//						
-//						break;
-//					}
-//					
-//					case ConnectivityManager.TYPE_WIFI:
-//					default:
-//					{
-//						activeNetworkTypeAsString = networkInfo.getTypeName();
-//						break;
-//					}
-//				}
-//			}
-//		}
-//		
-//		return activeNetworkTypeAsString;
-//	}
+	public static String getActiveNetworkTypeAsString()
+	{
+		String activeNetworkTypeAsString = "Unknown";
+		
+		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		
+		if(cm != null)
+		{
+			NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+			
+			if(networkInfo != null)
+			{
+				int activeNetworkType = networkInfo.getType();
+				
+				switch(activeNetworkType)
+				{
+					case ConnectivityManager.TYPE_MOBILE:
+					{
+						TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+						
+						activeNetworkTypeAsString = tm.getNetworkOperatorName();
+						
+						break;
+					}
+					
+					case ConnectivityManager.TYPE_WIFI:
+					default:
+					{
+						activeNetworkTypeAsString = networkInfo.getTypeName();
+						break;
+					}
+				}
+			}
+		}
+		
+		return activeNetworkTypeAsString;
+	}
 	
 	
 	

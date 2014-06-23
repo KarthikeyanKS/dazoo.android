@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Timer;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.emilsjolander.components.StickyScrollViewItems.StickyScrollView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -78,14 +80,13 @@ public class EventPageActivity
 	private CustomViewPager viewPagerForLineupTeams;
 	private CompetitionEventLineupTeamsTabFragmentStatePagerAdapter pagerAdapterForLineupTeams;
 
-	private ImageView stadiumImage;
+	private RelativeLayout eventPageContainer;
 	private TextView team1Name;
 	private ImageView team1Flag;
 	private TextView team2Name;
 	private ImageView team2Flag;
 	private TextView groupHeader;
 	private TextView liveScore;
-	private TextView liveStatus;
 	private TextView stadiumName;
 	private TextView stadiumImageCopyright;
 	private TextView description;
@@ -93,7 +94,6 @@ public class EventPageActivity
 	private LikeView likeView;
 	private RelativeLayout shareContainer;
 	private TextView beginTime;
-	private TextView beginTimeDate;
 	private TextView headerteamvsteam;
 	private TextView headerCompetitionName;
 	private TextView headerStandings;
@@ -102,15 +102,8 @@ public class EventPageActivity
 	private RelativeLayout highlightsContainerLayout;
 	private LinearLayout lineupContainerLayout;
 
-	private RelativeLayout highlightsFlagAndNameContainerOne;
-	private RelativeLayout highlightsFlagAndNameContainerTwo;
-
 	private LinearLayout listContainerLayoutHighlights;
 	private CompetitionEventHighlightsListAdapter listAdapterHighlights;
-	private TextView team1NameHighlights;
-	private ImageView team1FlagHighlights;
-	private TextView team2NameHighlights;
-	private ImageView team2FlagHighlights;
 
 	private RelativeLayout highlightsReloadRelativeLayout;
 	private TextView highlightsReloadText;
@@ -123,6 +116,8 @@ public class EventPageActivity
 	private LinearLayout standingsListBlock;
 	private CompetitionEventEventsByGroupListAdapter groupListAdapter;
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
+	private StickyScrollView scrollView;
+	private RelativeLayout container;
 
 
 	/* Timer for re-fetching data in the background while the user is on the same activity */
@@ -337,8 +332,6 @@ public class EventPageActivity
 		setAdapterForStandingsList(standings, phaseString);
 
 		setAdapterForGroupList(events, phaseString);
-		
-		
 	}
 
 
@@ -382,12 +375,6 @@ public class EventPageActivity
 
 		headerStandings.setText(sbHeaderGroup.toString());
 
-		ImageAware imageAwareStadium = new ImageViewAware(stadiumImage, false);
-
-		String stadiumImageURL = event.getStadiumImageURL();
-
-		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithCompetitionEventStadiumOptions(stadiumImageURL, imageAwareStadium);
-
 		boolean containsTeamInfo = event.containsTeamInfo();
 
 		if(containsTeamInfo)
@@ -399,32 +386,16 @@ public class EventPageActivity
 			if(team1 != null)
 			{
 				ImageAware imageAware = new ImageViewAware(team1Flag, false);
-				ImageAware imageAwareHighlights = new ImageViewAware(team1FlagHighlights, false);
 
 				String team1FlagUrl = team1.getFlagImageURL();
 
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAwareHighlights);
 
 				team1Flag.setOnClickListener(new View.OnClickListener() 
 				{
 					public void onClick(View v)
 					{
 						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, homeTeamName, "Country");
-						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
-						intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
-
-						startActivity(intent);
-					}
-				});
-
-				highlightsFlagAndNameContainerOne.setOnClickListener(new View.OnClickListener() 
-				{
-					public void onClick(View v)
-					{
-						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, homeTeamName, "Highlights");
 						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
 						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team1ID);
@@ -442,12 +413,10 @@ public class EventPageActivity
 			if(team2 != null)
 			{
 				ImageAware imageAware = new ImageViewAware(team2Flag, false);
-				ImageAware imageAwareHighlights = new ImageViewAware(team2FlagHighlights, false);
-
+				
 				String team2FlagUrl = team2.getFlagImageURL();
 
 				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAware);
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team2FlagUrl, imageAwareHighlights);
 
 				team2Flag.setOnClickListener(new View.OnClickListener() 
 				{
@@ -462,29 +431,12 @@ public class EventPageActivity
 						startActivity(intent);
 					}
 				});
-
-				highlightsFlagAndNameContainerTwo.setOnClickListener(new View.OnClickListener() 
-				{
-					public void onClick(View v)
-					{
-						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, awayTeamName, "Highlights");
-						Intent intent = new Intent(EventPageActivity.this, TeamPageActivity.class);
-
-						intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
-						intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, team2ID);
-						intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, event.getPhaseId());
-
-						startActivity(intent);
-					}
-				});
 			}
 		}
 
 		team1Name.setText(homeTeamName);
-		team1NameHighlights.setText(homeTeamName);
 
 		team2Name.setText(awayTeamName);
-		team2NameHighlights.setText(awayTeamName);
 
 		/* Group name */
 
@@ -582,31 +534,24 @@ public class EventPageActivity
 			case NOT_STARTED_AND_LINE_UP:
 			case NOT_STARTED:
 			{
-				liveScore.setVisibility(View.GONE);
-				
-				liveStatus.setVisibility(View.GONE);
-				
 				String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 
-				beginTime.setText(eventStartTimeHourAndMinuteAsString);
-				beginTime.setVisibility(View.VISIBLE);
+				liveScore.setText(eventStartTimeHourAndMinuteAsString);
+				liveScore.setVisibility(View.VISIBLE);
 				
 				StringBuilder sb = new StringBuilder();
 				sb.append(event.getEventTimeDayOfTheWeekAsString())
 				.append(" ")
 				.append(event.getEventTimeDayAndMonthAsString());
 
-				beginTimeDate.setText(sb.toString());
-				beginTimeDate.setVisibility(View.VISIBLE);
+				beginTime.setText(sb.toString());
+				beginTime.setVisibility(View.VISIBLE);
+				
 				break;
 			}
 			
 			case DELAYED:
 			{
-				liveScore.setVisibility(View.GONE);
-				
-				liveStatus.setVisibility(View.GONE);
-				
 				String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 				
 				StringBuilder eventStartTimeHourAndMinuteSB = new StringBuilder();
@@ -615,38 +560,21 @@ public class EventPageActivity
 				.append(getString(R.string.event_page_delayed))
 				.append(")");
 
-				beginTime.setText(eventStartTimeHourAndMinuteAsString);
-				beginTime.setVisibility(View.VISIBLE);
+				liveScore.setText(eventStartTimeHourAndMinuteAsString);
+				liveScore.setVisibility(View.VISIBLE);
 				
 				StringBuilder sb = new StringBuilder();
 				sb.append(event.getEventTimeDayOfTheWeekAsString())
 				.append(" ")
 				.append(event.getEventTimeDayAndMonthAsString());
 
-				beginTimeDate.setText(sb.toString());
-				beginTimeDate.setVisibility(View.VISIBLE);
+				beginTime.setText(sb.toString());
+				beginTime.setVisibility(View.VISIBLE);
+				
 				break;
 			}
 	
 			case POSTPONED:
-			{
-				String score = event.getScoreAsString();
-
-				liveScore.setText(score);
-				liveScore.setVisibility(View.GONE);
-				liveScore.setTextColor(getResources().getColor(R.color.red));
-				
-				String timeAndStatus = event.getGameTimeAndStatusAsString(false);
-				
-				liveStatus.setText(timeAndStatus);
-				liveStatus.setVisibility(View.VISIBLE);
-				liveStatus.setTextColor(getResources().getColor(R.color.red));
-				
-				beginTime.setVisibility(View.GONE);
-				beginTimeDate.setVisibility(View.GONE);
-				break;
-			}
-			
 			case IN_PROGRESS:
 			{
 				String score = event.getScoreAsString();
@@ -657,12 +585,15 @@ public class EventPageActivity
 				
 				String timeAndStatus = event.getGameTimeAndStatusAsString(true);
 				
-				liveStatus.setText(timeAndStatus);
-				liveStatus.setVisibility(View.VISIBLE);
-				liveStatus.setTextColor(getResources().getColor(R.color.red));
+				StringBuilder sb = new StringBuilder();
+				sb.append(getResources().getString(R.string.icon_live))
+					.append(" ")
+					.append(timeAndStatus);
 				
-				beginTime.setVisibility(View.GONE);
-				beginTimeDate.setVisibility(View.GONE);
+				beginTime.setText(sb.toString());
+				beginTime.setVisibility(View.VISIBLE);
+				beginTime.setTextColor(getResources().getColor(R.color.red));
+				
 				break;
 			}
 			
@@ -682,12 +613,10 @@ public class EventPageActivity
 				
 				String timeInGame = event.getGameTimeAndStatusAsString(false);
 				
-				liveStatus.setText(timeInGame);
-				liveStatus.setVisibility(View.VISIBLE);
-				liveStatus.setTextColor(getResources().getColor(R.color.grey2));
+				beginTime.setText(timeInGame);
+				beginTime.setVisibility(View.VISIBLE);
+				beginTime.setTextColor(getResources().getColor(R.color.grey2));
 				
-				beginTime.setVisibility(View.GONE);
-				beginTimeDate.setVisibility(View.GONE);
 				break;
 			}
 		}
@@ -698,6 +627,16 @@ public class EventPageActivity
 		shareContainer.setTag(event);
 		shareContainer.setOnClickListener(this);
 		
+		int color = getResources().getColor(R.color.transparent_white_background_event_page);
+		Drawable dropshadow = getResources().getDrawable(R.drawable.dropshadow_pop_box);
+		
+		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this), color, dropshadow);
+		
+		int paddingLeft = container.getPaddingLeft();
+		int paddingTop = container.getPaddingTop();
+		int paddingRight = container.getPaddingRight();
+		int paddingBottom = container.getPaddingBottom();
+		scrollView.setPaddings(paddingLeft, paddingTop, paddingRight, paddingBottom);
 	}
 	
 	
@@ -797,21 +736,21 @@ public class EventPageActivity
 	
 	
 
+	@SuppressWarnings("deprecation")
 	private void initLayout()
 	{
-		stadiumImage = (ImageView) findViewById(R.id.competition_event_stadium_image);
+		eventPageContainer = (RelativeLayout) findViewById(R.id.competition_event_scrollable_layout);
+		
 		team1Name = (TextView) findViewById(R.id.competition_event_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_event_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_event_team_two_name);
 		team2Flag = (ImageView) findViewById(R.id.competition_event_team_two_flag);
 		groupHeader = (TextView) findViewById(R.id.competition_event_group_header);
 		liveScore = (TextView) findViewById(R.id.competition_event_live_score);
-		liveStatus = (TextView) findViewById(R.id.competition_event_live_status);
 		broadcastListView = (LinearLayout) findViewById(R.id.competition_event_broadcasts_listview);
 		likeView = (LikeView) findViewById(R.id.competition_element_social_buttons_like_view);
 		shareContainer = (RelativeLayout) findViewById(R.id.competition_element_social_buttons_share_button_container);
 		beginTime = (TextView) findViewById(R.id.competition_event_starttime_time);
-		beginTimeDate = (TextView) findViewById(R.id.competition_event_starttime_date);
 		headerteamvsteam = (TextView) findViewById(R.id.competition_event_title_header);
 		headerCompetitionName = (TextView) findViewById(R.id.competition_event_world_cup_header);
 		headerStandings = (TextView) findViewById(R.id.competition_standings_header);
@@ -822,10 +761,6 @@ public class EventPageActivity
 		description = (TextView) findViewById(R.id.competition_event_description);
 
 		highlightsContainerLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_highlights_teams_container);
-		team1NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_one_name);
-		team1FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_one_flag);
-		team2NameHighlights = (TextView) findViewById(R.id.competition_event_highlights_team_two_name);
-		team2FlagHighlights = (ImageView) findViewById(R.id.competition_event_highlights_team_two_flag);
 		listContainerLayoutHighlights = (LinearLayout) findViewById(R.id.competition_event_highlights_table_container);
 
 		highlightsReloadRelativeLayout = (RelativeLayout) findViewById(R.id.competition_event_block_tabs_highlights_reload_container);
@@ -841,9 +776,18 @@ public class EventPageActivity
 		groupListContainer = (LinearLayout) findViewById(R.id.competition_event_group_list);
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_event_standings_list);
 		standingsListBlock = (LinearLayout) findViewById(R.id.competition_event_block_standings_teams_container);
-
-		highlightsFlagAndNameContainerOne = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_one_flag_container);
-		highlightsFlagAndNameContainerTwo = (RelativeLayout) findViewById(R.id.competition_event_highlights_team_two_flag_container);
+		scrollView = (StickyScrollView) findViewById(R.id.event_page_scrollview);
+		container = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
+		
+		/* Set background */
+		int sdk = android.os.Build.VERSION.SDK_INT;
+		
+		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+			eventPageContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.event_backdrop_background));
+		    
+		} else {
+			eventPageContainer.setBackground(getResources().getDrawable(R.drawable.event_backdrop_background));
+		}
 	}
 
 

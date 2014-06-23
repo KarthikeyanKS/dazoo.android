@@ -36,6 +36,7 @@ import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.ui.elements.SwipeClockBar;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
+import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -138,6 +139,8 @@ public class TrackingGAManager
 			tracker.setSampleRate(sampleRateAsPercentage);
 		}
 
+        String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
+
 		/* Information regarding if the app was preinstalled or not */
 
 		/* APP_WAS_PREINSTALLED_SHARED_PREFS is at index 1 */
@@ -147,6 +150,7 @@ public class TrackingGAManager
 		appViewBuilder.setCustomDimension(2, wasPreinstalledExternalStorage);
 		appViewBuilder.setCustomDimension(3, wasPreinstalledSystemAppLocation);
 		appViewBuilder.setCustomDimension(4, wasPreinstalledSystemAppFlag);
+		appViewBuilder.setCustomDimension(5, activeNetworkTypeName);
 
 		Map<String, String> customDimensionsMap = appViewBuilder.build();
 
@@ -1106,5 +1110,14 @@ public class TrackingGAManager
 		String label = competitionName + " " + eventName;
 		sendUserCompetitionEventWithLabelAndValue(Constants.GA_EVENT_ACTION_HIGHLIGHTS_RELOAD_PRESSED, label, 0);
 	}
+	
+	
+    public void sendUserNetworkTypeEvent()
+    {
+        String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
+
+        sendEventWithLabel(Constants.GA_EVENT_CATEGORY_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG, activeNetworkTypeName);
+        Log.d(TAG, "Event sent: " + Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG + " " + activeNetworkTypeName);
+    }
 	
 }

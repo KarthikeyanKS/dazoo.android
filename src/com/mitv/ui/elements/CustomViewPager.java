@@ -47,7 +47,7 @@ public class CustomViewPager extends ViewPager {
 		//Get actionbar height
 
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) 
 		{
 			TypedValue tv = new TypedValue();
 

@@ -149,34 +149,7 @@ public class CompetitionTabFragmentSecondStage
 		switch (status)
 		{
 			case SUCCESS_WITH_CONTENT:
-			{
-//				listContainerLayout.removeAllViews();
-//				
-//				Map<Long, List<Event>> eventsByGroups = ContentManager.sharedInstance().getFromCacheAllEventsGroupedBySecondStageForSelectedCompetition();
-//
-//				// TODO Using old adapter. Change to the new one.
-//				listAdapter = new CopyOfCompetitionEventsByGroupListAdapterOLD(activity, eventsByGroups);
-//				
-//				for (int i = 0; i < listAdapter.getCount(); i++) 
-//				{
-//		            View listItem = listAdapter.getView(i, null, listContainerLayout);
-//		            
-//		            if (listItem != null)
-//		            {
-//		            	listContainerLayout.addView(listItem);
-//		            }
-//		        }
-//
-//				listContainerLayout.measure(0, 0);
-//				
-//				viewPager.heightsMap.put(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, listContainerLayout.getMeasuredHeight());
-//				if (viewPager.getCurrentItem() == CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION) {
-//					viewPager.onPageScrolled(CompetitionTabFragmentStatePagerAdapter.SECOND_STAGE_POSITION, 0, 0);
-//				}
-				
-				
-				//////////////////////////////////////////////
-				
+			{				
 				listContainerLayout.removeAllViews();
 				
 				List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllFinishedEventsInReverseOrderForSelectedCompetition();

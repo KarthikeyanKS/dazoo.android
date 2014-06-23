@@ -16,10 +16,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- Remove these unused permissions in the future -->
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	
+    <!-- Remove these unused permissions in the future -->
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- Re-enable this permission when accessing the system tasks -->
     <!-- <uses-permission android:name="android.permission.GET_TASKS" /> -->
 
@@ -342,7 +343,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/CompetitionPage" >
+            android:theme="@style/EventPage" >
         </activity>
         
         <!-- COMPETITION TEAM PAGE -->

@@ -315,17 +315,6 @@ public class CompetitionPageActivity
 	{
 		List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllLiveEventsForSelectedCompetition();
 		
-		/* ONLY FOR TESTING: If no live events we want to show the next upcoming instead */
-//		if (events.isEmpty()) {
-//			boolean filterFinishedEvents = true;
-//			boolean filterLiveEvents = true;
-//			
-//			Event event = ContentManager.sharedInstance().getCacheManager().getNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
-//			
-//			events.add(event);
-//			events.add(event);
-//		}
-		
 		todaysLiveAndUpcomingList.removeAllViews();
 
 		listAdapter = new CompetitionPageTodayListAdapter(this, events, competition.getDisplayName());
@@ -534,8 +523,6 @@ public class CompetitionPageActivity
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
-		
-//		StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.competition_scrollview);
 	}
 	
 	
@@ -773,15 +760,7 @@ public class CompetitionPageActivity
 				 * After login is complete the ContentManager will perform the adding of the like to backend */
 				ContentManager.sharedInstance().setLikeToAddAfterLogin(userLike);
 				
-//				long competitionId = Constants.FIFA_COMPETITION_ID;
-//				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
-//				long phaseId = Constants.FAVORITE_TEAM_COLOMBIA_PHASE_ID;
-				
 				Intent intent = new Intent(CompetitionPageActivity.this, SignUpSelectionActivity.class);
-//				intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN, TeamPageActivity.class.getName());
-//				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionId);
-//				intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamId);
-//				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, phaseId);
 				
 				startActivity(intent);
 			}

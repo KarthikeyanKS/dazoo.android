@@ -467,17 +467,22 @@ public abstract class PersistentCache
 	
 	public synchronized void addUserLike(final UserLike userLike) 
 	{
-		if(userLikes == null) {
+		if (userLikes == null) 
+		{
 			userLikes = new ArrayList<UserLike>();
 		}
-		if(!userLikes.contains(userLike)) {
-			this.userLikes.add(userLike);
-		} else {
+		if (userLikes.contains(userLike) == false) 
+		{
+			userLikes.add(userLike);
+		} 
+		else 
+		{
 			/* Already in list, check if like in list was manually added */
 			int index = userLikes.indexOf(userLike);
 			UserLike tmp = userLikes.get(index);
 			
-			if(tmp.wasAddedManually() && !userLike.wasAddedManually()) {
+			if(tmp.wasAddedManually() && !userLike.wasAddedManually()) 
+			{
 				/* The current like in the list was added manually, means it is missing some fields,
 				 * and the userLike to add has those fields => replace */
 				userLikes.set(index, userLike);
