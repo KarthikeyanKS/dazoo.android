@@ -24,7 +24,7 @@ public class UserLike
 	
 	
 	protected String contentId;
-	protected boolean wasAddedManually = false;
+	protected boolean wasAddedManually;
 	
 	
 	

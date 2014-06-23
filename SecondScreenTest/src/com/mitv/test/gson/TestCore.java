@@ -164,7 +164,7 @@ public abstract class TestCore
 		sb.append(DEFAULT_NEW_TEST_USER_EMAIL_SUFFIX);
 		
 		data.setFirstName(DEFAULT_NEW_TEST_USER_FIRST_NAME);
-		data.setLastName(new Integer(randomNumber).toString());
+		data.setLastName(Integer.valueOf(randomNumber).toString());
 		data.setEmail(sb.toString());
 		data.setPassword(DEFAULT_NEW_TEST_USER_PASSWORD);
 		

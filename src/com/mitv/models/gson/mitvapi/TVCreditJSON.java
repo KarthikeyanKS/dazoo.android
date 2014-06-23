@@ -1,11 +1,15 @@
 
 package com.mitv.models.gson.mitvapi;
 
+
+
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import android.util.Log;
 
 
 
 public class TVCreditJSON
+	extends BaseObjectJSON
 {	
 	private static final String TAG = TVSeriesJSON.class.getName();
 	

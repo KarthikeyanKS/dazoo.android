@@ -4,7 +4,6 @@ package com.mitv.models.objects.mitvapi;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.text.TextUtils;
@@ -22,14 +21,7 @@ public class AppVersion
 	private List<AppVersionElement> appVersionDataParts;
 
 	
-	
-	public AppVersion(AppVersionElement[] appVersionDataParts)
-	{
-		this.appVersionDataParts = Arrays.asList(appVersionDataParts);
-	}
-	
-	
-	
+		
 	public AppVersion(List<AppVersionElement> appVersionDataParts)
 	{
 		this.appVersionDataParts = appVersionDataParts;

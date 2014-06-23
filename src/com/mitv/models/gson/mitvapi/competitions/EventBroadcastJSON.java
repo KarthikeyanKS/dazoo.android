@@ -3,13 +3,15 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.ImageSetSize;
 
 import android.util.Log;
 
 
 
-public class EventBroadcastJSON 
+public class EventBroadcastJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = EventBroadcastJSON.class.getName();
 	

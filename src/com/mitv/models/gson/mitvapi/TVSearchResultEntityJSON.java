@@ -9,6 +9,7 @@ import java.util.List;
 import android.util.Log;
 
 import com.google.gson.annotations.Expose;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVProgram;
@@ -16,6 +17,7 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 
 
 public class TVSearchResultEntityJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = TVSearchResultEntityJSON.class.getName();
 	

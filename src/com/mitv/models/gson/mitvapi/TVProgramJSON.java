@@ -4,7 +4,6 @@ package com.mitv.models.gson.mitvapi;
 
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import com.mitv.Constants;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVCredit;
 import com.mitv.models.objects.mitvapi.TVSeries;
@@ -29,6 +29,7 @@ import com.mitv.models.objects.mitvapi.TVSportType;
 
 
 public class TVProgramJSON 
+	extends BaseObjectJSON
 	implements JsonDeserializer<TVProgramJSON> 
 {	
 	private static final String TAG = TVProgramJSON.class.getName();
@@ -57,6 +58,9 @@ public class TVProgramJSON
 	
 	@Expose
 	protected List<TVCredit> credits;
+	
+	@Expose
+	protected Boolean isPopular;
 	
 	/* This variable is used if programType == "OTHER" */
 	@Expose (deserialize = false)
@@ -111,9 +115,10 @@ public class TVProgramJSON
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 		
 		
-		switch (tvProgramWithStandardFieldsSet.getProgramType()) {
+		switch (tvProgramWithStandardFieldsSet.getProgramType()) 
+		{
 			case MOVIE: 
-		{		
+			{		
 				/* Year */
 				JsonElement jsonYearElement = jsonObject.get(Constants.PROGRAM_YEAR);
 				this.year = jsonYearElement.getAsInt();
@@ -123,6 +128,7 @@ public class TVProgramJSON
 				this.genre = jsonGenreElement.getAsString();
 				break;
 			}
+			
 			case TV_EPISODE: 
 			{
 				/* Series */
@@ -140,7 +146,9 @@ public class TVProgramJSON
 				this.episodeNumber = jsonEpisodNumberElement.getAsInt();
 				break;
 			}
-			case SPORT: {
+			
+			case SPORT:
+			{
 				JsonElement jsonSeriesElement = jsonObject.get(Constants.PROGRAM_SERIES);
 				TVSeries tvSeries = gson.fromJson(jsonSeriesElement, TVSeries.class);
 				this.series = tvSeries;
@@ -155,14 +163,18 @@ public class TVProgramJSON
 				this.tournament = jsonTournamentElement.getAsString();
 				break;
 			}
-			case OTHER: {
+			
+			case OTHER:
+			{
 				/* category */
 				JsonElement jsonCategoryElement = jsonObject.get(Constants.PROGRAM_CATEGORY);
 				this.category = jsonCategoryElement.getAsString();
 				break;
 			}
+			
 			case UNKNOWN:
-			default: {
+			default: 
+			{
 				/* Do nothing */
 			}
 		}
@@ -392,5 +404,19 @@ public class TVProgramJSON
 		}
 		
 		return tournament;
+	}
+	
+	
+	
+	public Boolean isPopular()
+	{
+		if(isPopular == null)
+		{
+			isPopular = Boolean.valueOf(false);
+			
+			Log.w(TAG, "isPopular is null");
+		}
+		
+		return isPopular;
 	}
 }

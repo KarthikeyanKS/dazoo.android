@@ -1,11 +1,17 @@
+
 package com.mitv.models.gson.mitvapi;
+
+
 
 import android.util.Log;
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.ImageSetSize;
 
 
-public class ImageSetOrientationJSON 
+
+public class ImageSetOrientationJSON
+	extends BaseObjectJSON
 {	
 	private static final String TAG = ImageSetOrientationJSON.class.getName();
 	

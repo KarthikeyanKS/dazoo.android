@@ -3,11 +3,13 @@ package com.mitv.models.gson.mitvapi;
 
 
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import android.util.Log;
 
 
 
-public class ProfileImageJSON 
+public class ProfileImageJSON
+	extends BaseObjectJSON
 {	
 	private static final String TAG = ProfileImageJSON.class.getName();
 	
@@ -34,6 +36,5 @@ public class ProfileImageJSON
 	public boolean isDefault() 
 	{
 		return isDefault;
-	}
-	
+	}	
 }
