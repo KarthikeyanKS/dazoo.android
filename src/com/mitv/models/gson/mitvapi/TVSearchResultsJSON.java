@@ -20,12 +20,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mitv.Constants;
 import com.mitv.interfaces.GSONDataFieldValidation;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.TVSearchResult;
 import com.mitv.models.objects.mitvapi.TVSearchResults;
 
 
 
 public class TVSearchResultsJSON
+	extends BaseObjectJSON
 	implements GSONDataFieldValidation, JsonDeserializer<TVSearchResults>
 {
 	private static final String TAG = TVSearchResultsJSON.class.getName();

@@ -11,7 +11,7 @@ import com.mitv.models.objects.mitvapi.TVChannel;
 
 
 public class TVBroadcastWithChannelInfoJSON 
-	extends TVBroadcast 
+	extends TVBroadcast
 {
 	private static final String TAG = TVBroadcastWithChannelInfoJSON.class.getName();
 	

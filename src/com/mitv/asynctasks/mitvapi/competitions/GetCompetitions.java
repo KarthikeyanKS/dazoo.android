@@ -5,11 +5,6 @@ package com.mitv.asynctasks.mitvapi.competitions;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -23,6 +18,7 @@ import com.mitv.models.objects.mitvapi.competitions.Competition;
 public class GetCompetitions 
 	extends AsyncTaskBase<Competition[]>
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = GetCompetitions.class.getName();
 	
 	
@@ -55,29 +51,5 @@ public class GetCompetitions
 			int retryThreshold)
 	{
 		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), Competition[].class, HTTPRequestTypeEnum.HTTP_GET, url, true, retryThreshold);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-
-		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
-		{
-			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-			Competition[] contentAsArray = (Competition[]) requestResultObjectContent;
-			
-			ArrayList<Competition> contentAsArrayList = new ArrayList<Competition>(Arrays.asList(contentAsArray));
-			
-			requestResultObjectContent = contentAsArrayList;
-		}
-		else
-		{
-			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
-
-		return null;
 	}
 }

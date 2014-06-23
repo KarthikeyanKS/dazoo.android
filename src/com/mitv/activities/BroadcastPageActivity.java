@@ -555,13 +555,10 @@ public class BroadcastPageActivity
 
 		StringBuilder titleSB = new StringBuilder();
 
-		if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
+		if(program.isPopular())
 		{
-			if(broadcast.isPopular())
-			{
-				titleSB.append(getString(R.string.icon_trending))
-					.append(" ");
-			}
+			titleSB.append(getString(R.string.icon_trending))
+			.append(" ");
 		}
 		
 		titleSB.append(broadcast.getTitle());

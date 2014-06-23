@@ -3,18 +3,11 @@ package com.mitv.asynctasks.mitvapi.usertoken;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
-import com.mitv.models.comparators.TVFeedItemComparatorByTime;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 
 
@@ -22,9 +15,13 @@ import com.mitv.models.objects.mitvapi.TVFeedItem;
 public class GetUserTVFeedItems
 	extends AsyncTaskWithUserToken<TVFeedItem[]> 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = GetUserTVFeedItems.class.getName();
 	
+	
 	private static final String URL_SUFFIX = Constants.URL_ACTIVITY_FEED;
+	
+	
 	
 	private static RequestIdentifierEnum getRequestIdentifier(int itemStartIndex)
 	{
@@ -83,32 +80,4 @@ public class GetUserTVFeedItems
 			this.urlParameters.add(Constants.API_LIMIT, String.valueOf(itemLimit));
 		}
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		 
-		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
-		{
-			TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
-		
-			ArrayList<TVFeedItem> contentAsArrayList = new ArrayList<TVFeedItem>(Arrays.asList(contentAsArray));
-			
-			Collections.sort(contentAsArrayList, new TVFeedItemComparatorByTime());
-			
-			requestResultObjectContent = contentAsArrayList;
-		}
-		
-		else
-		{
-			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
-		
-		return null;
-	}
-	
 }

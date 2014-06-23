@@ -69,7 +69,6 @@ public abstract class ContentManagerServiceFetching
 			this.completedTVChannelIdsDefaultRequest = false;
 			this.completedTVChannelIdsUserRequest = false;
 			this.completedTVGuideRequest = false;
-			this.completedTVPopularRequest = false;
 			this.isFetchingTVGuide = false;
 			this.isAPIVersionTooOld = false;
 			
@@ -221,11 +220,11 @@ public abstract class ContentManagerServiceFetching
 	
 	
 	
-	protected void fetchFromServicePopularBroadcasts(ViewCallbackListener activityCallbackListener, boolean standalone) 
+	protected void fetchFromServicePopularBroadcasts(ViewCallbackListener activityCallbackListener) 
 	{
 		setListenerForRequest(RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE, activityCallbackListener);
 		
-		getAPIClient().getTVBroadcastsPopular(activityCallbackListener, standalone);
+		getAPIClient().getTVBroadcastsPopular(activityCallbackListener);
 	}
 	
 	
@@ -413,7 +412,7 @@ public abstract class ContentManagerServiceFetching
 		} 
 		else 
 		{
-			fetchFromServicePopularBroadcasts(activityCallbackListener, true);
+			fetchFromServicePopularBroadcasts(activityCallbackListener);
 		}
 	}
 	

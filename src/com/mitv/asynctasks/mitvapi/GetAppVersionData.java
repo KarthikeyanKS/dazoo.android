@@ -3,7 +3,10 @@ package com.mitv.asynctasks.mitvapi;
 
 
 
+import java.util.ArrayList;
+
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -20,6 +23,7 @@ public class GetAppVersionData
 	extends AsyncTaskBase<AppVersionElement[]> 
 {
 	private static final String TAG = GetAppVersionData.class.getName();
+	
 	
 	private static final String URL_SUFFIX = Constants.URL_API_VERSION;
 	
@@ -42,9 +46,11 @@ public class GetAppVersionData
 		
 		super.doInBackground(params);
 		
+		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-			AppVersionElement[] appVersionDataRawList = (AppVersionElement[]) requestResultObjectContent;
+			@SuppressWarnings("unchecked")
+			ArrayList<AppVersionElement> appVersionDataRawList = (ArrayList<AppVersionElement>) requestResultObjectContent;
 			
 			AppVersion appVersionDataObject = new AppVersion(appVersionDataRawList);
 			

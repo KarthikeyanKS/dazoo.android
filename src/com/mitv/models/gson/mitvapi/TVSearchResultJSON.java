@@ -22,6 +22,7 @@ import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.deserializers.TVSearchResultEntityChannelDeserializer;
 import com.mitv.models.gson.deserializers.TVSearchResultEntityProgramDeserializer;
 import com.mitv.models.gson.deserializers.TVSearchResultEntitySeriesDeserializer;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVProgram;
@@ -30,7 +31,8 @@ import com.mitv.models.objects.mitvapi.TVSearchResultEntity;
 
 
 
-public class TVSearchResultJSON 
+public class TVSearchResultJSON
+	extends BaseObjectJSON
 	implements GSONDataFieldValidation, JsonDeserializer<TVSearchResult> 
 {
 	private static final String TAG = TVSearchResultJSON.class.getName();

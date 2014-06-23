@@ -8,11 +8,13 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
 
 
 public class TVFeedItemJSON
+	extends BaseObjectJSON
 {
 	private static final String	TAG	= TVFeedItemJSON.class.getName();
 	

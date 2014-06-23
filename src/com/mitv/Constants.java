@@ -45,10 +45,9 @@ public abstract class Constants
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	public static final boolean ENABLE_AMAZON_INSIGHTS = false;
 	public static final boolean ENABLE_RATE_APP_DIALOG = false;
-	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
+	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = true;
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
-	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
@@ -182,12 +181,13 @@ public abstract class Constants
 
 	
 	/* Date and time representations */
-	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
-	public static final String  CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
-	public static final String	DATE_FORMAT_DATE									= "yyyy-MM-dd";
-	public static final String	DATE_FORMAT_HOUR_AND_MINUTE							= "HH:mm";
-	public static final String	DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM				= "HH:mm a";
-	public static final String	DATE_FORMAT_DAY_AND_MONTH							= "dd/MM";
+	public static final String RFC1123_DATE_FORMAT_STRING 						= "EEE, dd MMM yyyy HH:mm:ss";
+	public static final String ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	public static final String CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMAT_DATE									= "yyyy-MM-dd";
+	public static final String DATE_FORMAT_HOUR_AND_MINUTE						= "HH:mm";
+	public static final String DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM			= "HH:mm a";
+	public static final String DATE_FORMAT_DAY_AND_MONTH						= "dd/MM";
 	
 	
 	/* Intent Extras - Notification */
@@ -304,6 +304,7 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_LIKE					= "LIKE";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_LIKE		= "TEAM_FROM_BANNER_LIKED";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_DISMISS     = "TEAM_FROM_BANNER_DISMISSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_TO_TEAM_PAGE= "TEAM_FROM_BANNER_TO_TEAM_PAGE";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_REMINDER				= "REMINDER";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_IN					= "USER_SIGNED_IN";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_OUT				= "USER_SIGNED_OUT";
@@ -385,10 +386,6 @@ public abstract class Constants
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 4000;
     
-    /* NTP CONFIGURATIONS */
-    public static final String HOST_FOR_NTP_CHECK = "us.pool.ntp.org";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 4000;
-    
     
     /* USER AUTHORIZATION TOKEN FOR HTTP REQUESTS */
     public static final String USER_AUTHORIZATION_HEADER_KEY = "Authorization";
@@ -398,6 +395,11 @@ public abstract class Constants
     /* LOCALE TOKENS FOR HTTP REQUESTS */
 	public static final String HTTP_REQUEST_DATA_LOCALE = "Dazoo-Locale";
 	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET = "timeZoneOffset";
+	
+	public static final String HTTP_REQUEST_HEADER_CACHE_CONTROL_KEY = "Cache-Control";
+	public static final String HTTP_REQUEST_HEADER_CACHE_CONTROL_VALUE_PREFIX = "max-age=";
+	public static final String HTTP_REQUEST_HEADER_SERVER_DATE_KEY = "Date";
+	
 	
 	
 	/* CONFIGURATIONS FOR FACEBOOK */

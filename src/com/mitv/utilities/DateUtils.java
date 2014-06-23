@@ -34,6 +34,19 @@ public abstract class DateUtils
 	
 	
 	
+	
+	/**
+	 * Converts a string input to a Calendar object
+	 * The input string format should be in the RFC1123 date format: "EEE, dd MMM yyyy HH:mm:ss Z"
+	 * 
+	 */
+	public static Calendar convertRFC1123StringToCalendar(final String inputString)
+	{
+		return convertFromStringToUTC0CalendarWithFormat(Constants.RFC1123_DATE_FORMAT_STRING, inputString);
+	}
+	
+	
+	
 	/**
 	 * Converts a string input to a Calendar object
 	 * The input string format should be in the ISO 8601 date format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
@@ -50,9 +63,11 @@ public abstract class DateUtils
 	{
 		Date dateFromCalendar = inputCalendar.getTime();
 		
+		Locale locale = LanguageUtils.getISO8601Locale();
+		
 		TimeZone timeZone = inputCalendar.getTimeZone();
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.ISO_8601_DATE_FORMAT, timeZone);
+		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.ISO_8601_DATE_FORMAT, locale, timeZone);
 		
 		String calendarStringRepresentation = formatter.format(dateFromCalendar);
 		
@@ -145,7 +160,9 @@ public abstract class DateUtils
 		{
 			TimeZone gmtTimeZone = TimeZone.getTimeZone("GMT");
 			
-			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString, gmtTimeZone);
+			Locale locale = LanguageUtils.getISO8601Locale();
+			
+			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString, locale, gmtTimeZone);
 			
 			try 
 			{
@@ -525,7 +542,9 @@ public abstract class DateUtils
 	{
 		String pattern = Constants.DATE_FORMAT_DATE;
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale, inputCalendar.getTimeZone());
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -597,7 +616,9 @@ public abstract class DateUtils
 			pattern = Constants.DATE_FORMAT_HOUR_AND_MINUTE;
 		}
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale, inputCalendar.getTimeZone());
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -616,7 +637,9 @@ public abstract class DateUtils
 	{
 		String pattern = Constants.DATE_FORMAT_DAY_AND_MONTH;
 				
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale, inputCalendar.getTimeZone());
 		
 		Calendar calendar = (Calendar) inputCalendar.clone();
 		
@@ -787,10 +810,9 @@ public abstract class DateUtils
 	 */
 	private static SimpleDateFormat getSimpleDateFormatWith(
 			final String pattern,
+			final Locale locale,
 			final TimeZone timeZone) 
 	{
-		Locale locale = LanguageUtils.getCurrentLocale();
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
 		
 		if(timeZone != null)

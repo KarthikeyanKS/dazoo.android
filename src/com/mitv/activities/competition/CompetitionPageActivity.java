@@ -699,9 +699,12 @@ public class CompetitionPageActivity
 	
 			case R.id.favorite_team_title_layout_after_like:
 			{
+				String teamDisplayName = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_NAME;
 				long competitionId = Constants.FIFA_COMPETITION_ID;
 				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
 				long phaseId = Constants.FAVORITE_TEAM_COLOMBIA_PHASE_ID;
+				
+				TrackingGAManager.sharedInstance().sendUserClickedFavoriteTeamBanner(teamDisplayName, teamId);
 				
 				Intent intent = new Intent(CompetitionPageActivity.this, TeamPageActivity.class);
 				

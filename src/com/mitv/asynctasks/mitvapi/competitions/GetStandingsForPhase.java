@@ -5,11 +5,6 @@ package com.mitv.asynctasks.mitvapi.competitions;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -23,7 +18,9 @@ import com.mitv.models.objects.mitvapi.competitions.Standings;
 public class GetStandingsForPhase 
 	extends AsyncTaskBase<Standings[]>
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = GetStandingsForPhase.class.getName();
+	
 	
 	
 	private static String buildURL(final long phaseID)
@@ -68,29 +65,5 @@ public class GetStandingsForPhase
 		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(multiple), Standings[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(phaseID), false, retryThreshold);
 		
 		this.requestParameters.add(Constants.REQUEST_DATA_COMPETITION_PHASE_ID_KEY, phaseID);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-
-		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
-		{
-			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-			Standings[] contentAsArray = (Standings[]) requestResultObjectContent;
-			
-			ArrayList<Standings> contentAsArrayList = new ArrayList<Standings>(Arrays.asList(contentAsArray));
-			
-			requestResultObjectContent = contentAsArrayList;
-		}
-		else
-		{
-			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
-
-		return null;
 	}
 }

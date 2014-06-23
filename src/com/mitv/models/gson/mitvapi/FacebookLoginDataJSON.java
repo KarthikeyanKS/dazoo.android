@@ -4,11 +4,14 @@ package com.mitv.models.gson.mitvapi;
 
 
 import com.mitv.interfaces.GSONDataFieldValidation;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
+
 import android.util.Log;
 
 
 
 public class FacebookLoginDataJSON
+	extends BaseObjectJSON
 	implements GSONDataFieldValidation
 {
 	private static final String TAG = FacebookLoginDataJSON.class.getName();

@@ -4,7 +4,6 @@ package com.mitv.asynctasks.mitvapi;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.util.Log;
@@ -13,8 +12,8 @@ import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -94,9 +93,8 @@ public class GetTVChannelGuides
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-			TVChannelGuide[] contentAsArray = (TVChannelGuide[]) requestResultObjectContent;
-			
-			ArrayList<TVChannelGuide> tvChannelGuides = new ArrayList<TVChannelGuide>(Arrays.asList(contentAsArray));
+			@SuppressWarnings("unchecked")
+			ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) requestResultObjectContent;
 			
 			TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
 
