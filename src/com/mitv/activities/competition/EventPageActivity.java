@@ -637,6 +637,12 @@ public class EventPageActivity
 		int paddingRight = container.getPaddingRight();
 		int paddingBottom = container.getPaddingBottom();
 		scrollView.setPaddings(paddingLeft, paddingTop, paddingRight, paddingBottom);
+		
+//		ImageAware imageAware = new ImageViewAware(team1Flag, false);
+//		
+//		String team1FlagUrl = url;
+//			
+//		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
 	}
 	
 	
