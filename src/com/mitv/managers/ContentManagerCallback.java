@@ -928,7 +928,7 @@ public abstract class ContentManagerCallback
 				/* Setting the initially selected competition as the first competition in the list */
 				if(competitions.isEmpty() == false)
 				{
-					long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+					Long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
 
 					getCache().getCompetitionsData().setSelectedCompetition(competitionID);
 				}
@@ -1143,7 +1143,7 @@ public abstract class ContentManagerCallback
 			/* Setting the initially selected competition as the first competition in the list */
 			if(competitions.isEmpty() == false)
 			{
-				long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+				Long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
 
 				getCache().getCompetitionsData().setSelectedCompetition(competitionID);
 			}
@@ -1596,7 +1596,10 @@ public abstract class ContentManagerCallback
 			}
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+
+			getAPIClient().getUserLikes(null, true);
 		}
+		
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN, result);
 	}
@@ -1629,6 +1632,8 @@ public abstract class ContentManagerCallback
 			getCache().setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+			
+			getAPIClient().getUserLikes(null, true);
 		} 
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN, result);

@@ -258,7 +258,7 @@ public abstract class AsyncTaskBase<T>
 	
 	private boolean executeTask() 
 	{
-		if(reportMetricsToTracker)
+		if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestStart(this.getClass().getSimpleName());
 		}
@@ -287,7 +287,7 @@ public abstract class AsyncTaskBase<T>
 		if(clazz.getName().contains("Compet")){
 			Log.d(TAG, String.format("%s onPreExecute - Performing HTTP request: %s", clazz.getName(), requestIdentifier.getDescription()));
 		}
-		if(reportMetricsToTracker)
+		if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(this.getClass().getSimpleName());
 		}
@@ -318,7 +318,7 @@ public abstract class AsyncTaskBase<T>
 			
 			if(wasSuccessful)
 			{	
-				if(reportMetricsToTracker)
+				if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 				{
 					TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundJSONParsingStart(this.getClass().getSimpleName());
 				}
@@ -339,7 +339,7 @@ public abstract class AsyncTaskBase<T>
 					requestResultObjectContent = null;
 				}
 				
-				if(reportMetricsToTracker)
+				if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 				{
 					TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundJSONParsingEnd(this.getClass().getSimpleName());
 				}

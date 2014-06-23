@@ -3,8 +3,6 @@ package com.mitv.models.objects.mitvapi;
 
 
 
-import android.text.TextUtils;
-
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.mitvapi.TVCreditJSON;
 
@@ -18,8 +16,8 @@ public class TVCredit
 	@Override
 	public boolean areDataFieldsValid() 
 	{
-		boolean areDataFieldsValid = (!TextUtils.isEmpty(getName()) && !TextUtils.isEmpty(getType()));
+		boolean areDataFieldsValid = (getName().isEmpty() == false && getType().isEmpty() == false);
+		
 		return areDataFieldsValid;
 	}
-	
 }

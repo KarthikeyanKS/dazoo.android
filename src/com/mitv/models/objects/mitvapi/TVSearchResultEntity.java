@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import com.mitv.models.gson.mitvapi.TVSearchResultEntityJSON;
 
-public class TVSearchResultEntity extends TVSearchResultEntityJSON {
-
+public class TVSearchResultEntity 
+	extends TVSearchResultEntityJSON 
+{
 	/* Constructor for entity if channel */
 	public TVSearchResultEntity(TVChannel tvChannel)
 	{

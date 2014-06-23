@@ -52,6 +52,7 @@ public abstract class Constants
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
+	public static final boolean USE_DETAILED_INITIAL_METRICS_ANALTYTICS = USE_INITIAL_METRICS_ANALTYTICS && false;  //Include network, parsing, post execute tracking
 	
 	
 	/* AMAZON INSIGHTS configurations */
@@ -335,6 +336,7 @@ public abstract class Constants
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT		= "DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT";
+	public static final String GA_KEY_APP_CURRENT_USER_NETWORK_FLAG 				= "APP_CURRENT_USER_NETWORK_FLAG";
 
 	
 	/* JSON KEYS FOR SEARCH RESULTS */

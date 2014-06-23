@@ -4,6 +4,7 @@ package com.mitv.adapters.list;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -197,7 +198,7 @@ public class TVGuideCompetitionTagListAdapter
 					ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(broadcastWithChannelInfo.getChannel().getChannelId());
 					
 					/* FIFA - Navigation to event page */
-					ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
+					List<String> tags = broadcastWithChannelInfo.getProgram().getTags();
 
 					if (tags != null && !tags.isEmpty()) 
 					{

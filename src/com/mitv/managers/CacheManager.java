@@ -241,7 +241,7 @@ public class CacheManager
 	
 	
 	
-	public boolean containsCompetitionData(Long competitionID)
+	public boolean containsCompetitionData(final Long competitionID)
 	{
 		return getCache().getCompetitionsData().containsCompetitionData(competitionID);
 	}

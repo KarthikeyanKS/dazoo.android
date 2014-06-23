@@ -3,7 +3,6 @@ package com.mitv.asynctasks.other;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.AsyncTask;
@@ -80,7 +79,7 @@ public class SetPopularVariablesWithPopularBroadcasts
 	{
 		super.onPostExecute(result);
 		
-		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS) {
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
 		}
 		
@@ -93,7 +92,7 @@ public class SetPopularVariablesWithPopularBroadcasts
 			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
 		}
 		
-		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS) {
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
 		}
 	}
@@ -108,7 +107,7 @@ public class SetPopularVariablesWithPopularBroadcasts
 		
 		for (TVChannelGuide tvChannelGuide : tvGuide.getTvChannelGuides()) 
 		{
-			ArrayList<TVBroadcast> broadcasts = tvChannelGuide.getBroadcasts();
+			List<TVBroadcast> broadcasts = tvChannelGuide.getBroadcasts();
 			
 			for (TVBroadcast broadcast : broadcasts) 
 			{

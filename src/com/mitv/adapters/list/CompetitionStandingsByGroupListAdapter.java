@@ -58,11 +58,14 @@ public class CompetitionStandingsByGroupListAdapter
 		
 		for(List<Standings> value : values)
 		{
-			Collections.sort(value, new EventStandingsComparatorByPoints());
-			
-			Collections.reverse(value);
-			
-			standings.addAll(value);
+			if (value != null && value.size() > 0) 
+			{
+				Collections.sort(value, new EventStandingsComparatorByPoints());
+				
+				Collections.reverse(value);
+				
+				standings.addAll(value);
+			}
 		}
 		
 		this.activity = activity;

@@ -23,7 +23,6 @@ public class TVDate
 		
 	
 	
-	
 	public TVDate(long timeinMilliseconds)
 	{	
 		Calendar calendar = DateUtils.getCalendarForStartOfTVDay(timeinMilliseconds);
@@ -34,6 +33,7 @@ public class TVDate
 		this.date = calendarDateRepresentation;
 		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendarLocal());
 	}
+	
 	
 	
 	/*

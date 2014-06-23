@@ -3,7 +3,10 @@ package com.mitv.models.gson.mitvapi;
 
 
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
@@ -14,9 +17,12 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 
 public class TVSearchResultEntityJSON
 {
+	private static final String TAG = TVSearchResultEntityJSON.class.getName();
+	
+	
 	/* USED BY BOTH SERIES AND PROGRAM */
 	@Expose (deserialize = false)
-	protected ArrayList<TVBroadcastWithChannelInfo> broadcasts;
+	protected List<TVBroadcastWithChannelInfo> broadcasts;
 	
 	/* IF SERIES */
 	@Expose (deserialize = false)
@@ -33,31 +39,77 @@ public class TVSearchResultEntityJSON
 	@Expose (deserialize = false)
 	protected TVChannel tvChannel;
 	
-	public TVSearchResultEntityJSON()
-	{}
+	
+	
+	public TVSearchResultEntityJSON(){}
 
 
-	public String getId() {
+	
+	public String getId() 
+	{
+		if(id == null)
+		{
+			id = "";
+			
+			Log.w(TAG, "id is null");
+		}
+		
 		return id;
 	}
 
 
 
-	public String getName() {
+	public String getName() 
+	{
+		if(name == null)
+		{
+			name = "";
+			
+			Log.w(TAG, "name is null");
+		}
+		
 		return name;
 	}
 
 	
-	public TVChannel getChannel() {
+	
+	public TVChannel getChannel()
+	{
+		if(tvChannel == null)
+		{
+			tvChannel = new TVChannel();
+			
+			Log.w(TAG, "tvChannel is null");
+		}
+		
 		return tvChannel;
 	}
 
-	public TVProgram getProgram() {
+	
+	
+	public TVProgram getProgram() 
+	{
+		if(tvProgram == null)
+		{
+			tvProgram = new TVProgram();
+			
+			Log.w(TAG, "tvProgram is null");
+		}
+		
 		return tvProgram;
 	}
 
-	public ArrayList<TVBroadcastWithChannelInfo> getBroadcasts() {
+	
+	
+	public List<TVBroadcastWithChannelInfo> getBroadcasts() 
+	{
+		if(broadcasts == null)
+		{
+			broadcasts = Collections.emptyList();
+			
+			Log.w(TAG, "broadcasts is null");
+		}
+		
 		return broadcasts;
 	}
-
 }
