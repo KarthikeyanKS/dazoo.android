@@ -339,7 +339,6 @@ public class CompetitionPageTodayListAdapter
 
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-//		                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competitionDisplayName);
 		                
 		                activity.startActivity(intent);
 		            }
