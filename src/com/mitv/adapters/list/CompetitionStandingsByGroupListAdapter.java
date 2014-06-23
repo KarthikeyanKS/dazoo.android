@@ -26,7 +26,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.comparators.EventStandingsComparatorByPointsAndGoalDifference;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
@@ -60,7 +60,7 @@ public class CompetitionStandingsByGroupListAdapter
 		{
 			if (value != null && value.size() > 0) 
 			{
-				Collections.sort(value, new EventStandingsComparatorByPoints());
+				Collections.sort(value, new EventStandingsComparatorByPointsAndGoalDifference());
 				
 				Collections.reverse(value);
 				
