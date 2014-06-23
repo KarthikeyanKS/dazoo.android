@@ -86,7 +86,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/transparent" >
 
         <View
             android:id="@+id/row_competition_standings_row_divider"
@@ -104,7 +104,7 @@
         android:id="@+id/row_competition_row_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_color_selector_white"
+        android:background="@drawable/background_color_selector"
         android:paddingBottom="7dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

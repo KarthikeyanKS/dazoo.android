@@ -7,6 +7,7 @@
     <issue id="NewApi">
         <ignore path="StickyScrollViewItems/src/com/emilsjolander/components/StickyScrollViewItems/StickyScrollView.java" />
         <ignore path="src/com/mitv/activities/competition/CompetitionPageActivity.java" />
+        <ignore path="src/com/mitv/activities/competition/EventPageActivity.java" />
     </issue>
     <issue id="UseValueOf">
         <ignore path="src/com/mitv/fragments/TVGuideTabFragmentCompetition.java" />

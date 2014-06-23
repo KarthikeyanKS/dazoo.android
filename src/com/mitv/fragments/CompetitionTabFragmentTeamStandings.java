@@ -199,6 +199,8 @@ public class CompetitionTabFragmentTeamStandings
 			{
 				listContainerLayout.removeAllViews();
 				
+				listContainerLayout.setBackgroundColor(activity.getResources().getColor(R.color.white));
+				
 				Map<Long, List<Standings>> standingsByPhase = ContentManager.sharedInstance().getCacheManager().getAllStandingsGroupedByPhaseForSelectedCompetition();
 
 				listAdapter = new CompetitionStandingsByGroupListAdapter(activity, standingsByPhase);

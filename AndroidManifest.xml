@@ -342,7 +342,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/CompetitionPage" >
+            android:theme="@style/EventPage" >
         </activity>
         
         <!-- COMPETITION TEAM PAGE -->

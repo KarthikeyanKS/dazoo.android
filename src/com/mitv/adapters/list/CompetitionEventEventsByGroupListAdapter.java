@@ -96,6 +96,7 @@ public class CompetitionEventEventsByGroupListAdapter
 
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
@@ -145,6 +146,8 @@ public class CompetitionEventEventsByGroupListAdapter
 			holder.group.setVisibility(View.GONE);
 			holder.dividerTop.setVisibility(View.GONE);
 			holder.dividerAfterDate.setVisibility(View.GONE);
+			
+			holder.container.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.background_color_selector_white_seethrough));
 
 			final Event event = getItem(position);
 			

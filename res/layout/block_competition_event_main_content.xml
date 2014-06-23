@@ -1,74 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="vertical" >
 
-    <!-- Header img and title -->
+    <!-- HEADER: Team vs Team -->
 
-    <RelativeLayout
-        android:id="@+id/competition_header_container"
-        android:layout_width="fill_parent"
-        android:layout_height="180dp" >
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/competition_event_title_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:maxLines="2"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        font:fonttextview="chunkfive.otf" />
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+    <!-- HEADER: Competition name -->
 
-            <ImageView
-                android:id="@+id/competition_event_stadium_image"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:scaleType="fitXY" />
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/event_stadium_gradient" />
-        </RelativeLayout>
-
-        <!-- HEADER: Competition name -->
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/competition_event_world_cup_header"
-            style="@style/headercard2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <!-- HEADER: Team vs Team -->
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/competition_event_title_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/competition_event_world_cup_header"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:gravity="center_horizontal"
-            android:maxLines="2"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="35sp"
-            font:fonttextview="chunkfive.otf" />
-    </RelativeLayout>
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/competition_event_world_cup_header"
+        style="@style/headercard2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <RelativeLayout
         android:id="@+id/competition_next_game_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/competition_header_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/background_color_selector" >
+        android:background="@color/transparent_white_background_event_page"
+        android:tag="sticky" >
 
         <!-- HEADER : GROUP -->
 
@@ -228,6 +201,14 @@
                     android:singleLine="false" />
             </RelativeLayout>
         </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/transparent_white_background_event_page" >
 
         <!-- DIVIDER -->
 
@@ -235,7 +216,6 @@
             android:id="@+id/divider_container"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/competition_event_teams_container"
             android:layout_marginTop="10dp"
             android:background="@color/grey1" />
 
@@ -246,7 +226,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider_container"
-            android:cacheColorHint="@null"
+            android:background="@color/transparent"
             android:divider="@null"
             android:fadingEdge="none"
             android:orientation="vertical" />
@@ -315,4 +295,4 @@
             layout="@layout/element_competition_event_social_buttons" />
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

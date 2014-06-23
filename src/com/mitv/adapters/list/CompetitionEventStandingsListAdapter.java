@@ -87,6 +87,7 @@ public class CompetitionEventStandingsListAdapter
 	
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
@@ -114,6 +115,7 @@ public class CompetitionEventStandingsListAdapter
 			viewHolder.teamPlusMinus = (TextView) rowView.findViewById(R.id.row_competition_team_table_plus_minus);
 			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
 			viewHolder.rowDividerView = (View) rowView.findViewById(R.id.row_competition_standings_row_divider);
+			viewHolder.squadContainer = (RelativeLayout) rowView.findViewById(R.id.row_squad_container);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -127,11 +129,14 @@ public class CompetitionEventStandingsListAdapter
 			if (isFirstposition)
 			{
 				holder.headerContainer.setVisibility(View.VISIBLE);
+				holder.headerContainer.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.background_color_selector_white_seethrough));
 			}
 			else
 			{
 				holder.headerContainer.setVisibility(View.GONE);
 			}
+
+//			holder.squadContainer.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.background_color_selector_white_seethrough));
 			
 			holder.group.setText(activity.getResources().getString(R.string.event_page_standings_team));
 			holder.group.setTextSize(15);
@@ -220,6 +225,7 @@ public class CompetitionEventStandingsListAdapter
 		private TextView teamPoints;
 		private RelativeLayout container;
 		private View rowDividerView;
+		private RelativeLayout squadContainer;
 	}
 	
 }
