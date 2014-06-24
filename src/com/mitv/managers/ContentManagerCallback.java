@@ -73,8 +73,8 @@ public abstract class ContentManagerCallback
 	/*
 	 * The total completed data fetch count needed for the initial data loading
 	 */
-	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN = 9;
-	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN = 11;
+	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN = 8;
+	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN = 10;
 
 	/*
 	 * The total completed data fetch count needed in order to proceed with
@@ -99,6 +99,13 @@ public abstract class ContentManagerCallback
 	public ContentManagerCallback()
 	{
 		super();
+		
+		//If using local generation of TVDates, decrease total steps by one.
+		if (Constants.USE_LOCAL_GENERATED_TVDATES)
+		{
+			COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN--;
+			COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN--;
+		}
 
 		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ListenerHolder>>();
 
