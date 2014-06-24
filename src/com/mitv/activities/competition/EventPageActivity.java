@@ -628,14 +628,22 @@ public class EventPageActivity
 		shareContainer.setOnClickListener(this);
 		
 		int color = getResources().getColor(R.color.transparent_white_background_event_page);
+		int height = container.getHeight();
 		
-		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this), color, R.drawable.dropshadow_pop_box);
+		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this), height, color, R.drawable.dropshadow_pop_box);
 		
 		int paddingLeft = container.getPaddingLeft();
 		int paddingTop = container.getPaddingTop();
 		int paddingRight = container.getPaddingRight();
 		int paddingBottom = container.getPaddingBottom();
 		scrollView.setPaddings(paddingLeft, paddingTop, paddingRight, paddingBottom);
+		
+		/* Set the background image */
+//		ImageAware imageAware = new ImageViewAware(team1Flag, false);
+//		
+//		String team1FlagUrl = url;
+//			
+//		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
 	}
 	
 	
@@ -803,29 +811,30 @@ public class EventPageActivity
 				}
 			}
 		}
-		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) 
-			{
-				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
-				
-				String competitionTitle;
-				
-				if(competition != null)
-				{
-					competitionTitle = competition.getDisplayName();
-				}
-				else
-				{
-					competitionTitle = Long.valueOf(competitionID).toString();
-					
-					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
-				}
-				
-				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionTitle);
-			}
-		});
+		
+//		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) 
+//			{
+//				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
+//				
+//				String competitionTitle;
+//				
+//				if(competition != null)
+//				{
+//					competitionTitle = competition.getDisplayName();
+//				}
+//				else
+//				{
+//					competitionTitle = Long.valueOf(competitionID).toString();
+//					
+//					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+//				}
+//				
+//				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionTitle);
+//			}
+//		});
 	}
 
 

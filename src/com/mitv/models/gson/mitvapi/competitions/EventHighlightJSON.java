@@ -27,6 +27,7 @@ public class EventHighlightJSON
     private String actionInfo;
     private Integer homeGoals;
     private Integer awayGoals;
+    private String action;
 
     
     
@@ -171,4 +172,11 @@ public class EventHighlightJSON
 		
 		return awayGoals;
 	}
+
+
+
+	public String getAction() {
+		return action;
+	}
+		
 }

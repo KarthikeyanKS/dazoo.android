@@ -87,7 +87,7 @@
                 android:layout_below="@id/competition_event_live_score"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
-                android:textColor="@color/grey1"
+                android:textColor="@color/grey2"
                 android:textSize="11sp" />
         </RelativeLayout>
 
