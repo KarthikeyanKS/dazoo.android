@@ -628,9 +628,8 @@ public class EventPageActivity
 		shareContainer.setOnClickListener(this);
 		
 		int color = getResources().getColor(R.color.transparent_white_background_event_page);
-		Drawable dropshadow = getResources().getDrawable(R.drawable.dropshadow_pop_box);
 		
-		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this), color, dropshadow);
+		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this), color, R.drawable.dropshadow_pop_box);
 		
 		int paddingLeft = container.getPaddingLeft();
 		int paddingTop = container.getPaddingTop();
@@ -736,7 +735,6 @@ public class EventPageActivity
 	
 	
 
-	@SuppressWarnings("deprecation")
 	private void initLayout()
 	{
 		eventPageContainer = (RelativeLayout) findViewById(R.id.competition_event_scrollable_layout);
@@ -780,14 +778,7 @@ public class EventPageActivity
 		container = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
 		
 		/* Set background */
-		int sdk = android.os.Build.VERSION.SDK_INT;
-		
-		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-			eventPageContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.event_backdrop_background));
-		    
-		} else {
-			eventPageContainer.setBackground(getResources().getDrawable(R.drawable.event_backdrop_background));
-		}
+		eventPageContainer.setBackgroundResource(R.drawable.event_backdrop_background);
 	}
 
 
