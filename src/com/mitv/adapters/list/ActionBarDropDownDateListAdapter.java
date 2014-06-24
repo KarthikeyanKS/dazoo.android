@@ -150,20 +150,30 @@ public class ActionBarDropDownDateListAdapter
 
 			try 
 			{
-				Calendar calendar = tvDate.getStartOfTVDayCalendarLocal();
+				Calendar calendarForDayOfWeek = null;
+				Calendar calendarForDate = tvDate.getStartOfTVDayCalendarLocal();
+				
+				if (tvDate.isToday()) 
+				{
+					calendarForDayOfWeek = DateUtils.getNowWithLocalTimezone();
+				}
+				else
+				{
+					calendarForDayOfWeek = tvDate.getStartOfTVDayCalendarLocal();
+				}
 				
 				if (isHeader) 
 				{
 					StringBuilder sb = new StringBuilder();
-					sb.append(tvDate.getDisplayName());
+					sb.append(DateUtils.buildDayOfTheWeekAsString(calendarForDayOfWeek, true));
 					sb.append(" ");
-					sb.append(DateUtils.buildDayAndMonthCompositionAsString(calendar, false));
+					sb.append(DateUtils.buildDayAndMonthCompositionAsString(calendarForDate, false));
 					dayName.setText(sb.toString());
 				}
 				else 
 				{
-					dayName.setText(tvDate.getDisplayName());
-					dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar, false));
+					dayName.setText(DateUtils.buildDayOfTheWeekAsString(calendarForDayOfWeek, true));
+					dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendarForDate, false));
 				}
 			} 
 			catch (Exception e) 

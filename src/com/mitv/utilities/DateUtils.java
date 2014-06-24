@@ -346,11 +346,11 @@ public abstract class DateUtils
 	 * If the day of the week is either today or tomorrow, a localized representation is returned instead.
 	 *
 	 */
-	public static String buildDayOfTheWeekAsString(final Calendar inputCalendar)
+	public static String buildDayOfTheWeekAsString(final Calendar inputCalendar, boolean useExtendedDayNames)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
-		return buildDayOfTheWeekAsString(inputCalendar, context);
+		return buildDayOfTheWeekAsString(inputCalendar, context, useExtendedDayNames);
 	}
 	
 	
@@ -486,7 +486,8 @@ public abstract class DateUtils
 	 */
 	private static String buildDayOfTheWeekAsString(
 			final Calendar inputCalendarOriginal,
-			final Context context)
+			final Context context,
+			final boolean useExtendedDayNames)
 	{
 		Calendar inputCalendar = (Calendar) inputCalendarOriginal.clone();
 		
@@ -501,29 +502,94 @@ public abstract class DateUtils
     	boolean isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, now);
     	
 		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;
+
+		int firstHourOfDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		if (isToday)
 		{
-			dayOfTheWeekAsString = context.getString(R.string.today);
+			if (useExtendedDayNames) 
+			{
+				int hour = inputCalendar.get(Calendar.HOUR_OF_DAY);
+
+				int currentHour = now.get(Calendar.HOUR_OF_DAY);
+
+				boolean isTonight = hour < firstHourOfDay;
+
+				boolean isYesterday = currentHour < firstHourOfDay && isTonight == false;
+
+				if (isTonight) 
+				{
+					dayOfTheWeekAsString = context.getString(R.string.tonight);
+				}
+				else if (isYesterday) 
+				{
+					dayOfTheWeekAsString = context.getString(R.string.yesterday);
+				}
+				else 
+				{
+					dayOfTheWeekAsString = context.getString(R.string.today);
+				}
+			}
+			else 
+			{
+				dayOfTheWeekAsString = context.getString(R.string.today);
+			}
 		} 
 		else 
 		{
 			Calendar tomorrow = (Calendar) now.clone();
-	 		
-			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-	 		isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, tomorrow);
-	 		
-	 		boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
+			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 			
-	 		if(isTomorrow) 
-	 		{
-	 			dayOfTheWeekAsString = context.getString(R.string.tomorrow);
-	 		} 
-	 		else 
-	 		{
-	 			dayOfTheWeekAsString = getDayOfWeekStringUsingFirstHourOfTVDay(inputCalendar);
-	 		}
+			isCorrectYear = (tomorrow.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) == 0;
+	    	isCorrectMonth = (tomorrow.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) == 0;
+			isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, tomorrow);
+
+			boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
+
+			if (isTomorrow) 
+			{
+				if (useExtendedDayNames) 
+				{
+					int hour = inputCalendar.get(Calendar.HOUR_OF_DAY);
+
+					boolean isTomorrowNight = hour < firstHourOfDay;
+
+					if (isTomorrowNight)
+					{
+						dayOfTheWeekAsString = context.getString(R.string.tomorrow_night);
+					}
+					else
+					{
+						dayOfTheWeekAsString = context.getString(R.string.tomorrow);
+					}
+				}
+				else
+				{
+					dayOfTheWeekAsString = context.getString(R.string.tomorrow);
+				}
+			}
+			else
+			{
+				Calendar yesterday = (Calendar) now.clone();
+				
+				yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+				isCorrectYear = (yesterday.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) == 0;
+		    	isCorrectMonth = (yesterday.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) == 0;
+				isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, yesterday);
+				
+				boolean isYesterday = isCorrectYear && isCorrectMonth && isSameDay;
+				
+				if (isYesterday)
+				{
+					dayOfTheWeekAsString = context.getString(R.string.yesterday);
+				}
+				else 
+				{
+					dayOfTheWeekAsString = getDayOfWeekStringUsingFirstHourOfTVDay(inputCalendar);
+				}
+			}
 		}
 		
 		/* The first character is always capitalized, per UX team request */

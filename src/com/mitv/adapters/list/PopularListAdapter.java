@@ -25,6 +25,7 @@ import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -129,25 +130,7 @@ public class PopularListAdapter
 			holder.headerTv.setVisibility(View.GONE);
 			holder.dividerView.setVisibility(View.VISIBLE);
 			
-			boolean isFirstposition = (position == 0);
-			
-			boolean isLastPosition = (position == (getCount() - 1));
-			
-			boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
-			
-			if(isFirstposition == false)
-			{
-				TVBroadcastWithChannelInfo previousBroadcastInList = getItem(position - 1);
-				
-				isCurrentBroadcastDayEqualToPreviousBroadcastDay = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
-			}
-			else
-			{
-				isCurrentBroadcastDayEqualToPreviousBroadcastDay = false;
-			}
-			
-			
-			if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false)
+			if (shouldShowHeader(position, broadcastWithChannelInfo)) 
 			{
 				StringBuilder headerSB = new StringBuilder();
 				
@@ -155,11 +138,11 @@ public class PopularListAdapter
 				
 				if(isBeginTimeTodayOrTomorrow)
 				{
-					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(DateUtils.buildDayOfTheWeekAsString(broadcastWithChannelInfo.getBeginTimeCalendarLocal(), false));
 				}
 				else
 				{
-					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(DateUtils.buildDayOfTheWeekAsString(broadcastWithChannelInfo.getBeginTimeCalendarLocal(), false));
 					headerSB.append(" ");
 					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
 				}
@@ -169,13 +152,7 @@ public class PopularListAdapter
 				holder.headerTv.setVisibility(View.VISIBLE);
 			}
 
-			int nextPos = Math.min(position + 1, (getCount() - 1));
-			
-			TVBroadcastWithChannelInfo broadcastNextPosition = getItem(nextPos);
-			
-			boolean isBeginTimeEqualToNextItem = broadcastWithChannelInfo.isTheSameDayAs(broadcastNextPosition);
-			
-			if (isLastPosition == false && isBeginTimeEqualToNextItem == false) 
+			if (shouldHideDivider(position, broadcastWithChannelInfo)) 
 			{
 				holder.dividerView.setVisibility(View.GONE);
 			}
@@ -305,4 +282,51 @@ public class PopularListAdapter
 		private TextView progressBarTitleTv;
 		private ProgressBar progressBar;
 	}
+	
+	
+	
+	private boolean shouldShowHeader(int position, TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
+	{
+		boolean isFirstposition = (position == 0);
+		
+		boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
+		
+		if (isFirstposition == false)
+		{
+			TVBroadcastWithChannelInfo previousBroadcastInList = getItem(position - 1);
+			
+			isCurrentBroadcastDayEqualToPreviousBroadcastDay = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
+		}
+		else
+		{
+			isCurrentBroadcastDayEqualToPreviousBroadcastDay = false;
+		}
+		
+		if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	
+	private boolean shouldHideDivider(int position, TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
+		boolean isLastPosition = (position == (getCount() - 1));
+
+		int nextPos = Math.min(position + 1, (getCount() - 1));
+		
+		TVBroadcastWithChannelInfo broadcastNextPosition = getItem(nextPos);
+		
+		boolean isBeginTimeEqualToNextItem = broadcastWithChannelInfo.isTheSameDayAs(broadcastNextPosition);
+		
+		if (isLastPosition == false && isBeginTimeEqualToNextItem == false) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

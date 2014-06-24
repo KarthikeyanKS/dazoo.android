@@ -8,7 +8,7 @@ import com.mitv.models.objects.mitvapi.competitions.Standings;
 
 
 
-public class EventStandingsComparatorByPoints
+public class EventStandingsComparatorByPointsAndGoalDifference
 	extends BaseComparator<Standings> 
 {
 	@Override
@@ -27,7 +27,21 @@ public class EventStandingsComparatorByPoints
 		} 
 		else 
 		{
-			return 0;
+			left = lhs.getGoalsForMinusGoalsAgainst();
+			right = rhs.getGoalsForMinusGoalsAgainst();
+			
+			if (left > right) 
+			{
+				return 1;
+			} 
+			else if (left < right) 
+			{
+				return -1;
+			} 
+			else 
+			{
+				return 0;
+			}
 		}
 	}
 }
