@@ -59,7 +59,7 @@ public class StickyScrollView extends ScrollView {
 	private int savedMargin = 0;
 	
 	private int backgroundColor;
-	private Drawable dropshadow;
+	private int dropshadow;
 	
 	private int paddingLeft;
 	private int paddingTop;
@@ -417,8 +417,8 @@ public class StickyScrollView extends ScrollView {
 
 	/* Methods for scaling sticky view */
 	
-	public void setScaledWidth(int width, int height, int backgroundColor, Drawable dropshadow) {
-		screenWidth = width;
+	public void setScaledWidth(int width, int height, int backgroundColor, int dropshadow) {
+		this.screenWidth = width;
 		this.height = height;
 		this.backgroundColor = backgroundColor;
 		this.dropshadow = dropshadow;
@@ -431,7 +431,6 @@ public class StickyScrollView extends ScrollView {
 		this.paddingBottom = paddingBottom;
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void setFullWidth() {
 		if (screenWidth != 0) {
 			if (savedWidth == 0) {
@@ -446,15 +445,7 @@ public class StickyScrollView extends ScrollView {
 			params.rightMargin = 0;
 			currentlyStickingView.setLayoutParams(params);
 			
-			/* Dropshadow */
-			int sdk = android.os.Build.VERSION.SDK_INT;
-			
-			if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-				currentlyStickingView.setBackgroundDrawable(dropshadow);
-			    
-			} else {
-				currentlyStickingView.setBackground(dropshadow);
-			}
+			currentlyStickingView.setBackgroundResource(dropshadow);
 			
 			currentlyStickingView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
 		}

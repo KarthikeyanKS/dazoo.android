@@ -14,9 +14,11 @@ import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
+import com.mitv.enums.ActivityHeaderStatusEnum;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.ActivityHeaderStatus;
 import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
@@ -32,6 +34,7 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
+import com.mitv.models.orm.ActivityHeaderStatusORM;
 import com.mitv.models.orm.NotificationORM;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.UserTutorialStatusORM;
@@ -77,6 +80,7 @@ public abstract class PersistentCache
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 
 	private UserTutorialStatus userTutorialStatus;
+	private ActivityHeaderStatus activityHeaderStatus;
 	
 	
 	
@@ -101,6 +105,7 @@ public abstract class PersistentCache
 		this.tvDates = null; //TVDateORM.getTVDates();		
 		
 		this.userTutorialStatus = UserTutorialStatusORM.getUserTutorial();
+		this.activityHeaderStatus = ActivityHeaderStatusORM.getActivityHeaderStatus();
 	}
 	
 	
@@ -302,6 +307,44 @@ public abstract class PersistentCache
 	public synchronized UserTutorialStatus getUserTutorialStatus() 
 	{
 		return userTutorialStatus;
+	}
+	
+	
+	
+	/* ACTIVITY HEADER STATUS */
+	
+	public synchronized void setActivityHeaderStatus(ActivityHeaderStatusEnum status) 
+	{
+		activityHeaderStatus.setStatus(status);
+		
+		ActivityHeaderStatusORM activityHeaderStatusORM = new ActivityHeaderStatusORM(activityHeaderStatus);
+		
+		activityHeaderStatusORM.saveInAsyncTask();
+	}
+	
+	
+	
+	public synchronized void setActivityHeaderDateUserLastClickedButton(Calendar lastOpen) {
+		String date = DateUtils.convertFromCalendarToISO8601String(lastOpen);
+
+		activityHeaderStatus.setDateUserLastClickedButton(date);
+		
+		ActivityHeaderStatusORM activityHeaderStatusORM = new ActivityHeaderStatusORM(activityHeaderStatus);
+		
+		activityHeaderStatusORM.saveInAsyncTask();
+	}
+		
+	
+	
+	public synchronized ActivityHeaderStatusEnum getActivityHeaderStatusEnum() {
+		return activityHeaderStatus.getActivityHeaderStatus();
+	}
+	
+	
+	
+	public synchronized ActivityHeaderStatus getActivityHeaderStatus() 
+	{
+		return activityHeaderStatus;
 	}
 	
 	

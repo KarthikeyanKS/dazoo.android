@@ -14,11 +14,13 @@ import java.util.Map;
 import android.util.Log;
 
 import com.mitv.Constants;
+import com.mitv.enums.ActivityHeaderStatusEnum;
 import com.mitv.enums.EventHighlightActionEnum;
 import com.mitv.enums.EventLineUpPositionEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.models.Cache;
 import com.mitv.models.comparators.CompetitionEventsComparatorByTime;
+import com.mitv.models.objects.ActivityHeaderStatus;
 import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.Notification;
@@ -1493,6 +1495,48 @@ public class CacheManager
 			Calendar now = DateUtils.getNowWithGMTTimeZone();
 
 			getCache().setUserTutorialDateOpenApp(now);
+		}
+	}
+	
+	
+	
+	public ActivityHeaderStatus getActivityHeaderStatus() 
+	{	
+		return getCache().getActivityHeaderStatus();
+	}
+	
+	
+	
+	public void setActivityHeaderShowIfNoLikes(int times)
+	{
+		if (times > 1)
+		{
+			getCache().setActivityHeaderStatus(ActivityHeaderStatusEnum.SHOW_IF_NO_LIKES_SECOND_TIME);
+		}
+		else 
+		{
+			getCache().setActivityHeaderStatus(ActivityHeaderStatusEnum.SHOW_IF_NO_LIKES);
+		}
+	}
+	
+	
+	
+	public void setActivityHeaderNeverShow() 
+	{
+		getCache().setActivityHeaderStatus(ActivityHeaderStatusEnum.NEVER_SHOW_AGAIN);
+	}
+	
+	
+	
+	public void setActivityHeaderDateUserLastClickedButton() 
+	{
+		ActivityHeaderStatusEnum status = getCache().getActivityHeaderStatus().getActivityHeaderStatus();
+		
+		if (status != ActivityHeaderStatusEnum.NEVER_SHOW_AGAIN) 
+		{
+			Calendar now = DateUtils.getNowWithGMTTimeZone();
+
+			getCache().setActivityHeaderDateUserLastClickedButton(now);
 		}
 	}
 }
