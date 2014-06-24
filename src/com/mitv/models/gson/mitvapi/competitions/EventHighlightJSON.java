@@ -24,9 +24,10 @@ public class EventHighlightJSON
     private String actionMinute;
     private String personShort;
     private String subPersonShort;
-    private String action;
+    private String actionInfo;
     private Integer homeGoals;
     private Integer awayGoals;
+    private String action;
 
     
     
@@ -134,14 +135,14 @@ public class EventHighlightJSON
 
 	protected String getActionInfo() 
 	{
-		if (action == null)
+		if (actionInfo == null)
 		{
-			action = "";
+			actionInfo = "";
 			
 			Log.w(TAG, "actionInfo is null");
     	}
 		
-		return action;
+		return actionInfo;
 	}
 
 
@@ -171,4 +172,11 @@ public class EventHighlightJSON
 		
 		return awayGoals;
 	}
+
+
+
+	public String getAction() {
+		return action;
+	}
+		
 }

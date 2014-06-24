@@ -68,7 +68,7 @@ public class EventHighlight
 					
 					default:
 					{
-						sb.append(this.getActionInfo());
+						sb.append(this.getAction());
 						break;
 					}
 				}
@@ -121,7 +121,7 @@ public class EventHighlight
 					
 					default:
 					{
-						sb.append(this.getActionInfo());
+						sb.append(this.getAction());
 						break;
 					}
 				}
@@ -237,7 +237,7 @@ public class EventHighlight
 			case UNKNOWN:
 			default:
 			{
-				sb.append(this.getActionInfo());
+				sb.append("");
 				break;
 			}	
 		}
