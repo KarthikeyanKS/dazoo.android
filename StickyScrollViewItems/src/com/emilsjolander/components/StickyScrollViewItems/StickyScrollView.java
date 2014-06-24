@@ -65,6 +65,7 @@ public class StickyScrollView extends ScrollView {
 	private int paddingTop;
 	private int paddingRight;
 	private int paddingBottom;
+	private int height;
 	
 
 	private final Runnable invalidateRunnable = new Runnable() {
@@ -416,8 +417,9 @@ public class StickyScrollView extends ScrollView {
 
 	/* Methods for scaling sticky view */
 	
-	public void setScaledWidth(int width, int backgroundColor, Drawable dropshadow) {
+	public void setScaledWidth(int width, int height, int backgroundColor, Drawable dropshadow) {
 		screenWidth = width;
+		this.height = height;
 		this.backgroundColor = backgroundColor;
 		this.dropshadow = dropshadow;
 	}
@@ -439,11 +441,12 @@ public class StickyScrollView extends ScrollView {
 				savedMargin = currentlyStickingView.getLeft();
 			}
 
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth, currentlyStickingView.getHeight());
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth, height);
 			params.leftMargin = 0;
 			params.rightMargin = 0;
 			currentlyStickingView.setLayoutParams(params);
 			
+			/* Dropshadow */
 			int sdk = android.os.Build.VERSION.SDK_INT;
 			
 			if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -459,10 +462,12 @@ public class StickyScrollView extends ScrollView {
 	
 	private void setOriginalWidth() {
 		if (screenWidth != 0) {
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(savedWidth, currentlyStickingView.getHeight());
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(savedWidth, height);
 			params.leftMargin = savedMargin;
 			params.rightMargin = savedMargin;
 			currentlyStickingView.setLayoutParams(params);
+			
+			/* Dropshadow */
 			currentlyStickingView.setBackgroundColor(backgroundColor);
 			
 			currentlyStickingView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);

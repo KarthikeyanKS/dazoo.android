@@ -629,8 +629,9 @@ public class EventPageActivity
 		
 		int color = getResources().getColor(R.color.transparent_white_background_event_page);
 		Drawable dropshadow = getResources().getDrawable(R.drawable.dropshadow_pop_box);
+		int height = container.getHeight();
 		
-		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this), color, dropshadow);
+		scrollView.setScaledWidth(GenericUtils.getScreenWidth(this), height, color, dropshadow);
 		
 		int paddingLeft = container.getPaddingLeft();
 		int paddingTop = container.getPaddingTop();
@@ -638,6 +639,7 @@ public class EventPageActivity
 		int paddingBottom = container.getPaddingBottom();
 		scrollView.setPaddings(paddingLeft, paddingTop, paddingRight, paddingBottom);
 		
+		/* Set the background image */
 //		ImageAware imageAware = new ImageViewAware(team1Flag, false);
 //		
 //		String team1FlagUrl = url;
