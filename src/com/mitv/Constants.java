@@ -135,6 +135,7 @@ public abstract class Constants
 	public static final String URL_SQUAD 					 		= "/squad";
 	public static final String URL_PHASE 					 		= "/phase";
 	public static final String URL_LINE_UP 					 		= "/lineup";
+	public static final String URL_SPORT					 		= "/sports";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
 	public static final String URL_TEAMS_IMAGE				 		= "/sports/teams";
@@ -169,6 +170,7 @@ public abstract class Constants
 	public static final String	API_POPULAR_COUNT					= "count";
 	public static final String	API_SKIP							= "skip";
 	public static final String	API_LIMIT							= "limit";
+	public static final String	API_TEAM_URL						= "mundial-event-portrait_";
 
 
 	/* Restrictions */

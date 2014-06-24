@@ -80,7 +80,6 @@ public class EventPageActivity
 	private CustomViewPager viewPagerForLineupTeams;
 	private CompetitionEventLineupTeamsTabFragmentStatePagerAdapter pagerAdapterForLineupTeams;
 
-	private RelativeLayout eventPageContainer;
 	private TextView team1Name;
 	private ImageView team1Flag;
 	private TextView team2Name;
@@ -118,6 +117,7 @@ public class EventPageActivity
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
 	private StickyScrollView scrollView;
 	private RelativeLayout container;
+	private ImageView backgroundImage;
 
 
 	/* Timer for re-fetching data in the background while the user is on the same activity */
@@ -463,7 +463,10 @@ public class EventPageActivity
 				.append(copyright);
 				
 			stadiumImageCopyright.setText(sb);
-			stadiumImageCopyright.setVisibility(View.VISIBLE);
+			
+			/* Hiding this for now, we are not using the stadium images anymore */
+//			stadiumImageCopyright.setVisibility(View.VISIBLE);
+			stadiumImageCopyright.setVisibility(View.GONE);
 		}
 
 		String descriptionText = event.getDescription();
@@ -640,11 +643,25 @@ public class EventPageActivity
 		scrollView.setPaddings(paddingLeft, paddingTop, paddingRight, paddingBottom);
 		
 		/* Set the background image */
-//		ImageAware imageAware = new ImageViewAware(team1Flag, false);
-//		
-//		String team1FlagUrl = url;
-//			
-//		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(team1FlagUrl, imageAware);
+		ImageAware imageAware = new ImageViewAware(backgroundImage, false);
+		
+		String size = GenericUtils.getImageURLForDeviceDensity();
+		
+		// http://images.mi.tv/sports/events/mundial-event-portrait_{teamId}_{size}.jpg
+		StringBuilder sbUrl = new StringBuilder();
+		sbUrl.append(Constants.HTTP_SCHEME_USED)
+			.append(Constants.URL_BACKEND_IMAGE_PREFIX_PATH)
+			.append(Constants.BACKEND_PRODUCTION_ENVIRONMENT_DOMAIN)
+			.append(Constants.URL_SPORT)
+			.append(Constants.URL_EVENTS)
+			.append(Constants.FORWARD_SLASH)
+			.append(Constants.API_TEAM_URL)
+			.append(event.getHomeTeamId())
+			.append("_")
+			.append(size)
+			.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
+			
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(sbUrl.toString(), imageAware);
 	}
 	
 	
@@ -747,8 +764,6 @@ public class EventPageActivity
 	@SuppressWarnings("deprecation")
 	private void initLayout()
 	{
-		eventPageContainer = (RelativeLayout) findViewById(R.id.competition_event_scrollable_layout);
-		
 		team1Name = (TextView) findViewById(R.id.competition_event_team_one_name);
 		team1Flag = (ImageView) findViewById(R.id.competition_event_team_one_flag);
 		team2Name = (TextView) findViewById(R.id.competition_event_team_two_name);
@@ -786,16 +801,7 @@ public class EventPageActivity
 		standingsListBlock = (LinearLayout) findViewById(R.id.competition_event_block_standings_teams_container);
 		scrollView = (StickyScrollView) findViewById(R.id.event_page_scrollview);
 		container = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
-		
-		/* Set background */
-		int sdk = android.os.Build.VERSION.SDK_INT;
-		
-		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-			eventPageContainer.setBackgroundDrawable(getResources().getDrawable(R.drawable.event_backdrop_background));
-		    
-		} else {
-			eventPageContainer.setBackground(getResources().getDrawable(R.drawable.event_backdrop_background));
-		}
+		backgroundImage = (ImageView) findViewById(R.id.event_page_backgorund_image);
 	}
 
 
@@ -820,30 +826,6 @@ public class EventPageActivity
 				}
 			}
 		}
-		
-//		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) 
-//			{
-//				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
-//				
-//				String competitionTitle;
-//				
-//				if(competition != null)
-//				{
-//					competitionTitle = competition.getDisplayName();
-//				}
-//				else
-//				{
-//					competitionTitle = Long.valueOf(competitionID).toString();
-//					
-//					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
-//				}
-//				
-//				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionTitle);
-//			}
-//		});
 	}
 
 
