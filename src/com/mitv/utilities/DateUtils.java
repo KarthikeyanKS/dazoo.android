@@ -5,13 +5,16 @@ package com.mitv.utilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -82,6 +85,9 @@ public abstract class DateUtils
 	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
 	 * The minute, second and millisecond components are all set to 0.
 	 * The input string format should be in the format: "yyyy-MM-dd"
+	 * 
+	 * 
+	 * THIS GIVES THE GMT REPRESENTATION
 	 */
 	public static Calendar getCalendarForStartOfTVDay(final String inputString)
 	{
@@ -104,10 +110,12 @@ public abstract class DateUtils
 	 * The calendar represents the start time of the TV Day. 
 	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
 	 * The minute, second and millisecond components are all set to 0.
+	 * 
+	 * THIS GIVES THE LOCAL REPRESENTATION
 	 */
 	public static Calendar getCalendarForStartOfTVDay(final long inputMilliseconds)
 	{
-		Calendar startOfTVDayCalendar = getNowWithGMTTimeZone();
+		Calendar startOfTVDayCalendar = getNowWithLocalTimezone();
 		startOfTVDayCalendar.setTimeInMillis(inputMilliseconds);
 		
 		int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
@@ -888,4 +896,30 @@ public abstract class DateUtils
 		
 		return dateFormat;
 	}	
+	
+	
+	
+	public static ArrayList<TVDate> generateTVDates() 
+	{
+		ArrayList<TVDate> tvDates = new ArrayList<TVDate>();
+	
+		Calendar now = getNowWithLocalTimezone();
+		
+		Calendar calendar = getCalendarForStartOfTVDay(now.getTimeInMillis());
+		
+		String dateString = null;
+		
+		for (int i = 0; i < 7; i++) 
+		{
+			dateString = buildDateCompositionAsString(calendar);
+			
+			tvDates.add(new TVDate(dateString));
+			
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		
+		return tvDates;
+	}
+	
+	
 }

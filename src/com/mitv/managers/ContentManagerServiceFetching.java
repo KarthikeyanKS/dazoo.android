@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.mitv.Constants;
 import com.mitv.asynctasks.other.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -25,6 +26,7 @@ import com.mitv.models.objects.mitvapi.TVGuide;
 import com.mitv.models.objects.mitvapi.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 
 
@@ -65,7 +67,16 @@ public abstract class ContentManagerServiceFetching
 			
 			Log.d(TAG, "PROFILING: fetchFromServiceInitialCall");
 			
-			this.completedTVDatesRequest = false;
+			if (Constants.USE_LOCAL_GENERATED_TVDATES)
+			{
+				ContentManager.sharedInstance().getCache().setTvDates(DateUtils.generateTVDates());
+				this.completedTVDatesRequest = true;
+			}
+			else 
+			{
+				this.completedTVDatesRequest = false;
+			}
+			
 			this.completedTVChannelIdsDefaultRequest = false;
 			this.completedTVChannelIdsUserRequest = false;
 			this.completedTVGuideRequest = false;

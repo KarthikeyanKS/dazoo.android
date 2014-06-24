@@ -52,6 +52,7 @@ public abstract class Constants
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
 	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
 	public static final boolean USE_DETAILED_INITIAL_METRICS_ANALTYTICS = USE_INITIAL_METRICS_ANALTYTICS && false;  //Include network, parsing, post execute tracking
+	public static final boolean USE_LOCAL_GENERATED_TVDATES = true;
 	
 	
 	/* AMAZON INSIGHTS configurations */

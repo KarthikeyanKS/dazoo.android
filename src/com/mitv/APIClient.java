@@ -224,11 +224,15 @@ public class APIClient
 		tasks.add(new GetAppConfigurationData(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetAppVersionData(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVTags(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
-		tasks.add(new GetTVDates(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVChannelsAll(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		//tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener, false, Constants.RETRY_COUNT_THRESHOLD));
+		
+		if (Constants.USE_LOCAL_GENERATED_TVDATES == false)
+		{
+			tasks.add(new GetTVDates(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
+		}
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
 		{
