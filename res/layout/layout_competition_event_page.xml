@@ -8,9 +8,9 @@
     
     <ImageView
         android:id="@+id/backgorund_image_overlay"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
         android:src="@drawable/event_page_bg_fade" />
 
     <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
