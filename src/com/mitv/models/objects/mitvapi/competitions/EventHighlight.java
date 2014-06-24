@@ -54,10 +54,14 @@ public class EventHighlight
 						break;
 					}
 					
-					case FIRST_EXTRA_TIME:
+					case FIRST_EXTRA_TIME: {
+						sb.append(context.getString(R.string.event_page_highlight_start_of_extra_time));
+						break;
+					}
+					
 					case SECOND_EXTRA_TIME:
 					{
-						sb.append(context.getString(R.string.event_page_highlight_start_of_extra_time));
+						sb.append(context.getString(R.string.event_page_highlight_kick_off_extra_time));
 						break;
 					}
 					
@@ -99,6 +103,11 @@ public class EventHighlight
 					}
 					
 					case FIRST_EXTRA_TIME:
+					{
+						sb.append(context.getString(R.string.event_page_highlight_end_extra_time));
+						break;
+					}
+					
 					case SECOND_EXTRA_TIME:
 					{
 						sb.append(context.getString(R.string.event_page_highlight_end_of_extra_time));
