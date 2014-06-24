@@ -155,7 +155,7 @@ public class CompetitionEventPageBroadcastListAdapter
 
 			String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(element.getEventBroadcastEndTimeLocal());
 			
-			sb.append(element.getEventTimeDayOfTheWeekAsString())
+			sb.append(element.getBeginTimeDayOfTheWeekWithDayAndMonthAsString())
 			.append(",  ")
 			.append(startTimeHourAndMinuteAsString)
 			.append(" - ")

@@ -5,8 +5,11 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 import java.util.Calendar;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.managers.ContentManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
@@ -267,7 +270,7 @@ public class EventBroadcast
 	 */
 	public String getEventTimeDayOfTheWeekAsString() 
 	{	
-		return DateUtils.buildDayOfTheWeekAsString(this.getEventBroadcastBeginTimeLocal());
+		return DateUtils.buildDayOfTheWeekAsString(this.getEventBroadcastBeginTimeLocal(), true);
 	}
 	
 	
@@ -282,6 +285,36 @@ public class EventBroadcast
 		return beginTimeDayAndMonthRepresentation;
 	}
 	
+	
+	/*
+	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
+	 * is today or tomorrow (per comparison with the current time)
+	 */
+	public String getBeginTimeDayOfTheWeekWithDayAndMonthAsString()
+	{	
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getEventBroadcastBeginTimeLocal(), true);
+		
+		sb.append(dayOfTheWeekAsString);
+		
+		boolean isToday = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.today));
+		boolean isTomorrow = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.tomorrow));
+		boolean isTonight = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.tonight));
+		boolean isYesterday = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.yesterday));
+		boolean isTomorrowNight = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.tomorrow_night));
+		
+		if (isToday == false && isTomorrow == false && isTonight == false && isYesterday == false && isTomorrowNight == false) 
+		{
+			String dayAndMonthString = getEventTimeDayAndMonthAsString();
+			sb.append(" ");
+			sb.append(dayAndMonthString);
+		}
+		
+		return sb.toString();
+	}
 	
 	
 	public long getBeginTimeLocalInMillis() 

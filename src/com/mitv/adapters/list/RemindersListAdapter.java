@@ -23,8 +23,10 @@ import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
+import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -123,38 +125,8 @@ public class RemindersListAdapter
 			holder.mHeaderTv.setVisibility(View.GONE);
 
 			holder.mDividerView.setVisibility(View.VISIBLE);
-
-			boolean isFirstposition = (position == 0);
-
-			boolean isLastPosition = (position == (getCount() - 1));
-
-			boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
-
-			if(isFirstposition == false)
-			{
-				Notification previousElementInList = getItem(position - 1);
-
-				isCurrentBroadcastDayEqualToPreviousBroadcastDay = element.isTheSameDayAs(previousElementInList);
-			}
-			else
-			{
-				isCurrentBroadcastDayEqualToPreviousBroadcastDay = true;
-			}
-
-			boolean isBeginTimeEqualToNextItem;
-
-			if(isLastPosition == false)
-			{
-				Notification nextElementInList = getItem(position + 1);
-
-				isBeginTimeEqualToNextItem = element.isTheSameDayAs(nextElementInList);
-			}
-			else
-			{
-				isBeginTimeEqualToNextItem = false;
-			}
-
-			if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false) 
+			
+			if (shouldShowHeader(position, element)) 
 			{
 				StringBuilder headerSB = new StringBuilder();
 
@@ -162,11 +134,11 @@ public class RemindersListAdapter
 
 				if(isBeginTimeTodayOrTomorrow)
 				{
-					headerSB.append(element.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(DateUtils.buildDayOfTheWeekAsString(element.getBeginTimeCalendarLocal(), false));
 				}
 				else
 				{
-					headerSB.append(element.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(DateUtils.buildDayOfTheWeekAsString(element.getBeginTimeCalendarLocal(), false));
 					headerSB.append(" ");
 					headerSB.append(element.getBeginTimeDayAndMonthAsString());
 				}
@@ -177,8 +149,8 @@ public class RemindersListAdapter
 
 				holder.mHeaderTv.setVisibility(View.VISIBLE);
 			}
-
-			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
+			
+			if (shouldHideDivider(position, element))
 			{
 				holder.mDividerView.setVisibility(View.GONE);
 			}
@@ -289,4 +261,51 @@ public class RemindersListAdapter
 			}
 		};
 	}
+	
+	
+	
+	private boolean shouldShowHeader(int position, Notification notification) 
+	{
+		boolean isFirstposition = (position == 0);
+		
+		boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
+		
+		if (isFirstposition == false)
+		{
+			Notification previousnotificationInList = getItem(position - 1);
+			
+			isCurrentBroadcastDayEqualToPreviousBroadcastDay = notification.isTheSameDayAs(previousnotificationInList);
+		}
+		else
+		{
+			isCurrentBroadcastDayEqualToPreviousBroadcastDay = false;
+		}
+		
+		if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	
+	private boolean shouldHideDivider(int position, Notification notification) {
+		boolean isLastPosition = (position == (getCount() - 1));
+
+		int nextPos = Math.min(position + 1, (getCount() - 1));
+		
+		Notification notificationNextPosition = getItem(nextPos);
+		
+		boolean isBeginTimeEqualToNextItem = notification.isTheSameDayAs(notificationNextPosition);
+		
+		if (isLastPosition == false && isBeginTimeEqualToNextItem == false) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

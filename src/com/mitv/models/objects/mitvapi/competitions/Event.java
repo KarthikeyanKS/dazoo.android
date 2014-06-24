@@ -301,6 +301,26 @@ public class Event
 	
 	
 	
+	
+	public boolean isEventTimeYesterday()
+	{
+		Calendar now = DateUtils.getNowWithLocalTimezone();
+		
+		now.add(Calendar.DAY_OF_MONTH, -1);
+		
+		Calendar beginTime = this.getEventDateCalendarLocal();
+		
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
+    	boolean isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, now);
+    	
+		boolean isYesterday = isCorrectYear && isCorrectMonth && isSameDay;
+		
+		return isYesterday;
+	}
+	
+	
+	
 	public boolean isEventAiringToday()
 	{
 		Calendar now = DateUtils.getNowWithLocalTimezone();
@@ -324,7 +344,7 @@ public class Event
 	 */
 	public String getEventTimeDayOfTheWeekAsString() 
 	{	
-		return DateUtils.buildDayOfTheWeekAsString(getEventDateCalendarLocal());
+		return DateUtils.buildDayOfTheWeekAsString(getEventDateCalendarLocal(), true);
 	}
 	
 	

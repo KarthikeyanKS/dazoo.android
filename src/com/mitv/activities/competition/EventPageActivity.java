@@ -40,7 +40,7 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventBroadcastByStartTime;
-import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.comparators.EventStandingsComparatorByPointsAndGoalDifference;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
@@ -962,7 +962,7 @@ public class EventPageActivity
 
 			standingsListContainer.removeAllViews();
 
-			Collections.sort(standings, new EventStandingsComparatorByPoints());
+			Collections.sort(standings, new EventStandingsComparatorByPointsAndGoalDifference());
 
 			Collections.reverse(standings);
 
