@@ -33825,6 +33825,7 @@ com.mitv.R$string -> com.mitv.R$string:
     int icon_twitter -> icon_twitter
     int join -> join
     int know_more -> know_more
+    int last_night -> last_night
     int left -> left
     int like -> like
     int like_remove_text -> like_remove_text
@@ -33998,6 +33999,8 @@ com.mitv.R$string -> com.mitv.R$string:
     int toast_internet_connection -> toast_internet_connection
     int today -> today
     int tomorrow -> tomorrow
+    int tomorrow_night -> tomorrow_night
+    int tonight -> tonight
     int tutorial_header_page1 -> tutorial_header_page1
     int tutorial_header_page2 -> tutorial_header_page2
     int tutorial_header_page3 -> tutorial_header_page3
@@ -34029,6 +34032,7 @@ com.mitv.R$string -> com.mitv.R$string:
     int whatelseison_show_all_programs -> whatelseison_show_all_programs
     int whatelseison_title -> whatelseison_title
     int yes -> yes
+    int yesterday -> yesterday
 com.mitv.R$style -> com.mitv.R$style:
     int ActionBarDropDown -> ActionBarDropDown
     int AppBaseTheme -> AppBaseTheme
@@ -35409,9 +35413,9 @@ com.mitv.adapters.list.ActionBarDropDownDateListAdapter -> com.mitv.adapters.lis
     67:74:com.mitv.models.objects.mitvapi.TVDate getItem(int) -> getItem
     82:82:long getItemId(int) -> getItemId
     90:90:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    97:198:android.view.View getViewForHeaderOrRow(int,android.view.View,android.view.ViewGroup,boolean) -> a
-    206:206:android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
-    213:214:void setSelectedIndex(int) -> setSelectedIndex
+    97:208:android.view.View getViewForHeaderOrRow(int,android.view.View,android.view.ViewGroup,boolean) -> a
+    216:216:android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
+    223:224:void setSelectedIndex(int) -> setSelectedIndex
     1:1:java.lang.Object getItem(int) -> getItem
 com.mitv.adapters.list.AiringOnDifferentChannelListAdapter -> com.mitv.adapters.list.AiringOnDifferentChannelListAdapter:
     java.lang.String TAG -> a
@@ -35826,13 +35830,13 @@ com.mitv.adapters.list.CompetitionEventsByGroupListAdapter -> com.mitv.adapters.
     71:78:int getCount() -> getCount
     86:93:com.mitv.models.objects.mitvapi.competitions.Event getItem(int) -> getItem
     101:101:long getItemId(int) -> getItemId
-    109:425:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    109:427:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
     48:48:android.app.Activity access$1(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter) -> a
 com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$1 -> azp:
     com.mitv.adapters.list.CompetitionEventsByGroupListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$event -> b
-    294:320:void onClick(android.view.View) -> onClick
+    296:322:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder -> azq:
     android.widget.TextView group -> a
     android.widget.TextView startWeekDayHeader -> b
@@ -35847,32 +35851,32 @@ com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder -> azq:
     android.widget.RelativeLayout container -> k
     android.view.View dividerTop -> l
     android.view.View dividerAfterDate -> m
-    442:442:void access$1(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    432:432:void access$2(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> a
-    433:433:void access$3(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> b
-    441:441:void access$4(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.view.View) -> a
-    434:434:void access$5(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> c
-    435:435:void access$6(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.ImageView) -> a
-    436:436:void access$7(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> d
-    437:437:void access$8(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.ImageView) -> b
-    438:438:void access$9(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> e
-    439:439:void access$10(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> f
-    440:440:void access$11(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> g
-    443:443:void access$12(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.view.View) -> b
-    444:444:void access$13(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.view.View) -> c
-    433:433:android.widget.TextView access$14(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> a
-    441:441:android.view.View access$15(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> b
-    432:432:android.widget.TextView access$16(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> c
-    443:443:android.view.View access$17(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> d
-    444:444:android.view.View access$18(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> e
-    435:435:android.widget.ImageView access$19(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> f
-    437:437:android.widget.ImageView access$20(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> g
-    434:434:android.widget.TextView access$21(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> h
-    436:436:android.widget.TextView access$22(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> i
-    442:442:android.widget.RelativeLayout access$23(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> j
-    439:439:android.widget.TextView access$24(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> k
-    438:438:android.widget.TextView access$25(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> l
-    440:440:android.widget.TextView access$26(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> m
+    444:444:void access$1(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    434:434:void access$2(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> a
+    435:435:void access$3(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> b
+    443:443:void access$4(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.view.View) -> a
+    436:436:void access$5(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> c
+    437:437:void access$6(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.ImageView) -> a
+    438:438:void access$7(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> d
+    439:439:void access$8(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.ImageView) -> b
+    440:440:void access$9(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> e
+    441:441:void access$10(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> f
+    442:442:void access$11(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.widget.TextView) -> g
+    445:445:void access$12(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.view.View) -> b
+    446:446:void access$13(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder,android.view.View) -> c
+    435:435:android.widget.TextView access$14(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> a
+    443:443:android.view.View access$15(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> b
+    434:434:android.widget.TextView access$16(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> c
+    445:445:android.view.View access$17(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> d
+    446:446:android.view.View access$18(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> e
+    437:437:android.widget.ImageView access$19(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> f
+    439:439:android.widget.ImageView access$20(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> g
+    436:436:android.widget.TextView access$21(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> h
+    438:438:android.widget.TextView access$22(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> i
+    444:444:android.widget.RelativeLayout access$23(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> j
+    441:441:android.widget.TextView access$24(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> k
+    440:440:android.widget.TextView access$25(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> l
+    442:442:android.widget.TextView access$26(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder) -> m
 com.mitv.adapters.list.CompetitionPageTodayListAdapter -> com.mitv.adapters.list.CompetitionPageTodayListAdapter:
     java.lang.String TAG -> a
     android.view.LayoutInflater layoutInflater -> b
@@ -36226,21 +36230,23 @@ com.mitv.adapters.list.PopularListAdapter -> com.mitv.adapters.list.PopularListA
     android.app.Activity activity -> b
     java.util.ArrayList popularBroadcasts -> c
     int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> d
-    60:66:int getCount() -> getCount
-    75:81:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
-    90:90:long getItemId(int) -> getItemId
-    98:290:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    61:67:int getCount() -> getCount
+    76:82:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
+    91:91:long getItemId(int) -> getItemId
+    99:267:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    290:310:boolean shouldShowHeader(int,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> a
+    316:329:boolean shouldHideDivider(int,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> b
     1:1:java.lang.Object getItem(int) -> getItem
-    41:41:android.app.Activity access$1(com.mitv.adapters.list.PopularListAdapter) -> a
-    34:34:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
+    42:42:android.app.Activity access$1(com.mitv.adapters.list.PopularListAdapter) -> a
+    35:35:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
 com.mitv.adapters.list.PopularListAdapter$1 -> baj:
     com.mitv.adapters.list.PopularListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
-    189:195:void onClick(android.view.View) -> onClick
+    166:172:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.PopularListAdapter$2 -> bak:
     com.mitv.adapters.list.PopularListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
-    281:286:void onClick(android.view.View) -> onClick
+    258:263:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.PopularListAdapter$ViewHolder -> bal:
     android.widget.TextView headerTv -> a
     android.view.View dividerView -> b
@@ -36252,53 +36258,55 @@ com.mitv.adapters.list.PopularListAdapter$ViewHolder -> bal:
     android.widget.TextView detailsTv -> h
     android.widget.TextView progressBarTitleTv -> i
     android.widget.ProgressBar progressBar -> j
-    297:297:void access$1(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> a
-    298:298:void access$2(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.view.View) -> a
-    299:299:void access$3(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    300:300:void access$4(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.ImageView) -> a
-    301:301:void access$5(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> b
-    302:302:void access$6(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> c
-    303:303:void access$7(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> d
-    304:304:void access$8(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> e
-    305:305:void access$9(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> f
-    306:306:void access$10(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.ProgressBar) -> a
-    301:301:android.widget.TextView access$11(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> a
-    297:297:android.widget.TextView access$12(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> b
-    298:298:android.view.View access$13(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> c
-    299:299:android.widget.RelativeLayout access$14(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> d
-    300:300:android.widget.ImageView access$15(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> e
-    302:302:android.widget.TextView access$16(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> f
-    303:303:android.widget.TextView access$17(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> g
-    306:306:android.widget.ProgressBar access$18(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> h
-    305:305:android.widget.TextView access$19(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> i
-    304:304:android.widget.TextView access$20(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> j
+    274:274:void access$1(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> a
+    275:275:void access$2(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.view.View) -> a
+    276:276:void access$3(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    277:277:void access$4(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.ImageView) -> a
+    278:278:void access$5(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> b
+    279:279:void access$6(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> c
+    280:280:void access$7(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> d
+    281:281:void access$8(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> e
+    282:282:void access$9(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.TextView) -> f
+    283:283:void access$10(com.mitv.adapters.list.PopularListAdapter$ViewHolder,android.widget.ProgressBar) -> a
+    278:278:android.widget.TextView access$11(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> a
+    274:274:android.widget.TextView access$12(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> b
+    275:275:android.view.View access$13(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> c
+    276:276:android.widget.RelativeLayout access$14(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> d
+    277:277:android.widget.ImageView access$15(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> e
+    279:279:android.widget.TextView access$16(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> f
+    280:280:android.widget.TextView access$17(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> g
+    283:283:android.widget.ProgressBar access$18(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> h
+    282:282:android.widget.TextView access$19(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> i
+    281:281:android.widget.TextView access$20(com.mitv.adapters.list.PopularListAdapter$ViewHolder) -> j
 com.mitv.adapters.list.RemindersListAdapter -> com.mitv.adapters.list.RemindersListAdapter:
     java.lang.String TAG -> a
     android.view.LayoutInflater layoutInflater -> b
     android.app.Activity activity -> c
     java.util.List notifications -> d
-    55:61:int getCount() -> getCount
-    70:76:com.mitv.models.objects.mitvapi.Notification getItem(int) -> getItem
-    85:85:long getItemId(int) -> getItemId
-    93:263:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    284:284:java.lang.Runnable confirmRemoval() -> b
+    57:63:int getCount() -> getCount
+    72:78:com.mitv.models.objects.mitvapi.Notification getItem(int) -> getItem
+    87:87:long getItemId(int) -> getItemId
+    95:235:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    256:256:java.lang.Runnable confirmRemoval() -> b
+    269:289:boolean shouldShowHeader(int,com.mitv.models.objects.mitvapi.Notification) -> a
+    295:308:boolean shouldHideDivider(int,com.mitv.models.objects.mitvapi.Notification) -> b
     1:1:java.lang.Object getItem(int) -> getItem
-    38:38:android.app.Activity access$1(com.mitv.adapters.list.RemindersListAdapter) -> a
-    34:34:java.lang.String access$2() -> a
-    282:282:java.lang.Runnable access$3(com.mitv.adapters.list.RemindersListAdapter) -> b
+    40:40:android.app.Activity access$1(com.mitv.adapters.list.RemindersListAdapter) -> a
+    36:36:java.lang.String access$2() -> a
+    254:254:java.lang.Runnable access$3(com.mitv.adapters.list.RemindersListAdapter) -> b
 com.mitv.adapters.list.RemindersListAdapter$1 -> bam:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.Notification val$element -> b
     int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum -> c
-    212:250:void onClick(android.view.View) -> onClick
-    207:207:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> a
+    184:222:void onClick(android.view.View) -> onClick
+    179:179:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> a
 com.mitv.adapters.list.RemindersListAdapter$2 -> ban:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.Notification val$element -> b
-    258:259:void onClick(android.view.View) -> onClick
+    230:231:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.RemindersListAdapter$3 -> bao:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
-    288:289:void run() -> run
+    260:261:void run() -> run
 com.mitv.adapters.list.RemindersListAdapter$ViewHolder -> bap:
     android.widget.RelativeLayout mInformationContainer -> a
     android.widget.TextView mHeaderTv -> b
@@ -36308,22 +36316,22 @@ com.mitv.adapters.list.RemindersListAdapter$ViewHolder -> bap:
     android.widget.TextView mChannelTv -> f
     com.mitv.ui.elements.FontTextView mReminderIconIv -> g
     android.view.View mDividerView -> h
-    270:270:void access$1(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    271:271:void access$2(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> a
-    272:272:void access$3(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> b
-    273:273:void access$4(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> c
-    274:274:void access$5(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> d
-    275:275:void access$6(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> e
-    276:276:void access$7(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,com.mitv.ui.elements.FontTextView) -> a
-    276:276:com.mitv.ui.elements.FontTextView access$8(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> a
-    277:277:void access$9(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.view.View) -> a
-    271:271:android.widget.TextView access$10(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> b
-    277:277:android.view.View access$11(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> c
-    272:272:android.widget.TextView access$12(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> d
-    274:274:android.widget.TextView access$13(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> e
-    275:275:android.widget.TextView access$14(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> f
-    273:273:android.widget.TextView access$15(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> g
-    270:270:android.widget.RelativeLayout access$16(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> h
+    242:242:void access$1(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    243:243:void access$2(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> a
+    244:244:void access$3(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> b
+    245:245:void access$4(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> c
+    246:246:void access$5(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> d
+    247:247:void access$6(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.widget.TextView) -> e
+    248:248:void access$7(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,com.mitv.ui.elements.FontTextView) -> a
+    248:248:com.mitv.ui.elements.FontTextView access$8(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> a
+    249:249:void access$9(com.mitv.adapters.list.RemindersListAdapter$ViewHolder,android.view.View) -> a
+    243:243:android.widget.TextView access$10(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> b
+    249:249:android.view.View access$11(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> c
+    244:244:android.widget.TextView access$12(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> d
+    246:246:android.widget.TextView access$13(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> e
+    247:247:android.widget.TextView access$14(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> f
+    245:245:android.widget.TextView access$15(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> g
+    242:242:android.widget.RelativeLayout access$16(com.mitv.adapters.list.RemindersListAdapter$ViewHolder) -> h
 com.mitv.adapters.list.SearchPageListAdapter -> com.mitv.adapters.list.SearchPageListAdapter:
     java.lang.String TAG -> a
     java.util.ArrayList searchResultItems -> b
@@ -36510,18 +36518,20 @@ com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter -> com.mitv.adap
     java.util.ArrayList broadcasts -> d
     com.mitv.enums.BroadcastListAdapterTypeEnum broadcastListAdapterType -> e
     int[] $SWITCH_TABLE$com$mitv$enums$BroadcastListAdapterTypeEnum -> f
-    84:90:int getCount() -> getCount
-    99:105:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
-    114:114:long getItemId(int) -> getItemId
-    122:295:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    85:91:int getCount() -> getCount
+    100:106:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo getItem(int) -> getItem
+    115:115:long getItemId(int) -> getItemId
+    123:264:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    284:304:boolean shouldShowHeader(int,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> a
+    310:323:boolean shouldHideDivider(int,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> b
     1:1:java.lang.Object getItem(int) -> getItem
-    29:29:int[] $SWITCH_TABLE$com$mitv$enums$BroadcastListAdapterTypeEnum() -> a
-    38:38:com.mitv.enums.BroadcastListAdapterTypeEnum access$2(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter) -> a
-    36:36:android.app.Activity access$3(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter) -> b
+    30:30:int[] $SWITCH_TABLE$com$mitv$enums$BroadcastListAdapterTypeEnum() -> a
+    39:39:com.mitv.enums.BroadcastListAdapterTypeEnum access$2(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter) -> a
+    37:37:android.app.Activity access$3(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter) -> b
 com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$1 -> bbb:
     com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
-    274:284:void onClick(android.view.View) -> onClick
+    243:253:void onClick(android.view.View) -> onClick
 com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> bbc:
     android.widget.TextView header -> a
     android.widget.RelativeLayout container -> b
@@ -36530,20 +36540,20 @@ com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> bb
     android.widget.TextView channelTv -> e
     com.mitv.ui.elements.ReminderView reminderView -> f
     android.view.View divider -> g
-    302:302:void access$1(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> a
-    304:304:void access$2(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> b
-    305:305:void access$3(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> c
-    306:306:void access$4(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> d
-    307:307:void access$5(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,com.mitv.ui.elements.ReminderView) -> a
-    303:303:void access$6(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
-    308:308:void access$7(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.view.View) -> a
-    307:307:com.mitv.ui.elements.ReminderView access$8(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> a
-    302:302:android.widget.TextView access$9(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> b
-    308:308:android.view.View access$10(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> c
-    304:304:android.widget.TextView access$11(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> d
-    305:305:android.widget.TextView access$12(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> e
-    306:306:android.widget.TextView access$13(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> f
-    303:303:android.widget.RelativeLayout access$14(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> g
+    271:271:void access$1(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> a
+    273:273:void access$2(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> b
+    274:274:void access$3(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> c
+    275:275:void access$4(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.TextView) -> d
+    276:276:void access$5(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,com.mitv.ui.elements.ReminderView) -> a
+    272:272:void access$6(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.widget.RelativeLayout) -> a
+    277:277:void access$7(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder,android.view.View) -> a
+    276:276:com.mitv.ui.elements.ReminderView access$8(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> a
+    271:271:android.widget.TextView access$9(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> b
+    277:277:android.view.View access$10(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> c
+    273:273:android.widget.TextView access$11(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> d
+    274:274:android.widget.TextView access$12(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> e
+    275:275:android.widget.TextView access$13(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> f
+    272:272:android.widget.RelativeLayout access$14(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder) -> g
 com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter -> com.mitv.adapters.pager.CompetitionEventGroupsAndStandingsTabFragmentStatePagerAdapter:
     java.lang.String TAG -> a
     java.util.List tabs -> b
@@ -38433,8 +38443,8 @@ com.mitv.models.comparators.EventBroadcastByStartTime -> com.mitv.models.compara
 com.mitv.models.comparators.EventLineUpComparatorByPositionAndShirtNumber -> com.mitv.models.comparators.EventLineUpComparatorByPositionAndShirtNumber:
     17:53:int compare(com.mitv.models.objects.mitvapi.competitions.EventLineUp,com.mitv.models.objects.mitvapi.competitions.EventLineUp) -> compare
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
-com.mitv.models.comparators.EventStandingsComparatorByPoints -> com.mitv.models.comparators.EventStandingsComparatorByPoints:
-    17:30:int compare(com.mitv.models.objects.mitvapi.competitions.Standings,com.mitv.models.objects.mitvapi.competitions.Standings) -> compare
+com.mitv.models.comparators.EventStandingsComparatorByPointsAndGoalDifference -> com.mitv.models.comparators.EventStandingsComparatorByPointsAndGoalDifference:
+    17:43:int compare(com.mitv.models.objects.mitvapi.competitions.Standings,com.mitv.models.objects.mitvapi.competitions.Standings) -> compare
     1:1:int compare(java.lang.Object,java.lang.Object) -> compare
 com.mitv.models.comparators.NotificationComparatorByBeginTime -> com.mitv.models.comparators.NotificationComparatorByBeginTime:
     16:29:int compare(com.mitv.models.objects.mitvapi.Notification,com.mitv.models.objects.mitvapi.Notification) -> compare
@@ -39293,21 +39303,21 @@ com.mitv.models.objects.mitvapi.Notification -> com.mitv.models.objects.mitvapi.
     221:245:boolean isBeginTimeTodayOrTomorrow() -> isBeginTimeTodayOrTomorrow
     253:256:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.Notification) -> isTheSameDayAs
     263:263:java.lang.String getBeginTimeDayOfTheWeekAsString() -> getBeginTimeDayOfTheWeekAsString
-    270:293:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
-    300:307:java.lang.Integer getNotificationId() -> getNotificationId
-    314:324:void setNotificationId(java.lang.Integer) -> setNotificationId
-    330:330:com.mitv.enums.NotificationTypeEnum getNotificationType() -> getNotificationType
-    337:344:java.lang.Long getCompetitionId() -> getCompetitionId
-    351:358:java.lang.Long getEventId() -> getEventId
-    365:372:java.lang.String getProgramId() -> getProgramId
-    379:386:java.lang.Long getBeginTimeInMilliseconds() -> getBeginTimeInMilliseconds
-    393:400:java.lang.String getChannelId() -> getChannelId
-    407:414:java.lang.String getBroadcastTitle() -> getBroadcastTitle
-    421:428:java.lang.String getBroadcastChannelName() -> getBroadcastChannelName
-    435:435:com.mitv.enums.ProgramTypeEnum getBroadcastProgramType() -> getBroadcastProgramType
-    442:449:java.lang.String getBroadcastProgramDetails() -> getBroadcastProgramDetails
-    456:463:java.lang.String getBroadcastChannelLogo() -> getBroadcastChannelLogo
-    471:497:boolean equals(java.lang.Object) -> equals
+    270:296:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
+    303:310:java.lang.Integer getNotificationId() -> getNotificationId
+    317:327:void setNotificationId(java.lang.Integer) -> setNotificationId
+    333:333:com.mitv.enums.NotificationTypeEnum getNotificationType() -> getNotificationType
+    340:347:java.lang.Long getCompetitionId() -> getCompetitionId
+    354:361:java.lang.Long getEventId() -> getEventId
+    368:375:java.lang.String getProgramId() -> getProgramId
+    382:389:java.lang.Long getBeginTimeInMilliseconds() -> getBeginTimeInMilliseconds
+    396:403:java.lang.String getChannelId() -> getChannelId
+    410:417:java.lang.String getBroadcastTitle() -> getBroadcastTitle
+    424:431:java.lang.String getBroadcastChannelName() -> getBroadcastChannelName
+    438:438:com.mitv.enums.ProgramTypeEnum getBroadcastProgramType() -> getBroadcastProgramType
+    445:452:java.lang.String getBroadcastProgramDetails() -> getBroadcastProgramDetails
+    459:466:java.lang.String getBroadcastChannelLogo() -> getBroadcastChannelLogo
+    474:500:boolean equals(java.lang.Object) -> equals
 com.mitv.models.objects.mitvapi.ProfileImage -> com.mitv.models.objects.mitvapi.ProfileImage:
     32:34:boolean areDataFieldsValid() -> areDataFieldsValid
 com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast -> com.mitv.models.objects.mitvapi.RepeatingBroadcastsForBroadcast:
@@ -39351,11 +39361,11 @@ com.mitv.models.objects.mitvapi.TVBroadcast -> com.mitv.models.objects.mitvapi.T
     429:453:boolean isBeginTimeTodayOrTomorrow() -> isBeginTimeTodayOrTomorrow
     460:463:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.TVBroadcast) -> isTheSameDayAs
     474:474:java.lang.String getBeginTimeDayOfTheWeekAsString() -> getBeginTimeDayOfTheWeekAsString
-    485:508:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
-    520:567:java.lang.String getStartingTimeAsString() -> getStartingTimeAsString
-    575:581:int hashCode() -> hashCode
-    589:608:boolean equals(java.lang.Object) -> equals
-    614:636:boolean areDataFieldsValid() -> areDataFieldsValid
+    485:511:java.lang.String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() -> getBeginTimeDayOfTheWeekWithHourAndMinuteAsString
+    523:570:java.lang.String getStartingTimeAsString() -> getStartingTimeAsString
+    578:584:int hashCode() -> hashCode
+    592:611:boolean equals(java.lang.Object) -> equals
+    617:639:boolean areDataFieldsValid() -> areDataFieldsValid
     33:33:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum
 com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo -> com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo:
     java.lang.String TAG -> TAG
@@ -39499,37 +39509,39 @@ com.mitv.models.objects.mitvapi.competitions.Event -> com.mitv.models.objects.mi
     255:258:boolean isTheSameDayAs(com.mitv.models.objects.mitvapi.competitions.Event) -> isTheSameDayAs
     266:268:java.lang.String getBeginTimeHourAndMinuteLocalAsString() -> getBeginTimeHourAndMinuteLocalAsString
     275:299:boolean isEventTimeTodayOrTomorrow() -> isEventTimeTodayOrTomorrow
-    306:316:boolean isEventAiringToday() -> isEventAiringToday
-    327:327:java.lang.String getEventTimeDayOfTheWeekAsString() -> getEventTimeDayOfTheWeekAsString
-    337:339:java.lang.String getEventTimeDayAndMonthAsString() -> getEventTimeDayAndMonthAsString
-    347:353:int hashCode() -> hashCode
-    361:383:boolean equals(java.lang.Object) -> equals
-    396:403:boolean isSamePhase(com.mitv.models.objects.mitvapi.competitions.Event) -> isSamePhase
-    410:412:long getBeginTimeLocalInMillis() -> getBeginTimeLocalInMillis
-    420:431:java.lang.String getShareUrl() -> getShareUrl
+    307:319:boolean isEventTimeYesterday() -> isEventTimeYesterday
+    326:336:boolean isEventAiringToday() -> isEventAiringToday
+    347:347:java.lang.String getEventTimeDayOfTheWeekAsString() -> getEventTimeDayOfTheWeekAsString
+    357:359:java.lang.String getEventTimeDayAndMonthAsString() -> getEventTimeDayAndMonthAsString
+    367:373:int hashCode() -> hashCode
+    381:403:boolean equals(java.lang.Object) -> equals
+    416:423:boolean isSamePhase(com.mitv.models.objects.mitvapi.competitions.Event) -> isSamePhase
+    430:432:long getBeginTimeLocalInMillis() -> getBeginTimeLocalInMillis
+    440:451:java.lang.String getShareUrl() -> getShareUrl
     22:22:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum
 com.mitv.models.objects.mitvapi.competitions.EventBroadcast -> com.mitv.models.objects.mitvapi.competitions.EventBroadcast:
     java.lang.String TAG -> TAG
     java.util.Calendar beginTimeCalendar -> beginTimeCalendar
     java.util.Calendar endTimeCalendar -> endTimeCalendar
-    55:62:java.util.Calendar getEventBroadcastBeginTimeLocal() -> getEventBroadcastBeginTimeLocal
-    69:71:java.util.Calendar getEventBroadcastBeginTimeGMT() -> getEventBroadcastBeginTimeGMT
-    83:90:java.util.Calendar getEventBroadcastEndTimeLocal() -> getEventBroadcastEndTimeLocal
-    97:99:java.util.Calendar getEventBroadcastEndTimeGMT() -> getEventBroadcastEndTimeGMT
-    111:113:java.lang.Integer getTotalAiringTimeInMinutes() -> getTotalAiringTimeInMinutes
-    120:122:com.mitv.models.objects.mitvapi.TVChannelId getTVChannelIdForEventBroadcast() -> getTVChannelIdForEventBroadcast
-    129:138:com.mitv.models.objects.mitvapi.TVChannel getTVChannelForEventBroadcast() -> getTVChannelForEventBroadcast
-    147:158:java.lang.String getChannelName() -> getChannelName
-    168:179:java.lang.String getChannelLogoUrl() -> getChannelLogoUrl
-    188:199:java.lang.String getImageUrl() -> getImageUrl
-    206:208:java.lang.String getBeginTimeHourAndMinuteLocalAsString() -> getBeginTimeHourAndMinuteLocalAsString
-    215:217:java.lang.String getBeginTimeDateRepresentation() -> getBeginTimeDateRepresentation
-    224:237:boolean isEventAiringInLessThan(int) -> isEventAiringInLessThan
-    244:248:boolean isAiring() -> isAiring
-    255:259:boolean hasEnded() -> hasEnded
-    270:270:java.lang.String getEventTimeDayOfTheWeekAsString() -> getEventTimeDayOfTheWeekAsString
-    280:282:java.lang.String getEventTimeDayAndMonthAsString() -> getEventTimeDayAndMonthAsString
-    289:291:long getBeginTimeLocalInMillis() -> getBeginTimeLocalInMillis
+    58:65:java.util.Calendar getEventBroadcastBeginTimeLocal() -> getEventBroadcastBeginTimeLocal
+    72:74:java.util.Calendar getEventBroadcastBeginTimeGMT() -> getEventBroadcastBeginTimeGMT
+    86:93:java.util.Calendar getEventBroadcastEndTimeLocal() -> getEventBroadcastEndTimeLocal
+    100:102:java.util.Calendar getEventBroadcastEndTimeGMT() -> getEventBroadcastEndTimeGMT
+    114:116:java.lang.Integer getTotalAiringTimeInMinutes() -> getTotalAiringTimeInMinutes
+    123:125:com.mitv.models.objects.mitvapi.TVChannelId getTVChannelIdForEventBroadcast() -> getTVChannelIdForEventBroadcast
+    132:141:com.mitv.models.objects.mitvapi.TVChannel getTVChannelForEventBroadcast() -> getTVChannelForEventBroadcast
+    150:161:java.lang.String getChannelName() -> getChannelName
+    171:182:java.lang.String getChannelLogoUrl() -> getChannelLogoUrl
+    191:202:java.lang.String getImageUrl() -> getImageUrl
+    209:211:java.lang.String getBeginTimeHourAndMinuteLocalAsString() -> getBeginTimeHourAndMinuteLocalAsString
+    218:220:java.lang.String getBeginTimeDateRepresentation() -> getBeginTimeDateRepresentation
+    227:240:boolean isEventAiringInLessThan(int) -> isEventAiringInLessThan
+    247:251:boolean isAiring() -> isAiring
+    258:262:boolean hasEnded() -> hasEnded
+    273:273:java.lang.String getEventTimeDayOfTheWeekAsString() -> getEventTimeDayOfTheWeekAsString
+    283:285:java.lang.String getEventTimeDayAndMonthAsString() -> getEventTimeDayAndMonthAsString
+    295:316:java.lang.String getBeginTimeDayOfTheWeekWithDayAndMonthAsString() -> getBeginTimeDayOfTheWeekWithDayAndMonthAsString
+    322:324:long getBeginTimeLocalInMillis() -> getBeginTimeLocalInMillis
 com.mitv.models.objects.mitvapi.competitions.EventHighlight -> com.mitv.models.objects.mitvapi.competitions.EventHighlight:
     java.lang.String TAG -> TAG
     int[] $SWITCH_TABLE$com$mitv$enums$EventHighlightPeriodSortEnum -> $SWITCH_TABLE$com$mitv$enums$EventHighlightPeriodSortEnum
@@ -40281,22 +40293,22 @@ com.mitv.utilities.DateUtils -> com.mitv.utilities.DateUtils:
     253:299:java.lang.Integer calculateDifferenceBetween(java.util.Calendar,java.util.Calendar,int,boolean,int) -> calculateDifferenceBetween
     306:312:boolean isTodayUsingCalendar(java.util.Calendar) -> isTodayUsingCalendar
     326:338:boolean isTodayUsingTVDate(com.mitv.models.objects.mitvapi.TVDate) -> isTodayUsingTVDate
-    351:353:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar) -> buildDayOfTheWeekAsString
+    351:353:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar,boolean) -> buildDayOfTheWeekAsString
     378:449:boolean areCalendarsTheSameTVAiringDay(java.util.Calendar,java.util.Calendar) -> areCalendarsTheSameTVAiringDay
     457:476:java.lang.String getDayOfWeekStringUsingFirstHourOfTVDay(java.util.Calendar) -> a
-    491:532:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar,android.content.Context) -> a
-    543:551:java.lang.String buildDateCompositionAsString(java.util.Calendar) -> buildDateCompositionAsString
-    563:565:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar) -> getHourAndMinuteCompositionAsString
-    572:572:boolean showTimeOn24HourFormat() -> showTimeOn24HourFormat
-    579:585:java.lang.String getHourAndMinuteAsStringUsingHour(int) -> getHourAndMinuteAsStringUsingHour
-    601:625:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar,boolean) -> a
-    638:665:java.lang.String buildDayAndMonthCompositionAsString(java.util.Calendar,boolean) -> buildDayAndMonthCompositionAsString
-    678:717:java.util.Calendar buildLocalCalendarWithTVDateAndSelectedHour(com.mitv.models.objects.mitvapi.TVDate,int) -> buildLocalCalendarWithTVDateAndSelectedHour
-    732:740:java.util.Calendar getNowWithGMTTimeZone() -> getNowWithGMTTimeZone
-    754:760:java.util.Calendar getNowWithLocalTimezone() -> getNowWithLocalTimezone
-    767:771:java.util.Calendar setTimeZoneAndOffsetToLocal(java.util.Calendar) -> setTimeZoneAndOffsetToLocal
-    783:802:java.lang.Integer getTimeZoneOffsetInMinutes() -> getTimeZoneOffsetInMinutes
-    816:823:java.text.SimpleDateFormat getSimpleDateFormatWith(java.lang.String,java.util.Locale,java.util.TimeZone) -> a
+    492:598:java.lang.String buildDayOfTheWeekAsString(java.util.Calendar,android.content.Context,boolean) -> a
+    609:617:java.lang.String buildDateCompositionAsString(java.util.Calendar) -> buildDateCompositionAsString
+    629:631:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar) -> getHourAndMinuteCompositionAsString
+    638:638:boolean showTimeOn24HourFormat() -> showTimeOn24HourFormat
+    645:651:java.lang.String getHourAndMinuteAsStringUsingHour(int) -> getHourAndMinuteAsStringUsingHour
+    667:691:java.lang.String getHourAndMinuteCompositionAsString(java.util.Calendar,boolean) -> a
+    704:731:java.lang.String buildDayAndMonthCompositionAsString(java.util.Calendar,boolean) -> buildDayAndMonthCompositionAsString
+    744:783:java.util.Calendar buildLocalCalendarWithTVDateAndSelectedHour(com.mitv.models.objects.mitvapi.TVDate,int) -> buildLocalCalendarWithTVDateAndSelectedHour
+    798:806:java.util.Calendar getNowWithGMTTimeZone() -> getNowWithGMTTimeZone
+    820:826:java.util.Calendar getNowWithLocalTimezone() -> getNowWithLocalTimezone
+    833:837:java.util.Calendar setTimeZoneAndOffsetToLocal(java.util.Calendar) -> setTimeZoneAndOffsetToLocal
+    849:868:java.lang.Integer getTimeZoneOffsetInMinutes() -> getTimeZoneOffsetInMinutes
+    882:889:java.text.SimpleDateFormat getSimpleDateFormatWith(java.lang.String,java.util.Locale,java.util.TimeZone) -> a
 com.mitv.utilities.FileUtils -> com.mitv.utilities.FileUtils:
     java.lang.String TAG -> a
     java.lang.String ANDROID_FONTS_PATH -> ANDROID_FONTS_PATH
