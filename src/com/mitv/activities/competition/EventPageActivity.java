@@ -464,9 +464,7 @@ public class EventPageActivity
 				
 			stadiumImageCopyright.setText(sb);
 			
-			/* Hiding this for now, we are not using the stadium images anymore */
-//			stadiumImageCopyright.setVisibility(View.VISIBLE);
-			stadiumImageCopyright.setVisibility(View.GONE);
+			stadiumImageCopyright.setVisibility(View.VISIBLE);
 		}
 
 		String descriptionText = event.getDescription();
