@@ -354,7 +354,7 @@ public class Event
 	 */
 	public String getEventTimeDayAndMonthAsString() 
 	{
-		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getEventDateCalendarLocal(), false);
+		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getEventDateCalendarLocal(), true);
 		
 		return beginTimeDayAndMonthRepresentation;
 	}
