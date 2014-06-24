@@ -644,7 +644,7 @@ public class EventPageActivity
 		/* Set the background image */
 		ImageAware imageAware = new ImageViewAware(backgroundImage, false);
 		
-		String size = GenericUtils.getImageURLForDeviceDensity();
+		String size = GenericUtils.getImageURLForDeviceDensityMediumOrLargeForBackgounds();
 		
 		// http://images.mi.tv/sports/events/mundial-event-portrait_{teamId}_{size}.jpg
 		StringBuilder sbUrl = new StringBuilder();

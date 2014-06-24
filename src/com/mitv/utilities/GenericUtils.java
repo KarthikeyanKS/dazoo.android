@@ -481,7 +481,7 @@ public abstract class GenericUtils
 	 * 
 	 * @return String: s, m or l.
 	 */
-	public static String getImageURLForDeviceDensity()
+	public static String getImageURLForDeviceDensityMediumOrLargeForBackgounds()
 	{
 		String imageURL = null;
 		
@@ -490,9 +490,6 @@ public abstract class GenericUtils
 		switch(densityDpi)
 		{
 			case DisplayMetrics.DENSITY_LOW:
-				imageURL = "s";
-				break;
-	
 			case DisplayMetrics.DENSITY_MEDIUM:
 				imageURL = "m";
 				break;
