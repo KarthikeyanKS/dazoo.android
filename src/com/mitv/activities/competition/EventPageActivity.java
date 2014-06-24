@@ -820,29 +820,30 @@ public class EventPageActivity
 				}
 			}
 		}
-		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) 
-			{
-				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
-				
-				String competitionTitle;
-				
-				if(competition != null)
-				{
-					competitionTitle = competition.getDisplayName();
-				}
-				else
-				{
-					competitionTitle = Long.valueOf(competitionID).toString();
-					
-					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
-				}
-				
-				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionTitle);
-			}
-		});
+		
+//		listContainerLayoutHighlights.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) 
+//			{
+//				Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionID);
+//				
+//				String competitionTitle;
+//				
+//				if(competition != null)
+//				{
+//					competitionTitle = competition.getDisplayName();
+//				}
+//				else
+//				{
+//					competitionTitle = Long.valueOf(competitionID).toString();
+//					
+//					Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+//				}
+//				
+//				TrackingGAManager.sharedInstance().senduserCompetitionHightlightsPressedEvent(competitionTitle);
+//			}
+//		});
 	}
 
 

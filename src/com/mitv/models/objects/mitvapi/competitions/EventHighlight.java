@@ -61,9 +61,14 @@ public class EventHighlight
 						break;
 					}
 					
+					case PENALTY_SHOOTOUT: {
+						sb.append(context.getString(R.string.event_page_highlight_start_of_penalty));
+						break;
+					}
+					
 					default:
 					{
-						sb.append("");
+						sb.append(this.getActionInfo());
 						break;
 					}
 				}
@@ -106,9 +111,17 @@ public class EventHighlight
 						break;
 					}
 					
+					case PENALTY_SHOOTOUT: {
+						sb.append(context.getString(R.string.event_page_highlight_end_of_penalty));
+						sb.append(" (");
+						sb.append(getScoreAsString());
+						sb.append(")");
+						break;
+					}
+					
 					default:
 					{
-						sb.append("");
+						sb.append(this.getActionInfo());
 						break;
 					}
 				}
@@ -224,7 +237,7 @@ public class EventHighlight
 			case UNKNOWN:
 			default:
 			{
-				sb.append("");
+				sb.append(this.getActionInfo());
 				break;
 			}	
 		}
