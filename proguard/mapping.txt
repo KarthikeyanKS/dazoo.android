@@ -34510,54 +34510,41 @@ com.mitv.activities.BroadcastPageActivity -> com.mitv.activities.BroadcastPageAc
     android.widget.ImageView channelIv -> H
     android.widget.TextView synopsisTv -> I
     android.widget.TextView castInfo -> J
-    android.widget.RelativeLayout disqusCommentsLayout -> K
-    android.widget.RelativeLayout disqusLoginToCommentButtonContainer -> L
-    android.webkit.WebView webViewDisqusComments -> M
-    java.lang.String webViewDisqusURL -> N
-    com.mitv.ui.elements.FontTextView disqusLoginToCommentButton -> O
-    com.mitv.ui.elements.FontTextView disqusCommentsHeader -> P
-    android.widget.RelativeLayout upcomingContainer -> Q
-    android.widget.RelativeLayout repetitionsContainer -> R
-    android.widget.RelativeLayout nowAiringContainer -> S
-    boolean notificationEventSent -> T
-    int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> U
-    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> V
-    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> W
-    115:138:void onCreate(android.os.Bundle) -> onCreate
-    145:181:void onResume() -> onResume
-    188:191:void onNewIntent(android.content.Intent) -> onNewIntent
-    197:201:void updateStatusOfLikeView() -> h
-    208:215:void loadData() -> loadData
-    222:223:void loadDataInBackground() -> loadDataInBackground
-    230:232:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    240:267:java.util.ArrayList filterOutEpisodesWithBadData() -> i
-    274:296:void handleInitialDataAvailable() -> j
-    303:366:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    373:396:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    402:473:void initViews() -> k
-    479:536:void populateBlocks() -> l
-    542:781:void populateMainView() -> m
-    791:823:void setTVCreditInfo(com.mitv.models.objects.mitvapi.TVProgram,java.lang.String) -> a
-    831:864:void onClick(android.view.View) -> onClick
-    871:876:void onBackPressed() -> onBackPressed
-    882:883:void hideDisqusCommentsWebview() -> n
-    889:933:void showAndReloadDisqusCommentsWebview(int) -> b
-    939:978:void buildDisqusCommentsWebViewURL(com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo) -> a
-    984:984:java.lang.Runnable getConfirmProcedure(android.app.Activity) -> a
-    63:63:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
-    63:63:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
-    67:67:java.lang.String access$2() -> d
-    63:63:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> e
+    android.widget.RelativeLayout upcomingContainer -> K
+    android.widget.RelativeLayout repetitionsContainer -> L
+    android.widget.RelativeLayout nowAiringContainer -> M
+    boolean notificationEventSent -> N
+    int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> O
+    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> P
+    int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum -> Q
+    98:110:void onCreate(android.os.Bundle) -> onCreate
+    117:153:void onResume() -> onResume
+    160:163:void onNewIntent(android.content.Intent) -> onNewIntent
+    169:173:void updateStatusOfLikeView() -> i
+    180:187:void loadData() -> loadData
+    194:195:void loadDataInBackground() -> loadDataInBackground
+    202:204:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    212:239:java.util.ArrayList filterOutEpisodesWithBadData() -> j
+    246:268:void handleInitialDataAvailable() -> k
+    275:327:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    334:357:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    363:391:void initViews() -> l
+    397:465:void populateBlocks() -> m
+    471:710:void populateMainView() -> n
+    720:752:void setTVCreditInfo(com.mitv.models.objects.mitvapi.TVProgram,java.lang.String) -> a
+    760:780:void onClick(android.view.View) -> onClick
+    787:792:void onBackPressed() -> onBackPressed
+    54:54:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
+    54:54:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
+    67:67:java.util.ArrayList access$2(com.mitv.activities.BroadcastPageActivity) -> a
+    88:88:android.widget.RelativeLayout access$3(com.mitv.activities.BroadcastPageActivity) -> b
+    54:54:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> d
 com.mitv.activities.BroadcastPageActivity$1 -> axw:
     com.mitv.activities.BroadcastPageActivity this$0 -> a
-    449:462:boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String) -> shouldOverrideUrlLoading
-com.mitv.activities.BroadcastPageActivity$2 -> axx:
-    com.mitv.activities.BroadcastPageActivity this$0 -> a
-    470:471:void onConsoleMessage(java.lang.String,int,java.lang.String) -> onConsoleMessage
-com.mitv.activities.BroadcastPageActivity$3 -> axy:
-    com.mitv.activities.BroadcastPageActivity this$0 -> a
     android.app.Activity val$activity -> b
-    988:991:void run() -> run
+    com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcast -> c
+    436:449:void onPostExecute(java.lang.Void) -> a
+    1:1:void onPostExecute(java.lang.Object) -> onPostExecute
 com.mitv.activities.ChannelPageActivity -> com.mitv.activities.ChannelPageActivity:
     java.lang.String TAG -> o
     android.widget.ListView listView -> p
@@ -34582,7 +34569,7 @@ com.mitv.activities.ChannelPageActivity -> com.mitv.activities.ChannelPageActivi
     48:48:com.mitv.models.objects.mitvapi.TVChannel access$0(com.mitv.activities.ChannelPageActivity) -> a
     41:41:java.lang.String access$1() -> b
     38:38:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
-com.mitv.activities.ChannelPageActivity$1 -> axz:
+com.mitv.activities.ChannelPageActivity$1 -> axx:
     com.mitv.activities.ChannelPageActivity this$0 -> a
     java.util.List val$currentAndUpcomingbroadcasts -> b
     120:200:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
@@ -34629,7 +34616,7 @@ com.mitv.activities.FeedActivity -> com.mitv.activities.FeedActivity:
     48:48:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> d
     48:48:int[] $SWITCH_TABLE$com$mitv$enums$ActivityHeaderStatusEnum() -> e
     67:67:void access$4(com.mitv.activities.FeedActivity,boolean) -> a
-com.mitv.activities.FeedActivity$1 -> aya:
+com.mitv.activities.FeedActivity$1 -> axy:
     com.mitv.activities.FeedActivity this$0 -> a
     615:616:void run() -> run
 com.mitv.activities.HomeActivity -> com.mitv.activities.HomeActivity:
@@ -34656,7 +34643,7 @@ com.mitv.activities.HomeActivity -> com.mitv.activities.HomeActivity:
     274:290:com.mitv.fragments.TVGuideHolderFragment$OnViewPagerIndexChangedListener getOnViewPagerIndexChangedListener() -> i
     27:27:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     36:36:void access$1(com.mitv.activities.HomeActivity,int) -> a
-com.mitv.activities.HomeActivity$1 -> ayb:
+com.mitv.activities.HomeActivity$1 -> axz:
     com.mitv.activities.HomeActivity this$0 -> a
     279:287:void onIndexSelected(int) -> onIndexSelected
 com.mitv.activities.LikesActivity -> com.mitv.activities.LikesActivity:
@@ -34674,7 +34661,7 @@ com.mitv.activities.LikesActivity -> com.mitv.activities.LikesActivity:
     152:182:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
     30:30:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
     30:30:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> c
-com.mitv.activities.LikesActivity$1 -> ayc:
+com.mitv.activities.LikesActivity$1 -> aya:
     com.mitv.activities.LikesActivity this$0 -> a
     65:66:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.mitv.activities.MyChannelsActivity -> com.mitv.activities.MyChannelsActivity:
@@ -34710,7 +34697,7 @@ com.mitv.activities.MyChannelsActivity -> com.mitv.activities.MyChannelsActivity
     411:411:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     416:416:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     44:44:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
-com.mitv.activities.MyChannelsActivity$1 -> ayd:
+com.mitv.activities.MyChannelsActivity$1 -> ayb:
     com.mitv.activities.MyChannelsActivity this$0 -> a
     112:113:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.mitv.activities.PopularPageActivity -> com.mitv.activities.PopularPageActivity:
@@ -34786,7 +34773,7 @@ com.mitv.activities.SearchPageActivity -> com.mitv.activities.SearchPageActivity
     526:546:void afterTextChanged(android.text.Editable) -> afterTextChanged
     397:397:void access$0(com.mitv.activities.SearchPageActivity) -> a
     59:59:int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum() -> b
-com.mitv.activities.SearchPageActivity$1 -> aye:
+com.mitv.activities.SearchPageActivity$1 -> ayc:
     com.mitv.activities.SearchPageActivity this$0 -> a
     225:230:void run() -> run
 com.mitv.activities.SignUpSelectionActivity -> com.mitv.activities.SignUpSelectionActivity:
@@ -34802,15 +34789,15 @@ com.mitv.activities.SignUpSelectionActivity -> com.mitv.activities.SignUpSelecti
     84:84:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
     91:92:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
     98:172:void initViews() -> b
-com.mitv.activities.SignUpSelectionActivity$1 -> ayf:
+com.mitv.activities.SignUpSelectionActivity$1 -> ayd:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     android.os.Bundle val$bundle -> b
     115:125:void onClick(android.view.View) -> onClick
-com.mitv.activities.SignUpSelectionActivity$2 -> ayg:
+com.mitv.activities.SignUpSelectionActivity$2 -> aye:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     android.os.Bundle val$bundle -> b
     135:143:void onClick(android.view.View) -> onClick
-com.mitv.activities.SignUpSelectionActivity$3 -> ayh:
+com.mitv.activities.SignUpSelectionActivity$3 -> ayf:
     com.mitv.activities.SignUpSelectionActivity this$0 -> a
     android.os.Bundle val$bundle -> b
     153:161:void onClick(android.view.View) -> onClick
@@ -34853,7 +34840,7 @@ com.mitv.activities.SplashScreenActivity -> com.mitv.activities.SplashScreenActi
     71:71:com.viewpagerindicator.CirclePageIndicator access$2(com.mitv.activities.SplashScreenActivity) -> a
     60:60:android.support.v4.view.ViewPager access$3(com.mitv.activities.SplashScreenActivity) -> b
     518:518:void access$4(com.mitv.activities.SplashScreenActivity) -> c
-com.mitv.activities.SplashScreenActivity$1 -> ayi:
+com.mitv.activities.SplashScreenActivity$1 -> ayg:
     com.mitv.activities.SplashScreenActivity this$0 -> a
     392:392:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
     395:395:void onPageScrolled(int,float,int) -> onPageScrolled
@@ -34950,10 +34937,10 @@ com.mitv.activities.authentication.LoginWithFacebookActivity -> com.mitv.activit
     331:366:com.androidquery.callback.AjaxCallback getFacebookAuthenticationCallback() -> h
     33:33:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     36:36:java.lang.String access$1() -> c
-com.mitv.activities.authentication.LoginWithFacebookActivity$1 -> ayj:
+com.mitv.activities.authentication.LoginWithFacebookActivity$1 -> ayh:
     com.mitv.activities.authentication.LoginWithFacebookActivity this$0 -> a
     295:298:void failure(android.content.Context,int,java.lang.String) -> failure
-com.mitv.activities.authentication.LoginWithFacebookActivity$2 -> ayk:
+com.mitv.activities.authentication.LoginWithFacebookActivity$2 -> ayi:
     com.mitv.activities.authentication.LoginWithFacebookActivity this$0 -> a
     336:354:void callback(java.lang.String,org.json.JSONObject,com.androidquery.callback.AjaxStatus) -> a
     360:363:void failure(int,java.lang.String) -> failure
@@ -35140,14 +35127,49 @@ com.mitv.activities.base.BaseActivity -> com.mitv.activities.base.BaseActivity:
     59:59:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> f
     59:59:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> g
     116:116:void access$2(com.mitv.activities.base.BaseActivity,boolean) -> a
-com.mitv.activities.base.BaseActivity$1 -> ayl:
+com.mitv.activities.base.BaseActivity$1 -> ayj:
     com.mitv.activities.base.BaseActivity this$0 -> a
     781:784:void onClick(android.view.View) -> onClick
-com.mitv.activities.base.BaseActivity$2 -> aym:
+com.mitv.activities.base.BaseActivity$2 -> ayk:
     com.mitv.activities.base.BaseActivity this$0 -> a
     1233:1236:void run() -> run
 com.mitv.activities.base.BaseActivityLoginRequired -> com.mitv.activities.base.BaseActivityLoginRequired:
 com.mitv.activities.base.BaseActivityWithoutSearchOption -> com.mitv.activities.base.BaseActivityWithoutSearchOption:
+com.mitv.activities.base.BaseCommentsActivity -> com.mitv.activities.base.BaseCommentsActivity:
+    java.lang.String TAG -> o
+    android.widget.RelativeLayout disqusCommentsLayout -> disqusCommentsLayout
+    android.widget.RelativeLayout disqusLoginToCommentButtonContainer -> disqusLoginToCommentButtonContainer
+    android.webkit.WebView webViewDisqusComments -> webViewDisqusComments
+    java.lang.String webViewDisqusURL -> webViewDisqusURL
+    com.mitv.ui.elements.FontTextView disqusLoginToCommentButton -> disqusLoginToCommentButton
+    com.mitv.ui.elements.FontTextView disqusCommentsHeader -> disqusCommentsHeader
+    com.mitv.enums.DisqusTypeEnum disqusTypeEnum -> p
+    long competitionID -> q
+    long eventID -> r
+    long teamID -> s
+    int[] $SWITCH_TABLE$com$mitv$enums$DisqusTypeEnum -> t
+    88:144:void initDisqus() -> initDisqus
+    148:152:void loadDisqusForEvent(long,long) -> loadDisqusForEvent
+    156:159:void loadDisqusForTeam(long) -> loadDisqusForTeam
+    163:165:void loadDisqusForBroadcast() -> loadDisqusForBroadcast
+    170:219:void loadDisqus() -> b
+    224:225:void hideDisqusCommentsWebview() -> hideDisqusCommentsWebview
+    231:275:void showAndReloadDisqusCommentsWebview(int) -> showAndReloadDisqusCommentsWebview
+    281:316:void buildDisqusCommentsWebViewURL(java.lang.String,java.lang.String,java.lang.String) -> buildDisqusCommentsWebViewURL
+    322:322:java.lang.Runnable getConfirmProcedure(android.app.Activity) -> getConfirmProcedure
+    335:360:void onClick(android.view.View) -> onClick
+    69:69:java.lang.String access$0() -> e
+    67:67:int[] $SWITCH_TABLE$com$mitv$enums$DisqusTypeEnum() -> h
+com.mitv.activities.base.BaseCommentsActivity$1 -> ayl:
+    com.mitv.activities.base.BaseCommentsActivity this$0 -> a
+    108:121:boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String) -> shouldOverrideUrlLoading
+com.mitv.activities.base.BaseCommentsActivity$2 -> aym:
+    com.mitv.activities.base.BaseCommentsActivity this$0 -> a
+    129:130:void onConsoleMessage(java.lang.String,int,java.lang.String) -> onConsoleMessage
+com.mitv.activities.base.BaseCommentsActivity$3 -> ayn:
+    com.mitv.activities.base.BaseCommentsActivity this$0 -> a
+    android.app.Activity val$activity -> b
+    326:329:void run() -> run
 com.mitv.activities.base.BaseContentActivity -> com.mitv.activities.base.BaseContentActivity:
     java.lang.String TAG -> o
     17:20:void onResume() -> onResume
@@ -35157,15 +35179,25 @@ com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity
     com.mitv.adapters.list.AiringOnDifferentChannelListAdapter listAdapter -> q
     java.util.ArrayList broadcasts -> r
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> s
-    39:54:void onCreate(android.os.Bundle) -> onCreate
-    60:71:void initViews() -> c
-    78:79:void loadData() -> loadData
-    86:87:void loadDataInBackground() -> loadDataInBackground
-    94:94:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    102:110:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    117:122:void onBackPressed() -> onBackPressed
-    129:147:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    24:24:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
+    41:56:void onCreate(android.os.Bundle) -> onCreate
+    62:73:void initViews() -> c
+    80:81:void loadData() -> loadData
+    88:89:void loadDataInBackground() -> loadDataInBackground
+    96:96:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    104:112:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    119:124:void onBackPressed() -> onBackPressed
+    131:147:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    153:167:void setData() -> setData
+    26:26:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
+    34:34:java.util.ArrayList access$1(com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity) -> a
+    33:33:void access$2(com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity,com.mitv.adapters.list.AiringOnDifferentChannelListAdapter) -> a
+    32:32:android.widget.ListView access$3(com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity) -> b
+    33:33:com.mitv.adapters.list.AiringOnDifferentChannelListAdapter access$4(com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity) -> c
+com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity$1 -> ayo:
+    com.mitv.activities.broadcast_list_more.AiringOnDifferentChannelListMoreActivity this$0 -> a
+    android.app.Activity val$activity -> b
+    159:163:void onPostExecute(java.lang.Void) -> a
+    1:1:void onPostExecute(java.lang.Object) -> onPostExecute
 com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity -> com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity:
 com.mitv.activities.broadcast_list_more.RepetitionsOrUpcomingListMoreActivity -> com.mitv.activities.broadcast_list_more.RepetitionsOrUpcomingListMoreActivity:
     java.lang.String TAG -> o
@@ -35248,10 +35280,10 @@ com.mitv.activities.competition.CompetitionPageActivity -> com.mitv.activities.c
     748:748:java.lang.Runnable loginBeforeLikeProcedure(com.mitv.models.objects.mitvapi.UserLike) -> a
     54:54:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     61:61:com.mitv.models.objects.mitvapi.competitions.Competition access$1(com.mitv.activities.competition.CompetitionPageActivity) -> a
-com.mitv.activities.competition.CompetitionPageActivity$1 -> ayn:
+com.mitv.activities.competition.CompetitionPageActivity$1 -> ayp:
     com.mitv.activities.competition.CompetitionPageActivity this$0 -> a
     301:302:void onClick(android.view.View) -> onClick
-com.mitv.activities.competition.CompetitionPageActivity$2 -> ayo:
+com.mitv.activities.competition.CompetitionPageActivity$2 -> ayq:
     com.mitv.activities.competition.CompetitionPageActivity this$0 -> a
     com.mitv.models.objects.mitvapi.UserLike val$userLike -> b
     754:759:void run() -> run
@@ -35304,65 +35336,65 @@ com.mitv.activities.competition.EventPageActivity -> com.mitv.activities.competi
     int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> ah
     int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum -> ai
     int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> aj
-    131:209:void onCreate(android.os.Bundle) -> onCreate
-    216:219:void onResume() -> onResume
-    226:232:void onPause() -> onPause
-    239:286:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    298:335:void setAllAdapters() -> h
-    343:664:void setData(com.mitv.models.objects.mitvapi.competitions.Competition,com.mitv.models.objects.mitvapi.competitions.Event) -> a
-    670:674:void showHighlightsReloadButton() -> i
-    679:682:void showHighlightsReloadButtonLoading() -> j
-    688:691:void hideHighlightsReloadButton() -> k
-    699:759:void onClick(android.view.View) -> onClick
-    765:803:void initLayout() -> l
-    809:827:void setAdapterForHighlights() -> m
-    839:899:void setAdapterForLineupTeams(int,long,java.lang.String,long,java.lang.String,long) -> a
-    906:930:void setAdapterForGroupList(java.util.List,java.lang.String) -> a
-    937:971:void setAdapterForStandingsList(java.util.List,java.lang.String) -> b
-    978:998:void loadData() -> loadData
-    1005:1007:void loadDataInBackground() -> loadDataInBackground
-    1013:1014:void loadHighlightsInBackground() -> n
-    1021:1023:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    1031:1125:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    1131:1148:void setListView(com.mitv.models.objects.mitvapi.competitions.Event) -> a
-    1154:1158:void updateStatusOfLikeView() -> o
-    1164:1164:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
-    1195:1195:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
-    1202:1221:void setBackgroundLoadingTimerForHighlights(int) -> c
-    61:61:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
-    61:61:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> c
-    78:78:void access$2(com.mitv.activities.competition.EventPageActivity,int) -> a
-    73:73:long access$3(com.mitv.activities.competition.EventPageActivity) -> a
-    65:65:java.lang.String access$4() -> d
-    81:81:com.mitv.adapters.pager.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter access$5(com.mitv.activities.competition.EventPageActivity) -> b
-    61:61:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> e
-    1011:1011:void access$7(com.mitv.activities.competition.EventPageActivity) -> c
-com.mitv.activities.competition.EventPageActivity$1 -> ayp:
+    130:208:void onCreate(android.os.Bundle) -> onCreate
+    215:218:void onResume() -> onResume
+    225:231:void onPause() -> onPause
+    238:285:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    297:334:void setAllAdapters() -> j
+    342:660:void setData(com.mitv.models.objects.mitvapi.competitions.Competition,com.mitv.models.objects.mitvapi.competitions.Event) -> a
+    666:670:void showHighlightsReloadButton() -> k
+    675:678:void showHighlightsReloadButtonLoading() -> l
+    684:687:void hideHighlightsReloadButton() -> m
+    695:755:void onClick(android.view.View) -> onClick
+    761:801:void initLayout() -> n
+    807:825:void setAdapterForHighlights() -> o
+    837:897:void setAdapterForLineupTeams(int,long,java.lang.String,long,java.lang.String,long) -> a
+    904:928:void setAdapterForGroupList(java.util.List,java.lang.String) -> a
+    935:969:void setAdapterForStandingsList(java.util.List,java.lang.String) -> b
+    976:996:void loadData() -> loadData
+    1003:1005:void loadDataInBackground() -> loadDataInBackground
+    1011:1012:void loadHighlightsInBackground() -> p
+    1019:1021:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    1029:1141:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    1147:1164:void setListView(com.mitv.models.objects.mitvapi.competitions.Event) -> a
+    1170:1174:void updateStatusOfLikeView() -> q
+    1180:1180:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
+    1211:1211:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    1218:1237:void setBackgroundLoadingTimerForHighlights(int) -> c
+    60:60:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
+    60:60:int[] $SWITCH_TABLE$com$mitv$enums$EventMatchStatusEnum() -> c
+    77:77:void access$2(com.mitv.activities.competition.EventPageActivity,int) -> a
+    72:72:long access$3(com.mitv.activities.competition.EventPageActivity) -> a
+    64:64:java.lang.String access$4() -> d
+    80:80:com.mitv.adapters.pager.CompetitionEventLineupTeamsTabFragmentStatePagerAdapter access$5(com.mitv.activities.competition.EventPageActivity) -> b
+    60:60:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> i
+    1009:1009:void access$7(com.mitv.activities.competition.EventPageActivity) -> c
+com.mitv.activities.competition.EventPageActivity$1 -> ayr:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     java.lang.String val$competitionName -> b
     java.lang.String val$homeTeamName -> c
     com.mitv.models.objects.mitvapi.competitions.Event val$event -> d
     long val$team1ID -> e
-    398:405:void onClick(android.view.View) -> onClick
-com.mitv.activities.competition.EventPageActivity$2 -> ayq:
+    397:404:void onClick(android.view.View) -> onClick
+com.mitv.activities.competition.EventPageActivity$2 -> ays:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     java.lang.String val$competitionName -> b
     java.lang.String val$awayTeamName -> c
     com.mitv.models.objects.mitvapi.competitions.Event val$event -> d
     long val$team2ID -> e
-    425:432:void onClick(android.view.View) -> onClick
-com.mitv.activities.competition.EventPageActivity$3 -> ayr:
+    424:431:void onClick(android.view.View) -> onClick
+com.mitv.activities.competition.EventPageActivity$3 -> ayt:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
-    871:891:void onPageSelected(int) -> onPageSelected
-    894:894:void onPageScrolled(int,float,int) -> onPageScrolled
-    897:897:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
-com.mitv.activities.competition.EventPageActivity$4 -> ays:
+    869:889:void onPageSelected(int) -> onPageSelected
+    892:892:void onPageScrolled(int,float,int) -> onPageScrolled
+    895:895:void onPageScrollStateChanged(int) -> onPageScrollStateChanged
+com.mitv.activities.competition.EventPageActivity$4 -> ayu:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    1168:1188:void run() -> run
-com.mitv.activities.competition.EventPageActivity$5 -> ayt:
+    1184:1204:void run() -> run
+com.mitv.activities.competition.EventPageActivity$5 -> ayv:
     com.mitv.activities.competition.EventPageActivity this$0 -> a
-    1217:1218:void run() -> run
+    1233:1234:void run() -> run
 com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competition.TeamPageActivity:
     java.lang.String TAG -> o
     com.mitv.models.objects.mitvapi.competitions.Team team -> p
@@ -35385,41 +35417,42 @@ com.mitv.activities.competition.TeamPageActivity -> com.mitv.activities.competit
     android.widget.LinearLayout standingsListContainer -> G
     com.mitv.adapters.list.CompetitionEventStandingsListAdapter standingsListAdapter -> H
     android.widget.TextView standingsHeader -> I
-    android.widget.TextView scheduleHeader -> J
-    android.widget.LinearLayout scheduleListContainer -> K
-    com.mitv.adapters.list.CompetitionTagEventsListAdapter scheduleListAdapter -> L
-    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> M
-    int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> N
-    94:119:void onCreate(android.os.Bundle) -> onCreate
-    126:129:void onResume() -> onResume
-    134:134:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
-    141:159:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
-    166:179:void loadData() -> loadData
-    186:189:void loadDataInBackground() -> loadDataInBackground
-    196:199:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
-    207:242:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
-    248:274:void initLayout() -> e
-    280:337:void setMainLayoutLayout() -> h
-    345:364:void onClick(android.view.View) -> onClick
-    370:423:void setSquadLayout() -> i
-    429:460:void setStandingsLayout() -> j
-    466:490:void setScheduleLayout() -> k
-    496:500:void updateStatusOfLikeView() -> l
-    506:513:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> m
-    520:520:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
+    android.widget.LinearLayout standingsContainer -> J
+    android.widget.TextView scheduleHeader -> K
+    android.widget.LinearLayout scheduleListContainer -> L
+    com.mitv.adapters.list.CompetitionTagEventsListAdapter scheduleListAdapter -> M
+    int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum -> N
+    int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum -> O
+    95:120:void onCreate(android.os.Bundle) -> onCreate
+    127:130:void onResume() -> onResume
+    135:135:void onFetchDataProgress(int,java.lang.String) -> onFetchDataProgress
+    142:160:void updateUI(com.mitv.enums.UIStatusEnum) -> updateUI
+    167:180:void loadData() -> loadData
+    187:190:void loadDataInBackground() -> loadDataInBackground
+    197:200:boolean hasEnoughDataToShowContent() -> hasEnoughDataToShowContent
+    208:261:void onDataAvailable(com.mitv.enums.FetchRequestResultEnum,com.mitv.enums.RequestIdentifierEnum) -> onDataAvailable
+    267:296:void initLayout() -> i
+    302:359:void setMainLayoutLayout() -> j
+    367:386:void onClick(android.view.View) -> onClick
+    392:445:void setSquadLayout() -> k
+    451:489:void setStandingsLayout() -> l
+    495:519:void setScheduleLayout() -> m
+    525:529:void updateStatusOfLikeView() -> n
+    535:542:com.mitv.models.objects.mitvapi.competitions.Team getTeam() -> o
+    549:549:java.lang.Runnable getNavigateToCompetitionPageProcedure(int) -> b
     48:48:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> b
     48:48:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> c
     57:57:long access$2(com.mitv.activities.competition.TeamPageActivity) -> a
     52:52:java.lang.String access$3() -> d
     55:55:com.mitv.models.objects.mitvapi.competitions.Team access$4(com.mitv.activities.competition.TeamPageActivity) -> b
     56:56:long access$5(com.mitv.activities.competition.TeamPageActivity) -> c
-com.mitv.activities.competition.TeamPageActivity$1 -> ayu:
+com.mitv.activities.competition.TeamPageActivity$1 -> ayw:
     com.mitv.activities.competition.TeamPageActivity this$0 -> a
-    392:421:void onClick(android.view.View) -> onClick
-com.mitv.activities.competition.TeamPageActivity$2 -> ayv:
+    414:443:void onClick(android.view.View) -> onClick
+com.mitv.activities.competition.TeamPageActivity$2 -> ayx:
     com.mitv.activities.competition.TeamPageActivity this$0 -> a
     int val$tabToNavigateTo -> b
-    524:543:void run() -> run
+    553:572:void run() -> run
 com.mitv.adapters.list.ActionBarDropDownDateListAdapter -> com.mitv.adapters.list.ActionBarDropDownDateListAdapter:
     java.lang.String TAG -> a
     android.content.Context context -> b
@@ -35429,9 +35462,9 @@ com.mitv.adapters.list.ActionBarDropDownDateListAdapter -> com.mitv.adapters.lis
     67:74:com.mitv.models.objects.mitvapi.TVDate getItem(int) -> getItem
     82:82:long getItemId(int) -> getItemId
     90:90:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
-    97:208:android.view.View getViewForHeaderOrRow(int,android.view.View,android.view.ViewGroup,boolean) -> a
-    216:216:android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
-    223:224:void setSelectedIndex(int) -> setSelectedIndex
+    97:207:android.view.View getViewForHeaderOrRow(int,android.view.View,android.view.ViewGroup,boolean) -> a
+    215:215:android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
+    222:223:void setSelectedIndex(int) -> setSelectedIndex
     1:1:java.lang.Object getItem(int) -> getItem
 com.mitv.adapters.list.AiringOnDifferentChannelListAdapter -> com.mitv.adapters.list.AiringOnDifferentChannelListAdapter:
     java.lang.String TAG -> a
@@ -35446,11 +35479,11 @@ com.mitv.adapters.list.AiringOnDifferentChannelListAdapter -> com.mitv.adapters.
     1:1:java.lang.Object getItem(int) -> getItem
     35:35:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
     44:44:android.app.Activity access$2(com.mitv.adapters.list.AiringOnDifferentChannelListAdapter) -> a
-com.mitv.adapters.list.AiringOnDifferentChannelListAdapter$1 -> ayw:
+com.mitv.adapters.list.AiringOnDifferentChannelListAdapter$1 -> ayy:
     com.mitv.adapters.list.AiringOnDifferentChannelListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     240:245:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.AiringOnDifferentChannelListAdapter$ViewHolder -> ayx:
+com.mitv.adapters.list.AiringOnDifferentChannelListAdapter$ViewHolder -> ayz:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mImageIv -> b
     android.widget.TextView mTitleTv -> c
@@ -35503,18 +35536,18 @@ com.mitv.adapters.list.BannerListAdapter -> com.mitv.adapters.list.BannerListAda
     34:34:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> a
     37:37:java.lang.String access$1() -> b
     40:40:android.app.Activity access$2(com.mitv.adapters.list.BannerListAdapter) -> a
-com.mitv.adapters.list.BannerListAdapter$1 -> ayy:
+com.mitv.adapters.list.BannerListAdapter$1 -> aza:
     com.mitv.adapters.list.BannerListAdapter this$0 -> a
     227:229:void onAdClosed() -> onAdClosed
     234:236:void onAdFailedToLoad(int) -> onAdFailedToLoad
     241:243:void onAdLeftApplication() -> onAdLeftApplication
     248:250:void onAdLoaded() -> onAdLoaded
     255:257:void onAdOpened() -> onAdOpened
-com.mitv.adapters.list.BannerListAdapter$2 -> ayz:
+com.mitv.adapters.list.BannerListAdapter$2 -> azb:
     com.mitv.adapters.list.BannerListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Competition val$competition -> b
     312:329:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.BannerListAdapter$ViewHolder -> aza:
+com.mitv.adapters.list.BannerListAdapter$ViewHolder -> azc:
     android.widget.RelativeLayout container -> a
     android.widget.FrameLayout competitionBannerFrameLayout -> b
     com.google.android.gms.ads.AdView adMobView -> c
@@ -35536,10 +35569,10 @@ com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter -> com.mitv.adapters.list.
     87:94:boolean isShowMoreView(int) -> isShowMoreView
     102:135:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     30:30:java.lang.Runnable access$0(com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter) -> a
-com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter$1 -> azb:
+com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter$1 -> azd:
     com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter this$0 -> a
     127:131:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter$ViewHolderMoreItems -> azc:
+com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter$ViewHolderMoreItems -> aze:
     android.widget.RelativeLayout containerLayout -> a
     android.widget.TextView show_more -> b
     144:144:void access$1(com.mitv.adapters.list.BaseAdapterWithShowMoreAdapter$ViewHolderMoreItems,android.widget.TextView) -> a
@@ -35559,11 +35592,11 @@ com.mitv.adapters.list.BlockPopularListViewAdapter -> com.mitv.adapters.list.Blo
     1:1:java.lang.Object getItem(int) -> getItem
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
     39:39:android.app.Activity access$2(com.mitv.adapters.list.BlockPopularListViewAdapter) -> a
-com.mitv.adapters.list.BlockPopularListViewAdapter$1 -> azd:
+com.mitv.adapters.list.BlockPopularListViewAdapter$1 -> azf:
     com.mitv.adapters.list.BlockPopularListViewAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     215:220:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.BlockPopularListViewAdapter$ViewHolder -> aze:
+com.mitv.adapters.list.BlockPopularListViewAdapter$ViewHolder -> azg:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mPoster -> b
     android.widget.TextView mTitle -> c
@@ -35599,7 +35632,7 @@ com.mitv.adapters.list.ChannelPageListAdapter -> com.mitv.adapters.list.ChannelP
     282:285:void setOnGoingElementsRed() -> b
     1:1:java.lang.Object getItem(int) -> getItem
     33:33:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
-com.mitv.adapters.list.ChannelPageListAdapter$ViewHolder -> azf:
+com.mitv.adapters.list.ChannelPageListAdapter$ViewHolder -> azh:
     android.widget.TextView title -> a
     android.widget.TextView description -> b
     android.widget.TextView startTime -> c
@@ -35627,11 +35660,11 @@ com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter -> com.mitv.adap
     103:461:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
     40:40:java.lang.String access$1() -> a
-com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter$1 -> azg:
+com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter$1 -> azi:
     com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$event -> b
     328:356:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter$ViewHolder -> azh:
+com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter$ViewHolder -> azj:
     android.widget.TextView group -> a
     android.widget.TextView startWeekDayHeader -> b
     android.widget.TextView team1name -> c
@@ -35684,7 +35717,7 @@ com.mitv.adapters.list.CompetitionEventHighlightsListAdapter -> com.mitv.adapter
     288:301:boolean isHomeTeam(com.mitv.models.objects.mitvapi.competitions.EventHighlight) -> b
     308:321:boolean isAwayTeam(com.mitv.models.objects.mitvapi.competitions.EventHighlight) -> c
     1:1:java.lang.Object getItem(int) -> getItem
-com.mitv.adapters.list.CompetitionEventHighlightsListAdapter$ViewHolder -> azi:
+com.mitv.adapters.list.CompetitionEventHighlightsListAdapter$ViewHolder -> azk:
     android.widget.RelativeLayout leftLayout -> a
     android.widget.TextView leftName -> b
     android.widget.TextView leftNameExtra -> c
@@ -35739,7 +35772,7 @@ com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter -> com.mitv.adapte
     92:193:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
     25:25:int[] $SWITCH_TABLE$com$mitv$enums$EventLineUpPositionEnum() -> a
-com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder -> azj:
+com.mitv.adapters.list.CompetitionEventLineUpTeamsListAdapter$ViewHolder -> azl:
     android.widget.TextView playerName -> a
     android.widget.TextView playerPosition -> b
     android.widget.TextView playerShirtNumber -> c
@@ -35772,11 +35805,11 @@ com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter -> com.mitv.adap
     1:1:java.lang.Object getItem(int) -> getItem
     47:47:long access$1(com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter) -> a
     48:48:long access$2(com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter) -> b
-com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter$1 -> azk:
+com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter$1 -> azm:
     com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.EventBroadcast val$element -> b
     249:280:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter$ViewHolder -> azl:
+com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter$ViewHolder -> azn:
     android.widget.RelativeLayout container -> a
     android.widget.ImageView channelLogo -> b
     android.widget.TextView beginTime -> c
@@ -35806,11 +35839,11 @@ com.mitv.adapters.list.CompetitionEventStandingsListAdapter -> com.mitv.adapters
     85:85:long getItemId(int) -> getItemId
     94:209:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
-com.mitv.adapters.list.CompetitionEventStandingsListAdapter$1 -> azm:
+com.mitv.adapters.list.CompetitionEventStandingsListAdapter$1 -> azo:
     com.mitv.adapters.list.CompetitionEventStandingsListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Standings val$element -> b
     168:192:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.CompetitionEventStandingsListAdapter$ViewHolder -> azn:
+com.mitv.adapters.list.CompetitionEventStandingsListAdapter$ViewHolder -> azp:
     android.widget.RelativeLayout headerContainer -> a
     android.widget.TextView group -> b
     android.widget.ImageView teamFlag -> c
@@ -35849,11 +35882,11 @@ com.mitv.adapters.list.CompetitionEventsByGroupListAdapter -> com.mitv.adapters.
     109:427:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
     48:48:android.app.Activity access$1(com.mitv.adapters.list.CompetitionEventsByGroupListAdapter) -> a
-com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$1 -> azo:
+com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$1 -> azq:
     com.mitv.adapters.list.CompetitionEventsByGroupListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$event -> b
     296:322:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder -> azp:
+com.mitv.adapters.list.CompetitionEventsByGroupListAdapter$ViewHolder -> azr:
     android.widget.TextView group -> a
     android.widget.TextView startWeekDayHeader -> b
     android.widget.TextView team1name -> c
@@ -35906,11 +35939,11 @@ com.mitv.adapters.list.CompetitionPageTodayListAdapter -> com.mitv.adapters.list
     1:1:java.lang.Object getItem(int) -> getItem
     47:47:java.lang.String access$1(com.mitv.adapters.list.CompetitionPageTodayListAdapter) -> a
     46:46:android.app.Activity access$2(com.mitv.adapters.list.CompetitionPageTodayListAdapter) -> b
-com.mitv.adapters.list.CompetitionPageTodayListAdapter$1 -> azq:
+com.mitv.adapters.list.CompetitionPageTodayListAdapter$1 -> azs:
     com.mitv.adapters.list.CompetitionPageTodayListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$event -> b
     333:344:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.CompetitionPageTodayListAdapter$ViewHolder -> azr:
+com.mitv.adapters.list.CompetitionPageTodayListAdapter$ViewHolder -> azt:
     android.widget.RelativeLayout liveOngoingLayout -> a
     android.widget.TextView liveOngoingStandings -> b
     android.widget.TextView liveTeam1NameOngoing -> c
@@ -35949,11 +35982,11 @@ com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter -> com.mitv.adapte
     119:246:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
     46:46:android.app.Activity access$1(com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter) -> a
-com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter$1 -> azs:
+com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter$1 -> azu:
     com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Standings val$element -> b
     210:233:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter$ViewHolder -> azt:
+com.mitv.adapters.list.CompetitionStandingsByGroupListAdapter$ViewHolder -> azv:
     android.widget.RelativeLayout headerContainer -> a
     android.widget.RelativeLayout rowContainer -> b
     android.widget.TextView group -> c
@@ -35995,11 +36028,11 @@ com.mitv.adapters.list.CompetitionTagEventsListAdapter -> com.mitv.adapters.list
     94:94:long getItemId(int) -> getItemId
     102:455:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
-com.mitv.adapters.list.CompetitionTagEventsListAdapter$1 -> azu:
+com.mitv.adapters.list.CompetitionTagEventsListAdapter$1 -> azw:
     com.mitv.adapters.list.CompetitionTagEventsListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.competitions.Event val$event -> b
     325:350:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.CompetitionTagEventsListAdapter$ViewHolder -> azv:
+com.mitv.adapters.list.CompetitionTagEventsListAdapter$ViewHolder -> azx:
     android.widget.TextView group -> a
     android.widget.TextView startWeekDayHeader -> b
     android.widget.TextView team1name -> c
@@ -36049,7 +36082,7 @@ com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter -> com.mitv.adapter
     84:84:long getItemId(int) -> getItemId
     92:223:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     1:1:java.lang.Object getItem(int) -> getItem
-com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter$ViewHolder -> azw:
+com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter$ViewHolder -> azy:
     android.widget.RelativeLayout headersContainer -> a
     android.widget.RelativeLayout rowContainer -> b
     android.widget.TextView playerNameHeader -> c
@@ -36113,24 +36146,24 @@ com.mitv.adapters.list.FeedListAdapter -> com.mitv.adapters.list.FeedListAdapter
     46:46:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> d
     652:652:void access$2(com.mitv.adapters.list.FeedListAdapter,com.mitv.enums.FeedItemTypeEnum,com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo,int) -> a
     56:56:android.app.Activity access$3(com.mitv.adapters.list.FeedListAdapter) -> a
-com.mitv.adapters.list.FeedListAdapter$1 -> azx:
+com.mitv.adapters.list.FeedListAdapter$1 -> azz:
     com.mitv.adapters.list.FeedListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcast -> b
     int val$popularRowIndex -> c
     324:325:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.FeedListAdapter$2 -> azy:
+com.mitv.adapters.list.FeedListAdapter$2 -> baa:
     com.mitv.adapters.list.FeedListAdapter this$0 -> a
     com.mitv.enums.FeedItemTypeEnum val$feedItemType -> b
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcast -> c
     565:566:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.FeedListAdapter$3 -> azz:
+com.mitv.adapters.list.FeedListAdapter$3 -> bab:
     com.mitv.adapters.list.FeedListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcast -> b
     574:575:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.FeedListAdapter$4 -> baa:
+com.mitv.adapters.list.FeedListAdapter$4 -> bac:
     com.mitv.adapters.list.FeedListAdapter this$0 -> a
     641:644:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.FeedListAdapter$BroadcastViewHolder -> bab:
+com.mitv.adapters.list.FeedListAdapter$BroadcastViewHolder -> bad:
     android.widget.RelativeLayout container -> a
     android.widget.TextView headerTv -> b
     android.widget.ImageView landscapeIv -> c
@@ -36143,7 +36176,7 @@ com.mitv.adapters.list.FeedListAdapter$BroadcastViewHolder -> bab:
     android.widget.RelativeLayout shareContainer -> j
     com.mitv.ui.elements.ReminderView reminderView -> k
     com.mitv.ui.elements.LikeView likeView -> l
-com.mitv.adapters.list.FeedListAdapter$PopularBroadcastsViewHolder -> bac:
+com.mitv.adapters.list.FeedListAdapter$PopularBroadcastsViewHolder -> bae:
     android.widget.RelativeLayout mContainerOne -> a
     android.widget.ImageView mPosterOne -> b
     android.widget.TextView mTitleOne -> c
@@ -36192,14 +36225,14 @@ com.mitv.adapters.list.LikesListAdapter -> com.mitv.adapters.list.LikesListAdapt
     38:38:int access$7(com.mitv.adapters.list.LikesListAdapter) -> b
     37:37:java.util.List access$8(com.mitv.adapters.list.LikesListAdapter) -> c
     32:32:java.lang.String access$9() -> d
-com.mitv.adapters.list.LikesListAdapter$1 -> bad:
+com.mitv.adapters.list.LikesListAdapter$1 -> baf:
     com.mitv.adapters.list.LikesListAdapter this$0 -> a
     218:221:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.LikesListAdapter$2 -> bae:
+com.mitv.adapters.list.LikesListAdapter$2 -> bag:
     com.mitv.adapters.list.LikesListAdapter this$0 -> a
     com.mitv.activities.base.BaseActivity val$activity -> b
     236:251:void run() -> run
-com.mitv.adapters.list.LikesListAdapter$ViewHolder -> baf:
+com.mitv.adapters.list.LikesListAdapter$ViewHolder -> bah:
     android.widget.TextView title -> a
     android.widget.TextView description -> b
     android.widget.TextView button -> c
@@ -36228,13 +36261,13 @@ com.mitv.adapters.list.MyChannelsListAdapter -> com.mitv.adapters.list.MyChannel
     38:38:java.util.ArrayList access$3(com.mitv.adapters.list.MyChannelsListAdapter) -> c
     40:40:java.lang.String access$4(com.mitv.adapters.list.MyChannelsListAdapter) -> d
     42:42:com.mitv.interfaces.MyChannelsCountInterface access$5(com.mitv.adapters.list.MyChannelsListAdapter) -> e
-com.mitv.adapters.list.MyChannelsListAdapter$1 -> bag:
+com.mitv.adapters.list.MyChannelsListAdapter$1 -> bai:
     com.mitv.adapters.list.MyChannelsListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVChannel val$channel -> b
     com.mitv.adapters.list.MyChannelsListAdapter$ViewHolder val$holder -> c
     android.content.res.Resources val$resources -> d
     142:162:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.MyChannelsListAdapter$ViewHolder -> bah:
+com.mitv.adapters.list.MyChannelsListAdapter$ViewHolder -> baj:
     android.widget.TextView channelName -> a
     android.widget.ImageView channelLogo -> b
     android.widget.RelativeLayout button -> c
@@ -36255,15 +36288,15 @@ com.mitv.adapters.list.PopularListAdapter -> com.mitv.adapters.list.PopularListA
     1:1:java.lang.Object getItem(int) -> getItem
     42:42:android.app.Activity access$1(com.mitv.adapters.list.PopularListAdapter) -> a
     35:35:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
-com.mitv.adapters.list.PopularListAdapter$1 -> bai:
+com.mitv.adapters.list.PopularListAdapter$1 -> bak:
     com.mitv.adapters.list.PopularListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     166:172:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.PopularListAdapter$2 -> baj:
+com.mitv.adapters.list.PopularListAdapter$2 -> bal:
     com.mitv.adapters.list.PopularListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     258:263:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.PopularListAdapter$ViewHolder -> bak:
+com.mitv.adapters.list.PopularListAdapter$ViewHolder -> bam:
     android.widget.TextView headerTv -> a
     android.view.View dividerView -> b
     android.widget.RelativeLayout container -> c
@@ -36310,20 +36343,20 @@ com.mitv.adapters.list.RemindersListAdapter -> com.mitv.adapters.list.RemindersL
     40:40:android.app.Activity access$1(com.mitv.adapters.list.RemindersListAdapter) -> a
     36:36:java.lang.String access$2() -> a
     254:254:java.lang.Runnable access$3(com.mitv.adapters.list.RemindersListAdapter) -> b
-com.mitv.adapters.list.RemindersListAdapter$1 -> bal:
+com.mitv.adapters.list.RemindersListAdapter$1 -> ban:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.Notification val$element -> b
     int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum -> c
     184:222:void onClick(android.view.View) -> onClick
     179:179:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> a
-com.mitv.adapters.list.RemindersListAdapter$2 -> bam:
+com.mitv.adapters.list.RemindersListAdapter$2 -> bao:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.Notification val$element -> b
     230:231:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.RemindersListAdapter$3 -> ban:
+com.mitv.adapters.list.RemindersListAdapter$3 -> bap:
     com.mitv.adapters.list.RemindersListAdapter this$0 -> a
     260:261:void run() -> run
-com.mitv.adapters.list.RemindersListAdapter$ViewHolder -> bao:
+com.mitv.adapters.list.RemindersListAdapter$ViewHolder -> baq:
     android.widget.RelativeLayout mInformationContainer -> a
     android.widget.TextView mHeaderTv -> b
     android.widget.TextView mBroadcastTitleTv -> c
@@ -36373,11 +36406,11 @@ com.mitv.adapters.list.SearchPageListAdapter -> com.mitv.adapters.list.SearchPag
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
     32:32:int[] $SWITCH_TABLE$com$mitv$enums$ContentTypeEnum() -> b
     40:40:java.util.ArrayList access$3(com.mitv.adapters.list.SearchPageListAdapter) -> a
-com.mitv.adapters.list.SearchPageListAdapter$1 -> bap:
+com.mitv.adapters.list.SearchPageListAdapter$1 -> bar:
     com.mitv.adapters.list.SearchPageListAdapter this$0 -> a
     417:422:android.widget.Filter$FilterResults performFiltering(java.lang.CharSequence) -> performFiltering
     428:432:void publishResults(java.lang.CharSequence,android.widget.Filter$FilterResults) -> publishResults
-com.mitv.adapters.list.SearchPageListAdapter$ViewHolder -> baq:
+com.mitv.adapters.list.SearchPageListAdapter$ViewHolder -> bas:
     android.widget.LinearLayout typeAndTimeContainer -> a
     com.mitv.ui.elements.FontTextView title -> b
     com.mitv.ui.elements.FontTextView type -> c
@@ -36404,11 +36437,11 @@ com.mitv.adapters.list.TVGuideCompetitionTagListAdapter -> com.mitv.adapters.lis
     1:1:java.lang.Object getItem(int) -> getItem
     44:44:java.lang.String access$1(com.mitv.adapters.list.TVGuideCompetitionTagListAdapter) -> a
     46:46:android.app.Activity access$2(com.mitv.adapters.list.TVGuideCompetitionTagListAdapter) -> b
-com.mitv.adapters.list.TVGuideCompetitionTagListAdapter$1 -> bar:
+com.mitv.adapters.list.TVGuideCompetitionTagListAdapter$1 -> bat:
     com.mitv.adapters.list.TVGuideCompetitionTagListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     192:231:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.TVGuideCompetitionTagListAdapter$ViewHolder -> bas:
+com.mitv.adapters.list.TVGuideCompetitionTagListAdapter$ViewHolder -> bau:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mImageIv -> b
     android.widget.TextView mTitleTv -> c
@@ -36456,22 +36489,22 @@ com.mitv.adapters.list.TVGuideListAdapter -> com.mitv.adapters.list.TVGuideListA
     55:55:android.app.Activity access$0(com.mitv.adapters.list.TVGuideListAdapter) -> a
     48:48:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> c
     48:48:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> d
-com.mitv.adapters.list.TVGuideListAdapter$1 -> bat:
+com.mitv.adapters.list.TVGuideListAdapter$1 -> bav:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
     com.mitv.adapters.list.TVGuideListAdapter$ViewHolder val$holder -> b
     163:173:void onGlobalLayout() -> onGlobalLayout
-com.mitv.adapters.list.TVGuideListAdapter$2 -> bau:
+com.mitv.adapters.list.TVGuideListAdapter$2 -> baw:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVChannelGuide val$guide -> b
     int val$position -> c
     195:204:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.TVGuideListAdapter$3 -> bav:
+com.mitv.adapters.list.TVGuideListAdapter$3 -> bax:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
     394:408:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.TVGuideListAdapter$4 -> baw:
+com.mitv.adapters.list.TVGuideListAdapter$4 -> bay:
     com.mitv.adapters.list.TVGuideListAdapter this$0 -> a
     422:427:void run() -> run
-com.mitv.adapters.list.TVGuideListAdapter$ViewHolder -> bax:
+com.mitv.adapters.list.TVGuideListAdapter$ViewHolder -> baz:
     android.widget.RelativeLayout container -> a
     android.widget.ImageView channelLogo -> b
     android.widget.TextView textView -> c
@@ -36498,11 +36531,11 @@ com.mitv.adapters.list.TVGuideTagListAdapter -> com.mitv.adapters.list.TVGuideTa
     40:40:int[] $SWITCH_TABLE$com$mitv$enums$BannerViewType() -> c
     40:40:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> d
     48:48:android.app.Activity access$3(com.mitv.adapters.list.TVGuideTagListAdapter) -> a
-com.mitv.adapters.list.TVGuideTagListAdapter$1 -> bay:
+com.mitv.adapters.list.TVGuideTagListAdapter$1 -> bba:
     com.mitv.adapters.list.TVGuideTagListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     247:283:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder -> baz:
+com.mitv.adapters.list.TVGuideTagListAdapter$ViewHolder -> bbb:
     android.widget.RelativeLayout mContainer -> a
     android.widget.ImageView mImageIv -> b
     android.widget.TextView mTitleTv -> c
@@ -36544,11 +36577,11 @@ com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter -> com.mitv.adap
     30:30:int[] $SWITCH_TABLE$com$mitv$enums$BroadcastListAdapterTypeEnum() -> a
     39:39:com.mitv.enums.BroadcastListAdapterTypeEnum access$2(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter) -> a
     37:37:android.app.Activity access$3(com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter) -> b
-com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$1 -> bba:
+com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$1 -> bbc:
     com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter this$0 -> a
     com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo val$broadcastWithChannelInfo -> b
     243:253:void onClick(android.view.View) -> onClick
-com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> bbb:
+com.mitv.adapters.list.UpcomingOrRepeatingBroadcastsListAdapter$ViewHolder -> bbd:
     android.widget.TextView header -> a
     android.widget.RelativeLayout container -> b
     android.widget.TextView seasonEpisodeTv -> c
@@ -36975,6 +37008,19 @@ com.mitv.enums.DeploymentEndpointTypeEnum -> com.mitv.enums.DeploymentEndpointTy
     46:46:java.lang.String getFrontendDomainURL() -> getFrontendDomainURL
     1:1:com.mitv.enums.DeploymentEndpointTypeEnum[] values() -> values
     1:1:com.mitv.enums.DeploymentEndpointTypeEnum valueOf(java.lang.String) -> valueOf
+com.mitv.enums.DisqusTypeEnum -> com.mitv.enums.DisqusTypeEnum:
+    com.mitv.enums.DisqusTypeEnum BROADCAST -> BROADCAST
+    com.mitv.enums.DisqusTypeEnum EVENT -> EVENT
+    com.mitv.enums.DisqusTypeEnum TEAM -> TEAM
+    com.mitv.enums.DisqusTypeEnum OTHER -> OTHER
+    int id -> a
+    com.mitv.enums.DisqusTypeEnum[] ENUM$VALUES -> b
+    33:33:int getId() -> getId
+    40:49:com.mitv.enums.DisqusTypeEnum getContentTypeEnumFromCode(int) -> getContentTypeEnumFromCode
+    56:67:com.mitv.enums.DisqusTypeEnum getContentTypeEnumFromCode(java.lang.String) -> getContentTypeEnumFromCode
+    74:76:com.mitv.enums.DisqusTypeEnum getContentTypeEnumFromStringRepresentation(java.lang.String) -> getContentTypeEnumFromStringRepresentation
+    1:1:com.mitv.enums.DisqusTypeEnum[] values() -> values
+    1:1:com.mitv.enums.DisqusTypeEnum valueOf(java.lang.String) -> valueOf
 com.mitv.enums.EventHighlightActionEnum -> com.mitv.enums.EventHighlightActionEnum:
     com.mitv.enums.EventHighlightActionEnum UNKNOWN -> UNKNOWN
     com.mitv.enums.EventHighlightActionEnum KICK_OFF_PERIOD -> KICK_OFF_PERIOD
@@ -37320,7 +37366,7 @@ com.mitv.fragments.CompetitionEventTabFragmentGroupStage -> com.mitv.fragments.C
     212:212:java.lang.Runnable getNavigateToCompetitionPageProcedure() -> p
     33:33:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
     196:196:com.mitv.models.objects.mitvapi.competitions.Event access$1(com.mitv.fragments.CompetitionEventTabFragmentGroupStage) -> a
-com.mitv.fragments.CompetitionEventTabFragmentGroupStage$1 -> bbc:
+com.mitv.fragments.CompetitionEventTabFragmentGroupStage$1 -> bbe:
     com.mitv.fragments.CompetitionEventTabFragmentGroupStage this$0 -> a
     216:222:void run() -> run
 com.mitv.fragments.CompetitionEventTabFragmentGroupStandings -> com.mitv.fragments.CompetitionEventTabFragmentGroupStandings:
@@ -37342,7 +37388,7 @@ com.mitv.fragments.CompetitionEventTabFragmentGroupStandings -> com.mitv.fragmen
     228:228:java.lang.Runnable getNavigateToCompetitionPageProcedure() -> p
     36:36:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
     43:43:com.mitv.models.objects.mitvapi.competitions.Event access$1(com.mitv.fragments.CompetitionEventTabFragmentGroupStandings) -> a
-com.mitv.fragments.CompetitionEventTabFragmentGroupStandings$1 -> bbd:
+com.mitv.fragments.CompetitionEventTabFragmentGroupStandings$1 -> bbf:
     com.mitv.fragments.CompetitionEventTabFragmentGroupStandings this$0 -> a
     232:238:void run() -> run
 com.mitv.fragments.CompetitionEventTabFragmentHighlights -> com.mitv.fragments.CompetitionEventTabFragmentHighlights:
@@ -37386,7 +37432,7 @@ com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams -> com.mitv.fragments.
     45:45:long access$0(com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams) -> a
     46:46:long access$1(com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams) -> b
     36:36:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> l
-com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams$1 -> bbe:
+com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams$1 -> bbg:
     com.mitv.fragments.CompetitionEventTabFragmentLineUpTeams this$0 -> a
     274:298:void onClick(android.view.View) -> onClick
 com.mitv.fragments.CompetitionTabFragment -> com.mitv.fragments.CompetitionTabFragment:
@@ -37517,7 +37563,7 @@ com.mitv.fragments.TVGuideTabFragmentBroadcast -> com.mitv.fragments.TVGuideTabF
     44:44:void access$2(com.mitv.fragments.TVGuideTabFragmentBroadcast,com.mitv.adapters.list.TVGuideTagListAdapter) -> a
     40:40:android.widget.ListView access$3(com.mitv.fragments.TVGuideTabFragmentBroadcast) -> b
     44:44:com.mitv.adapters.list.TVGuideTagListAdapter access$4(com.mitv.fragments.TVGuideTabFragmentBroadcast) -> c
-com.mitv.fragments.TVGuideTabFragmentBroadcast$1 -> bbf:
+com.mitv.fragments.TVGuideTabFragmentBroadcast$1 -> bbh:
     com.mitv.fragments.TVGuideTabFragmentBroadcast this$0 -> a
     int val$startIndex -> b
     193:207:void onPostExecute(java.lang.Void) -> a
@@ -37567,16 +37613,16 @@ com.mitv.fragments.TVGuideTabFragmentCompetition -> com.mitv.fragments.TVGuideTa
     52:52:java.util.ArrayList access$3(com.mitv.fragments.TVGuideTabFragmentCompetition) -> c
     53:53:void access$4(com.mitv.fragments.TVGuideTabFragmentCompetition,com.mitv.adapters.list.TVGuideCompetitionTagListAdapter) -> a
     53:53:com.mitv.adapters.list.TVGuideCompetitionTagListAdapter access$5(com.mitv.fragments.TVGuideTabFragmentCompetition) -> d
-com.mitv.fragments.TVGuideTabFragmentCompetition$1 -> bbg:
+com.mitv.fragments.TVGuideTabFragmentCompetition$1 -> bbi:
     com.mitv.fragments.TVGuideTabFragmentCompetition this$0 -> a
     114:121:void onClick(android.view.View) -> onClick
-com.mitv.fragments.TVGuideTabFragmentCompetition$2 -> bbh:
+com.mitv.fragments.TVGuideTabFragmentCompetition$2 -> bbj:
     com.mitv.fragments.TVGuideTabFragmentCompetition this$0 -> a
     130:131:void onClick(android.view.View) -> onClick
-com.mitv.fragments.TVGuideTabFragmentCompetition$3 -> bbi:
+com.mitv.fragments.TVGuideTabFragmentCompetition$3 -> bbk:
     com.mitv.fragments.TVGuideTabFragmentCompetition this$0 -> a
     140:141:void onClick(android.view.View) -> onClick
-com.mitv.fragments.TVGuideTabFragmentCompetition$4 -> bbj:
+com.mitv.fragments.TVGuideTabFragmentCompetition$4 -> bbl:
     com.mitv.fragments.TVGuideTabFragmentCompetition this$0 -> a
     int val$startIndex -> b
     447:462:void onPostExecute(java.lang.Void) -> a
@@ -37636,7 +37682,7 @@ com.mitv.fragments.base.BaseFragment -> com.mitv.fragments.base.BaseFragment:
     35:35:int[] $SWITCH_TABLE$com$mitv$enums$FetchRequestResultEnum() -> n
     35:35:int[] $SWITCH_TABLE$com$mitv$enums$UIStatusEnum() -> o
     64:64:void access$2(com.mitv.fragments.base.BaseFragment,boolean) -> a
-com.mitv.fragments.base.BaseFragment$1 -> bbk:
+com.mitv.fragments.base.BaseFragment$1 -> bbm:
     com.mitv.fragments.base.BaseFragment this$0 -> a
     469:472:void run() -> run
 com.mitv.http.HTTPCore -> com.mitv.http.HTTPCore:
@@ -37942,7 +37988,7 @@ com.mitv.managers.ContentManagerCallback -> com.mitv.managers.ContentManagerCall
     1621:1624:void handleLogoutResponse(com.mitv.interfaces.ViewCallbackListener) -> b
     53:53:int[] $SWITCH_TABLE$com$mitv$managers$ContentManagerCallback$RequestToCallBackMapAccessIdentifier() -> a
     53:53:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
-com.mitv.managers.ContentManagerCallback$RequestToCallBackMapAccessIdentifier -> bbl:
+com.mitv.managers.ContentManagerCallback$RequestToCallBackMapAccessIdentifier -> bbn:
     com.mitv.managers.ContentManagerCallback$RequestToCallBackMapAccessIdentifier REGISTER_LISTENER -> a
     com.mitv.managers.ContentManagerCallback$RequestToCallBackMapAccessIdentifier NOTIFY_LISTENER -> b
     com.mitv.managers.ContentManagerCallback$RequestToCallBackMapAccessIdentifier UNREGISTER_LISTENER -> c
@@ -38026,16 +38072,18 @@ com.mitv.managers.ImageLoaderManager -> com.mitv.managers.ImageLoaderManager:
     139:150:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageOptionsForCompetitionFlags() -> c
     159:170:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageOptionsForCompetitionEventStadium() -> d
     178:189:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageOptionsForTeamBanner() -> e
-    196:199:void displayImageWithOptionsForTVGuideImages(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithOptionsForTVGuideImages
-    205:208:void displayImageWithOptionsForTeamFlags(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithOptionsForTeamFlags
-    214:217:void displayImageWithCompetitionEventStadiumOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithCompetitionEventStadiumOptions
-    223:226:void displayImageWithCompetitionTeamBannerOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithCompetitionTeamBannerOptions
-    232:235:void displayImageWithDefaultOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithDefaultOptions
-    241:244:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.ImageLoadingListener) -> displayImageWithResetViewOptions
-    250:253:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithResetViewOptions
-    259:262:void displayImageWithResetViewOptions(java.lang.String,android.widget.ImageView) -> displayImageWithResetViewOptions
-    267:275:void pause() -> pause
-    281:289:void resume() -> resume
+    201:209:com.nostra13.universalimageloader.core.DisplayImageOptions getDisplayImageOptionsForEventPageBackground() -> f
+    216:219:void displayImageWithOptionsForTVGuideImages(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithOptionsForTVGuideImages
+    225:228:void displayImageWithOptionsForTeamFlags(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithOptionsForTeamFlags
+    234:237:void displayImageWithCompetitionEventStadiumOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithCompetitionEventStadiumOptions
+    249:252:void displayImageOptionsForEventPageBackground(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageOptionsForEventPageBackground
+    258:261:void displayImageWithCompetitionTeamBannerOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithCompetitionTeamBannerOptions
+    267:270:void displayImageWithDefaultOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithDefaultOptions
+    276:279:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.ImageLoadingListener) -> displayImageWithResetViewOptions
+    285:288:void displayImageWithResetViewOptions(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware) -> displayImageWithResetViewOptions
+    294:297:void displayImageWithResetViewOptions(java.lang.String,android.widget.ImageView) -> displayImageWithResetViewOptions
+    302:310:void pause() -> pause
+    316:324:void resume() -> resume
 com.mitv.managers.RateAppManager -> com.mitv.managers.RateAppManager:
     java.lang.String TAG -> a
     62:63:android.content.SharedPreferences getSharedPrefs(android.content.Context) -> a
@@ -38050,17 +38098,17 @@ com.mitv.managers.RateAppManager -> com.mitv.managers.RateAppManager:
     265:270:void rateApp(android.content.Context,android.content.SharedPreferences$Editor) -> b
     274:324:void showRateDialog(android.content.Context) -> g
     264:264:void access$0(android.content.Context,android.content.SharedPreferences$Editor) -> a
-com.mitv.managers.RateAppManager$1 -> bbm:
+com.mitv.managers.RateAppManager$1 -> bbo:
     android.content.Context val$context -> a
     android.content.SharedPreferences$Editor val$editor -> b
     android.app.Dialog val$dialog -> c
     284:287:void onClick(android.view.View) -> onClick
-com.mitv.managers.RateAppManager$2 -> bbn:
+com.mitv.managers.RateAppManager$2 -> bbp:
     android.content.SharedPreferences$Editor val$editor -> a
     android.content.SharedPreferences val$prefs -> b
     android.app.Dialog val$dialog -> c
     294:305:void onClick(android.view.View) -> onClick
-com.mitv.managers.RateAppManager$3 -> bbo:
+com.mitv.managers.RateAppManager$3 -> bbq:
     android.content.SharedPreferences$Editor val$editor -> a
     android.app.Dialog val$dialog -> b
     312:318:void onClick(android.view.View) -> onClick
@@ -39947,11 +39995,11 @@ com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator -> com.mitv.
     321:321:java.lang.Runnable access$1(com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator,java.util.ArrayList) -> a
     46:46:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo access$2(com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator) -> a
     45:45:android.app.Activity access$3(com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator) -> b
-com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator$1 -> bbp:
+com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator$1 -> bbr:
     com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator this$0 -> a
     java.util.ArrayList val$similarBroadcastsAiringNow -> b
     309:311:void onClick(android.view.View) -> onClick
-com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator$2 -> bbq:
+com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator$2 -> bbs:
     com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator this$0 -> a
     327:332:void run() -> run
 com.mitv.populators.BroadcastRepetitionsBlockPopulator -> com.mitv.populators.BroadcastRepetitionsBlockPopulator:
@@ -39978,11 +40026,11 @@ com.mitv.populators.TrippleBroadcastBlockPopulator -> com.mitv.populators.Trippl
     41:41:com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo access$2(com.mitv.populators.TrippleBroadcastBlockPopulator) -> a
     50:50:boolean access$3(com.mitv.populators.TrippleBroadcastBlockPopulator) -> b
     40:40:android.app.Activity access$4(com.mitv.populators.TrippleBroadcastBlockPopulator) -> c
-com.mitv.populators.TrippleBroadcastBlockPopulator$1 -> bbr:
+com.mitv.populators.TrippleBroadcastBlockPopulator$1 -> bbt:
     com.mitv.populators.TrippleBroadcastBlockPopulator this$0 -> a
     java.util.ArrayList val$repeatingOrUpcomingBroadcasts -> b
     288:290:void onClick(android.view.View) -> onClick
-com.mitv.populators.TrippleBroadcastBlockPopulator$2 -> bbs:
+com.mitv.populators.TrippleBroadcastBlockPopulator$2 -> bbu:
     com.mitv.populators.TrippleBroadcastBlockPopulator this$0 -> a
     java.util.ArrayList val$repeatingOrUpcomingBroadcasts -> b
     305:323:void run() -> run
@@ -40066,10 +40114,10 @@ com.mitv.ui.elements.LikeView -> com.mitv.ui.elements.LikeView:
     216:216:void access$2(com.mitv.ui.elements.LikeView) -> c
     36:36:int[] $SWITCH_TABLE$com$mitv$enums$LikeTypeResponseEnum() -> a
     36:36:int[] $SWITCH_TABLE$com$mitv$enums$RequestIdentifierEnum() -> b
-com.mitv.ui.elements.LikeView$1 -> bbt:
+com.mitv.ui.elements.LikeView$1 -> bbv:
     com.mitv.ui.elements.LikeView this$0 -> a
     230:235:void run() -> run
-com.mitv.ui.elements.LikeView$2 -> bbu:
+com.mitv.ui.elements.LikeView$2 -> bbw:
     com.mitv.ui.elements.LikeView this$0 -> a
     250:255:void run() -> run
 com.mitv.ui.elements.ReminderView -> com.mitv.ui.elements.ReminderView:
@@ -40090,7 +40138,7 @@ com.mitv.ui.elements.ReminderView -> com.mitv.ui.elements.ReminderView:
     46:46:com.mitv.models.objects.mitvapi.Notification access$0(com.mitv.ui.elements.ReminderView) -> a
     43:43:com.mitv.ui.elements.FontTextView access$1(com.mitv.ui.elements.ReminderView) -> b
     47:47:void access$2(com.mitv.ui.elements.ReminderView,boolean) -> a
-com.mitv.ui.elements.ReminderView$1 -> bbv:
+com.mitv.ui.elements.ReminderView$1 -> bbx:
     com.mitv.ui.elements.ReminderView this$0 -> a
     314:319:void run() -> run
 com.mitv.ui.elements.SwipeClockBar -> com.mitv.ui.elements.SwipeClockBar:
@@ -40138,17 +40186,17 @@ com.mitv.ui.elements.SwipeClockBar -> com.mitv.ui.elements.SwipeClockBar:
     66:66:int access$7(com.mitv.ui.elements.SwipeClockBar) -> f
     61:61:float access$8(com.mitv.ui.elements.SwipeClockBar) -> g
     54:54:android.widget.ListView access$9(com.mitv.ui.elements.SwipeClockBar) -> h
-com.mitv.ui.elements.SwipeClockBar$1 -> bbw:
+com.mitv.ui.elements.SwipeClockBar$1 -> bby:
     com.mitv.ui.elements.SwipeClockBar this$0 -> a
     166:174:void onClick(android.view.View) -> onClick
     162:162:com.mitv.ui.elements.SwipeClockBar access$0(com.mitv.ui.elements.SwipeClockBar$1) -> a
-com.mitv.ui.elements.SwipeClockBar$1$1 -> bbx:
+com.mitv.ui.elements.SwipeClockBar$1$1 -> bbz:
     com.mitv.ui.elements.SwipeClockBar$1 this$1 -> a
     171:172:void run() -> run
-com.mitv.ui.elements.SwipeClockBar$2 -> bby:
+com.mitv.ui.elements.SwipeClockBar$2 -> bca:
     com.mitv.ui.elements.SwipeClockBar this$0 -> a
     215:222:void onGlobalLayout() -> onGlobalLayout
-com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> bbz:
+com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> bcb:
     java.util.List hoursOfTheDay -> b
     int listViewHeight -> c
     int index24OfSelectedHour -> d
@@ -40166,7 +40214,7 @@ com.mitv.ui.elements.SwipeClockBar$TimeListAdapter -> bbz:
     369:369:boolean showOddHour() -> a
     374:466:android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     273:273:void access$0(com.mitv.ui.elements.SwipeClockBar$TimeListAdapter,int) -> a
-com.mitv.ui.elements.SwipeClockBar$TimeListAdapter$ViewHolder -> bca:
+com.mitv.ui.elements.SwipeClockBar$TimeListAdapter$ViewHolder -> bcc:
     com.mitv.ui.elements.FontTextView textView -> a
     com.mitv.ui.elements.SwipeClockBar$TimeListAdapter this$1 -> b
 com.mitv.ui.elements.TextDrawable -> com.mitv.ui.elements.TextDrawable:
@@ -40224,7 +40272,7 @@ com.mitv.ui.elements.VerticalSeekBar -> com.mitv.ui.elements.VerticalSeekBar:
     145:146:void onSizeChanged(int,int,int,int) -> onSizeChanged
     149:150:void setParentClockbar(com.mitv.ui.elements.SwipeClockBar) -> setParentClockbar
     31:31:com.mitv.ui.elements.FontTextView access$0(com.mitv.ui.elements.VerticalSeekBar) -> a
-com.mitv.ui.elements.VerticalSeekBar$1 -> bcb:
+com.mitv.ui.elements.VerticalSeekBar$1 -> bcd:
     com.mitv.ui.elements.VerticalSeekBar this$0 -> a
     124:125:void run() -> run
 com.mitv.ui.helpers.DialogHelper -> com.mitv.ui.helpers.DialogHelper:
@@ -40239,48 +40287,48 @@ com.mitv.ui.helpers.DialogHelper -> com.mitv.ui.helpers.DialogHelper:
     380:416:void showMandatoryAppUpdateDialog(android.app.Activity) -> showMandatoryAppUpdateDialog
     26:26:int[] $SWITCH_TABLE$com$mitv$enums$ProgramTypeEnum() -> a
     26:26:int[] $SWITCH_TABLE$com$mitv$enums$NotificationTypeEnum() -> b
-com.mitv.ui.helpers.DialogHelper$1 -> bcc:
+com.mitv.ui.helpers.DialogHelper$1 -> bce:
     java.lang.Runnable val$confirmProcedure -> a
     android.app.Dialog val$dialog -> b
     59:67:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$10 -> bcd:
+com.mitv.ui.helpers.DialogHelper$10 -> bcf:
     android.app.Activity val$activity -> a
     android.app.Dialog val$dialog -> b
     362:367:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$11 -> bce:
+com.mitv.ui.helpers.DialogHelper$11 -> bcg:
     android.app.Activity val$activity -> a
     391:409:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$2 -> bcf:
+com.mitv.ui.helpers.DialogHelper$2 -> bch:
     java.lang.Runnable val$cancelProcedure -> a
     android.app.Dialog val$dialog -> b
     78:86:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$3 -> bcg:
+com.mitv.ui.helpers.DialogHelper$3 -> bci:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     188:196:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$4 -> bch:
+com.mitv.ui.helpers.DialogHelper$4 -> bcj:
     java.lang.Runnable val$yesProcedure -> a
     com.mitv.models.objects.mitvapi.Notification val$notification -> b
     android.app.Activity val$activity -> c
     android.app.Dialog val$dialog -> d
     204:216:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$5 -> bci:
+com.mitv.ui.helpers.DialogHelper$5 -> bck:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     247:255:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$6 -> bcj:
+com.mitv.ui.helpers.DialogHelper$6 -> bcl:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
     263:271:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$7 -> bck:
+com.mitv.ui.helpers.DialogHelper$7 -> bcm:
     java.lang.Runnable val$noProcedure -> a
     android.app.Dialog val$dialog -> b
     304:312:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$8 -> bcl:
+com.mitv.ui.helpers.DialogHelper$8 -> bcn:
     java.lang.Runnable val$yesProcedure -> a
     android.app.Dialog val$dialog -> b
     320:328:void onClick(android.view.View) -> onClick
-com.mitv.ui.helpers.DialogHelper$9 -> bcm:
+com.mitv.ui.helpers.DialogHelper$9 -> bco:
     354:354:void onClick(android.view.View) -> onClick
 com.mitv.ui.helpers.NotificationHelper -> com.mitv.ui.helpers.NotificationHelper:
     java.lang.String TAG -> a
@@ -40301,12 +40349,12 @@ com.mitv.utilities.AnimationUtils -> com.mitv.utilities.AnimationUtils:
     19:30:void animationSet(android.view.View) -> animationSet
     36:63:void expand(android.view.View) -> expand
     69:98:void collapse(android.view.View) -> collapse
-com.mitv.utilities.AnimationUtils$1 -> bcn:
+com.mitv.utilities.AnimationUtils$1 -> bcp:
     android.view.View val$v -> a
     int val$targtetHeight -> b
     48:50:void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
     55:55:boolean willChangeBounds() -> willChangeBounds
-com.mitv.utilities.AnimationUtils$2 -> bco:
+com.mitv.utilities.AnimationUtils$2 -> bcq:
     android.view.View val$v -> a
     int val$initialHeight -> b
     76:85:void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
@@ -40460,7 +40508,7 @@ com.nostra13.universalimageloader.cache.disc.LimitedDiscCache -> com.nostra13.un
     int getSize(java.io.File) -> getSize
     38:38:java.util.Map access$000(com.nostra13.universalimageloader.cache.disc.LimitedDiscCache) -> a
     38:38:java.util.concurrent.atomic.AtomicInteger access$100(com.nostra13.universalimageloader.cache.disc.LimitedDiscCache) -> b
-com.nostra13.universalimageloader.cache.disc.LimitedDiscCache$1 -> bcp:
+com.nostra13.universalimageloader.cache.disc.LimitedDiscCache$1 -> bcr:
     com.nostra13.universalimageloader.cache.disc.LimitedDiscCache this$0 -> a
     76:85:void run() -> run
 com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache -> com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache:
@@ -40606,14 +40654,14 @@ com.nostra13.universalimageloader.core.DefaultConfigurationFactory -> com.nostra
     108:108:com.nostra13.universalimageloader.core.decode.ImageDecoder createImageDecoder(boolean) -> createImageDecoder
     113:113:com.nostra13.universalimageloader.core.display.BitmapDisplayer createBitmapDisplayer() -> createBitmapDisplayer
     118:118:java.util.concurrent.ThreadFactory createThreadFactory(int) -> a
-com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> bcq:
+com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> bcs:
     java.util.concurrent.atomic.AtomicInteger poolNumber -> a
     java.lang.ThreadGroup group -> b
     java.util.concurrent.atomic.AtomicInteger threadNumber -> c
     java.lang.String namePrefix -> d
     int threadPriority -> e
     139:142:java.lang.Thread newThread(java.lang.Runnable) -> newThread
-com.nostra13.universalimageloader.core.DisplayBitmapTask -> bcr:
+com.nostra13.universalimageloader.core.DisplayBitmapTask -> bct:
     android.graphics.Bitmap bitmap -> a
     java.lang.String imageUri -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -40688,7 +40736,7 @@ com.nostra13.universalimageloader.core.DisplayImageOptions -> com.nostra13.unive
     66:66:com.nostra13.universalimageloader.core.display.BitmapDisplayer access$3500(com.nostra13.universalimageloader.core.DisplayImageOptions) -> q
     66:66:android.os.Handler access$3600(com.nostra13.universalimageloader.core.DisplayImageOptions) -> r
     66:66:boolean access$3700(com.nostra13.universalimageloader.core.DisplayImageOptions) -> s
-com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> bcs:
+com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> bcu:
 com.nostra13.universalimageloader.core.DisplayImageOptions$Builder -> com.nostra13.universalimageloader.core.DisplayImageOptions$Builder:
     int imageResOnLoading -> a
     int imageResForEmptyUri -> b
@@ -40824,7 +40872,7 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration -> com.nostra13.
     com.nostra13.universalimageloader.core.download.ImageDownloader slowNetworkDownloader -> x
     139:139:com.nostra13.universalimageloader.core.ImageLoaderConfiguration createDefault(android.content.Context) -> createDefault
     143:153:com.nostra13.universalimageloader.core.assist.ImageSize getMaxImageSize() -> a
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> bct:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> bcv:
 com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder:
     int DEFAULT_THREAD_POOL_SIZE -> DEFAULT_THREAD_POOL_SIZE
     int DEFAULT_THREAD_PRIORITY -> DEFAULT_THREAD_PRIORITY
@@ -40897,7 +40945,7 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.n
     161:161:com.nostra13.universalimageloader.core.decode.ImageDecoder access$1800(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> s
     161:161:boolean access$1900(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> t
     161:161:boolean access$2000(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> u
-com.nostra13.universalimageloader.core.ImageLoaderEngine -> bcu:
+com.nostra13.universalimageloader.core.ImageLoaderEngine -> bcw:
     com.nostra13.universalimageloader.core.ImageLoaderConfiguration configuration -> a
     java.util.concurrent.Executor taskExecutor -> b
     java.util.concurrent.Executor taskExecutorForCachedImages -> c
@@ -40928,11 +40976,11 @@ com.nostra13.universalimageloader.core.ImageLoaderEngine -> bcu:
     40:40:void access$000(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> a
     40:40:java.util.concurrent.Executor access$100(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> b
     40:40:java.util.concurrent.Executor access$200(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> c
-com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> bcv:
+com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> bcx:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask val$task -> a
     com.nostra13.universalimageloader.core.ImageLoaderEngine this$0 -> b
     72:79:void run() -> run
-com.nostra13.universalimageloader.core.ImageLoadingInfo -> bcw:
+com.nostra13.universalimageloader.core.ImageLoadingInfo -> bcy:
     java.lang.String uri -> a
     java.lang.String memoryCacheKey -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -40941,7 +40989,7 @@ com.nostra13.universalimageloader.core.ImageLoadingInfo -> bcw:
     com.nostra13.universalimageloader.core.assist.ImageLoadingListener listener -> f
     com.nostra13.universalimageloader.core.assist.ImageLoadingProgressListener progressListener -> g
     java.util.concurrent.locks.ReentrantLock loadFromUriLock -> h
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> bcx:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> bcz:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> f
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> g
     android.os.Handler handler -> h
@@ -40985,22 +41033,22 @@ com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> bcx:
     491:492:void log(java.lang.String) -> b
     495:496:void log(java.lang.String,java.lang.Object[]) -> a
     55:55:com.nostra13.universalimageloader.core.ImageLoaderConfiguration access$000(com.nostra13.universalimageloader.core.LoadAndDisplayImageTask) -> a
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> bcy:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> bda:
     int val$current -> a
     int val$total -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     375:376:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> bcz:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> bdb:
     com.nostra13.universalimageloader.core.assist.FailReason$FailType val$failType -> a
     java.lang.Throwable val$failCause -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     386:390:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> bda:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> bdc:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
     399:400:void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> bdb:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> bdd:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
-com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> bdc:
+com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> bde:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> a
     android.graphics.Bitmap bitmap -> b
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> c
@@ -41074,7 +41122,7 @@ com.nostra13.universalimageloader.core.assist.MemoryCacheUtil -> com.nostra13.un
     66:72:java.util.List findCachedBitmapsForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> findCachedBitmapsForImageUri
     82:88:java.util.List findCacheKeysForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> findCacheKeysForImageUri
     98:107:void removeFromCache(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCacheAware) -> removeFromCache
-com.nostra13.universalimageloader.core.assist.MemoryCacheUtil$1 -> bdd:
+com.nostra13.universalimageloader.core.assist.MemoryCacheUtil$1 -> bdf:
     52:54:int compare(java.lang.String,java.lang.String) -> a
     49:49:int compare(java.lang.Object,java.lang.Object) -> compare
 com.nostra13.universalimageloader.core.assist.PauseOnScrollListener -> com.nostra13.universalimageloader.core.assist.PauseOnScrollListener:
@@ -41106,7 +41154,7 @@ com.nostra13.universalimageloader.core.assist.ViewScaleType -> com.nostra13.univ
     27:27:com.nostra13.universalimageloader.core.assist.ViewScaleType[] values() -> values
     27:27:com.nostra13.universalimageloader.core.assist.ViewScaleType valueOf(java.lang.String) -> valueOf
     59:70:com.nostra13.universalimageloader.core.assist.ViewScaleType fromImageView(android.widget.ImageView) -> fromImageView
-com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> bde:
+com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> bdg:
     int[] $SwitchMap$android$widget$ImageView$ScaleType -> a
 com.nostra13.universalimageloader.core.assist.deque.BlockingDeque -> com.nostra13.universalimageloader.core.assist.deque.BlockingDeque:
     void addFirst(java.lang.Object) -> addFirst
@@ -41232,8 +41280,8 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque -> com.n
     1007:1007:java.util.Iterator descendingIterator() -> descendingIterator
     1133:1146:void writeObject(java.io.ObjectOutputStream) -> writeObject
     1155:1167:void readObject(java.io.ObjectInputStream) -> readObject
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> bdf:
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> bdg:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> bdh:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> bdi:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> a
     java.lang.Object nextItem -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node lastRet -> d
@@ -41245,15 +41293,15 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Abstract
     1084:1084:boolean hasNext() -> hasNext
     1088:1093:java.lang.Object next() -> next
     1097:1109:void remove() -> remove
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$DescendingItr -> bdh:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$DescendingItr -> bdj:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque this$0 -> d
     1120:1120:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node firstNode() -> a
     1121:1121:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node nextNode(com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node) -> a
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> bdi:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> bdk:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque this$0 -> d
     1114:1114:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node firstNode() -> a
     1115:1115:com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node nextNode(com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node) -> a
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> bdj:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> bdl:
     java.lang.Object item -> a
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node prev -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> c
@@ -41349,7 +41397,7 @@ com.nostra13.universalimageloader.core.download.BaseImageDownloader -> com.nostr
     173:174:java.io.InputStream getStreamFromAssets(java.lang.String,java.lang.Object) -> getStreamFromAssets
     186:193:java.io.InputStream getStreamFromDrawable(java.lang.String,java.lang.Object) -> getStreamFromDrawable
     210:210:java.io.InputStream getStreamFromOtherSource(java.lang.String,java.lang.Object) -> getStreamFromOtherSource
-com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> bdk:
+com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> bdm:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.download.HttpClientImageDownloader -> com.nostra13.universalimageloader.core.download.HttpClientImageDownloader:
     org.apache.http.client.HttpClient httpClient -> a
@@ -41376,12 +41424,12 @@ com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme -> com.no
 com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader -> com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     38:43:java.io.InputStream getStream(java.lang.String,java.lang.Object) -> getStream
-com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader$1 -> bdl:
+com.nostra13.universalimageloader.core.download.NetworkDeniedImageDownloader$1 -> bdn:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader -> com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     40:46:java.io.InputStream getStream(java.lang.String,java.lang.Object) -> getStream
-com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader$1 -> bdm:
+com.nostra13.universalimageloader.core.download.SlowNetworkImageDownloader$1 -> bdo:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
 com.nostra13.universalimageloader.core.imageaware.ImageAware -> com.nostra13.universalimageloader.core.imageaware.ImageAware:
     int getWidth() -> getWidth
@@ -41425,7 +41473,7 @@ com.nostra13.universalimageloader.utils.ImageSizeUtils -> com.nostra13.universal
     92:131:int computeImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> computeImageSampleSize
     144:152:int computeMinImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize) -> computeMinImageSampleSize
     179:202:float computeImageScale(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> computeImageScale
-com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> bdn:
+com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> bdp:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$assist$ViewScaleType -> a
 com.nostra13.universalimageloader.utils.IoUtils -> com.nostra13.universalimageloader.utils.IoUtils:
     int DEFAULT_BUFFER_SIZE -> DEFAULT_BUFFER_SIZE
@@ -41507,7 +41555,7 @@ com.viewpagerindicator.CirclePageIndicator$SavedState -> com.viewpagerindicator.
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     538:540:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> bdo:
+com.viewpagerindicator.CirclePageIndicator$SavedState$1 -> bdq:
     546:546:com.viewpagerindicator.CirclePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     551:551:com.viewpagerindicator.CirclePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -41530,14 +41578,14 @@ com.viewpagerindicator.IconPageIndicator -> com.viewpagerindicator.IconPageIndic
     155:170:void setCurrentItem(int) -> setCurrentItem
     174:175:void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener) -> setOnPageChangeListener
     41:41:void access$0(com.viewpagerindicator.IconPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.IconPageIndicator$1 -> bdp:
+com.viewpagerindicator.IconPageIndicator$1 -> bdr:
     com.viewpagerindicator.IconPageIndicator this$0 -> a
     android.view.View val$iconView -> b
     66:69:void run() -> run
 com.viewpagerindicator.IconPagerAdapter -> com.viewpagerindicator.IconPagerAdapter:
     int getIconResId(int) -> getIconResId
     int getCount() -> getCount
-com.viewpagerindicator.IcsLinearLayout -> bdq:
+com.viewpagerindicator.IcsLinearLayout -> bds:
     int[] LL -> a
     android.graphics.drawable.Drawable mDivider -> b
     int mDividerWidth -> c
@@ -41596,7 +41644,7 @@ com.viewpagerindicator.LinePageIndicator$SavedState -> com.viewpagerindicator.Li
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     431:433:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.LinePageIndicator$SavedState$1 -> bdr:
+com.viewpagerindicator.LinePageIndicator$SavedState$1 -> bdt:
     439:439:com.viewpagerindicator.LinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     444:444:com.viewpagerindicator.LinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -41788,10 +41836,10 @@ com.viewpagerindicator.TabPageIndicator -> com.viewpagerindicator.TabPageIndicat
     79:79:void access$2(com.viewpagerindicator.TabPageIndicator,android.graphics.Typeface) -> a
     73:73:int access$3(com.viewpagerindicator.TabPageIndicator) -> c
     54:54:void access$4(com.viewpagerindicator.TabPageIndicator,java.lang.Runnable) -> a
-com.viewpagerindicator.TabPageIndicator$1 -> bds:
+com.viewpagerindicator.TabPageIndicator$1 -> bdu:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     58:65:void onClick(android.view.View) -> onClick
-com.viewpagerindicator.TabPageIndicator$2 -> bdt:
+com.viewpagerindicator.TabPageIndicator$2 -> bdv:
     com.viewpagerindicator.TabPageIndicator this$0 -> a
     android.view.View val$tabView -> b
     132:135:void run() -> run
@@ -41903,7 +41951,7 @@ com.viewpagerindicator.TitlePageIndicator$SavedState -> com.viewpagerindicator.T
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     845:847:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> bdu:
+com.viewpagerindicator.TitlePageIndicator$SavedState$1 -> bdw:
     853:853:com.viewpagerindicator.TitlePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     858:858:com.viewpagerindicator.TitlePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -41948,17 +41996,17 @@ com.viewpagerindicator.UnderlinePageIndicator -> com.viewpagerindicator.Underlin
     42:42:android.graphics.Paint access$1(com.viewpagerindicator.UnderlinePageIndicator) -> b
     47:47:int access$2(com.viewpagerindicator.UnderlinePageIndicator) -> c
     60:60:java.lang.Runnable access$3(com.viewpagerindicator.UnderlinePageIndicator) -> d
-com.viewpagerindicator.UnderlinePageIndicator$1 -> bdv:
+com.viewpagerindicator.UnderlinePageIndicator$1 -> bdx:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     62:70:void run() -> run
-com.viewpagerindicator.UnderlinePageIndicator$2 -> bdw:
+com.viewpagerindicator.UnderlinePageIndicator$2 -> bdy:
     com.viewpagerindicator.UnderlinePageIndicator this$0 -> a
     281:284:void run() -> run
 com.viewpagerindicator.UnderlinePageIndicator$SavedState -> com.viewpagerindicator.UnderlinePageIndicator$SavedState:
     int currentPage -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     385:387:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> bdx:
+com.viewpagerindicator.UnderlinePageIndicator$SavedState$1 -> bdz:
     393:393:com.viewpagerindicator.UnderlinePageIndicator$SavedState createFromParcel(android.os.Parcel) -> a
     398:398:com.viewpagerindicator.UnderlinePageIndicator$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
@@ -42003,22 +42051,22 @@ net.hockeyapp.android.CrashManager -> net.hockeyapp.android.CrashManager:
     535:555:java.lang.String[] searchForStackTraces() -> b
     71:71:void access$000(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> a
     71:71:void access$100(java.lang.ref.WeakReference,net.hockeyapp.android.CrashManagerListener,boolean) -> b
-net.hockeyapp.android.CrashManager$1 -> bdy:
+net.hockeyapp.android.CrashManager$1 -> bea:
     net.hockeyapp.android.CrashManagerListener val$listener -> a
     java.lang.ref.WeakReference val$weakContext -> b
     boolean val$ignoreDefaultHandler -> c
     366:372:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$2 -> bdz:
+net.hockeyapp.android.CrashManager$2 -> beb:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     377:378:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.CrashManager$3 -> bea:
+net.hockeyapp.android.CrashManager$3 -> bec:
     java.lang.ref.WeakReference val$weakContext -> a
     net.hockeyapp.android.CrashManagerListener val$listener -> b
     boolean val$ignoreDefaultHandler -> c
     394:396:void run() -> run
-net.hockeyapp.android.CrashManager$4 -> beb:
+net.hockeyapp.android.CrashManager$4 -> bed:
     548:548:boolean accept(java.io.File,java.lang.String) -> accept
 net.hockeyapp.android.CrashManagerListener -> net.hockeyapp.android.CrashManagerListener:
     43:43:boolean ignoreDefaultHandler() -> ignoreDefaultHandler
@@ -42102,26 +42150,26 @@ net.hockeyapp.android.FeedbackActivity -> net.hockeyapp.android.FeedbackActivity
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$800(net.hockeyapp.android.FeedbackActivity) -> f
     71:71:net.hockeyapp.android.adapters.MessagesAdapter access$802(net.hockeyapp.android.FeedbackActivity,net.hockeyapp.android.adapters.MessagesAdapter) -> a
     71:71:android.widget.ListView access$900(net.hockeyapp.android.FeedbackActivity) -> g
-net.hockeyapp.android.FeedbackActivity$1 -> bec:
+net.hockeyapp.android.FeedbackActivity$1 -> bee:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     157:159:void run() -> run
-net.hockeyapp.android.FeedbackActivity$2 -> bed:
+net.hockeyapp.android.FeedbackActivity$2 -> bef:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     170:207:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$2$1 -> bee:
+net.hockeyapp.android.FeedbackActivity$2$1 -> beg:
     net.hockeyapp.android.FeedbackActivity$2 this$1 -> a
     202:204:void run() -> run
-net.hockeyapp.android.FeedbackActivity$3 -> bef:
+net.hockeyapp.android.FeedbackActivity$3 -> beh:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     218:256:void handleMessage(android.os.Message) -> handleMessage
-net.hockeyapp.android.FeedbackActivity$3$1 -> beg:
+net.hockeyapp.android.FeedbackActivity$3$1 -> bei:
     net.hockeyapp.android.FeedbackActivity$3 this$1 -> a
     250:251:void run() -> run
-net.hockeyapp.android.FeedbackActivity$4 -> beh:
+net.hockeyapp.android.FeedbackActivity$4 -> bej:
     net.hockeyapp.android.objects.FeedbackResponse val$feedbackResponse -> a
     net.hockeyapp.android.FeedbackActivity this$0 -> b
     346:383:void run() -> run
-net.hockeyapp.android.FeedbackActivity$5 -> bei:
+net.hockeyapp.android.FeedbackActivity$5 -> bek:
     net.hockeyapp.android.FeedbackActivity this$0 -> a
     508:510:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.FeedbackActivityInterface -> net.hockeyapp.android.FeedbackActivityInterface:
@@ -42192,18 +42240,18 @@ net.hockeyapp.android.UpdateActivity -> net.hockeyapp.android.UpdateActivity:
     340:354:void onPrepareDialog(int,android.app.Dialog) -> onPrepareDialog
     62:62:android.view.View getLayoutView() -> getLayoutView
     62:62:net.hockeyapp.android.objects.ErrorObject access$002(net.hockeyapp.android.UpdateActivity,net.hockeyapp.android.objects.ErrorObject) -> a
-net.hockeyapp.android.UpdateActivity$1 -> bej:
+net.hockeyapp.android.UpdateActivity$1 -> bel:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     163:164:void downloadSuccessful(net.hockeyapp.android.tasks.DownloadFileTask) -> downloadSuccessful
     167:173:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
     176:181:java.lang.String getStringForResource(int) -> getStringForResource
-net.hockeyapp.android.UpdateActivity$2 -> bek:
+net.hockeyapp.android.UpdateActivity$2 -> bem:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     292:293:void run() -> run
-net.hockeyapp.android.UpdateActivity$3 -> bel:
+net.hockeyapp.android.UpdateActivity$3 -> ben:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     307:308:void run() -> run
-net.hockeyapp.android.UpdateActivity$4 -> bem:
+net.hockeyapp.android.UpdateActivity$4 -> beo:
     net.hockeyapp.android.UpdateActivity this$0 -> a
     329:331:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.UpdateActivityInterface -> net.hockeyapp.android.UpdateActivityInterface:
@@ -42222,7 +42270,7 @@ net.hockeyapp.android.UpdateFragment -> net.hockeyapp.android.UpdateFragment:
     213:221:java.lang.String getAppName() -> getAppName
     231:231:android.view.View getLayoutView() -> getLayoutView
     60:60:void access$000(net.hockeyapp.android.UpdateFragment,android.app.Activity) -> a
-net.hockeyapp.android.UpdateFragment$1 -> ben:
+net.hockeyapp.android.UpdateFragment$1 -> bep:
     android.app.Activity val$activity -> a
     net.hockeyapp.android.UpdateFragment this$0 -> b
     166:169:void downloadFailed(net.hockeyapp.android.tasks.DownloadFileTask,java.lang.Boolean) -> downloadFailed
@@ -42379,10 +42427,10 @@ net.hockeyapp.android.tasks.CheckUpdateTask -> net.hockeyapp.android.tasks.Check
     79:79:android.app.Activity access$100(net.hockeyapp.android.tasks.CheckUpdateTask) -> b
     79:79:void access$200(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray) -> a
     79:79:void access$300(net.hockeyapp.android.tasks.CheckUpdateTask,org.json.JSONArray,java.lang.Boolean) -> a
-net.hockeyapp.android.tasks.CheckUpdateTask$1 -> beo:
+net.hockeyapp.android.tasks.CheckUpdateTask$1 -> beq:
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> a
     299:300:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.CheckUpdateTask$2 -> bep:
+net.hockeyapp.android.tasks.CheckUpdateTask$2 -> ber:
     org.json.JSONArray val$updateInfo -> a
     net.hockeyapp.android.tasks.CheckUpdateTask this$0 -> b
     305:316:void onClick(android.content.DialogInterface,int) -> onClick
@@ -42404,10 +42452,10 @@ net.hockeyapp.android.tasks.DownloadFileTask -> net.hockeyapp.android.tasks.Down
     62:62:void onPostExecute(java.lang.Object) -> onPostExecute
     62:62:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     62:62:net.hockeyapp.android.listeners.DownloadFileListener access$000(net.hockeyapp.android.tasks.DownloadFileTask) -> a
-net.hockeyapp.android.tasks.DownloadFileTask$1 -> beq:
+net.hockeyapp.android.tasks.DownloadFileTask$1 -> bes:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     182:183:void onClick(android.content.DialogInterface,int) -> onClick
-net.hockeyapp.android.tasks.DownloadFileTask$2 -> ber:
+net.hockeyapp.android.tasks.DownloadFileTask$2 -> bet:
     net.hockeyapp.android.tasks.DownloadFileTask this$0 -> a
     188:189:void onClick(android.content.DialogInterface,int) -> onClick
 net.hockeyapp.android.tasks.ParseFeedbackTask -> net.hockeyapp.android.tasks.ParseFeedbackTask:
@@ -42442,21 +42490,21 @@ net.hockeyapp.android.utils.ConnectionManager -> net.hockeyapp.android.utils.Con
     org.apache.http.client.HttpClient httpClient -> a
     53:53:net.hockeyapp.android.utils.ConnectionManager getInstance() -> getInstance
     57:57:org.apache.http.client.HttpClient getHttpClient() -> getHttpClient
-net.hockeyapp.android.utils.ConnectionManager$1 -> bes:
-net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> bet:
+net.hockeyapp.android.utils.ConnectionManager$1 -> beu:
+net.hockeyapp.android.utils.ConnectionManager$ConnectionManagerHolder -> bev:
     net.hockeyapp.android.utils.ConnectionManager INSTANCE -> a
 net.hockeyapp.android.utils.DeviceUtils -> net.hockeyapp.android.utils.DeviceUtils:
     28:28:net.hockeyapp.android.utils.DeviceUtils getInstance() -> getInstance
     37:37:int getCurrentVersionCode(android.content.Context) -> getCurrentVersionCode
     46:63:java.lang.String getAppName(android.content.Context) -> getAppName
-net.hockeyapp.android.utils.DeviceUtils$1 -> beu:
-net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> bev:
+net.hockeyapp.android.utils.DeviceUtils$1 -> bew:
+net.hockeyapp.android.utils.DeviceUtils$DeviceUtilsHolder -> bex:
     net.hockeyapp.android.utils.DeviceUtils INSTANCE -> a
 net.hockeyapp.android.utils.FeedbackParser -> net.hockeyapp.android.utils.FeedbackParser:
     32:32:net.hockeyapp.android.utils.FeedbackParser getInstance() -> getInstance
     41:137:net.hockeyapp.android.objects.FeedbackResponse parseFeedbackResponse(java.lang.String) -> parseFeedbackResponse
-net.hockeyapp.android.utils.FeedbackParser$1 -> bew:
-net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> bex:
+net.hockeyapp.android.utils.FeedbackParser$1 -> bey:
+net.hockeyapp.android.utils.FeedbackParser$FeedbackParserHolder -> bez:
     net.hockeyapp.android.utils.FeedbackParser INSTANCE -> a
 net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     android.content.SharedPreferences feedbackTokenPrefs -> a
@@ -42470,31 +42518,31 @@ net.hockeyapp.android.utils.PrefsUtil -> net.hockeyapp.android.utils.PrefsUtil:
     92:101:java.lang.String getNameEmailFromPrefs(android.content.Context) -> getNameEmailFromPrefs
     109:115:void applyChanges(android.content.SharedPreferences$Editor) -> applyChanges
     122:125:java.lang.Boolean applySupported() -> applySupported
-net.hockeyapp.android.utils.PrefsUtil$1 -> bey:
-net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> bez:
+net.hockeyapp.android.utils.PrefsUtil$1 -> bfa:
+net.hockeyapp.android.utils.PrefsUtil$PrefsUtilHolder -> bfb:
     net.hockeyapp.android.utils.PrefsUtil INSTANCE -> a
 net.hockeyapp.android.utils.UiThreadUtil -> net.hockeyapp.android.utils.UiThreadUtil:
     23:23:net.hockeyapp.android.utils.UiThreadUtil getInstance() -> getInstance
     29:46:void dismissLoadingDialogAndDisplayError(java.lang.ref.WeakReference,android.app.ProgressDialog,int) -> dismissLoadingDialogAndDisplayError
     49:63:void dismissLoading(java.lang.ref.WeakReference,android.app.ProgressDialog) -> dismissLoading
     68:80:void displayToastMessage(java.lang.ref.WeakReference,java.lang.String,int) -> displayToastMessage
-net.hockeyapp.android.utils.UiThreadUtil$1 -> bfa:
+net.hockeyapp.android.utils.UiThreadUtil$1 -> bfc:
     android.app.ProgressDialog val$progressDialog -> a
     android.app.Activity val$activity -> b
     int val$errorDialogId -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     37:42:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$2 -> bfb:
+net.hockeyapp.android.utils.UiThreadUtil$2 -> bfd:
     android.app.ProgressDialog val$progressDialog -> a
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> b
     56:59:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$3 -> bfc:
+net.hockeyapp.android.utils.UiThreadUtil$3 -> bfe:
     android.app.Activity val$activity -> a
     java.lang.String val$message -> b
     int val$flags -> c
     net.hockeyapp.android.utils.UiThreadUtil this$0 -> d
     75:76:void run() -> run
-net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> bfd:
+net.hockeyapp.android.utils.UiThreadUtil$WbUtilHolder -> bff:
     net.hockeyapp.android.utils.UiThreadUtil INSTANCE -> a
 net.hockeyapp.android.utils.Util -> net.hockeyapp.android.utils.Util:
     java.lang.String PREFS_FEEDBACK_TOKEN -> PREFS_FEEDBACK_TOKEN
@@ -42525,7 +42573,7 @@ net.hockeyapp.android.utils.VersionHelper -> net.hockeyapp.android.utils.Version
     213:219:java.lang.String getVersionName(org.json.JSONObject) -> c
     223:235:java.lang.String getVersionNotes(int,org.json.JSONObject) -> c
     251:289:int compareVersionStrings(java.lang.String,java.lang.String) -> compareVersionStrings
-net.hockeyapp.android.utils.VersionHelper$1 -> bfe:
+net.hockeyapp.android.utils.VersionHelper$1 -> bfg:
     net.hockeyapp.android.utils.VersionHelper this$0 -> a
     90:99:int compare(org.json.JSONObject,org.json.JSONObject) -> a
     87:87:int compare(java.lang.Object,java.lang.Object) -> compare
@@ -42766,7 +42814,7 @@ org.jraf.android.backport.switchwidget.SwitchPreference -> org.jraf.android.back
     190:190:java.lang.CharSequence getSwitchTextOn() -> getSwitchTextOn
     198:198:java.lang.CharSequence getSwitchTextOff() -> getSwitchTextOff
     1:1:boolean access$0(org.jraf.android.backport.switchwidget.SwitchPreference,java.lang.Object) -> a
-org.jraf.android.backport.switchwidget.SwitchPreference$Listener -> bff:
+org.jraf.android.backport.switchwidget.SwitchPreference$Listener -> bfh:
     org.jraf.android.backport.switchwidget.SwitchPreference this$0 -> a
     58:66:void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
 org.jraf.android.backport.switchwidget.TwoStatePreference -> org.jraf.android.backport.switchwidget.TwoStatePreference:
@@ -42795,7 +42843,7 @@ org.jraf.android.backport.switchwidget.TwoStatePreference$SavedState -> org.jraf
     boolean checked -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     286:288:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-org.jraf.android.backport.switchwidget.TwoStatePreference$SavedState$1 -> bfg:
+org.jraf.android.backport.switchwidget.TwoStatePreference$SavedState$1 -> bfi:
     298:298:org.jraf.android.backport.switchwidget.TwoStatePreference$SavedState createFromParcel(android.os.Parcel) -> a
     302:302:org.jraf.android.backport.switchwidget.TwoStatePreference$SavedState[] newArray(int) -> a
     1:1:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel

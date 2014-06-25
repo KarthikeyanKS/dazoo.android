@@ -6,21 +6,15 @@ package com.mitv.activities;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -28,13 +22,13 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseCommentsActivity;
+import com.mitv.asynctasks.other.RemoveAlreadyEndedBroadcastsTask;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.http.URLParameters;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.FontManager;
 import com.mitv.managers.TrackingGAManager;
@@ -47,12 +41,9 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.populators.BroadcastAiringOnDifferentChannelBlockPopulator;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
-import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
-import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.utilities.GenericUtils;
-import com.mitv.utilities.HyperLinkUtils;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -61,7 +52,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class BroadcastPageActivity
-	extends BaseContentActivity 
+	extends BaseCommentsActivity 
 	implements OnClickListener 
 {
 	private static final String TAG = BroadcastPageActivity.class.getName();
@@ -92,14 +83,6 @@ public class BroadcastPageActivity
 	private TextView synopsisTv;
 	private TextView castInfo;
 	
-	private RelativeLayout disqusCommentsLayout;
-	private RelativeLayout disqusLoginToCommentButtonContainer;
-	private WebView webViewDisqusComments;
-	private String webViewDisqusURL;
-	
-	private FontTextView disqusLoginToCommentButton;
-	private FontTextView disqusCommentsHeader;
-	
 	private RelativeLayout upcomingContainer;
 	private RelativeLayout repetitionsContainer;
 	private RelativeLayout nowAiringContainer;
@@ -115,6 +98,7 @@ public class BroadcastPageActivity
 		super.onCreate(savedInstanceState);
 
 		boolean isFromNotification = getIntent().getBooleanExtra(Constants.INTENT_NOTIFICATION_EXTRA_IS_FROM_NOTIFICATION, false);
+		
 		Log.d(TAG, "Event sent: Is from notification: " + isFromNotification);
 		if (isFromNotification == false && isRestartNeeded()) {
 			return;
@@ -123,18 +107,6 @@ public class BroadcastPageActivity
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		initViews();
-		
-		boolean areDisqusCommentsEnabled = false;
-		
-		if (ContentManager.sharedInstance().getCacheManager().getAppConfiguration() != null) 
-		{
-			areDisqusCommentsEnabled = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().areDisqusCommentsEnabled();
-		}
-		
-		if(areDisqusCommentsEnabled == false)
-		{
-			hideDisqusCommentsWebview();
-		}
 	}
 
 	
@@ -317,18 +289,7 @@ public class BroadcastPageActivity
 				{
 					handleInitialDataAvailable();
 					
-					TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
-					
-					boolean areDisqusCommentsEnabled = ContentManager.sharedInstance().getCacheManager().getAppConfiguration().areDisqusCommentsEnabled();
-					
-					if(areDisqusCommentsEnabled && broadcast != null)
-					{
-						String contentID = broadcast.getShareUrl();
-						
-						buildDisqusCommentsWebViewURL(broadcast);
-						
-						ContentManager.sharedInstance().fetchFromServiceDisqusThreadDetails(this, contentID);
-					}
+					loadDisqusForBroadcast();
 					
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 					break;
@@ -426,50 +387,7 @@ public class BroadcastPageActivity
 		repetitionsContainer = (RelativeLayout) findViewById(R.id.broacastpage_repetitions);
 		nowAiringContainer = (RelativeLayout) findViewById(R.id.broacastpage_similar_airing_now);
 		
-		disqusCommentsLayout = (RelativeLayout) findViewById(R.id.disqus_comments_layout);
-		webViewDisqusComments = (WebView) findViewById(R.id.disqus_comments_webview);
-		
-		disqusLoginToCommentButtonContainer = (RelativeLayout) findViewById(R.id.disqus_login_to_comment_button_container);
-		
-		disqusLoginToCommentButton = (FontTextView) findViewById(R.id.disqus_login_to_comment_button);
-		disqusCommentsHeader = (FontTextView) findViewById(R.id.disqus_comments_header_text);
-		
-		WebSettings webSettings = webViewDisqusComments.getSettings();
-
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setBuiltInZoomControls(false);
-
-		webViewDisqusComments.requestFocusFromTouch();
-
-		webViewDisqusComments.setWebViewClient(new WebViewClient()
-		{
-			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url) 
-			{
-				if (HyperLinkUtils.checkIfMatchesDisqusURLOrFrontendURL(url))
-				{
-					return false;
-				}
-				else
-				{
-					Uri uri = Uri.parse(url);
-
-					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-
-					startActivity(intent);
-				}
-
-				return false;
-			}
-		});
-
-		webViewDisqusComments.setWebChromeClient(new WebChromeClient() 
-		{
-			public void onConsoleMessage(String message, int lineNumber, String sourceID) 
-			{
-				Log.d(TAG, message + " -- From line " + lineNumber + " of " + sourceID);
-			}
-		});
+		initDisqus();
 	}
 	
 	
@@ -478,7 +396,7 @@ public class BroadcastPageActivity
 	{
 		populateMainView();
 
-		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
+		final TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 		
 		/* Repetitions */
 		if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) 
@@ -509,18 +427,29 @@ public class BroadcastPageActivity
 		/* Playing at the same time on other channels */
 		if(Constants.ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS)
 		{
-			if (broadcastsAiringOnOtherChannels != null && !broadcastsAiringOnOtherChannels.isEmpty()) 
-			{
-				BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(this, nowAiringContainer, broadcast);
+			final Activity activity = this;
+			
+			RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(broadcastsAiringOnOtherChannels, 0) {
 				
-				similarBroadcastsAiringNowBlock.createBlock(broadcastsAiringOnOtherChannels);
-				
-				nowAiringContainer.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				nowAiringContainer.setVisibility(View.GONE);
-			}
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);			
+					if (broadcastsAiringOnOtherChannels != null && !broadcastsAiringOnOtherChannels.isEmpty()) 
+					{
+						BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(activity, nowAiringContainer, broadcast);
+						
+						similarBroadcastsAiringNowBlock.createBlock(broadcastsAiringOnOtherChannels);
+						
+						nowAiringContainer.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						nowAiringContainer.setVisibility(View.GONE);
+					}
+				}
+			};
+			
+			removeAlreadyEndedBroadcastsTask.execute();
 		}
 		else
 		{
@@ -841,19 +770,6 @@ public class BroadcastPageActivity
 				GenericUtils.startShareActivity(this, broadcastWithChannelInfo);
 				break;
 			}
-			
-			case R.id.disqus_login_to_comment_button_container:
-			{
-				String title = getString(R.string.disqus_comments_login_to_comment_prompt_title);
-				String message = getString(R.string.disqus_comments_login_to_comment_prompt_message);
-				String confirmButtonText = getString(R.string.disqus_comments_login_to_comment_prompt_button_confirm);
-				String cancelButtonText = getString(R.string.disqus_comments_login_to_comment_prompt_button_cancel);
-				
-				Runnable confirmProcedure = getConfirmProcedure(this);
-
-				DialogHelper.showDialog(this, title, message, confirmButtonText, cancelButtonText, confirmProcedure, null);
-				break;
-			}
 	
 			default: 
 			{
@@ -874,121 +790,5 @@ public class BroadcastPageActivity
 
 		finish();
 	}
-	
-	
-	
-	private void hideDisqusCommentsWebview()
-	{
-		disqusCommentsLayout.setVisibility(View.GONE);
-	}
-	
-	
-	
-	private void showAndReloadDisqusCommentsWebview(final int totalComments)
-	{		
-		disqusCommentsLayout.setVisibility(View.VISIBLE);
 
-		disqusLoginToCommentButtonContainer.setVisibility(View.GONE);
-
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(getString(R.string.disqus_comments_header_title));
-
-		Boolean isUserLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
-
-		if(isUserLoggedIn)
-		{
-			disqusLoginToCommentButton.setVisibility(View.GONE);
-
-			disqusCommentsHeader.setText(sb.toString());
-
-			webViewDisqusComments.setVisibility(View.VISIBLE);			
-		}
-		else
-		{
-			webViewDisqusComments.setVisibility(View.GONE);
-
-			disqusLoginToCommentButtonContainer.setVisibility(View.VISIBLE);
-
-			disqusLoginToCommentButtonContainer.setOnClickListener(this);
-
-			if(totalComments > 0)
-			{
-				sb.append(" (");
-				sb.append(totalComments);
-				sb.append(")");
-			}
-
-			disqusCommentsHeader.setText(sb.toString());
-		}
-		
-		if(webViewDisqusURL != null && webViewDisqusURL.isEmpty() == false)
-		{
-			webViewDisqusComments.loadUrl(webViewDisqusURL);
-		}
-		else
-		{
-			webViewDisqusComments.reload();
-		}
-	}
-	
-	
-	
-	private void buildDisqusCommentsWebViewURL(final TVBroadcastWithChannelInfo tvBroadcast)
-	{
-		if(tvBroadcast != null)
-		{
-			Locale locale = LanguageUtils.getCurrentLocale();
-			
-			String title = tvBroadcast.getTitle();
-			String contentID = tvBroadcast.getShareUrl();
-			String url = tvBroadcast.getShareUrl();
-			
-			URLParameters urlParameters = new URLParameters();
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_LANGUAGE, locale.toString());
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_TITLE, title);
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_IDENTIFIER, contentID);
-			urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_CONTENT_URL, url);
-			
-			boolean isUserLoggedIn = ContentManager.sharedInstance().getCacheManager().isLoggedIn();
-			
-			if(isUserLoggedIn)
-			{
-				String userID = ContentManager.sharedInstance().getCacheManager().getUserId();
-				String username = ContentManager.sharedInstance().getCacheManager().getUserFirstname();
-				String userEmail = ContentManager.sharedInstance().getCacheManager().getUserEmail();
-				String userImage = ContentManager.sharedInstance().getCacheManager().getUserProfileImage();
-				
-				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_ID, userID);
-				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_NAME, username);
-				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_EMAIL, userEmail);
-				urlParameters.add(Constants.DISQUS_COMMENTS_PARAMETER_USER_AVATAR_IMAGE, userImage);
-			}
-			
-			StringBuilder urlSB = new StringBuilder();
-			urlSB.append(Constants.DISQUS_COMMENTS_PAGE_URL);
-			urlSB.append(urlParameters.toString());
-			
-			webViewDisqusURL = urlSB.toString();
-		}
-		else
-		{
-			Log.w(TAG, "TVBroadcast is null. Disqus URL will not be built");
-		}
-	}
-	
-	
-	
-	private Runnable getConfirmProcedure(final Activity activity)
-	{
-		return new Runnable() 
-		{
-			public void run() 
-			{
-				Intent intent = new Intent(activity, SignUpSelectionActivity.class);			
-				
-				activity.startActivity(intent);
-			}
-		};
-	}
 }

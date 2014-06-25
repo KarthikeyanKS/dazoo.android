@@ -494,7 +494,7 @@ public abstract class Constants
 	public static final String REQUEST_DATA_COMPETITION_PHASE_ID_KEY = "phaseID";
 	public static final String REQUEST_DATA_COMPETITION_TEAM_ID_KEY = "teamID";
 	
-	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 600;
+	public static final int COMPETITION_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
 	public static final int COMPETITION_EVENT_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 300;
 	public static final int COMPETITION_EVENT_PAGE_HIGHLIGHTS_DEFAULT_RELOAD_TIME_IN_SECONDS = 30;
 	public static final int COMPETITION_TEAM_PAGE_DEFAULT_RELOAD_TIME_IN_SECONDS = 7200;
