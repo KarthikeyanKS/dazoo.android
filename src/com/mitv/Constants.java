@@ -4,6 +4,7 @@ package com.mitv;
 
 
 import com.mitv.activities.FeedActivity;
+import com.mitv.enums.DeploymentEndpointTypeEnum;
 
 
 
@@ -20,44 +21,38 @@ public abstract class Constants
 	
 	
 	/* BACKEND API BASE URLs */
-	public static final String BACKEND_TEST_ENVIRONMENT = "gitrgitr.com";
-	public static final String BACKEND_PRODUCTION_ENVIRONMENT = "mi.tv";
+	public static final String BACKEND_TEST_ENVIRONMENT_DOMAIN = "gitrgitr.com";
+	public static final String BACKEND_PRODUCTION_ENVIRONMENT_DOMAIN = "mi.tv";
 	
 	
 	/* FRONTEND API BASE URLs */
-	public static final String FRONTEND_TEST_ENVIRONMENT = "gitrgitr.com";
-	public static final String FRONTEND_PRODUCTION_ENVIRONMENT = "mi.tv";
+	public static final String FRONTEND_TEST_ENVIRONMENT_DOMAIN = "gitrgitr.com";
+	public static final String FRONTEND_PRODUCTION_ENVIRONMENT_DOMAIN = "mi.tv";
 	
 	
 	/* CONFIGURATIONS FOR RELEASE */
-	public static final String HTTP_SCHEME_USED	= HTTP_SCHEME;
-//	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_TEST_ENVIRONMENT;
-	public static final String BACKEND_ENVIRONMENT_USED = BACKEND_PRODUCTION_ENVIRONMENT;
-//	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_TEST_ENVIRONMENT;
-	public static final String FRONTEND_ENVIRONMENT_USED = FRONTEND_PRODUCTION_ENVIRONMENT;
+	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.PRODUCTION;
+//	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.TEST;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
-	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
-	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
-	/** If you update ANY of the ORM classes, the database version number needs to be increased **/
+	/** If you update ANY of the ORM classes, the database version number needs to be increased. **/
 	public static final int CACHE_DATABASE_VERSION = 3;
 	public static final boolean FORCE_CACHE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
-	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
-	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
-	public static final boolean ENABLE_STRICT_MODE = false;
+	public static final boolean ENABLE_ANDROID_STRICT_MODE = false;
 	public static final boolean IGNORE_INVALID_SSL_CERTIFICATES = false;
 	public static final boolean ENABLE_FIRST_TIME_TUTORIAL_VIEW = true;
 	public static final boolean ENABLE_AMAZON_INSIGHTS = false;
 	public static final boolean ENABLE_RATE_APP_DIALOG = false;
-	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = false;
+	public static final boolean ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS = true;
 	public static final boolean ENABLE_USER_PROFILE_CONFIGURATION = false;
 	public static final boolean ENABLE_FILTER_IN_FEEDACTIVITY = false;
-	public static final boolean ENABLE_POPULAR_BROADCAST_PROCESSING = false;
 	public static final boolean FORCE_ENABLE_JSON_DATA_MOCKUPS_IF_AVAILABLE = false;
 	public static final boolean FORCE_USAGE_OF_DEFAULT_COMPETITION_BANNER = true;
-	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = true;
+	public static final boolean USE_INITIAL_METRICS_ANALTYTICS = false;
+	public static final boolean USE_DETAILED_INITIAL_METRICS_ANALTYTICS = USE_INITIAL_METRICS_ANALTYTICS && false;  //Include network, parsing, post execute tracking
+	public static final boolean USE_LOCAL_GENERATED_TVDATES = true;
 	
 	
 	/* AMAZON INSIGHTS configurations */
@@ -67,6 +62,8 @@ public abstract class Constants
 	
 	
 	/* HockeyApp configurations */
+	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = false;
+	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final String TESTFLIGHT_TOKEN = "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String HOCKEY_APP_TOKEN = "c90b5331b5a7086d88d98021508f2c16";
 
@@ -83,14 +80,17 @@ public abstract class Constants
 	
 	
 	/* Backend STATIC paths - DO NOT CHANGE THOSE */
+	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
+	public static final String BACKEND_DEPLOYMENT_DOMAIN_URL 		= DEPLOYMENT_DOMAIN_USED.getBackendDomainURL();
+	public static final String FRONTEND_DEPLOYMENT_DOMAIN_URL 		= DEPLOYMENT_DOMAIN_USED.getFrontendDomainURL();
 	public static final String URL_BACKEND_BASE_API					= "api.";
 	public static final String URL_BACKEND_IMAGE_PREFIX_PATH 		= "images.";
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
-	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;
+	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_DEPLOYMENT_DOMAIN_URL;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
 	public static final String URL_INTERNAL_TRACKING_SUFFIX			= "/track/unique";
-	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
-	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_ENVIRONMENT_USED;
+	public static final String URL_INTERNAL_TRACKING				= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_INTERNAL_TRACKING_SUFFIX;
+	public static final String URL_FRONTEND_ENVIRONMENT 			= HTTP_SCHEME_USED + FRONTEND_DEPLOYMENT_DOMAIN_URL;
 	
 	public static final String URL_GUIDE 							= URL_SERVER + "/epg/slimguide";
 	public static final String URL_DATES 							= URL_SERVER + "/epg/dates";
@@ -133,8 +133,9 @@ public abstract class Constants
 	public static final String URL_STANDINGS 					 	= "/standings";
 	public static final String URL_HIGHLIGHTS 					 	= "/highlights";
 	public static final String URL_SQUAD 					 		= "/squad";
+	public static final String URL_PHASE 					 		= "/phase";
 	public static final String URL_LINE_UP 					 		= "/lineup";
-	public static final String URL_POLLS 					 		= "/polls";
+	public static final String URL_SPORT					 		= "/sports";
 	public static final String URL_STADIUMS 					 	= "/sports/stadiums";
 	public static final String URL_FLAGS 					 		= "/sports/flags";
 	public static final String URL_TEAMS_IMAGE				 		= "/sports/teams";
@@ -169,6 +170,7 @@ public abstract class Constants
 	public static final String	API_POPULAR_COUNT					= "count";
 	public static final String	API_SKIP							= "skip";
 	public static final String	API_LIMIT							= "limit";
+	public static final String	API_TEAM_URL						= "mundial-event-portrait_";
 
 
 	/* Restrictions */
@@ -183,12 +185,13 @@ public abstract class Constants
 
 	
 	/* Date and time representations */
-	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
-	public static final String  CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
-	public static final String	DATE_FORMAT_DATE									= "yyyy-MM-dd";
-	public static final String	DATE_FORMAT_HOUR_AND_MINUTE							= "HH:mm";
-	public static final String	DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM				= "HH:mm a";
-	public static final String	DATE_FORMAT_DAY_AND_MONTH							= "dd/MM";
+	public static final String RFC1123_DATE_FORMAT_STRING 						= "EEE, dd MMM yyyy HH:mm:ss Z";
+	public static final String ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	public static final String CALENDAR_TO_STRING_FOR_DEBUG						= "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMAT_DATE									= "yyyy-MM-dd";
+	public static final String DATE_FORMAT_HOUR_AND_MINUTE						= "HH:mm";
+	public static final String DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM			= "HH:mm a";
+	public static final String DATE_FORMAT_DAY_AND_MONTH						= "dd/MM";
 	
 	
 	/* Intent Extras - Notification */
@@ -212,6 +215,7 @@ public abstract class Constants
 	public static final String	INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO	= "com.mitv.intent.extra.need.to.download.broadcast.with.channel.info";
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT			= "com.mitv.intent.extra.activity.user.logout.success";
+	public static final String	INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN 		= "com.mitv.intent.alarn.extra.activity.return.login.class.name";
 	
 	
 	/* TVGuide and FeedActivity */
@@ -302,6 +306,9 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_USER_EVENT_FEED_ITEM_YOU_LIKE			= "FEED_ITEM_SELECTED_YOU_LIKE";
 	public static final String GA_EVENT_KEY_USER_EVENT_FEED_LIST_SCROLLED			= "FEED_LIST_SCROLLED_TO_ITEM_AT_INDEX";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_LIKE					= "LIKE";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_LIKE		= "TEAM_FROM_BANNER_LIKED";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_DISMISS     = "TEAM_FROM_BANNER_DISMISSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_USER_TEAM_BANNER_TO_TEAM_PAGE= "TEAM_FROM_BANNER_TO_TEAM_PAGE";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_REMINDER				= "REMINDER";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_IN					= "USER_SIGNED_IN";
 	public static final String GA_EVENT_KEY_USER_EVENT_USER_SIGN_OUT				= "USER_SIGNED_OUT";
@@ -310,6 +317,16 @@ public abstract class Constants
 	public static final String GA_EVENT_KEY_HTTP_CORE_OUT_OF_MEMORY_EXCEPTION		= "HTTP_CORE_OUT_OF_MEMORY_EXCEPTION";
 	public static final String GA_EVENT_KEY_USER_EVENT_CHANNEL_IN_HOME_ACTIVITY_PRESS = "CHANNEL_CELL_IN_HOME_ACTIVITY_PRESSED";
 	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_CHANNEL_ACTIVITY_PRESS = "BROADCAST_CELL_IN_CHANNEL_ACTIVITY_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_TAGS_PRESS 			= "BROADCAST_CELL_IN_TAGS_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_UPCOMING_BLOCK 		= "BROADCAST_CELL_IN_UPCOMING_BLOCK_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_REPETITIONS_BLOCK 	= "BROADCAST_CELL_IN_REPETITION_BLOCK_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_UPCOMING_LIST 		= "BROADCAST_CELL_IN_UPCOMING_LIST_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_REPETITIONS_LIST 	= "BROADCAST_CELL_IN_REPETITION_LIST_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCAST_IN_REMINDERS_LIST 		= "BROADCAST_CELL_IN_REMINDERS_LIST_PRESSED";
+	public static final String GA_EVENT_KEY_USER_EVENT_BROADCASTPAGE_OPENED_FROM_NOTIFICATION	= "BROADCASTPAGE_OPENED_FROM_NOTIFICATION";
+	public static final String GA_EVENT_KEY_USER_EVENT_EVENTPAGE_OPENED_FROM_NOTIFICATION		= "EVENTPAGE_OPENED_FROM_NOTIFICATION";
+	public static final String GA_EVENT_KEY_USER_EVENT_DIALOG_CANCELED							= "DIALOG_CANCELED";
+	public static final String GA_EVENT_KEY_USER_EVENT_DIALOG_CONTINUED							= "DIALOG_CONTINUED";
 	
 	public static final String GA_EVENT_ACTION_TAG_SELECTED = "TAG_SELECTED";
 	public static final String GA_EVENT_ACTION_COMPETITION_ENTRY_PRESSED = "COMPETITION_ENTRY_PRESSED";
@@ -323,6 +340,7 @@ public abstract class Constants
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT		= "DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT";
+	public static final String GA_KEY_APP_CURRENT_USER_NETWORK_FLAG 				= "APP_CURRENT_USER_NETWORK_FLAG";
 
 	
 	/* JSON KEYS FOR SEARCH RESULTS */
@@ -373,10 +391,6 @@ public abstract class Constants
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 4000;
     
-    /* NTP CONFIGURATIONS */
-    public static final String HOST_FOR_NTP_CHECK = "us.pool.ntp.org";
-    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_NTP_CHECK = 4000;
-    
     
     /* USER AUTHORIZATION TOKEN FOR HTTP REQUESTS */
     public static final String USER_AUTHORIZATION_HEADER_KEY = "Authorization";
@@ -386,6 +400,11 @@ public abstract class Constants
     /* LOCALE TOKENS FOR HTTP REQUESTS */
 	public static final String HTTP_REQUEST_DATA_LOCALE = "Dazoo-Locale";
 	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET = "timeZoneOffset";
+	
+	public static final String HTTP_REQUEST_HEADER_CACHE_CONTROL_KEY = "Cache-Control";
+	public static final String HTTP_REQUEST_HEADER_CACHE_CONTROL_VALUE_PREFIX = "max-age=";
+	public static final String HTTP_REQUEST_HEADER_SERVER_DATE_KEY = "Date";
+	
 	
 	
 	/* CONFIGURATIONS FOR FACEBOOK */
@@ -410,7 +429,9 @@ public abstract class Constants
 	public static final String REMINDER_SOUND_RESOURCE_FOR_COMPETITIONS = "reminder_sound_competition";
     
 	
-    /* Shared preferences for data storage */
+    /* Shared preferences, data storage and object persistence */
+	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
+	public static final String APP_WAS_PREINSTALLED_FILE_NAME = "59b039d2c0c0a7fbe163";
 	public static final String SYSTEM_APP_PATH = "/system/app/";
 	public static final String DEVICE_PREFERENCES_FILE = "device_id.xml";
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
@@ -419,8 +440,8 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_ORM_DATABASE_VERSION = "com.mitv.app.installed.orm.database.version";
-	
 	public static final String SHARED_PREFERENCES_IS_VIEWING_TUTORIAL = "com.mitv.app.is.viewing.tutorial";
+	public static final String SHARED_PREFERENCES_FAVORITE_TEAM_BANNER_SEEN = "com.mitv.app.favorite.team.banner.seen";
 	
 	
 	/* CONFIGURATIONS FOR DISQUS COMMENTS WEBVIEW */
@@ -457,9 +478,9 @@ public abstract class Constants
 	
 	
 	/* Competitions */
-	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_FLAGS;
-	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_STADIUMS;
-	public static final String TEAM_PAGE_TEAM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_ENVIRONMENT_USED + URL_TEAMS_IMAGE;
+	public static final String EVENT_FLAG_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_FLAGS;
+	public static final String EVENT_STADIUM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_STADIUMS;
+	public static final String TEAM_PAGE_TEAM_IMAGE_PATH = HTTP_SCHEME_USED + URL_BACKEND_IMAGE_PREFIX_PATH + BACKEND_DEPLOYMENT_DOMAIN_URL + URL_TEAMS_IMAGE;
 	public static final String EVENT_STADIUM_IMAGE_SIZE_SMALL = "_s";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_MEDIUM = "_m";
 	public static final String EVENT_STADIUM_IMAGE_SIZE_LARGE = "_l";
@@ -487,4 +508,8 @@ public abstract class Constants
 	/* Competitions - FIFA World Cup 2014 specific */
 	public static final String FIFA_TAG_ID = "FIFA";
 	public static final long FIFA_COMPETITION_ID = 17694;
+	public static final long FAVORITE_TEAM_COLOMBIA_TEAM_ID = 3037;
+	public static final long FAVORITE_TEAM_COLOMBIA_PHASE_ID = 95404;
+	public static final String FAVORITE_TEAM_COLOMBIA_TEAM_NAME = "Colombia";
+	public static final String FAVORITE_TEAM_COLOMBIA_TEAM_FLAG_URL = EVENT_FLAG_IMAGE_PATH + FORWARD_SLASH + FAVORITE_TEAM_COLOMBIA_TEAM_ID + EVENT_STADIUM_IMAGE_SIZE_MEDIUM + EVENT_STADIUM_IMAGE_EXTENSION;
 }

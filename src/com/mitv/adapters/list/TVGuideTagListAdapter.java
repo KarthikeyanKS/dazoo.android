@@ -4,6 +4,7 @@ package com.mitv.adapters.list;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,8 +26,10 @@ import com.mitv.enums.BannerViewType;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
+import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.utilities.LanguageUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -130,6 +133,8 @@ public class TVGuideTagListAdapter
 
 		if (broadcastWithChannelInfo != null) 
 		{
+			TVProgram program = broadcastWithChannelInfo.getProgram();
+			
 			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) 
 			{
 				LanguageUtils.setupProgressBar(activity, broadcastWithChannelInfo, holder.mDurationPb, holder.mTimeLeftTv);
@@ -142,13 +147,13 @@ public class TVGuideTagListAdapter
 
 			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
 			
-			ImageSetOrientation imageSetOrientation = broadcastWithChannelInfo.getProgram().getImages();
+			ImageSetOrientation imageSetOrientation = program.getImages();
 			
 			boolean containsPortraitOrientation = imageSetOrientation.containsPortraitImageSet();
 			
 			if(containsPortraitOrientation)
 			{
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(program.getImages().getPortrait().getImageURLForDeviceDensityDPI(), imageAware);
 			}
 			
 			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
@@ -158,18 +163,15 @@ public class TVGuideTagListAdapter
 			
 			StringBuilder descriptionSB = new StringBuilder();
 			
-			if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
+			if(program.isPopular())
 			{
-				if(broadcastWithChannelInfo.isPopular())
-				{
-					String stringIconTrending = activity.getString(R.string.icon_trending);
+				String stringIconTrending = activity.getString(R.string.icon_trending);
 					
-					titleSB.append(stringIconTrending)
+				titleSB.append(stringIconTrending)
 					.append(" ");
-				}
 			}
 			
-			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
+			ProgramTypeEnum programType = program.getProgramType();
 
 			switch (programType) 
 			{
@@ -180,9 +182,9 @@ public class TVGuideTagListAdapter
 					
 					holder.mTitleTv.setText(titleSB.toString());
 					
-					descriptionSB.append(broadcastWithChannelInfo.getProgram().getGenre())
+					descriptionSB.append(program.getGenre())
 					.append(" ")
-					.append(broadcastWithChannelInfo.getProgram().getYear());
+					.append(program.getYear());
 					
 					break;
 				}
@@ -204,9 +206,9 @@ public class TVGuideTagListAdapter
 						.append(" ");
 					}
 	
-					descriptionSB.append(broadcastWithChannelInfo.getProgram().getSportType().getName())
+					descriptionSB.append(program.getSportType().getName())
 					.append(": ")
-					.append(broadcastWithChannelInfo.getProgram().getTournament());
+					.append(program.getTournament());
 					
 					break;
 				}
@@ -219,7 +221,7 @@ public class TVGuideTagListAdapter
 						.append(" ");
 					}
 					
-					descriptionSB.append(broadcastWithChannelInfo.getProgram().getCategory());
+					descriptionSB.append(program.getCategory());
 					
 					break;
 				}
@@ -242,12 +244,14 @@ public class TVGuideTagListAdapter
 			@Override
 			public void onClick(View v) 
 			{
+				TrackingGAManager.sharedInstance().sendUserPressedBroadcastInTags(fragmentName, broadcastWithChannelInfo);
+				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				
 				ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				/* FIFA - Navigation to event page */
-				ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
+				List<String> tags = broadcastWithChannelInfo.getProgram().getTags();
 
 				if (tags != null && !tags.isEmpty()) 
 				{

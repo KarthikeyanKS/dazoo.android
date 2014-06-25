@@ -26,7 +26,6 @@ import com.mitv.asynctasks.mitvapi.GetTVDates;
 import com.mitv.asynctasks.mitvapi.GetTVSearchResults;
 import com.mitv.asynctasks.mitvapi.GetTVTags;
 import com.mitv.asynctasks.mitvapi.PerformInternalTracking;
-import com.mitv.asynctasks.mitvapi.PerformUserHasSeenAdAdzerk;
 import com.mitv.asynctasks.mitvapi.PerformUserLoginWithCredentials;
 import com.mitv.asynctasks.mitvapi.PerformUserLoginWithFacebookToken;
 import com.mitv.asynctasks.mitvapi.PerformUserPasswordResetConfirmation;
@@ -39,6 +38,7 @@ import com.mitv.asynctasks.mitvapi.competitions.GetEventHighlights;
 import com.mitv.asynctasks.mitvapi.competitions.GetEventLineUp;
 import com.mitv.asynctasks.mitvapi.competitions.GetEvents;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhaseByID;
+import com.mitv.asynctasks.mitvapi.competitions.GetPhaseByTeamID;
 import com.mitv.asynctasks.mitvapi.competitions.GetPhases;
 import com.mitv.asynctasks.mitvapi.competitions.GetSquadForTeam;
 import com.mitv.asynctasks.mitvapi.competitions.GetStandingsForPhase;
@@ -53,8 +53,6 @@ import com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike;
 import com.mitv.asynctasks.mitvapi.usertoken.SetUserTVChannelIds;
 import com.mitv.asynctasks.other.CheckNetworkConnectivity;
 import com.mitv.asynctasks.other.CompetitionDataPostProcessingTask;
-import com.mitv.asynctasks.other.SNTPAsyncTask;
-import com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
@@ -72,7 +70,6 @@ public class APIClient
 	private static final int POOL_EXECUTOR_DEFAULT_CORE_POOL_SIZE = 15;
 	private static final int POOL_EXECUTOR_DEFAULT_MAXIMUM_POOL_SIZE = 20;
 	private static final long POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME = 5000L;
-	
 	
 	
 	private GetTVSearchResults lastSearchTask;
@@ -227,12 +224,15 @@ public class APIClient
 		tasks.add(new GetAppConfigurationData(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetAppVersionData(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVTags(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
-		tasks.add(new GetTVDates(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVChannelsAll(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
-		tasks.add(new SNTPAsyncTask(contentCallbackListener, activityCallbackListener));
-		tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false, Constants.RETRY_COUNT_THRESHOLD));
+		//tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener, false, Constants.RETRY_COUNT_THRESHOLD));
+		
+		if (Constants.USE_LOCAL_GENERATED_TVDATES == false)
+		{
+			tasks.add(new GetTVDates(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
+		}
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
 		{
@@ -242,8 +242,10 @@ public class APIClient
 		if(isUserLoggedIn)
 		{
 			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, false, Constants.RETRY_COUNT_THRESHOLD);
+			GetUserLikes getUserLikes = new GetUserLikes(contentCallbackListener, activityCallbackListener, true, false, Constants.RETRY_COUNT_THRESHOLD);
 			
 			tvGuideInitialCallPoolExecutor.addAndExecuteTask(getUserTVChannelIds);
+			tvGuideInitialCallPoolExecutor.addAndExecuteTask(getUserLikes);
 		}
 	}
 	
@@ -270,16 +272,7 @@ public class APIClient
 	}
 	
 	
-	
-	public void setPopularVariablesWithPopularBroadcastsOnPoolExecutor(ViewCallbackListener activityCallbackListener)
-	{
-		SetPopularVariablesWithPopularBroadcasts task = new SetPopularVariablesWithPopularBroadcasts(contentCallbackListener, activityCallbackListener);
-		
-		tvGuideInitialCallPoolExecutor.addAndExecuteTask(task);
-	}
-	
-	
-	
+
 	public void cancelAllTVGuideInitialCallPendingRequests()
 	{
 		tvGuideInitialCallPoolExecutor.shutdown();
@@ -470,9 +463,9 @@ public class APIClient
 	}
 	
 	
-	public void getTVBroadcastsPopular(ViewCallbackListener activityCallbackListener, boolean standalone) 
+	public void getTVBroadcastsPopular(ViewCallbackListener activityCallbackListener) 
 	{
-		GetTVBroadcastsPopular task = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, standalone, Constants.RETRY_COUNT_THRESHOLD);
+		GetTVBroadcastsPopular task = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	
@@ -487,7 +480,7 @@ public class APIClient
 	
 	public void getUserLikes(ViewCallbackListener activityCallbackListener, boolean standaLone)
 	{
-		GetUserLikes task = new GetUserLikes(contentCallbackListener, activityCallbackListener, standaLone, Constants.RETRY_COUNT_THRESHOLD);
+		GetUserLikes task = new GetUserLikes(contentCallbackListener, activityCallbackListener, false, standaLone, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	
@@ -530,12 +523,6 @@ public class APIClient
 		lastSearchTask = task;
 	}
 	
-	
-	public void performUserHasSeenAd(ViewCallbackListener activityCallbackListener)
-	{		
-		PerformUserHasSeenAdAdzerk task = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, "", Constants.RETRY_COUNT_THRESHOLD);
-		task.execute();
-	}
 	
 	
 	public void performUserLoginWithFacebookToken(ViewCallbackListener activityCallbackListener, String facebookToken) 
@@ -647,6 +634,14 @@ public class APIClient
 	public void getPhaseByID(ViewCallbackListener activityCallbackListener, long competitionID, String phaseID)
 	{
 		GetPhaseByID task = new GetPhaseByID(contentCallbackListener, activityCallbackListener, competitionID, phaseID, Constants.RETRY_COUNT_THRESHOLD);
+		task.execute();
+	}
+	
+	
+	
+	public void getPhaseByTeamID(ViewCallbackListener activityCallbackListener, long teamID)
+	{
+		GetPhaseByTeamID task = new GetPhaseByTeamID(contentCallbackListener, activityCallbackListener, teamID, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	

@@ -26,6 +26,8 @@ import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.comparators.EventLineUpComparatorByPositionAndShirtNumber;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
+import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventLineUp;
 import com.mitv.ui.elements.CustomViewPager;
 
@@ -243,7 +245,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 				
 				if(getType() == EventTabTypeEnum.EVENT_LINEUP_HOME_TEAM)
 				{
-					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, containerLayout.getMeasuredHeight());
+					/* Adding + 10 because we have a margin of 10dp */
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION, containerLayout.getMeasuredHeight() + 10);
 					
 					if (viewPager.getCurrentItem() == CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.HOME_TEAM_POSITION) 
 					{
@@ -252,7 +255,8 @@ public class CompetitionEventTabFragmentLineUpTeams
 				}
 				else
 				{
-					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, containerLayout.getMeasuredHeight());
+					/* Adding + 10 because we have a margin of 10dp */
+					viewPager.heightsMap.put(CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION, containerLayout.getMeasuredHeight() + 10);
 					
 					if (viewPager.getCurrentItem() == CompetitionEventLineupTeamsTabFragmentStatePagerAdapter.AWAY_TEAM_POSITION) 
 					{
@@ -260,19 +264,37 @@ public class CompetitionEventTabFragmentLineUpTeams
 					}
 				}
 				
-				containerLayout.setOnClickListener(new View.OnClickListener() {
+				containerLayout.setOnClickListener(new View.OnClickListener() 
+				{
 					
 					@Override
-					public void onClick(View v) {
-						//TODO: Why is competitionID 0 here?
+					public void onClick(View v) 
+					{
+						//TODO: Why is competitionID 0 here? Workaround below...
 						long competitionIdForTracking = 0;
-						if (competitionID != 0) { 
+						if (competitionID != 0) 
+						{ 
 							competitionIdForTracking = competitionID;
 						}
-						else if (eventID != 0) {
-							competitionIdForTracking = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID).getCompetitionId();
+						else if (eventID != 0) 
+						{
+							Event event = ContentManager.sharedInstance().getCacheManager().getEventByIDForSelectedCompetition(eventID);
+							
+							if (event != null) 
+							{
+								competitionIdForTracking = event.getCompetitionId();
+							}
 						}
-						TrackingGAManager.sharedInstance().senduserCompetitionLineupPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionIdForTracking).getDisplayName());
+						
+						Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionIdForTracking);
+						
+						String competitionName = null;
+						if (competition != null) 
+						{
+							competitionName = competition.getDisplayName();
+						}
+						
+						TrackingGAManager.sharedInstance().senduserCompetitionLineupPressedEvent(competitionName);
 					}
 				});
 				

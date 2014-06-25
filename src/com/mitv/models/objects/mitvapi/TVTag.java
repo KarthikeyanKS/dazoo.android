@@ -39,8 +39,12 @@ public class TVTag
 	public static TVTag getAllCategoriesTVTag() 
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		String displayName = context.getString(R.string.all_categories_tv_tag);
-		TVTag allCategoriesTag = new TVTag(Constants.ALL_CATEGORIES_TAG_ID, displayName);
+		
+		String tvTagId = Constants.ALL_CATEGORIES_TAG_ID;
+		String tvTagDisplayName = context.getString(R.string.all_categories_tv_tag);
+		
+		TVTag allCategoriesTag = new TVTag(tvTagId, tvTagDisplayName);
+		
 		return allCategoriesTag;
 	}
 	

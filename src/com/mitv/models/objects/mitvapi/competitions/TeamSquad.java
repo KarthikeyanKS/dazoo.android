@@ -3,7 +3,7 @@ package com.mitv.models.objects.mitvapi.competitions;
 
 
 
-import com.mitv.enums.EventLineUpPosition;
+import com.mitv.enums.EventLineUpPositionEnum;
 import com.mitv.models.gson.mitvapi.competitions.TeamSquadJSON;
 
 
@@ -15,8 +15,8 @@ public class TeamSquad
 	
 	
 	
-	public EventLineUpPosition getPosition()
+	public EventLineUpPositionEnum getPosition()
 	{
-		return EventLineUpPosition.getTypeEnumFromCode(getFunctionType());
+		return EventLineUpPositionEnum.getTypeEnumFromCode(getFunctionType());
 	}
 }

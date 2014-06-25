@@ -5,6 +5,8 @@ package com.mitv.models.gson.mitvapi;
 
 import java.lang.reflect.Type;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -16,13 +18,18 @@ import com.google.gson.annotations.Expose;
 import com.mitv.Constants;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.UserLikeNextBroadcast;
 
 
 
-public class UserLikeJSON 
+public class UserLikeJSON
+	extends BaseObjectJSON	
 	implements JsonDeserializer<UserLikeJSON>
 {
+	private static final String TAG = UserLikeJSON.class.getName();
+	
+	
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
 	 */
@@ -199,51 +206,155 @@ public class UserLikeJSON
 
 	
 	
-	public String getTitle() {
+	public String getTitle()
+	{
+		if(title == null)
+		{
+			title = "";
+			
+			Log.w(TAG, "title is null");
+		}
+		
 		return title;
 	}
 	
-	public String getSeriesId() {
+	
+	
+	public String getSeriesId() 
+	{
+		if(seriesId == null)
+		{
+			seriesId = "";
+			
+			Log.w(TAG, "seriesId is null");
+		}
+		
 		return seriesId;
 	}
 
-	public String getProgramId() {
+	
+	
+	public String getProgramId()
+	{
+		if(programId == null)
+		{
+			programId = "";
+			
+			Log.w(TAG, "programId is null");
+		}
+		
 		return programId;
 	}
+	
+	
 
-	public String getGenre() {
+	public String getGenre()
+	{
+		if(genre == null)
+		{
+			genre = "";
+			
+			Log.w(TAG, "genre is null");
+		}
+		
 		return genre;
 	}
 
-	public Integer getYear() {
+	
+	
+	public Integer getYear() 
+	{
+		if(year == null)
+		{
+			year = Integer.valueOf(0);
+			
+			Log.w(TAG, "year is null");
+		}
+		
 		return year;
 	}
 
-	public String getCategory() {
+	
+	
+	public String getCategory()
+	{
+		if(category == null)
+		{
+			category = "";
+			
+			Log.w(TAG, "category is null");
+		}
+		
 		return category;
 	}
 	
-	public String getSportTypeId() {
+	
+	
+	public String getSportTypeId() 
+	{
+		if(sportTypeId == null)
+		{
+			sportTypeId = "";
+			
+			Log.w(TAG, "sportTypeId is null");
+		}
+		
 		return sportTypeId;
 	}
 
-	public Integer getBroadcastCount() {
+	
+	
+	public Integer getBroadcastCount() 
+	{
+		if(broadcastCount == null)
+		{
+			broadcastCount = Integer.valueOf(0);
+			
+			Log.w(TAG, "broadcastCount is null");
+		}
+		
 		return broadcastCount;
 	}
 
-	public UserLikeNextBroadcast getNextBroadcast() {
+	
+	
+	public UserLikeNextBroadcast getNextBroadcast() 
+	{
+		if(nextBroadcast == null)
+		{
+			nextBroadcast = new UserLikeNextBroadcast();
+			
+			Log.w(TAG, "nextBroadcast is null");
+		}
+		
 		return nextBroadcast;
 	}
 
 
 
-	public Long getCompetitionId() {
+	public Long getCompetitionId() 
+	{
+		if(competitionId == null)
+		{
+			competitionId = Long.valueOf(0);
+			
+			Log.w(TAG, "competitionId is null");
+		}
+		
 		return competitionId;
 	}
 
 
 
-	public Long getTeamId() {
+	public Long getTeamId() 
+	{
+		if(teamId == null)
+		{
+			teamId = Long.valueOf(0);
+			
+			Log.w(TAG, "teamId is null");
+		}
+		
 		return teamId;
 	}	
 }

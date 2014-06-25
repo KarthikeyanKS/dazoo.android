@@ -20,6 +20,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -86,6 +87,7 @@ public class CompetitionEventStandingsListAdapter
 	
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
@@ -126,6 +128,7 @@ public class CompetitionEventStandingsListAdapter
 			if (isFirstposition)
 			{
 				holder.headerContainer.setVisibility(View.VISIBLE);
+				holder.headerContainer.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.background_color_selector_white_seethrough));
 			}
 			else
 			{
@@ -162,8 +165,23 @@ public class CompetitionEventStandingsListAdapter
 	        {
 	            public void onClick(View v)
 	            {
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(element.getCompetitionId()).getDisplayName(), element.getTeam(), "Standings tab");
-
+					if (element != null) 
+					{
+						Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(element.getCompetitionId());
+						
+						String competitionName = null;
+						if (competition != null)
+						{
+							competitionName = competition.getDisplayName();
+						}
+						else
+						{
+							competitionName = String.valueOf(element.getCompetitionId());
+						}
+						
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, element.getTeam(), "Standings tab");
+					}
+	            	
 	            	Intent intent = new Intent(activity, TeamPageActivity.class);
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());

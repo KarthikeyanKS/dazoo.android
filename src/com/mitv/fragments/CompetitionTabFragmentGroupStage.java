@@ -3,11 +3,7 @@ package com.mitv.fragments;
 
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.mitv.Constants;
 import com.mitv.R;
@@ -27,7 +22,6 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.comparators.CompetitionEventsComparatorByTime;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.ui.elements.CustomViewPager;
 

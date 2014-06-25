@@ -155,7 +155,7 @@ public class CompetitionEventPageBroadcastListAdapter
 
 			String endTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(element.getEventBroadcastEndTimeLocal());
 			
-			sb.append(element.getEventTimeDayOfTheWeekAsString())
+			sb.append(element.getBeginTimeDayOfTheWeekWithDayAndMonthAsString())
 			.append(",  ")
 			.append(startTimeHourAndMinuteAsString)
 			.append(" - ")
@@ -246,10 +246,37 @@ public class CompetitionEventPageBroadcastListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					TrackingGAManager.sharedInstance().sendUserCompetitionBroadcastPressedEvent(
-							ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionId).getDisplayName(), 
-							ContentManager.sharedInstance().getCacheManager().getEventById(competitionId, eventId).getTitle(), 
-							String.valueOf(element.getBeginTimeMillis()));
+					Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(competitionId);
+					
+					String competitionName = null;
+					if (competition != null) 
+					{
+						competitionName = competition.getDisplayName();
+					}
+					else 
+					{
+						competitionName = String.valueOf(competitionId);
+					}
+					
+					Event event = ContentManager.sharedInstance().getCacheManager().getEventById(competitionId, eventId);
+					
+					String eventTitle = null;
+					if (event != null) 
+					{
+						eventTitle = event.getTitle();
+					}
+					else 
+					{
+						eventTitle = String.valueOf(eventId);
+					}
+					
+					String beginTime = null;
+					if (element != null) 
+					{
+						beginTime = String.valueOf(element.getBeginTimeMillis());
+					}
+					
+					TrackingGAManager.sharedInstance().sendUserCompetitionBroadcastPressedEvent(competitionName, eventTitle, beginTime);
 				}
 			});
 		}

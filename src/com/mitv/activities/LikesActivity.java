@@ -112,7 +112,7 @@ public class LikesActivity
 	{
 		switch(requestIdentifier)
 		{
-			case USER_LIKES:
+			case USER_LIKES_STANDALONE:
 			case USER_ADD_LIKE:
 			case USER_REMOVE_LIKE:
 			{

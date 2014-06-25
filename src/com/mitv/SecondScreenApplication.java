@@ -92,7 +92,7 @@ public class SecondScreenApplication
 
 		contentManager = getContentManager();
 
-		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
+		boolean enableStrictMode = Constants.ENABLE_ANDROID_STRICT_MODE;
 
 		if (enableStrictMode) 
 		{
@@ -254,6 +254,20 @@ public class SecondScreenApplication
 	public boolean isAppPreinstalled() 
 	{
 		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
+	}
+	
+	
+	
+	public void setFavoriteTeamBannerAsSeen()
+	{
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_FAVORITE_TEAM_BANNER_SEEN, true, false);
+	}
+
+	
+	
+	public boolean isFavoriteTeamBannerSeen() 
+	{
+		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_FAVORITE_TEAM_BANNER_SEEN, false);
 	}
 
 

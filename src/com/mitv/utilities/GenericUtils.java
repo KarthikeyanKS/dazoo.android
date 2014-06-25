@@ -473,4 +473,39 @@ public abstract class GenericUtils
 			((ViewGroup) view).removeAllViews();
 		}
 	}
+	
+	
+	
+	/**
+	 * Get the image size depending on the device density.
+	 * 
+	 * @return String: s, m or l.
+	 */
+	public static String getImageURLForDeviceDensityMediumOrLargeForBackgounds()
+	{
+		String imageURL = null;
+		
+		int densityDpi = geDeviceDensityDPI();
+		
+		switch(densityDpi)
+		{
+			case DisplayMetrics.DENSITY_LOW:
+			case DisplayMetrics.DENSITY_MEDIUM:
+				imageURL = "m";
+				break;
+	
+			case DisplayMetrics.DENSITY_HIGH:
+			case DisplayMetrics.DENSITY_XHIGH:
+			case DisplayMetrics.DENSITY_XXHIGH:
+			case DisplayMetrics.DENSITY_XXXHIGH:
+				imageURL = "l";
+				break;
+				
+			default:
+				imageURL = "l";
+				break;
+		}
+		
+		return imageURL;
+	}
 }

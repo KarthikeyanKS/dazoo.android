@@ -301,6 +301,26 @@ public class Event
 	
 	
 	
+	
+	public boolean isEventTimeYesterday()
+	{
+		Calendar now = DateUtils.getNowWithLocalTimezone();
+		
+		now.add(Calendar.DAY_OF_MONTH, -1);
+		
+		Calendar beginTime = this.getEventDateCalendarLocal();
+		
+    	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
+    	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
+    	boolean isSameDay = DateUtils.areCalendarsTheSameTVAiringDay(beginTime, now);
+    	
+		boolean isYesterday = isCorrectYear && isCorrectMonth && isSameDay;
+		
+		return isYesterday;
+	}
+	
+	
+	
 	public boolean isEventAiringToday()
 	{
 		Calendar now = DateUtils.getNowWithLocalTimezone();
@@ -324,7 +344,7 @@ public class Event
 	 */
 	public String getEventTimeDayOfTheWeekAsString() 
 	{	
-		return DateUtils.buildDayOfTheWeekAsString(getEventDateCalendarLocal());
+		return DateUtils.buildDayOfTheWeekAsString(getEventDateCalendarLocal(), true);
 	}
 	
 	
@@ -334,7 +354,7 @@ public class Event
 	 */
 	public String getEventTimeDayAndMonthAsString() 
 	{
-		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getEventDateCalendarLocal(), false);
+		String beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getEventDateCalendarLocal(), true);
 		
 		return beginTimeDayAndMonthRepresentation;
 	}
@@ -420,7 +440,7 @@ public class Event
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(Constants.HTTP_SCHEME_USED)
-		.append(Constants.BACKEND_ENVIRONMENT_USED)
+		.append(Constants.BACKEND_DEPLOYMENT_DOMAIN_URL)
 		.append(Constants.URL_SHARE_SPORT_SPANISH)
 		.append(Constants.URL_EVENTS_SPANISH)
 		.append(Constants.FORWARD_SLASH)

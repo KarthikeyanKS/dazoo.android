@@ -30,7 +30,7 @@ import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.comparators.EventStandingsComparatorByPointsAndGoalDifference;
 import com.mitv.models.comparators.TeamSquadComparatorByPositionANdShirtNumber;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
@@ -205,7 +205,7 @@ public class TeamPageActivity
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch(requestIdentifier)
-		{
+		{			
 			case COMPETITION_TEAM_BY_ID:
 			{
 				if(fetchRequestResult.wasSuccessful())
@@ -437,7 +437,7 @@ public class TeamPageActivity
 		
 		List<Standings> standings = ContentManager.sharedInstance().getCacheManager().getStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
-		Collections.sort(standings, new EventStandingsComparatorByPoints());
+		Collections.sort(standings, new EventStandingsComparatorByPointsAndGoalDifference());
 		
 		Collections.reverse(standings);
 		

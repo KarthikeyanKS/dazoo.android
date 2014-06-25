@@ -4,6 +4,7 @@ package com.mitv.activities;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +17,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
@@ -25,15 +28,18 @@ import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
 import com.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.adapters.list.FeedListAdapter;
+import com.mitv.enums.ActivityHeaderStatusEnum;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.ActivityHeaderStatus;
 import com.mitv.models.objects.mitvapi.TVFeedItem;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.HyperLinkUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -54,6 +60,8 @@ public class FeedActivity
 	private ListView listView;
 	private FeedListAdapter listAdapter;
 	private RelativeLayout listFooterView;
+	private LinearLayout listHeaderView;
+	private TextView listHeaderButton;
 //	private TextView greetingTv;
 	private boolean reachedEnd;
 	private boolean isEndReachedNoConnectionToastShowing;
@@ -128,6 +136,14 @@ public class FeedActivity
 		LayoutInflater inflater = getLayoutInflater();
 		listFooterView = (RelativeLayout) inflater.inflate(R.layout.loading_footer_feed_activity, null);
 		listView.addFooterView(listFooterView);
+		
+		if (shouldShowActivityHeader())
+		{
+			listHeaderView = (LinearLayout) inflater.inflate(R.layout.block_feed_header, null);
+			listView.addHeaderView(listHeaderView);
+			listHeaderButton = (TextView) listHeaderView.findViewById(R.id.feed_top_info_button);
+			listHeaderButton.setOnClickListener(this);
+		}
 	}
 
 	
@@ -506,6 +522,34 @@ public class FeedActivity
 	
 				break;
 			}
+			
+			case R.id.feed_top_info_button:
+			{
+				ActivityHeaderStatusEnum activityHeaderStatusEnum = ContentManager.sharedInstance().getCacheManager().getActivityHeaderStatus().getActivityHeaderStatus();
+				
+				switch (activityHeaderStatusEnum) {
+				case SHOW_HEADER:
+					ContentManager.sharedInstance().getCacheManager().setActivityHeaderShowIfNoLikes(1);
+					break;
+
+				case SHOW_IF_NO_LIKES:
+					ContentManager.sharedInstance().getCacheManager().setActivityHeaderShowIfNoLikes(2);
+					break;
+					
+				case SHOW_IF_NO_LIKES_SECOND_TIME:
+					ContentManager.sharedInstance().getCacheManager().setActivityHeaderNeverShow();
+					break;
+					
+				default:
+					break;
+				}
+				
+				ContentManager.sharedInstance().getCacheManager().setActivityHeaderDateUserLastClickedButton();
+				
+				listView.removeHeaderView(listHeaderView);
+				
+				break;
+			}
 	
 			default: 
 			{
@@ -578,4 +622,67 @@ public class FeedActivity
 			}
 		}
 	}
+	
+	
+	
+	public boolean shouldShowActivityHeader()
+	{
+		boolean showActivityHeader = false;
+
+		ActivityHeaderStatus activityHeaderStatus = ContentManager.sharedInstance().getCacheManager().getActivityHeaderStatus();
+
+		ActivityHeaderStatusEnum status = activityHeaderStatus.getActivityHeaderStatus();
+
+		switch (status) 
+		{
+		case SHOW_HEADER:
+
+			showActivityHeader = true; 
+
+			break;
+
+		case SHOW_IF_NO_LIKES:
+		case SHOW_IF_NO_LIKES_SECOND_TIME:
+
+			String date = ContentManager.sharedInstance().getCacheManager().getActivityHeaderStatus().getDateUserLastClickedButton();
+
+			if (date != null) 
+			{
+				Calendar now = DateUtils.getNowWithGMTTimeZone();
+				
+				Calendar lastTime = DateUtils.convertISO8601StringToCalendar(date);
+	
+				if (lastTime.before(now))
+				{
+					int a = now.get(Calendar.DAY_OF_YEAR);
+					int b = lastTime.get(Calendar.DAY_OF_YEAR);
+	
+					int difference = a - b;
+	
+					if (difference > 2) 
+					{
+						boolean hasLikes = ContentManager.sharedInstance().getCacheManager().containsUserLikes();
+						
+						if (hasLikes == false)
+						{
+							showActivityHeader = true;
+						}
+					}
+				}
+			}
+
+			break;
+
+		case NEVER_SHOW_AGAIN:
+
+			break;
+
+		default:
+
+			break;
+		}
+
+		return showActivityHeader;
+	}
+	
 }

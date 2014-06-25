@@ -232,17 +232,12 @@ public class TVGuideListAdapter
 					rowInfoSB.append(broadcast.getBeginTimeHourAndMinuteLocalAsString());
 					rowInfoSB.append("   ");
 
-					String showName = program.getTitle();
-					
-					if(Constants.ENABLE_POPULAR_BROADCAST_PROCESSING)
+					if(program.isPopular())
 					{
-						if(broadcast.isPopular())
-						{
-							String stringIconTrending = activity.getString(R.string.icon_trending);
+						String stringIconTrending = activity.getString(R.string.icon_trending);
 							
-							rowInfoSB.append(stringIconTrending);
-							rowInfoSB.append(" ");
-						}
+						rowInfoSB.append(stringIconTrending);
+						rowInfoSB.append(" ");
 					}
 					
 					switch (programType) 
@@ -253,11 +248,6 @@ public class TVGuideListAdapter
 							
 							rowInfoSB.append(stringIconMovie);
 							rowInfoSB.append(" ");
-							break;
-						}
-						case TV_EPISODE: 
-						{
-							showName = program.getSeries().getName();
 							break;
 						}
 						
@@ -274,7 +264,7 @@ public class TVGuideListAdapter
 						}
 					}
 					
-					rowInfoSB.append(showName);
+					rowInfoSB.append(broadcast.getTitle());
 
 					TextPaint testPaint = holder.textView.getPaint();
 
@@ -409,9 +399,11 @@ public class TVGuideListAdapter
 					
 					activity.startActivity(intentMyChannels);
 				} 
-				else 
+				else
 				{
-					DialogHelper.showPromptSignInDialog(activity, yesSigninOrSignUpBlock(), null);
+					String message = activity.getString(R.string.sign_in_to_text);
+					
+					DialogHelper.showPromptSignInDialog(activity, message, yesSigninOrSignUpBlock(), null);
 				}
 			}
 		});

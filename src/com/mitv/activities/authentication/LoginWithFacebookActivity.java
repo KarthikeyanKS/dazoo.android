@@ -171,17 +171,45 @@ public class LoginWithFacebookActivity
 			{
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) 
 				{
-					Activity mostRecentTabActivity = getMostRecentTabActivity();
+					String activityToReturnAfterLogin = getIntent().getStringExtra(Constants.INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN);
 					
-					Intent intent;
+					Class<?> activityClassToReturn;
 					
-					if(mostRecentTabActivity != null)
+					if(activityToReturnAfterLogin != null)
 					{
-						intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
+						try 
+						{
+							activityClassToReturn = Class.forName(activityToReturnAfterLogin);
+						} 
+						catch (ClassNotFoundException cnfex) 
+						{
+							Log.w(TAG, cnfex.getMessage());
+							
+							activityClassToReturn = HomeActivity.class;
+						}
 					}
 					else
 					{
-						intent = new Intent(LoginWithFacebookActivity.this, HomeActivity.class);
+						Activity mostRecentTabActivity = getMostRecentTabActivity();
+						
+						if(mostRecentTabActivity != null)
+						{
+							activityClassToReturn = mostRecentTabActivity.getClass();
+						}
+						else
+						{
+							activityClassToReturn = HomeActivity.class;
+						}
+					}
+					
+					Intent intent = new Intent(LoginWithFacebookActivity.this, activityClassToReturn);
+					
+					final Bundle bundle = getIntent().getExtras();
+					
+					if(bundle != null)
+					{
+						intent.putExtras(bundle);
+						intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN);
 					}
 					
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);

@@ -413,18 +413,25 @@ public class SwipeClockBar
 				{
 					textColorId = R.color.grey3;
 					parentBackgroundColorId = R.color.transparent;
-				} else {
+				} 
+				else 
+				{
 					textColorId = R.color.blue1;
 					parentBackgroundColorId = R.color.transparent;
 				}
-			} else {
-				if (indexToCheckForColor == index24OfSelectedHour) {
+			} 
+			else {
+				if (indexToCheckForColor == index24OfSelectedHour) 
+				{
 					textColorId = R.color.white;
 					parentBackgroundColorId = R.color.red;
-				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
+				} 
+				else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) 
+				{
 					textColorId = R.color.grey2;
 					parentBackgroundColorId = R.color.transparent;
-				} else {
+				} else 
+				{
 					textColorId = R.color.grey3;
 					parentBackgroundColorId = R.color.transparent;
 				}
@@ -502,13 +509,21 @@ public class SwipeClockBar
 	/* If first is earlier than second, return true. */
 	private boolean isEarlier(int first, int second) 
 	{
-		if (first < second && first >= firstHourOfDay) 
+		if (first >= firstHourOfDay && second >= firstHourOfDay) 
+		{
+			return first < second;
+		}
+		else if (first >= firstHourOfDay)
 		{
 			return true;
 		}
-		else 
+		else if (second >= firstHourOfDay) 
 		{
 			return false;
+		}
+		else 
+		{
+			return first < second;
 		}
 	}
 

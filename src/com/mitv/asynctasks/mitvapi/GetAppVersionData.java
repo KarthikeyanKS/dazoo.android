@@ -3,7 +3,10 @@ package com.mitv.asynctasks.mitvapi;
 
 
 
+import java.util.ArrayList;
+
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -20,6 +23,7 @@ public class GetAppVersionData
 	extends AsyncTaskBase<AppVersionElement[]> 
 {
 	private static final String TAG = GetAppVersionData.class.getName();
+	
 	
 	private static final String URL_SUFFIX = Constants.URL_API_VERSION;
 	
@@ -38,13 +42,18 @@ public class GetAppVersionData
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
 		
 		super.doInBackground(params);
 		
+		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-			AppVersionElement[] appVersionDataRawList = (AppVersionElement[]) requestResultObjectContent;
+			@SuppressWarnings("unchecked")
+			ArrayList<AppVersionElement> appVersionDataRawList = (ArrayList<AppVersionElement>) requestResultObjectContent;
 			
 			AppVersion appVersionDataObject = new AppVersion(appVersionDataRawList);
 			
@@ -54,8 +63,11 @@ public class GetAppVersionData
 		{
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
-		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		}
 		
 		return null;
 	}
@@ -65,10 +77,16 @@ public class GetAppVersionData
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
-		
+		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
+			
 		super.onPostExecute(result);
-		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+
+		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		}
 	}
 }

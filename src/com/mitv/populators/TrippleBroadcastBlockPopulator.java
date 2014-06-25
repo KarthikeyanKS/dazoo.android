@@ -19,6 +19,7 @@ import com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity;
 import com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.ui.elements.ReminderView;
 
@@ -79,6 +80,8 @@ public class TrippleBroadcastBlockPopulator
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) view.getTag();
 				
 				ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+
+				TrackingGAManager.sharedInstance().sendUserPressedBroadcastInUpcomingOrRepetitionsBlock(usedForRepetitions, broadcastWithChannelInfo);
 				
 				Intent intent = new Intent(activity, BroadcastPageActivity.class);
 				

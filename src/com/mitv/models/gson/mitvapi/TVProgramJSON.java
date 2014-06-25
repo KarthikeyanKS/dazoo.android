@@ -4,7 +4,10 @@ package com.mitv.models.gson.mitvapi;
 
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +19,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import com.mitv.Constants;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVCredit;
 import com.mitv.models.objects.mitvapi.TVSeries;
@@ -25,8 +29,12 @@ import com.mitv.models.objects.mitvapi.TVSportType;
 
 
 public class TVProgramJSON 
+	extends BaseObjectJSON
 	implements JsonDeserializer<TVProgramJSON> 
 {	
+	private static final String TAG = TVProgramJSON.class.getName();
+	
+	
 	@Expose
 	protected ProgramTypeEnum programType;
 	
@@ -46,10 +54,13 @@ public class TVProgramJSON
 	protected ImageSetOrientation images;
 	
 	@Expose
-	protected ArrayList<String> tags;
+	protected List<String> tags;
 	
 	@Expose
-	protected ArrayList<TVCredit> credits;
+	protected List<TVCredit> credits;
+	
+	@Expose
+	protected Boolean isPopular;
 	
 	/* This variable is used if programType == "OTHER" */
 	@Expose (deserialize = false)
@@ -104,9 +115,10 @@ public class TVProgramJSON
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 		
 		
-		switch (tvProgramWithStandardFieldsSet.getProgramType()) {
+		switch (tvProgramWithStandardFieldsSet.getProgramType()) 
+		{
 			case MOVIE: 
-		{		
+			{		
 				/* Year */
 				JsonElement jsonYearElement = jsonObject.get(Constants.PROGRAM_YEAR);
 				this.year = jsonYearElement.getAsInt();
@@ -116,6 +128,7 @@ public class TVProgramJSON
 				this.genre = jsonGenreElement.getAsString();
 				break;
 			}
+			
 			case TV_EPISODE: 
 			{
 				/* Series */
@@ -133,7 +146,9 @@ public class TVProgramJSON
 				this.episodeNumber = jsonEpisodNumberElement.getAsInt();
 				break;
 			}
-			case SPORT: {
+			
+			case SPORT:
+			{
 				JsonElement jsonSeriesElement = jsonObject.get(Constants.PROGRAM_SERIES);
 				TVSeries tvSeries = gson.fromJson(jsonSeriesElement, TVSeries.class);
 				this.series = tvSeries;
@@ -148,14 +163,18 @@ public class TVProgramJSON
 				this.tournament = jsonTournamentElement.getAsString();
 				break;
 			}
-			case OTHER: {
+			
+			case OTHER:
+			{
 				/* category */
 				JsonElement jsonCategoryElement = jsonObject.get(Constants.PROGRAM_CATEGORY);
 				this.category = jsonCategoryElement.getAsString();
 				break;
 			}
+			
 			case UNKNOWN:
-			default: {
+			default: 
+			{
 				/* Do nothing */
 			}
 		}
@@ -163,67 +182,241 @@ public class TVProgramJSON
 		return null;
 	}
 
-	public ProgramTypeEnum getProgramType() {
+	
+	
+	public ProgramTypeEnum getProgramType() 
+	{
+		if(programType == null)
+		{
+			programType = ProgramTypeEnum.UNKNOWN;
+			
+			Log.w(TAG, "programType is null");
+		}
+		
 		return programType;
 	}
 
-	public String getProgramId() {
+	
+	
+	public String getProgramId() 
+	{
+		if(programId == null)
+		{
+			programId = "";
+			
+			Log.w(TAG, "programId is null");
+		}
+		
 		return programId;
 	}
 
-	public String getTitle() {
+	
+	
+	public String getTitle() 
+	{
+		if(title == null)
+		{
+			title = "";
+			
+			Log.w(TAG, "title is null");
+		}
+		
 		return title;
 	}
 
-	public String getSynopsisShort() {
+	
+	
+	public String getSynopsisShort() 
+	{
+		if(synopsisShort == null)
+		{
+			synopsisShort = "";
+			
+			Log.w(TAG, "synopsisShort is null");
+		}
+		
 		return synopsisShort;
 	}
 
-	public String getSynopsisLong() {
+	
+	
+	public String getSynopsisLong() 
+	{
+		if(synopsisLong == null)
+		{
+			synopsisLong = "";
+			
+			Log.w(TAG, "synopsisLong is null");
+		}
+		
 		return synopsisLong;
 	}
 
-	public ImageSetOrientation getImages() {
+	
+	
+	public ImageSetOrientation getImages() 
+	{
+		if(images == null)
+		{
+			images = new ImageSetOrientation();
+			
+			Log.w(TAG, "images is null");
+		}
+		
 		return images;
 	}
 
-	public ArrayList<String> getTags() {
+	
+	
+	public List<String> getTags() 
+	{
+		if(tags == null)
+		{
+			tags = Collections.emptyList();
+			
+			Log.w(TAG, "tags is null");
+		}
+		
 		return tags;
 	}
 
-	public ArrayList<TVCredit> getCredits() {
+	
+	
+	public List<TVCredit> getCredits() 
+	{
+		if(credits == null)
+		{
+			credits = Collections.emptyList();
+			
+			Log.w(TAG, "credits is null");
+		}
+		
 		return credits;
 	}
 
-	public String getCategory() {
+	
+	
+	public String getCategory()
+	{
+		if(category == null)
+		{
+			category = "";
+			
+			Log.w(TAG, "category is null");
+		}
+		
 		return category;
 	}
 
-	public TVSeries getSeries() {
+	
+	
+	public TVSeries getSeries()
+	{
+		if(series == null)
+		{
+			series = new TVSeries();
+			
+			Log.w(TAG, "series is null");
+		}
+		
 		return series;
 	}
 
-	public TVSeriesSeason getSeason() {
+	
+	
+	public TVSeriesSeason getSeason()
+	{
+		if(season == null)
+		{
+			season = new TVSeriesSeason();
+			
+			Log.w(TAG, "season is null");
+		}
+		
 		return season;
 	}
 
-	public Integer getEpisodeNumber() {
+	
+	
+	public Integer getEpisodeNumber()
+	{
+		if(episodeNumber == null)
+		{
+			episodeNumber = Integer.valueOf(0);
+			
+			Log.w(TAG, "episodeNumber is null");
+		}
+		
 		return episodeNumber;
 	}
 
-	public Integer getYear() {
+	
+	
+	public Integer getYear()
+	{
+		if(year == null)
+		{
+			year = Integer.valueOf(0);
+			
+			Log.w(TAG, "year is null");
+		}
+		
 		return year;
 	}
 
-	public String getGenre() {
+	
+	
+	public String getGenre()
+	{
+		if(genre == null)
+		{
+			genre = "";
+			
+			Log.w(TAG, "genre is null");
+		}
+		
 		return genre;
 	}
 
-	public TVSportType getSportType() {
+	
+	
+	public TVSportType getSportType()
+	{
+		if(sportType == null)
+		{
+			sportType = new TVSportType();
+			
+			Log.w(TAG, "sportType is null");
+		}
+		
 		return sportType;
 	}
 
-	public String getTournament() {
+	
+	
+	public String getTournament()
+	{
+		if(tournament == null)
+		{
+			tournament = "";
+			
+			Log.w(TAG, "tournament is null");
+		}
+		
 		return tournament;
+	}
+	
+	
+	
+	public Boolean isPopular()
+	{
+		if(isPopular == null)
+		{
+			isPopular = Boolean.valueOf(false);
+			
+			Log.w(TAG, "isPopular is null");
+		}
+		
+		return isPopular;
 	}
 }

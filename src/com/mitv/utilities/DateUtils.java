@@ -5,13 +5,16 @@ package com.mitv.utilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -34,6 +37,19 @@ public abstract class DateUtils
 	
 	
 	
+	
+	/**
+	 * Converts a string input to a Calendar object
+	 * The input string format should be in the RFC1123 date format: "EEE, dd MMM yyyy HH:mm:ss Z"
+	 * 
+	 */
+	public static Calendar convertRFC1123StringToCalendar(final String inputString)
+	{
+		return convertFromStringToUTC0CalendarWithFormat(Constants.RFC1123_DATE_FORMAT_STRING, inputString);
+	}
+	
+	
+	
 	/**
 	 * Converts a string input to a Calendar object
 	 * The input string format should be in the ISO 8601 date format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
@@ -50,9 +66,11 @@ public abstract class DateUtils
 	{
 		Date dateFromCalendar = inputCalendar.getTime();
 		
+		Locale locale = LanguageUtils.getISO8601Locale();
+		
 		TimeZone timeZone = inputCalendar.getTimeZone();
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.ISO_8601_DATE_FORMAT, timeZone);
+		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.ISO_8601_DATE_FORMAT, locale, timeZone);
 		
 		String calendarStringRepresentation = formatter.format(dateFromCalendar);
 		
@@ -67,6 +85,9 @@ public abstract class DateUtils
 	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
 	 * The minute, second and millisecond components are all set to 0.
 	 * The input string format should be in the format: "yyyy-MM-dd"
+	 * 
+	 * 
+	 * THIS GIVES THE GMT REPRESENTATION
 	 */
 	public static Calendar getCalendarForStartOfTVDay(final String inputString)
 	{
@@ -89,10 +110,12 @@ public abstract class DateUtils
 	 * The calendar represents the start time of the TV Day. 
 	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
 	 * The minute, second and millisecond components are all set to 0.
+	 * 
+	 * THIS GIVES THE LOCAL REPRESENTATION
 	 */
 	public static Calendar getCalendarForStartOfTVDay(final long inputMilliseconds)
 	{
-		Calendar startOfTVDayCalendar = getNowWithGMTTimeZone();
+		Calendar startOfTVDayCalendar = getNowWithLocalTimezone();
 		startOfTVDayCalendar.setTimeInMillis(inputMilliseconds);
 		
 		int firstHourOfTVDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
@@ -145,7 +168,9 @@ public abstract class DateUtils
 		{
 			TimeZone gmtTimeZone = TimeZone.getTimeZone("GMT");
 			
-			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString, gmtTimeZone);
+			Locale locale = LanguageUtils.getISO8601Locale();
+			
+			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString, locale, gmtTimeZone);
 			
 			try 
 			{
@@ -329,11 +354,11 @@ public abstract class DateUtils
 	 * If the day of the week is either today or tomorrow, a localized representation is returned instead.
 	 *
 	 */
-	public static String buildDayOfTheWeekAsString(final Calendar inputCalendar)
+	public static String buildDayOfTheWeekAsString(final Calendar inputCalendar, boolean useExtendedDayNames)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
-		return buildDayOfTheWeekAsString(inputCalendar, context);
+		return buildDayOfTheWeekAsString(inputCalendar, context, useExtendedDayNames);
 	}
 	
 	
@@ -469,7 +494,8 @@ public abstract class DateUtils
 	 */
 	private static String buildDayOfTheWeekAsString(
 			final Calendar inputCalendarOriginal,
-			final Context context)
+			final Context context,
+			final boolean useExtendedDayNames)
 	{
 		Calendar inputCalendar = (Calendar) inputCalendarOriginal.clone();
 		
@@ -484,29 +510,94 @@ public abstract class DateUtils
     	boolean isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, now);
     	
 		boolean isToday = isCorrectYear && isCorrectMonth && isSameDay;
+
+		int firstHourOfDay = ContentManager.sharedInstance().getCacheManager().getFirstHourOfTVDay();
 		
 		if (isToday)
 		{
-			dayOfTheWeekAsString = context.getString(R.string.today);
+			if (useExtendedDayNames) 
+			{
+				int hour = inputCalendar.get(Calendar.HOUR_OF_DAY);
+
+				int currentHour = now.get(Calendar.HOUR_OF_DAY);
+
+				boolean isTonight = hour < firstHourOfDay;
+
+				boolean isYesterday = currentHour < firstHourOfDay && isTonight == false;
+
+				if (isTonight) 
+				{
+					dayOfTheWeekAsString = context.getString(R.string.tonight);
+				}
+				else if (isYesterday) 
+				{
+					dayOfTheWeekAsString = context.getString(R.string.yesterday);
+				}
+				else 
+				{
+					dayOfTheWeekAsString = context.getString(R.string.today);
+				}
+			}
+			else 
+			{
+				dayOfTheWeekAsString = context.getString(R.string.today);
+			}
 		} 
 		else 
 		{
 			Calendar tomorrow = (Calendar) now.clone();
-	 		
-			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-	 		isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, tomorrow);
-	 		
-	 		boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
+			tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 			
-	 		if(isTomorrow) 
-	 		{
-	 			dayOfTheWeekAsString = context.getString(R.string.tomorrow);
-	 		} 
-	 		else 
-	 		{
-	 			dayOfTheWeekAsString = getDayOfWeekStringUsingFirstHourOfTVDay(inputCalendar);
-	 		}
+			isCorrectYear = (tomorrow.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) == 0;
+	    	isCorrectMonth = (tomorrow.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) == 0;
+			isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, tomorrow);
+
+			boolean isTomorrow = isCorrectYear && isCorrectMonth && isSameDay;
+
+			if (isTomorrow) 
+			{
+				if (useExtendedDayNames) 
+				{
+					int hour = inputCalendar.get(Calendar.HOUR_OF_DAY);
+
+					boolean isTomorrowNight = hour < firstHourOfDay;
+
+					if (isTomorrowNight)
+					{
+						dayOfTheWeekAsString = context.getString(R.string.tomorrow_night);
+					}
+					else
+					{
+						dayOfTheWeekAsString = context.getString(R.string.tomorrow);
+					}
+				}
+				else
+				{
+					dayOfTheWeekAsString = context.getString(R.string.tomorrow);
+				}
+			}
+			else
+			{
+				Calendar yesterday = (Calendar) now.clone();
+				
+				yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+				isCorrectYear = (yesterday.get(Calendar.YEAR) - inputCalendar.get(Calendar.YEAR)) == 0;
+		    	isCorrectMonth = (yesterday.get(Calendar.MONTH) - inputCalendar.get(Calendar.MONTH)) == 0;
+				isSameDay = areCalendarsTheSameTVAiringDay(inputCalendar, yesterday);
+				
+				boolean isYesterday = isCorrectYear && isCorrectMonth && isSameDay;
+				
+				if (isYesterday)
+				{
+					dayOfTheWeekAsString = context.getString(R.string.yesterday);
+				}
+				else 
+				{
+					dayOfTheWeekAsString = getDayOfWeekStringUsingFirstHourOfTVDay(inputCalendar);
+				}
+			}
 		}
 		
 		/* The first character is always capitalized, per UX team request */
@@ -525,7 +616,9 @@ public abstract class DateUtils
 	{
 		String pattern = Constants.DATE_FORMAT_DATE;
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale, inputCalendar.getTimeZone());
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -597,7 +690,9 @@ public abstract class DateUtils
 			pattern = Constants.DATE_FORMAT_HOUR_AND_MINUTE;
 		}
 		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale, inputCalendar.getTimeZone());
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -616,7 +711,9 @@ public abstract class DateUtils
 	{
 		String pattern = Constants.DATE_FORMAT_DAY_AND_MONTH;
 				
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, inputCalendar.getTimeZone());
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale, inputCalendar.getTimeZone());
 		
 		Calendar calendar = (Calendar) inputCalendar.clone();
 		
@@ -787,10 +884,9 @@ public abstract class DateUtils
 	 */
 	private static SimpleDateFormat getSimpleDateFormatWith(
 			final String pattern,
+			final Locale locale,
 			final TimeZone timeZone) 
 	{
-		Locale locale = LanguageUtils.getCurrentLocale();
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
 		
 		if(timeZone != null)
@@ -800,4 +896,30 @@ public abstract class DateUtils
 		
 		return dateFormat;
 	}	
+	
+	
+	
+	public static ArrayList<TVDate> generateTVDates() 
+	{
+		ArrayList<TVDate> tvDates = new ArrayList<TVDate>();
+	
+		Calendar now = getNowWithLocalTimezone();
+		
+		Calendar calendar = getCalendarForStartOfTVDay(now.getTimeInMillis());
+		
+		String dateString = null;
+		
+		for (int i = 0; i < 7; i++) 
+		{
+			dateString = buildDateCompositionAsString(calendar);
+			
+			tvDates.add(new TVDate(dateString));
+			
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		
+		return tvDates;
+	}
+	
+	
 }

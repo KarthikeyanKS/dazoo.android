@@ -177,7 +177,7 @@ public abstract class TVDateSelectionActivity
 					
 					fetchGuideForSelectedDay(position);
 					
-					TrackingGAManager.sharedInstance().sendUserDaySelectionEvent(position);
+					TrackingGAManager.sharedInstance().sendUserDaySelectionEvent(position, this.getClass().getSimpleName());
 					break;
 				}
 				

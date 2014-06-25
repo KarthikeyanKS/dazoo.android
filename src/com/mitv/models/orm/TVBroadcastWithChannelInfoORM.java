@@ -3,7 +3,7 @@ package com.mitv.models.orm;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.mitv.enums.BroadcastTypeEnum;
@@ -74,10 +74,10 @@ public class TVBroadcastWithChannelInfoORM
 	protected String largePortrait;	
 	
 	@DatabaseField()
-	protected ArrayList<String> tags;
+	protected List<String> tags;
 	
 	@DatabaseField()
-	protected ArrayList<TVCredit> credits;
+	protected List<TVCredit> credits;
 	
 	/* This variable is used if programType == "OTHER" */
 	@DatabaseField()

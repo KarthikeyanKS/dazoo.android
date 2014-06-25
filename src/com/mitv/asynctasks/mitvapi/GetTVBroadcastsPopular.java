@@ -12,9 +12,8 @@ import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
-import com.mitv.managers.TrackingManager;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.comparators.TVBroadcastComparatorByTime;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 
@@ -29,76 +28,49 @@ public class GetTVBroadcastsPopular
 
 	
 	
-	private static RequestIdentifierEnum getRequestIdentifier(boolean standalone)
-	{
-		RequestIdentifierEnum requestIdentifier;
-		
-		if(standalone)
-		{
-			requestIdentifier = RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE;
-		}
-		else
-		{
-			requestIdentifier = RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL;
-		}
-		
-		return requestIdentifier;
-	}
-	
-	
-	
 	public GetTVBroadcastsPopular(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			boolean standalone,
 			int retryThreshold)
 	{
-		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, retryThreshold);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.POPULAR_ITEMS_STANDALONE, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, Constants.USE_INITIAL_METRICS_ANALTYTICS, retryThreshold);
 	}
+	
 	
 	
 	
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
-		}
-		
 		super.doInBackground(params);
 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-			TVBroadcastWithChannelInfo[] contentAsArray = (TVBroadcastWithChannelInfo[]) requestResultObjectContent;
+			@SuppressWarnings("unchecked")
+			ArrayList<TVBroadcastWithChannelInfo> contentFromService = (ArrayList<TVBroadcastWithChannelInfo>) requestResultObjectContent;
+			
+			ArrayList<TVBroadcastWithChannelInfo> contentToReturn = new ArrayList<TVBroadcastWithChannelInfo>();
 			
 			/* Filter out old popular broadcasts, we only need from todays date */
-			ArrayList<TVBroadcastWithChannelInfo> contentAsArrayList = new ArrayList<TVBroadcastWithChannelInfo>();
-			
-			for(int i = 0; i < contentAsArray.length; ++i)
+			for(int i = 0; i < contentFromService.size(); ++i)
 			{
-				TVBroadcastWithChannelInfo broadcast = contentAsArray[i];
+				TVBroadcastWithChannelInfo broadcast = contentFromService.get(i);
 				
 				if(!broadcast.hasEnded())
 				{
-					contentAsArrayList.add(broadcast);
+					contentToReturn.add(broadcast);
 				}
 			}
 			
 			/* Sort the broadcasts according to start time */
-			Collections.sort(contentAsArrayList, new TVBroadcastComparatorByTime());
+			Collections.sort(contentToReturn, new TVBroadcastComparatorByTime());
 			
-			requestResultObjectContent = contentAsArrayList;
+			requestResultObjectContent = contentToReturn;
 		}
 		else
 		{
 			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
-		
-		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
 		}
 		
 		return null;
@@ -109,16 +81,6 @@ public class GetTVBroadcastsPopular
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
-		}
-		
 		super.onPostExecute(result);
-		
-		if(getRequestIdentifier() == RequestIdentifierEnum.POPULAR_ITEMS_INITIAL_CALL)
-		{
-			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
-		}
 	}
 }

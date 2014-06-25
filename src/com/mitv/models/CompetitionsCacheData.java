@@ -57,7 +57,7 @@ public class CompetitionsCacheData
 	
 	
 	
-	private synchronized CompetitionCacheData getCompetitionCacheDataByID(long competitionID) 
+	private synchronized CompetitionCacheData getCompetitionCacheDataByID(final Long competitionID) 
 	{
 		CompetitionCacheData competitionCacheData = allCompetitions.get(competitionID);
 		
@@ -90,7 +90,7 @@ public class CompetitionsCacheData
 	
 	
 	
-	public synchronized Competition getCompetitionByID(Long competitionID) 
+	public synchronized Competition getCompetitionByID(final Long competitionID) 
 	{
 		Competition competitionFound = null;
 		
@@ -200,7 +200,7 @@ public class CompetitionsCacheData
 		{
 			CompetitionCacheData competitionCacheData = new CompetitionCacheData(competition);
 			
-			Long competitionID = new Long(competition.getCompetitionId());
+			Long competitionID = competition.getCompetitionId();
 			
 			allCompetitions.put(competitionID, competitionCacheData);
 		}
@@ -229,7 +229,7 @@ public class CompetitionsCacheData
 	
 	
 
-	public synchronized void setSelectedCompetition(long competitionID)
+	public synchronized void setSelectedCompetition(final Long competitionID)
 	{
 		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
 		
@@ -390,7 +390,7 @@ public class CompetitionsCacheData
 
 	
 	
-	public synchronized boolean containsCompetitionData(Long competitionID) 
+	public synchronized boolean containsCompetitionData(final Long competitionID) 
 	{
 		boolean containsCompetitionData = false;
 	
@@ -462,6 +462,22 @@ public class CompetitionsCacheData
 		if(competitionCacheData != null)
 		{
 			containsEventData = competitionCacheData.hasEventData();
+		}
+		
+		return containsEventData;
+	}
+	
+	
+	
+	public synchronized boolean containsCurentPhaseByTeam(Long competitionID, Long teamID)
+	{
+		boolean containsEventData = false;
+		
+		CompetitionCacheData competitionCacheData = this.getCompetitionCacheDataByID(competitionID);
+		
+		if(competitionCacheData != null)
+		{
+			containsEventData = competitionCacheData.hasCurrentPhaseByTeam(teamID);
 		}
 		
 		return containsEventData;
@@ -579,6 +595,20 @@ public class CompetitionsCacheData
 		selectedCompetition.getSquadByTeam().put(teamID, squad);
 	}
 
+
+	
+	public synchronized Phase getCurrentPhaseForTeam(Long teamID)
+	{
+		return selectedCompetition.getCurrentPhaseByTeam().get(teamID);
+	}
+	
+	
+	
+	public synchronized void addCurrentPhase(Phase phase, Long teamID)
+	{
+		selectedCompetition.getCurrentPhaseByTeam().put(teamID, phase);
+	}
+	
 	
 	
 	public synchronized void clearCompetition(Long competitionID)

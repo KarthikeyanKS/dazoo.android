@@ -164,7 +164,7 @@ public class CompetitionEventHighlightsListAdapter
 					
 					if(isFirstHalfKickOff)
 					{
-						sb.append("  (");
+						sb.append(" (");
 						sb.append(getKickOffTime(element));
 						sb.append(")");
 					}

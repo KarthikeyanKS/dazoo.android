@@ -4,6 +4,7 @@ package com.mitv.adapters.list;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,6 +25,7 @@ import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.competition.EventPageActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.ImageSetOrientation;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.models.objects.mitvapi.competitions.Competition;
@@ -39,6 +41,7 @@ public class TVGuideCompetitionTagListAdapter
 	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideCompetitionTagListAdapter.class.getName();
 
+	private String fragmentName;
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
@@ -52,6 +55,8 @@ public class TVGuideCompetitionTagListAdapter
 			final int currentPosition) 
 	{
 		super();
+		
+		this.fragmentName = fragmentName;
 		
 		this.taggedBroadcasts = taggedBroadcasts;
 		
@@ -184,6 +189,8 @@ public class TVGuideCompetitionTagListAdapter
 				@Override
 				public void onClick(View v) 
 				{
+					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInTags(fragmentName, broadcastWithChannelInfo);
+					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
 					ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
@@ -191,7 +198,7 @@ public class TVGuideCompetitionTagListAdapter
 					ContentManager.sharedInstance().getCacheManager().setSelectedTVChannelId(broadcastWithChannelInfo.getChannel().getChannelId());
 					
 					/* FIFA - Navigation to event page */
-					ArrayList<String> tags = broadcastWithChannelInfo.getProgram().getTags();
+					List<String> tags = broadcastWithChannelInfo.getProgram().getTags();
 
 					if (tags != null && !tags.isEmpty()) 
 					{

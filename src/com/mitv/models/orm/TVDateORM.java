@@ -33,15 +33,14 @@ public class TVDateORM
 	
 	
 	
-	private TVDateORM()
-	{}
+	private TVDateORM(){}
 	
 	
 	
 	public TVDateORM(TVDate tvDate)
 	{
 		this.id = tvDate.getId();
-		this.date = tvDate.getDate();
+		this.date = tvDate.getDateString();
 		this.displayName = tvDate.getDisplayName();
 	}
 	

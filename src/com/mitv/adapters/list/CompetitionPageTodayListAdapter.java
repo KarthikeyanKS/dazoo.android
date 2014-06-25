@@ -323,20 +323,22 @@ public class CompetitionPageTodayListAdapter
 				}
 				else
 				{
-					holder.liveChannels.setVisibility(View.GONE);
+					holder.liveChannels.setVisibility(View.INVISIBLE);
 				}
 				
 				holder.liveOngoingLayout.setOnClickListener(new View.OnClickListener() 
 		        {
 		            public void onClick(View v)
 		            {
-		            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competitionDisplayName, event.getTitle(), event.getEventId(), "Live Game");
+		            	if (event != null) 
+		            	{
+		            		TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competitionDisplayName, event.getTitle(), event.getEventId(), "Live Game");
+		            	}
 		            	
 		                Intent intent = new Intent(activity, EventPageActivity.class);
 
 		                intent.putExtra(Constants.INTENT_COMPETITION_ID, event.getCompetitionId());
 		                intent.putExtra(Constants.INTENT_COMPETITION_EVENT_ID, event.getEventId());
-//		                intent.putExtra(Constants.INTENT_COMPETITION_NAME, competitionDisplayName);
 		                
 		                activity.startActivity(intent);
 		            }

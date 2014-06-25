@@ -20,8 +20,10 @@ import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.BroadcastListAdapterTypeEnum;
 import com.mitv.managers.ContentManager;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.TVBroadcastWithChannelInfo;
 import com.mitv.ui.elements.ReminderView;
+import com.mitv.utilities.DateUtils;
 
 
 
@@ -153,38 +155,8 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 			holder.header.setVisibility(View.GONE);
 			
 			holder.divider.setVisibility(View.VISIBLE);
-			
-			boolean isFirstposition = (position == 0);
-			
-			boolean isLastPosition = (position == (getCount() - 1));
-			
-			boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
-			
-			if(isFirstposition == false)
-			{
-				TVBroadcastWithChannelInfo previousBroadcastInList = getItem(position - 1);
-				
-				isCurrentBroadcastDayEqualToPreviousBroadcastDay = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
-			}
-			else
-			{
-				isCurrentBroadcastDayEqualToPreviousBroadcastDay = true;
-			}
-			
-			boolean isBeginTimeEqualToNextItem;
-			
-			if(isLastPosition == false)
-			{
-				TVBroadcastWithChannelInfo nextBroadcastInList = getItem(position + 1);
-				
-				isBeginTimeEqualToNextItem = broadcastWithChannelInfo.isTheSameDayAs(nextBroadcastInList);
-			}
-			else
-			{
-				isBeginTimeEqualToNextItem = false;
-			}
-			
-			if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false) 
+
+			if (shouldShowHeader(position, broadcastWithChannelInfo))
 			{
 				StringBuilder headerSB = new StringBuilder();
 				
@@ -192,23 +164,21 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				
 				if(isBeginTimeTodayOrTomorrow)
 				{
-					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(DateUtils.buildDayOfTheWeekAsString(broadcastWithChannelInfo.getBeginTimeCalendarLocal(), false));
 				}
 				else
 				{
-					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+					headerSB.append(DateUtils.buildDayOfTheWeekAsString(broadcastWithChannelInfo.getBeginTimeCalendarLocal(), false));
 					headerSB.append(" ");
 					headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
 				}
 
-				/* Capitalized letters in header */
-				String headerText = headerSB.toString();
-				holder.header.setText(headerText.toUpperCase());
+				holder.header.setText(headerSB.toString());
 				
 				holder.header.setVisibility(View.VISIBLE);
 			}
-					
-			if (isLastPosition == false && isBeginTimeEqualToNextItem == false)
+			
+			if (shouldHideDivider(position, broadcastWithChannelInfo))
 			{
 				holder.divider.setVisibility(View.GONE);
 			}
@@ -270,6 +240,10 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 				@Override
 				public void onClick(View v) 
 				{
+					boolean isRepetition = broadcastListAdapterType == BroadcastListAdapterTypeEnum.PROGRAM_REPETITIONS ? true : false;
+					
+					TrackingGAManager.sharedInstance().sendUserPressedBroadcastInUpcomingOrRepetitionsList(isRepetition, broadcastWithChannelInfo);
+					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					
 					ContentManager.sharedInstance().getCacheManager().pushToSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
@@ -301,5 +275,51 @@ public class UpcomingOrRepeatingBroadcastsListAdapter
 		private TextView channelTv;
 		private ReminderView reminderView;
 		private View divider;
+	}
+	
+	
+	
+	private boolean shouldShowHeader(int position, TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
+	{
+		boolean isFirstposition = (position == 0);
+		
+		boolean isCurrentBroadcastDayEqualToPreviousBroadcastDay;
+		
+		if (isFirstposition == false)
+		{
+			TVBroadcastWithChannelInfo previousBroadcastInList = getItem(position - 1);
+			
+			isCurrentBroadcastDayEqualToPreviousBroadcastDay = broadcastWithChannelInfo.isTheSameDayAs(previousBroadcastInList);
+		}
+		else
+		{
+			isCurrentBroadcastDayEqualToPreviousBroadcastDay = false;
+		}
+		
+		if (isFirstposition || isCurrentBroadcastDayEqualToPreviousBroadcastDay == false)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	
+	private boolean shouldHideDivider(int position, TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
+		boolean isLastPosition = (position == (getCount() - 1));
+
+		int nextPos = Math.min(position + 1, (getCount() - 1));
+		
+		TVBroadcastWithChannelInfo broadcastNextPosition = getItem(nextPos);
+		
+		boolean isBeginTimeEqualToNextItem = broadcastWithChannelInfo.isTheSameDayAs(broadcastNextPosition);
+		
+		if (isLastPosition == false && isBeginTimeEqualToNextItem == false) 
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

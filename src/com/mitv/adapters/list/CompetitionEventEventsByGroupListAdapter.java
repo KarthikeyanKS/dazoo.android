@@ -24,9 +24,9 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
-import com.mitv.models.objects.mitvapi.competitions.Phase;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.mitv.utilities.DateUtils;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -96,6 +96,7 @@ public class CompetitionEventEventsByGroupListAdapter
 
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
@@ -145,6 +146,8 @@ public class CompetitionEventEventsByGroupListAdapter
 			holder.group.setVisibility(View.GONE);
 			holder.dividerTop.setVisibility(View.GONE);
 			holder.dividerAfterDate.setVisibility(View.GONE);
+			
+			holder.container.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.background_color_selector_white_seethrough));
 
 			final Event event = getItem(position);
 			
@@ -322,8 +325,25 @@ public class CompetitionEventEventsByGroupListAdapter
 			{
 				public void onClick(View v)
 				{
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
-	            	
+					if (event != null) 
+					{
+						Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId());
+						
+						String competitionName = null;
+						if (competition != null) 
+						{
+							competitionName = competition.getDisplayName();
+						}
+						else 
+						{
+							competitionName = Long.valueOf(event.getCompetitionId()).toString();
+							
+							Log.w(TAG, "Competition is null. Using competitionID as a fallback in analytics reporting.");
+						}
+						
+		            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competitionName, event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
+					}
+					
 					Intent intent = new Intent(activity, EventPageActivity.class);
 
 					long competitionID = event.getCompetitionId();

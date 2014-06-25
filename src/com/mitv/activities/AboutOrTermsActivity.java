@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
+import com.mitv.enums.DeploymentEndpointTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -98,6 +100,13 @@ public abstract class AboutOrTermsActivity
 				appVersionSB.append(getString(R.string.settings_version));
 				appVersionSB.append(" ");
 				appVersionSB.append(packageInfo.versionName);
+				
+				if(Constants.DEPLOYMENT_DOMAIN_USED != DeploymentEndpointTypeEnum.PRODUCTION)
+				{
+					appVersionSB.append(" (");
+					appVersionSB.append(Constants.DEPLOYMENT_DOMAIN_USED.toString());
+					appVersionSB.append(")");
+				}
 			}
 			
 			versionNumberTv.setText(appVersionSB.toString());

@@ -24,7 +24,7 @@ public class UserLike
 	
 	
 	protected String contentId;
-	protected boolean wasAddedManually = false;
+	protected boolean wasAddedManually;
 	
 	
 	
@@ -35,7 +35,7 @@ public class UserLike
 		
 		this.title = competition.getDisplayName();
 		this.likeType = LikeTypeResponseEnum.COMPETITION.toString();
-		this.contentId = Long.valueOf(competition.getCompetitionId()).toString();
+		this.contentId = competition.getCompetitionId().toString();
 		
 		setIDFieldWithLikeType();
 	}
@@ -49,6 +49,21 @@ public class UserLike
 		this.title = team.getDisplayName();
 		this.likeType = LikeTypeResponseEnum.TEAM.toString();
 		this.contentId = Long.valueOf(team.getTeamId()).toString();
+		
+		setIDFieldWithLikeType();
+	}
+	
+	
+	
+	public UserLike(
+			final String teamDisplayName,
+			final long teamId)
+	{
+		this.wasAddedManually = true;
+		
+		this.title = teamDisplayName;
+		this.likeType = LikeTypeResponseEnum.TEAM.toString();
+		this.contentId = Long.valueOf(teamId).toString();
 		
 		setIDFieldWithLikeType();
 	}

@@ -27,6 +27,7 @@ import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.gson.mitvapi.competitions.EventBroadcastJSON;
 import com.mitv.models.objects.mitvapi.TVChannel;
 import com.mitv.models.objects.mitvapi.TVChannelId;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.EventBroadcast;
 import com.mitv.models.objects.mitvapi.competitions.Phase;
@@ -194,14 +195,16 @@ extends BaseAdapter
 				StringBuilder sb = new StringBuilder();
 
 				boolean isBeginTimeTodayOrTomorrow = event.isEventTimeTodayOrTomorrow();
+				
+				boolean isBeginTimeYesterday = event.isEventTimeYesterday();
 
-				if(isBeginTimeTodayOrTomorrow)
+				if(isBeginTimeTodayOrTomorrow || isBeginTimeYesterday)
 				{
-					sb.append(event.getEventTimeDayOfTheWeekAsString());
+					sb.append(DateUtils.buildDayOfTheWeekAsString(event.getEventDateCalendarLocal(), false));
 				}
 				else
 				{
-					sb.append(event.getEventTimeDayOfTheWeekAsString());
+					sb.append(DateUtils.buildDayOfTheWeekAsString(event.getEventDateCalendarLocal(), false));
 					sb.append(" ");
 					sb.append(event.getEventTimeDayAndMonthAsString());
 				}
@@ -290,8 +293,23 @@ extends BaseAdapter
 			{
 				public void onClick(View v)
 				{
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId()).getDisplayName(), event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
-	            	
+					if (event != null) 
+					{
+						Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(event.getCompetitionId());
+						
+						String competitionName = null;
+						if (competition != null)
+						{
+							competitionName = competition.getDisplayName();
+						}
+						else
+						{
+							competitionName = String.valueOf(event.getCompetitionId());
+						}
+						
+		            	TrackingGAManager.sharedInstance().sendUserCompetitionEventPressedEvent(competitionName, event.getTitle(), event.getEventId(), event.getMatchStatus().toString());
+					}
+					
 					Intent intent = new Intent(activity, EventPageActivity.class);
 
 					long competitionID = event.getCompetitionId();

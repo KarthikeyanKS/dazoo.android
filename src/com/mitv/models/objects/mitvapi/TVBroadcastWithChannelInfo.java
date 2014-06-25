@@ -1,4 +1,5 @@
 
+
 package com.mitv.models.objects.mitvapi;
 
 
@@ -34,7 +35,6 @@ public class TVBroadcastWithChannelInfo
 		this.shareUrl = broadcast.getShareUrl();
 		this.beginTimeCalendarLocal = broadcast.getBeginTimeCalendarLocalForTagGeneration();
 		this.endTimeCalendarLocal = broadcast.getEndTimeCalendarLocalForTagGeneration();
-		this.isPopular = broadcast.isPopular();
 		this.eventId = broadcast.getEventId();
 	}
 	

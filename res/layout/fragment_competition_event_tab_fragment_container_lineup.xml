@@ -3,7 +3,7 @@
     android:id="@+id/competition_event_table_container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey0"
+    android:background="@color/transparent"
     android:orientation="vertical" >
 
     <!-- List of all players in starting line -->

@@ -4,7 +4,6 @@ package com.mitv.models.objects.mitvapi;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.text.TextUtils;
@@ -16,19 +15,13 @@ import com.mitv.models.orm.AppVersionElementORM;
 
 
 
-public class AppVersion implements GSONDataFieldValidation
+public class AppVersion 
+	implements GSONDataFieldValidation
 {
 	private List<AppVersionElement> appVersionDataParts;
 
 	
-	
-	public AppVersion(AppVersionElement[] appVersionDataParts)
-	{
-		this.appVersionDataParts = Arrays.asList(appVersionDataParts);
-	}
-	
-	
-	
+		
 	public AppVersion(List<AppVersionElement> appVersionDataParts)
 	{
 		this.appVersionDataParts = appVersionDataParts;
@@ -109,7 +102,8 @@ public class AppVersion implements GSONDataFieldValidation
 
 
 	@Override
-	public boolean areDataFieldsValid() {
+	public boolean areDataFieldsValid() 
+	{
 		boolean androidVersionDataOk = !TextUtils.isEmpty(getAndroidVersion());
 		boolean apiVersionDataOk = !TextUtils.isEmpty(getApiVersion());
 		boolean areDataFieldsValid = androidVersionDataOk && apiVersionDataOk;

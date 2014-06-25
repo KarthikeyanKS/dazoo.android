@@ -26,7 +26,8 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.competition.TeamPageActivity;
 import com.mitv.managers.ContentManager;
 import com.mitv.managers.TrackingGAManager;
-import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.comparators.EventStandingsComparatorByPointsAndGoalDifference;
+import com.mitv.models.objects.mitvapi.competitions.Competition;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.models.objects.mitvapi.competitions.Team;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -57,11 +58,14 @@ public class CompetitionStandingsByGroupListAdapter
 		
 		for(List<Standings> value : values)
 		{
-			Collections.sort(value, new EventStandingsComparatorByPoints());
-			
-			Collections.reverse(value);
-			
-			standings.addAll(value);
+			if (value != null && value.size() > 0) 
+			{
+				Collections.sort(value, new EventStandingsComparatorByPointsAndGoalDifference());
+				
+				Collections.reverse(value);
+				
+				standings.addAll(value);
+			}
 		}
 		
 		this.activity = activity;
@@ -132,6 +136,10 @@ public class CompetitionStandingsByGroupListAdapter
 			viewHolder.teamPoints = (TextView) rowView.findViewById(R.id.row_competition_team_table_pts);
 			viewHolder.rowDivider = (View) rowView.findViewById(R.id.row_competition_standings_row_divider);
 			viewHolder.transparentDivider = (View) rowView.findViewById(R.id.row_competition_standings_divider_transparent);
+			viewHolder.dividerContainer = (RelativeLayout) rowView.findViewById(R.id.divider_container_team_standings);
+			
+			viewHolder.rowContainer.setBackgroundColor(activity.getResources().getColor(R.color.white));
+			viewHolder.dividerContainer.setBackgroundColor(activity.getResources().getColor(R.color.white));
 
 			rowView.setTag(viewHolder);
 		}
@@ -172,9 +180,9 @@ public class CompetitionStandingsByGroupListAdapter
 				holder.headerContainer.setVisibility(View.GONE);
 			}
 				
-			String teamGPAsString = new Integer(element.getMatches()).toString();
-			String teamPlusMinusAsString = new Integer(element.getGoalsForMinusGoalsAgainst()).toString();
-			String teamPointsAsString = new Integer(element.getPoints()).toString();
+			String teamGPAsString = Integer.valueOf(element.getMatches()).toString();
+			String teamPlusMinusAsString = Integer.valueOf(element.getGoalsForMinusGoalsAgainst()).toString();
+			String teamPointsAsString = Integer.valueOf(element.getPoints()).toString();
 
 			holder.teamGP.setText(teamGPAsString);
 			holder.teamPlusMinus.setText(teamPlusMinusAsString);
@@ -199,8 +207,22 @@ public class CompetitionStandingsByGroupListAdapter
 	        {
 	            public void onClick(View v)
 	            {
-	            	TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(ContentManager.sharedInstance().getCacheManager().getCompetitionByID(element.getCompetitionId()).getDisplayName(), element.getTeam(), "Group tab");
-	            	
+					if (element != null) 
+					{
+						Competition competition = ContentManager.sharedInstance().getCacheManager().getCompetitionByID(element.getCompetitionId());
+						
+						String competitionName = null;
+						if (competition != null)
+						{
+							competitionName = competition.getDisplayName();
+						}
+						else
+						{
+							competitionName = String.valueOf(element.getCompetitionId());
+						}
+						TrackingGAManager.sharedInstance().sendUserCompetitionTeamPressedEvent(competitionName, element.getTeam(), "Group tab");
+					}
+					
 	            	Intent intent = new Intent(activity, TeamPageActivity.class);
 	                
 	                intent.putExtra(Constants.INTENT_COMPETITION_ID, element.getCompetitionId());
@@ -238,5 +260,6 @@ public class CompetitionStandingsByGroupListAdapter
 		private TextView teamPoints;
 		private View rowDivider;
 		private View transparentDivider;
+		private RelativeLayout dividerContainer;
 	}
 }

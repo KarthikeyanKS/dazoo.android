@@ -14,9 +14,11 @@ import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
+import com.mitv.enums.ActivityHeaderStatusEnum;
 import com.mitv.enums.FeedItemTypeEnum;
 import com.mitv.enums.UserTutorialStatusEnum;
 import com.mitv.managers.TrackingGAManager;
+import com.mitv.models.objects.ActivityHeaderStatus;
 import com.mitv.models.objects.UserTutorialStatus;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
@@ -32,6 +34,7 @@ import com.mitv.models.objects.mitvapi.TVProgram;
 import com.mitv.models.objects.mitvapi.TVTag;
 import com.mitv.models.objects.mitvapi.UserLike;
 import com.mitv.models.objects.mitvapi.UserLoginData;
+import com.mitv.models.orm.ActivityHeaderStatusORM;
 import com.mitv.models.orm.NotificationORM;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.UserTutorialStatusORM;
@@ -77,6 +80,7 @@ public abstract class PersistentCache
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 
 	private UserTutorialStatus userTutorialStatus;
+	private ActivityHeaderStatus activityHeaderStatus;
 	
 	
 	
@@ -101,6 +105,7 @@ public abstract class PersistentCache
 		this.tvDates = null; //TVDateORM.getTVDates();		
 		
 		this.userTutorialStatus = UserTutorialStatusORM.getUserTutorial();
+		this.activityHeaderStatus = ActivityHeaderStatusORM.getActivityHeaderStatus();
 	}
 	
 	
@@ -306,6 +311,44 @@ public abstract class PersistentCache
 	
 	
 	
+	/* ACTIVITY HEADER STATUS */
+	
+	public synchronized void setActivityHeaderStatus(ActivityHeaderStatusEnum status) 
+	{
+		activityHeaderStatus.setStatus(status);
+		
+		ActivityHeaderStatusORM activityHeaderStatusORM = new ActivityHeaderStatusORM(activityHeaderStatus);
+		
+		activityHeaderStatusORM.saveInAsyncTask();
+	}
+	
+	
+	
+	public synchronized void setActivityHeaderDateUserLastClickedButton(Calendar lastOpen) {
+		String date = DateUtils.convertFromCalendarToISO8601String(lastOpen);
+
+		activityHeaderStatus.setDateUserLastClickedButton(date);
+		
+		ActivityHeaderStatusORM activityHeaderStatusORM = new ActivityHeaderStatusORM(activityHeaderStatus);
+		
+		activityHeaderStatusORM.saveInAsyncTask();
+	}
+		
+	
+	
+	public synchronized ActivityHeaderStatusEnum getActivityHeaderStatusEnum() {
+		return activityHeaderStatus.getActivityHeaderStatus();
+	}
+	
+	
+	
+	public synchronized ActivityHeaderStatus getActivityHeaderStatus() 
+	{
+		return activityHeaderStatus;
+	}
+	
+	
+	
 	/* NOTIFICATIONS */
 	
 	
@@ -467,17 +510,22 @@ public abstract class PersistentCache
 	
 	public synchronized void addUserLike(final UserLike userLike) 
 	{
-		if(userLikes == null) {
+		if (userLikes == null) 
+		{
 			userLikes = new ArrayList<UserLike>();
 		}
-		if(!userLikes.contains(userLike)) {
-			this.userLikes.add(userLike);
-		} else {
+		if (userLikes.contains(userLike) == false) 
+		{
+			userLikes.add(userLike);
+		} 
+		else 
+		{
 			/* Already in list, check if like in list was manually added */
 			int index = userLikes.indexOf(userLike);
 			UserLike tmp = userLikes.get(index);
 			
-			if(tmp.wasAddedManually() && !userLike.wasAddedManually()) {
+			if(tmp.wasAddedManually() && !userLike.wasAddedManually()) 
+			{
 				/* The current like in the list was added manually, means it is missing some fields,
 				 * and the userLike to add has those fields => replace */
 				userLikes.set(index, userLike);

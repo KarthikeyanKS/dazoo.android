@@ -3,11 +3,13 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 
 
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import android.util.Log;
 
 
 
-public class EventLineUpJSON 
+public class EventLineUpJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = EventLineUpJSON.class.getName();
 	
@@ -23,6 +25,8 @@ public class EventLineUpJSON
  	private String function;
  	private int shirtNumber;
  	private boolean inStartingLineUp;
+ 	private String lineUpOutMinute;
+ 	private String lineUpInMinute;
 	
 	
 	
@@ -145,5 +149,35 @@ public class EventLineUpJSON
 	public boolean isInStartingLineUp() 
 	{
 		return inStartingLineUp;
+	}
+
+
+
+	public String getLineUpOutMinute()
+	{
+		if(lineUpOutMinute == null)
+		{
+			lineUpOutMinute = "";
+			
+			// No need to warn (only verbose), since the value can be null
+			Log.v(TAG, "lineUpOutMinute is null");
+		}
+		
+		return lineUpOutMinute;
+	}
+
+
+
+	public String getLineUpInMinute()
+	{
+		if(lineUpInMinute == null)
+		{
+			lineUpInMinute = "";
+			
+			// No need to warn (only verbose), since the value can be null
+			Log.v(TAG, "lineUpInMinute is null");
+		}
+		
+		return lineUpInMinute;
 	}
 }

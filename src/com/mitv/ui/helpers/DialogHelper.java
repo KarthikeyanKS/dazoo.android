@@ -16,6 +16,7 @@ import com.mitv.R;
 import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.NotificationTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.managers.TrackingGAManager;
 import com.mitv.models.objects.mitvapi.Notification;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.utilities.GenericUtils;
@@ -60,6 +61,8 @@ public class DialogHelper
 					confirmProcedure.run();
 				}
 				
+				TrackingGAManager.sharedInstance().sendUserContinueDialogEvent("Other");
+				
 				dialog.dismiss();
 			}
 		});
@@ -76,6 +79,8 @@ public class DialogHelper
 				{
 					cancelProcedure.run();
 				}
+
+				TrackingGAManager.sharedInstance().sendUserCanceledDialogEvent("Other");
 				
 				dialog.dismiss();
 			}
@@ -185,6 +190,8 @@ public class DialogHelper
 					noProcedure.run();
 				}
 				
+				TrackingGAManager.sharedInstance().sendUserCanceledDialogEvent("Remove notification");
+				
 				dialog.dismiss();
 			}
 		});
@@ -202,6 +209,8 @@ public class DialogHelper
 				int notificationId = notification.getNotificationId();
 				
 				NotificationHelper.removeNotification(activity, notificationId);
+				
+				TrackingGAManager.sharedInstance().sendUserContinueDialogEvent("Remove notification");
 				
 				dialog.dismiss();
 			}
@@ -239,6 +248,8 @@ public class DialogHelper
 				{
 					noProcedure.run();
 				}
+
+				TrackingGAManager.sharedInstance().sendUserCanceledDialogEvent("Remove like");
 				
 				dialog.dismiss();
 			}
@@ -254,6 +265,8 @@ public class DialogHelper
 					yesProcedure.run();
 				}
 				
+				TrackingGAManager.sharedInstance().sendUserContinueDialogEvent("Remove like");
+				
 				dialog.dismiss();
 			}
 		});
@@ -267,14 +280,19 @@ public class DialogHelper
 	
 	
 	public static void showPromptSignInDialog(
-			final Activity activity, 
-			final Runnable yesProcedure, 
+			final Activity activity,
+			final String message,
+			final Runnable yesProcedure,
 			final Runnable noProcedure) 
 	{
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_signin);
-
+		
+		TextView dialogMessageText = (TextView) dialog.findViewById(R.id.dialog_prompt_signin_tv);
+		
+		dialogMessageText.setText(message);
+		
 		Button cancelButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_cancel);
 		Button signInButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_signin);
 	
@@ -287,6 +305,8 @@ public class DialogHelper
 				{
 					noProcedure.run();
 				}
+
+				TrackingGAManager.sharedInstance().sendUserCanceledDialogEvent("Prompt signin");
 				
 				dialog.dismiss();
 			}
@@ -301,6 +321,8 @@ public class DialogHelper
 				{
 					yesProcedure.run();
 				}
+				
+				TrackingGAManager.sharedInstance().sendUserContinueDialogEvent("Prompt signin");
 				
 				dialog.dismiss();
 			}

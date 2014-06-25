@@ -25,17 +25,22 @@
     <screenName name="com.mitv.activities.PopularPageActivity">PopularPage</screenName>
     <screenName name="com.mitv.activities.RemindersActivity">Reminders</screenName>
     <screenName name="com.mitv.activities.RepetitionsOrUpcomingPage">RepetitionsOrUpcoming</screenName>
-    <screenName name="com.mitv.activities.RepetitionsPageActivity">RepetitionsPage</screenName>
+    <screenName name="com.mitv.activities.broadcast_list_more.RepetitionsListMoreActivity">RepetitionsPage</screenName>
     <screenName name="com.mitv.activities.SearchPageActivity">SearchPage</screenName>
     <screenName name="com.mitv.activities.SignUpSelectionActivity">SignUpSelection</screenName>
     <screenName name="com.mitv.activities.SplashScreenActivity">SplashScreen</screenName>
     <screenName name="com.mitv.activities.TermsActivity">Terms</screenName>
     <screenName name="com.mitv.activities.TVDateSelectionActivity">TVDateSelection</screenName>
-    <screenName name="com.mitv.activities.UpcomingEpisodesPageActivity">UpcomingEpisodesPage</screenName>
+    <screenName name="com.mitv.activities.broadcast_list_more.UpcomingListMoreActivity">UpcomingEpisodesPage</screenName>
     <screenName name="com.mitv.activities.UserProfileActivity">UserProfile</screenName>
+    
     <screenName name="com.mitv.activities.authentication.LoginWithFacebookActivity">LoginWithFacebook</screenName>
     <screenName name="com.mitv.activities.authentication.LoginWithMiTVUserActivity">LoginWithMiTVUser</screenName>
     <screenName name="com.mitv.activities.authentication.ResetPasswordConfirmationActivity">ResetPasswordConfirmation</screenName>
     <screenName name="com.mitv.activities.authentication.ResetPasswordSendEmailActivity">ResetPasswordSendEmail</screenName>
     <screenName name="com.mitv.activities.authentication.SignUpWithEmailActivity">SignUpWithEmail</screenName>
+    
+    <screenName name="com.mitv.activities.competition.CompetitionPageActivity">CompetitionPage</screenName>
+    <screenName name="com.mitv.activities.competition.EventPageActivity">EventPage</screenName>
+    <screenName name="com.mitv.activities.competition.TeamPageActivity">TeamPage</screenName>
 </resources>

@@ -1,11 +1,15 @@
 
 package com.mitv.models.gson.mitvapi.competitions;
 
+
+
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import android.util.Log;
 
 
 
 public class StandingsJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = StandingsJSON.class.getName();
 	
