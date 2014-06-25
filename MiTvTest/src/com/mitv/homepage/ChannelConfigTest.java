@@ -17,7 +17,7 @@ import com.mitv.activities.HomeActivity;
 import com.robotium.solo.Solo;
 import com.robotium.solo.Solo.Config;
 
-public class ChannelConfig_03_02_01 extends ActivityInstrumentationTestCase2<HomeActivity>{
+public class ChannelConfigTest extends ActivityInstrumentationTestCase2<HomeActivity>{
 	
 	private final int TIMEOUT_SMALL = 1000;
 	private final int TIMEOUT_LARGE = 8000;
@@ -25,7 +25,7 @@ public class ChannelConfig_03_02_01 extends ActivityInstrumentationTestCase2<Hom
 	private boolean loggedin = false;
 
 	private Solo solo;
-	public ChannelConfig_03_02_01() {
+	public ChannelConfigTest() {
 		super(HomeActivity.class);
 	}
 	@Override
