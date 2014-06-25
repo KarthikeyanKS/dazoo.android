@@ -658,7 +658,7 @@ public class EventPageActivity
 			.append(size)
 			.append(Constants.EVENT_STADIUM_IMAGE_EXTENSION);
 			
-		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithOptionsForTeamFlags(sbUrl.toString(), imageAware);
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageOptionsForEventPageBackground(sbUrl.toString(), imageAware);
 	}
 	
 	

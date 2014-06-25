@@ -191,6 +191,26 @@ public class ImageLoaderManager
 	
 	
 	
+	/**
+	 * Set an Imageview to background.
+	 * 
+	 * @return
+	 */
+	private DisplayImageOptions getDisplayImageOptionsForEventPageBackground()
+	{		
+		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.bitmapConfig(Bitmap.Config.RGB_565)
+		.imageScaleType(ImageScaleType.EXACTLY)
+		.displayer(new FadeInBitmapDisplayer(0))
+		.build();
+
+		return displayImageOptions;
+	}
+	
+	
+	
 	public void displayImageWithOptionsForTVGuideImages(String url, ImageAware imageAware)
 	{
 		DisplayImageOptions displayImageOptions = getDisplayImageDefaultOptions();
@@ -212,6 +232,21 @@ public class ImageLoaderManager
 	public void displayImageWithCompetitionEventStadiumOptions(String url, ImageAware imageAware)
 	{
 		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForCompetitionEventStadium();
+		
+		imageLoader.displayImage(url, imageAware, displayImageOptions);
+	}
+	
+	
+	
+	/**
+	 * Set an Imageview to background.
+	 * 
+	 * @param url
+	 * @param imageAware
+	 */
+	public void displayImageOptionsForEventPageBackground(String url, ImageAware imageAware)
+	{
+		DisplayImageOptions displayImageOptions = getDisplayImageOptionsForEventPageBackground();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions);
 	}
