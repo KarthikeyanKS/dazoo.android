@@ -31,8 +31,8 @@ public abstract class Constants
 	
 	
 	/* CONFIGURATIONS FOR RELEASE */
-//	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.PRODUCTION;
-	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.TEST;
+	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.PRODUCTION;
+//	public static final DeploymentEndpointTypeEnum DEPLOYMENT_DOMAIN_USED = DeploymentEndpointTypeEnum.TEST;
 	public static final String SUPPORTED_API_VERSION = "1.0.0";
 	public static final boolean FORCE_SPANISH_LOCALE = true;
 	public static final boolean IS_PREINSTALLED_VERSION = false;
