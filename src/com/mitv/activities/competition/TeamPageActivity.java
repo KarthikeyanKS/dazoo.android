@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseCommentsActivity;
 import com.mitv.adapters.list.CompetitionEventStandingsListAdapter;
 import com.mitv.adapters.list.CompetitionTagEventsListAdapter;
 import com.mitv.adapters.list.CompetitionTeamSquadsTeamsListAdapter;
@@ -46,7 +46,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 public class TeamPageActivity 
-	extends BaseContentActivity 
+	extends BaseCommentsActivity 
 	implements ViewCallbackListener, FetchDataProgressCallbackListener
 {	
 	private static final String TAG = TeamPageActivity.class.getName();
@@ -211,6 +211,8 @@ public class TeamPageActivity
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
+					loadDisqusForTeam(teamID);
+					
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);		
 				}
 				else
@@ -231,6 +233,22 @@ public class TeamPageActivity
 			case USER_ADD_LIKE: 
 			{
 				updateStatusOfLikeView();
+				break;
+			}
+			
+			case DISQUS_THREAD_DETAILS:
+			{
+				if (fetchRequestResult.wasSuccessful())
+				{
+					int totalDisqusPosts = ContentManager.sharedInstance().getCacheManager().getDisqusTotalPostsForLatestBroadcast();
+					
+					showAndReloadDisqusCommentsWebview(totalDisqusPosts);
+				}
+				else 
+				{
+					showAndReloadDisqusCommentsWebview(0);
+				}
+				
 				break;
 			}
 	
@@ -273,6 +291,8 @@ public class TeamPageActivity
 		/* Schedule */
 		scheduleHeader = (TextView) findViewById(R.id.competition_team_page_schedule_header);
 		scheduleListContainer = (LinearLayout) findViewById(R.id.competition_team_page_schedule_list);
+		
+		initDisqus();
 	}
 	
 	

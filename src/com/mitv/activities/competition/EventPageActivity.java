@@ -23,7 +23,7 @@ import com.emilsjolander.components.StickyScrollViewItems.StickyScrollView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseCommentsActivity;
 import com.mitv.adapters.list.CompetitionEventEventsByGroupListAdapter;
 import com.mitv.adapters.list.CompetitionEventHighlightsListAdapter;
 import com.mitv.adapters.list.CompetitionEventPageBroadcastListAdapter;
@@ -58,7 +58,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 
 public class EventPageActivity 
-	extends BaseContentActivity
+	extends BaseCommentsActivity
 	implements ViewCallbackListener, FetchDataProgressCallbackListener
 {
 	private static final String TAG = EventPageActivity.class.getName();
@@ -278,7 +278,7 @@ public class EventPageActivity
 	
 			default:
 			{
-				// Do nothing
+				hideDisqusCommentsWebview();
 				break;
 			}
 		}
@@ -796,6 +796,8 @@ public class EventPageActivity
 		scrollView = (StickyScrollView) findViewById(R.id.event_page_scrollview);
 		container = (RelativeLayout) findViewById(R.id.competition_next_game_layout);
 		backgroundImage = (ImageView) findViewById(R.id.event_page_backgorund_image);
+		
+		initDisqus();
 	}
 
 
@@ -1030,6 +1032,8 @@ public class EventPageActivity
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
+					loadDisqusForEvent(competitionID, eventID);
+					
 					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				}
 				else
@@ -1109,6 +1113,22 @@ public class EventPageActivity
 			case COMPETITION_EVENTS:
 			{
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+				break;
+			}				
+			
+			case DISQUS_THREAD_DETAILS:
+			{
+				if (fetchRequestResult.wasSuccessful())
+				{
+					int totalDisqusPosts = ContentManager.sharedInstance().getCacheManager().getDisqusTotalPostsForLatestBroadcast();
+					
+					showAndReloadDisqusCommentsWebview(totalDisqusPosts);
+				}
+				else 
+				{
+					showAndReloadDisqusCommentsWebview(0);
+				}
+				
 				break;
 			}
 	

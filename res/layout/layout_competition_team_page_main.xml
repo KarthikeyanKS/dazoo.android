@@ -123,6 +123,17 @@
                     android:orientation="vertical" >
                 </LinearLayout>
             </LinearLayout>
+
+            <!-- DISQUS COMMENTS PANEL -->
+
+            <include
+                android:id="@+id/disqus_comments_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                layout="@layout/block_broadcastpage_disqus_comments" />
         </LinearLayout>
     </ScrollView>
 
