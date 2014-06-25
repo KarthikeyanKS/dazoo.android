@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.asynctasks.other.RemoveAlreadyEndedBroadcastsTask;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -478,7 +479,7 @@ public class BroadcastPageActivity
 	{
 		populateMainView();
 
-		TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
+		final TVBroadcastWithChannelInfo broadcast = ContentManager.sharedInstance().getCacheManager().getLastSelectedBroadcastWithChannelInfo();
 		
 		/* Repetitions */
 		if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) 
@@ -509,18 +510,29 @@ public class BroadcastPageActivity
 		/* Playing at the same time on other channels */
 		if(Constants.ENABLE_BROADCASTS_PLAYING_AT_THE_SAME_TIME_ON_OTHER_CHANNELS)
 		{
-			if (broadcastsAiringOnOtherChannels != null && !broadcastsAiringOnOtherChannels.isEmpty()) 
-			{
-				BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(this, nowAiringContainer, broadcast);
+			final Activity activity = this;
+			
+			RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(broadcastsAiringOnOtherChannels, 0) {
 				
-				similarBroadcastsAiringNowBlock.createBlock(broadcastsAiringOnOtherChannels);
-				
-				nowAiringContainer.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				nowAiringContainer.setVisibility(View.GONE);
-			}
+				@Override
+				protected void onPostExecute(Void result) {
+					super.onPostExecute(result);			
+					if (broadcastsAiringOnOtherChannels != null && !broadcastsAiringOnOtherChannels.isEmpty()) 
+					{
+						BroadcastAiringOnDifferentChannelBlockPopulator similarBroadcastsAiringNowBlock = new BroadcastAiringOnDifferentChannelBlockPopulator(activity, nowAiringContainer, broadcast);
+						
+						similarBroadcastsAiringNowBlock.createBlock(broadcastsAiringOnOtherChannels);
+						
+						nowAiringContainer.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						nowAiringContainer.setVisibility(View.GONE);
+					}
+				}
+			};
+			
+			removeAlreadyEndedBroadcastsTask.execute();
 		}
 		else
 		{

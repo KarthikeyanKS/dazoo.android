@@ -5,6 +5,7 @@ package com.mitv.activities.broadcast_list_more;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.adapters.list.AiringOnDifferentChannelListAdapter;
+import com.mitv.asynctasks.other.RemoveAlreadyEndedBroadcastsTask;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -132,9 +134,7 @@ public class AiringOnDifferentChannelListMoreActivity
 		{	
 			case SUCCESS_WITH_CONTENT:
 			{
-				listAdapter = new AiringOnDifferentChannelListAdapter(this, broadcasts);
-				listView.setAdapter(listAdapter);
-				listView.setVisibility(View.VISIBLE);
+				setData();
 				break;
 			}
 	
@@ -145,4 +145,25 @@ public class AiringOnDifferentChannelListMoreActivity
 			}
 		}
 	}
+	
+	
+	
+	public void setData() 
+	{
+		final Activity activity = this;
+		
+		RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(broadcasts, 0) {
+			
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);		
+				listAdapter = new AiringOnDifferentChannelListAdapter(activity, broadcasts);
+				listView.setAdapter(listAdapter);
+				listView.setVisibility(View.VISIBLE);
+			}
+		};
+		
+		removeAlreadyEndedBroadcastsTask.execute();
+	}
+	
 }
