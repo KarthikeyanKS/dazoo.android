@@ -80,6 +80,7 @@ public class TeamPageActivity
 	private LinearLayout standingsListContainer;
 	private CompetitionEventStandingsListAdapter standingsListAdapter;
 	private TextView standingsHeader;
+	private LinearLayout standingsContainer;
 	
 	/* Schedule */
 	private TextView scheduleHeader;
@@ -267,6 +268,7 @@ public class TeamPageActivity
 		/* Standings */
 		standingsListContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_list);
 		standingsHeader = (TextView) findViewById(R.id.competition_team_page_standings_header);
+		standingsContainer = (LinearLayout) findViewById(R.id.competition_team_page_standings_container);
 		
 		/* Schedule */
 		scheduleHeader = (TextView) findViewById(R.id.competition_team_page_schedule_header);
@@ -437,26 +439,33 @@ public class TeamPageActivity
 		
 		List<Standings> standings = ContentManager.sharedInstance().getCacheManager().getStandingsForPhaseInSelectedCompetition(phase.getPhaseId());
 		
-		Collections.sort(standings, new EventStandingsComparatorByPointsAndGoalDifference());
-		
-		Collections.reverse(standings);
-		
-		String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
-		
-		Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
-		
-		/* Using the same list adapter as the evens */
-		standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
-		
-		for (int i = 0; i < standingsListAdapter.getCount(); i++) 
-		{
-            View listItem = standingsListAdapter.getView(i, null, standingsListContainer);
-           
-            if (listItem != null) 
-            {
-            	standingsListContainer.addView(listItem);
-            }
-        }
+		if (standings != null && !standings.isEmpty()) {
+			Collections.sort(standings, new EventStandingsComparatorByPointsAndGoalDifference());
+			
+			Collections.reverse(standings);
+			
+			String viewBottomMessage = getString(R.string.event_page_standings_list_show_more);
+			
+			Runnable procedure = getNavigateToCompetitionPageProcedure(CompetitionTabFragmentStatePagerAdapter.TEAM_STANDINGS_POSITION);
+			
+			/* Using the same list adapter as the evens */
+			standingsListAdapter = new CompetitionEventStandingsListAdapter(this, standings, true, viewBottomMessage, procedure);
+			
+			for (int i = 0; i < standingsListAdapter.getCount(); i++) 
+			{
+	            View listItem = standingsListAdapter.getView(i, null, standingsListContainer);
+	           
+	            if (listItem != null) 
+	            {
+	            	standingsListContainer.addView(listItem);
+	            }
+	        }
+			
+			standingsContainer.setVisibility(View.VISIBLE);
+			
+		} else {
+			standingsContainer.setVisibility(View.GONE);
+		}
 	}
 	
 	

@@ -644,7 +644,6 @@ public class EventPageActivity
 		
 		String size = GenericUtils.getImageURLForDeviceDensityMediumOrLargeForBackgounds();
 		
-		// http://images.mi.tv/sports/events/mundial-event-portrait_{teamId}_{size}.jpg
 		StringBuilder sbUrl = new StringBuilder();
 		sbUrl.append(Constants.HTTP_SCHEME_USED)
 			.append(Constants.URL_BACKEND_IMAGE_PREFIX_PATH)
