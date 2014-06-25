@@ -151,7 +151,6 @@ public class ActionBarDropDownDateListAdapter
 			try 
 			{
 				Calendar calendarForDayOfWeek = null;
-				Calendar calendarForDate = tvDate.getStartOfTVDayCalendarLocal();
 				
 				if (tvDate.isToday()) 
 				{
@@ -167,13 +166,13 @@ public class ActionBarDropDownDateListAdapter
 					StringBuilder sb = new StringBuilder();
 					sb.append(DateUtils.buildDayOfTheWeekAsString(calendarForDayOfWeek, true));
 					sb.append(" ");
-					sb.append(DateUtils.buildDayAndMonthCompositionAsString(calendarForDate, false));
+					sb.append(DateUtils.buildDayAndMonthCompositionAsString(calendarForDayOfWeek, false));
 					dayName.setText(sb.toString());
 				}
 				else 
 				{
 					dayName.setText(DateUtils.buildDayOfTheWeekAsString(calendarForDayOfWeek, true));
-					dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendarForDate, false));
+					dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendarForDayOfWeek, false));
 				}
 			} 
 			catch (Exception e) 
