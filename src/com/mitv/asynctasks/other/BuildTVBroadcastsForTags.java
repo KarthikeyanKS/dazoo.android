@@ -101,7 +101,7 @@ public class BuildTVBroadcastsForTags
 	 * @param tvChannelGuides
 	 * @return
 	 */
-	private HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) 
+	private HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(List<TVChannelGuide> tvChannelGuides) 
 	{
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 
@@ -122,10 +122,10 @@ public class BuildTVBroadcastsForTags
 				TVProgram program = broadcast.getProgram();
 
 				/* Fetch list of all tags for this broadcast (program), WARNING: may contain irrelevant tags */
-				ArrayList<String> tagNames = program.getTags();
+				List<String> tagNames = program.getTags();
 
 				/* Filter out only the relevant tags that are being used in the app */
-				ArrayList<String> filteredTagNames = filterOutOnlyRelevantTagNames(tvTagsAsStrings, tagNames);
+				List<String> filteredTagNames = filterOutOnlyRelevantTagNames(tvTagsAsStrings, tagNames);
 
 				/*
 				 * For each relevant tag for this broadcast add the broadcast to the list of tagged broadcasts for said tag. E.g. the tag
@@ -199,7 +199,7 @@ public class BuildTVBroadcastsForTags
 	 * @param tagNames the list of TVTags for a specific program (for a broadcast), which may contain irrelevant tags.
 	 * @return A list of only the relevant broadcasts.
 	 */
-	private ArrayList<String> filterOutOnlyRelevantTagNames(ArrayList<String> allRelevantTVTags, ArrayList<String> tagNames)
+	private List<String> filterOutOnlyRelevantTagNames(List<String> allRelevantTVTags, List<String> tagNames)
 	{		
 		ArrayList<String> onlyRelevantTVTags = new ArrayList<String>();
 				

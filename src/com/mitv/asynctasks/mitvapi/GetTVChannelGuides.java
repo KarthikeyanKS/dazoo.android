@@ -4,7 +4,6 @@ package com.mitv.asynctasks.mitvapi;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.util.Log;
@@ -13,8 +12,8 @@ import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.TrackingManager;
 import com.mitv.models.objects.mitvapi.TVChannelGuide;
 import com.mitv.models.objects.mitvapi.TVChannelId;
@@ -87,16 +86,18 @@ public class GetTVChannelGuides
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundStart(this.getClass().getSimpleName());
+		}
 		
 		super.doInBackground(params);
 		
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-			TVChannelGuide[] contentAsArray = (TVChannelGuide[]) requestResultObjectContent;
-			
-			ArrayList<TVChannelGuide> tvChannelGuides = new ArrayList<TVChannelGuide>(Arrays.asList(contentAsArray));
+			@SuppressWarnings("unchecked")
+			ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) requestResultObjectContent;
 			
 			TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
 
@@ -106,8 +107,11 @@ public class GetTVChannelGuides
 		{
 			Log.w(TAG, "The requestResultObjectContent is null.");
 		}
-		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundEnd(this.getClass().getSimpleName());
+		}
 		
 		return null;
 	}
@@ -117,10 +121,16 @@ public class GetTVChannelGuides
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionStart(this.getClass().getSimpleName());
+		}
 		
 		super.onPostExecute(result);
-		
-		TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+
+		if (Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
+		{
+			TrackingManager.sharedInstance().sendTestMeasureAsycTaskPostExecutionEnd(this.getClass().getSimpleName());
+		}
 	}
 }

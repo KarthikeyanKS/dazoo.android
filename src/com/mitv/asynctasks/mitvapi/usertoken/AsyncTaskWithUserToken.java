@@ -37,22 +37,6 @@ public abstract class AsyncTaskWithUserToken<T>
 	}
 	
 	
-	
-	public AsyncTaskWithUserToken(
-			ContentCallbackListener contentCallbackListener,
-			ViewCallbackListener activityCallbackListener, 
-			RequestIdentifierEnum requestIdentifier,
-			Class<T> clazz,
-			boolean manualDeserialization,
-			HTTPRequestTypeEnum httpRequestType,
-			String url,
-			final boolean reportMetricsToTracker,
-			int retryThreshold) 
-	{
-		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, reportMetricsToTracker, retryThreshold);
-	}
-	
-	
 
 	
 	@Override

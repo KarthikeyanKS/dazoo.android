@@ -5,11 +5,6 @@ package com.mitv.asynctasks.mitvapi.competitions;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.asynctasks.AsyncTaskBase;
 import com.mitv.enums.HTTPRequestTypeEnum;
@@ -23,6 +18,7 @@ import com.mitv.models.objects.mitvapi.competitions.Team;
 public class GetTeams 
 	extends AsyncTaskBase<Team[]>
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = GetTeams.class.getName();
 	
 	
@@ -30,12 +26,11 @@ public class GetTeams
 	private static String buildURL(final long competitionID)
 	{
 		StringBuilder url = new StringBuilder();
-		url.append(Constants.URL_COMPETITIONS_FULL);
-		url.append(Constants.FORWARD_SLASH);
 		
-		url.append(competitionID);
-		
-		url.append(Constants.URL_TEAMS);
+		url.append(Constants.URL_COMPETITIONS_FULL)
+		.append(Constants.FORWARD_SLASH)
+		.append(competitionID)
+		.append(Constants.URL_TEAMS);
 
 		return url.toString();
 	}
@@ -49,29 +44,5 @@ public class GetTeams
 			int retryThreshold)
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.COMPETITION_TEAMS, Team[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(competitionID), false, retryThreshold);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-
-		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
-		{
-			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-			Team[] contentAsArray = (Team[]) requestResultObjectContent;
-			
-			ArrayList<Team> contentAsArrayList = new ArrayList<Team>(Arrays.asList(contentAsArray));
-			
-			requestResultObjectContent = contentAsArrayList;
-		}
-		else
-		{
-			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
-
-		return null;
 	}
 }

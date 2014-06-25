@@ -26,7 +26,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.ContentManager;
-import com.mitv.models.comparators.EventStandingsComparatorByPoints;
+import com.mitv.models.comparators.EventStandingsComparatorByPointsAndGoalDifference;
 import com.mitv.models.objects.mitvapi.competitions.Event;
 import com.mitv.models.objects.mitvapi.competitions.Standings;
 import com.mitv.ui.elements.CustomViewPager;
@@ -172,7 +172,7 @@ public class CompetitionEventTabFragmentGroupStandings
 				
 				List<Standings> standings = ContentManager.sharedInstance().getCacheManager().getStandingsForPhaseInSelectedCompetition(phaseID);
 	
-				Collections.sort(standings, new EventStandingsComparatorByPoints());
+				Collections.sort(standings, new EventStandingsComparatorByPointsAndGoalDifference());
 				
 				Collections.reverse(standings);
 				

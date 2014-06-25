@@ -5,11 +5,15 @@ package com.mitv.models.gson.mitvapi.competitions;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
+
 import android.util.Log;
 
 
 
-public class EventJSON 
+public class EventJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = EventJSON.class.getName();
 	

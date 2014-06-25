@@ -45,22 +45,15 @@ public class TVBroadcast
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
 	private String title = null;
-
-	protected boolean isPopular;
 	
 	
 	
-	public TVBroadcast()
-	{
-		this.isPopular = false;
-	}
+	public TVBroadcast(){}
 	
 	
 	
 	public TVBroadcast(TVBroadcastORM ormData)
 	{
-		this.isPopular = false;
-		
 		this.program = TVProgramORM.getTVProgramByID(ormData.getProgram().getProgramId());
 		
 		this.beginTimeMillis = ormData.getBeginTimeMillis();
@@ -433,9 +426,9 @@ public class TVBroadcast
 	
 	public boolean isBeginTimeTodayOrTomorrow()
 	{
-		Calendar now = DateUtils.getNowWithGMTTimeZone();
+		Calendar now = DateUtils.getNowWithLocalTimezone();
 		
-		Calendar beginTime = this.getBeginTimeCalendarGMT();
+		Calendar beginTime = this.getBeginTimeCalendarLocal();
 		
     	boolean isCorrectYear = (now.get(Calendar.YEAR) - beginTime.get(Calendar.YEAR)) == 0;
     	boolean isCorrectMonth = (now.get(Calendar.MONTH) - beginTime.get(Calendar.MONTH)) == 0;
@@ -464,8 +457,8 @@ public class TVBroadcast
 	
 	public boolean isTheSameDayAs(TVBroadcast other)
 	{
-		Calendar beginTime1 = this.getBeginTimeCalendarGMT();
-		Calendar beginTime2 = other.getBeginTimeCalendarGMT();
+		Calendar beginTime1 = this.getBeginTimeCalendarLocal();
+		Calendar beginTime2 = other.getBeginTimeCalendarLocal();
 		
 		return DateUtils.areCalendarsTheSameTVAiringDay(beginTime1, beginTime2);
 	}
@@ -478,7 +471,7 @@ public class TVBroadcast
 	 */
 	public String getBeginTimeDayOfTheWeekAsString() 
 	{	
-		return DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarLocal());
+		return DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarLocal(), true);
 	}
 
 	
@@ -493,7 +486,7 @@ public class TVBroadcast
 		
 		StringBuilder sb = new StringBuilder();
 		
-		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarLocal());
+		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarLocal(), true);
 		
 		String timeOfDayAsString = getBeginTimeHourAndMinuteLocalAsString();
 		
@@ -501,8 +494,11 @@ public class TVBroadcast
 		
 		boolean isToday = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.today));
 		boolean isTomorrow = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.tomorrow));
+		boolean isTonight = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.tonight));
+		boolean isYesterday = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.yesterday));
+		boolean isTomorrowNight = dayOfTheWeekAsString.equalsIgnoreCase(context.getString(R.string.tomorrow_night));
 		
-		if (isToday == false && isTomorrow == false) 
+		if (isToday == false && isTomorrow == false && isTonight == false && isYesterday == false && isTomorrowNight == false) 
 		{
 			String dayAndMonthString = getBeginTimeDayAndMonthAsString();
 			sb.append(" ");
@@ -573,23 +569,9 @@ public class TVBroadcast
 		
 		return sb.toString();
 	}
+
+
 	
-	
-	
-	public boolean isPopular() {
-		return isPopular;
-	}
-
-
-
-
-	public void setPopular(boolean isPopular) {
-		this.isPopular = isPopular;
-	}
-
-
-
-
 	@Override
 	public int hashCode() 
 	{

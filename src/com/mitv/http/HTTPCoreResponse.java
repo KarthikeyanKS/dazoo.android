@@ -19,6 +19,7 @@ public class HTTPCoreResponse
 	private String requestURL;
 	private int statusCode;
 	private String responseString;
+	private HeaderParameters headerParameters;
 
 
 	
@@ -29,6 +30,7 @@ public class HTTPCoreResponse
 		this.requestURL = requestURL;
 		this.statusCode = statusCode;
 		this.responseString = new String();
+		this.headerParameters = new HeaderParameters();
 	}
 
 
@@ -36,11 +38,13 @@ public class HTTPCoreResponse
 	public HTTPCoreResponse(
 			final String requestURL,
 			final int statusCode,
-			final String responseString)
+			final String responseString,
+			final HeaderParameters headerParameters)
 	{
 		this.requestURL = requestURL;
 		this.statusCode = statusCode;
 		this.responseString = responseString;
+		this.headerParameters = headerParameters;
 	}
 	
 	
@@ -72,6 +76,13 @@ public class HTTPCoreResponse
 	{
 		 return responseString;
 	}
+	 
+	 
+
+	 public HeaderParameters getHeaderParameters()
+	 {
+		 return headerParameters;
+	 }
 
 
 
@@ -94,6 +105,8 @@ public class HTTPCoreResponse
 		 sb.append(statusCode);
 		 sb.append(", ");
 		 sb.append(responseString);
+		 sb.append(", ");
+		 sb.append(headerParameters.toString());
 		 sb.append("}");
 
 		 return sb.toString();

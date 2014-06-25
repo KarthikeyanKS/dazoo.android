@@ -53,8 +53,6 @@ import com.mitv.asynctasks.mitvapi.usertoken.RemoveUserLike;
 import com.mitv.asynctasks.mitvapi.usertoken.SetUserTVChannelIds;
 import com.mitv.asynctasks.other.CheckNetworkConnectivity;
 import com.mitv.asynctasks.other.CompetitionDataPostProcessingTask;
-import com.mitv.asynctasks.other.SNTPAsyncTask;
-import com.mitv.asynctasks.other.SetPopularVariablesWithPopularBroadcasts;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.ViewCallbackListener;
@@ -72,7 +70,6 @@ public class APIClient
 	private static final int POOL_EXECUTOR_DEFAULT_CORE_POOL_SIZE = 15;
 	private static final int POOL_EXECUTOR_DEFAULT_MAXIMUM_POOL_SIZE = 20;
 	private static final long POLL_EXECUTOR_DEFAULT_KEEP_ALIVE_TIME = 5000L;
-	
 	
 	
 	private GetTVSearchResults lastSearchTask;
@@ -227,12 +224,15 @@ public class APIClient
 		tasks.add(new GetAppConfigurationData(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetAppVersionData(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVTags(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
-		tasks.add(new GetTVDates(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVChannelsAll(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
-		tasks.add(new SNTPAsyncTask(contentCallbackListener, activityCallbackListener));
-		tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, false, Constants.RETRY_COUNT_THRESHOLD));
+		//tasks.add(new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
 		tasks.add(new GetCompetitions(contentCallbackListener, activityCallbackListener, false, Constants.RETRY_COUNT_THRESHOLD));
+		
+		if (Constants.USE_LOCAL_GENERATED_TVDATES == false)
+		{
+			tasks.add(new GetTVDates(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD));
+		}
 		
 		for(AsyncTask<String, Void, Void> task : tasks)
 		{
@@ -272,16 +272,7 @@ public class APIClient
 	}
 	
 	
-	
-	public void setPopularVariablesWithPopularBroadcastsOnPoolExecutor(ViewCallbackListener activityCallbackListener)
-	{
-		SetPopularVariablesWithPopularBroadcasts task = new SetPopularVariablesWithPopularBroadcasts(contentCallbackListener, activityCallbackListener);
-		
-		tvGuideInitialCallPoolExecutor.addAndExecuteTask(task);
-	}
-	
-	
-	
+
 	public void cancelAllTVGuideInitialCallPendingRequests()
 	{
 		tvGuideInitialCallPoolExecutor.shutdown();
@@ -472,9 +463,9 @@ public class APIClient
 	}
 	
 	
-	public void getTVBroadcastsPopular(ViewCallbackListener activityCallbackListener, boolean standalone) 
+	public void getTVBroadcastsPopular(ViewCallbackListener activityCallbackListener) 
 	{
-		GetTVBroadcastsPopular task = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, standalone, Constants.RETRY_COUNT_THRESHOLD);
+		GetTVBroadcastsPopular task = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener, Constants.RETRY_COUNT_THRESHOLD);
 		task.execute();
 	}
 	

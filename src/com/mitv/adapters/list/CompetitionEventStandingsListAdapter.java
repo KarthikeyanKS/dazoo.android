@@ -87,6 +87,7 @@ public class CompetitionEventStandingsListAdapter
 	
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
@@ -127,6 +128,7 @@ public class CompetitionEventStandingsListAdapter
 			if (isFirstposition)
 			{
 				holder.headerContainer.setVisibility(View.VISIBLE);
+				holder.headerContainer.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.background_color_selector_white_seethrough));
 			}
 			else
 			{

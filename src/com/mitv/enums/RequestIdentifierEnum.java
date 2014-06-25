@@ -19,7 +19,6 @@ public enum RequestIdentifierEnum {
 	USER_RESET_PASSWORD_SEND_EMAIL(16, "User reset password send email"),
 	USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD(17, "User reset password confirm password"),
 	USER_ACTIVITY_FEED_ITEM(18, "User activity feed item"),
-	POPULAR_ITEMS_INITIAL_CALL(19, "Popular items"),
 	TV_CHANNEL_IDS_DEFAULT(20, "TV channel ids default"),
 	USER_LOGOUT(21, "User logout"),
 	BROADCAST_DETAILS(22, "Broadcast details (with channel info"),
@@ -35,7 +34,6 @@ public enum RequestIdentifierEnum {
 	TV_GUIDE_STANDALONE(33, "TV Guide call for standlone calls"),  /* This identifier will be used when refetching the guide due to a channel change, or forcing a refetch */
 	TV_CHANNEL_IDS_USER_STANDALONE(34, "TV Channel IDs user for standalone calls"), /* Used when start app as not logged in and then login in, need to update the TV Channels Ids */
 	USER_ACTIVITY_FEED_INITIAL_DATA(35, "Feed items and likes for FeedActivity"),
-	SNTP_CALL(36, "SNTP call"),
 	DISQUS_THREAD_COMMENTS(37, "Disqus thread comments"),
 	DISQUS_THREAD_DETAILS(38, "Disqus thread details"),
 	POPULAR_ITEMS_STANDALONE(39, "Popular items standalone"),

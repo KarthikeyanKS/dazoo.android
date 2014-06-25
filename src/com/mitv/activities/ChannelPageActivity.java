@@ -4,7 +4,6 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -142,7 +141,7 @@ public class ChannelPageActivity
 					
 					Intent intent;
 					
-					ArrayList<String> tags = broadcastSelected.getProgram().getTags();
+					List<String> tags = broadcastSelected.getProgram().getTags();
 
 					if (tags != null && !tags.isEmpty()) 
 					{

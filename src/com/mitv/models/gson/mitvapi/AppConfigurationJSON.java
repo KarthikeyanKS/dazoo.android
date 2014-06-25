@@ -14,10 +14,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mitv.Constants;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 
 
 
 public class AppConfigurationJSON
+	extends BaseObjectJSON
 	implements JsonDeserializer<AppConfigurationJSON>
 {
 	protected int firstHourOfDay;

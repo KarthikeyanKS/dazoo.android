@@ -4,7 +4,6 @@ package com.mitv.managers;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,6 +21,8 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.models.comparators.CompetitionEventsComparatorByTime;
+import com.mitv.models.comparators.TVFeedItemComparatorByTime;
 import com.mitv.models.objects.disqus.DisqusThreadDetails;
 import com.mitv.models.objects.mitvapi.AppConfiguration;
 import com.mitv.models.objects.mitvapi.AppVersion;
@@ -72,8 +73,8 @@ public abstract class ContentManagerCallback
 	/*
 	 * The total completed data fetch count needed for the initial data loading
 	 */
-	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN = 9;
-	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN = 11;
+	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN = 8;
+	private static int COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN = 10;
 
 	/*
 	 * The total completed data fetch count needed in order to proceed with
@@ -89,8 +90,6 @@ public abstract class ContentManagerCallback
 
 	private int completedCountTVActivityFeed = 0;
 
-	private boolean isProcessingPopularBroadcasts;
-
 	private boolean competitionTeamsFetchFinished;
 	private boolean competitionPhasesFetchFinished;
 	private boolean competitionEventsFetchFinished;
@@ -100,6 +99,13 @@ public abstract class ContentManagerCallback
 	public ContentManagerCallback()
 	{
 		super();
+		
+		//If using local generation of TVDates, decrease total steps by one.
+		if (Constants.USE_LOCAL_GENERATED_TVDATES)
+		{
+			COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_LOGGED_IN--;
+			COMPLETED_COUNT_FOR_TV_GUIDE_INITIAL_CALL_NOT_LOGGED_IN--;
+		}
 
 		this.mapRequestToCallbackListeners = new HashMap<RequestIdentifierEnum, ArrayList<ListenerHolder>>();
 
@@ -268,8 +274,6 @@ public abstract class ContentManagerCallback
 		case TV_CHANNEL_IDS_DEFAULT:
 		case TV_CHANNEL_IDS_USER_INITIAL_CALL:
 		case TV_GUIDE_INITIAL_CALL:
-		case SNTP_CALL:
-		case POPULAR_ITEMS_INITIAL_CALL:
 		case TV_BROADCASTS_POUPULAR_PROCESSING:
 		case COMPETITIONS_ALL_INITIAL:
 		case USER_LIKES_INITIAL_CALL:
@@ -610,6 +614,9 @@ public abstract class ContentManagerCallback
 
 				@SuppressWarnings("unchecked")
 				ArrayList<Event> events = (ArrayList<Event>) content;
+				
+				Collections.sort(events, new CompetitionEventsComparatorByTime());
+				
 				getCache().getCompetitionsData().setEventsForSelectedCompetition(events);
 
 				if(competitionTeamsFetchFinished && competitionPhasesFetchFinished && competitionEventsFetchFinished)
@@ -660,7 +667,7 @@ public abstract class ContentManagerCallback
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			FetchRequestResultEnum result,
-			Object content) 
+			Object content)
 	{
 		if(getAPIClient().areInitialCallPendingRequestsCanceled())
 		{
@@ -687,6 +694,10 @@ public abstract class ContentManagerCallback
 			if(result.wasSuccessful() && content != null) 
 			{
 				AppConfiguration appConfigData = (AppConfiguration) content;
+				
+				boolean isDateOffSync = appConfigData.isDateOffSync();
+				
+				setLocalDeviceCalendarOffSync(isDateOffSync);
 
 				getCache().setAppConfigData(appConfigData);
 
@@ -854,36 +865,6 @@ public abstract class ContentManagerCallback
 				getCache().addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
 
 				completedTVGuideRequest = true;
-
-				if(!isProcessingPopularBroadcasts && completedTVPopularRequest)
-				{
-					isProcessingPopularBroadcasts = true;
-
-					getAPIClient().setPopularVariablesWithPopularBroadcastsOnPoolExecutor(activityCallbackListener);
-				}
-			}
-			break;
-		}
-
-		case POPULAR_ITEMS_INITIAL_CALL:
-		{
-			if(result.wasSuccessful() && content != null) 
-			{
-				@SuppressWarnings("unchecked")
-				ArrayList<TVBroadcastWithChannelInfo> broadcastsWithChannelInfo = (ArrayList<TVBroadcastWithChannelInfo>) content;
-
-				getCache().setPopularBroadcasts(broadcastsWithChannelInfo);
-
-				notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getString(R.string.response_pouplar_broadcasts));
-
-				completedTVPopularRequest = true;
-
-				if(!isProcessingPopularBroadcasts && completedTVGuideRequest)
-				{
-					isProcessingPopularBroadcasts = true;
-
-					getAPIClient().setPopularVariablesWithPopularBroadcastsOnPoolExecutor(activityCallbackListener);
-				}
 			}
 			break;
 		}
@@ -891,16 +872,6 @@ public abstract class ContentManagerCallback
 		case TV_BROADCASTS_POUPULAR_PROCESSING:
 		{
 			// Do nothing
-			break;
-		}
-
-		case SNTP_CALL:
-		{
-			if(result.wasSuccessful())
-			{
-				Calendar calendar = (Calendar) content;
-				getCache().setInitialCallSNTPCalendar(calendar);
-			}
 			break;
 		}
 		
@@ -928,7 +899,7 @@ public abstract class ContentManagerCallback
 				/* Setting the initially selected competition as the first competition in the list */
 				if(competitions.isEmpty() == false)
 				{
-					long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+					Long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
 
 					getCache().getCompetitionsData().setSelectedCompetition(competitionID);
 				}
@@ -964,7 +935,7 @@ public abstract class ContentManagerCallback
 		{
 			Log.d(TAG, "Initial loading: Task failed: " + requestIdentifier);
 
-			if(requestIdentifier != RequestIdentifierEnum.SNTP_CALL && requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING)
+			if(requestIdentifier != RequestIdentifierEnum.TV_BROADCASTS_POUPULAR_PROCESSING)
 			{
 				isUpdatingGuide = false;
 				getAPIClient().cancelAllTVGuideInitialCallPendingRequests();
@@ -1143,7 +1114,7 @@ public abstract class ContentManagerCallback
 			/* Setting the initially selected competition as the first competition in the list */
 			if(competitions.isEmpty() == false)
 			{
-				long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
+				Long competitionID = getCache().getCompetitionsData().getAllCompetitions().get(0).getCompetitionId();
 
 				getCache().getCompetitionsData().setSelectedCompetition(competitionID);
 			}
@@ -1213,13 +1184,15 @@ public abstract class ContentManagerCallback
 		{
 			@SuppressWarnings("unchecked")
 			ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
+			
+			Collections.sort(feedItems, new TVFeedItemComparatorByTime());
 
 			if(feedItems.isEmpty()) 
 			{
 				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
 			} 
 
-			else 
+			else
 			{
 				/* NOT IN USE */
 				/* Filter the feed items */
@@ -1266,6 +1239,8 @@ public abstract class ContentManagerCallback
 				@SuppressWarnings("unchecked")
 				ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 
+				Collections.sort(feedItems, new TVFeedItemComparatorByTime());
+				
 				/* Filter the feed items */
 				if (Constants.ENABLE_FILTER_IN_FEEDACTIVITY && feedItems != null) 
 				{
@@ -1596,7 +1571,10 @@ public abstract class ContentManagerCallback
 			}
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+
+			getAPIClient().getUserLikes(null, true);
 		}
+		
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN_WITH_FACEBOOK_TOKEN, result);
 	}
@@ -1629,6 +1607,8 @@ public abstract class ContentManagerCallback
 			getCache().setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+			
+			getAPIClient().getUserLikes(null, true);
 		} 
 
 		notifyListenersOfRequestResult(RequestIdentifierEnum.USER_LOGIN, result);

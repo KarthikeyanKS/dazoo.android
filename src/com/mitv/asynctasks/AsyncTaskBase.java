@@ -3,6 +3,9 @@ package com.mitv.asynctasks;
 
 
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.os.AsyncTask;
@@ -23,6 +26,8 @@ import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.RequestParameters;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.managers.TrackingManager;
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
+import com.mitv.models.gson.mitvapi.base.BaseObjectListJSON;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.FileUtils;
 import com.mitv.utilities.LanguageUtils;
@@ -66,6 +71,8 @@ public abstract class AsyncTaskBase<T>
 	private int retryThreshold;
 	
 	
+	
+	
 	public AsyncTaskBase(
 			final ContentCallbackListener contentCallbackListener, 
 			final ViewCallbackListener activityCallbackListener,
@@ -76,7 +83,7 @@ public abstract class AsyncTaskBase<T>
 			final boolean reportMetricsToTracker,
 			final int retryThreshold)
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, retryThreshold);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, false, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, retryThreshold);
 	}
 	
 	
@@ -92,7 +99,7 @@ public abstract class AsyncTaskBase<T>
 			final boolean reportMetricsToTracker,
 			final int retryThreshold) 
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, retryThreshold);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, true, reportMetricsToTracker, retryThreshold);
 	}
 	
 	
@@ -109,7 +116,7 @@ public abstract class AsyncTaskBase<T>
 			final boolean reportMetricsToTracker,
 			final int retryThreshold)
 	{
-		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false, reportMetricsToTracker, retryThreshold);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null, false, reportMetricsToTracker, retryThreshold);
 	}
 	
 
@@ -119,7 +126,6 @@ public abstract class AsyncTaskBase<T>
 			final ViewCallbackListener activityCallbackListener,
 			final RequestIdentifierEnum requestIdentifier,
 			final Class<T> clazz,
-			final Class<?> clazzSingle,
 			final boolean manualDeserialization,
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
@@ -172,20 +178,11 @@ public abstract class AsyncTaskBase<T>
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		
-		try 
+		try
 		{
 			if(manualDeserialization) 
 			{
-				Object classIntance = null;
-				
-				if(clazz.isArray())
-				{
-					classIntance = clazzSingle.newInstance();
-				} 
-				else 
-				{
-					classIntance = clazz.newInstance();
-				}
+				Object classIntance = clazz.newInstance();
 				
 				gsonBuilder.registerTypeAdapter(clazz, classIntance);
 				gsonBuilder.excludeFieldsWithoutExposeAnnotation();
@@ -219,11 +216,15 @@ public abstract class AsyncTaskBase<T>
 	protected Void doInBackground(String... params) 
 	{
 		boolean result = executeTask();
+		
 		isRetry = true;
+		
 //		Log.d(TAG, "Initial loading: Task " + ((result) ? "completed" : "failed") + ": " + requestIdentifier);
+		
 		while (result == false && retryThreshold-- > 0) 
 		{
 			result = executeTask();
+			
 //			Log.d(TAG, "Initial loading: Task " + ((result) ? "completed" : "failed") + ": " + requestIdentifier);
 		}
 				
@@ -258,7 +259,7 @@ public abstract class AsyncTaskBase<T>
 	
 	private boolean executeTask() 
 	{
-		if(reportMetricsToTracker)
+		if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestStart(this.getClass().getSimpleName());
 		}
@@ -269,9 +270,11 @@ public abstract class AsyncTaskBase<T>
 			
 			if(responseString != null)
 			{
-				int statusCode = FetchRequestResultEnum.SUCCESS.getStatusCode();
+				int mockStatusCode = FetchRequestResultEnum.SUCCESS.getStatusCode();
 				
-				response = new HTTPCoreResponse(url, statusCode, responseString);
+				HeaderParameters mockHeaderParameters = new HeaderParameters();
+				
+				response = new HTTPCoreResponse(url, mockStatusCode, responseString, mockHeaderParameters);
 			}
 			else
 			{
@@ -283,19 +286,61 @@ public abstract class AsyncTaskBase<T>
 			response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData, isRetry);
 		}
 		
-		
-		if(clazz.getName().contains("Compet")){
+		if(clazz.getName().contains("Compet"))
+		{
 			Log.d(TAG, String.format("%s onPreExecute - Performing HTTP request: %s", clazz.getName(), requestIdentifier.getDescription()));
 		}
-		if(reportMetricsToTracker)
+		
+		if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 		{
 			TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundNetworkRequestEnd(this.getClass().getSimpleName());
 		}
 		
 		requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
-		
+				
 		boolean wasSuccessful = requestResultStatus.wasSuccessful();
 		boolean hasResponseString = response.hasResponseString();
+		
+		Integer timeToLive;
+		
+		boolean containsTimeToLive = response.getHeaderParameters().contains(Constants.HTTP_REQUEST_HEADER_CACHE_CONTROL_KEY);
+		
+		if(containsTimeToLive)
+		{
+			String timeToLiveAsStringWitPrefix = response.getHeaderParameters().get(Constants.HTTP_REQUEST_HEADER_CACHE_CONTROL_KEY);
+			
+			String timeToLiveAsString = timeToLiveAsStringWitPrefix.replaceAll(Constants.HTTP_REQUEST_HEADER_CACHE_CONTROL_VALUE_PREFIX, "");
+			
+			try
+			{
+				timeToLive = Integer.parseInt(timeToLiveAsString);
+			}
+			catch(NumberFormatException nfex)
+			{
+				timeToLive = Integer.valueOf(-1);
+				
+				Log.w(TAG, nfex.getMessage());
+			}
+		}
+		else
+		{
+			timeToLive = Integer.valueOf(-1);
+		}
+		
+		Calendar serverDate;
+		
+		boolean containsDate = response.getHeaderParameters().contains(Constants.HTTP_REQUEST_HEADER_SERVER_DATE_KEY);
+		
+		if(containsDate)
+		{
+			String serverDateAsString = response.getHeaderParameters().get(Constants.HTTP_REQUEST_HEADER_SERVER_DATE_KEY);
+			
+			serverDate = DateUtils.convertRFC1123StringToCalendar(serverDateAsString);
+		}
+		else
+		{
+			serverDate = DateUtils.getNowWithGMTTimeZone();
+		}
 		
 		if(isMiTVAPICall)
 		{
@@ -318,7 +363,7 @@ public abstract class AsyncTaskBase<T>
 			
 			if(wasSuccessful)
 			{	
-				if(reportMetricsToTracker)
+				if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 				{
 					TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundJSONParsingStart(this.getClass().getSimpleName());
 				}
@@ -327,7 +372,33 @@ public abstract class AsyncTaskBase<T>
 				{
 					Log.d(TAG, String.format("%s doInBackground - Parsing JSON into model (using GSON)", clazz.getName()));
 				
-					requestResultObjectContent = gson.fromJson(responseString, clazz);
+					T contentFromJSON = gson.fromJson(responseString, clazz);
+					
+					boolean isArray = clazz.isArray();
+					
+					if(isArray)
+					{
+						@SuppressWarnings("unchecked")
+						T[] contentAsArray = (T[]) contentFromJSON;
+						
+						List<T> contentsAsList = Arrays.asList(contentAsArray);
+						
+						BaseObjectListJSON<T> baseObjectListJSONContent = new BaseObjectListJSON<T>(contentsAsList);
+
+						baseObjectListJSONContent.setServerDate(serverDate);
+						baseObjectListJSONContent.setTimeToLiveInMilliseconds(timeToLive);
+						
+						requestResultObjectContent = baseObjectListJSONContent;
+					}
+					else
+					{
+						BaseObjectJSON baseObjectJSONContent = (BaseObjectJSON) contentFromJSON;
+						
+						baseObjectJSONContent.setServerDate(serverDate);
+						baseObjectJSONContent.setTimeToLiveInMilliseconds(timeToLive);
+						
+						requestResultObjectContent = baseObjectJSONContent;
+					}
 					
 					Log.d(TAG, String.format("%s doInBackground - After parsing JSON into model (using GSON)", clazz.getName()));
 				}
@@ -339,14 +410,14 @@ public abstract class AsyncTaskBase<T>
 					requestResultObjectContent = null;
 				}
 				
-				if(reportMetricsToTracker)
+				if(reportMetricsToTracker && Constants.USE_DETAILED_INITIAL_METRICS_ANALTYTICS)
 				{
 					TrackingManager.sharedInstance().sendTestMeasureAsycTaskBackgroundJSONParsingEnd(this.getClass().getSimpleName());
 				}
 			}
 			else
 			{
-				requestResultObjectContent = new String(responseString);
+				requestResultObjectContent = null;
 			}
 		}
 		else

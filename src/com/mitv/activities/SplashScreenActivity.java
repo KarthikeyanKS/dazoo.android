@@ -100,6 +100,7 @@ public class SplashScreenActivity
 		}
 				
 		TrackingGAManager.reportActivityStart(this);
+		TrackingGAManager.sharedInstance().sendUserNetworkTypeEvent();
 	}
 
 	
@@ -119,7 +120,10 @@ public class SplashScreenActivity
 	{
 		super.onResume();
 		
-		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenStarted(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) 
+		{
+			TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenStarted(this.getClass().getSimpleName());
+		}
 		
 		boolean isConnected = NetworkUtils.isConnected();
 		
@@ -184,7 +188,10 @@ public class SplashScreenActivity
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenOnResultReached(this.getClass().getSimpleName());
+		if (Constants.USE_INITIAL_METRICS_ANALTYTICS) 
+		{
+			TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenOnResultReached(this.getClass().getSimpleName());
+		}
 		
 		ContentManager.sharedInstance().unregisterListenerFromAllRequests(this);
 		
@@ -195,16 +202,21 @@ public class SplashScreenActivity
 				updateUI(UIStatusEnum.API_VERSION_TOO_OLD);
 				break;
 			}
+			
 			case SUCCESS: 
 			{
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
+			
 			case UNKNOWN_ERROR:
+			{
 				// Load HomeActivity anyway if the initial loading failed. The no data layout will handle re-fetches.
 				failedLoading = true;
 				updateUI(UIStatusEnum.FAILED);
 				break;
+			}
+			
 			default:
 			{
 				//Do nothing
@@ -251,7 +263,8 @@ public class SplashScreenActivity
 				
 				if (!isViewingTutorial)
 				{
-					if (Constants.USE_INITIAL_METRICS_ANALTYTICS) {
+					if (Constants.USE_INITIAL_METRICS_ANALTYTICS) 
+					{
 						TrackingManager.sharedInstance().sendTestMeasureInitialLoadingScreenEnded(this.getClass().getSimpleName());
 					}
 					
@@ -460,7 +473,8 @@ public class SplashScreenActivity
 				
 				boolean isConnected = NetworkUtils.isConnected();
 				
-				if (isConnected) {
+				if (isConnected) 
+				{
 					TrackingManager.sharedInstance().sendUserTutorialExitEvent(PAGE5);				
 				}
 				

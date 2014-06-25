@@ -4,12 +4,16 @@ package com.mitv.models.gson.mitvapi;
 
 
 import java.util.Date;
+
 import android.util.Log;
+
+import com.mitv.models.gson.mitvapi.base.BaseObjectJSON;
 import com.mitv.utilities.DateUtils;
 
 
 
 public class AppVersionJSON
+	extends BaseObjectJSON
 {
 	private static final String TAG = AppVersionJSON.class.getName();
 	

@@ -4,10 +4,24 @@
     android:id="@+id/competition_event_scrollable_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/grey1"
     android:orientation="vertical" >
+    
+    <ImageView
+        android:id="@+id/event_page_backgorund_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/competitions_contry_flag_default" />
+    
+    <ImageView
+        android:id="@+id/backgorund_image_overlay"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/event_page_bg_fade" />
 
-    <ScrollView
+    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
+        android:id="@+id/event_page_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container" >
@@ -35,7 +49,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/white"
+                android:background="@color/transparent_white_background_event_page"
                 android:orientation="vertical"
                 android:paddingBottom="10dp" >
 
@@ -54,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
                     android:paddingBottom="10dp"
                     android:paddingRight="10dp" >
 
@@ -91,86 +106,13 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
-                <!-- TEAM ONE -->
-
-                <RelativeLayout
-                    android:id="@+id/competition_event_highlights_team_one_flag_container"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/competition_events_header"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp" >
-
-                    <!-- Flag team one -->
-
-                    <ImageView
-                        android:id="@+id/competition_event_highlights_team_one_flag"
-                        android:layout_width="53dp"
-                        android:layout_height="37dp"
-                        android:background="@drawable/dropshadow"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/competitions_contry_flag_default" />
-
-                    <!-- Team one name -->
-
-                    <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/competition_event_highlights_team_one_name"
-                        style="@style/text1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@id/competition_event_highlights_team_one_flag"
-                        android:maxLines="2"
-                        android:maxWidth="80dp" />
-                </RelativeLayout>
-
-                <!-- TEAM TWO -->
-
-                <RelativeLayout
-                    android:id="@+id/competition_event_highlights_team_two_flag_container"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/competition_events_header"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp" >
-
-                    <!-- Flag team two -->
-
-                    <ImageView
-                        android:id="@+id/competition_event_highlights_team_two_flag"
-                        android:layout_width="53dp"
-                        android:layout_height="37dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/dropshadow"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/competitions_contry_flag_default" />
-
-                    <!-- Team two name -->
-
-                    <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/competition_event_highlights_team_two_name"
-                        style="@style/text1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@id/competition_event_highlights_team_two_flag"
-                        android:maxLines="2"
-                        android:maxWidth="80dp" />
-                </RelativeLayout>
-
                 <LinearLayout
                     android:id="@+id/competition_event_highlights_table_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/competition_event_highlights_team_one_flag_container"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_below="@id/competition_event_block_tabs_highlights_reload_container"
                     android:layout_marginTop="10dp"
-                    android:background="@color/grey0"
+                    android:background="@color/transparent"
                     android:orientation="vertical"
                     android:padding="10dp" >
                 </LinearLayout>
@@ -185,7 +127,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/white"
+                android:background="@color/transparent_white_background_event_page"
                 android:orientation="vertical"
                 android:padding="10dp" >
 
@@ -209,7 +151,7 @@
                     android:id="@+id/tab_event_indicator_for_lineup_teams"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:background="@color/white" />
+                	android:background="@color/transparent" />
 
                 <View
                     android:id="@+id/tab_event_divider_for_lineup_teams"
@@ -220,7 +162,8 @@
                 <com.mitv.ui.elements.CustomViewPager
                     android:id="@+id/tab_event_pager_for_lineup_teams"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent" />
             </LinearLayout>
 
             <!-- STANDINGS -->
@@ -232,7 +175,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/white"
+                android:background="@color/transparent_white_background_event_page"
                 android:orientation="vertical" >
 
                 <com.mitv.ui.elements.FontTextView
@@ -248,6 +191,7 @@
                     android:id="@+id/competition_event_standings_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/transparent"
                     android:orientation="vertical" >
                 </LinearLayout>
             </LinearLayout>
@@ -261,7 +205,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/white"
+                android:background="@color/transparent_white_background_event_page"
                 android:orientation="vertical" >
 
                 <com.mitv.ui.elements.FontTextView
@@ -278,11 +222,12 @@
                     android:id="@+id/competition_event_group_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/transparent"
                     android:orientation="vertical" >
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
 
     <!-- NAVIGATION TABS -->
 

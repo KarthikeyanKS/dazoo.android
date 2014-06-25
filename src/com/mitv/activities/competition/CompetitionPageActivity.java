@@ -310,21 +310,9 @@ public class CompetitionPageActivity
 	
 	
 	
-	@SuppressWarnings("deprecation")
 	private void setOngoingLayoutForEventsToday() 
 	{
 		List<Event> events = ContentManager.sharedInstance().getCacheManager().getAllLiveEventsForSelectedCompetition();
-		
-		/* ONLY FOR TESTING: If no live events we want to show the next upcoming instead */
-//		if (events.isEmpty()) {
-//			boolean filterFinishedEvents = true;
-//			boolean filterLiveEvents = true;
-//			
-//			Event event = ContentManager.sharedInstance().getCacheManager().getNextUpcomingEventForSelectedCompetition(filterFinishedEvents, filterLiveEvents);
-//			
-//			events.add(event);
-//			events.add(event);
-//		}
 		
 		todaysLiveAndUpcomingList.removeAllViews();
 
@@ -344,14 +332,8 @@ public class CompetitionPageActivity
 
 		todaysLiveAndUpcomingList.setVisibility(View.VISIBLE);
 		
-		int sdk = android.os.Build.VERSION.SDK_INT;
-		
-		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-		    ongoingLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
-		    
-		} else {
-			ongoingLayout.setBackground(getResources().getDrawable(R.drawable.competition_backdrop_mundial));
-		}
+		ongoingLayout.setBackgroundResource(R.drawable.competition_backdrop_mundial);
+
 	}
 	
 	
@@ -412,7 +394,7 @@ public class CompetitionPageActivity
 			.append(" ")
 			.append(event.getEventTimeDayAndMonthAsString());
 		
-		nextGameText.setText(sb.toString());
+//		nextGameText.setText(sb.toString()); //TODO: Why is this not initialized?
 		
 		String eventStartTimeHourAndMinuteAsString = DateUtils.getHourAndMinuteCompositionAsString(event.getEventDateCalendarLocal());
 		
@@ -534,8 +516,6 @@ public class CompetitionPageActivity
 		pageTabIndicator = (TabPageIndicator) findViewById(R.id.tab_event_indicator);
 		
 		viewPager = (CustomViewPager) findViewById(R.id.tab_event_pager);
-		
-//		StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.competition_scrollview);
 	}
 	
 	
@@ -699,9 +679,12 @@ public class CompetitionPageActivity
 	
 			case R.id.favorite_team_title_layout_after_like:
 			{
+				String teamDisplayName = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_NAME;
 				long competitionId = Constants.FIFA_COMPETITION_ID;
 				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
 				long phaseId = Constants.FAVORITE_TEAM_COLOMBIA_PHASE_ID;
+				
+				TrackingGAManager.sharedInstance().sendUserClickedFavoriteTeamBanner(teamDisplayName, teamId);
 				
 				Intent intent = new Intent(CompetitionPageActivity.this, TeamPageActivity.class);
 				
@@ -770,15 +753,7 @@ public class CompetitionPageActivity
 				 * After login is complete the ContentManager will perform the adding of the like to backend */
 				ContentManager.sharedInstance().setLikeToAddAfterLogin(userLike);
 				
-//				long competitionId = Constants.FIFA_COMPETITION_ID;
-//				long teamId = Constants.FAVORITE_TEAM_COLOMBIA_TEAM_ID;
-//				long phaseId = Constants.FAVORITE_TEAM_COLOMBIA_PHASE_ID;
-				
 				Intent intent = new Intent(CompetitionPageActivity.this, SignUpSelectionActivity.class);
-//				intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_TO_RETURN_AFTER_LOGIN, TeamPageActivity.class.getName());
-//				intent.putExtra(Constants.INTENT_COMPETITION_ID, competitionId);
-//				intent.putExtra(Constants.INTENT_COMPETITION_TEAM_ID, teamId);
-//				intent.putExtra(Constants.INTENT_COMPETITION_PHASE_ID, phaseId);
 				
 				startActivity(intent);
 			}
